@@ -1,4 +1,0 @@
-package stocks
-
-class DocumentService {
-}

@@ -4,10 +4,10 @@
     <facet type="web" name="GrailsWeb">
       <configuration>
         <webroots>
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/cache-headers-1.1.5/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/jquery-1.11.1/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6/grails-app/views" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/cache-headers-1.1.5/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/web-app" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -23,59 +23,62 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/asset-pipeline-1.8.11">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/asset-pipeline-1.8.11/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/asset-pipeline-1.8.11/grails-app/controllers" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/asset-pipeline-1.8.11/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/asset-pipeline-1.8.11/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/asset-pipeline-1.8.11">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/asset-pipeline-1.8.11/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/asset-pipeline-1.8.11/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/asset-pipeline-1.8.11/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/asset-pipeline-1.8.11/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/cache-headers-1.1.5">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/cache-headers-1.1.5/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/cache-headers-1.1.5/grails-app/services" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/cache-headers-1.1.5">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/cache-headers-1.1.5/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/cache-headers-1.1.5/grails-app/services" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/coffee-asset-pipeline-1.7.0">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/coffee-asset-pipeline-1.7.0/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/coffee-asset-pipeline-1.7.0">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/coffee-asset-pipeline-1.7.0/src/groovy" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/hibernate-2.2.3">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/hibernate-2.2.3/grails-app/i18n" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/hibernate-2.2.3">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/hibernate-2.2.3/grails-app/i18n" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/jquery-1.11.1">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/jquery-1.11.1/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/jquery-1.11.1/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/jquery-1.11.1/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/less-asset-pipeline-1.7.0">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/less-asset-pipeline-1.7.0/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/less-asset-pipeline-1.7.0">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/less-asset-pipeline-1.7.0/src/groovy" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/mail-1.0.6/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/mail-1.0.6/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/rest-0.8">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/rest-0.8/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/rest-0.8">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/rest-0.8/src/groovy" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8/grails-app/controllers" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/searchable-0.6.8/grails-app/services" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/searchable-0.6.8/grails-app/services" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/simple-captcha-0.9.9">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/simple-captcha-0.9.9/grails-app/controllers" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/simple-captcha-0.9.9/grails-app/services" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/simple-captcha-0.9.9">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/simple-captcha-0.9.9/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/simple-captcha-0.9.9/grails-app/services" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/spring-security-core-1.2.7.3/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/spring-security-core-1.2.7.3/grails-app/taglib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/tomcat-2.2.3" />
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/webxml-1.4.1">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Analio/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/tomcat-2.2.3" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/webxml-1.4.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/ws-client-1.0">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/ws-client-1.0/grails-app/services" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -83,6 +86,7 @@
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (Analio-grailsPlugins)">
         <CLASSES>
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/ws-client-1.0/lib" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.mail/javax.mail/jars/javax.mail-1.5.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.activation/activation/jars/activation-1.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.mail/javax.mail-api/jars/javax.mail-api-1.5.1.jar!/" />
@@ -123,9 +127,14 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.29.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.axis/axis/jars/axis-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.xml/jaxrpc-api/jars/jaxrpc-api-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-discovery/commons-discovery/jars/commons-discovery-0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/ws-client-1.0/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

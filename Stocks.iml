@@ -94,6 +94,10 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.29.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.axis/axis/jars/axis-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.xml/jaxrpc-api/jars/jaxrpc-api-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.0.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-discovery/commons-discovery/jars/commons-discovery-0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

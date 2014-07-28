@@ -13,11 +13,12 @@ grails.project.dependency.resolution = {
         // excludes 'ehcache'
         // excludes 'grails-plugin-log4j'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
 
     repositories {
         inherits true // Whether to inherit repository definitions from plugins
+
         grailsPlugins()
         grailsHome()
         grailsCentral()
@@ -26,8 +27,9 @@ grails.project.dependency.resolution = {
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         //mavenLocal()
+
+        mavenRepo "http://repository.codehaus.org/"
         mavenRepo "http://snapshots.repository.codehaus.org"
-        mavenRepo "http://repository.codehaus.org"
         mavenRepo "http://download.java.net/maven/2/"
         mavenRepo "http://repository.jboss.com/maven2/"
     }
@@ -44,6 +46,10 @@ grails.project.dependency.resolution = {
 
         compile 'org.axonframework:axon-core:2.2'
         runtime 'com.thoughtworks.xstream:xstream:1.4.7'
+
+        build 'org.apache.axis:axis:1.4'
+        build 'javax.xml:jaxrpc-api:1.1'
+        build 'commons-discovery:commons-discovery:0.4'
 
     }
 
