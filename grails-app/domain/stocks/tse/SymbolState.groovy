@@ -2,7 +2,7 @@ package stocks.tse
 
 class SymbolState {
 
-    Integer marketIdentifier
+//    Integer marketIdentifier
     Symbol symbol
     Long symbolInternalCode
     String symbolPersianCode
@@ -20,7 +20,7 @@ class SymbolState {
     }
 
     static constraints = {
-        marketIdentifier nullable: true, parameterIndex: 0
+//        marketIdentifier nullable: true, parameterIndex: 0
         symbol nullable: true, xmlNodeName: 'inscode', fkColumn: 'InternalCode'
         symbolInternalCode nullable: true, xmlNodeName: 'inscode'
         symbolPersianCode nullable: true, xmlNodeName: 'LVal18AFC'

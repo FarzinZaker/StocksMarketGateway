@@ -2,7 +2,7 @@ package stocks.tse
 
 class SymbolDailyTrade {
 
-    Integer marketIdentifier
+//    Integer marketIdentifier
     Symbol symbol
     Long symbolInternalCode
     String symbolPersianCode
@@ -28,7 +28,7 @@ class SymbolDailyTrade {
     }
 
     static constraints = {
-        marketIdentifier nullable: true, parameterIndex: 0
+//        marketIdentifier nullable: true, parameterIndex: 0
         symbol nullable: true, xmlNodeName: 'InsCode', fkColumn: 'InternalCode'
         symbolInternalCode nullable: true, xmlNodeName: 'InsCode'
         symbolPersianCode nullable: true, xmlNodeName: 'LVal18AFC'

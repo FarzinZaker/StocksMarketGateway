@@ -1,14 +1,14 @@
-package stocks.tse
-
+package stocks
 
 
 import grails.test.mixin.*
+import org.junit.*
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(SymbolBestRequestAutoImportService)
-class SymbolBestRequestAutoImportServiceTests {
+@TestFor(TSEService)
+class TSEServiceTests {
 
     void testSomething() {
         fail "Implement me"

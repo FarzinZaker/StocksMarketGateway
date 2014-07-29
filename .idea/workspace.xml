@@ -2,300 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/AdjPrice.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/AdjPrice.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/AdjPriceResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/AdjPriceResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/AdjPriceResponseAdjPriceResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/AdjPriceResponseAdjPriceResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/AuctionResponseAuctionResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitOneIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitOneIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitOneInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitOneInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitOneInsResponseBestLimitOneInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitOneInsResponseBestLimitOneInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitsAllIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitsAllIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitsAllInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitsAllInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BestLimitsAllInsResponseBestLimitsAllInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BestLimitsAllInsResponseBestLimitsAllInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/Board.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/Board.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/BoardAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BoardResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/BoardResponseBoardResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/BoardResponseBoardResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/BoardTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/Company.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/Company.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/Company.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/CompanyAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/tse/CompanyController.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/CompanyControllerTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/CompanyResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/CompanyResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/CompanyResponseCompanyResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/CompanyResponseCompanyResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/CompanyTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/DataTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/FutureInformation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/FutureInformation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/FutureInformationResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/FutureInformationResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/FutureInformationResponseFutureInformationResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/FutureInformationResponseFutureInformationResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayLastData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayLastData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayLastDataResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayLastDataResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayLastDataResponseIndexB1LastDayLastDataResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayLastDataResponseIndexB1LastDayLastDataResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayOneInst.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayOneInst.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayOneInstResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayOneInstResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB1LastDayOneInstResponseIndexB1LastDayOneInstResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB1LastDayOneInstResponseIndexB1LastDayOneInstResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB2Response.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB2Response.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexB2ResponseIndexB2Result.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexB2ResponseIndexB2Result.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexInstrument.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexInstrument.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexInstrumentResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexInstrumentResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/IndexInstrumentResponseIndexInstrumentResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/IndexInstrumentResponseIndexInstrumentResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/IndustryGroup.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/IndustryGroupState.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupStateAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupStateTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/IndustrySubgroup.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustrySubgroupAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustrySubgroupTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstAffect.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstAffect.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstAffectResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstAffectResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstAffectResponseInstAffectResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstAffectResponseInstAffectResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstTrade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstTrade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstTradeResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstTradeResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstTradeResponseInstTradeResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstTradeResponseInstTradeResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstWithBestLimit.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstWithBestLimit.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstWithBestLimitResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstWithBestLimitResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstWithBestLimitResponseInstWithBestLimitResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstWithBestLimitResponseInstWithBestLimitResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/Instrument.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/Instrument.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailAllIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailAllInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailAllInsResponseInstrumentDetailAllInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailOneIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailOneInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentDetailOneInsResponseInstrumentDetailOneInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentFilterByDate.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentFilterByDate.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentFilterByDateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentFilterByDateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentFilterByDateResponseInstrumentFilterByDateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentFilterByDateResponseInstrumentFilterByDateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentResponseInstrumentResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentResponseInstrumentResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentStateDescOneIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentStateDescOneInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentStateDescOneInsResponseInstrumentStateDescOneInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentsState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsStateDescAllIns.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsStateDescAllInsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsStateDescAllInsResponseInstrumentsStateDescAllInsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentsStateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsStateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/InstrumentsStateResponseInstrumentsStateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/InstrumentsStateResponseInstrumentsStateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/MarketActivity.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/MarketActivityAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityDaily.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityDaily.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityDailyResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityDailyResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityDailyResponseMarketActivityDailyResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityDailyResponseMarketActivityDailyResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityLast.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityLast.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityLastResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityLastResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketActivityLastResponseMarketActivityLastResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketActivityLastResponseMarketActivityLastResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/MarketActivityTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketValue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketValue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketValueByDate.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketValueByDate.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketValueByDateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketValueByDateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MarketValueResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MarketValueResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/Msg.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/Msg.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MsgResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MsgResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/MsgResponseMsgResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/MsgResponseMsgResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/NSCStart.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/NSCStart.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/NSCStartResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/NSCStartResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/NSCStartResponseNSCStartResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/NSCStartResponseNSCStartResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrument.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrumentHistory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrumentHistoryResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrumentHistoryResponsePowerInstrumentHistoryResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrumentResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/PowerInstrumentResponsePowerInstrumentResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/Sector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/Sector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SectorResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SectorResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SectorResponseSectorResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SectorResponseSectorResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SectorState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SectorState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SectorStateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SectorStateResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SectorStateResponseSectorStateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SectorStateResponseSectorStateResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/ShareChange.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/ShareChange.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/ShareChangeResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/ShareChangeResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/ShareChangeResponseShareChangeResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/ShareChangeResponseShareChangeResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StateType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StateTypeResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StateTypeResponseStateTypeResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/StaticThresholds.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StaticThresholds.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/StaticThresholdsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StaticThresholdsResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/StaticThresholdsResponseStaticThresholdsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/StaticThresholdsResponseStaticThresholdsResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SubSector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SubSector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SubSectorResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SubSectorResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/SubSectorResponseSubSectorResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/SubSectorResponseSubSectorResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SupervisorMessage.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SupervisorMessageAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SupervisorMessageTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolBestRequest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestManualImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestManualImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolDailyTrade.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeManualImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeManualImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolState.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolStateAutoImportServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolStateTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TOP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TOP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TOPResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TOPResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TOPResponseTOPResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TOPResponseTOPResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEAutoImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/TSEDataTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEManualImportService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeLastDay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeLastDay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeLastDayResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeLastDayResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeLastDayResponseTradeLastDayResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeLastDayResponseTradeLastDayResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDayAll.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDayAll.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDayAllResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDayAllResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDayAllResponseTradeOneDayAllResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDayAllResponseTradeOneDayAllResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDayResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDayResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TradeOneDayResponseTradeOneDayResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TradeOneDayResponseTradeOneDayResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2.asmx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TsePublicV2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV21.asmx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2Locator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TsePublicV2Locator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TsePublicV2Soap12Stub.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2Soap_BindingStub.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TsePublicV2Soap_BindingStub.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2Soap_PortType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/java/stocks/tse/ws/old/TsePublicV2Soap_PortType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dynamic.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/root.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/WEB-INF/wsdl/tse.wsdl" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/DocumentService.groovy" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/ArticleController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/ArticleController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/CommentController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/CommentController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/DocumentController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/DocumentController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/LikeController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/LikeController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/NewsController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/NewsController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/RateController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/RateController.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/TagController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/twitter/TagController.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupStateServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndustrySubgroupServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/MarketActivityServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SupervisorMessageServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeManualServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeServiceTests.groovy" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestManualImportService.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeManualImportService.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEAutoImportService.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEManualImportService.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupStateAutoImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/IndustrySubgroupAutoImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SupervisorMessageAutoImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestAutoImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestManualImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeAutoImportServiceTests.groovy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolDailyTradeManualImportServiceTests.groovy" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateAutoImportService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEImportService.groovy" afterPath="$PROJECT_DIR$/src/groovy/stocks/tse/TSEService.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/BoardAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/BoardServiceTests.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/CompanyAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolStateServiceTests.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/IndustryGroupAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolBestRequestManualServiceTests.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/MarketActivityAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/TSEServiceTests.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolServiceTests.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/unit/stocks/tse/SymbolStateAutoImportServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/CompanyServiceTests.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/ArticleControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/ArticleControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/CommentControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/CommentControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/DocumentControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/DocumentControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/LikeControllerTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/LikeControllerTests.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/NewsControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/NewsControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/RateControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/RateControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" afterPath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks.iml" afterPath="$PROJECT_DIR$/Stocks.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/stocks/TagControllerSpec.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/TagControllerSpec.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application.properties" afterPath="$PROJECT_DIR$/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolBestRequest.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolBestRequest.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolDailyTrade.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolDailyTrade.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolState.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolState.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -354,8 +101,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -375,27 +122,13 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/conf/spring/resources.groovy" />
-        <option value="$PROJECT_DIR$/web-app/WEB-INF/wsdl/tse.wsdl" />
-        <option value="$PROJECT_DIR$/src/java/stocks/tse/AdjPriceResponse.java" />
-        <option value="$PROJECT_DIR$/src/java/stocks/tse/BestLimitOneInsResponse.java" />
         <option value="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
         <option value="$PROJECT_DIR$/src/java/stocks/tse/ws/old/Company.java" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/tse/Mapped.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/TSEData.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEData.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateService.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardImportService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyImportService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupImportService.groovy" />
@@ -416,16 +149,30 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeAutoImportService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeManualImportService.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEManualImportService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEAutoImportService.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEImportService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/MarketActivity.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/Company.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityAutoImportService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/TSEService.groovy" />
+        <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEAutoService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/BoardService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolBestRequest.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolDailyTrade.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolState.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityAutoImportService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" />
+        <option value="$PROJECT_DIR$/src/groovy/stocks/tse/TSEService.groovy" />
       </list>
     </option>
   </component>
@@ -968,6 +715,21 @@
       <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -986,21 +748,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="Grails:Stocks" type="GrailsRunConfigurationType" factoryName="Grails">
@@ -1089,6 +836,7 @@
       <workItem from="1406456143342" duration="16713000" />
       <workItem from="1406551748049" duration="6161000" />
       <workItem from="1406580120084" duration="8057000" />
+      <workItem from="1406637946128" duration="7387000" />
     </task>
     <task id="LOCAL-00001" summary="initial run">
       <created>1403083565156</created>
@@ -1170,7 +918,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="360987000" />
+    <option name="totallyTimeSpent" value="368374000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1205,7 +953,6 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4643216" sideWeight="0.50106496" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32096288" sideWeight="0.5702875" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964823" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964823" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1225,6 +972,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32096288" sideWeight="0.5702875" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1237,14 +985,14 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32763818" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33065328" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1265,8 +1013,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1304,7 +1052,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="217" />
+      <option name="time" value="238" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1312,25 +1060,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV21.asmx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="27968">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/stocks/tse/ws/TsePublicV2.asmx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="27968">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/stocks/tse/ws/old/Company.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35054773" vertical-offset="0" max-vertical-offset="2880">
           <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1352,7 +1085,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24884793" vertical-offset="1038" max-vertical-offset="2880">
           <caret line="92" column="57" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1360,7 +1092,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7373272" vertical-offset="0" max-vertical-offset="1808">
           <caret line="41" column="47" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1368,7 +1099,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09495549" vertical-offset="0" max-vertical-offset="2368">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1376,7 +1106,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.14243324" vertical-offset="0" max-vertical-offset="1824">
           <caret line="11" column="92" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1449,7 +1178,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1243" max-vertical-offset="2368">
           <caret line="118" column="23" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1457,7 +1185,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="16" max-vertical-offset="2880">
           <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1545,51 +1272,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/tse/TSEManualImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38709676" vertical-offset="0" max-vertical-offset="620">
-          <caret line="15" column="37" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9916248" vertical-offset="0" max-vertical-offset="736">
-          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
-          <folding>
-            <element signature="e#16#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/tse/TSEAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64646465" vertical-offset="0" max-vertical-offset="624">
-          <caret line="24" column="35" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/tse/TSEImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5096774" vertical-offset="836" max-vertical-offset="2224">
-          <caret line="77" column="47" selection-start-line="77" selection-start-column="47" selection-end-line="77" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.368421" vertical-offset="320" max-vertical-offset="1760">
-          <caret line="36" column="28" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/tse/MarketActivity.groovy">
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
@@ -1612,13 +1294,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/BoardService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="400">
+          <caret line="13" column="9" selection-start-line="13" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="528">
+          <caret line="25" column="6" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="384">
+          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="368">
+          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="368">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="528">
+          <caret line="20" column="64" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="528">
+          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="592">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.72" vertical-offset="0" max-vertical-offset="1760">
+          <caret line="71" column="72" selection-start-line="71" selection-start-column="66" selection-end-line="71" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolBestRequest.groovy">
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.68" vertical-offset="0" max-vertical-offset="672">
-          <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.14035088" vertical-offset="0" max-vertical-offset="672">
+          <caret line="5" column="23" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -1628,8 +1393,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.6" vertical-offset="0" max-vertical-offset="880">
-          <caret line="30" column="58" selection-start-line="30" selection-start-column="58" selection-end-line="30" selection-end-column="58" />
+        <state vertical-scroll-proportion="-1.6" vertical-offset="0" max-vertical-offset="880">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1639,112 +1404,40 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.76" vertical-offset="0" max-vertical-offset="624">
-          <caret line="18" column="45" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+        <state vertical-scroll-proportion="-7.36" vertical-offset="0" max-vertical-offset="624">
+          <caret line="23" column="63" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="63" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/BoardAutoImportService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="464">
-          <caret line="2" column="53" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="368">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/CompanyAutoImportService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9" max-vertical-offset="608">
-          <caret line="16" column="50" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="672">
+          <caret line="29" column="110" selection-start-line="29" selection-start-column="109" selection-end-line="29" selection-end-column="109" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupAutoImportService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
-          <caret line="2" column="61" selection-start-line="2" selection-start-column="61" selection-end-line="2" selection-end-column="61" />
+        <state vertical-scroll-proportion="-18.0" vertical-offset="130" max-vertical-offset="704">
+          <caret line="34" column="45" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustryGroupStateAutoImportService.groovy">
+    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/tse/TSEService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.051612902" vertical-offset="0" max-vertical-offset="620">
-          <caret line="2" column="70" selection-start-line="2" selection-start-column="70" selection-end-line="2" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/IndustrySubgroupAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.051612902" vertical-offset="0" max-vertical-offset="620">
-          <caret line="2" column="68" selection-start-line="2" selection-start-column="68" selection-end-line="2" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/MarketActivityAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7483871" vertical-offset="0" max-vertical-offset="620">
-          <caret line="29" column="76" selection-start-line="29" selection-start-column="76" selection-end-line="29" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SupervisorMessageAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.051612902" vertical-offset="0" max-vertical-offset="620">
-          <caret line="2" column="69" selection-start-line="2" selection-start-column="69" selection-end-line="2" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41290322" vertical-offset="0" max-vertical-offset="620">
-          <caret line="16" column="43" selection-start-line="16" selection-start-column="41" selection-end-line="24" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="608">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolBestRequestManualImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="448">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="27" max-vertical-offset="624">
-          <caret line="27" column="62" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolDailyTradeManualImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
-          <caret line="21" column="70" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/SymbolStateAutoImportService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4639866" vertical-offset="11" max-vertical-offset="608">
-          <caret line="18" column="59" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+        <state vertical-scroll-proportion="2.7612903" vertical-offset="0" max-vertical-offset="2288">
+          <caret line="112" column="38" selection-start-line="112" selection-start-column="38" selection-end-line="112" selection-end-column="38" />
           <folding />
         </state>
       </provider>

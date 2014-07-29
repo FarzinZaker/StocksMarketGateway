@@ -2,7 +2,7 @@ package stocks.tse
 
 class SymbolBestRequest {
 
-    Integer marketIdentifier
+//    Integer marketIdentifier
     Integer number
     Symbol symbol
     Long symbolInternalCode
@@ -22,7 +22,7 @@ class SymbolBestRequest {
     }
 
     static constraints = {
-        marketIdentifier nullable: true, parameterIndex: 0
+//        marketIdentifier nullable: true, parameterIndex: 0
         number nullable: true, xmlNodeName: 'number'
         symbol nullable: true, xmlNodeName: 'InsCode', fkColumn: 'InternalCode'
         symbolInternalCode nullable: true, xmlNodeName: 'InsCode'

@@ -6,8 +6,8 @@ import grails.test.mixin.*
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(SymbolAutoImportService)
-class SymbolAutoImportServiceTests {
+@TestFor(SymbolService)
+class SymbolServiceTests {
 
     void testSomething() {
         fail "Implement me"

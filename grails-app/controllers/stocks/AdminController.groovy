@@ -1,40 +1,38 @@
 package stocks
 
-import stocks.tse.SymbolDailyTradeAutoImportService
-import stocks.tse.SymbolDailyTradeManualImportService
-
 class AdminController {
 
-    def companyAutoImportService
-    def boardAutoImportService
-    def industryGroupAutoImportService
-    def industryGroupStateAutoImportService
-    def industrySubgroupAutoImportService
-    def supervisorMessageAutoImportService
-    def symbolAutoImportService
-    def symbolStateAutoImportService
-    def symbolBestRequestAutoImportService
-    def symbolBestRequestManualImportService
-    def symbolDailyTradeAutoImportService
-    def symbolDailyTradeManualImportService
-    def marketActivityAutoImportService
+    def companyService
+    def boardService
+    def industryGroupService
+    def industryGroupStateService
+    def industrySubgroupService
+    def supervisorMessageService
+    def symbolService
+    def symbolStateService
+    def symbolBestRequestService
+    def symbolBestRequestManualService
+    def symbolDailyTradeService
+    def symbolDailyTradeManualService
+    def marketActivityService
 
     def index() {
     }
 
     def test(){
-//        boardService.execute()
-//        companyService.execute()
-//        industryGroupService.execute()
-//        industryGroupStateService.execute()
-//        industrySubgroupService.execute()
-//        supervisorMessageService.execute()
-//        symbolService.execute()
-//        symbolStateService.execute()
-//        symbolBestRequestAutoImportService.execute()
-//        symbolBestRequestManualImportService.execute(65122215875355555)
-//        2ymbolDailyTradeAutoImportService.execute()
-//        symbolDailyTradeManualImportService.execute((new Date() - 1), 1)
-        marketActivityAutoImportService.execute()
+//        println boardService.importData()
+//        println companyService.importData()
+//        println industryGroupService.importData()
+//        println industryGroupStateService.importData()
+//        println industrySubgroupService.importData()
+//        println supervisorMessageService.importData()
+//        println symbolService.importData()
+//        println symbolStateService.importData()
+//        println symbolBestRequestService.importData()
+//        println symbolBestRequestService.importData(65122215875355555)
+//        println symbolDailyTradeService.importData()
+//        println symbolDailyTradeService.importData((new Date() - 1), 1)
+        println symbolDailyTradeService.importData(65122215875355555, (new Date() - 5), new Date())
+//        println marketActivityService.importData()
     }
 }

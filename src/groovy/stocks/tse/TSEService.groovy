@@ -14,15 +14,9 @@ import stocks.tse.ws.old.TsePublicV2Soap_PortType
  * Time: 10:40 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class TSEImportService<T> {
+public abstract class TSEService<T> {
 
-    protected abstract def getSampleObject()
-
-    protected abstract String getServiceName()
-
-    protected abstract def getParameter(int index)
-
-    def authenticationParameters = ['ecportal.ir', 'ecportal']
+    private def authenticationParameters = ['ecportal.ir', 'ecportal']
 
     private TsePublicV2Soap_PortType service
 
@@ -33,12 +27,22 @@ public abstract class TSEImportService<T> {
         service
     }
 
-    protected List<T> list(parameter) {
+    protected abstract def getSampleObject();
+
+    protected List<T> importData(String serviceName, List<List> parameters){
+        def result = new ArrayList<T>()
+        parameters.each { parameter ->
+            result.addAll(internalImportData(serviceName, parameter))
+        }
+        result
+    }
+
+    private List<T> internalImportData(String serviceName, List parameter) {
         getService()."${serviceName}"(*(authenticationParameters + parameter))
         def xml = getService()."${serviceName}"(authenticationParameters + parameter)
         def obj = new XmlSlurper().parseText(xml._any[1].toString())
 
-        def domainClass = new DefaultGrailsDomainClass(sampleObject.class)
+        def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
         def result = obj.children()[0].children().collect { item ->
             def object = domainClass.newInstance()
 
@@ -50,7 +54,7 @@ public abstract class TSEImportService<T> {
                 } else {
                     def parameterIndex = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.parameterIndex
                     if (parameterIndex != null) {
-                        value = getParameter(parameterIndex as Integer)
+                        value = parameter[parameterIndex as Integer]
                     }
                 }
                 if (value != null && value != '') {
@@ -101,25 +105,12 @@ public abstract class TSEImportService<T> {
                 object.save()
             }
 
-            object
+            object?.id? object : existingInstance
         }
         return result
     }
 
     protected abstract T find(T object)
-
-    private static Date parseDate(String locale, String value, String time) {
-        if (locale == 'en')
-            if (time) {
-                time = String.format("%06d", time as Integer);
-                new java.text.SimpleDateFormat('yyyyMMdd-hhmmss').parse("${value}-${time}")
-            } else
-                new java.text.SimpleDateFormat('yyyyMMdd').parse(value)
-        else if (locale == 'fa')
-            throw new Exception('not implemented yet')
-        else
-            null
-    }
 
     private static Object parseForeignKey(name, field, value) {
         def targetClass = ApplicationHolder.application.getDomainClass(name).clazz
@@ -135,5 +126,18 @@ public abstract class TSEImportService<T> {
                 break
         }
         targetClass."findBy${field}"(fkValue)
+    }
+
+    protected static Date parseDate(String locale, String value, String time) {
+        if (locale == 'en')
+            if (time) {
+                time = String.format("%06d", time as Integer);
+                new java.text.SimpleDateFormat('yyyyMMdd-hhmmss').parse("${value}-${time}")
+            } else
+                new java.text.SimpleDateFormat('yyyyMMdd').parse(value)
+        else if (locale == 'fa')
+            throw new Exception('not implemented yet')
+        else
+            null
     }
 }
