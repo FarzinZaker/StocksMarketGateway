@@ -1,8 +1,3 @@
-<asset:javascript src="kendo.ui/kendo.data.min.js"/>
-<asset:javascript src="kendo.ui/kendo.pager.min.js"/>
-<asset:javascript src="kendo.ui/kendo.userevents.min.js"/>
-<asset:javascript src="kendo.ui/kendo.selectable.min.js"/>
-<asset:javascript src="kendo.ui/kendo.listview.min.js"/>
 
 <div class="documentListContainer k-rtl">
     <form:searchBox name="search" action="searchList"/>

@@ -144,7 +144,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 ]
 
 
-user.files.imagesPath = "/home/stocks/user_images"
+user.files.imagesPath = "/Personal/DevDesk/Stocks-Files/images"
+codal.filesPath = "/Personal/DevDesk/Stocks-Files/codal"
 
 grails.views.gsp.encoding="UTF-8"
 grails.assets.less.compiler = 'less4j'

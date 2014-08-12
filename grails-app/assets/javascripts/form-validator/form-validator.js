@@ -13,12 +13,21 @@
 
     var $window = $(window),
         _applyErrorStyle = function ($elem, conf) {
-            $elem
-                .addClass(conf.errorElementClass)
-                .removeClass('valid')
-                .parent()
-                .addClass('has-error')
-                .removeClass('has-success'); // twitter bs
+            $elem.each(function () {
+                if ($(this).hasClass('number'))
+                    $(this).addClass(conf.errorElementClass)
+                        .removeClass('valid')
+                        .parent().parent()
+                        .addClass('has-error')
+                        .removeClass('has-success');
+                else
+                    $(this)
+                        .addClass(conf.errorElementClass)
+                        .removeClass('valid')
+                        .parent()
+                        .addClass('has-error')
+                        .removeClass('has-success'); // twitter bs
+            });
 
             if (conf.borderColorOnError !== '') {
                 $elem.css('border-color', conf.borderColorOnError);
@@ -39,6 +48,23 @@
                         .removeClass(conf.errorElementClass)
                         .css('border-color', '')
                         .parent().parent().parent()
+                        .removeClass('has-error')
+                        .removeClass('has-success')
+                        .find('.' + conf.errorMessageClass) // remove inline error message
+                        .remove();
+                }
+                else if ($(this).hasClass('number')) {
+                    $(this)
+                        .removeClass('valid')
+                        .removeClass(conf.errorElementClass)
+                        .css('border-color', '')
+                        .parent().parent()
+                        .removeClass('has-error');
+                    $(this)
+                        .removeClass('valid')
+                        .removeClass(conf.errorElementClass)
+                        .css('border-color', '')
+                        .parent().parent().parent().parent().parent()
                         .removeClass('has-error')
                         .removeClass('has-success')
                         .find('.' + conf.errorMessageClass) // remove inline error message
@@ -87,6 +113,8 @@
                     $mess = $('<span></span>').addClass('help-block').addClass(conf.errorMessageClass);
                     if ($($input).get(0).type == 'textarea')
                         $mess.appendTo($input.parent().parent().parent().find('.help'));
+                    else if ($($($input).get(0)).hasClass('number'))
+                        $mess.appendTo($input.parent().parent().parent().parent().parent().find('.help'));
                     else
                         $mess.appendTo($input.parent().parent().find('.help'));
                 }

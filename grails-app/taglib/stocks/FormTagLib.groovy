@@ -31,15 +31,20 @@ class FormTagLib {
             <div class='form-field ${attrs.border == '0' ? 'borderless' : ''}'>
                 <div class='main'>
                     ${
-            attrs.fieldName && attrs.showLabel != '0' ? "<label>${message(code: "${attrs.fieldName}.label")}</label>" : ''
+            (attrs.fieldName || attrs.label) && attrs.showLabel != '0' ? "<label>${attrs.label ?: message(code: "${attrs.fieldName}.label")}</label>" : ''
         }
                     """
         out << body()
         out << """
                 </div>
+"""
+        if (attrs.showHelp != '0')
+            out << """
                 <div class='help'>
                     ${attrs.fieldName ? "<label>${message(code: "${attrs.fieldName}.help")}</label>" : ''}
                 </div>
+"""
+        out << """
                 <div class='clear-fix'></div>
             </div>
 """
@@ -47,7 +52,7 @@ class FormTagLib {
 
     def hidden = { attrs, body ->
         out << """
-            <input type='hidden' name='${attrs.name}' value='${
+            <input type='hidden' id='${attrs.id ?: attrs.name}' name='${attrs.name}' value='${
             attrs.value ? attrs.value : (attrs.entity?."${attrs.name}" ?: '')
         }' />
 """
@@ -57,8 +62,46 @@ class FormTagLib {
         out << """
             <input type='${attrs.type ?: 'text'}' class='k-textbox ${attrs.class ?: ''}' ${
             attrs.style ? "style='${attrs.style}'" : ''
-        } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${attrs.entity?."${attrs.name}" ?: ''}'
-                ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${attrs.validation}" />
+        } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${
+            attrs.value ?: attrs.entity?."${attrs.name}" ?: ''
+        }'
+                ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${attrs.validation}"
+            ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} />
+"""
+    }
+
+    def numericTextBox = { attrs, body ->
+        out << """
+            <span class='k-rtl'>
+                <input type='${attrs.type ?: 'text'}' class='number ${attrs.class ?: ''}' ${
+            attrs.style ? "style='${attrs.style}'" : ''
+        } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${
+            attrs.value ?: attrs.entity?."${attrs.name}" ?: ''
+        }'
+                    ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${
+            attrs.validation
+        }"
+                ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} />
+            </span>
+"""
+
+        out << """
+            <script language='javascript' type='text/javascript'>
+                \$(document).ready(function(){
+                    \$('#${attrs.id ?: attrs.name}').kendoNumericTextBox({
+                    });
+                });
+            </script>
+"""
+
+    }
+
+    def textArea = { attrs, body ->
+        out << """
+            <textarea class='k-textbox ${attrs.class ?: ''}' ${
+            attrs.style ? "style='${attrs.style}'" : ''
+        } name='${attrs.name}' id='${attrs.id ?: attrs.name}'
+                data-validation="${attrs.validation}" >${attrs.entity?."${attrs.name}" ?: ''}</textarea>
 """
     }
 
@@ -69,7 +112,7 @@ class FormTagLib {
     def checkbox = { attrs, body ->
         out << """
                 <input type="checkbox" class="css-checkbox" id="${attrs.id ?: attrs.name}" name="${attrs.name}"
-                    ${attrs.checked ? "checked='checked'" : ''} />
+                    ${attrs.checked ? "checked='checked'" : ''} ${attrs.onchange ? "onchange='${attrs.onchange}'" : ''} />
                 <label class="css-label" for="${attrs.id ?: attrs.name}">
                     ${attrs.text}
                 </label>
@@ -86,18 +129,21 @@ class FormTagLib {
             <span class="k-rtl">
                 <input class="k-textbox" name='${attrs.name}' id="${attrs.id ?: attrs.name}" ${
             attrs.style ? "style='${attrs.style}'" : ''
-        } data-validation="${attrs.validation}" />
+        } data-validation="${attrs.validation}" ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} ${
+            attrs.value ? "value='${attrs.value}'" : ''
+        } />
             </span>
             <script>
                 \$(document).ready(function() {
                     var data = ${attrs.items as JSON};
 
-                    \$("#${attrs.id ?: attrs.name}").removeClass('k-textbox').kendoComboBox({
+                    \$("input[name=${attrs.name}]").removeClass('k-textbox').kendoComboBox({
                         dataTextField: "text",
                         dataValueField: "value",
                         dataSource: data,
                         index: 0,
                         change : function (e) {
+                            ${attrs.onchange?"${attrs.onchange}(e);":''}
                             if (this.value() && this.selectedIndex == -1) {
                                 var dt = this.dataSource._data[0];
                                 this.text(dt[this.options.dataTextField]);
@@ -148,7 +194,7 @@ class FormTagLib {
                 }
                 \$(document).ready(function() {
                     tinymce.init({
-                        ${attrs.mode != 'full'  ? 'menubar:false,' : ''}
+                        ${attrs.mode != 'full' ? 'menubar:false,' : ''}
                         selector: "#${attrs.id ?: attrs.name}",
                         language: "fa",
                         content_css : "${asset.assetPath(src: 'editor.css')}",
@@ -156,7 +202,9 @@ class FormTagLib {
                         ${attrs.width ? "width:${attrs.width}," : ""}
                         ${attrs.height ? "height:${attrs.height}," : ""}
                         plugins: [
-                            "kendoImageBrowser ${attrs.mode == 'full' ? 'advlist' : ''} autolink link image lists charmap hr anchor ${attrs.height ?'' :'autoresize'}",
+                            "kendoImageBrowser ${
+            attrs.mode == 'full' ? 'advlist' : ''
+        } autolink link image lists charmap hr anchor ${attrs.height ? '' : 'autoresize'}",
                             "searchreplace wordcount fullscreen",
                             "save table contextmenu directionality paste textcolor hr"
                         ],
@@ -164,7 +212,9 @@ class FormTagLib {
             attrs.mode == 'full' ? 'redo undo | styleselect' : ''
         } | italic bold | alignjustify alignleft aligncenter alignright | indent outdent ${
             attrs.mode == 'full' ? '| hr' : ''
-        } | numlist | bullist ${attrs.mode != 'simple' ? '| image link' : ''} ${attrs.mode == 'full' ? '| forecolor | backcolor' : ''}"
+        } | numlist | bullist ${attrs.mode != 'simple' ? '| image link' : ''} ${
+            attrs.mode == 'full' ? '| forecolor | backcolor' : ''
+        }"
                     });
                 });
             </script>
@@ -276,6 +326,94 @@ class FormTagLib {
 """
     }
 
+    def datePicker = { attrs, body ->
+        out << asset.stylesheet(src: "bootstrap/datepicker/bootstrap-datepicker.css")
+        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.js")
+        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.fa.js")
+
+        out << textBox(attrs, body)
+
+        out << """
+            <script language='javascript' type='text/javascript'>
+                \$(document).ready(function(){
+                    \$('#${attrs.id ?: attrs.name}').datepicker({
+                    });
+                });
+            </script>
+"""
+
+    }
+
+    def timePicker = { attrs, body ->
+        out << """
+            <input id="${attrs.id ?: attrs.name}" name="${attrs.name}" ${attrs.value ? "value='${attrs.value}'" : ''}/>
+            <script language="javascript" type="text/javascript">
+                \$(document).ready(function(){
+                    \$("#${attrs.id ?: attrs.name}").kendoTimePicker({
+"""
+        if (attrs.interval)
+            out << """
+                        interval: ${attrs.interval}
+"""
+        if (attrs.min)
+            out << """
+                        interval: ${attrs.min}
+"""
+        if (attrs.max)
+            out << """
+                        interval: ${attrs.max}
+"""
+        out << """
+                    });
+                });
+            </script>
+"""
+    }
+
+    def timeRangeSlider = { attrs, body ->
+        out << """
+            <div id="${attrs.id ?: attrs.name}" class="timeSlider timeSlider${attrs.id ?: attrs.name}" style="${
+            attrs.style ?: ''
+        }">
+                <input name="${attrs.name}Start" ${attrs.rangeStart ? "value='${attrs.rangeStart}'" : ''}/>
+                <input name="${attrs.name}End" ${attrs.rangeEnd ? "value='${attrs.rangeEnd}'" : ''}/>
+            </div>
+
+            <script language="javascript" type="text/javascript">
+                \$(document).ready(function () {
+                    var templateString = "# return (Math.floor(selectionStart / 60)) + ':' + (selectionStart % 60 > 0 ? (selectionStart % 60) : '00') + '&nbsp;&nbsp;${
+            message(code: 'timeRange.till')
+        }&nbsp;&nbsp;' + (Math.floor(selectionEnd / 60)) + ':' + (selectionEnd % 60 > 0 ? (selectionEnd % 60) : '00') #";
+                    var slider = \$("#${attrs.id ?: attrs.name}").kendoRangeSlider({
+                        min: ${attrs.min ?: 0},
+                        max: ${attrs.max ?: 24 * 60},
+                        smallStep: 30,
+                        largeStep: 60,
+                        tickPlacement: "both",
+                        tooltip: {
+                            template: kendo.template(templateString)
+                        },
+"""
+        if (attrs.childTimeRangeSlider)
+            out << """
+                        change:rangeSliderOnChange_${attrs.id ?: attrs.name}
+
+"""
+        out << """
+                    });
+
+                    \$.each(\$('.timeSlider${attrs.id ?: attrs.name} .k-tick .k-label'), function(index, item){
+                        if(index < 24) {
+                            var value = parseInt(\$(item).text().replace(',', ''));
+//                            \$(item).text((Math.floor(value / 60)) + ':' + (value % 60 > 0 ? (value % 60) : '00'));
+                            \$(item).text(Math.floor(value / 60))
+                        }
+                    });
+                });
+            </script>
+"""
+    }
+
     def captcha = { attrs, body ->
         if (!attrs.style)
             attrs.style = ""
@@ -288,7 +426,9 @@ class FormTagLib {
 
     def button = { attrs, body ->
         out << """
-            <button name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}">${attrs.text}</button>
+            <button name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}"
+                 ${attrs."ng-click" ? "ng-click='${attrs."ng-click"}'" : ''}
+                ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}>${attrs.text}</button>
             <script language="javascript" type="text/javscript">
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoButton();

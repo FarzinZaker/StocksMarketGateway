@@ -1,8 +1,4 @@
 
-<asset:javascript src="kendo.ui/kendo.core.min.js"/>
-<asset:javascript src="kendo.ui/kendo.userevents.min.js"/>
-<asset:javascript src="kendo.ui/kendo.draganddrop.min.js"/>
-<asset:javascript src="kendo.ui/kendo.window.min.js"/>
 <div id="alertDialog" class="k-rtl">
     <asset:image src="error.png"/>
     <div class="message">message</div>

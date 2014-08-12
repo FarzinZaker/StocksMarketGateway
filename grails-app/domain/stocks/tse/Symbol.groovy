@@ -35,8 +35,8 @@ class Symbol {
     Double minTradableValueUnit
     Integer minTradableStockCount
     Integer marketIdentifier
-    Integer minRequestVolume
-    Integer maxRequestVolume
+    Integer minOrderVolume
+    Integer maxOrderVolume
     Date date
 
     Date creationDate
@@ -80,25 +80,8 @@ class Symbol {
         minTradableValueUnit nullable: true, xmlNodeName: 'QPasCotFxeVal'
         minTradableStockCount nullable: true, xmlNodeName: 'QQtTranMarVal'
         marketIdentifier nullable: true, inList: [0, 1, 2, 3, 4, 5], xmlNodeName: 'Flow'
-        minRequestVolume nullable: true, xmlNodeName: 'QtitMinSaiOmProd'
-        maxRequestVolume nullable: true, xmlNodeName: 'QtitMaxSaiOmProd'
+        minOrderVolume nullable: true, xmlNodeName: 'QtitMinSaiOmProd'
+        maxOrderVolume nullable: true, xmlNodeName: 'QtitMaxSaiOmProd'
         date nullable: true, xmlNodeName: 'DEVen', locale: 'en'
-    }
-
-    def beforeInsert = {
-        checkCompany()
-    }
-    def beforeUpdate = {
-        checkCompany()
-    }
-
-    def checkCompany(){
-//        if(company == null) {
-//                def comp = new Company()
-//                comp.code = companyCode
-//                comp.name = companyName
-//                comp.save()
-//            company = Company.findByCode(companyCode)
-//        }
     }
 }

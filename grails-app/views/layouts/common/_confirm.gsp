@@ -1,8 +1,4 @@
 
-<asset:javascript src="kendo.ui/kendo.core.min.js"/>
-<asset:javascript src="kendo.ui/kendo.userevents.min.js"/>
-<asset:javascript src="kendo.ui/kendo.draganddrop.min.js"/>
-<asset:javascript src="kendo.ui/kendo.window.min.js"/>
 <div id="confirmDialog" class="k-rtl">
     <asset:image src="question.png"/>
     <div class="message">message</div>
@@ -27,11 +23,19 @@
             });
         }
 
-        window.confirm = function(message, callback){
+        window.confirm = function(message, callback, cancelCallback){
             confirmDialog.find(".message").html(message);
             confirmDialog.find(".btn-cancel").click(function(){
                 confirmDialog.data("kendoWindow").close();
+                if(cancelCallback)
+                    cancelCallback();
             });
+
+            confirmDialog.parent().find('.k-window-action').click(function(){
+                if(cancelCallback)
+                    cancelCallback();
+            });
+
             confirmDialog.find(".btn-ok").click(function(){
                 confirmDialog.data("kendoWindow").close();
                 callback();

@@ -44,13 +44,17 @@ grails.project.dependency.resolution = {
         compile "com.sun.media:jai-codec:1.1.3"
         compile "net.java.dev.jai-imageio:jai-imageio-core-standalone:1.2-pre-dr-b04-2013-04-23"
 
-        compile 'org.axonframework:axon-core:2.2'
-        runtime 'com.thoughtworks.xstream:xstream:1.4.7'
+//        compile 'org.axonframework:axon-core:2.2'
+//        runtime 'com.thoughtworks.xstream:xstream:1.4.7'
 
         build 'org.apache.axis:axis:1.4'
         build 'javax.xml:jaxrpc-api:1.1'
         build 'commons-discovery:commons-discovery:0.4'
 
+        build 'org.ccil.cowan.tagsoup:tagsoup:1.2'
+
+        build 'joda-time:joda-time:2.3'
+        build 'joda-time:joda-time-hibernate:1.3'
     }
 
     plugins {

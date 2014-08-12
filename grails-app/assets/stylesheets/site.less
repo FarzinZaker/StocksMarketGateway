@@ -309,3 +309,137 @@ ul.linkList {
 #document-list{
   padding: 0;
 }
+
+
+
+.queryListContainer {
+}
+
+#queryListView {
+  padding: 5px;
+  clear: both;
+  .query {
+    margin: 5px;
+    padding: 5px 10px;
+    border-bottom:1px dashed @editor-border-color;
+    &:last-of-type{
+      border-width: 0;
+    }
+    &.k-state-selected{
+      background: transparent !important;
+    }
+    span.image {
+      float:right;
+      display: table-cell;
+      height: 128px;
+      vertical-align: top;
+      width: 128px;
+      text-align: right;
+      img {
+        max-width: 128px;
+        max-height: 128px;
+      }
+    }
+    .text {
+      float:right;
+      h3 {
+        border-width: 0;
+        color: black;
+        font-size: 16px;
+        height: 44px;
+        line-height: 22px;
+        margin-bottom: 0 !important;
+        overflow: hidden;
+        padding: 0;
+      }
+      p {
+        display: block;
+        overflow: hidden;
+        line-height: 18px;
+        font-size: 14px;
+        text-align: justify;
+        color: @summary-color;
+      }
+
+      .parameters{
+        float: right;
+        padding-top:10px;
+        color: @summary-color;
+        padding-bottom:15px;
+        span{
+          background: @summary-back-color;
+          color: @header-color;
+          display: inline-block;
+          padding: 5px;
+        }
+      }
+    }
+  }
+}
+
+#queryInstanceListView {
+  padding: 5px;
+  clear: both;
+  .query {
+    margin: 5px;
+    padding: 5px 10px;
+    border-bottom:1px dashed @editor-border-color;
+    &:last-of-type{
+      border-width: 0;
+    }
+    &.k-state-selected{
+      background: transparent !important;
+    }
+    span.image {
+      float:right;
+      display: table-cell;
+      height: 128px;
+      vertical-align: top;
+      width: 128px;
+      text-align: right;
+      img {
+        max-width: 128px;
+        max-height: 128px;
+      }
+    }
+    .text {
+      float:right;
+      h3 {
+        border-width: 0;
+        color: black;
+        font-size: 16px;
+        height: 44px;
+        line-height: 22px;
+        margin-bottom: 0 !important;
+        overflow: hidden;
+        padding: 0;
+      }
+      p {
+        display: block;
+        overflow: hidden;
+        line-height: 18px;
+        font-size: 14px;
+        text-align: justify;
+        color: @summary-color;
+      }
+
+      .parameters{
+        float: right;
+        padding-top:10px;
+        color: @summary-color;
+        padding-bottom:15px;
+        span{
+          background: @summary-back-color;
+          color: @header-color;
+          display: inline-block;
+          padding: 5px;
+        }
+      }
+    }
+  }
+}
+
+.query-register-description{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
