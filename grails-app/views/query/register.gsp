@@ -45,10 +45,17 @@
                         </g:elseif>
                     </form:field>
                 </g:each>
-                <form:field fieldName="query.register.scheduleType">
-                    <form:select name="scheduleType" items="${scheduleTypes.collect {
-                        [text: message(code: "schedule.type.${it}"), value: it]
-                    }}" style="width:500px" onchange="toggle_periodicSchedule" value="${queryInstance.schedule?.type}"/>
+                <form:field fieldName="query.register.scheduleType" showHelp="${scheduleTypes?.size() > 1 ? '1' : '0'}">
+                    <g:if test="${scheduleTypes?.size() > 1}">
+                        <form:select name="scheduleType" items="${scheduleTypes.collect {
+                            [text: message(code: "schedule.type.${it}"), value: it]
+                        }}" style="width:500px" onchange="toggle_periodicSchedule"
+                                     value="${queryInstance.schedule?.type}"/>
+                    </g:if>
+                    <g:else>
+                        <form:hidden name="scheduleType" value="${scheduleTypes.find()}"/>
+                        <g:message code="schedule.type.${scheduleTypes.find()}"/>
+                    </g:else>
                 </form:field>
                 <div id="periodicScheduleForm" style="display: none;">
                     <form:field fieldName="query.register.interval">
@@ -82,11 +89,11 @@
                                 <div>
                                     <g:render template="daySchedule"
                                               model="${[
-                                                      day: day,
+                                                      day                : day,
                                                       scheduleDayTemplate: queryInstance.query?.scheduleTemplate?.dayTemplates?.find {
                                                           it.day == day
                                                       },
-                                                      daySchedule: queryInstance.schedule?.days?.find {
+                                                      daySchedule        : queryInstance.schedule?.days?.find {
                                                           it.day == day
                                                       }
                                               ]}"/>
@@ -105,7 +112,7 @@
 </div>
 <script language="javascript">
 
-    function toggle_periodicSchedule(e){
+    function toggle_periodicSchedule(e) {
         if ($('#scheduleType').data('kendoComboBox').value() == 'periodic')
             $('#periodicScheduleForm').stop().slideDown();
         else
