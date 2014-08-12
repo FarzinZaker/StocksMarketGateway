@@ -31,12 +31,12 @@ class Announcement {
 
     static constraints = {
         symbol nullable: true
-        symbolPersianCode nullable: true, query: true
+        symbolPersianCode nullable: true, query: true, token: true
         company nullable: true
-        companyName nullable: true, query: true
-        title nullable: true, query: true
-        sendDate nullable: true, query: true
-        publishDate nullable: true, query: true
+        companyName nullable: true, query: true, token: true
+        title nullable: true, query: true, token: true
+        sendDate nullable: true, query: true, token: true
+        publishDate nullable: true, query: true, token: true
         detailsUrl nullable: true
         pdfUrl nullable: true
         excelUrl nullable: true

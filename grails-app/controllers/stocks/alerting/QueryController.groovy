@@ -16,8 +16,16 @@ class QueryController {
         if (params.id) {
             def queryInstance = Query.get(params.id)
             def domainClass = grailsApplication.getDomainClass(queryInstance.domainClazz)
+            domainClass.persistentProperties.findAll {
+                it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
+            }.each {
+                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${message(code: "${queryInstance.domainClazz}.${it.name}.label")}]")
+            }
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
+            }.collect { it.name }
+            def tokens = domainClass.persistentProperties.findAll {
+                it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
             }.collect { it.name }
             [
                     queryInstance    : queryInstance,
@@ -25,7 +33,8 @@ class QueryController {
                     parameters       : Parameter.findAllByQuery(queryInstance),
                     fields           : fields,
                     rules            : serializeRule(domainClass, queryInstance.rule),
-                    scheduleTemplates: ScheduleTemplate.findAllByDeleted(false)
+                    scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
+                    tokens           : tokens
             ]
         } else {
             def domainClass = grailsApplication.getDomainClass(params.domainClass)
@@ -37,7 +46,8 @@ class QueryController {
                     parameters       : [],
                     fields           : fields,
                     rules            : [:],
-                    scheduleTemplates: ScheduleTemplate.findAllByDeleted(false)
+                    scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
+                    tokens           : tokens
             ]
         }
     }
@@ -64,8 +74,15 @@ class QueryController {
             query.owner = springSecurityService.currentUser as User ?: User.findByUsername('admin')
             query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate)
         }
-        query.save()
+
         def domainClass = grailsApplication.getDomainClass(params.domainClazz)
+        domainClass.persistentProperties.findAll {
+            it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
+        }.each {
+            query.smsTemplate = query.smsTemplate.replace("[${message(code: "${query.domainClazz}.${it.name}.label")}]", "[${it.name}]")
+        }
+
+        query.save()
         query.rule = parseRule(domainClass, JSON.parse(params.query), null)
 
         params.parameterNames.eachWithIndex { parameterName, index ->
@@ -190,16 +207,16 @@ class QueryController {
     def register() {
         def queryInstance = params.id ? QueryInstance.get(params.id) : new QueryInstance(query: Query.get(params.query))
         def scheduleTypes = []
-        if(queryInstance.query.scheduleTemplate.eventBasedNotificationEnabled)
+        if (queryInstance.query.scheduleTemplate.eventBasedNotificationEnabled)
             scheduleTypes << 'eventBased'
-        if(queryInstance.query.scheduleTemplate.periodicNotificationEnabled)
+        if (queryInstance.query.scheduleTemplate.periodicNotificationEnabled)
             scheduleTypes << 'periodic'
         [queryInstance: queryInstance, scheduleTypes: scheduleTypes]
     }
 
     def saveRegistration() {
 
-        def queryInstance = new QueryInstance()
+        def queryInstance
         if (params.id) {
             queryInstance = QueryInstance.get(params.id)
         } else {
@@ -214,10 +231,11 @@ class QueryController {
         queryInstance.schedule?.intervalStep = params.intervalStep as Integer
         queryInstance.schedule?.save()
 
+        queryInstance.lastExecutionDate = new Date()
         queryInstance.save()
 
         ScheduleDay.findAllBySchedule(queryInstance.schedule).each { it.delete() }
-        if(queryInstance.schedule?.type == 'periodic') {
+        if (queryInstance.schedule?.type == 'periodic') {
             queryInstance.query.scheduleTemplate.dayTemplates.collect { it.day }.each { day ->
                 def scheduleDay = new ScheduleDay(day: day)
                 scheduleDay.startTimeInMinute = params."${day}_allowedTimeRangeStart".toInteger()

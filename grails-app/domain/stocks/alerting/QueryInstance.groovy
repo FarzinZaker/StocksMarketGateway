@@ -10,6 +10,7 @@ class QueryInstance {
     Schedule schedule
     User owner
     Boolean enabled = true
+    Date lastExecutionDate
 
     Boolean deleted = false
 
