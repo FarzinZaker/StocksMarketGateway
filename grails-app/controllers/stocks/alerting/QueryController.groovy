@@ -2,16 +2,21 @@ package stocks.alerting
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.commons.GrailsClass
+import stocks.RoleHelper
 import stocks.User
+import grails.plugins.springsecurity.Secured
 
 class QueryController {
 
     def springSecurityService
     def grailsApplication
 
+
+    @Secured([RoleHelper.ROLE_ADMIN])
     def selectData() {
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def build() {
         if (params.id) {
             def queryInstance = Query.get(params.id)
@@ -60,6 +65,7 @@ class QueryController {
         }
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def save() {
         def query
 
@@ -233,6 +239,7 @@ class QueryController {
         object
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def list() {
         def root = [:]
         root.id = 0
@@ -242,7 +249,7 @@ class QueryController {
         [categoryTree: root]
     }
 
-    def findChildCategories(QueryCategory parent) {
+    private def findChildCategories(QueryCategory parent) {
         def list = []
         if (parent != null) {
             list << parent
@@ -258,6 +265,7 @@ class QueryController {
         list
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def jsonList() {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "lastUpdated", order: params["sort[0][dir]"] ?: "desc"]
@@ -309,6 +317,7 @@ class QueryController {
         render value as JSON
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def delete() {
 
         def query = Query.get(params.id)
@@ -316,7 +325,7 @@ class QueryController {
         render(query.save() ? '1' : '0')
     }
 
-    def getCategoryTree(root) {
+    private def getCategoryTree(root) {
         def recordList
         if (root)
             recordList = QueryCategory.createCriteria().list {
@@ -339,6 +348,7 @@ class QueryController {
         }
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def select() {
         def root = [:]
         root.id = 0
@@ -348,6 +358,7 @@ class QueryController {
         [categoryTree: root]
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def register() {
         def queryInstance = params.id ? QueryInstance.get(params.id) : new QueryInstance(query: Query.get(params.query))
         def scheduleTypes = []
@@ -358,6 +369,7 @@ class QueryController {
         [queryInstance: queryInstance, scheduleTypes: scheduleTypes]
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def saveRegistration() {
 
         def queryInstance
@@ -401,9 +413,11 @@ class QueryController {
         redirect(action: 'instanceList')
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def instanceList() {
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def instanceJsonList() {
 
         def user = springSecurityService.currentUser as User ?: User.findByUsername('admin')
@@ -443,6 +457,7 @@ class QueryController {
         render value as JSON
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def instanceDelete() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.deleted = true
@@ -452,6 +467,7 @@ class QueryController {
             render '0'
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def instanceEnable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = true
@@ -461,6 +477,7 @@ class QueryController {
             render '0'
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def instanceDisable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = false

@@ -1,5 +1,8 @@
 package stocks
 
+import grails.plugins.springsecurity.Secured
+
+@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
 
     def companyDataService

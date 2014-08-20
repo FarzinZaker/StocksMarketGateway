@@ -34,9 +34,10 @@
 <body>
 <div class="page-wrap">
     <div id="header" role="banner">
-        <a href="${createLink(controller: 'admin')}">
-            <asset:image src="admin-logo.png" alt="Admin"/>
+        <a href="${createLink(uri: '/')}">
+            <asset:image src="logo.png" alt="stocks"/>
         </a>
+        <g:render template="/layouts/common/userPanel"/>
     </div>
     <g:render template="/layouts/main/menu"/>
     <g:layoutBody/>

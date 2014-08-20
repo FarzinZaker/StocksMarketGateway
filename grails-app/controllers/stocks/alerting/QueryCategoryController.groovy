@@ -1,8 +1,11 @@
 package stocks.alerting
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
+import stocks.RoleHelper
 import stocks.User
 
+@Secured([RoleHelper.ROLE_ADMIN])
 class QueryCategoryController {
 
     def springSecurityService

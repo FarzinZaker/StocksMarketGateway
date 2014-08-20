@@ -1,5 +1,7 @@
 package stocks.twitter
 
+import grails.plugins.springsecurity.Secured
+import stocks.RoleHelper
 import stocks.User
 import stocks.twitter.Like
 import grails.converters.JSON
@@ -8,6 +10,7 @@ class LikeController {
 
     def springSecurityService
 
+    @Secured([RoleHelper.ROLE_USER])
     def like() {
         def user = springSecurityService.currentUser as User
         def comment = stocks.twitter.Comment.get(params.item)

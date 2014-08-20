@@ -1,6 +1,15 @@
 <div class="k-rtl">
     <ul id="menu">
         <li>
+            <g:message code="menu.articles"/>
+            <ul>
+                <li><a href="${createLink(controller: 'article', action: 'create')}"><g:message
+                        code="menu.articles.add"/></a></li>
+                <li><a href="${createLink(controller: 'article', action: 'list')}"><g:message
+                        code="menu.articles.list"/></a></li>
+            </ul>
+        </li>
+        <li>
             <g:message code="menu.newsletter.register"/>
             <ul>
                 <li><a href="${createLink(controller: 'query', action: 'select')}"><g:message

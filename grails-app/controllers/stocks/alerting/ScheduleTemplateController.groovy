@@ -1,9 +1,12 @@
 package stocks.alerting
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 import org.joda.time.LocalTime
+import stocks.RoleHelper
 import stocks.User
 
+@Secured([RoleHelper.ROLE_ADMIN])
 class ScheduleTemplateController {
 
     def springSecurityService

@@ -1,5 +1,7 @@
 package stocks.twitter
 
+import grails.plugins.springsecurity.Secured
+import stocks.RoleHelper
 import stocks.User
 import stocks.twitter.Article
 import stocks.twitter.Tag
@@ -9,15 +11,16 @@ class ArticleController {
 
     def springSecurityService
 
-    def index() {}
-
+    @Secured([RoleHelper.ROLE_USER])
     def create() {
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def edit() {
         [article: stocks.twitter.Article.get(params.id)]
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def save() {
         Article article
 
@@ -56,6 +59,7 @@ class ArticleController {
 
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def jsonList() {
 
         def value = [:]
@@ -94,6 +98,7 @@ class ArticleController {
         render value as JSON
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def delete() {
         def article = Article.get(params.id)
         article.tags?.clear()
@@ -103,10 +108,12 @@ class ArticleController {
         else render '0'
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def list() {
 
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def thread() {
         [article: Article.get(params.id)]
     }

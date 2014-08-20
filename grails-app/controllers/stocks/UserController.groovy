@@ -1,5 +1,7 @@
 package stocks
 
+import grails.plugins.springsecurity.Secured
+
 class UserController {
 
     def simpleCaptchaService
@@ -7,9 +9,14 @@ class UserController {
     def springSecurityService
 
     def register() {
+        if(springSecurityService.loggedIn)
+            redirect(uri: '/')
     }
 
     def save() {
+
+        if(springSecurityService.loggedIn)
+            redirect(uri: '/')
 
         def user = new User(params)
         if (!simpleCaptchaService.validateCaptcha(params.captcha)) {
@@ -38,6 +45,10 @@ class UserController {
     }
 
     def activate() {
+
+        if(springSecurityService.loggedIn)
+            redirect(uri: '/')
+
         def code = new String(params.code.toString().decodeBase64()).split('_')[2]
         if (code.toString() == params.id.toString()) {
             def user = User.get(params.id)
@@ -60,10 +71,12 @@ class UserController {
         render "code error"
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
     def changePassword(){
 
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
     def saveNewPassword() {
         def user = (User) springSecurityService.currentUser
         if (user.password == springSecurityService.encodePassword(params.oldPassword)) {
@@ -91,12 +104,12 @@ class UserController {
         }
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
     def passwordChanged(){
 
     }
 
-
-
+    @Secured([RoleHelper.ROLE_USER])
     def follow() {
         def currentUser = springSecurityService.currentUser as User
         currentUser.get(currentUser.id)
@@ -109,11 +122,12 @@ class UserController {
             render params.type
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def wall() {
-
         [user: User.get(params.id)]
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def synchronized wallJson() {
         def parameters = [offset: params.skip, max: 10, sort: "lastUpdated", order: "desc"]
         def documents = stocks.twitter.Document.createCriteria().list(parameters, {
@@ -127,6 +141,7 @@ class UserController {
         render ''
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def home(){
         [user: springSecurityService.currentUser as User]
     }

@@ -1,5 +1,7 @@
 package stocks.twitter
 
+import grails.plugins.springsecurity.Secured
+import stocks.RoleHelper
 import stocks.User
 import stocks.twitter.Article
 import stocks.twitter.Rate
@@ -8,6 +10,7 @@ class RateController {
 
     def springSecurityService
 
+    @Secured([RoleHelper.ROLE_USER])
     def save() {
         def rate = new Rate()
         rate.document = stocks.twitter.Document.get(params.id)

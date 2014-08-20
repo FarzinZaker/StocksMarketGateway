@@ -1,5 +1,7 @@
 package stocks.twitter
 
+import grails.plugins.springsecurity.Secured
+import stocks.RoleHelper
 import stocks.User
 import stocks.twitter.Comment
 
@@ -7,6 +9,7 @@ class CommentController {
 
     def springSecurityService
 
+    @Secured([RoleHelper.ROLE_USER])
     def save() {
 
         def comment = new Comment()
@@ -21,6 +24,7 @@ class CommentController {
         render template: 'view', model: [comment: comment]
     }
 
+    @Secured([RoleHelper.ROLE_USER])
     def editor() {
         render template: 'submit', model: [comment: Comment.get(params.id)]
     }
