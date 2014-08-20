@@ -3,6 +3,8 @@ var alertingQuery = angular.module('stocks', []);
 alertingQuery.controller('alertingQueryController', function ($scope, $http) {
     $scope.parameterList = new kendo.data.ObservableArray(parameterList);
     $scope.parameterCounter = parameterList.length;
+    $scope.sortingRuleList = new kendo.data.ObservableArray(sortingRuleList);
+    $scope.sortingRuleCounter = sortingRuleList.length;
 
     $scope.parameterList.bind('change', function(e){
         $scope.refillAutoCompleteList();

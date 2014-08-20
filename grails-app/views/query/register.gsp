@@ -45,7 +45,8 @@
                         </g:elseif>
                     </form:field>
                 </g:each>
-                <form:field fieldName="query.register.scheduleType" showHelp="${scheduleTypes?.size() > 1 ? '1' : '0'}">
+                <form:field fieldName="query.register.scheduleType" showHelp="${scheduleTypes?.size() > 1 ? '1' : '0'}"
+                            showLabel="${scheduleTypes?.size() > 1 ? '1' : '0'}">
                     <g:if test="${scheduleTypes?.size() > 1}">
                         <form:select name="scheduleType" items="${scheduleTypes.collect {
                             [text: message(code: "schedule.type.${it}"), value: it]
@@ -54,7 +55,7 @@
                     </g:if>
                     <g:else>
                         <form:hidden name="scheduleType" value="${scheduleTypes.find()}"/>
-                        <g:message code="schedule.type.${scheduleTypes.find()}"/>
+                        <div class="info"><g:message code="schedule.type.${scheduleTypes.find()}"/></div>
                     </g:else>
                 </form:field>
                 <div id="periodicScheduleForm" style="display: none;">

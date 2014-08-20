@@ -14,10 +14,9 @@
     <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
     <g:javascript library="jquery" plugin="jquery"/>
     %{--kendo.ui start--}%
-    <asset:stylesheet src="kendo.ui/kendo.common.min.css" rel="stylesheet"/>
+    <asset:stylesheet src="kendo.ui/kendo.common-bootstrap.min.css" rel="stylesheet"/>
     <asset:stylesheet src="kendo.ui/kendo.metro.min.css" rel="stylesheet"/>
     <asset:stylesheet src="kendo.ui/kendo.rtl.min.css" rel="stylesheet"/>
-    <asset:stylesheet src="kendo.ui/kendo.menu.min.css" rel="stylesheet"/>
     <asset:javascript src="kendo.ui/kendo.all.min.js"/>
     %{--kendo.ui end--}%
     <asset:javascript src="dotdotdot.js"/>
@@ -38,7 +37,7 @@
             <asset:image src="admin-logo.png" alt="Admin"/>
         </a>
     </div>
-    <g:render template="/layouts/site/menu"/>
+    <g:render template="/layouts/admin/menu"/>
     <g:layoutBody/>
 
     <g:render template="/layouts/common/confirm"/>

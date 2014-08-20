@@ -1,14 +1,18 @@
 package stocks.codal.persist
 
+import stocks.alerting.QueryInstance
 import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 
 class AnnouncementPersistService {
 
     def grailsApplication
+    def queryService
+    def smsService
 
     Boolean update(AnnouncementEvent event) {
         def announcement = event.data as Announcement
+        beforeUpdate(event, announcement)
         def result = announcement.domainClass.persistantProperties.findAll {
             !(it.name in ['creationDate', 'modificationDate'])
         }.any { property ->
@@ -18,11 +22,15 @@ class AnnouncementPersistService {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
         announcement.save()
+        afterUpdate(event, announcement)
         result
     }
 
     Announcement create(AnnouncementEvent event) {
-        new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()]).save()
+        beforeCreate(event)
+        def data = new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()]).save()
+        afterCreate(event, data)
+        data
     }
 
     def grabFiles(AnnouncementEvent event) {
@@ -53,5 +61,20 @@ class AnnouncementPersistService {
                 }
             }
         }
+    }
+
+    protected void beforeCreate(AnnouncementEvent event) {
+
+    }
+
+    protected void afterCreate(AnnouncementEvent event, Announcement data) {
+        queryService.applyEventBasedQueries(data)
+    }
+
+    protected void beforeUpdate(AnnouncementEvent event, Announcement data) {
+
+    }
+
+    protected void afterUpdate(AnnouncementEvent event, Announcement data) {
     }
 }

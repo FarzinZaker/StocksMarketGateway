@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="site"/>
 		<title>Welcome to Stocks</title>
 	</head>
 	<body>

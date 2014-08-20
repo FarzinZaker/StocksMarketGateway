@@ -126,8 +126,8 @@
         operators: [
             {type: 'equal',            accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: '= ?'},
             {type: 'not_equal',        accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: '!= ?'},
-            {type: 'in',               accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: { op: 'IN(?)', list: true }},
-            {type: 'not_in',           accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: { op: 'NOT IN(?)', list: true }},
+//            {type: 'in',               accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: { op: 'IN(?)', list: true }},
+//            {type: 'not_in',           accept_values: true,  apply_to: ['string', 'number', 'datetime'], sql: { op: 'NOT IN(?)', list: true }},
             {type: 'less',             accept_values: true,  apply_to: ['number', 'datetime'], sql: '< ?'},
             {type: 'less_or_equal',    accept_values: true,  apply_to: ['number', 'datetime'], sql: '<= ?'},
             {type: 'greater',          accept_values: true,  apply_to: ['number', 'datetime'], sql: '> ?'},

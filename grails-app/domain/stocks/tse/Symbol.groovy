@@ -47,41 +47,41 @@ class Symbol {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'InstrumentID'
-        internalCode nullable: true, xmlNodeName: 'InsCode'
-        shortCode nullable: true, xmlNodeName: 'CValMne'
-        name nullable: true, xmlNodeName: 'LVal18'
-        company nullable: true, xmlNodeName: 'CIsin', fkColumn: 'Code'
-        companyName nullable: true, xmlNodeName: 'LSoc30'
-        companyCode nullable: true, xmlNodeName: 'CIsin'
-        companySmallCode nullable: true, xmlNodeName: 'CSocCSAC'
-        persianCode nullable: true, xmlNodeName: 'LVal18AFC'
-        persianName nullable: true, xmlNodeName: 'LVal30'
-        nominalValue nullable: true, xmlNodeName: 'QNmVlo'
-        stockCount nullable: true, xmlNodeName: 'ZTitad'
-        changeDate nullable: true, xmlNodeName: 'DESop', locale: 'en'
-        todayChangeType nullable: true, xmlNodeName: 'YOPSJ'
-        status nullable: true, inList: ['A', 'I', 'O'], xmlNodeName: 'CGdSVal'
-        groupCode nullable: true, xmlNodeName: 'CGrValCot'
-        firstTradeDate nullable: true, xmlNodeName: 'DInMar', locale: 'en'
-        valueUnit nullable: true, inList: ['0', '1'], xmlNodeName: 'YUniExpP'
-        marketCode nullable: true, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI'], xmlNodeName: 'YMarNSC'
-        board nullable: true, xmlNodeName: 'CComVal', fkColumn: 'Code'
-        boardCode nullable: true, xmlNodeName: 'CComVal'
-        industryGroup nullable: true, xmlNodeName: 'CSecVal', fkColumn: 'Code'
-        industryGroupCode nullable: true, xmlNodeName: 'CSoSecVal'
-        industrySubgroup nullable: true, xmlNodeName: 'CSoSecVal', fkColumn: 'Code'
-        industrySubgroupCode nullable: true, xmlNodeName: 'CSoSecVal'
-        settlementDelay nullable: true, xmlNodeName: 'YDeComp'
-        maxAllowedValue nullable: true, xmlNodeName: 'PSaiSMaxOkValMdv'
-        minAllowedValue nullable: true, xmlNodeName: 'PSaiSMinOkValMdv'
-        baseVolume nullable: true, xmlNodeName: 'BaseVol'
-        type nullable: true, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500'], xmlNodeName: 'YVal'
-        minTradableValueUnit nullable: true, xmlNodeName: 'QPasCotFxeVal'
-        minTradableStockCount nullable: true, xmlNodeName: 'QQtTranMarVal'
-        marketIdentifier nullable: true, inList: [0, 1, 2, 3, 4, 5], xmlNodeName: 'Flow'
-        minOrderVolume nullable: true, xmlNodeName: 'QtitMinSaiOmProd'
-        maxOrderVolume nullable: true, xmlNodeName: 'QtitMaxSaiOmProd'
-        date nullable: true, xmlNodeName: 'DEVen', locale: 'en'
+        code unique: true
+        internalCode nullable: true
+        shortCode nullable: true
+        name nullable: true
+        company nullable: true
+        companyName nullable: true
+        companyCode nullable: true
+        companySmallCode nullable: true
+        persianCode nullable: true
+        persianName nullable: true
+        nominalValue nullable: true
+        stockCount nullable: true
+        changeDate nullable: true
+        todayChangeType nullable: true
+        status nullable: true, inList: ['A', 'I', 'O']
+        groupCode nullable: true
+        firstTradeDate nullable: true
+        valueUnit nullable: true, inList: ['0', '1']
+        marketCode nullable: true, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI']
+        board nullable: true
+        boardCode nullable: true
+        industryGroup nullable: true
+        industryGroupCode nullable: true
+        industrySubgroup nullable: true
+        industrySubgroupCode nullable: true
+        settlementDelay nullable: true
+        maxAllowedValue nullable: true
+        minAllowedValue nullable: true
+        baseVolume nullable: true
+        type nullable: true, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
+        minTradableValueUnit nullable: true
+        minTradableStockCount nullable: true
+        marketIdentifier nullable: true, inList: [0, 1, 2, 3, 4, 5]
+        minOrderVolume nullable: true
+        maxOrderVolume nullable: true
+        date nullable: true
     }
 }

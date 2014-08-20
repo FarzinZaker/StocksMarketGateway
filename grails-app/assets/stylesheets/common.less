@@ -100,16 +100,31 @@ button {
 }
 
 #header {
-  background-color: #2a2d33;
+  background-color: #ffffff;
   padding: 10px 20px 10px 20px;
 }
 
 #menu {
-  background-color: #F5F7F8;
+  background: #ffffff; /* Old browsers */
+  background: -moz-linear-gradient(top,  #ffffff 0%, #f4f4f4 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f4f4f4)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #ffffff 0%,#f4f4f4 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
+
   font-size: 14px;
+  padding-right:20px;
+  border-color: #FFFFFF;
+  border-bottom-color: #f4f4f4;
   .k-popup {
     box-shadow: none;
   }
+}
+
+.k-rtl .k-menu .k-item, .k-rtl .k-widget.k-menu-horizontal > .k-item{
+  border-width: 0;
 }
 
 .highcharts-container {
@@ -538,6 +553,66 @@ span.has-error {
     & + .k-link {
       padding-bottom: 2px;
       padding-top: 0;
+    }
+  }
+}
+
+.k-menu .k-group .k-item > .k-link {
+  padding: 8px 25px !important;
+}
+
+.k-treeCombo{
+  .k-treeview{
+    border: 1px solid @editor-border-color;
+    background: @body-color;
+    z-index: 999999;
+    border-top-width: 0;
+    .treeNode-value{
+      display: none;
+    }
+  }
+}
+
+#categoryTree{
+//  border: 1px solid @editor-border-color !important;
+  background-color: @summary-back-color;
+  padding: 10px;
+  img{
+    width: 24px;
+    margin-left: 10px;
+  }
+  .k-state-selected{
+    box-shadow: none !important;
+  }
+  .k-in{
+    line-height: 24px;
+    display: inline-block;
+  }
+  .treeNode-value{
+    display: none;
+  }
+}
+
+.k-treeCombo{
+  #categoryTree{
+    background-color: @body-color;
+    padding: 0;
+  }
+}
+
+.k-ff {
+  overflow: inherit !important;
+}
+
+.container-fluid{
+  background: transparent !important;
+  .k-pager-wrap{
+    background: transparent;
+    .k-link{
+      background: @body-color;
+      &:hover{
+        background: @main-color
+      }
     }
   }
 }

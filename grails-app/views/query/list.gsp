@@ -5,7 +5,7 @@
   Time: 4:59 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="admin"/>
@@ -17,7 +17,49 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <h1><g:message code="query.list.title"/></h1>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-3">
+            <div class="k-rtl">
+                <script id="categoryTree-template" type="text/kendo-ui-template">
+                <span class='treeNode-text'>#:item.text#</span><span class='treeNode-value'>#:item.id#</span>
+                </script>
 
+                <div id="categoryTree"></div>
+                <input type="hidden" id="selectedCategory" value="0"/>
+            </div>
+            <script language="javascript" type="text/javascript">
+                $(document).ready(function () {
+                    var categoryTree = $("#categoryTree").kendoTreeView({
+                        dataSource: [<format:html value="${categoryTree as JSON}"/>],
+                        template: kendo.template($('#categoryTree-template').html()),
+                        select: function (e) {
+                            $("#selectedCategory").val($(e.node).children("div").find(".treeNode-value").text());
+                            var documentListView = $('#grid').data('kendoGrid');
+                            documentListView.dataSource.read();   // added line
+                            documentListView.refresh();
+                        }
+                    }).data('kendoTreeView');
+                    categoryTree.select(categoryTree.findByUid(categoryTree.dataSource.get(0).uid))
+                });
+            </script>
+        </div>
+        <div class="col-xs-9">
+            <div class="queryListContainer k-rtl">
+                <form:searchBox name="search" action="searchList"/>
+                <script language="javascript" type="text/javascript">
+                    function searchList() {
+                        var queryListView = $('#grid').data('kendoGrid');
+                        queryListView.dataSource.read();   // added line
+                        queryListView.refresh();
+                    }
+                </script>
+
+                <div id="queryListView"></div>
+
+                <div id="pager" class="k-pager-wrap"></div>
+            </div>
             <div class="k-rtl">
                 <div id="grid"></div>
             </div>
@@ -39,6 +81,7 @@
                                 parameterMap: function (data, action) {
                                     if (action === "read") {
                                         data.search = $('#search').val();
+                                        data.category = $('#selectedCategory').val();
                                         return data;
                                     } else {
                                         return data;

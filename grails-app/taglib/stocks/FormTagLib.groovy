@@ -65,7 +65,9 @@ class FormTagLib {
         } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${
             attrs.value ?: attrs.entity?."${attrs.name}" ?: ''
         }'
-                ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${attrs.validation}"
+                ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${
+            attrs.validation ?: ''
+        }"
             ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} />
 """
     }
@@ -76,10 +78,10 @@ class FormTagLib {
                 <input type='${attrs.type ?: 'text'}' class='number ${attrs.class ?: ''}' ${
             attrs.style ? "style='${attrs.style}'" : ''
         } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${
-            attrs.value ?: attrs.entity?."${attrs.name}" ?: ''
+            attrs.value != null ? attrs.value : attrs.entity?."${attrs.name}" ?: ''
         }'
                     ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${
-            attrs.validation
+            attrs.validation ?: ''
         }"
                 ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} />
             </span>
@@ -89,6 +91,7 @@ class FormTagLib {
             <script language='javascript' type='text/javascript'>
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoNumericTextBox({
+                        decimals: 0
                     });
                 });
             </script>
@@ -101,7 +104,7 @@ class FormTagLib {
             <textarea class='k-textbox ${attrs.class ?: ''}' ${
             attrs.style ? "style='${attrs.style}'" : ''
         } name='${attrs.name}' id='${attrs.id ?: attrs.name}'
-                data-validation="${attrs.validation}" >${attrs.entity?."${attrs.name}" ?: ''}</textarea>
+                data-validation="${attrs.validation ?: ''}" >${attrs.entity?."${attrs.name}" ?: ''}</textarea>
 """
     }
 
@@ -121,15 +124,11 @@ class FormTagLib {
 
     def select = { attrs, body ->
 
-        out << asset.javascript(src: 'kendo.ui/kendo.data.min.js')
-        out << asset.javascript(src: 'kendo.ui/kendo.list.min.js')
-        out << asset.javascript(src: 'kendo.ui/kendo.combobox.min.js')
-
         out << """
             <span class="k-rtl">
                 <input class="k-textbox" name='${attrs.name}' id="${attrs.id ?: attrs.name}" ${
             attrs.style ? "style='${attrs.style}'" : ''
-        } data-validation="${attrs.validation}" ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} ${
+        } data-validation="${attrs.validation ?: ''}" ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} ${
             attrs.value ? "value='${attrs.value}'" : ''
         } />
             </span>
@@ -143,7 +142,7 @@ class FormTagLib {
                         dataSource: data,
                         index: 0,
                         change : function (e) {
-                            ${attrs.onchange?"${attrs.onchange}(e);":''}
+                            ${attrs.onchange ? "${attrs.onchange}(e);" : ''}
                             if (this.value() && this.selectedIndex == -1) {
                                 var dt = this.dataSource._data[0];
                                 this.text(dt[this.options.dataTextField]);
@@ -184,7 +183,9 @@ class FormTagLib {
             attrs.class ? "class='${attrs.class}'" : ''
         } style='color:transparent;background-color:transparent;border-width:0;${
             attrs.width ? "width:${attrs.width}px;" : ''
-        }${attrs.style ?: ''}' name='${attrs.name}' id='${attrs.id ?: attrs.name}'  data-validation="${attrs.validation}">
+        }${attrs.style ?: ''}' name='${attrs.name}' id='${attrs.id ?: attrs.name}'  data-validation="${
+            attrs.validation ?: ''
+        }">
                     ${attrs.entity?."${attrs.name}" ?: ''}
                 </textarea>
             </div>
@@ -222,8 +223,6 @@ class FormTagLib {
     }
 
     def imageUpload = { attrs, body ->
-        out << asset.javascript(src: 'kendo.ui/kendo.list.min.js')
-        out << asset.javascript(src: 'kendo.ui/kendo.upload.min.js')
         def image = attrs.entity?."${attrs.name}"
         out << """
             <div class='k-rtl'>
@@ -321,6 +320,109 @@ class FormTagLib {
                         }
                     });
                     \$("#${attrs.id ?: attrs.name}").attr('name', '${attrs.id ?: attrs.name}');
+                });
+            </script>
+"""
+    }
+
+    def fillRecordChildren(root, domainClass, relationProperty, titleProperty, selectedId) {
+        def recordList
+        if (root)
+            recordList = domainClass.clazz.createCriteria().list {
+                eq("${relationProperty}.id", root.id)
+            }
+        else
+            recordList = domainClass.clazz.createCriteria().list {
+                isNull(relationProperty)
+            }
+
+        recordList.findAll { !it.deleted }.collect {
+            [
+                    id      : it.id,
+                    text    : it.properties[titleProperty],
+                    expanded: true,
+                    selected: it.id == selectedId,
+                    items   : fillRecordChildren(it, domainClass, relationProperty, titleProperty, selectedId)
+            ]
+        }
+    }
+
+    def treeCombo = { attrs, body ->
+        def domainClass = grailsApplication.getDomainClass(attrs.domainClass)
+        out << """
+            <div class='k-rtl k-treeCombo'>
+                <div id="${attrs.id ?: attrs.name}Tree"></div>
+
+                <input id="${attrs.id ?: attrs.name}" name="${attrs.name}" ${
+            attrs.style ? "style='${attrs.style}'" : ''
+        } value="${attrs.value}"></input>
+            </div>
+            <script id="${attrs.id ?: attrs.name}-treeview-template" type="text/kendo-ui-template">
+                <span class='treeNode-text'>#:item.text#</span><span class='treeNode-value'>#:item.id#</span>
+            </script>
+            <script type="text/javascript">
+                \$(document).ready(function() {
+                    var ${attrs.id ?: attrs.name}_dropdown = \$("#${attrs.id ?: attrs.name}").kendoDropDownList({
+                        dataSource: [{ text: "${
+            attrs.value > 0 ? domainClass.clazz.get(attrs.value)."${attrs.titleProperty}" : message(code: 'root')
+        }", value: "${attrs.value}" }],
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        open: function (e) {
+                            // If the treeview is not visible, then make it visible.
+                            if (!\$treeviewRootElem.hasClass("k-custom-visible")) {
+                            \$treeviewRootElem.css({ "top": \$${
+            attrs.id ?: attrs.name
+        }_dropdownRootElem.position().top + \$${attrs.id ?: attrs.name}_dropdownRootElem.height(), "right": \$${
+            attrs.id ?: attrs.name
+        }_dropdownRootElem.position().right });
+                                \$treeviewRootElem.slideToggle('fast', function() {
+                                    ${attrs.id ?: attrs.name}_dropdown.close();
+                                    \$treeviewRootElem.addClass("k-custom-visible");
+                                });
+                            }
+                        }
+                    }).data("kendoDropDownList");
+                    \$('#${attrs.id ?: attrs.name}-list').css('display', 'none').css('opacity', '0');
+                    var \$${attrs.id ?: attrs.name}_dropdownRootElem = \$(${attrs.id ?: attrs.name}_dropdown.element).closest("span.k-dropdown");
+
+                    var ${attrs.id ?: attrs.name}_treeview = \$("#${attrs.id ?: attrs.name}Tree").kendoTreeView({
+                        template: kendo.template(\$("#${attrs.id ?: attrs.name}-treeview-template").html()),
+                        dataSource: [{id: 0, text: '${message(code: 'root')}', expanded: true, selected: false, items:${
+            (fillRecordChildren(null, domainClass, attrs.relationProperty, attrs.titleProperty, attrs.value as Long)) as JSON
+        }}],
+                        select: function (e) {
+                            // When a node is selected, display the text for the node in the dropdown and hide the treeview.
+                            \$${attrs.id ?: attrs.name}_dropdownRootElem.find("span.k-input").text(\$(e.node).children("div").find(".treeNode-text").text());
+                            \$("#${attrs.id ?: attrs.name}").val(\$(e.node).children("div").find(".treeNode-value").text());
+                            ${attrs.onchange ? "${attrs.onchange}();" : ''}
+                            \$treeviewRootElem.slideToggle('fast', function() {
+                                \$treeviewRootElem.removeClass("k-custom-visible");
+                            });
+                        }
+                    }).data("kendoTreeView");
+                    ${attrs.id ?: attrs.name}_treeview.select(${attrs.id ?: attrs.name}_treeview.findByUid(${
+            attrs.id ?: attrs.name
+        }_treeview.dataSource.get(${attrs.value}).uid));
+                    var \$treeviewRootElem = \$(${attrs.id ?: attrs.name}_treeview.element).closest("div.k-treeview");
+                    \$treeviewRootElem
+                        .width(\$${attrs.id ?: attrs.name}_dropdownRootElem.width() - 2)
+                        .css({ "display": "none", "position": "absolute" });
+                    \$treeviewRootElem
+                        .css({ "top": \$${attrs.id ?: attrs.name}_dropdownRootElem.position().top + \$${
+            attrs.id ?: attrs.name
+        }_dropdownRootElem.height(), "right": \$${attrs.id ?: attrs.name}_dropdownRootElem.position().right });
+
+                    \$(document).click(function(e) {
+                        // Ignore clicks on the treetriew.
+                        if (\$(e.target).closest("div.k-treeview").length == 0) {
+                            if (\$treeviewRootElem.hasClass("k-custom-visible")) {
+                                \$treeviewRootElem.slideToggle('fast', function() {
+                                    \$treeviewRootElem.removeClass("k-custom-visible");
+                                });
+                            }
+                        }
+                    });
                 });
             </script>
 """
@@ -426,14 +528,9 @@ class FormTagLib {
 
     def button = { attrs, body ->
         out << """
-            <button name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}"
+            <span name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}"
                  ${attrs."ng-click" ? "ng-click='${attrs."ng-click"}'" : ''}
-                ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}>${attrs.text}</button>
-            <script language="javascript" type="text/javscript">
-                \$(document).ready(function(){
-                    \$('#${attrs.id ?: attrs.name}').kendoButton();
-                });
-            </script>
+                ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}>${attrs.text}</span>
 """
     }
 

@@ -29,21 +29,21 @@ class SymbolDailyTrade {
 
     static constraints = {
 //        marketIdentifier nullable: true, parameterIndex: 0
-        symbol nullable: true, xmlNodeName: 'InsCode', fkColumn: 'InternalCode'
-        symbolInternalCode nullable: true, xmlNodeName: 'InsCode'
-        symbolPersianCode nullable: true, xmlNodeName: 'LVal18AFC'
-        date nullable: true, xmlNodeName: 'DEven', locale: 'en', timeXmlNode: 'HEven'
-        totalTradeCount nullable: true, xmlNodeName: 'ZTotTran'
-        totalTradeVolume nullable: true, xmlNodeName: 'QTotTran5J'
-        totalTradeValue nullable: true, xmlNodeName: 'QTotCap'
-        symbolPersianName nullable: true, xmlNodeName: 'LVal30'
-        closingPrice nullable: true, xmlNodeName: 'PClosing'
-        firstTradePrice nullable: true, xmlNodeName: 'PriceFirst'
-        lastTradePrice nullable: true, xmlNodeName: 'PDrCotVal'
-        priceChange nullable: true, xmlNodeName: 'PriceChange'
-        minPrice nullable: true, xmlNodeName: 'PriceMin'
-        maxPrice nullable: true, xmlNodeName: 'PriceMax'
-        yesterdayPrice nullable: true, xmlNodeName: 'PriceYesterday'
-        isLast nullable: true, xmlNodeName: 'Last'
+        symbol nullable: true
+        symbolInternalCode nullable: true
+        symbolPersianCode nullable: true
+        date nullable: true
+        totalTradeCount nullable: true
+        totalTradeVolume nullable: true
+        totalTradeValue nullable: true
+        symbolPersianName nullable: true
+        closingPrice nullable: true
+        firstTradePrice nullable: true
+        lastTradePrice nullable: true
+        priceChange nullable: true
+        minPrice nullable: true
+        maxPrice nullable: true
+        yesterdayPrice nullable: true
+        isLast nullable: true
     }
 }

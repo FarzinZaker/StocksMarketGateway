@@ -10,6 +10,7 @@ class User {
     String username
     String password
     String sex
+    String mobile
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
@@ -24,6 +25,7 @@ class User {
         username blank: false, unique: true
         password blank: false
         sex nullable: true, inList: ['male', 'female']
+        mobile nullable: true
         image nullable: true
     }
 

@@ -21,13 +21,13 @@ class SymbolState {
 
     static constraints = {
 //        marketIdentifier nullable: true, parameterIndex: 0
-        symbol nullable: true, xmlNodeName: 'inscode', fkColumn: 'InternalCode'
-        symbolInternalCode nullable: true, xmlNodeName: 'inscode'
-        symbolPersianCode nullable: true, xmlNodeName: 'LVal18AFC'
-        symbolPersianName nullable: true, xmlNodeName: 'LVal30'
-        board nullable: true, xmlNodeName: 'LBoard', fkColumn: 'Name'
-        boardName nullable: true, xmlNodeName: 'LBoard'
-        description nullable: true, xmlNodeName: 'StateTypeDesc'
-        state nullable: true, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR'], xmlNodeName: 'CEtaVal'
+        symbol nullable: true
+        symbolInternalCode nullable: true
+        symbolPersianCode nullable: true
+        symbolPersianName nullable: true
+        board nullable: true
+        boardName nullable: true
+        description nullable: true
+        state nullable: true, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR']
     }
 }

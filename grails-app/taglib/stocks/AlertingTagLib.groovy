@@ -57,7 +57,6 @@ class AlertingTagLib {
                         \$('#${attrs.id ?: attrs.name}.query-builder .rule-value-container input[type=text]:not(.k-input)').kendoAutoComplete({
                             dataSource: \$scope.autoCompleteList,
                             dataTextField: "name",
-                            dataValueField: "value",
                             filter: "contains",
                             template: '<div class=\"autocomplete-row\"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
                         });

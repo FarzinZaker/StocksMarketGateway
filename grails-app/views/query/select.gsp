@@ -5,7 +5,7 @@ Date: 6/22/14
 Time: 2:53 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="site"/>
@@ -17,6 +17,37 @@ Time: 2:53 PM
     <div class="row-fluid">
         <div class="col-xs-12">
             <h1><g:message code="query.list.title"/></h1>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-3">
+            <div class="k-rtl">
+                <script id="categoryTree-template" type="text/kendo-ui-template">
+                <span class='treeNode-text'>#:item.text#</span><span class='treeNode-value'>#:item.id#</span>
+                </script>
+
+                <div id="categoryTree"></div>
+                <input type="hidden" id="selectedCategory" value="0"/>
+            </div>
+            <script language="javascript" type="text/javascript">
+                $(document).ready(function () {
+                    var categoryTree = $("#categoryTree").kendoTreeView({
+                        dataSource: [<format:html value="${categoryTree as JSON}"/>],
+                        template: kendo.template($('#categoryTree-template').html()),
+                        select: function (e) {
+                            $("#selectedCategory").val($(e.node).children("div").find(".treeNode-value").text());
+                            var queryListView = $('#queryListView').data('kendoListView');
+                            queryListView.dataSource.read();   // added line
+                            queryListView.refresh();
+                        }
+                    }).data('kendoTreeView');
+                    categoryTree.select(categoryTree.findByUid(categoryTree.dataSource.get(0).uid))
+                });
+            </script>
+        </div>
+
+        <div class="col-xs-9">
 
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
@@ -34,15 +65,15 @@ Time: 2:53 PM
             </div>
             <script type="text/x-kendo-tmpl" id="queryTemplate">
                 <div class="query" item-id="#:id#" >
-                    <span class='image'><a href='${createLink(action: 'register')}?query=#:id#'><img src="${asset.assetPath(src:'btn-select.png')}" alt="#:title#" /></a></span>
+                    <span class='image'><a href='${createLink(action: 'register')}?query=#:id#'><img src="#:imageUrl#" alt="#:title#" /></a></span>
                     <div class='text'>
                         <h3>#:title#</h3>
                         <p>#:description#</p>
                         <div class='parameters'>
-                        ${message(code:'query.parameters.list')}: <span>#:parameterTags#</span>
+                        ${message(code: 'query.parameters.list')}: <span>#:parameterTags#</span>
                         </div>
                         <div class='toolbar'>
-                            <a class='k-button' href='${createLink(action:'register')}?query=#:id#'>${message(code:'query.register.button')}</a>
+                            <a class='k-button' href='${createLink(action: 'register')}?query=#:id#'>${message(code: 'query.register.button')}</a>
                         </div>
                     </div>
                     <div class='clear-fix'></div>
@@ -63,6 +94,7 @@ Time: 2:53 PM
                             parameterMap: function (data, action) {
                                 if (action === "read") {
                                     data.search = $('#search').val();
+                                    data.category = $('#selectedCategory').val();
                                     return data;
                                 } else {
                                     return data;

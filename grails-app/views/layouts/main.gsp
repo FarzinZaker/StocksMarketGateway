@@ -38,7 +38,7 @@
             <asset:image src="admin-logo.png" alt="Admin"/>
         </a>
     </div>
-    <g:render template="/layouts/site/menu"/>
+    <g:render template="/layouts/main/menu"/>
     <g:layoutBody/>
 
     <g:render template="/layouts/common/confirm"/>

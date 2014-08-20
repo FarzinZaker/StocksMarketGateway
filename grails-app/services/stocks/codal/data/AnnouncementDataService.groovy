@@ -2,10 +2,16 @@ package stocks.codal.data
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import org.ccil.cowan.tagsoup.Parser
+import org.watij.webspec.dsl.WebSpec
+import org.xml.sax.InputSource
 import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 import stocks.tse.Company
 import stocks.tse.Symbol
+import groovyx.net.http.*
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+
 
 class AnnouncementDataService {
 
@@ -26,7 +32,16 @@ class AnnouncementDataService {
     }
 
     private void parseData(String url) {
-        def htmlParser = new XmlSlurper(new Parser()).parse(url)
+
+        WebSpec spec = new WebSpec().mozilla()
+        spec.open(url)
+        spec.show()
+        while(!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
+            Thread.sleep(1000)
+        def result = spec.source()
+        spec.close()
+
+        def htmlParser = new XmlSlurper(new Parser()).parseText(result)
         def containerDiv = htmlParser.'**'.find { it.@id == 'divLetterFormList' }
         def rows = containerDiv.'**'.findAll { it.name() == 'tr' }
         rows.remove(0)

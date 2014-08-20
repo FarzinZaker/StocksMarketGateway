@@ -1,0 +1,35 @@
+package stocks.tse.data
+
+import org.apache.axis.types.UnsignedByte
+import stocks.tse.Index
+import stocks.tse.IndexSymbol
+import stocks.tse.TSEDataService
+import stocks.tse.event.IndexSymbolEvent
+
+class IndexSymbolDataService extends TSEDataService<IndexSymbol, IndexSymbolEvent> {
+    @Override
+    protected IndexSymbolEvent getSampleEventObject() {
+        new IndexSymbolEvent()
+    }
+
+    @Override
+    protected IndexSymbol find(IndexSymbolEvent object) {
+        IndexSymbol.findByIndexCodeAndSymbolInternalCodeAndDate(object.indexCode, object.symbolInternalCode, object.date)
+    }
+
+    public void importData() {
+
+        def parameters = []
+        Index.createCriteria().listDistinct {
+            projections {
+                property('internalCode')
+            }
+        }.each { index ->
+            (0..5).each { market ->
+                parameters << [index, new UnsignedByte(market as String)]
+            }
+        }
+
+        importData('indexInstrument', parameters)
+    }
+}

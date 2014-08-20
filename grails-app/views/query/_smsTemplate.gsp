@@ -1,16 +1,40 @@
-<form:field fieldName="query.smsTemplate" border="0" showLabel="0">
+<%@ page import="stocks.TemplateHelper" %>
+<form:field fieldName="query.smsHeaderTemplate" border="0">
+    <form:textArea name="smsHeaderTemplate" entity="${queryInstance}"
+                   style="width:488px;height:70px;margin-top:10px;"/>
+</form:field>
+<div class="token-bar">
+    <g:each in="${TemplateHelper.SYSTEM_TOKENS}" var="token">
+        <span class="k-button"
+              onclick="addTokenToHeaderTemplate('[${message(code:"systemTokens.${token}.label")}]');"><g:message
+                code="systemTokens.${token}.label"/></span>
+    </g:each>
+</div>
+<form:field fieldName="query.smsBodyTemplate" border="0">
     <form:textArea name="smsTemplate" entity="${queryInstance}" validation="required"
                    style="width:488px;height:150px;margin-top:10px;"/>
-    <div style="margin-top:20px;">
-        <g:each in="${tokens}" var="token">
-            <span class="k-button" onclick="addTokenToSMSTemplate('[${message(code:"${domainClass}.${token}.label")}]');"><g:message code="${domainClass}.${token}.label"/></span>
-        </g:each>
-    </div>
 </form:field>
+<div class="token-bar">
+    <g:each in="${tokens}" var="token">
+        <span class="k-button"
+              onclick="addTokenToSMSTemplate('[${message(code:"${domainClass}.${token}.label")}]');"><g:message
+                code="${domainClass}.${token}.label"/></span>
+    </g:each>
+</div> <form:field fieldName="query.smsFooterTemplate" border="0">
+    <form:textArea name="smsFooterTemplate" entity="${queryInstance}"
+                   style="width:488px;height:70px;margin-top:10px;"/>
+</form:field>
+<div class="token-bar">
+    <g:each in="${TemplateHelper.SYSTEM_TOKENS}" var="token">
+        <span class="k-button"
+              onclick="addTokenToFooterTemplate('[${message(code:"systemTokens.${token}.label")}]');"><g:message
+                code="systemTokens.${token}.label"/></span>
+    </g:each>
+</div>
 
 <script language="javascript" type="text/javascript">
-    $.fn.insertAtCaret = function(text) {
-        return this.each(function() {
+    $.fn.insertAtCaret = function (text) {
+        return this.each(function () {
             if (document.selection && this.tagName == 'TEXTAREA') {
                 //IE textarea support
                 this.focus();
@@ -36,8 +60,16 @@
         });
     };
 
-    function addTokenToSMSTemplate(token){
+    function addTokenToSMSTemplate(token) {
         $('#smsTemplate').insertAtCaret(token);
+    }
+
+    function addTokenToHeaderTemplate(token) {
+        $('#smsHeaderTemplate').insertAtCaret(token);
+    }
+
+    function addTokenToFooterTemplate(token) {
+        $('#smsFooterTemplate').insertAtCaret(token);
     }
 
 </script>

@@ -60,6 +60,43 @@ class UserController {
         render "code error"
     }
 
+    def changePassword(){
+
+    }
+
+    def saveNewPassword() {
+        def user = (User) springSecurityService.currentUser
+        if (user.password == springSecurityService.encodePassword(params.oldPassword)) {
+            if (params.newPassword.trim() != '') {
+                if (params.newPassword == params.newPassword_confirmation) {
+                    user.password = params.newPassword
+                    if (user.validate() && user.save()) {
+                        flash.message = message(code: "password.change.success")
+                            redirect(action: 'passwordChanged')
+                    } else {
+                        flash.validationError = message(code: "password.change.fail")
+                        redirect(action: 'changePassword')
+                    }
+                } else {
+                    flash.validationError = message(code: "password.change.notMatch")
+                    redirect(action: 'changePassword')
+                }
+            } else {
+                flash.validationError = message(code: "password.change.emptyPassword")
+                redirect(action: 'changePassword')
+            }
+        } else {
+            flash.validationError = message(code: "password.change.invalidPassword")
+            redirect(action: 'changePassword')
+        }
+    }
+
+    def passwordChanged(){
+
+    }
+
+
+
     def follow() {
         def currentUser = springSecurityService.currentUser as User
         currentUser.get(currentUser.id)
@@ -93,4 +130,6 @@ class UserController {
     def home(){
         [user: springSecurityService.currentUser as User]
     }
+
+
 }

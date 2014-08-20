@@ -101,8 +101,8 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="grails-2.2.3" level="application" />
     <orderEntry type="module" module-name="Stocks-grailsPlugins" />
+    <orderEntry type="library" name="grails-2.2.3" level="application" />
   </component>
 </module>
 

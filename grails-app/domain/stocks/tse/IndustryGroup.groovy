@@ -13,7 +13,7 @@ class IndustryGroup {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CSecVal'
-        name nullable: true, xmlNodeName: 'LSecVal'
+        code unique: true
+        name nullable: true
     }
 }

@@ -17,7 +17,6 @@
     <asset:stylesheet src="kendo.ui/kendo.common-bootstrap.min.css" rel="stylesheet"/>
     <asset:stylesheet src="kendo.ui/kendo.metro.min.css" rel="stylesheet"/>
     <asset:stylesheet src="kendo.ui/kendo.rtl.min.css" rel="stylesheet"/>
-    <asset:stylesheet src="kendo.ui/kendo.menu.min.css" rel="stylesheet"/>
     <asset:javascript src="kendo.ui/kendo.all.min.js"/>
     %{--kendo.ui end--}%
     <asset:javascript src="dotdotdot.js"/>

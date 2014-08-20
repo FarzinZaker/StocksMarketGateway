@@ -31,6 +31,9 @@
                 <form:field fieldName="user.sex">
                     <form:select name="sex" entity="${user}" items="${[[text:message(code:'user.sex.male'),value:'male'],[text:message(code:'user.sex.female'),value:'female']]}" validation="required" style="width:500px;"/>
                 </form:field>
+                <form:field fieldName="user.mobile">
+                    <form:textBox name="mobile" entity="${user}" validation="required" style="width:500px;"/>
+                </form:field>
                 <form:field fieldName="user.email">
                     <form:textBox name="email" entity="${user}" validation="email" style="width:500px;"/>
                 </form:field>

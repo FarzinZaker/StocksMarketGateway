@@ -15,8 +15,8 @@ class SupervisorMessage {
     }
 
     static constraints = {
-        date xmlNodeName: 'DEven', locale: 'en', timeXmlNode: 'HEven'
-        title nullable: true, xmlNodeName: 'TseTitle'
-        description nullable: true, xmlNodeName: 'TseDesc'
+        date xmlNodeName: 'DEven'
+        title nullable: true
+        description nullable: true
     }
 }

@@ -1,6 +1,7 @@
 package stocks.alerting
 
 import org.apache.jasper.tagplugins.jstl.core.Param
+import stocks.Image
 import stocks.User
 
 class Query {
@@ -13,7 +14,12 @@ class Query {
     Rule rule
     User owner
     String smsTemplate
+    String smsHeaderTemplate
+    String smsFooterTemplate
     ScheduleTemplate scheduleTemplate
+    QueryCategory category
+    Image image
+    Integer maxRecordsCount = 0
 
     Boolean deleted = false
 
@@ -29,6 +35,9 @@ class Query {
 
     static constraints = {
         rule nullable: true
+        image nullable: true
+        smsHeaderTemplate nullable: true
+        smsFooterTemplate nullable: true
     }
 
     static transients = ['parameterListString']

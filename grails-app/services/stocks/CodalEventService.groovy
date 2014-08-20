@@ -2,6 +2,7 @@ package stocks
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
+import stocks.alerting.QueryInstance
 import stocks.codal.event.AnnouncementEvent
 
 class CodalEventService {

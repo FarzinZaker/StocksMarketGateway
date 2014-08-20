@@ -30,9 +30,12 @@ public abstract class TSEDataService<T, K> {
     protected abstract K getSampleEventObject();
 
     protected void importData(String serviceName, List<List> parameters){
+        tseEventGateway.open(sampleEventObject, serviceName, parameters)
+        def list = []
         parameters.each { parameter ->
-            parseData(serviceName, parameter)
+            list.addAll(parseData(serviceName, parameter))
         }
+        tseEventGateway.close(sampleEventObject, serviceName, parameters, list)
     }
 
     private void parseData(String serviceName, List parameter) {
@@ -41,6 +44,8 @@ public abstract class TSEDataService<T, K> {
         def obj = new XmlSlurper().parseText(xml._any[1].toString())
 
         def domainClass = new DefaultGrailsDomainClass(getSampleEventObject().class)
+
+        def list = []
         obj.children()[0].children().each { item ->
             def object = domainClass.newInstance()
 
@@ -90,7 +95,7 @@ public abstract class TSEDataService<T, K> {
             }
 
             object.data = find(object as K)
-            tseEventGateway.send(object)
+            list << tseEventGateway.send(object)
         }
     }
 

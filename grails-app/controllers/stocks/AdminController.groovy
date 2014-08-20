@@ -15,11 +15,16 @@ class AdminController {
     def marketActivityDataService
     def futureDataService
     def announcementDataService
+    def indexDataService
+    def indexSymbolDataService
+
+    def queryService
+    def smsService
 
     def index() {
     }
 
-    def test(){
+    def test() {
 //        boardDataService.importData()
 //        companyDataService.importData()
 //        industryGroupDataService.importData()
@@ -36,5 +41,13 @@ class AdminController {
 //        marketActivityDataService.importData()
 //        futureDataService.importData(new Date() - 2)
         announcementDataService.importData()
+//        indexDataService.importData()
+//        indexSymbolDataService.importData()
+//        def queryInstance = QueryInstance.get(14)
+//        render smsService.sendMessage(queryInstance, queryService.get(queryInstance))
+    }
+
+    def throwException(){
+        throw new Exception('test exception')
     }
 }

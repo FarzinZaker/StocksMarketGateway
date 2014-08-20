@@ -1,7 +1,6 @@
 package stocks.tse.data
 
 import stocks.tse.Future
-import stocks.tse.SymbolDailyTrade
 import stocks.tse.TSEDataService
 import stocks.tse.event.FutureEvent
 

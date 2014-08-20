@@ -16,10 +16,10 @@ class Company {
     }
 
     static constraints = {
-        marketIdentifier nullable: true, parameterIndex: 0
-        code unique: true, xmlNodeName: 'CIsin'
-        name nullable: true, xmlNodeName: 'LVal30'
-        internalCode nullable: true, xmlNodeName: 'NInsCode'
-        persianName nullable: true, xmlNodeName: 'LVal18AFC'
+        marketIdentifier nullable: true
+        code unique: true
+        name nullable: true
+        internalCode nullable: true
+        persianName nullable: true
     }
 }

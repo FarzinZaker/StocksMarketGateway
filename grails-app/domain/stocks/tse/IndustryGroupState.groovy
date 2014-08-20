@@ -15,9 +15,9 @@ class IndustryGroupState {
     }
 
     static constraints = {
-        industryGroupIdentifier nullable: true, xmlNodeName: 'CIdGrc'
-        date nullable: true, xmlNodeName: 'DEven', locale: 'en', timeXmlNode: 'HEVen'
-        state nullable: true, xmlNodeName: 'CEtaGrc'
-        isLast nullable: true, xmlNodeName: 'Last'
+        industryGroupIdentifier nullable: true
+        date nullable: true
+        state nullable: true
+        isLast nullable: true
     }
 }

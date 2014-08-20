@@ -22,6 +22,15 @@ class TSEEventService {
             event.data = service.create(event)
             event.save()
         }
+        event
+    }
+
+    def open(sampleEventObject, String serviceName, List<List> parameters){
+
+    }
+
+    def close(sampleEventObject, String serviceName, List<List> parameters, List eventList){
+
     }
 
     def send(Object event) {
@@ -31,6 +40,7 @@ class TSEEventService {
                 handle(event as BoardEvent)
                 break
         }
+        event
     }
 
     def handle(BoardEvent event) {

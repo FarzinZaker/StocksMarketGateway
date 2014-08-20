@@ -34,7 +34,7 @@ Time: 2:53 PM
             </div>
             <script type="text/x-kendo-tmpl" id="queryTemplate">
                 <div class="query" item-id="#:id#" >
-                    <span class='image'><a href='${createLink(action: 'register')}/#:id#'><img src="${asset.assetPath(src:'notification.png')}" alt="#:title#" /></a></span>
+                    <span class='image'><a href='${createLink(action: 'register')}/#:id#'><img src="#:imageUrl#" alt="#:title#" /></a></span>
                     <div class='text'>
                         <h3>#:title#</h3>
                         <p>#:description#</p>

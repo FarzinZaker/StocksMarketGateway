@@ -13,7 +13,7 @@ class Board {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CComVal'
-        name nullable: true, xmlNodeName: 'LBoard'
+        code unique: true
+        name nullable: true
     }
 }

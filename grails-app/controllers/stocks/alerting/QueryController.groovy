@@ -21,6 +21,9 @@ class QueryController {
             }.each {
                 queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${message(code: "${queryInstance.domainClazz}.${it.name}.label")}]")
             }
+            stocks.TemplateHelper.SYSTEM_TOKENS.each {
+                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it}]", "[${message(code: "systemTokens.${it}.label")}]")
+            }
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
             }.collect { it.name }
@@ -31,6 +34,7 @@ class QueryController {
                     queryInstance    : queryInstance,
                     domainClass      : queryInstance.domainClazz,
                     parameters       : Parameter.findAllByQuery(queryInstance),
+                    sortingRules     : SortingRule.findAllByQuery(queryInstance),
                     fields           : fields,
                     rules            : serializeRule(domainClass, queryInstance.rule),
                     scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
@@ -41,9 +45,13 @@ class QueryController {
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
             }.collect { it.name }
+            def tokens = domainClass.persistentProperties.findAll {
+                it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
+            }.collect { it.name }
             [
                     domainClass      : params.domainClass,
                     parameters       : [],
+                    sortingRules     : [],
                     fields           : fields,
                     rules            : [:],
                     scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
@@ -54,12 +62,61 @@ class QueryController {
 
     def save() {
         def query
+
+        //prepare parameters
+        if (params.parameterNames instanceof String) {
+            params.parameterNames = [params.parameterNames]
+            params.parameterTypes = [params.parameterTypes]
+            params.parameterValues = [params.parameterValues]
+        }
+
+        def parameters = []
+        params.parameterNames.eachWithIndex { parameterName, index ->
+            parameters << [name: parameterName, type: params.parameterTypes[index], defaultValue: params.parameterValues[index]]
+        }
+
+        //prepare sortingRules
+        if (params.sortingRuleFieldNames instanceof String) {
+            params.sortingRuleFieldNames = [params.parameterNames]
+            params.sortingRuleSortDirections = [params.sortingRuleSortDirections]
+            params.sortingRuleSortOrders = [params.sortingRuleSortOrders]
+        }
+
+        def sortingRules = []
+        params.sortingRuleFieldNames.eachWithIndex { fieldName, index ->
+            sortingRules << [fieldName: fieldName, sortDirection: params.sortingRuleSortDirections[index], sortOrder: params.sortingRuleSortOrders[index]]
+        }
+
         if (params.id) {
             query = Query.get(params.id)
             query.properties = params
 
-            Parameter.findAllByQuery(query).each {
-                it.delete()
+            Parameter.findAllByQueryAndNameNotInList(query, parameters.collect { it.name }).each { parameter ->
+                parameter.delete()
+            }
+
+            Parameter.findAllByQueryAndNameInList(query, parameters.collect { it.name }).each { parameter ->
+                def newParameter = parameters.find { it.name == parameter.name }
+                parameter.name = newParameter.name
+                parameter.type = newParameter.type
+                parameter.defaultValue = newParameter.defaultValue
+                parameter.save()
+            }
+
+            SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules.collect {
+                it.fieldName
+            }).each { sortingRule ->
+                sortingRule.delete()
+            }
+
+            SortingRule.findAllByQueryAndFieldNameInList(query, sortingRules.collect {
+                it.fieldName
+            }).each { sortingRule ->
+                def newSortingRule = sortingRules.find { it.fieldName == sortingRule.fieldName }
+                sortingRule.fieldName = newSortingRule.fieldName
+                sortingRule.sortDirection = newSortingRule.sortDirection
+                sortingRule.sortOrder = newSortingRule.sortOrder
+                sortingRule.save()
             }
 
             def currentRule = query.rule
@@ -75,23 +132,37 @@ class QueryController {
             query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate)
         }
 
+        query.category = QueryCategory.get(params.category)
+
         def domainClass = grailsApplication.getDomainClass(params.domainClazz)
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
         }.each {
             query.smsTemplate = query.smsTemplate.replace("[${message(code: "${query.domainClazz}.${it.name}.label")}]", "[${it.name}]")
         }
+        stocks.TemplateHelper.SYSTEM_TOKENS.each {
+            query.smsTemplate = query.smsTemplate.replace("[${message(code: "systemTokens.${it}.label")}]", "[${it}]")
+        }
 
-        query.save()
+
         query.rule = parseRule(domainClass, JSON.parse(params.query), null)
+        query.save()
 
-        params.parameterNames.eachWithIndex { parameterName, index ->
+        parameters.findAll { !Parameter.findByQueryAndName(query, it.name) }.each { param ->
             def parameter = new Parameter(query: query)
-            parameter.name = parameterName
-            parameter.type = params.parameterTypes[index]
-            if (params.parameterValues[index] && params.parameterValues[index] != '')
-                parameter.defaultValue = params.parameterValues[index]
+            parameter.name = param.name
+            parameter.type = param.type
+            if (param.defaultValue && param.defaultValue != '')
+                parameter.defaultValue = param.defaultValue
             parameter.save()
+        }
+
+        sortingRules.findAll { !SortingRule.findByQueryAndFieldName(query, it.fieldName) }.each { rule ->
+            def sortingRule = new SortingRule(query: query)
+            sortingRule.fieldName = rule.fieldName
+            sortingRule.sortDirection = rule.sortDirection
+            sortingRule.sortOrder = rule.sortOrder
+            sortingRule.save()
         }
 
         redirect(action: 'list')
@@ -142,6 +213,7 @@ class QueryController {
             return object
 
         if (rule.aggregationType) {
+            object.condition = rule.aggregationType
             object.rules = []
             Rule.findAllByParent(rule).each { childRule ->
                 object.rules << serializeRule(domainClass, childRule)
@@ -162,18 +234,62 @@ class QueryController {
     }
 
     def list() {
+        def root = [:]
+        root.id = 0
+        root.text = message(code: 'root')
+        root.items = getCategoryTree(null)
+        root.expanded = true
+        [categoryTree: root]
+    }
 
+    def findChildCategories(QueryCategory parent) {
+        def list = []
+        if (parent != null) {
+            list << parent
+
+            QueryCategory.findAllByParentAndDeleted(parent, false).each {
+                list = list + findChildCategories(it)
+            }
+        } else {
+            QueryCategory.findAllByParentIsNullAndDeleted(false).each {
+                list = list + findChildCategories(it)
+            }
+        }
+        list
     }
 
     def jsonList() {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "lastUpdated", order: params["sort[0][dir]"] ?: "desc"]
 
-        value.data = (params.search ?
-                Query.findAllByIdInListAndDeleted(Query.search(params.search?.toString()).results.collect {
-                    it.id
-                }, false, parameters) :
-                Query.findAllByDeleted(false, parameters)).collect {
+        def list = []
+        def idList = findChildCategories(QueryCategory.get(params.category as Long)).collect { it.id }
+        if (params.search && params.search != '') {
+            def searchResult = Query.search(params.search?.toString()).results.collect { it.id }
+
+            def criteria = {
+                eq('deleted', false)
+                'in'('id', searchResult)
+                category {
+                    'in'('id', idList)
+                }
+            }
+            list = Query.createCriteria().list(parameters, criteria)
+            value.total = Query.createCriteria().count(criteria)
+        } else {
+            def criteria = {
+                eq('deleted', false)
+                if (params.category != '0') {
+                    category {
+                        'in'('id', idList)
+                    }
+                }
+            }
+            list = Query.createCriteria().list(parameters, criteria)
+
+            value.total = Query.createCriteria().count(criteria)
+        }
+        value.data = list.collect {
             def parameterList = Parameter.findAllByQuery(it)
             [
                     id              : it.id,
@@ -182,6 +298,7 @@ class QueryController {
                     domainClazz     : message(code: "${it.domainClazz}.label"),
                     scheduleTemplate: it.scheduleTemplate?.title,
                     owner           : it.owner.toString(),
+                    imageUrl        : createLink(controller: 'image', id: it.image?.id, params: [size: 120]),
                     dateCreated     : format.jalaliDate(date: it.dateCreated, hm: 'true'),
                     lastUpdated     : format.jalaliDate(date: it.lastUpdated, hm: 'true'),
                     parameterTags   : parameterList?.size() > 0 ? parameterList.sort { it.name }.collect {
@@ -189,7 +306,6 @@ class QueryController {
                     }.join(' , ') : '-'
             ]
         }
-        value.total = Query.countByDeleted(false).toString()
         render value as JSON
     }
 
@@ -200,8 +316,36 @@ class QueryController {
         render(query.save() ? '1' : '0')
     }
 
-    def select() {
+    def getCategoryTree(root) {
+        def recordList
+        if (root)
+            recordList = QueryCategory.createCriteria().list {
+                parent {
+                    eq("id", root.id)
+                }
+                eq('deleted', false)
+            }
+        else
+            recordList = QueryCategory.findAllByParentIsNullAndDeleted(false)
 
+        recordList.collect {
+            [
+                    id      : it.id,
+                    text    : it.name,
+                    expanded: true,
+                    imageUrl: createLink(controller: 'image', id: it.image?.id, params: [size: '80']),
+                    items   : getCategoryTree(it)
+            ]
+        }
+    }
+
+    def select() {
+        def root = [:]
+        root.id = 0
+        root.text = message(code: 'root')
+        root.items = getCategoryTree(null)
+        root.expanded = true
+        [categoryTree: root]
     }
 
     def register() {
@@ -285,6 +429,7 @@ class QueryController {
                     domainClazz      : message(code: "${it.domainClazz}.label"),
                     scheduleTemplate : it.query?.scheduleTemplate?.title,
                     owner            : it.owner.toString(),
+                    imageUrl         : createLink(controller: 'image', id: it.query?.image?.id, params: [size: 120]),
                     dateCreated      : format.jalaliDate(date: it.dateCreated, hm: 'true'),
                     lastUpdated      : format.jalaliDate(date: it.lastUpdated, hm: 'true'),
                     parameterTags    : parameterList?.size() > 0 ? parameterList.sort { it.parameter.name }.collect {

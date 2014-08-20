@@ -19,6 +19,13 @@
                         defaultValue: it.defaultValue
                 ]
                 } as JSON}"/>
+        var sortingRuleList = <format:html value="${sortingRules.collect {
+                [
+                        fieldName: it.fieldName,
+                        sortDirection: it.sortDirection,
+                        sortOrder: it.sortOrder
+                ]
+                } as JSON}"/>
 
         var fieldList = <format:html value="${fields.collect{[name: message(code: "${domainClass}.${it}.label"), value: it, type:'field', typeString:message(code:"autocomplete.itemType.field")]} as JSON}"/>
         var parameterTypeString = "${message(code:'autocomplete.itemType.parameter')}"
@@ -46,6 +53,15 @@
                 <form:field fieldName="query.description">
                     <form:editor name="description" entity="${queryInstance}" validation="required" width="500"/>
                 </form:field>
+                <form:field fieldName="query.category">
+                    <form:treeCombo name="category" style="width:500px" value="${queryInstance?.category?.id ?: 0}"
+                                    domainClass="stocks.alerting.QueryCategory" relationProperty="parent"
+                                    titleProperty="name"/>
+                </form:field>
+                <form:field fieldName="query.image">
+                    <form:imageUpload name="image" style="width:500px;" entity="${queryInstance}"
+                                      saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
+                </form:field>
                 <form:field fieldName="query.scheduleTemplate">
                     <form:select name="scheduleTemplate" value="${queryInstance?.scheduleTemplate?.id}" items="${scheduleTemplates.collect{[text: it.title, value: it.id]}}" validation="required" style="width:500px;"/>
                 </form:field>
@@ -59,6 +75,9 @@
                                 <g:message code="query.build.filter.title"/>
                             </li>
                             <li>
+                                <g:message code="query.build.sorting.title"/>
+                            </li>
+                            <li>
                                 <g:message code="query.build.smsTemplate.title"/>
                             </li>
                         </ul>
@@ -69,6 +88,10 @@
 
                         <div>
                             <g:render template="query"/>
+                        </div>
+
+                        <div>
+                            <g:render template="sorting"/>
                         </div>
 
                         <div>
@@ -95,5 +118,6 @@
         });
     });
 </script>
+
 </body>
 </html>

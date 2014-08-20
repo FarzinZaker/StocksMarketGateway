@@ -31,25 +31,25 @@ class Future {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CCode'
-        date nullable: true, xmlNodeName: 'RecDate', locale: 'en'
-        settlementDate nullable: true, xmlNodeName: 'SettlementDate', locale: 'en'
-        initialMargin nullable: true, xmlNodeName: 'InitMargin'
-        minMargin nullable: true, xmlNodeName: 'MinMargin'
-        settlementPrice nullable: true, xmlNodeName: 'SettlementPrice'
-        maxBrokerOpenPositions nullable: true, xmlNodeName: 'MaxBrokerOP'
-        maxClientOpenPositions nullable: true, xmlNodeName: 'MaxClientOP'
-        maxMarketOpenPositions nullable: true, xmlNodeName: 'MaxMarketOP'
-        closingPrice nullable: true, xmlNodeName: 'ClosingPrice'
-        adjustedClosingPrice nullable: true, xmlNodeName: 'AdjPrice'
-        dayClosingPrice nullable: true, xmlNodeName: 'EditedPrice'
-        beginDate nullable: true, xmlNodeName: 'BeginDate', locale: 'en'
-        endDate nullable: true, xmlNodeName: 'EndDate', locale: 'en'
-        quantity nullable: true, xmlNodeName: 'Quantity'
-        adjustedQuantity nullable: true, xmlNodeName: 'AdjQuantity'
-        description nullable: true, xmlNodeName: 'Desc'
-        company nullable: true, xmlNodeName: 'Cisin', fkColumn: 'Code'
-        companyCode nullable: true, xmlNodeName: 'Cisin'
-        maxOrderCount nullable: true, xmlNodeName: 'MaxOrders'
+        code unique: true
+        date nullable: true
+        settlementDate nullable: true
+        initialMargin nullable: true
+        minMargin nullable: true
+        settlementPrice nullable: true
+        maxBrokerOpenPositions nullable: true
+        maxClientOpenPositions nullable: true
+        maxMarketOpenPositions nullable: true
+        closingPrice nullable: true
+        adjustedClosingPrice nullable: true
+        dayClosingPrice nullable: true
+        beginDate nullable: true
+        endDate nullable: true
+        quantity nullable: true
+        adjustedQuantity nullable: true
+        description nullable: true
+        company nullable: true
+        companyCode nullable: true
+        maxOrderCount nullable: true
     }
 }

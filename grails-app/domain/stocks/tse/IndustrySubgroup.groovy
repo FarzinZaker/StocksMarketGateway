@@ -16,10 +16,10 @@ class IndustrySubgroup {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CSoSecVal'
-        name nullable: true, xmlNodeName: 'LSoSecVal'
-        date nullable: true, xmlNodeName: 'DEven', locale: 'en'
-        industryGroup nullable: true, xmlNodeName: 'CSecVal', fkColumn: 'Code'
-        industryGroupCode nullable: true, xmlNodeName: 'CSecVal'
+        code unique: true
+        name nullable: true
+        date nullable: true
+        industryGroup nullable: true
+        industryGroupCode nullable: true
     }
 }

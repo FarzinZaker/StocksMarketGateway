@@ -23,14 +23,14 @@ class SymbolBestOrder {
 
     static constraints = {
 //        marketIdentifier nullable: true, parameterIndex: 0
-        number nullable: true, xmlNodeName: 'number'
-        symbol nullable: true, xmlNodeName: 'InsCode', fkColumn: 'InternalCode'
-        symbolInternalCode nullable: true, xmlNodeName: 'InsCode'
-        orderVolume nullable: true, xmlNodeName: 'QTitMeDem'
-        orderCount nullable: true, xmlNodeName: 'ZOrdMeDem'
-        orderValue nullable: true, xmlNodeName: 'PMeDem'
-        offerVolume nullable: true, xmlNodeName: 'ZOrdMeOf'
-        offerCount nullable: true, xmlNodeName: 'ZOrdMeOf'
-        offerValue nullable: true, xmlNodeName: 'PMeOf'
+        number nullable: true
+        symbol nullable: true
+        symbolInternalCode nullable: true
+        orderVolume nullable: true
+        orderCount nullable: true
+        orderValue nullable: true
+        offerVolume nullable: true
+        offerCount nullable: true
+        offerValue nullable: true
     }
 }

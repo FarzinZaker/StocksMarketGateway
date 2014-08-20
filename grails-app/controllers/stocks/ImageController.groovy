@@ -12,10 +12,13 @@ class ImageController {
     def index() {
         def image = Image.get(params.id)
         def content = image?.content
+        def sizeFlag = ''
+        if(params.size)
+            sizeFlag = "${params.size}x${params.size}-"
         if (content)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${params.size}x${params.size}-${image?.name}").getBytes()
+            content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
         else if (params.default)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${params.size}x${params.size}-${params.default}.png").getBytes()
+            content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
         if (!content) {
             render ''
             return

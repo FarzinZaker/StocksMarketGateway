@@ -20,14 +20,14 @@ class MarketActivity {
     }
 
     static constraints = {
-        marketIdentifier nullable: true, parameterIndex: 0
-        indexLastValue nullable: true, xmlNodeName: 'IndexLastValue'
-        indexChange nullable: true, xmlNodeName: 'IndexChange'
-        date nullable: true, xmlNodeName: 'MarketActivityDEven', locale: 'en', timeXmlNode: 'MarketActivityDEven'
-        tradeCount nullable: true, xmlNodeName: 'MarketActivityZTotTran'
-        tradeValue nullable: true, xmlNodeName: 'MarketActivityQTotCap'
-        tradeVolume nullable: true, xmlNodeName: 'MarketActivityQTotTran'
-        state nullable: true, xmlNodeName: 'MarketState'
-        value nullable: true, xmlNodeName: 'MarketValue'
+        marketIdentifier nullable: true
+        indexLastValue nullable: true
+        indexChange nullable: true
+        date nullable: true
+        tradeCount nullable: true
+        tradeValue nullable: true
+        tradeVolume nullable: true
+        state nullable: true
+        value nullable: true
     }
 }
