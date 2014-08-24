@@ -31,6 +31,8 @@ class UserController {
 
         if (user.validate() && user.save()) {
 
+            UserRole.create user, Role.findByAuthority(RoleHelper.ROLE_USER)
+
             mailService.sendMail {
                 to user.email
                 subject message(code: 'emailTemplates.email_verification.subject')

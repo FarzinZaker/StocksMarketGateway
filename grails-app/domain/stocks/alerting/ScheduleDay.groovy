@@ -3,8 +3,8 @@ package stocks.alerting
 class ScheduleDay {
 
     String day
-    Integer startTimeInMinute
-    Integer endTimeInMinute
+    Integer startTimeInMinute = -1
+    Integer endTimeInMinute = -1
 
     Schedule schedule
 

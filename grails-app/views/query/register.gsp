@@ -5,15 +5,25 @@
   Time: 4:21 PM
 --%>
 
-<%@ page import="stocks.alerting.ScheduleDay" contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.alerting.ScheduleTime" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="site"/>
     <title><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></title>
+    <asset:javascript src="angular.min.js"/>
+    <asset:stylesheet src="jquery-clockpicker.css"/>
+    <asset:javascript src="jquery-clockpicker.js"/>
+    <script language="JavaScript">
+        var timeList =
+        <format:html value="${ScheduleTime.findAllBySchedule(queryInstance?.schedule)?.collect {
+                [value: String.format('%02d:%02d', (it.timeInMinute / 60).toInteger(), (it.timeInMinute % 60).toInteger())]
+    } as grails.converters.JSON}"/>
+    </script>
+    <asset:javascript src="alerting.register.controller.js"/>
 </head>
 
 <body>
-<div class="container-fluid">
+<div class="container-fluid" id="ngController" ng-controller="alertingRegisterController">
     <div class="row-fluid">
         <div class="col-xs-12">
             <h1><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></h1>
@@ -22,29 +32,7 @@
             <form:form name="registerForm" action="saveRegistration">
                 <form:hidden name="id" value="${queryInstance?.id}"/>
                 <form:hidden name="queryId" value="${params.query ?: queryInstance?.query?.id}"/>
-                <g:each in="${stocks.alerting.Parameter.findAllByQuery(queryInstance.query)}" var="parameter">
-                    <form:field label="${parameter.name}">
-                        <g:if test="${parameter.type == 'date'}">
-                            <form:datePicker name="parameter_${parameter.id}" validation="required" style="width:500px"
-                                             value="${queryInstance.parameterValues?.find {
-                                                 it.parameter?.id == parameter?.id
-                                             }?.value ?: parameter.defaultValue}"/>
-                        </g:if>
-                        <g:elseif test="${parameter.type == 'integer'}">
-                            <form:numericTextBox name="parameter_${parameter.id}" validation="required"
-                                                 style="width:500px"
-                                                 value="${queryInstance.parameterValues?.find {
-                                                     it.parameter?.id == parameter?.id
-                                                 }?.value ?: parameter.defaultValue}"/>
-                        </g:elseif>
-                        <g:elseif test="${parameter.type == 'string'}">
-                            <form:textBox name="parameter_${parameter.id}" validation="required" style="width:500px"
-                                          value="${queryInstance.parameterValues?.find {
-                                              it.parameter?.id == parameter?.id
-                                          }?.value ?: parameter.defaultValue}"/>
-                        </g:elseif>
-                    </form:field>
-                </g:each>
+                <g:render template="register/parameters"/>
                 <form:field fieldName="query.register.scheduleType" showHelp="${scheduleTypes?.size() > 1 ? '1' : '0'}"
                             showLabel="${scheduleTypes?.size() > 1 ? '1' : '0'}">
                     <g:if test="${scheduleTypes?.size() > 1}">
@@ -59,49 +47,11 @@
                     </g:else>
                 </form:field>
                 <div id="periodicScheduleForm" style="display: none;">
-                    <form:field fieldName="query.register.interval">
-                        <form:select items="${queryInstance.query.scheduleTemplate.intervalSteps.collect {
-                            [text: "${it >= 60 ? Math.floor(it / 60).toInteger() + ' ' + message(code: 'hour') : ''}" + " ${it >= 60 && it % 60 > 0 ? message(code: 'and') : ''} " + "${it % 60 > 0 ? it % 60 + ' ' + message(code: 'minute') : ''}", value: it]
-                        }}"
-                                     style="width:500px;" name="intervalStep"
-                                     value="${queryInstance?.schedule?.intervalStep}"/>
-                    </form:field>
-                    <div class="k-rtl">
-                        <div id="tabstrip">
-                            <ul>
-                                <g:each in="${queryInstance.query?.scheduleTemplate?.dayTemplates?.sort {
-                                    it.id
-                                }?.collect {
-                                    it.day
-                                }}" var="day">
-                                    <li>
-                                        <g:message code="ScheduleDayTemplate.${day}.label"/>
-                                    </li>
-                                </g:each>
+                    <g:render template="register/periodicSchedule"/>
+                </div>
 
-                                <script language="javascript" type="text/javascript">
-                                    $($('#tabstrip ul li').get(0)).addClass('k-state-active');
-                                </script>
-                            </ul>
-
-                            <g:each in="${queryInstance.query?.scheduleTemplate?.dayTemplates?.sort { it.id }?.collect {
-                                it.day
-                            }}" var="day">
-                                <div>
-                                    <g:render template="daySchedule"
-                                              model="${[
-                                                      day                : day,
-                                                      scheduleDayTemplate: queryInstance.query?.scheduleTemplate?.dayTemplates?.find {
-                                                          it.day == day
-                                                      },
-                                                      daySchedule        : queryInstance.schedule?.days?.find {
-                                                          it.day == day
-                                                      }
-                                              ]}"/>
-                                </div>
-                            </g:each>
-                        </div>
-                    </div>
+                <div id="specificTimeScheduleForm" style="display: none">
+                    <g:render template="register/specificTimeSchedule"/>
                 </div>
 
                 <div class="toolbar">
@@ -118,6 +68,11 @@
             $('#periodicScheduleForm').stop().slideDown();
         else
             $('#periodicScheduleForm').stop().slideUp();
+
+        if ($('#scheduleType').data('kendoComboBox').value() == 'specificTime')
+            $('#specificTimeScheduleForm').stop().slideDown();
+        else
+            $('#specificTimeScheduleForm').stop().slideUp();
     }
 
     $(document).ready(function () {

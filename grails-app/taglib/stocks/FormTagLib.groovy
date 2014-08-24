@@ -116,7 +116,7 @@ class FormTagLib {
         out << """
                 <input type="checkbox" class="css-checkbox" id="${attrs.id ?: attrs.name}" name="${attrs.name}"
                     ${attrs.checked ? "checked='checked'" : ''} ${attrs.onchange ? "onchange='${attrs.onchange}'" : ''} />
-                <label class="css-label" for="${attrs.id ?: attrs.name}">
+                <label class="css-label" for="${attrs.id ?: attrs.name}" style="${attrs.style}">
                     ${attrs.text}
                 </label>
 """

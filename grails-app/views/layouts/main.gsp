@@ -38,8 +38,9 @@
             <asset:image src="logo.png" alt="stocks"/>
         </a>
         <g:render template="/layouts/common/userPanel"/>
+        <g:render template="/layouts/site/menu"/>
+        <asset:image src="watermark.png" class="watermark"/>
     </div>
-    <g:render template="/layouts/main/menu"/>
     <g:layoutBody/>
 
     <g:render template="/layouts/common/confirm"/>

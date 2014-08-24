@@ -35,6 +35,7 @@ class ScheduleTemplateController {
         scheduleTemplate.title = params.title
         scheduleTemplate.eventBasedNotificationEnabled = params.eventBasedNotificationEnabled == 'on'
         scheduleTemplate.periodicNotificationEnabled = params.periodicNotificationEnabled == 'on'
+        scheduleTemplate.specificTimeNotificationEnabled = params.specificTimeNotificationEnabled == 'on'
         if (scheduleTemplate.periodicNotificationEnabled) {
             scheduleTemplate.intervalSteps = params.intervalSteps instanceof String[] ? params.intervalSteps.collect {
                 it.toInteger()

@@ -265,7 +265,7 @@ class QueryController {
         list
     }
 
-    @Secured([RoleHelper.ROLE_ADMIN])
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
     def jsonList() {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "lastUpdated", order: params["sort[0][dir]"] ?: "desc"]
@@ -366,6 +366,8 @@ class QueryController {
             scheduleTypes << 'eventBased'
         if (queryInstance.query.scheduleTemplate.periodicNotificationEnabled)
             scheduleTypes << 'periodic'
+        if (queryInstance.query.scheduleTemplate.specificTimeNotificationEnabled)
+            scheduleTypes << 'specificTime'
         [queryInstance: queryInstance, scheduleTypes: scheduleTypes]
     }
 
@@ -391,6 +393,8 @@ class QueryController {
         queryInstance.save()
 
         ScheduleDay.findAllBySchedule(queryInstance.schedule).each { it.delete() }
+        ScheduleTime.findAllBySchedule(queryInstance.schedule).each { it.delete() }
+
         if (queryInstance.schedule?.type == 'periodic') {
             queryInstance.query.scheduleTemplate.dayTemplates.collect { it.day }.each { day ->
                 def scheduleDay = new ScheduleDay(day: day)
@@ -398,6 +402,25 @@ class QueryController {
                 scheduleDay.endTimeInMinute = params."${day}_allowedTimeRangeEnd".toInteger()
                 scheduleDay.schedule = queryInstance.schedule
                 scheduleDay.save()
+            }
+        }
+
+        if (queryInstance.schedule?.type == 'specificTime') {
+            ScheduleDay.constraints.day.inList.findAll { params."scheduleTime_${it}" }.each { day ->
+                def scheduleDay = new ScheduleDay(day: day)
+                scheduleDay.schedule = queryInstance.schedule
+                scheduleDay.save()
+            }
+
+            def scheduleTimes = params.scheduleTimes
+            if (scheduleTimes instanceof String)
+                scheduleTimes = [scheduleTimes]
+            scheduleTimes.each { time ->
+                def scheduleTime = new ScheduleTime()
+                def timeParts = time.split(':')
+                scheduleTime.timeInMinute = timeParts[0].toInteger() * 60 + timeParts[1].toInteger()
+                scheduleTime.schedule = queryInstance.schedule
+                scheduleTime.save()
             }
         }
 

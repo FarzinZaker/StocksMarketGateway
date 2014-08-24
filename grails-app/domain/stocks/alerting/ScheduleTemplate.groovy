@@ -10,6 +10,7 @@ class ScheduleTemplate {
     String intervalStepsString
     Boolean eventBasedNotificationEnabled = true
     Boolean periodicNotificationEnabled = true
+    Boolean specificTimeNotificationEnabled = true
     User owner
 
     Boolean deleted = false

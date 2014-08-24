@@ -43,6 +43,12 @@
                                        text="${message(code: 'scheduleTemplateInstance.periodicNotificationEnabled')}"
                                        onchange="toggle_periodicSchedule(this);"/>
                     </div>
+
+                    <div style="width: 500px;">
+                        <form:checkbox checked="${scheduleTemplateInstance?.specificTimeNotificationEnabled}"
+                                       name="specificTimeNotificationEnabled"
+                                       text="${message(code: 'scheduleTemplateInstance.specificTimeNotificationEnabled')}"/>
+                    </div>
                 </form:field>
                 <div id="periodicScheduleForm" style="display: none;">
                     <form:field fieldName="scheduleTemplate.intervalSteps">

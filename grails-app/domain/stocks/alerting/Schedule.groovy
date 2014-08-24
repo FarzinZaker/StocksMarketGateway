@@ -4,6 +4,7 @@ class Schedule {
 
     Integer intervalStep
 
+
     Date dateCreated
     Date lastUpdated
 
@@ -12,7 +13,7 @@ class Schedule {
     static hasMany = [days: ScheduleDay]
 
     static constraints = {
-        type nullable: true, inList: ['eventBased', 'periodic']
+        type nullable: true, inList: ['eventBased', 'periodic', 'specificTime']
     }
 
     static mapping = {
