@@ -8,19 +8,15 @@
 <%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="admin"/>
+    <meta name="layout" content="main"/>
     <title><g:message code="query.list.title"/></title>
 </head>
 
 <body>
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
-        <div class="col-xs-12">
-            <h1><g:message code="query.list.title"/></h1>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="col-xs-3">
+        <div class="col-xs-3" style="padding-top:100px;">
+            <h2><g:message code="query.category.select"/></h2>
             <div class="k-rtl">
                 <script id="categoryTree-template" type="text/kendo-ui-template">
                 <span class='treeNode-text'>#:item.text#</span><span class='treeNode-value'>#:item.id#</span>
@@ -46,6 +42,7 @@
             </script>
         </div>
         <div class="col-xs-9">
+            <h1><g:message code="query.list.title"/></h1>
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

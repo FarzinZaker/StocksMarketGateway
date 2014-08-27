@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="site"/>
+    <meta name="layout" content="main"/>
     <title><g:message code="home"/></title>
     <asset:javascript src="scroll-pagination.js"/>
 </head>

@@ -17,6 +17,7 @@ class QueuedMessage {
         table 'alerting_message_queued'
         tablePerHierarchy false
         user lazy: true
+        body type:'text'
     }
 
     static constraints = {

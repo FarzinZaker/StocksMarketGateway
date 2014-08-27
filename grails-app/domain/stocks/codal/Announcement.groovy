@@ -31,7 +31,7 @@ class Announcement {
 
     static constraints = {
         symbol nullable: true
-        symbolPersianCode nullable: true, query: true, token: true
+        symbolPersianCode nullable: true, query: true, token: true, sourceDomain: 'tse.Symbol', sourceField: 'PersianCode'
         company nullable: true
         companyName nullable: true, query: true, token: true
         title nullable: true, query: true, token: true

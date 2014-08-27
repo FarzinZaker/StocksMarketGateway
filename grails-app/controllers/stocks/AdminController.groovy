@@ -1,6 +1,7 @@
 package stocks
 
 import grails.plugins.springsecurity.Secured
+import stocks.alerting.QueryInstance
 
 @Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -21,8 +22,10 @@ class AdminController {
     def indexDataService
     def indexSymbolDataService
 
+
     def queryService
     def smsService
+    def scheduleService
 
     def index() {
     }
@@ -43,14 +46,18 @@ class AdminController {
 //        symbolDailyTradeDataService.importData(65122215875355555, (new Date() - 5), new Date())
 //        marketActivityDataService.importData()
 //        futureDataService.importData(new Date() - 2)
-        announcementDataService.importData()
+//        announcementDataService.importData()
 //        indexDataService.importData()
 //        indexSymbolDataService.importData()
 //        def queryInstance = QueryInstance.get(14)
-//        render smsService.sendMessage(queryInstance, queryService.get(queryInstance))
+//        render smsService.sendEventBasedMessage(queryInstance, queryService.get(queryInstance))
     }
 
     def throwException(){
         throw new Exception('test exception')
+    }
+
+    def scheduleItem(){
+        scheduleService.calculateQueryInstanceNextExecutionTime(QueryInstance.get(params.id))
     }
 }

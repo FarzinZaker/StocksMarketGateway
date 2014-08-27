@@ -16,6 +16,7 @@ class SentMessage {
         table 'alerting_message_sent'
         tablePerHierarchy false
         user lazy: true
+        body type:'text'
     }
 
     static constraints = {

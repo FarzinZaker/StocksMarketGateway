@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="admin"/>
+    <meta name="layout" content="main"/>
     <title>DraggableChart</title>
     <asset:javascript src="highcharts/highcharts.js"/>
     <asset:javascript src="highcharts/highcharts-more.js"/>

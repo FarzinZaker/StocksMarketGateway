@@ -2,6 +2,7 @@ package stocks.tse
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import stocks.FarsiNormalizationFilter
 import stocks.tse.ws.old.TsePublicV2Locator
 import stocks.tse.ws.old.TsePublicV2Soap_PortType
 
@@ -29,7 +30,7 @@ public abstract class TSEDataService<T, K> {
 
     protected abstract K getSampleEventObject();
 
-    protected void importData(String serviceName, List<List> parameters){
+    protected void importData(String serviceName, List<List> parameters) {
         tseEventGateway.open(sampleEventObject, serviceName, parameters)
         def list = []
         parameters.each { parameter ->
@@ -82,13 +83,13 @@ public abstract class TSEDataService<T, K> {
 
                             break
                         case String:
-                            object."${property.key}" = value as String
+                            object."${property.key}" = FarsiNormalizationFilter.apply(value as String)
                             break
                         default:
                             object."${property.key}" = parseForeignKey(
                                     property.value.propertyType.name,
                                     domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
-                                    value)
+                                    FarsiNormalizationFilter.apply(value as String))
                     }
                     println(value)
                 }

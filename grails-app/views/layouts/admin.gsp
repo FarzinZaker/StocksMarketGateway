@@ -53,5 +53,6 @@
     <g:message code="copyright"/>
 </div>
 <asset:javascript src="bootstrap/bootstrap.js"/>
+<asset:javascript src="common.js"/>
 </body>
 </html>

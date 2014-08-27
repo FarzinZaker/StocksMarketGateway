@@ -57,5 +57,6 @@
     var likeUrl = '${createLink(controller: 'like')}';
 </script>
 <asset:javascript src="like.js"/>
+<asset:javascript src="common.js"/>
 </body>
 </html>

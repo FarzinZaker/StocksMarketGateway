@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="admin"/>
+    <meta name="layout" content="main"/>
     <title>Stocks Admin</title>
 </head>
 

@@ -10,7 +10,8 @@ class QueryInstance {
     Schedule schedule
     User owner
     Boolean enabled = true
-    Date lastExecutionDate
+    Date lastExecutionTime
+    Date nextExecutionTime
 
     Boolean deleted = false
 
@@ -24,6 +25,7 @@ class QueryInstance {
     }
 
     static constraints = {
+        nextExecutionTime nullable: true
     }
 
     static transients = ['title', 'description', 'domainClazz', 'smsTemplate', 'parameterListString']
@@ -40,8 +42,16 @@ class QueryInstance {
         query?.description ?: ''
     }
 
+    String getSmsHeaderTemplate() {
+        query?.smsHeaderTemplate ?: ''
+    }
+
     String getSmsTemplate() {
         query?.smsTemplate ?: ''
+    }
+
+    String getSmsFooterTemplate() {
+        query?.smsFooterTemplate ?: ''
     }
 
     String getParameterListString() {

@@ -52,15 +52,6 @@ class AlertingTagLib {
                     \$('#${attrs.id ?: attrs.name}.query-builder select').addClass('furnished').change(function(){
                         \$(this).data("kendoComboBox").select(\$(this).find('option:selected').index());
                     });
-                    var \$scope = angular.element(document.getElementById('ngController')).scope();
-                    if(\$scope)
-                        \$('#${attrs.id ?: attrs.name}.query-builder .rule-value-container input[type=text]:not(.k-input)').kendoAutoComplete({
-                            dataSource: \$scope.autoCompleteList,
-                            dataTextField: "name",
-                            filter: "contains",
-                            template: '<div class=\"autocomplete-row\"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
-                        });
-//                    \$('#${attrs.id ?: attrs.name}.query-builder .rule-value-container .hasDatepicker').addClass('k-textbox');
                 }
             </script>
 
@@ -75,11 +66,14 @@ class AlertingTagLib {
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
         }.each { property ->
+
+            def sourceDomain = property.domainClass.constrainedProperties."${property.name}".metaConstraints.sourceDomain
+
             def filter = [:]
 
             filter.id = property.name
             filter.label = message code: "${domainClass.fullName}.${property.name}.label"
-            filter.type = formatFieldType property.type
+            filter.type = sourceDomain ? 'domain' : formatFieldType(property.type)
 
             if (property.type == Date) {
                 filter.validation = [format: 'YYYY/MM/DD']
@@ -89,8 +83,14 @@ class AlertingTagLib {
                         todayBtn      : 'linked',
                         todayHighlight: true,
                         autoclose     : true,
-                        language          : 'fa'
+                        language      : 'fa'
                 ]
+            }
+
+            if (filter.type == 'domain') {
+                filter.sourceDomain = sourceDomain
+                filter.sourceField = property.domainClass.constrainedProperties."${property.name}".metaConstraints.sourceField
+                filter.dataUrl = createLink(controller: 'query', action: 'autoComplete', params: [sourceDomain: filter.sourceDomain, sourceField: filter.sourceField])
             }
 
             options.filters << filter
@@ -115,8 +115,8 @@ class AlertingTagLib {
                         ));
                     });
 """
-        if(attrs.value)
-        out << """
+        if (attrs.value)
+            out << """
                     \$('#${attrs.id ?: attrs.name}').queryBuilder('setRules', ${attrs.value as JSON});
 """
         out << """

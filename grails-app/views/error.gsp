@@ -4,7 +4,7 @@
     <title>
         <g:message code="error.title"/>
     </title>
-    <meta name="layout" content="site">
+    <meta name="layout" content="main">
     <g:if env="development">
         <asset:stylesheet src="errors.css"/>
     </g:if>

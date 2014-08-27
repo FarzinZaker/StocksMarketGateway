@@ -2,6 +2,7 @@ package stocks.alerting
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.commons.GrailsClass
+import stocks.FarsiNormalizationFilter
 import stocks.RoleHelper
 import stocks.User
 import grails.plugins.springsecurity.Secured
@@ -10,6 +11,7 @@ class QueryController {
 
     def springSecurityService
     def grailsApplication
+    def scheduleService
 
 
     @Secured([RoleHelper.ROLE_ADMIN])
@@ -24,10 +26,12 @@ class QueryController {
             domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
             }.each {
-                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${message(code: "${queryInstance.domainClazz}.${it.name}.label")}]")
+                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${FarsiNormalizationFilter.apply(message(code: "${queryInstance.domainClazz}.${it.name}.label"))}]")
             }
             stocks.TemplateHelper.SYSTEM_TOKENS.each {
-                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it}]", "[${message(code: "systemTokens.${it}.label")}]")
+                queryInstance.smsHeaderTemplate = queryInstance.smsHeaderTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+                queryInstance.smsFooterTemplate = queryInstance.smsFooterTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
             }
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
@@ -35,6 +39,20 @@ class QueryController {
             def tokens = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
             }.collect { it.name }
+            def parameterTypes = domainClass.persistentProperties.findAll {
+                it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField
+            }.collect {
+                [text        : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
+                 sourceDomain: it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain,
+                 sourceField : it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField]
+            } + [
+                    [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
+                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
+                    [text: message(code: 'query.build.parameters.type.date'), value: 'date']
+            ]
+
             [
                     queryInstance    : queryInstance,
                     domainClass      : queryInstance.domainClazz,
@@ -43,7 +61,8 @@ class QueryController {
                     fields           : fields,
                     rules            : serializeRule(domainClass, queryInstance.rule),
                     scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
-                    tokens           : tokens
+                    tokens           : tokens,
+                    parameterTypeList: parameterTypes
             ]
         } else {
             def domainClass = grailsApplication.getDomainClass(params.domainClass)
@@ -53,6 +72,19 @@ class QueryController {
             def tokens = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
             }.collect { it.name }
+            def parameterTypes = domainClass.persistentProperties.findAll {
+                it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField
+            }.collect {
+                [text        : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
+                 sourceDomain: it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain,
+                 sourceField : it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField]
+            } + [
+                    [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
+                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
+                    [text: message(code: 'query.build.parameters.type.date'), value: 'date']
+            ]
             [
                     domainClass      : params.domainClass,
                     parameters       : [],
@@ -60,7 +92,8 @@ class QueryController {
                     fields           : fields,
                     rules            : [:],
                     scheduleTemplates: ScheduleTemplate.findAllByDeleted(false),
-                    tokens           : tokens
+                    tokens           : tokens,
+                    parameterTypeList: parameterTypes
             ]
         }
     }
@@ -98,6 +131,7 @@ class QueryController {
             query.properties = params
 
             Parameter.findAllByQueryAndNameNotInList(query, parameters.collect { it.name }).each { parameter ->
+                ParameterValue.findAllByParameter(parameter).each {it.delete()}
                 parameter.delete()
             }
 
@@ -144,10 +178,12 @@ class QueryController {
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
         }.each {
-            query.smsTemplate = query.smsTemplate.replace("[${message(code: "${query.domainClazz}.${it.name}.label")}]", "[${it.name}]")
+            query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
         stocks.TemplateHelper.SYSTEM_TOKENS.each {
-            query.smsTemplate = query.smsTemplate.replace("[${message(code: "systemTokens.${it}.label")}]", "[${it}]")
+            query.smsHeaderTemplate = query.smsHeaderTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+            query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+            query.smsFooterTemplate = query.smsFooterTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
         }
 
 
@@ -201,7 +237,7 @@ class QueryController {
             def fieldsMap = [:]
             domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
-            }.each { fieldsMap.put(message(code: "${domainClass.fullName}.${it.name}.label"), it.name) }
+            }.each { fieldsMap.put(FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label")), it.name) }
 
             rule.value = fieldsMap[rule.value] ?: rule.value
 
@@ -232,7 +268,7 @@ class QueryController {
             def fieldsMap = [:]
             domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
-            }.each { fieldsMap.put(it.name, message(code: "${domainClass.fullName}.${it.name}.label")) }
+            }.each { fieldsMap.put(it.name, FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label"))) }
 
             object.value = fieldsMap[object.value] ?: object.value
         }
@@ -377,6 +413,7 @@ class QueryController {
         def queryInstance
         if (params.id) {
             queryInstance = QueryInstance.get(params.id)
+            ParameterValue.findAllByQueryInstance(queryInstance).each { it.delete() }
         } else {
             queryInstance = new QueryInstance()
             queryInstance.owner = springSecurityService.currentUser as User ?: User.findByUsername('admin')
@@ -389,7 +426,7 @@ class QueryController {
         queryInstance.schedule?.intervalStep = params.intervalStep as Integer
         queryInstance.schedule?.save()
 
-        queryInstance.lastExecutionDate = new Date()
+        queryInstance.lastExecutionTime = new Date()
         queryInstance.save()
 
         ScheduleDay.findAllBySchedule(queryInstance.schedule).each { it.delete() }
@@ -425,13 +462,13 @@ class QueryController {
         }
 
 
-        ParameterValue.findAllByQueryInstance(queryInstance).each { it.delete() }
         Parameter.findAllByQuery(queryInstance.query).each { parameter ->
             def parameterValue = new ParameterValue(queryInstance: queryInstance)
             parameterValue.parameter = parameter
             parameterValue.value = params."parameter_${parameter.id}"
             parameterValue.save()
         }
+        scheduleService.calculateQueryInstanceNextExecutionTime(queryInstance)
 
         redirect(action: 'instanceList')
     }
@@ -508,5 +545,19 @@ class QueryController {
             render '1'
         else
             render '0'
+    }
+
+    def autoComplete() {
+        def domainClass = grailsApplication.getDomainClass("stocks.${params.sourceDomain}")
+        def result = domainClass.clazz."findAllBy${params.sourceField}Like"("%${params."filter[filters][0][value]"}%").collect {
+            [name: it."get${params.sourceField}"(), typeString: message(code: 'autocomplete.itemType.domain')]
+        }.sort { it.name }
+        def parameters = []
+        def indexer = 0
+        while (params."currentData[${indexer}][name]") {
+            parameters << [name: params."currentData[${indexer}][name]", typeString: params."currentData[${indexer}][typeString]"]
+            indexer++
+        }
+        render([data: parameters + result] as JSON)
     }
 }

@@ -16,6 +16,7 @@ class FailedMessage {
         table 'alerting_message_failed'
         tablePerHierarchy false
         user lazy: true
+        body type:'text'
     }
 
     static constraints = {

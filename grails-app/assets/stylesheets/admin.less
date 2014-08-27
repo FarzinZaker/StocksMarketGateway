@@ -33,13 +33,6 @@ html, body {
   padding-bottom: 15px;
 }
 
-h1{
-  font-size: 24px;
-  border-right:10px solid @main-color;
-  padding: 5px 10px 5px 5px;
-  margin-bottom:10px !important;
-}
-
 .grid-form{
   .grid-form-row{
     margin-top:5px;
@@ -50,12 +43,20 @@ h1{
 .query-builder {
   .rule-container {
     .k-autocomplete {
+      &.k-input{
+        padding:0 !important;
+      }
       input {
         padding: 0 !important;
       }
     }
   }
   padding-bottom: 5px;
+}
+
+.k-input, .k-textbox{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .autocomplete-row{

@@ -4,6 +4,7 @@ import fi.joensuu.joyds1.calendar.JalaliCalendar
 import org.ccil.cowan.tagsoup.Parser
 import org.watij.webspec.dsl.WebSpec
 import org.xml.sax.InputSource
+import stocks.FarsiNormalizationFilter
 import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 import stocks.tse.Company
@@ -48,11 +49,11 @@ class AnnouncementDataService {
         rows.each { row ->
             def announcementEvent = new AnnouncementEvent()
             def cells = row.children()
-            announcementEvent.symbolPersianCode = cells[0].text()
-            announcementEvent.symbol = Symbol.findByPersianCode(announcementEvent.symbolPersianCode)
-            announcementEvent.companyName = cells[1].text()
+            announcementEvent.symbolPersianCode = FarsiNormalizationFilter.apply(cells[0].text() as String)
+            announcementEvent.symbol = Symbol.findByPersianCode(FarsiNormalizationFilter.apply(announcementEvent.symbolPersianCode as String))
+            announcementEvent.companyName = FarsiNormalizationFilter.apply(cells[1].text() as String)
             announcementEvent.company = Company.findByName(announcementEvent.companyName)
-            announcementEvent.title = cells[2].text()
+            announcementEvent.title = FarsiNormalizationFilter.apply(cells[2].text() as String)
             announcementEvent.sendDate = parseDateTime(cells[3].text())
             announcementEvent.publishDate = parseDateTime(cells[4].text())
             def linkUrl = cells[5].@onclick[0].text().replace('window.open(\'', '').replace('\');', '')

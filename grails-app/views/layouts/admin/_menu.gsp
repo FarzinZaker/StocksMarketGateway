@@ -5,11 +5,11 @@
             <ul>
                 <li><a href="${createLink(controller: 'queryCategory', action: 'build')}"><g:message
                         code="menu.category.add"/></a></li>
-                <li><a href="${createLink(controller: 'scheduleTemplate', action: 'list')}"><g:message
+                <li><a href="${createLink(controller: 'queryCategory', action: 'list')}"><g:message
                         code="menu.category.list"/></a></li>
             <li><a href="${createLink(controller: 'scheduleTemplate', action: 'build')}"><g:message
                     code="menu.scheduleTemplate.add"/></a></li>
-                <li><a href="${createLink(controller: 'queryCategory', action: 'list')}"><g:message
+                <li><a href="${createLink(controller: 'scheduleTemplate', action: 'list')}"><g:message
                         code="menu.scheduleTemplate.list"/></a></li>
                 <li><a href="${createLink(controller: 'query', action: 'selectData')}"><g:message
                         code="menu.newsletters.add"/></a></li>

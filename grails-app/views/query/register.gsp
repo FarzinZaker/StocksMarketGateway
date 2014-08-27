@@ -8,7 +8,7 @@
 <%@ page import="stocks.alerting.ScheduleTime" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="site"/>
+    <meta name="layout" content="main"/>
     <title><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></title>
     <asset:javascript src="angular.min.js"/>
     <asset:stylesheet src="jquery-clockpicker.css"/>

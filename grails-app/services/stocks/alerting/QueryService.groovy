@@ -14,8 +14,9 @@ class QueryService {
 
     def grailsApplication
     def smsService
+    def scheduleService
 
-    def applyEventBasedQueries(data){
+    def applyEventBasedQueries(data) {
 
         QueryInstance.createCriteria().list {
             schedule {
@@ -26,12 +27,18 @@ class QueryService {
             }
         }.each { queryInstance ->
             if (check(queryInstance, data.id)) {
-                smsService.sendMessage(queryInstance, data)
+                smsService.sendEventBasedMessage(queryInstance, data)
             }
         }
     }
 
-    def applyScheduledQuery(QueryInstance queryInstance){
+    def applyScheduledQuery(QueryInstance queryInstance) {
+        def list = list(queryInstance)
+        if (list?.size() > 0)
+            smsService.sendScheduledMessage(queryInstance, list)
+        queryInstance.lastExecutionTime = new Date()
+        queryInstance.save()
+        scheduleService.calculateQueryInstanceNextExecutionTime(queryInstance)
     }
 
     def list(QueryInstance queryInstance) {
@@ -50,9 +57,9 @@ class QueryService {
         getDetachedCriteria(queryInstance, id).count(getAdditionalCriteria(queryInstance))
     }
 
-    Closure getAdditionalCriteria(QueryInstance queryInstance){
-         return {
-            if(queryInstance.query?.maxRecordsCount > 0)
+    Closure getAdditionalCriteria(QueryInstance queryInstance) {
+        return {
+            if (queryInstance.query?.maxRecordsCount > 0)
                 max(queryInstance.query.maxRecordsCount)
             SortingRule.findAllByQuery(queryInstance.query).each { sortingRule ->
                 order(sortingRule.fieldName, sortingRule.sortDirection)

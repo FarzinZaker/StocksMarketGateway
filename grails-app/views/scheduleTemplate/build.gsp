@@ -8,7 +8,7 @@
 <%@ page import="grails.converters.JSON; stocks.alerting.ScheduleDayTemplate" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="admin"/>
+    <meta name="layout" content="main"/>
     <title><g:message code="scheduleTemplate.build.title"/></title>
     <asset:javascript src="angular.min.js"/>
     <script language="JavaScript">
