@@ -6,6 +6,17 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.SymbolStateEvent
 
 class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEvent> {
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                    ]
+            ]
+    ]
+
     @Override
     protected SymbolStateEvent getSampleEventObject() {
         new SymbolStateEvent()

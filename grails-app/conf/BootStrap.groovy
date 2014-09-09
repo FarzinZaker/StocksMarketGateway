@@ -2,6 +2,8 @@ import stocks.*
 
 class BootStrap {
 
+    def dataService
+
     def init = { servletContext ->
 
         RoleHelper.ROLES.each {
@@ -16,6 +18,8 @@ class BootStrap {
                 firstName: 'admin',
                 lastName: 'admin',
                 email: 'admin@local',
+                sex: 'male',
+                nationalCode: '2803348446',
                 enabled: true).save(failOnError: true)
 
         adminUser.password = 'admin'
@@ -24,6 +28,9 @@ class BootStrap {
         if (!adminUser.authorities.contains(adminRole)) {
             UserRole.create adminUser, adminRole
         }
+
+
+//        dataService.initializeJobs()
 
     }
     def destroy = {

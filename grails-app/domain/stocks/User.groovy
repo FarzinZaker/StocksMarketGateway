@@ -2,6 +2,8 @@ package stocks
 
 class User {
 
+    static searchable = true
+
     transient springSecurityService
 
     String firstName
@@ -11,6 +13,9 @@ class User {
     String password
     String sex
     String mobile
+    Broker broker
+    String nationalCode
+    City city
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
@@ -24,9 +29,10 @@ class User {
     static constraints = {
         username blank: false, unique: true
         password blank: false
-        sex nullable: true, inList: ['male', 'female']
-        mobile nullable: true
+        sex inList: ['male', 'female']
+        broker nullable: true
         image nullable: true
+        city nullable: true
     }
 
     static mapping = {

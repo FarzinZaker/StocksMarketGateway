@@ -7,6 +7,17 @@ import stocks.tse.event.SymbolDailyTradeEvent
 
 class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, SymbolDailyTradeEvent> {
 
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                    ]
+            ]
+    ]
+
+
     @Override
     protected SymbolDailyTradeEvent getSampleEventObject() {
         new SymbolDailyTradeEvent()

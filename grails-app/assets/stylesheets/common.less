@@ -123,31 +123,50 @@ button {
 #header {
   background-color: white;
   padding: 10px 20px 10px 20px;
+  &.brokerHeader {
+    img {
+      float: right;
+    }
+    h1 {
+      border-width: 0;
+      float: right;
+      color: #000000;
+      margin-top:5px;
+      margin-right:5px;
+      span {
+        color: grey;
+        display: block;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+    }
+  }
 }
 
 #menu {
   background: transparent; /* Old browsers */
-  background: -moz-linear-gradient(top,  #ffffff 0%, #f4f4f4 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f4f4f4)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #ffffff 0%,#f4f4f4 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #ffffff 0%,#f4f4f4 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
+  background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f4f4f4)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%, #f4f4f4 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%, #f4f4f4 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%, #f4f4f4 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f4f4f4', GradientType=0); /* IE6-9 */
 
   font-size: 14px;
-  padding-right:20px;
+  padding-right: 20px;
   border-color: #FFFFFF;
   border-bottom-color: #f4f4f4;
   margin-bottom: -10px;
   margin-left: -20px;
   margin-right: -20px;
+  clear:both;
   .k-popup {
     box-shadow: none;
   }
 }
 
-.k-rtl .k-menu .k-item, .k-rtl .k-widget.k-menu-horizontal > .k-item{
+.k-rtl .k-menu .k-item, .k-rtl .k-widget.k-menu-horizontal > .k-item {
   border-width: 0;
 }
 
@@ -585,40 +604,40 @@ span.has-error {
   padding: 8px 25px !important;
 }
 
-.k-treeCombo{
-  .k-treeview{
+.k-treeCombo {
+  .k-treeview {
     border: 1px solid @editor-border-color;
     background: @body-color;
     z-index: 999999;
     border-top-width: 0;
-    .treeNode-value{
+    .treeNode-value {
       display: none;
     }
   }
 }
 
-#categoryTree{
-//  border: 1px solid @editor-border-color !important;
+#categoryTree {
+  //  border: 1px solid @editor-border-color !important;
   background-color: @summary-back-color;
   padding: 10px;
-  img{
+  img {
     width: 24px;
     margin-left: 10px;
   }
-  .k-state-selected{
+  .k-state-selected {
     box-shadow: none !important;
   }
-  .k-in{
+  .k-in {
     line-height: 24px;
     display: inline-block;
   }
-  .treeNode-value{
+  .treeNode-value {
     display: none;
   }
 }
 
-.k-treeCombo{
-  #categoryTree{
+.k-treeCombo {
+  #categoryTree {
     background-color: @body-color;
     padding: 0;
   }
@@ -628,45 +647,44 @@ span.has-error {
   overflow: inherit !important;
 }
 
-.container-fluid{
+.container-fluid {
   background: transparent !important;
-  .k-pager-wrap{
+  .k-pager-wrap {
     background: transparent;
-    .k-link{
+    .k-link {
       background: @body-color;
-      &:hover{
+      &:hover {
         background: @main-color
       }
     }
   }
 }
 
-
-.user-panel{
-  float:left;
-  margin-top:10px;
-  li{
+.user-panel {
+  float: left;
+  margin-top: 10px;
+  li {
     list-style: none;
     text-align: left;
-    a{
+    a {
       padding: 2px 10px 3px;
       display: block;
       color: @header-color;
-      &:hover{
+      &:hover {
         color: white;
         background-color: @main-color;
       }
-      i{
+      i {
         margin-right: 5px;
       }
     }
   }
 }
 
-.watermark{
+.watermark {
   position: absolute;
-  top:0;
-  left:200px;
+  top: 0;
+  left: 200px;
   width: 600px;
   display: block;
 }

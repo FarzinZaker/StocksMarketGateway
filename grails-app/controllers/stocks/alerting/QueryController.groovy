@@ -301,7 +301,7 @@ class QueryController {
         list
     }
 
-    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def jsonList() {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "lastUpdated", order: params["sort[0][dir]"] ?: "desc"]
@@ -384,7 +384,7 @@ class QueryController {
         }
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def select() {
         def root = [:]
         root.id = 0
@@ -394,7 +394,7 @@ class QueryController {
         [categoryTree: root]
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def register() {
         def queryInstance = params.id ? QueryInstance.get(params.id) : new QueryInstance(query: Query.get(params.query))
         def scheduleTypes = []
@@ -407,7 +407,7 @@ class QueryController {
         [queryInstance: queryInstance, scheduleTypes: scheduleTypes]
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def saveRegistration() {
 
         def queryInstance
@@ -473,11 +473,11 @@ class QueryController {
         redirect(action: 'instanceList')
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceList() {
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceJsonList() {
 
         def user = springSecurityService.currentUser as User ?: User.findByUsername('admin')
@@ -517,7 +517,7 @@ class QueryController {
         render value as JSON
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceDelete() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.deleted = true
@@ -527,7 +527,7 @@ class QueryController {
             render '0'
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceEnable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = true
@@ -537,7 +537,7 @@ class QueryController {
             render '0'
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceDisable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = false

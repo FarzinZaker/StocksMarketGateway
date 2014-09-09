@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Environment" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +25,11 @@
 
             <div class="info"><g:message code="error.description"/></div>
 
-            <div class="toolbar">
+            <div class="toolbar" style="display: ${Environment.current != Environment.DEVELOPMENT ? 'block': 'none'}">
                 <form:button id="btn-show" text="${message(code: 'error.show')}" onclick="showError()"/>
             </div>
 
-            <div class="ltr" id="errorContainer" style="display: none">
+            <div class="ltr" id="errorContainer" style="display: ${Environment.current != Environment.DEVELOPMENT ? 'none': 'block'}">
                 <g:renderException exception="${exception}"/>
             </div>
         </div>

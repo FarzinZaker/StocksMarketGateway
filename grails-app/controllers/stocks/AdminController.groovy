@@ -21,6 +21,7 @@ class AdminController {
     def announcementDataService
     def indexDataService
     def indexSymbolDataService
+    def dataService
 
 
     def queryService
@@ -51,6 +52,8 @@ class AdminController {
 //        indexSymbolDataService.importData()
 //        def queryInstance = QueryInstance.get(14)
 //        render smsService.sendEventBasedMessage(queryInstance, queryService.get(queryInstance))
+//        dataService.initializeJobs()
+//        render dataService.printJobList()
     }
 
     def throwException(){

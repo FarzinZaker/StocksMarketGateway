@@ -2,6 +2,7 @@ package stocks.codal.data
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import org.ccil.cowan.tagsoup.Parser
+import org.quartz.JobDetail
 import org.watij.webspec.dsl.WebSpec
 import org.xml.sax.InputSource
 import stocks.FarsiNormalizationFilter
@@ -17,6 +18,16 @@ import static groovyx.net.http.Method.*
 class AnnouncementDataService {
 
     def codalEventGateway
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 5000l, startDelay: 60000]
+                    ]
+            ]
+    ]
 
     void importData() {
         parseData("http://codal.ir/ReportList.aspx")
@@ -36,8 +47,8 @@ class AnnouncementDataService {
 
         WebSpec spec = new WebSpec().mozilla()
         spec.open(url)
-        spec.show()
-        while(!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
+        spec.hide()
+        while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
             Thread.sleep(1000)
         def result = spec.source()
         spec.close()

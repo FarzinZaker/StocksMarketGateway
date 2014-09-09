@@ -1,3 +1,4 @@
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 import stocks.FarsiNormalizationFilter
 
 class FarsiNormalizationFilters {
@@ -5,7 +6,9 @@ class FarsiNormalizationFilters {
     def filters = {
         all(controller: '*', action: '*') {
             before = {
-                params.each { param ->
+                params.findAll{
+                    !(it.value instanceof CommonsMultipartFile)
+                }.each { param ->
                     if (params."${param.key}" instanceof String[]) {
                         def list = params."${param.key}".collect {
                             FarsiNormalizationFilter.apply(it.value as String)

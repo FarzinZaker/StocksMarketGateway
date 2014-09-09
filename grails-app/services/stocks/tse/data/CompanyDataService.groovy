@@ -6,6 +6,16 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.CompanyEvent
 
 class CompanyDataService extends TSEDataService<Company, CompanyEvent> {
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 1 * * ?']
+                    ]
+            ]
+    ]
     @Override
     protected CompanyEvent getSampleEventObject() {
         new CompanyEvent()

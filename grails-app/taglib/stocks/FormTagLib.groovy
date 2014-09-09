@@ -239,7 +239,7 @@ class FormTagLib {
                 \$(document).ready(function() {
                     \$("#${attrs.id ?: attrs.name}").kendoUpload({
                         async: {
-                           saveUrl: '${attrs.saveUrl}',
+                           saveUrl: '${attrs.saveUrl}?name=${attrs.name}',
                            autoUpload: true
                         },
                         select: function (e) {

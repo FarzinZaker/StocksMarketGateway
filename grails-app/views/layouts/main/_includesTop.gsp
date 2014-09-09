@@ -10,16 +10,19 @@
 <asset:javascript src="kendo.ui/kendo.all.min.js"/>
 %{--kendo.ui end--}%
 <asset:javascript src="form-validator/form-validator.js"/>
+<asset:javascript src="form-validator/national-code.js"/>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <asset:stylesheet src="bootstrap/bootstrap-responsive.css"/>
 <asset:stylesheet src="bootstrap/bootstrap.css"/>
 <asset:stylesheet src="kendo.corrections.less"/>
+<asset:stylesheet src="awesome/css/font-awesome.min.css"/>
 <asset:stylesheet src="common.less"/>
 
-<sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN}">
+<sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">
     <g:render template="/layouts/admin/includesTop"/>
 </sec:ifAnyGranted>
-<sec:ifAnyGranted roles="${RoleHelper.ROLE_USER}">
+<sec:ifAnyGranted roles="${RoleHelper.ROLE_USER},${RoleHelper.ROLE_BROKER_USER}">
     <g:render template="/layouts/site/includesTop"/>
 </sec:ifAnyGranted>
 <sec:ifNotLoggedIn>

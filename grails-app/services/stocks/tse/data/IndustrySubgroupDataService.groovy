@@ -5,6 +5,17 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.IndustrySubgroupEvent
 
 class IndustrySubgroupDataService extends TSEDataService<IndustrySubgroup, IndustrySubgroupEvent> {
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 1 * * ?']
+                    ]
+            ]
+    ]
+
     @Override
     protected IndustrySubgroupEvent getSampleEventObject() {
         new IndustrySubgroupEvent()

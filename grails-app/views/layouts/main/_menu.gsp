@@ -5,6 +5,9 @@
 <sec:ifAnyGranted roles="${RoleHelper.ROLE_USER}">
     <g:render template="/layouts/site/menu"/>
 </sec:ifAnyGranted>
+<sec:ifAnyGranted roles="${RoleHelper.ROLE_BROKER_USER}">
+    <g:render template="/layouts/brokerUser/menu"/>
+</sec:ifAnyGranted>
 <sec:ifNotLoggedIn>
     <div class="k-rtl" id="menu" style="height: 51px;">
     </div>

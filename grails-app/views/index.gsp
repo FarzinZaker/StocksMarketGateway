@@ -8,7 +8,6 @@
     <asset:javascript src="html5shiv.js"/>
     <![endif]-->
     <asset:stylesheet src="tilt.min.css"/>
-    <asset:stylesheet src="awesome/css/font-awesome.min.css"/>
 </head>
 
 <body>
@@ -20,6 +19,9 @@
             </sec:ifAnyGranted>
             <sec:ifAnyGranted roles="${RoleHelper.ROLE_USER}">
                 <g:render template="/layouts/site/flatMenu"/>
+            </sec:ifAnyGranted>
+            <sec:ifAnyGranted roles="${RoleHelper.ROLE_BROKER_USER}">
+                <g:render template="/layouts/brokerUser/flatMenu"/>
             </sec:ifAnyGranted>
         </div>
     </div>

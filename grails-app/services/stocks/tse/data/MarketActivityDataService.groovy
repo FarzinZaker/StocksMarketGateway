@@ -7,6 +7,17 @@ import stocks.tse.event.MarketActivityEvent
 
 class MarketActivityDataService extends TSEDataService<MarketActivity, MarketActivityEvent> {
 
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                    ]
+            ]
+    ]
+
+
     @Override
     protected MarketActivityEvent getSampleEventObject() {
         new MarketActivityEvent()

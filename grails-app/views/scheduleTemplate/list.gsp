@@ -22,6 +22,10 @@
                 <div id="grid"></div>
             </div>
 
+            <div class="toolbar">
+                <form:linkButton href="${createLink(action: 'build')}" text="${message(code:'menu.scheduleTemplate.add')}"/>
+            </div>
+
             <script>
                 $(document).ready(function () {
                     $("#grid").kendoGrid({
@@ -93,8 +97,8 @@
                                 field: "lastUpdated",
                                 title: "${message(code:'scheduleTemplate.lastUpdated.label')}"
                             } ,
-                            { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "${message(code:'edit')}", width: "85px", headerAttributes: { style: "text-align: center"} },
-                            { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "${message(code:'remove')}", width: "85px", headerAttributes: { style: "text-align: center"} }
+                            { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
+                            { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
                         ]
                     });
                 });

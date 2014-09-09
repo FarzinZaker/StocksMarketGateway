@@ -61,6 +61,10 @@
                 <div id="grid"></div>
             </div>
 
+            <div class="toolbar">
+                <form:linkButton href="${createLink(action: 'selectData')}" text="${message(code:'menu.newsletters.add')}"/>
+            </div>
+
             <script>
                 $(document).ready(function () {
                     $("#grid").kendoGrid({
@@ -143,8 +147,8 @@
                                 field: "lastUpdated",
                                 title: "${message(code:'query.lastUpdated.label')}"
                             } ,
-                            { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "${message(code:'edit')}", width: "85px", headerAttributes: { style: "text-align: center"} },
-                            { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "${message(code:'remove')}", width: "85px", headerAttributes: { style: "text-align: center"} }
+                            { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
+                            { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
                         ]
                     });
                 });

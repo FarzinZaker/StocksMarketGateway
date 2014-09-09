@@ -6,6 +6,17 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.IndexEvent
 
 class IndexDataService extends TSEDataService<Index, IndexEvent> {
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                    ]
+            ]
+    ]
+
     @Override
     protected IndexEvent getSampleEventObject() {
         new IndexEvent()

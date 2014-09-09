@@ -7,6 +7,16 @@ import stocks.tse.event.BoardEvent
 
 class BoardDataService extends TSEDataService<Board, BoardEvent> {
 
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 1 * * ?']
+                    ]
+            ]
+    ]
+
     @Override
     protected BoardEvent getSampleEventObject() {
         new BoardEvent()

@@ -5,6 +5,17 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.IndustryGroupStateEvent
 
 class IndustryGroupStateDataService extends TSEDataService<IndustryGroupState, IndustryGroupStateEvent> {
+
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 1 * * ?']
+                    ]
+            ]
+    ]
+
     @Override
     protected IndustryGroupStateEvent getSampleEventObject() {
         new IndustryGroupStateEvent()

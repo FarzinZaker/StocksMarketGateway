@@ -39,7 +39,7 @@ public abstract class TSEDataService<T, K> {
         tseEventGateway.close(sampleEventObject, serviceName, parameters, list)
     }
 
-    private void parseData(String serviceName, List parameter) {
+    private def parseData(String serviceName, List parameter) {
         getService()."${serviceName}"(*(authenticationParameters + parameter))
         def xml = getService()."${serviceName}"(authenticationParameters + parameter)
         def obj = new XmlSlurper().parseText(xml._any[1].toString())
@@ -98,6 +98,7 @@ public abstract class TSEDataService<T, K> {
             object.data = find(object as K)
             list << tseEventGateway.send(object)
         }
+        list
     }
 
     protected abstract T find(K object)

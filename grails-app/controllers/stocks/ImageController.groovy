@@ -42,14 +42,14 @@ class ImageController {
     def uploadImage() {
 
         def image = new Image()
-        image.name = params.image.fileItem.fileName
+        image.name = params."${params.name}".fileItem.fileName
         image.content = []
         if (!image.validate() || !image.save()) {
             render '0'
             return
         }
 
-        def path = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${params.image.fileItem.fileName}"
+        def path = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${params."${params.name}".fileItem.fileName}"
         def file = new File(path)
 
         def directory = file.parentFile
@@ -59,7 +59,7 @@ class ImageController {
         if (file.exists())
             file.delete()
 
-        params.image.transferTo(file)
+        params."${params.name}".transferTo(file)
 
         def bytes = new File(path).getBytes()
 
@@ -77,7 +77,7 @@ class ImageController {
                 [width: 80, height: 80]
         ].each {
             def thumbBytes = imageService.scaleImage(bytes, it.width, it.height)
-            def thumbPath = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${it.width}x${it.height}-${params.image.fileItem.fileName}"
+            def thumbPath = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${it.width}x${it.height}-${params."${params.name}".fileItem.fileName}"
             def thumbFile = new File(thumbPath)
             def thumbDirectory = thumbFile.parentFile
             if (!thumbDirectory.exists())
