@@ -19,7 +19,7 @@ class BulkDataService {
     @Synchronized
     def save(object) {
 
-        if(!dataQueue)
+        if (!dataQueue)
             init()
 
         DefaultGrailsDomainClass domainClass = object.domainClass
@@ -34,17 +34,16 @@ class BulkDataService {
 
         def transaction = sessionFactory.getCurrentSession().beginTransaction()
 
-//        domainClass.clazz.withNewTransaction {
-            while (!dataQueue.isEmpty()) {
-                dataQueue.take().object.save()
-            }
-//        }
+        while (!dataQueue.isEmpty()) {
+            dataQueue.take().object.save()
+        }
+
         transaction.commit()
         sessionFactory.currentSession.clear()
     }
 
     @Synchronized
-    def release(){
+    def release() {
         push()
     }
 }
