@@ -6,9 +6,9 @@ import stocks.codal.event.AnnouncementEvent
 
 class AnnouncementPersistService {
 
+    def bulkDataService
     def grailsApplication
     def queryService
-    def smsService
 
     Boolean update(AnnouncementEvent event) {
         def announcement = event.data as Announcement
@@ -21,14 +21,15 @@ class AnnouncementPersistService {
         announcement.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
-        announcement.save()
+        bulkDataService.save(announcement)
         afterUpdate(event, announcement)
         result
     }
 
     Announcement create(AnnouncementEvent event) {
         beforeCreate(event)
-        def data = new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()]).save()
+        def data = new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()])
+        bulkDataService.save(data)
         afterCreate(event, data)
         data
     }

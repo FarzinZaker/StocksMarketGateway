@@ -2,16 +2,13 @@ package stocks
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
-import stocks.alerting.QueryInstance
-import stocks.codal.event.AnnouncementEvent
+import stocks.commodity.event.TradeStatisticsEvent
 
 import java.beans.Introspector
 
-class CodalEventService {
+class CommodityEventService {
 
     def bulkDataService
-
-    def announcementPersistService
 
     private def persistEvent(event) {
         event.creationDate = new Date()
@@ -32,13 +29,8 @@ class CodalEventService {
     def send(Object event) {
         persistEvent(event)
         switch (event.class) {
-            case AnnouncementEvent.class:
-                handle(event as AnnouncementEvent)
+            case TradeStatisticsEvent.class:
                 break
         }
-    }
-
-    def handle(AnnouncementEvent event) {
-        announcementPersistService.grabFiles(event)
     }
 }

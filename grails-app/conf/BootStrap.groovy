@@ -29,7 +29,6 @@ class BootStrap {
             UserRole.create adminUser, adminRole
         }
 
-
 //        dataService.initializeJobs()
 
     }

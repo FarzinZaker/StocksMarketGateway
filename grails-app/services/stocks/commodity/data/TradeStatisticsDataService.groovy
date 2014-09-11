@@ -1,0 +1,232 @@
+package stocks.commodity.data
+
+import fi.joensuu.joyds1.calendar.JalaliCalendar
+import groovy.time.TimeCategory
+import groovy.util.slurpersupport.GPathResult
+import org.ccil.cowan.tagsoup.Parser
+import org.hibernate.SessionFactory
+import stocks.FarsiNormalizationFilter
+import stocks.commodity.Commodity
+import stocks.commodity.Group
+import stocks.commodity.MainGroup
+import stocks.commodity.Producer
+import stocks.commodity.Provider
+import stocks.commodity.Subgroup
+import stocks.commodity.TradeStatistics
+import stocks.commodity.event.TradeStatisticsEvent
+
+class TradeStatisticsDataService {
+
+    def commodityEventGateway
+
+    def importData() {
+        def startDate = new Date()
+        def endDate = new Date()
+        use(TimeCategory) {
+            startDate = startDate - 20.years
+        }
+
+        parseData(startDate, endDate)
+    }
+
+    private void parseData(Date startDate, Date endDate) {
+
+        def mainGroups = getSelectOptions('grouhAsli')
+        mainGroups.each { mainGroup ->
+            def groups = getSelectOptions('grouh', mainGroup.id)
+            groups.each { group ->
+                def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
+                subgroups.each { subgroup ->
+                    def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
+                    producers.each { producer ->
+                        println("${mainGroup} - ${group} - ${subgroup} - ${producer}")
+                        extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+                    }
+                }
+            }
+
+        }
+    }
+
+    private def extractData(mainGroup, group, subgroup, producer, Date startDate, Date endDate) {
+        def stillHasRecords = true
+        def currentPage = 1
+        while (stillHasRecords) {
+            def htmlParser = loadUrl(mainGroup.id, group.id, subgroup.id, producer.id, startDate, endDate, currentPage, 100)
+            def containerDiv = htmlParser?.'**'?.find { it.@class == 'divScroll' }
+            def rows = containerDiv?.'**'?.findAll { it.name() == 'tr' }
+            if (!rows || rows?.size() == 1)
+                stillHasRecords = false
+            rows?.remove(0)
+            rows?.each { row ->
+                def tradeStatisticsEvent = new TradeStatisticsEvent()
+
+                tradeStatisticsEvent.subgroup = findSubgroup(mainGroup, group, subgroup)
+                tradeStatisticsEvent.producer = findProducer(producer)
+
+                def cells = row.children()
+                println(cells)
+                if (!cells[0].text().contains('داده ای در جدول وجود ندارد') && !cells[0].text().contains('تاریخ آخرین بروزرسانی')) {
+                    tradeStatisticsEvent.commodity = findCommodity(FarsiNormalizationFilter.apply(cells[0].text() as String))
+                    tradeStatisticsEvent.contractType = FarsiNormalizationFilter.apply(cells[2].text() as String)
+                    tradeStatisticsEvent.lowestPrice = parseInteger(cells[3].text() as String)
+                    tradeStatisticsEvent.closingWeightedAveragePrice = parseInteger(cells[4].text() as String)
+                    tradeStatisticsEvent.highestPrice = parseInteger(cells[5].text() as String)
+                    tradeStatisticsEvent.offering = parseInteger(cells[6].text() as String)
+                    tradeStatisticsEvent.bestOfferingPrice = parseInteger(cells[7].text() as String)
+                    tradeStatisticsEvent.demand = parseInteger(cells[8].text() as String)
+                    tradeStatisticsEvent.tradeVolume = parseInteger(cells[9].text() as String)
+                    tradeStatisticsEvent.tradeValue = parseLong(cells[10].text() as String)
+                    tradeStatisticsEvent.tradeDate = parseDate(cells[11].text() as String)
+                    tradeStatisticsEvent.deliveryDate = parseDate(cells[12].text() as String)
+                    tradeStatisticsEvent.deliveryPoint = FarsiNormalizationFilter.apply(cells[13].text() as String)
+                    tradeStatisticsEvent.provider = findProvider(cells[14].text() as String)
+                    tradeStatisticsEvent.settlementMaturityDate = parseDate(cells[15].text() as String)
+
+                    tradeStatisticsEvent.data = find(tradeStatisticsEvent)
+                    commodityEventGateway.send(tradeStatisticsEvent)
+                } else if (cells[0].text().contains('داده ای در جدول وجود ندارد')) {
+                    stillHasRecords = false
+                }
+            }
+            currentPage++
+        }
+
+    }
+
+    private static TradeStatistics find(TradeStatisticsEvent object) {
+        TradeStatistics.findBySubgroupAndProducerAndCommodityAndProviderAndTradeDate(
+                object.subgroup,
+                object.producer,
+                object.commodity,
+                object.provider,
+                object.tradeDate
+        )
+    }
+
+    private static Commodity findCommodity(commodity) {
+        def result = Commodity.findByName(commodity as String)
+        if (!result) {
+            result = new Commodity()
+            result.name = commodity as String
+            result.save()
+        }
+        result
+    }
+
+    private static Provider findProvider(provider) {
+        def result = Provider.findByName(provider as String)
+        if (!result) {
+            result = new Provider()
+            result.name = provider as String
+            result.save()
+        }
+        result
+    }
+
+    private static Producer findProducer(producer) {
+        def result = Producer.findByCodeAndName(producer.id as Integer, producer.name as String)
+        if (!result) {
+            result = new Producer()
+            result.code = producer.id as Integer
+            result.name = producer.name as String
+            result.save()
+        }
+        result
+    }
+
+    private static Subgroup findSubgroup(mainGroup, group, subgroup) {
+        def parent = findGroup(mainGroup, group)
+        def result = Subgroup.findByGroupAndCodeAndName(parent, subgroup.id as Integer, subgroup.name as String)
+        if (!result) {
+            result = new Subgroup()
+            result.group = parent
+            result.code = subgroup.id as Integer
+            result.name = subgroup.name as String
+            result.save()
+        }
+        result
+    }
+
+    private static Group findGroup(mainGroup, group) {
+        def parent = findMainGroup(mainGroup)
+        def result = Group.findByMainGroupAndCodeAndName(parent, group.id as Integer, group.name as String)
+        if (!result) {
+            result = new Group()
+            result.mainGroup = parent
+            result.code = group.id as Integer
+            result.name = group.name as String
+            result.save()
+        }
+        result
+    }
+
+    private static MainGroup findMainGroup(mainGroup) {
+        def result = MainGroup.findByCodeAndName(mainGroup.id as Integer, mainGroup.name as String)
+        if (!result) {
+            result = new MainGroup()
+            result.code = mainGroup.id as Integer
+            result.name = mainGroup.name as String
+            result.save()
+        }
+        result
+    }
+
+    private static def getSelectOptions(String name, mainGroup = 0, group = 0, subgroup = 0, Boolean skipFirst = true) {
+        def htmlParser = loadUrl(mainGroup, group, subgroup)
+        def select = htmlParser?.'**'?.find { it.@name == name }?.'**'?.findAll { it.name() == 'option' }?.collect {
+            [id: it?.@value?.text(), name: it?.text()?.trim()]
+        }
+        if (skipFirst)
+            if (select?.size() > 1)
+                select = select[1..select.size() - 1]
+            else
+                select = []
+        select
+    }
+
+    private
+    static GPathResult loadUrl(mainGroup = 0, group = 0, subgroup = 0, producer = 0, startDate = new Date() - 1, endDate = new Date(), page = 1, pageSize = 1) {
+        def result = null
+        def tryCount = 0
+        while (!result && tryCount < 5) {
+            try {
+                result = new XmlSlurper(new Parser()).parse("http://www.ime.co.ir/report.dispatcher?lang=fa&reportId=rep3&randomId=rep3&pageNumber=${page}&pageSize=${pageSize}&grouhAsli=${mainGroup}&grouh=${group}&zirGrouh=${subgroup}&tolidKonande=${producer}&fromDate=${formatDate(startDate)}&toDate=${formatDate(endDate)}")
+            }
+            catch (ignored) {
+                tryCount++
+            }
+        }
+        result
+    }
+
+    private static def formatDate(Date date) {
+
+        if (!date)
+            return '-'
+
+        def cal = Calendar.getInstance()
+        cal.setTime(date)
+        def jc = new JalaliCalendar(cal as GregorianCalendar)
+        String.format("%04d/%02d/%02d", jc.getYear(), jc.getMonth(), jc.getDay())
+    }
+
+    private static Date parseDate(String date) {
+        if (!date || date.trim() == '' || date.trim() == 'null')
+            return null
+        def dateParts = date.split("/").collect { it as Integer }
+        new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2]).toJavaUtilGregorianCalendar().time
+    }
+
+    private static Integer parseInteger(String input) {
+        if (!input || input.trim() == '' || input.trim() == 'null')
+            return null
+        input.replace(',', '').toInteger()
+    }
+
+    private static Long parseLong(String input) {
+        if (!input || input.trim() == '' || input.trim() == 'null')
+            return null
+        input.replace(',', '').toLong()
+    }
+}
