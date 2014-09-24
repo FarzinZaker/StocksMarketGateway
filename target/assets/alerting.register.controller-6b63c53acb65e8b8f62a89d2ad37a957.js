@@ -1,0 +1,1 @@
+var alertingQuery=angular.module("stocks",[]);alertingQuery.controller("alertingRegisterController",function(e,t){e.timeList=new kendo.data.ObservableArray(timeList);e.timeCounter=timeList.length})
