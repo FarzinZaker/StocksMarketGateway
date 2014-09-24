@@ -13,7 +13,7 @@ class BulkDataService {
     private static ArrayBlockingQueue dataQueue
 
     private void init() {
-        dataQueue = new ArrayBlockingQueue(20)
+        dataQueue = new ArrayBlockingQueue(1)
     }
 
     @Synchronized
@@ -35,7 +35,15 @@ class BulkDataService {
         def transaction = sessionFactory.getCurrentSession().beginTransaction()
 
         while (!dataQueue.isEmpty()) {
-            dataQueue.take().object.save()
+            def item = dataQueue.take()
+            try {
+                if(!item.object.save())
+                    dataQueue.put(item)
+            }
+            catch (ignored){
+                println(ignored.stackTrace)
+                dataQueue.put(item)
+            }
         }
 
         transaction.commit()

@@ -26,6 +26,17 @@
     <li data-tile-type="s,5_s,8m">
         <div>
 
+            <a class="tilt tilt-tile tilt-tile-steel tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'user', action:'profile')}">
+                <i class="fa fa-user"></i><span><g:message code="menu.currentUser.profile"/></span>
+            </a>
+
+        </div>
+    </li>
+
+
+    <li data-tile-type="s,5_s,8m">
+        <div>
+
             <a class="tilt tilt-tile tilt-tile-steel tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'user', action:'changePassword')}">
                 <i class="fa fa-key"></i><span><g:message code="menu.currentUser.changePassword"/></span>
             </a>

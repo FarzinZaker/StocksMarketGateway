@@ -7,7 +7,7 @@ class FarsiNormalizationFilters {
         all(controller: '*', action: '*') {
             before = {
                 params.findAll{
-                    !(it.value instanceof CommonsMultipartFile)
+                    it.value instanceof String
                 }.each { param ->
                     if (params."${param.key}" instanceof String[]) {
                         def list = params."${param.key}".collect {

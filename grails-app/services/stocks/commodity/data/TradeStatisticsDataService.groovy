@@ -17,6 +17,16 @@ import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsDataService {
 
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 1 25 SEP ? 2014']
+                    ]
+            ]
+    ]
+
     def commodityEventGateway
 
     def importData() {

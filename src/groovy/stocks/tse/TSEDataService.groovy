@@ -83,7 +83,7 @@ public abstract class TSEDataService<T, K> {
 
                             break
                         case String:
-                            object."${property.key}" = FarsiNormalizationFilter.apply(value as String)
+                            object."${property.key}" = FarsiNormalizationFilter.apply((value as String)?.trim())
                             break
                         default:
                             object."${property.key}" = parseForeignKey(

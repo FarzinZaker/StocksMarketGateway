@@ -29,7 +29,7 @@ class BootStrap {
             UserRole.create adminUser, adminRole
         }
 
-//        dataService.initializeJobs()
+        dataService.initializeJobs()
 
     }
     def destroy = {

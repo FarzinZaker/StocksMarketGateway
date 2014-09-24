@@ -11,6 +11,7 @@
 %{--kendo.ui end--}%
 <asset:javascript src="form-validator/form-validator.js"/>
 <asset:javascript src="form-validator/national-code.js"/>
+<asset:javascript src="dotdotdot.js"/>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <asset:stylesheet src="bootstrap/bootstrap-responsive.css"/>
@@ -26,5 +27,6 @@
     <g:render template="/layouts/site/includesTop"/>
 </sec:ifAnyGranted>
 <sec:ifNotLoggedIn>
+    <asset:stylesheet src="site.less"/>
     <asset:stylesheet src="default.less"/>
 </sec:ifNotLoggedIn>

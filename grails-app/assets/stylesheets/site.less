@@ -218,6 +218,16 @@ ul.linkList {
       }
     }
   }
+
+
+  .user-badge{
+    height: 60px;
+    line-height: 32px;
+    width: 60px;
+    span{
+      line-height: 20px;
+    }
+  }
 }
 
 .k-button.k-red {
@@ -421,4 +431,26 @@ ul.linkList {
 .query-register-description{
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+.user-badge{
+  background-color: @body-color;
+
+  display: inline-block;
+  font-size: 25px;
+  font-weight: bold;
+  height: 80px;
+  line-height: 42px;
+  margin-top: 10px;
+  padding-top: 8px;
+  text-align: center;
+  width: 80px;
+  span{
+    background: none repeat scroll 0 0 @main-color;
+    color: white;
+    display: block;
+    font-weight: normal;
+    line-height: 30px;
+    font-size: 12px;
+  }
 }

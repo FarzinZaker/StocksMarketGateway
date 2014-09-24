@@ -14,15 +14,7 @@
             </div>
         </sec:ifLoggedIn>
 
-        <div class="report">
-            <g:message code="rate.summary"
-                       args="${[userInfo.rateAverage(user: user), userInfo.articleCount(user: user), userInfo.newsCount(user: user)]}"/>
-        </div>
-
-        <div class="report">
-            <g:message code="like.summary"
-                       args="${[userInfo.likeCount(user: user), userInfo.dislikeCount(user: user), userInfo.commentCount(user: user)]}"/>
-        </div>
+        <g:render template="/user/badgeList" model="${[user: user]}"/>
     </div>
 
     <div class="clear-fix"></div>

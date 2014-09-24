@@ -63,8 +63,7 @@ class UserController {
             def searchResult = User.search(params.search?.toString()).results.collect { it.id }
             list = searchResult?.size() > 0 ? User.findAllByBrokerIsNullAndIdInList(searchResult, parameters) : []
             value.total = searchResult?.size() > 0 ? User.countByBrokerIsNullAndIdInList(searchResult) : 0
-        }
-        else{
+        } else {
             list = User.findAllByBrokerIsNull(parameters)
             value.total = User.countByBrokerIsNull()
         }
@@ -110,9 +109,8 @@ class UserController {
                 user.password = springSecurityService.encodePassword(user.password)
         } else {
 
-            if(User.findByEmail(params.email))
-            {
-                flash.validationError = message(code:'user.save.error.repetitiveEmail')
+            if (User.findByEmail(params.email)) {
+                flash.validationError = message(code: 'user.save.error.repetitiveEmail')
                 redirect(action: 'build')
                 return
             }
@@ -203,7 +201,7 @@ class UserController {
 
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def follow() {
         def currentUser = springSecurityService.currentUser as User
         currentUser.get(currentUser.id)
@@ -216,12 +214,10 @@ class UserController {
             render params.type
     }
 
-    @Secured([RoleHelper.ROLE_USER])
     def wall() {
         [user: User.get(params.id)]
     }
 
-    @Secured([RoleHelper.ROLE_USER])
     def synchronized wallJson() {
         def parameters = [offset: params.skip, max: 10, sort: "lastUpdated", order: "desc"]
         def documents = stocks.twitter.Document.createCriteria().list(parameters, {
@@ -235,8 +231,13 @@ class UserController {
         render ''
     }
 
-    @Secured([RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def home() {
+        [user: springSecurityService.currentUser as User]
+    }
+
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
+    def profile() {
         [user: springSecurityService.currentUser as User]
     }
 

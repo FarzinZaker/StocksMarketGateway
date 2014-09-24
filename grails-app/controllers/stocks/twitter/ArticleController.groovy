@@ -113,7 +113,6 @@ class ArticleController {
 
     }
 
-    @Secured([RoleHelper.ROLE_USER])
     def thread() {
         [article: Article.get(params.id)]
     }

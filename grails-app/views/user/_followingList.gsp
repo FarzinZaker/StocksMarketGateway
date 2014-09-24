@@ -12,11 +12,9 @@
                     <h3><a href="${createLink(controller: 'user', action: 'wall', id: followedUser.id)}">${followedUser}</a>
                     </h3>
 
-                    <div class="report">
-                        <g:message code="rate.summary"
-                                   args="${[userInfo.rateAverage(user: followedUser), userInfo.articleCount(user: followedUser), userInfo.newsCount(user: followedUser)]}"/>
-                    </div>
+                    <g:render template="/user/badgeList" model="${[user: user]}"/>
                 </div>
+
                 <div class="clear-fix"></div>
             </div>
         </g:each>
