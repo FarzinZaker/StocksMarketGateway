@@ -18,7 +18,7 @@ class BootStrap {
                 firstName: 'admin',
                 lastName: 'admin',
                 email: 'admin@local',
-                modile:'09121057012',
+                mobile:'09121057012',
                 sex: 'male',
                 nationalCode: '2803348446',
                 enabled: true).save(failOnError: true)
