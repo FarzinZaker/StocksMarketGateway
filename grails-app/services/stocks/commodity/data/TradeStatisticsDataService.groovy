@@ -53,7 +53,7 @@ class TradeStatisticsDataService {
                 subgroups.each { subgroup ->
                     def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
                     producers.each { producer ->
-                        println("${mainGroup} - ${group} - ${subgroup} - ${producer}")
+//                        println("${mainGroup} - ${group} - ${subgroup} - ${producer}")
                         extractData(mainGroup, group, subgroup, producer, startDate, endDate)
                     }
                 }
@@ -79,7 +79,7 @@ class TradeStatisticsDataService {
                 tradeStatisticsEvent.producer = findProducer(producer)
 
                 def cells = row.children()
-                println(cells)
+//                println(cells)
                 if (!cells[0].text().contains('داده ای در جدول وجود ندارد') && !cells[0].text().contains('تاریخ آخرین بروزرسانی')) {
                     tradeStatisticsEvent.commodity = findCommodity(FarsiNormalizationFilter.apply(cells[0].text() as String))
                     tradeStatisticsEvent.contractType = FarsiNormalizationFilter.apply(cells[2].text() as String)
