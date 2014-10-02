@@ -34,7 +34,6 @@ class TradeStatisticsDataService {
     def commodityEventGateway
 
     def importData() {
-        println("start importing commodity data")
         def startDate = new Date()
         def endDate = new Date()
         use(TimeCategory) {

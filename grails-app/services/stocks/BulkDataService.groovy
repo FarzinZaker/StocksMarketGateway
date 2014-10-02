@@ -40,13 +40,8 @@ class BulkDataService {
 //            def transaction = sessionFactory.getCurrentSession().beginTransaction()
             def item = dataQueue.take()
             try {
-                if(!item.object.save()) {
+                if(!item.object.save())
                     dataQueue.put(item)
-
-                    println("save failed - retrying: ${item.object}")
-                }
-                else
-                    println("new record saved: ${item.object}")
 //                else
 //                    transaction.commit()
             }
