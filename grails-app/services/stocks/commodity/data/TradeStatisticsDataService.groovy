@@ -21,9 +21,13 @@ class TradeStatisticsDataService {
             [
                     method : 'importData',
                     trigger: [
-                            type      : 'Cron',
-                            parameters: [cronExpression: '0 0 12 2 OCT ? 2014']
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 60000l, startDelay: 60000]
                     ]
+//                    trigger: [
+//                            type      : 'Cron',
+//                            parameters: [cronExpression: '0 10 12 2 OCT ? 2014']
+//                    ]
             ]
     ]
 
