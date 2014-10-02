@@ -22,7 +22,7 @@ class TradeStatisticsDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Cron',
-                            parameters: [cronExpression: '0 0 15 2 OCT ? 2014']
+                            parameters: [cronExpression: '0 0 12 2 OCT ? 2014']
                     ]
             ]
     ]
