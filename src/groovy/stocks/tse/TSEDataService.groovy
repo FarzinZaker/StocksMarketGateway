@@ -91,7 +91,7 @@ public abstract class TSEDataService<T, K> {
                                     domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
                                     FarsiNormalizationFilter.apply(value as String))
                     }
-                    println(value)
+//                    println(value)
                 }
             }
 
