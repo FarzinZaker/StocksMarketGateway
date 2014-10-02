@@ -18,6 +18,7 @@ class DataService {
     ]
 
     def initializeJobs() {
+        println('scheduling data services started')
         grailsApplication.serviceClasses.findAll { service ->
             dataServicePackages.any {
                 service.fullName.contains(it)
@@ -50,8 +51,10 @@ class DataService {
                         scheduler.start();
                     }
                 }
+                println("${it.propertyName} scheduled")
             }
         }
+        println('scheduling data services completed')
     }
 
     def getJobList() {
