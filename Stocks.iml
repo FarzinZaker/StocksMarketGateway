@@ -32,9 +32,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/controllers" isTestSource="false" />
@@ -83,19 +81,18 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.github.sommeri/less4j/jars/less4j-1.3.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.mozilla/rhino/jars/rhino-1.7R4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.jai-imageio/jai-imageio-core-standalone/jars/jai-imageio-core-standalone-1.2-pre-dr-b04-2013-04-23.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.media/jai-codec/jars/jai-codec-1.1.3.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.media/jai-core/jars/jai-core-1.1.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.29.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.axis/axis/jars/axis-1.4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.xml/jaxrpc-api/jars/jaxrpc-api-1.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.0.4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-discovery/commons-discovery/jars/commons-discovery-0.4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-1.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/joda-time/joda-time-hibernate/jars/joda-time-hibernate-1.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/joda-time/joda-time/jars/joda-time-2.3.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.media/jai-codec/jars/jai-codec-1.1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.media/jai-core/jars/jai-core-1.1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
