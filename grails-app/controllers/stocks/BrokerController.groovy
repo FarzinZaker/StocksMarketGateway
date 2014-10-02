@@ -7,7 +7,7 @@ import grails.plugins.springsecurity.Secured
 class BrokerController {
 
     def build() {
-        [broker: params.id ? Broker.get(params.id) : null]
+        [brokerInstance: params.id ? Broker.get(params.id) : null]
     }
 
     def save() {

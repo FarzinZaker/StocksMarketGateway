@@ -105,8 +105,8 @@ class UserController {
             user = User.get(params.id)
             def oldPassword = user.password
             user.properties = params
-            if (oldPassword != user.password)
-                user.password = springSecurityService.encodePassword(user.password)
+//            if (oldPassword != user.password)
+//                user.password = springSecurityService.encodePassword(user.password)
         } else {
 
             if (User.findByEmail(params.email)) {

@@ -3,6 +3,7 @@ package stocks
 import groovy.transform.Synchronized
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.hibernate.SessionFactory
+import org.springframework.transaction.annotation.Transactional
 
 import java.util.concurrent.ArrayBlockingQueue
 
@@ -28,26 +29,31 @@ class BulkDataService {
             push()
     }
 
+    @Transactional
     def push() {
         if (!dataQueue || dataQueue.isEmpty())
             return
 
-        def transaction = sessionFactory.getCurrentSession().beginTransaction()
 
         while (!dataQueue.isEmpty()) {
+
+//            def transaction = sessionFactory.getCurrentSession().beginTransaction()
             def item = dataQueue.take()
             try {
                 if(!item.object.save())
                     dataQueue.put(item)
+//                else
+//                    transaction.commit()
             }
             catch (ignored){
+//                transaction.rollback()
                 println(ignored.stackTrace)
                 dataQueue.put(item)
+                throw ignored
             }
-        }
 
-        transaction.commit()
-        sessionFactory.currentSession.clear()
+//            sessionFactory.currentSession.clear()
+        }
     }
 
     @Synchronized

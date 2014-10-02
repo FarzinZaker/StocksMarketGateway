@@ -18,18 +18,18 @@
         <div class="col-xs-12">
             <h1><g:message code="broker.build.title"/></h1>
             <form:form action="save" name="brokerForm">
-                <form:hidden name="id" entity="${broker}"/>
+                <form:hidden name="id" entity="${brokerInstance}"/>
 
                 <form:field fieldName="broker.name">
-                    <form:textBox name="name" style="width:500px" entity="${broker}" validation="required"/>
+                    <form:textBox name="name" style="width:500px" entity="${brokerInstance}" validation="required"/>
                 </form:field>
 
                 <form:field fieldName="broker.englishName">
-                    <form:textBox name="englishName" style="width:500px" entity="${broker}" validation="required"/>
+                    <form:textBox name="englishName" style="width:500px" entity="${brokerInstance}" validation="required"/>
                 </form:field>
 
                 <form:field fieldName="broker.logo">
-                    <form:imageUpload name="logo" style="width:500px;" entity="${broker}"
+                    <form:imageUpload name="logo" style="width:500px;" entity="${brokerInstance}"
                                       saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
                 </form:field>
 
