@@ -137,7 +137,7 @@
     <li data-tile-type="s,6m">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-green tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'query', action: 'select')}">
+            <a class="tilt tilt-tile tilt-tile-green tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'query', action: 'selectData')}">
                 <i class="fa fa-paper-plane-o"></i><span><g:message code="menu.newsletters.add"/></span>
             </a>
 
