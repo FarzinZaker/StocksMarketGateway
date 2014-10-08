@@ -43,9 +43,13 @@ class AnnouncementDataService {
         )
     }
 
+    static WebSpec spec
+
     private void parseData(String url) {
 
-        WebSpec spec = new WebSpec().mozilla()
+        if(!spec)
+            spec = new WebSpec().mozilla()
+
         spec.open(url)
         spec.hide()
         while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
