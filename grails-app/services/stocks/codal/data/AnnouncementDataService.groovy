@@ -10,6 +10,8 @@ import stocks.codal.event.AnnouncementEvent
 import stocks.tse.Company
 import stocks.tse.Symbol
 import groovyx.net.http.*
+import sun.misc.GC
+
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
@@ -49,11 +51,25 @@ class AnnouncementDataService {
         if(!spec)
             spec = Class.forName('org.watij.webspec.dsl.WebSpec').newInstance().mozilla()
 
-        spec.open(url)
+        try {
+            spec.open(url)
 //        spec.hide()
-        while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
-            Thread.sleep(1000)
-        def result = spec.source()
+            def counter = 0
+            while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists()) {
+                Thread.sleep(1000)
+                if (++counter > 60) {
+                    spec = null
+                    GC.collect()
+                    return
+                }
+            }
+            def result = spec.source()
+        }
+        catch(ignored){
+            spec = null
+            GC.collect()
+            return
+        }
 //        spec.close()
 
         def htmlParser = new XmlSlurper(new Parser()).parseText(result)
