@@ -3,7 +3,6 @@ package stocks.codal.data
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import org.ccil.cowan.tagsoup.Parser
 import org.quartz.JobDetail
-import org.watij.webspec.dsl.WebSpec
 import org.xml.sax.InputSource
 import stocks.FarsiNormalizationFilter
 import stocks.codal.Announcement
@@ -43,19 +42,19 @@ class AnnouncementDataService {
         )
     }
 
-    static WebSpec spec
+    static def spec
 
     private void parseData(String url) {
 
         if(!spec)
-            spec = new WebSpec().mozilla()
+            spec = Class.forName('org.watij.webspec.dsl.WebSpec').newInstance().mozilla()
 
         spec.open(url)
 //        spec.hide()
         while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
             Thread.sleep(1000)
         def result = spec.source()
-        spec.close()
+//        spec.close()
 
         def htmlParser = new XmlSlurper(new Parser()).parseText(result)
         def containerDiv = htmlParser.'**'.find { it.@id == 'divLetterFormList' }
