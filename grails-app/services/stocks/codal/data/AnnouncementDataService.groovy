@@ -51,7 +51,7 @@ class AnnouncementDataService {
             spec = new WebSpec().mozilla()
 
         spec.open(url)
-        spec.hide()
+//        spec.hide()
         while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists())
             Thread.sleep(1000)
         def result = spec.source()
