@@ -58,7 +58,7 @@ class AdminController {
 //        dataService.initializeJobs()
 //        render dataService.printJobList()
 
-        tradeStatisticsDataService.importData()
+        announcementDataService.importData()
     }
 
     def throwException(){

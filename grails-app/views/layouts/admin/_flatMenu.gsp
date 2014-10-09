@@ -145,7 +145,6 @@
     </li>
 
 
-
     <li data-tile-type="s,5m,8_l">
         <div>
 
