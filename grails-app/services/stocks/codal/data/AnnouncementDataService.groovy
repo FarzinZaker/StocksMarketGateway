@@ -77,7 +77,7 @@ class AnnouncementDataService {
         def rows = containerDiv.'**'.findAll { it.name() == 'tr' }
         rows.remove(0)
         rows.each { row ->
-            println(row)
+//            println(row)
             def announcementEvent = new AnnouncementEvent()
             def cells = row.children()
             announcementEvent.symbolPersianCode = FarsiNormalizationFilter.apply(cells[0].text() as String)
