@@ -55,8 +55,8 @@ grails.project.dependency.resolution = {
         build 'joda-time:joda-time:2.3'
         build 'joda-time:joda-time-hibernate:1.3'
 
-        build 'commons-httpclient:commons-httpclient:3.1'
-        build 'org.jsoup:jsoup:1.8.1'
+        compile 'commons-httpclient:commons-httpclient:3.1'
+        compile 'org.jsoup:jsoup:1.8.1'
     }
 
     plugins {
