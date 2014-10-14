@@ -32,7 +32,7 @@ class BootStrap {
         }
 
         dataStateService.initializeStateLogging()
-//        dataService.initializeJobs()
+        dataService.initializeJobs()
 
     }
     def destroy = {
