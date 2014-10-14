@@ -45,16 +45,29 @@ class TradeStatisticsDataService {
 
     private void parseData(Date startDate, Date endDate) {
 
+        def checkPointReached = false
+        def state = getLastState()
+        if (!state)
+            checkPointReached = true
         def mainGroups = getSelectOptions('grouhAsli')
         mainGroups.each { mainGroup ->
-            def groups = getSelectOptions('grouh', mainGroup.id)
-            groups.each { group ->
-                def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
-                subgroups.each { subgroup ->
-                    def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
-                    producers.each { producer ->
-//                        println("${mainGroup} - ${group} - ${subgroup} - ${producer}")
-                        extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+            if (checkPointReached || mainGroup.id == state.mainGroup.id) {
+                def groups = getSelectOptions('grouh', mainGroup.id)
+                groups.each { group ->
+                    if (checkPointReached || group.id == state.group.id) {
+                        def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
+                        subgroups.each { subgroup ->
+                            if (checkPointReached || subgroup.id == state.subgroup.id) {
+                                def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
+                                producers.each { producer ->
+                                    if (checkPointReached || producer.id == state.producer.id) {
+                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                        checkPointReached = true
+                                        extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

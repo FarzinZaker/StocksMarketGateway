@@ -48,7 +48,8 @@
                                         nextFireDate: { type: "string" },
                                         nextFireTime: { type: "string" },
                                         timesTriggered: { type: "string" },
-                                        status: { type: "boolean" }
+                                        status: { type: "boolean" },
+                                        statusData: { type: "string" }
                                     }
                                 },
                                 data: "data",
@@ -84,6 +85,10 @@
                             {
                                 field: "timesTriggered",
                                 title: "${message(code:'monitor.dataSources.timesTriggered.label')}"
+                            } ,
+                            {
+                                field: "statusData",
+                                title: "${message(code:'monitor.dataSources.statusData.label')}"
                             },
                             { command: { text: "${message(code:'restart')}", click: restartJob }, title: "", width: "124px", headerAttributes: { style: "text-align: center"} }
                         ]

@@ -3,6 +3,8 @@ package stocks.alerting
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import groovy.time.TimeCategory
+import stocks.DataService
+import stocks.DataServiceState
 
 class MonitorController {
 
@@ -27,7 +29,8 @@ class MonitorController {
                         previousFireDate: formatDate(item.previousFireTime),
                         previousFireTime: formatTime(item.previousFireTime),
                         timesTriggered  : item.timesTriggered,
-                        status          : item.nextFireTime + 2.minutes > new Date()
+                        status          : item.nextFireTime + 2.minutes > new Date(),
+                        statusData      : DataServiceState.findByServiceNameAndIsLastState(item.jobName.split('_').first(), true)?.data
                 ]
             }
             row
@@ -41,7 +44,7 @@ class MonitorController {
             dataService.restartJob(params.name as String)
             render "1"
         }
-        catch(ignored){
+        catch (ignored) {
             render "0"
         }
     }

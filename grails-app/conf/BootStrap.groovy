@@ -3,6 +3,7 @@ import stocks.*
 class BootStrap {
 
     def dataService
+    def dataStateService
 
     def init = { servletContext ->
 
@@ -30,7 +31,8 @@ class BootStrap {
             UserRole.create adminUser, adminRole
         }
 
-        dataService.initializeJobs()
+        dataStateService.initializeStateLogging()
+//        dataService.initializeJobs()
 
     }
     def destroy = {

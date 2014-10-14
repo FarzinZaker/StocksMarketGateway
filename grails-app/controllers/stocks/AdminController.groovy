@@ -28,7 +28,6 @@ class AdminController {
     def smsService
     def scheduleService
 
-    def commodityTransactionStatisticsDataService
     def tradeStatisticsDataService
 
     def index() {
@@ -58,7 +57,7 @@ class AdminController {
 //        dataService.initializeJobs()
 //        render dataService.printJobList()
 
-        announcementDataService.importData()
+        tradeStatisticsDataService.importData()
     }
 
     def throwException(){
