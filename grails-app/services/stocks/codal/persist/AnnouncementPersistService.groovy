@@ -46,6 +46,8 @@ class AnnouncementPersistService {
     }
 
     private static def downloadFile(String url, String path, Integer retryCount = 0) {
+        if ((!url || url == '') && retryCount == 0)
+            return
         try {
             def file = new File(path)
             if (file.exists())
