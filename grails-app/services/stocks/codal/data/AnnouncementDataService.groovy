@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.methods.PostMethod
 import org.ccil.cowan.tagsoup.Parser
 import org.jsoup.Jsoup
 import stocks.FarsiNormalizationFilter
+import stocks.RandomUserAgent
 import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 import stocks.tse.Company
@@ -44,40 +45,13 @@ class AnnouncementDataService {
         )
     }
 
-    static def spec
-
     private void parseData(String url) {
-
-//        if(!spec)
-//            spec = Class.forName('org.watij.webspec.dsl.WebSpec').newInstance().mozilla()
-//
-//        try {
-//            spec.open(url)
-////        spec.hide()
-//            def counter = 0
-//            while (!spec.findWithId('ctl00_ContentPlaceHolder1_gvList').exists()) {
-//                Thread.sleep(1000)
-//                if (++counter > 60) {
-//                    spec = null
-//                    GC.collect()
-//                    return
-//                }
-//            }
-//            def result = spec.source()
-//        }
-//        catch(ignored){
-//            spec = null
-//            GC.collect()
-//            return
-//        }
-//        spec.close()
 
         def htmlParser = new XmlSlurper(new Parser()).parseText(getList(url))
         def containerDiv = htmlParser.'**'.find { it.@id == 'divLetterFormList' }
         def rows = containerDiv.'**'.findAll { it.name() == 'tr' }
         rows.remove(0)
         rows.each { row ->
-//            println(row)
             def announcementEvent = new AnnouncementEvent()
             def cells = row.children()
             announcementEvent.symbolPersianCode = FarsiNormalizationFilter.apply(cells[0].text() as String)
@@ -112,7 +86,7 @@ class AnnouncementDataService {
     }
 
     private static String getList(String url){
-        String userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2' ;
+        String userAgent = RandomUserAgent.randomUserAgent ;
 
         HttpClient client = new HttpClient();
         HttpMethod method = new GetMethod(url);
@@ -137,7 +111,6 @@ class AnnouncementDataService {
         postMethod.setRequestHeader("Pragma", "no-cache");
         postMethod.setRequestHeader("Referer", "http://www.codal.ir/ReportList.aspx");
         postMethod.setRequestHeader("X-MicrosoftAjax", "Delta=true");
-//                    postMethod.setRequestHeader("Content-Length", "2524");
 
 
         postMethod.addParameter("ctl00_tvActivity_ExpandState", doc.select("#ctl00_tvActivity_ExpandState").val());

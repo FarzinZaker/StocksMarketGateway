@@ -45,22 +45,29 @@ class AnnouncementPersistService {
             downloadFile(announcement.xmlUrl, "${filesPath}/xml/${announcement.id}.xml")
     }
 
-    private static def downloadFile(String url, String path) {
-        def file = new File(path)
-        if (file.exists())
-            file.delete()
-        file.parentFile.mkdirs()
-        new URL(url).openConnection().with { conn ->
-            conn.instanceFollowRedirects = false
-            url = conn.getHeaderField("Location")
-            if (!url) {
-                new File(path).withOutputStream { out ->
-                    conn.inputStream.with { inp ->
-                        out << inp
-                        inp.close()
+    private static def downloadFile(String url, String path, Integer retryCount = 0) {
+        try {
+            def file = new File(path)
+            if (file.exists())
+                file.delete()
+            file.parentFile.mkdirs()
+            new URL(url).openConnection().with { conn ->
+                conn.instanceFollowRedirects = false
+                url = conn.getHeaderField("Location")
+                if (!url) {
+                    new File(path).withOutputStream { out ->
+                        conn.inputStream.with { inp ->
+                            out << inp
+                            inp.close()
+                        }
                     }
                 }
             }
+        } catch (ignored) {
+            if (retryCount < 5)
+                downloadFile(url, path, retryCount + 1)
+            else
+                println("unable to download ${url}")
         }
     }
 
