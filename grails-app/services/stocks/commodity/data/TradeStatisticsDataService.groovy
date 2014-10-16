@@ -14,8 +14,6 @@ import stocks.commodity.Provider
 import stocks.commodity.Subgroup
 import stocks.commodity.TradeStatistics
 import stocks.commodity.event.TradeStatisticsEvent
-import groovy.transform.TimedInterrupt
-import java.util.concurrent.TimeUnit
 
 class TradeStatisticsDataService {
 
@@ -217,7 +215,6 @@ class TradeStatisticsDataService {
         select
     }
 
-//    @TimedInterrupt(value = 30000L, unit = TimeUnit.SECONDS)
     private
     static GPathResult loadUrl(mainGroup = 0, group = 0, subgroup = 0, producer = 0, startDate = new Date() - 1, endDate = new Date(), page = 1, pageSize = 1) {
         def result = null
