@@ -14,6 +14,8 @@ import stocks.commodity.Provider
 import stocks.commodity.Subgroup
 import stocks.commodity.TradeStatistics
 import stocks.commodity.event.TradeStatisticsEvent
+import groovy.transform.TimedInterrupt
+import java.util.concurrent.TimeUnit
 
 class TradeStatisticsDataService {
 
@@ -44,34 +46,37 @@ class TradeStatisticsDataService {
     }
 
     private void parseData(Date startDate, Date endDate) {
-
-        def checkPointReached = false
-        def state = getLastState()
-        if (!state)
-            checkPointReached = true
-        def mainGroups = getSelectOptions('grouhAsli')
-        mainGroups.each { mainGroup ->
-            if (checkPointReached || mainGroup.id == state.mainGroup.id) {
-                def groups = getSelectOptions('grouh', mainGroup.id)
-                groups.each { group ->
-                    if (checkPointReached || group.id == state.group.id) {
-                        def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
-                        subgroups.each { subgroup ->
-                            if (checkPointReached || subgroup.id == state.subgroup.id) {
-                                def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
-                                producers.each { producer ->
-                                    if (checkPointReached || producer.id == state.producer.id) {
-                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
-                                        checkPointReached = true
-                                        extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+        try {
+            def checkPointReached = false
+            def state = getLastState()
+            if (!state)
+                checkPointReached = true
+            def mainGroups = getSelectOptions('grouhAsli')
+            mainGroups.each { mainGroup ->
+                if (checkPointReached || mainGroup.id == state.mainGroup.id) {
+                    def groups = getSelectOptions('grouh', mainGroup.id)
+                    groups.each { group ->
+                        if (checkPointReached || group.id == state.group.id) {
+                            def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
+                            subgroups.each { subgroup ->
+                                if (checkPointReached || subgroup.id == state.subgroup.id) {
+                                    def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
+                                    producers.each { producer ->
+                                        if (checkPointReached || producer.id == state.producer.id) {
+                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                            checkPointReached = true
+                                            extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
 
+            }
+        }
+        catch (ignored) {
         }
     }
 
@@ -212,13 +217,18 @@ class TradeStatisticsDataService {
         select
     }
 
+//    @TimedInterrupt(value = 30000L, unit = TimeUnit.SECONDS)
     private
     static GPathResult loadUrl(mainGroup = 0, group = 0, subgroup = 0, producer = 0, startDate = new Date() - 1, endDate = new Date(), page = 1, pageSize = 1) {
         def result = null
         def tryCount = 0
         while (!result && tryCount < 5) {
             try {
-                result = new XmlSlurper(new Parser()).parse("http://www.ime.co.ir/report.dispatcher?lang=fa&reportId=rep3&randomId=rep3&pageNumber=${page}&pageSize=${pageSize}&grouhAsli=${mainGroup}&grouh=${group}&zirGrouh=${subgroup}&tolidKonande=${producer}&fromDate=${formatDate(startDate)}&toDate=${formatDate(endDate)}")
+                URLConnection connection = new URL("http://www.ime.co.ir/report.dispatcher?lang=fa&reportId=rep3&randomId=rep3&pageNumber=${page}&pageSize=${pageSize}&grouhAsli=${mainGroup}&grouh=${group}&zirGrouh=${subgroup}&tolidKonande=${producer}&fromDate=${formatDate(startDate)}&toDate=${formatDate(endDate)}").openConnection()
+                connection.connectTimeout = 60000
+                connection.readTimeout = 60000
+                result = new XmlSlurper(new Parser()).parse(connection.inputStream)
+//                result = new XmlSlurper(new Parser()).parse("http://www.ime.co.ir/report.dispatcher?lang=fa&reportId=rep3&randomId=rep3&pageNumber=${page}&pageSize=${pageSize}&grouhAsli=${mainGroup}&grouh=${group}&zirGrouh=${subgroup}&tolidKonande=${producer}&fromDate=${formatDate(startDate)}&toDate=${formatDate(endDate)}")
             }
             catch (ignored) {
                 tryCount++

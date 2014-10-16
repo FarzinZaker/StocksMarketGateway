@@ -5,6 +5,8 @@ import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.HttpMethod
 import org.apache.commons.httpclient.methods.GetMethod
 import org.apache.commons.httpclient.methods.PostMethod
+import org.apache.commons.httpclient.params.HttpClientParams
+import org.apache.http.params.HttpConnectionParams
 import org.ccil.cowan.tagsoup.Parser
 import org.jsoup.Jsoup
 import stocks.FarsiNormalizationFilter
@@ -94,7 +96,11 @@ class AnnouncementDataService {
     private static String getList(String url) {
         String userAgent = RandomUserAgent.randomUserAgent;
 
-        HttpClient client = new HttpClient();
+        final HttpClientParams httpParams = new HttpClientParams();
+        httpParams.setConnectionManagerTimeout(60000)
+        httpParams.setSoTimeout(60000)
+        HttpClient client = new HttpClient(httpParams);
+
         HttpMethod method = new GetMethod(url);
         method.setRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         method.setRequestHeader("Accept-Language", "en-US,en;q=0.5");
