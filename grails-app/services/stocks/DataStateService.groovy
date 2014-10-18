@@ -24,16 +24,17 @@ class DataStateService {
             service.metaClass.logState = { def data ->
 
                 def serviceName = currentService.fullName
+                DataServiceState.withTransaction {
+                    DataServiceState.findAllByServiceNameAndIsLastState(serviceName, true).each {
+                        it.isLastState = false
+                        it.save()
+                    }
 
-                DataServiceState.findAllByServiceNameAndIsLastState(serviceName, true).each {
-                    it.isLastState = false
-                    bulkDataService.save(it)
+                    DataServiceState state = new DataServiceState()
+                    state.serviceName = serviceName
+                    state.data = data as JSON
+                    state.save()
                 }
-
-                DataServiceState state = new DataServiceState()
-                state.serviceName = serviceName
-                state.data = data as JSON
-                bulkDataService.save(state)
             }
 
             service.metaClass.getLastState = {
