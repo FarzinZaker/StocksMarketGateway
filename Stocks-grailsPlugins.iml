@@ -9,8 +9,6 @@
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/cache-headers-1.1.5/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-0.4.1/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -62,11 +60,6 @@
       <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-0.4.1/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-0.4.1/grails-app/services" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-monitor-1.0/grails-app/controllers" isTestSource="false" />
-    </content>
     <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/rest-0.8">
       <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/rest-0.8/src/groovy" isTestSource="false" />
     </content>
@@ -96,8 +89,8 @@
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-stdlib" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (Analio-grailsPlugins)">
         <CLASSES>
@@ -129,7 +122,6 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.github.sommeri/less4j/jars/less4j-1.3.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.mozilla/rhino/jars/rhino-1.7R4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.jai-imageio/jai-imageio-core-standalone/jars/jai-imageio-core-standalone-1.2-pre-dr-b04-2013-04-23.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.29.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.axis/axis/jars/axis-1.4.jar!/" />
@@ -141,10 +133,8 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/joda-time/joda-time/jars/joda-time-2.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.media/jai-codec/jars/jai-codec-1.1.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.media/jai-core/jars/jai-core-1.1.3.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.0.4.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.2.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-1.8.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
