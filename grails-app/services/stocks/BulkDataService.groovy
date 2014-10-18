@@ -40,14 +40,16 @@ class BulkDataService {
 //            def transaction = sessionFactory.getCurrentSession().beginTransaction()
             def item = dataQueue.take()
             try {
-                if(!item.object.save())
+                if(!item.object.save(flush:true))
                     dataQueue.put(item)
 //                else
 //                    transaction.commit()
             }
             catch (ignored){
 //                transaction.rollback()
-                println(ignored.stackTrace)
+//                println(ignored.stackTrace)
+//                ignored.printStackTrace()
+                println "${new Date()} ${ignored.message} ${item}"
                 dataQueue.put(item)
             }
 
