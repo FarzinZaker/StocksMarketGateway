@@ -61,7 +61,7 @@ environments {
     }
     production {
         dataSource {
-//            dbCreate = "update"
+            dbCreate = "update"
 //            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
 //            username = "root"
 //            password = ""
