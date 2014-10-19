@@ -35,7 +35,7 @@ class DataStateService {
                     DataServiceState state = new DataServiceState()
                     state.serviceName = serviceName
                     state.data = data as JSON
-                    state.save()
+                    state.save(flush: true)
                 }
             }
 
