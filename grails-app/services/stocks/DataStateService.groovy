@@ -18,24 +18,25 @@ class DataStateService {
         }
     }
 
-    @Synchronized
+
     def initializeStateLogging() {
         serviceNames.each { currentService ->
             def service = grailsApplication.mainContext[currentService.propertyName]
 
             service.metaClass.logState = { def data ->
+                synchronized (this) {
+                    def serviceName = currentService.fullName
+                    DataServiceState.withTransaction {
+                        DataServiceState.findAllByServiceNameAndIsLastState(serviceName, true).each {
+                            it.isLastState = false
+                            it.save()
+                        }
 
-                def serviceName = currentService.fullName
-                DataServiceState.withTransaction {
-                    DataServiceState.findAllByServiceNameAndIsLastState(serviceName, true).each {
-                        it.isLastState = false
-                        it.save()
+                        DataServiceState state = new DataServiceState()
+                        state.serviceName = serviceName
+                        state.data = data as JSON
+                        state.save(flush: true)
                     }
-
-                    DataServiceState state = new DataServiceState()
-                    state.serviceName = serviceName
-                    state.data = data as JSON
-                    state.save(flush: true)
                 }
             }
 

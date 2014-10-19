@@ -61,9 +61,10 @@ class TradeStatisticsDataService {
                                     def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
-                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
                                             checkPointReached = true
                                             extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                            return;
                                         }
                                     }
                                 }

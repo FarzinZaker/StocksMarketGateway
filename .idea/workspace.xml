@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -90,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataStateService.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DataStateService.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6183206" vertical-offset="312" max-vertical-offset="840">
-              <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="417" max-vertical-offset="855">
+              <caret line="43" column="75" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="75" />
               <folding>
                 <element signature="e#16#45#0" expanded="true" />
               </folding>
@@ -102,11 +103,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TradeStatisticsDataService.groovy" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="BootStrap.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="319" max-vertical-offset="690">
+              <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TradeStatisticsDataService.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="3885">
-              <caret line="38" column="24" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.9636871" vertical-offset="450" max-vertical-offset="3900">
+              <caret line="66" column="51" selection-start-line="66" selection-start-column="51" selection-end-line="66" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -164,7 +175,6 @@
         <option value="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/DataServiceState.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/alerting/MonitorController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/monitor/dataSources.gsp" />
         <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
@@ -176,6 +186,7 @@
         <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" />
       </list>
     </option>
   </component>
@@ -736,7 +747,7 @@
       <workItem from="1413281026840" duration="8645000" />
       <workItem from="1413634970194" duration="6245000" />
       <workItem from="1413645537140" duration="8000" />
-      <workItem from="1413645562504" duration="5219000" />
+      <workItem from="1413645562504" duration="6135000" />
     </task>
     <task id="LOCAL-00001" summary="initial run">
       <created>1403083565156</created>
@@ -930,11 +941,15 @@
       <created>1413712564851</created>
       <updated>1413712564851</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="codal changed">
+      <created>1413712651605</created>
+      <updated>1413712651605</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="875779000" />
+    <option name="totallyTimeSpent" value="876695000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1079,12 +1094,6 @@
           <line>22</line>
           <properties />
           <option name="timeStamp" value="249" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy</url>
-          <line>64</line>
-          <properties />
-          <option name="timeStamp" value="647" />
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="648" />
@@ -1287,14 +1296,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="131" max-vertical-offset="736">
-          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="12.0670395" vertical-offset="5175" max-vertical-offset="10080">
@@ -1463,11 +1464,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/alerting/MonitorController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3885">
-          <caret line="38" column="24" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="24" />
+        <state vertical-scroll-proportion="16.434782" vertical-offset="618" max-vertical-offset="1110">
+          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="319" max-vertical-offset="690">
+          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="417" max-vertical-offset="855">
+          <caret line="43" column="75" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="75" />
+          <folding>
+            <element signature="e#16#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1479,21 +1498,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/alerting/MonitorController.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="16.434782" vertical-offset="618" max-vertical-offset="1110">
-          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.9636871" vertical-offset="450" max-vertical-offset="3900">
+          <caret line="66" column="51" selection-start-line="66" selection-start-column="51" selection-end-line="66" selection-end-column="51" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/DataStateService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6183206" vertical-offset="312" max-vertical-offset="840">
-          <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
-          <folding>
-            <element signature="e#16#45#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
