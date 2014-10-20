@@ -84,7 +84,9 @@ class AnnouncementDataService {
                     announcementEvent.attachmentsUrl = "http://codal.ir/" + linkUrl
 
                 announcementEvent.data = find(announcementEvent)
-                codalEventGateway.send(announcementEvent)
+                AnnouncementEvent.withTransaction {
+                    codalEventGateway.send(announcementEvent)
+                }
             }
             logState([status:'successful'])
         }
