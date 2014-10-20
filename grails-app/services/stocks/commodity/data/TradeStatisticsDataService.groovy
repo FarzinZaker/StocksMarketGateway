@@ -62,11 +62,28 @@ class TradeStatisticsDataService {
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
-                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                            def t = new Thread() {
+                                                public void run() {
+                                                    TradeStatistics.withTransaction {
+                                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                                    }
+                                                }
+                                            }
+                                            t.start()
+                                            t.join()
+
                                             def sd = startDate
                                             use(TimeCategory) {
                                                 while (sd < endDate) {
-                                                    extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
+                                                    t = new Thread() {
+                                                        public void run() {
+                                                            TradeStatistics.withTransaction {
+                                                                extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
+                                                            }
+                                                        }
+                                                    }
+                                                    t.start()
+                                                    t.join()
                                                     println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
                                                     sd = sd + 1.year
                                                 }
