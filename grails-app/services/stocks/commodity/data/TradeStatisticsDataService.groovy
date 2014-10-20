@@ -62,28 +62,16 @@ class TradeStatisticsDataService {
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
-                                            def t = new Thread() {
-                                                public void run() {
-                                                    TradeStatistics.withTransaction {
-                                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
-                                                    }
+                                            Thread.start {
+                                                TradeStatistics.withTransaction {
+                                                    logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
                                                 }
-                                            }
-                                            t.start()
-                                            t.join()
+                                            }.join()
 
                                             def sd = startDate
                                             use(TimeCategory) {
                                                 while (sd < endDate) {
-                                                    t = new Thread() {
-                                                        public void run() {
-                                                            TradeStatistics.withTransaction {
-                                                                extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
-                                                            }
-                                                        }
-                                                    }
-                                                    t.start()
-                                                    t.join()
+                                                    extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
                                                     println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
                                                     sd = sd + 1.year
                                                 }
@@ -139,7 +127,12 @@ class TradeStatisticsDataService {
                     tradeStatisticsEvent.settlementMaturityDate = parseDate(cells[15].text() as String)
 
                     tradeStatisticsEvent.data = find(tradeStatisticsEvent)
-                    commodityEventGateway.send(tradeStatisticsEvent)
+                    Thread.start {
+                        TradeStatistics.withTransaction {
+                            commodityEventGateway.send(tradeStatisticsEvent)
+                        }
+                    }.join()
+
                 } else if (cells[0].text().contains('داده ای در جدول وجود ندارد')) {
                     stillHasRecords = false
                 }
@@ -162,9 +155,13 @@ class TradeStatisticsDataService {
     private static Commodity findCommodity(commodity) {
         def result = Commodity.findByName(commodity as String)
         if (!result) {
-            result = new Commodity()
-            result.name = commodity as String
-            result.save()
+            Thread.start {
+                Commodity.withTransaction {
+                    result = new Commodity()
+                    result.name = commodity as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
@@ -172,9 +169,13 @@ class TradeStatisticsDataService {
     private static Provider findProvider(provider) {
         def result = Provider.findByName(provider as String)
         if (!result) {
-            result = new Provider()
-            result.name = provider as String
-            result.save()
+            Thread.start {
+                Provider.withTransaction {
+                    result = new Provider()
+                    result.name = provider as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
@@ -182,10 +183,14 @@ class TradeStatisticsDataService {
     private static Producer findProducer(producer) {
         def result = Producer.findByCodeAndName(producer.id as Integer, producer.name as String)
         if (!result) {
-            result = new Producer()
-            result.code = producer.id as Integer
-            result.name = producer.name as String
-            result.save()
+            Thread.start {
+                Producer.withTransaction {
+                    result = new Producer()
+                    result.code = producer.id as Integer
+                    result.name = producer.name as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
@@ -194,11 +199,15 @@ class TradeStatisticsDataService {
         def parent = findGroup(mainGroup, group)
         def result = Subgroup.findByGroupAndCodeAndName(parent, subgroup.id as Integer, subgroup.name as String)
         if (!result) {
-            result = new Subgroup()
-            result.group = parent
-            result.code = subgroup.id as Integer
-            result.name = subgroup.name as String
-            result.save()
+            Thread.start {
+                Subgroup.withSession {
+                    result = new Subgroup()
+                    result.group = parent
+                    result.code = subgroup.id as Integer
+                    result.name = subgroup.name as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
@@ -207,11 +216,15 @@ class TradeStatisticsDataService {
         def parent = findMainGroup(mainGroup)
         def result = Group.findByMainGroupAndCodeAndName(parent, group.id as Integer, group.name as String)
         if (!result) {
-            result = new Group()
-            result.mainGroup = parent
-            result.code = group.id as Integer
-            result.name = group.name as String
-            result.save()
+            Thread.start {
+                Group.withTransaction {
+                    result = new Group()
+                    result.mainGroup = parent
+                    result.code = group.id as Integer
+                    result.name = group.name as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
@@ -219,10 +232,14 @@ class TradeStatisticsDataService {
     private static MainGroup findMainGroup(mainGroup) {
         def result = MainGroup.findByCodeAndName(mainGroup.id as Integer, mainGroup.name as String)
         if (!result) {
-            result = new MainGroup()
-            result.code = mainGroup.id as Integer
-            result.name = mainGroup.name as String
-            result.save()
+            Thread.start {
+                MainGroup.withTransaction {
+                    result = new MainGroup()
+                    result.code = mainGroup.id as Integer
+                    result.name = mainGroup.name as String
+                    result.save()
+                }
+            }.join()
         }
         result
     }
