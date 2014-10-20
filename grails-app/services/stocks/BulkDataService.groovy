@@ -16,7 +16,7 @@ class BulkDataService {
     private static ArrayBlockingQueue dataQueue
 
     private void init() {
-        dataQueue = new ArrayBlockingQueue(1)
+        dataQueue = new ArrayBlockingQueue(10)
     }
 
     @Synchronized
