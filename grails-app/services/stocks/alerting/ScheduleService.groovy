@@ -4,7 +4,7 @@ import groovy.time.TimeCategory
 
 
 class ScheduleService {
-
+    static transactional = false
     def static final WEEK_DAYS = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
 
     void calculateQueryInstanceNextExecutionTime(QueryInstance queryInstance) {

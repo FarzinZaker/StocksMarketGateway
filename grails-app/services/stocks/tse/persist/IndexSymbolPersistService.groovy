@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.IndexSymbolEvent
 
 class IndexSymbolPersistService extends TSEPersistService<IndexSymbol, IndexSymbolEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new IndexSymbol()

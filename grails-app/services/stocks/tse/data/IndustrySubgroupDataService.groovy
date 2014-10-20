@@ -5,7 +5,7 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.IndustrySubgroupEvent
 
 class IndustrySubgroupDataService extends TSEDataService<IndustrySubgroup, IndustrySubgroupEvent> {
-
+    static transactional = false
     static schedules = [
             [
                     method : 'importData',

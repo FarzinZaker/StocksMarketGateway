@@ -6,7 +6,7 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.SymbolStateEvent
 
 class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEvent> {
-
+    static transactional = false
     static schedules = [
             [
                     method : 'importData',

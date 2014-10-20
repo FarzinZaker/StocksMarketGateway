@@ -16,7 +16,7 @@ import stocks.commodity.TradeStatistics
 import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsDataService {
-
+    static transactional = false
     static schedules = [
             [
                     method : 'importData',

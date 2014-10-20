@@ -7,7 +7,7 @@ import stocks.tse.event.BoardEvent
 import java.beans.Introspector
 
 class TSEEventService {
-
+    static transactional = false
     def bulkDataService
 
     private def persistEvent(event) {

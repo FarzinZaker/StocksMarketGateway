@@ -8,7 +8,7 @@ import stocks.codal.event.AnnouncementEvent
 import java.beans.Introspector
 
 class CodalEventService {
-
+    static transactional = false
     def bulkDataService
 
     def announcementPersistService

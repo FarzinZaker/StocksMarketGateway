@@ -20,7 +20,7 @@ import sun.misc.GC
 
 
 class AnnouncementDataService {
-
+    static transactional = false
     def codalEventGateway
 
     static schedules = [

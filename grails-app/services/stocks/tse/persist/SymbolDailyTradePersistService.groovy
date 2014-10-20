@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolDailyTradeEvent
 
 class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade, SymbolDailyTradeEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new SymbolDailyTrade()

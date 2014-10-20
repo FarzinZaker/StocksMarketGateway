@@ -4,7 +4,7 @@ import stocks.commodity.TradeStatistics
 import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsPersistService {
-
+    static transactional = false
     def bulkDataService
     def grailsApplication
     def queryService

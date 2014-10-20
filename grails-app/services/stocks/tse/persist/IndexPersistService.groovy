@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.IndexEvent
 
 class IndexPersistService extends TSEPersistService<Index, IndexEvent> {
+    static transactional = false
 
     @Override
     protected getSampleObject() {

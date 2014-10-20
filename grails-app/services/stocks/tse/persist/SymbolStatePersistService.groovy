@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolStateEvent
 
 class SymbolStatePersistService extends TSEPersistService<SymbolState, SymbolStateEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new SymbolState()

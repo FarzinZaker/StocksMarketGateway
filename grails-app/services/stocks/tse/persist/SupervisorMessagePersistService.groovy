@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.SupervisorMessageEvent
 
 class SupervisorMessagePersistService extends TSEPersistService<SupervisorMessage, SupervisorMessageEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new SupervisorMessage()

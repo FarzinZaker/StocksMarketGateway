@@ -5,7 +5,7 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.SupervisorMessageEvent
 
 class SupervisorMessageDataService extends TSEDataService<SupervisorMessage, SupervisorMessageEvent> {
-
+    static transactional = false
     static schedules = [
             [
                     method : 'importData',

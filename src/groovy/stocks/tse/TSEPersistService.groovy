@@ -10,7 +10,7 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
  * Time: 4:12 PM
  */
 public abstract class TSEPersistService<T, K> {
-
+    static transactional = false
     protected abstract def getSampleObject();
 
     T create(K event)

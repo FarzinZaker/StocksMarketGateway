@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 
 class ImageService {
 
-
+    static transactional = false
 
     def scaleImage(byte[] content, int width, int height) {
 

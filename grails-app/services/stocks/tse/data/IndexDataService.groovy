@@ -6,7 +6,7 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.IndexEvent
 
 class IndexDataService extends TSEDataService<Index, IndexEvent> {
-
+    static transactional = false
     static schedules = [
             [
                     method : 'importData',

@@ -7,7 +7,7 @@ import stocks.TemplateHelper
 import stocks.User
 
 class SmsService {
-
+    static transactional = false
     def grailsApplication
 
     static parameters = [

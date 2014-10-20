@@ -5,7 +5,7 @@ import groovy.transform.Synchronized
 import org.codehaus.groovy.grails.commons.GrailsClass
 
 class DataStateService {
-
+    static transactional = false
     def grailsApplication
     def dataService
     def bulkDataService

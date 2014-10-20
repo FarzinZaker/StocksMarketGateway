@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.IndustryGroupStateEvent
 
 class IndustryGroupStatePersistService extends TSEPersistService<IndustryGroupState, IndustryGroupStateEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new IndustryGroupState()

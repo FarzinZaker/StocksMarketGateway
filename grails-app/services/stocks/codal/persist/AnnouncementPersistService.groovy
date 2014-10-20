@@ -5,7 +5,7 @@ import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 
 class AnnouncementPersistService {
-
+    static transactional = false
     def bulkDataService
     def grailsApplication
     def queryService

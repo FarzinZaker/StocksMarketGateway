@@ -7,7 +7,7 @@ import stocks.commodity.event.TradeStatisticsEvent
 import java.beans.Introspector
 
 class CommodityEventService {
-
+    static transactional = false
     def bulkDataService
 
     private def persistEvent(event) {

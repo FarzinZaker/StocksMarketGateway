@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.CompanyEvent
 
 class CompanyPersistService extends TSEPersistService<Company, CompanyEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new Company()

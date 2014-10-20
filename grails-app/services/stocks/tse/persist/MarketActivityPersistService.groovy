@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.MarketActivityEvent
 
 class MarketActivityPersistService extends TSEPersistService<MarketActivity, MarketActivityEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new MarketActivity()

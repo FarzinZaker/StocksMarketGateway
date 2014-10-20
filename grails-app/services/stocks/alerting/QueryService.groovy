@@ -11,7 +11,7 @@ import org.grails.datastore.mapping.query.Query.Junction
 import org.grails.datastore.mapping.query.Query.Negation
 
 class QueryService {
-
+    static transactional = false
     def grailsApplication
     def smsService
     def scheduleService

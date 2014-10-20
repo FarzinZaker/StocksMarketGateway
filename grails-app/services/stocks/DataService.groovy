@@ -9,7 +9,7 @@ import org.quartz.impl.StdSchedulerFactory
 import org.springframework.scheduling.quartz.*
 
 class DataService {
-
+    static transactional = false
     def grailsApplication
 
     def dataServicePackages = [

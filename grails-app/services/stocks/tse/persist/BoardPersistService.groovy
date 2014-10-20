@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.BoardEvent
 
 class BoardPersistService extends TSEPersistService<Board, BoardEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new Board()

@@ -5,7 +5,7 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.FutureEvent
 
 class FutureDataService extends TSEDataService<Future, FutureEvent> {
-
+    static transactional = false
     @Override
     protected FutureEvent getSampleEventObject() {
         new FutureEvent()

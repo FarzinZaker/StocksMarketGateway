@@ -5,6 +5,7 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolBestOrderEvent
 
 class SymbolBestOrderPersistService extends TSEPersistService<SymbolBestOrder, SymbolBestOrderEvent> {
+    static transactional = false
     @Override
     protected getSampleObject() {
         new SymbolBestOrder()
