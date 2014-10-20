@@ -21,7 +21,9 @@ class AnnouncementPersistService {
         announcement.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
-        bulkDataService.save(announcement)
+        Announcement.withTransaction {
+            bulkDataService.save(announcement)
+        }
         afterUpdate(event, announcement)
         result
     }
@@ -29,7 +31,9 @@ class AnnouncementPersistService {
     Announcement create(AnnouncementEvent event) {
         beforeCreate(event)
         def data = new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()])
-        bulkDataService.save(data)
+        Announcement.withTransaction {
+            bulkDataService.save(data)
+        }
         afterCreate(event, data)
         data
     }

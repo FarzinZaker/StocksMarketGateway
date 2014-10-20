@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -90,14 +90,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BulkDataService.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BulkDataService.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6768448" vertical-offset="559" max-vertical-offset="1110">
-              <caret line="55" column="40" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="514" max-vertical-offset="1110">
+              <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
               <folding>
                 <element signature="e#16#52#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnnouncementPersistService.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.41530055" vertical-offset="193" max-vertical-offset="1470">
+              <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,7 +143,6 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/alerting/ScheduleService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/alerting/SmsService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/codal/data/AnnouncementDataService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/commodity/persist/TradeStatisticsPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/data/BoardDataService.groovy" />
@@ -166,6 +175,7 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolStatePersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" />
       </list>
     </option>
   </component>
@@ -728,7 +738,7 @@
       <workItem from="1413645537140" duration="8000" />
       <workItem from="1413645562504" duration="7347000" />
       <workItem from="1413796239456" duration="1249000" />
-      <workItem from="1413797612887" duration="4017000" />
+      <workItem from="1413797612887" duration="4610000" />
     </task>
     <task id="LOCAL-00001" summary="initial run">
       <created>1403083565156</created>
@@ -938,11 +948,15 @@
       <created>1413806071568</created>
       <updated>1413806071568</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="codal changed">
+      <created>1413806758558</created>
+      <updated>1413806758558</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="883173000" />
+    <option name="totallyTimeSpent" value="883766000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1233,14 +1247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1410">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="3885">
@@ -1507,11 +1513,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/BulkDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6768448" vertical-offset="559" max-vertical-offset="1110">
-          <caret line="55" column="40" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="514" max-vertical-offset="1110">
+          <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
           <folding>
             <element signature="e#16#52#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41530055" vertical-offset="193" max-vertical-offset="1470">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
