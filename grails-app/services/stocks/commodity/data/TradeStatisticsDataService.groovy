@@ -200,7 +200,7 @@ class TradeStatisticsDataService {
         def result = Subgroup.findByGroupAndCodeAndName(parent, subgroup.id as Integer, subgroup.name as String)
         if (!result) {
             Thread.start {
-                Subgroup.withSession {
+                Subgroup.withTransaction {
                     result = new Subgroup()
                     result.group = parent
                     result.code = subgroup.id as Integer
