@@ -62,6 +62,7 @@ class TradeStatisticsDataService {
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
+                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
                                             def sd = startDate
                                             use(TimeCategory) {
                                                 while (sd < endDate) {
@@ -70,7 +71,7 @@ class TradeStatisticsDataService {
                                                     sd = sd + 1.year
                                                 }
                                             }
-                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+
                                         }
                                     }
                                 }
