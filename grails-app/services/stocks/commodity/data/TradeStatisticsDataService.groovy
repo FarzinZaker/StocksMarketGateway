@@ -64,7 +64,6 @@ class TradeStatisticsDataService {
                                             checkPointReached = true
                                             extractData(mainGroup, group, subgroup, producer, startDate, endDate)
                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
-                                            return;
                                         }
                                     }
                                 }

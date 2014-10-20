@@ -2,8 +2,10 @@ package stocks
 
 import groovy.transform.Synchronized
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import org.hibernate.Session
 import org.hibernate.SessionFactory
 import org.springframework.transaction.annotation.Transactional
+import stocks.commodity.TradeStatistics
 
 import java.util.concurrent.ArrayBlockingQueue
 
@@ -36,7 +38,6 @@ class BulkDataService {
 
 
         while (!dataQueue.isEmpty()) {
-
 //            def transaction = sessionFactory.getCurrentSession().beginTransaction()
             def item = dataQueue.take()
             try {
@@ -44,6 +45,8 @@ class BulkDataService {
                     dataQueue.put(item)
 //                else
 //                    transaction.commit()
+                println sessionFactory.currentSession.flushMode
+                sessionFactory.currentSession.flush()
             }
             catch (ignored){
 //                transaction.rollback()
@@ -52,7 +55,7 @@ class BulkDataService {
                 println "${new Date()} ${ignored.message} ${item}"
                 dataQueue.put(item)
             }
-
+            sessionFactory.currentSession.clear()
 //            sessionFactory.currentSession.clear()
         }
     }
