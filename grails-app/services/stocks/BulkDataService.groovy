@@ -53,6 +53,7 @@ class BulkDataService {
 //                println(ignored.stackTrace)
 //                ignored.printStackTrace()
                 println "${new Date()} ${ignored.message} ${item}"
+                ignored.printStackTrace()
                 dataQueue.put(item)
             }
 //            sessionFactory.currentSession.clear()
