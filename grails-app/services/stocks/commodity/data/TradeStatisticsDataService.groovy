@@ -62,8 +62,11 @@ class TradeStatisticsDataService {
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
+                                            println "${mainGroup} ${group} ${subgroup} ${producer} ${startDate} ${endDate}"
                                             extractData(mainGroup, group, subgroup, producer, startDate, endDate)
+                                            println '2'
                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                            println '3'
                                         }
                                     }
                                 }
