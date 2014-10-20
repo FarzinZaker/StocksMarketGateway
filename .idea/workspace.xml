@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="codal changed">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
+    <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -75,8 +73,8 @@
       <file leaf-file-name="TradeStatisticsDataService.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59366757" vertical-offset="645" max-vertical-offset="3975">
-              <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.5145119" vertical-offset="645" max-vertical-offset="3990">
+              <caret line="69" column="68" selection-start-line="69" selection-start-column="68" selection-end-line="69" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -708,7 +706,7 @@
       <workItem from="1413645537140" duration="8000" />
       <workItem from="1413645562504" duration="7347000" />
       <workItem from="1413796239456" duration="1249000" />
-      <workItem from="1413797612887" duration="7541000" />
+      <workItem from="1413797612887" duration="7836000" />
     </task>
     <task id="LOCAL-00001" summary="initial run">
       <created>1403083565156</created>
@@ -934,11 +932,15 @@
       <created>1413809112520</created>
       <updated>1413809112520</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="codal changed">
+      <created>1413810733418</created>
+      <updated>1413810733418</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="886697000" />
+    <option name="totallyTimeSpent" value="886992000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1505,8 +1507,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/commodity/data/TradeStatisticsDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59366757" vertical-offset="645" max-vertical-offset="3975">
-          <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.5145119" vertical-offset="645" max-vertical-offset="3990">
+          <caret line="69" column="68" selection-start-line="69" selection-start-column="68" selection-end-line="69" selection-end-column="68" />
           <folding />
         </state>
       </provider>
