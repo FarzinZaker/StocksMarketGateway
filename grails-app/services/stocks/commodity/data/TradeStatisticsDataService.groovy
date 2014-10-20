@@ -16,13 +16,13 @@ import stocks.commodity.TradeStatistics
 import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsDataService {
-    static transactional = false
+
     static schedules = [
             [
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                            parameters: [repeatInterval: 600000l, startDelay: 10000]
                     ]
 //                    trigger: [
 //                            type      : 'Cron',
@@ -62,11 +62,14 @@ class TradeStatisticsDataService {
                                     producers.each { producer ->
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
-                                            println "${mainGroup} ${group} ${subgroup} ${producer} ${startDate} ${endDate}"
-                                            extractData(mainGroup, group, subgroup, producer, startDate, endDate)
-                                            println '2'
+                                            def sd=startDate
+                                            use(TimeCategory) {
+                                                while (sd < endDate) {
+                                                    extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
+                                                    println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
+                                                }
+                                            }
                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
-                                            println '3'
                                         }
                                     }
                                 }

@@ -18,29 +18,13 @@ environments {
     development {
         dataSource {
             dbCreate = "update"
-//            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
-//            username = "root"
-//            password = ""
-//            pooled = true
-//            logSql = false
-//            driverClassName = "com.mysql.jdbc.Driver"
-//            dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis = 1800000
-//                timeBetweenEvictionRunsMillis = 1800000
-//                numTestsPerEvictionRun = 3
-//                testOnBorrow = true
-//                testWhileIdle = true
-//                testOnReturn = true
-//                validationQuery = "SELECT 1"
-//            }
-            username = "sa"
-            password = "Salam123"
-            url = "jdbc:sqlserver://192.168.52.42:1433;databaseName=Stocks"
-
-            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-            dialect = "org.hibernate.dialect.SQLServerDialect"
+            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
+            username = "root"
+            password = ""
+            pooled = true
+            logSql = false
+            driverClassName = "com.mysql.jdbc.Driver"
+            dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
             properties {
                 maxActive = -1
                 minEvictableIdleTimeMillis = 1800000
@@ -51,6 +35,22 @@ environments {
                 testOnReturn = true
                 validationQuery = "SELECT 1"
             }
+//            username = "sa"
+//            password = "Salam123"
+//            url = "jdbc:sqlserver://192.168.52.42:1433;databaseName=Stocks"
+//
+//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+//            dialect = "org.hibernate.dialect.SQLServerDialect"
+//            properties {
+//                maxActive = -1
+//                minEvictableIdleTimeMillis = 1800000
+//                timeBetweenEvictionRunsMillis = 1800000
+//                numTestsPerEvictionRun = 3
+//                testOnBorrow = true
+//                testWhileIdle = true
+//                testOnReturn = true
+//                validationQuery = "SELECT 1"
+//            }
         }
     }
     test {
