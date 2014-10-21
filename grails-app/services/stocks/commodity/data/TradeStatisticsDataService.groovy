@@ -100,6 +100,7 @@ class TradeStatisticsDataService {
                                                     }
                                                 }.join()
                                             }
+                                            return
 
                                         }
                                     }
