@@ -11,10 +11,10 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
  */
 public abstract class TSEPersistService<T, K> {
     static transactional = false
+
     protected abstract def getSampleObject();
 
-    T create(K event)
-    {
+    T create(K event) {
         beforeCreate(event)
         def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
         domainClass.clazz.withTransaction {
@@ -27,6 +27,7 @@ public abstract class TSEPersistService<T, K> {
     }
 
     protected abstract void beforeCreate(K event)
+
     protected abstract void afterCreate(K event, T data)
 
     Boolean update(K event) {
@@ -34,6 +35,7 @@ public abstract class TSEPersistService<T, K> {
         def object = event.data
         def domainClass = new DefaultGrailsDomainClass(object.class)
         domainClass.clazz.withTransaction {
+            object = domainClass.clazz.get(object.id)
             beforeUpdate(event, object)
             result = object.domainClass.persistantProperties.findAll {
                 !(it.name in ['creationDate', 'modificationDate'])
@@ -50,6 +52,7 @@ public abstract class TSEPersistService<T, K> {
     }
 
     protected abstract void beforeUpdate(K event, T data)
+
     protected abstract void afterUpdate(K event, T data)
 
 }
