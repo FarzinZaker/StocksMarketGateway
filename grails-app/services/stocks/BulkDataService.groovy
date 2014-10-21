@@ -29,32 +29,37 @@ class BulkDataService {
         DefaultGrailsDomainClass domainClass = object.domainClass
         dataQueue.put([class: domainClass, object: object])
         if (dataQueue.remainingCapacity() == 0) {
-            Thread.start {
-                push()
-            }.join()
+            push()
+
         }
     }
 
 //    @Transactional
-    @Synchronized
+
     def push() {
         if (!dataQueue || dataQueue.isEmpty())
             return
         def domainClass = new DefaultGrailsDomainClass(dataQueue.peek()?.object?.class)
-        domainClass.clazz.withTransaction {
-            while (!dataQueue.isEmpty()) {
-                def item = dataQueue.take()
+
+        while (!dataQueue.isEmpty()) {
+            def item = dataQueue.take()
+
+            boolean res = false
+
+            Thread.start {
                 try {
+                    domainClass.clazz.withTransaction {
+                        if (item.object.save(flush: true))
+                            res = true
+                    }
+                } catch (x) {
+                    x.printStackTrace()
+                }
+            }.join()
+            if (!res)
+                dataQueue.put(item)
 
-                    if (!item.object.save(flush: true))
-                        dataQueue.put(item)
-                }
-                catch (ignored) {
-                    dataQueue.put(item)
-                }
-            }
         }
-
     }
 
 //    @Synchronized
