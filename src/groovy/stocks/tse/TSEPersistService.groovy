@@ -38,7 +38,6 @@ public abstract class TSEPersistService<T, K> {
         def domainClass = new DefaultGrailsDomainClass(object.class)
 //        domainClass.clazz.withSession {
             domainClass.clazz.withTransaction {
-                object = domainClass.clazz.get(object.id)
                 beforeUpdate(event, object)
                 result = object.domainClass.persistantProperties.findAll {
                     !(it.name in ['creationDate', 'modificationDate'])
