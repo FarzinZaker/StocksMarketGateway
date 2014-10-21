@@ -17,12 +17,14 @@ public abstract class TSEPersistService<T, K> {
     T create(K event) {
         beforeCreate(event)
         def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
-        domainClass.clazz.withTransaction {
-            def instance = domainClass.newInstance()
-            instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
-            instance.save()
-            afterCreate(event, instance as T)
-            instance as T
+        domainClass.clazz.withSession {
+            domainClass.clazz.withTransaction {
+                def instance = domainClass.newInstance()
+                instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
+                instance.save()
+                afterCreate(event, instance as T)
+                instance as T
+            }
         }
     }
 
@@ -34,19 +36,21 @@ public abstract class TSEPersistService<T, K> {
         def result = null
         def object = event.data
         def domainClass = new DefaultGrailsDomainClass(object.class)
-        domainClass.clazz.withTransaction {
-            object = domainClass.clazz.get(object.id)
-            beforeUpdate(event, object)
-            result = object.domainClass.persistantProperties.findAll {
-                !(it.name in ['creationDate', 'modificationDate'])
-            }.any { property ->
-                event.data."${property.name}" != event."${property.name}"
+        domainClass.clazz.withSession {
+            domainClass.clazz.withTransaction {
+                object = domainClass.clazz.get(object.id)
+                beforeUpdate(event, object)
+                result = object.domainClass.persistantProperties.findAll {
+                    !(it.name in ['creationDate', 'modificationDate'])
+                }.any { property ->
+                    event.data."${property.name}" != event."${property.name}"
+                }
+                object.properties = event.properties.findAll {
+                    !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
+                }
+                object.save()
+                afterUpdate(event, object)
             }
-            object.properties = event.properties.findAll {
-                !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
-            }
-            object.save()
-            afterUpdate(event, object)
         }
         result
     }

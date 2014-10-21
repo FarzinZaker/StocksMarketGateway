@@ -3,6 +3,7 @@ package stocks
 import groovy.transform.Synchronized
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.hibernate.Session
+
 //import org.hibernate.SessionFactory
 import org.springframework.transaction.annotation.Transactional
 import stocks.commodity.TradeStatistics
@@ -52,7 +53,7 @@ class BulkDataService {
 //                println sessionFactory.currentSession.flushMode
 //                sessionFactory.currentSession.flush()
             }
-            catch (ignored){
+            catch (ignored) {
 //                transaction.rollback()
 //                println(ignored.stackTrace)
 //                ignored.printStackTrace()
