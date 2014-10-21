@@ -20,7 +20,7 @@ class BulkDataService {
         dataQueue = new ArrayBlockingQueue(10)
     }
 
-    @Synchronized
+//    @Synchronized
     def save(object) {
 
         if (!dataQueue)
@@ -56,7 +56,7 @@ class BulkDataService {
         }.join()
     }
 
-    @Synchronized
+//    @Synchronized
     def release() {
         push()
     }
