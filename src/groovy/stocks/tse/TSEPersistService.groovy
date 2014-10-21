@@ -30,11 +30,12 @@ public abstract class TSEPersistService<T, K> {
     protected abstract void afterCreate(K event, T data)
 
     Boolean update(K event) {
+        def result = null
         def object = event.data
         def domainClass = new DefaultGrailsDomainClass(object.class)
         domainClass.clazz.withTransaction {
             beforeUpdate(event, object)
-            def result = object.domainClass.persistantProperties.findAll {
+            result = object.domainClass.persistantProperties.findAll {
                 !(it.name in ['creationDate', 'modificationDate'])
             }.any { property ->
                 event.data."${property.name}" != event."${property.name}"
