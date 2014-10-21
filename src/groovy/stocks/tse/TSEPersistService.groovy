@@ -16,29 +16,35 @@ public abstract class TSEPersistService<T, K> {
     T create(K event)
     {
         beforeCreate(event)
-        def instance = new DefaultGrailsDomainClass(getSampleObject().class).newInstance()
-        instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
-        instance.save()
-        afterCreate(event, instance as T)
-        instance as T
+        def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
+        domainClass.clazz.withTransaction {
+            def instance = domainClass.newInstance()
+            instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
+            instance.save()
+            afterCreate(event, instance as T)
+            instance as T
+        }
     }
 
     protected abstract void beforeCreate(K event)
     protected abstract void afterCreate(K event, T data)
 
     Boolean update(K event) {
-        def announcement = event.data
-        beforeUpdate(event, announcement)
-        def result = announcement.domainClass.persistantProperties.findAll {
-            !(it.name in ['creationDate', 'modificationDate'])
-        }.any { property ->
-            event.data."${property.name}" != event."${property.name}"
+        def object = event.data
+        def domainClass = new DefaultGrailsDomainClass(object.class)
+        domainClass.clazz.withTransaction {
+            beforeUpdate(event, object)
+            def result = object.domainClass.persistantProperties.findAll {
+                !(it.name in ['creationDate', 'modificationDate'])
+            }.any { property ->
+                event.data."${property.name}" != event."${property.name}"
+            }
+            object.properties = event.properties.findAll {
+                !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
+            }
+            object.save()
+            afterUpdate(event, object)
         }
-        announcement.properties = event.properties.findAll {
-            !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
-        }
-        announcement.save()
-        afterUpdate(event, announcement)
         result
     }
 
