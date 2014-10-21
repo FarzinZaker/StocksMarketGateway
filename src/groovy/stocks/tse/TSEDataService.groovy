@@ -94,24 +94,16 @@ public abstract class TSEDataService<T, K> {
                                 object."${property.key}" = FarsiNormalizationFilter.apply((value as String)?.trim())
                                 break
                             default:
-                                Thread.start {
-                                    domainClass.clazz.withTransaction {
-                                        object."${property.key}" = parseForeignKey(
-                                                property.value.propertyType.name,
-                                                domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
-                                                FarsiNormalizationFilter.apply(value as String))
-                                    }
-                                }.join()
+                                object."${property.key}" = parseForeignKey(
+                                        property.value.propertyType.name,
+                                        domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
+                                        FarsiNormalizationFilter.apply(value as String))
                         }
 //                    println(value)
                     }
                 }
 
-                Thread.start {
-                    domainClass.clazz.withTransaction {
-                        object.data = find(object as K)
-                    }
-                }.join()
+                object.data = find(object as K)
                 list << tseEventGateway.send(object)
             }
             logState([status: 'successful'])

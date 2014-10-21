@@ -153,11 +153,7 @@ class TradeStatisticsDataService {
                     tradeStatisticsEvent.settlementMaturityDate = parseDate(cells[15].text() as String)
 
                     tradeStatisticsEvent.data = find(tradeStatisticsEvent)
-                    Thread.start {
-                        TradeStatistics.withTransaction {
-                            commodityEventGateway.send(tradeStatisticsEvent)
-                        }
-                    }.join()
+                    commodityEventGateway.send(tradeStatisticsEvent)
 
                 } else if (cells[0].text().contains('داده ای در جدول وجود ندارد')) {
                     stillHasRecords = false

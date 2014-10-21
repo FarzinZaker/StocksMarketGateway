@@ -39,30 +39,18 @@ class BulkDataService {
 
 
         Thread.start {
+            def domainClass = new DefaultGrailsDomainClass(dataQueue.peek()?.object?.class)
             domainClass.clazz.withTransaction {
                 while (!dataQueue.isEmpty()) {
-//            def transaction = sessionFactory.getCurrentSession().beginTransaction()
                     def item = dataQueue.take()
                     try {
 
-                        def domainClass = new DefaultGrailsDomainClass(item.object.class)
                         if (!item.object.save(flush: true))
                             dataQueue.put(item)
-//                else
-//                    transaction.commit()
-//                println sessionFactory.currentSession.flushMode
-//                sessionFactory.currentSession.flush()
                     }
                     catch (ignored) {
-//                transaction.rollback()
-//                println(ignored.stackTrace)
-//                ignored.printStackTrace()
-//                println "${new Date()} ${ignored.message} ${item}"
-//                ignored.printStackTrace()
                         dataQueue.put(item)
                     }
-//            sessionFactory.currentSession.clear()
-//            sessionFactory.currentSession.clear()
                 }
             }
         }.join()

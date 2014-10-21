@@ -8,7 +8,6 @@ class DataStateService {
     static transactional = false
     def grailsApplication
     def dataService
-    def bulkDataService
 
     Collection<GrailsClass> getServiceNames() {
         grailsApplication.serviceClasses.findAll { service ->

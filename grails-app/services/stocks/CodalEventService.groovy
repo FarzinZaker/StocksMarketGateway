@@ -9,7 +9,7 @@ import java.beans.Introspector
 
 class CodalEventService {
     static transactional = false
-    def bulkDataService
+    def bulkDataGateway
 
     def announcementPersistService
 
@@ -22,10 +22,10 @@ class CodalEventService {
 
         if (event.data) {
             if (service.update(event))
-                bulkDataService.save(event)
+                bulkDataGateway.save(event)
         } else {
             event.data = service.create(event)
-            bulkDataService.save(event)
+            bulkDataGateway.save(event)
         }
     }
 

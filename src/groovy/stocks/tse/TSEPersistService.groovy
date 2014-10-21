@@ -12,6 +12,8 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 public abstract class TSEPersistService<T, K> {
     static transactional = false
 
+    def bulkDataGateway
+
     protected abstract def getSampleObject();
 
     T create(K event) {
@@ -21,7 +23,7 @@ public abstract class TSEPersistService<T, K> {
             domainClass.clazz.withTransaction {
                 def instance = domainClass.newInstance()
                 instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
-                instance.save()
+                bulkDataGateway.save(instance)
                 afterCreate(event, instance as T)
                 instance as T
             }
@@ -47,7 +49,7 @@ public abstract class TSEPersistService<T, K> {
                 object.properties = event.properties.findAll {
                     !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
                 }
-                object.save()
+                bulkDataGateway.save(object)
                 afterUpdate(event, object)
             }
 //        }

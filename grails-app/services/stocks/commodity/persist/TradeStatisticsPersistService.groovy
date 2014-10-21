@@ -5,7 +5,7 @@ import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsPersistService {
     static transactional = false
-    def bulkDataService
+    def bulkDataGateway
     def grailsApplication
     def queryService
 
@@ -20,7 +20,7 @@ class TradeStatisticsPersistService {
         tradeStatistics.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
-        bulkDataService.save(tradeStatistics)
+        bulkDataGateway.save(tradeStatistics)
         afterUpdate(event, tradeStatistics)
         result
     }
@@ -28,7 +28,7 @@ class TradeStatisticsPersistService {
     TradeStatistics create(TradeStatisticsEvent event) {
         beforeCreate(event)
         def data = new TradeStatistics(event.properties + [creationDate: new Date(), modificationDate: new Date()])
-        bulkDataService.save(data)
+        bulkDataGateway.save(data)
         afterCreate(event, data)
         data
     }

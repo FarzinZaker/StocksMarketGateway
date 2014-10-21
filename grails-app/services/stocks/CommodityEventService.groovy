@@ -8,7 +8,7 @@ import java.beans.Introspector
 
 class CommodityEventService {
     static transactional = false
-    def bulkDataService
+    def bulkDataGateway
 
     private def persistEvent(event) {
         event.creationDate = new Date()
@@ -19,10 +19,10 @@ class CommodityEventService {
 
         if (event.data) {
             if (service.update(event))
-                bulkDataService.save(event)
+                bulkDataGateway.save(event)
         } else {
             event.data = service.create(event)
-            bulkDataService.save(event)
+            bulkDataGateway.save(event)
         }
     }
 

@@ -6,7 +6,7 @@ import stocks.codal.event.AnnouncementEvent
 
 class AnnouncementPersistService {
     static transactional = false
-    def bulkDataService
+    def bulkDataGateway
     def grailsApplication
     def queryService
 
@@ -21,9 +21,7 @@ class AnnouncementPersistService {
         announcement.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
-        Announcement.withTransaction {
-            bulkDataService.save(announcement)
-        }
+        bulkDataGateway.save(announcement)
         afterUpdate(event, announcement)
         result
     }
@@ -31,9 +29,7 @@ class AnnouncementPersistService {
     Announcement create(AnnouncementEvent event) {
         beforeCreate(event)
         def data = new Announcement(event.properties + [creationDate: new Date(), modificationDate: new Date()])
-        Announcement.withTransaction {
-            bulkDataService.save(data)
-        }
+        bulkDataGateway.save(data)
         afterCreate(event, data)
         data
     }

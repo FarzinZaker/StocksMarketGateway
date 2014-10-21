@@ -58,7 +58,9 @@ class AnnouncementDataService {
                 def announcementEvent = new AnnouncementEvent()
                 def cells = row.children()
                 announcementEvent.symbolPersianCode = FarsiNormalizationFilter.apply(cells[0].text() as String)
-                announcementEvent.symbol = Symbol.findByPersianCode(FarsiNormalizationFilter.apply(announcementEvent.symbolPersianCode as String))
+                Announcement.withTransaction {
+                    announcementEvent.symbol = Symbol.findByPersianCode(FarsiNormalizationFilter.apply(announcementEvent.symbolPersianCode as String))
+                }
                 announcementEvent.companyName = FarsiNormalizationFilter.apply(cells[1].text() as String)
                 announcementEvent.company = Company.findByName(announcementEvent.companyName)
                 announcementEvent.title = FarsiNormalizationFilter.apply(cells[2].text() as String)
@@ -84,9 +86,7 @@ class AnnouncementDataService {
                     announcementEvent.attachmentsUrl = "http://codal.ir/" + linkUrl
 
                 announcementEvent.data = find(announcementEvent)
-                AnnouncementEvent.withTransaction {
-                    codalEventGateway.send(announcementEvent)
-                }
+                codalEventGateway.send(announcementEvent)
             }
             logState([status: 'successful'])
         }
