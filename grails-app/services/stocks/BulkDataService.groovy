@@ -48,9 +48,11 @@ class BulkDataService {
 
             Thread.start {
                 try {
-                    domainClass.clazz.withTransaction {
-                        if (item.object.save(flush: true))
-                            res = true
+                    synchronized (domainClass.clazz) {
+                        domainClass.clazz.withTransaction {
+                            if (item.object.save(flush: true))
+                                res = true
+                        }
                     }
                 } catch (x) {
                     x.printStackTrace()
