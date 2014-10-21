@@ -2,6 +2,7 @@ package stocks.tse
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import stocks.DataServiceState
 import stocks.FarsiNormalizationFilter
 import stocks.tse.ws.TsePublicV2Soap_BindingStub
 import stocks.tse.ws.TsePublicV2Locator
@@ -94,11 +95,12 @@ public abstract class TSEDataService<T, K> {
                                 break
                             default:
                                 Thread.start {
-                                    domainClass.clazz.withTransaction
-                                    object."${property.key}" = parseForeignKey(
-                                            property.value.propertyType.name,
-                                            domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
-                                            FarsiNormalizationFilter.apply(value as String))
+                                    domainClass.clazz.withTransaction {
+                                        object."${property.key}" = parseForeignKey(
+                                                property.value.propertyType.name,
+                                                domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
+                                                FarsiNormalizationFilter.apply(value as String))
+                                    }
                                 }.join()
                         }
 //                    println(value)

@@ -5,6 +5,7 @@ import groovy.time.TimeCategory
 import groovy.util.slurpersupport.GPathResult
 import org.ccil.cowan.tagsoup.Parser
 import org.hibernate.SessionFactory
+import stocks.DataServiceState
 import stocks.FarsiNormalizationFilter
 import stocks.commodity.Commodity
 import stocks.commodity.Group
@@ -71,7 +72,7 @@ class TradeStatisticsDataService {
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
                                             Thread.start {
-                                                TradeStatistics.withTransaction {
+                                                DataServiceState.withTransaction {
                                                     logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'running'])
                                                 }
                                             }.join()
@@ -82,20 +83,20 @@ class TradeStatisticsDataService {
                                                         extractData(mainGroup, group, subgroup, producer, state.queryDate, state.queryDate)
                                                     }
                                                     Thread.start {
-                                                        TradeStatistics.withTransaction {
+                                                        DataServiceState.withTransaction {
                                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'successful'])
                                                         }
                                                     }.join()
                                                 } catch (ex) {
                                                     Thread.start {
-                                                        TradeStatistics.withTransaction {
+                                                        DataServiceState.withTransaction {
                                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
                                                         }
                                                     }.join()
                                                 }
                                             } else {
                                                 Thread.start {
-                                                    TradeStatistics.withTransaction {
+                                                    DataServiceState.withTransaction {
                                                         logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'finished'])
                                                     }
                                                 }.join()
