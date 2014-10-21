@@ -22,7 +22,7 @@ class TradeStatisticsDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 600000l, startDelay: 10000]
+                            parameters: [repeatInterval: 120000l, startDelay: 10000]
                     ]
 //                    trigger: [
 //                            type      : 'Cron',
@@ -47,8 +47,16 @@ class TradeStatisticsDataService {
         try {
             def checkPointReached = false
             def state = getLastState()
-            if (!state)
+            if (!state) {
                 checkPointReached = true
+                state.queryDate = startDate
+            } else if (state.status == 'successful') {
+                use(TimeCategory) {
+                    state.queryDate = state.queryDate + 1.day
+                }
+            } else if (state.status == 'finished') {
+                return
+            }
             def mainGroups = getSelectOptions('grouhAsli')
             mainGroups.each { mainGroup ->
                 if (checkPointReached || mainGroup.id == state.mainGroup.id) {
@@ -64,17 +72,33 @@ class TradeStatisticsDataService {
                                             checkPointReached = true
                                             Thread.start {
                                                 TradeStatistics.withTransaction {
-                                                    logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                                    logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'running'])
                                                 }
                                             }.join()
 
-                                            def sd = startDate
-                                            use(TimeCategory) {
-                                                while (sd < endDate) {
-                                                    extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
-                                                    println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
-                                                    sd = sd + 1.year
+                                            if (state.queryDate < endDate) {
+                                                try {
+                                                    use(TimeCategory) {
+                                                        extractData(mainGroup, group, subgroup, producer, state.queryDate, state.queryDate)
+                                                    }
+                                                    Thread.start {
+                                                        TradeStatistics.withTransaction {
+                                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'successful'])
+                                                        }
+                                                    }.join()
+                                                } catch (ex) {
+                                                    Thread.start {
+                                                        TradeStatistics.withTransaction {
+                                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
+                                                        }
+                                                    }.join()
                                                 }
+                                            } else {
+                                                Thread.start {
+                                                    TradeStatistics.withTransaction {
+                                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'finished'])
+                                                    }
+                                                }.join()
                                             }
 
                                         }

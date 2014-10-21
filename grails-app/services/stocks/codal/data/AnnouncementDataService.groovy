@@ -88,10 +88,10 @@ class AnnouncementDataService {
                     codalEventGateway.send(announcementEvent)
                 }
             }
-            logState([status:'successful'])
+            logState([status: 'successful'])
         }
-        catch (ignored) {
-            logState([status:'failed'])
+        catch (ex) {
+            logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
         }
     }
 

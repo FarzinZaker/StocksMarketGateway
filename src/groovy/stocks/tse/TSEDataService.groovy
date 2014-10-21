@@ -108,8 +108,8 @@ public abstract class TSEDataService<T, K> {
             logState([status: 'successful'])
             list
         }
-        catch (ignored) {
-            logState([status: 'failed'])
+        catch (ex) {
+            logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
             []
         }
     }

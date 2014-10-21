@@ -10,9 +10,13 @@ class IndustrySubgroupDataService extends TSEDataService<IndustrySubgroup, Indus
             [
                     method : 'importData',
                     trigger: [
-                            type      : 'Cron',
-                            parameters: [cronExpression: '0 0 1 * * ?']
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 300000l, startDelay: 60000]
                     ]
+//                    trigger: [
+//                            type      : 'Cron',
+//                            parameters: [cronExpression: '0 0 1 * * ?']
+//                    ]
             ]
     ]
 
