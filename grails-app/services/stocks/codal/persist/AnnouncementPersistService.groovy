@@ -11,19 +11,14 @@ class AnnouncementPersistService {
     def queryService
 
     Boolean update(AnnouncementEvent event) {
-        def announcement = event.data as Announcement
+        def announcement = Announcement.get(event.data.id)
         beforeUpdate(event, announcement)
-        def result = announcement.domainClass.persistantProperties.findAll {
-            !(it.name in ['creationDate', 'modificationDate'])
-        }.any { property ->
-            event.data."${property.name}" != event."${property.name}"
-        }
         announcement.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
         bulkDataGateway.save(announcement)
         afterUpdate(event, announcement)
-        result
+        false
     }
 
     Announcement create(AnnouncementEvent event) {

@@ -19,15 +19,11 @@ public abstract class TSEPersistService<T, K> {
     T create(K event) {
         beforeCreate(event)
         def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
-//        domainClass.clazz.withSession {
-//            domainClass.clazz.withTransaction {
-                def instance = domainClass.newInstance()
-                instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
-                bulkDataGateway.save(instance)
-                afterCreate(event, instance as T)
-                instance as T
-//            }
-//        }
+        def instance = domainClass.newInstance()
+        instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
+        bulkDataGateway.save(instance)
+        afterCreate(event, instance as T)
+        instance as T
     }
 
     protected abstract void beforeCreate(K event)
@@ -37,22 +33,19 @@ public abstract class TSEPersistService<T, K> {
     Boolean update(K event) {
         def result = null
         def object = event.data
-//        def domainClass = new DefaultGrailsDomainClass(object.class)
-//        domainClass.clazz.withSession {
-//            domainClass.clazz.withTransaction {
-                beforeUpdate(event, object)
-                result = object.domainClass.persistantProperties.findAll {
-                    !(it.name in ['creationDate', 'modificationDate'])
-                }.any { property ->
-                    event.data."${property.name}" != event."${property.name}"
-                }
-                object.properties = event.properties.findAll {
-                    !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
-                }
-                bulkDataGateway.save(object)
-                afterUpdate(event, object)
-//            }
-//        }
+        def domainClass = new DefaultGrailsDomainClass(object.class)
+        beforeUpdate(event, object)
+        result = domainClass.persistantProperties.findAll {
+            !(it.name in ['creationDate', 'modificationDate']) &&
+                    (it.type in [Integer, Long, Double, Boolean, Date, String])
+        }.any { property ->
+            event.data."${property.name}" != event."${property.name}"
+        }
+        object.properties = event.properties.findAll {
+            !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
+        }
+        bulkDataGateway.save(object)
+        afterUpdate(event, object)
         result
     }
 
