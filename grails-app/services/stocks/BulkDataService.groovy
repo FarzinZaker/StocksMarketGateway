@@ -7,6 +7,7 @@ import org.hibernate.Session
 //import org.hibernate.SessionFactory
 import org.springframework.transaction.annotation.Transactional
 import stocks.commodity.TradeStatistics
+import stocks.tse.Board
 
 import java.util.concurrent.ArrayBlockingQueue
 
@@ -48,7 +49,7 @@ class BulkDataService {
 
             boolean res = false
             try {
-                if (item.object.save(flush: true))
+                if (item.object.attach().save(flush: true))
                     res = true
             } catch (x) {
                 x.printStackTrace()
