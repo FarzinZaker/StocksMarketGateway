@@ -8,6 +8,7 @@ import org.hibernate.Session
 import org.springframework.transaction.annotation.Transactional
 import stocks.commodity.TradeStatistics
 import stocks.tse.Board
+import stocks.tse.Symbol
 
 import java.util.concurrent.ArrayBlockingQueue
 
@@ -55,6 +56,7 @@ class BulkDataService {
                 if (item.object.save(flush: true))
                     res = true
                 println 'after save '+item.object
+                println 'after save '+item.object.errors.allErrors
             } catch (x) {
                 x.printStackTrace()
             }
