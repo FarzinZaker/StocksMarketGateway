@@ -15,7 +15,7 @@ class BoardEvent {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CComVal'
+        code xmlNodeName: 'CComVal'
         name nullable: true, xmlNodeName: 'LBoard'
 
         data nullable: true

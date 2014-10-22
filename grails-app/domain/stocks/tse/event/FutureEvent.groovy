@@ -34,7 +34,7 @@ class FutureEvent {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CCode'
+        code xmlNodeName: 'CCode'
         date nullable: true, xmlNodeName: 'RecDate', locale: 'en'
         settlementDate nullable: true, xmlNodeName: 'SettlementDate', locale: 'en'
         initialMargin nullable: true, xmlNodeName: 'InitMargin'

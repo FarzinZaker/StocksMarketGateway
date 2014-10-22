@@ -53,7 +53,7 @@ class SymbolEvent {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'InstrumentID'
+        code xmlNodeName: 'InstrumentID'
         internalCode nullable: true, xmlNodeName: 'InsCode'
         shortCode nullable: true, xmlNodeName: 'CValMne'
         name nullable: true, xmlNodeName: 'LVal18'
