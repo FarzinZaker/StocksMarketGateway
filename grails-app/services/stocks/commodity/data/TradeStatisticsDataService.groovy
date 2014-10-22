@@ -72,7 +72,7 @@ class TradeStatisticsDataService {
                                             use(TimeCategory) {
                                                 while (sd < endDate) {
                                                     extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
-                                                    println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
+//                                                    println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
                                                     sd = sd + 1.year
                                                 }
                                             }
