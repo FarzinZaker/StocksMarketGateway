@@ -49,7 +49,9 @@ class BulkDataService {
 
             boolean res = false
             try {
-                if (item.object.attach().save(flush: true))
+                if(item.object.id)
+                    item.object=item.object.attach()
+                if (item.object.save(flush: true))
                     res = true
             } catch (x) {
                 x.printStackTrace()
