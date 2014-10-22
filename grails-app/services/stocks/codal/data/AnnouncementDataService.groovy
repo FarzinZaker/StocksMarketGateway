@@ -38,13 +38,15 @@ class AnnouncementDataService {
     }
 
     private static Announcement find(AnnouncementEvent object) {
-        Announcement.findBySymbolPersianCodeAndCompanyNameAndTitleAndSendDateAndPublishDate(
-                object.symbolPersianCode,
-                object.companyName,
-                object.title,
-                object.sendDate,
-                object.publishDate
-        )
+        Announcement.withTransaction {
+            Announcement.findBySymbolPersianCodeAndCompanyNameAndTitleAndSendDateAndPublishDate(
+                    object.symbolPersianCode,
+                    object.companyName,
+                    object.title,
+                    object.sendDate,
+                    object.publishDate
+            )
+        }
     }
 
     private void parseData(String url) {
