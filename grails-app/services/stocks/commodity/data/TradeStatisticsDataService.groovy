@@ -5,6 +5,7 @@ import groovy.time.TimeCategory
 import groovy.util.slurpersupport.GPathResult
 import org.ccil.cowan.tagsoup.Parser
 import org.hibernate.SessionFactory
+import stocks.DataServiceState
 import stocks.FarsiNormalizationFilter
 import stocks.commodity.Commodity
 import stocks.commodity.Group
@@ -22,7 +23,7 @@ class TradeStatisticsDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 600000l, startDelay: 10000]
+                            parameters: [repeatInterval: 120000l, startDelay: 10000]
                     ]
 //                    trigger: [
 //                            type      : 'Cron',
@@ -47,35 +48,69 @@ class TradeStatisticsDataService {
         try {
             def checkPointReached = false
             def state = getLastState()
-            if (!state)
+            if (!state) {
                 checkPointReached = true
+                state.queryDate = startDate
+            } else if (state.status == 'successful') {
+                use(TimeCategory) {
+                    state.queryDate = state.queryDate + 1.day
+                }
+            } else if (state.status == 'finished') {
+                return
+            }
+            def stopped = false
             def mainGroups = getSelectOptions('grouhAsli')
             mainGroups.each { mainGroup ->
+                if(stopped)
+                    return
                 if (checkPointReached || mainGroup.id == state.mainGroup.id) {
                     def groups = getSelectOptions('grouh', mainGroup.id)
                     groups.each { group ->
+                        if(stopped)
+                            return
                         if (checkPointReached || group.id == state.group.id) {
                             def subgroups = getSelectOptions('zirGrouh', mainGroup.id, group.id)
                             subgroups.each { subgroup ->
+                                if(stopped)
+                                    return
                                 if (checkPointReached || subgroup.id == state.subgroup.id) {
                                     def producers = getSelectOptions('tolidKonande', mainGroup.id, group.id, subgroup.id)
                                     producers.each { producer ->
+                                        if(stopped)
+                                            return
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
                                             Thread.start {
-                                                TradeStatistics.withTransaction {
-                                                    logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer])
+                                                DataServiceState.withTransaction {
+                                                    logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'running'])
                                                 }
                                             }.join()
 
-                                            def sd = startDate
-                                            use(TimeCategory) {
-                                                while (sd < endDate) {
-                                                    extractData(mainGroup, group, subgroup, producer, sd, sd + 1.year)
-//                                                    println "${mainGroup} ${group} ${subgroup} ${producer} ${sd} ${sd + 1.year}"
-                                                    sd = sd + 1.year
+                                            if (state.queryDate < endDate) {
+                                                try {
+                                                    use(TimeCategory) {
+                                                        extractData(mainGroup, group, subgroup, producer, state.queryDate, state.queryDate)
+                                                    }
+                                                    Thread.start {
+                                                        DataServiceState.withTransaction {
+                                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'successful'])
+                                                        }
+                                                    }.join()
+                                                } catch (ex) {
+                                                    Thread.start {
+                                                        DataServiceState.withTransaction {
+                                                            logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
+                                                        }
+                                                    }.join()
                                                 }
+                                            } else {
+                                                Thread.start {
+                                                    DataServiceState.withTransaction {
+                                                        logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'finished'])
+                                                    }
+                                                }.join()
                                             }
+                                            stopped = true
 
                                         }
                                     }
