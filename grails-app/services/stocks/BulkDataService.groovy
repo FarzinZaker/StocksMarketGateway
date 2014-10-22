@@ -63,6 +63,7 @@ class BulkDataService {
                     println 'after save ' + item.object + '   ' + item.object.errors.allErrors
             } catch (x) {
                 x.printStackTrace()
+                Thread.sleep(10)
             }
             if (!res)
                 dataQueue.put(item)
