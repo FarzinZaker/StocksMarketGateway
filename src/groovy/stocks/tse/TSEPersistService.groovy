@@ -20,13 +20,13 @@ public abstract class TSEPersistService<T, K> {
         beforeCreate(event)
         def domainClass = new DefaultGrailsDomainClass(getSampleObject().class)
 //        domainClass.clazz.withSession {
-            domainClass.clazz.withTransaction {
+//            domainClass.clazz.withTransaction {
                 def instance = domainClass.newInstance()
                 instance.properties = event.properties + [creationDate: new Date(), modificationDate: new Date()]
                 bulkDataGateway.save(instance)
                 afterCreate(event, instance as T)
                 instance as T
-            }
+//            }
 //        }
     }
 
@@ -37,9 +37,9 @@ public abstract class TSEPersistService<T, K> {
     Boolean update(K event) {
         def result = null
         def object = event.data
-        def domainClass = new DefaultGrailsDomainClass(object.class)
+//        def domainClass = new DefaultGrailsDomainClass(object.class)
 //        domainClass.clazz.withSession {
-            domainClass.clazz.withTransaction {
+//            domainClass.clazz.withTransaction {
                 beforeUpdate(event, object)
                 result = object.domainClass.persistantProperties.findAll {
                     !(it.name in ['creationDate', 'modificationDate'])
@@ -51,7 +51,7 @@ public abstract class TSEPersistService<T, K> {
                 }
                 bulkDataGateway.save(object)
                 afterUpdate(event, object)
-            }
+//            }
 //        }
         result
     }
