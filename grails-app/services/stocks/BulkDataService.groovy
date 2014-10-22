@@ -20,7 +20,7 @@ class BulkDataService {
         dataQueue = new ArrayBlockingQueue(1)
     }
 
-//    @Synchronized
+    @Synchronized
     def save(object) {
 
         if (!dataQueue)
@@ -48,11 +48,9 @@ class BulkDataService {
 
             Thread.start {
                 try {
-                    synchronized (domainClass.clazz) {
-                        domainClass.clazz.withTransaction {
-                            if (item.object.save(flush: true))
-                                res = true
-                        }
+                    domainClass.clazz.withTransaction {
+                        if (item.object.save(flush: true))
+                            res = true
                     }
                 } catch (x) {
                     x.printStackTrace()
