@@ -52,11 +52,10 @@ class BulkDataService {
             try {
                 if(item.object.id)
                     item.object=item.object.attach()
-                println 'before save '+item.object
                 if (item.object.save(flush: true))
                     res = true
-                println 'after save '+item.object
-                println 'after save '+item.object.errors.allErrors
+                if(item.object.errors.allErrors)
+                    println 'after save '+item.object+'   '+item.object.errors.allErrors
             } catch (x) {
                 x.printStackTrace()
             }
