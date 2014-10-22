@@ -28,6 +28,6 @@ class SymbolState {
         board nullable: true
         boardName nullable: true
         description nullable: true
-        state nullable: true, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR']
+        state nullable: true//, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR']
     }
 }

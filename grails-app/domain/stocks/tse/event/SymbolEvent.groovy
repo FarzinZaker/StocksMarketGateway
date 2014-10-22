@@ -67,11 +67,11 @@ class SymbolEvent {
         stockCount nullable: true, xmlNodeName: 'ZTitad'
         changeDate nullable: true, xmlNodeName: 'DESop', locale: 'en'
         todayChangeType nullable: true, xmlNodeName: 'YOPSJ'
-        status nullable: true, inList: ['A', 'I', 'O'], xmlNodeName: 'CGdSVal'
+        status nullable: true, xmlNodeName: 'CGdSVal'//, inList: ['A', 'I', 'O']
         groupCode nullable: true, xmlNodeName: 'CGrValCot'
         firstTradeDate nullable: true, xmlNodeName: 'DInMar', locale: 'en'
-        valueUnit nullable: true, inList: ['0', '1'], xmlNodeName: 'YUniExpP'
-        marketCode nullable: true, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI'], xmlNodeName: 'YMarNSC'
+        valueUnit nullable: true, xmlNodeName: 'YUniExpP'//, inList: ['0', '1']
+        marketCode nullable: true, xmlNodeName: 'YMarNSC'//, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI']
         board nullable: true, xmlNodeName: 'CComVal', fkColumn: 'Code'
         boardCode nullable: true, xmlNodeName: 'CComVal'
         industryGroup nullable: true, xmlNodeName: 'CSecVal', fkColumn: 'Code'
@@ -82,10 +82,10 @@ class SymbolEvent {
         maxAllowedValue nullable: true, xmlNodeName: 'PSaiSMaxOkValMdv'
         minAllowedValue nullable: true, xmlNodeName: 'PSaiSMinOkValMdv'
         baseVolume nullable: true, xmlNodeName: 'BaseVol'
-        type nullable: true, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500'], xmlNodeName: 'YVal'
+        type nullable: true, xmlNodeName: 'YVal'//, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
         minTradableValueUnit nullable: true, xmlNodeName: 'QPasCotFxeVal'
         minTradableStockCount nullable: true, xmlNodeName: 'QQtTranMarVal'
-        marketIdentifier nullable: true, inList: [0, 1, 2, 3, 4, 5], xmlNodeName: 'Flow'
+        marketIdentifier nullable: true, xmlNodeName: 'Flow'//, inList: [0, 1, 2, 3, 4, 5]
         minOrderVolume nullable: true, xmlNodeName: 'QtitMinSaiOmProd'
         maxOrderVolume nullable: true, xmlNodeName: 'QtitMaxSaiOmProd'
         date nullable: true, xmlNodeName: 'DEVen', locale: 'en'

@@ -32,7 +32,7 @@ class SymbolStateEvent {
         board nullable: true, xmlNodeName: 'LBoard', fkColumn: 'Name'
         boardName nullable: true, xmlNodeName: 'LBoard'
         description nullable: true, xmlNodeName: 'StateTypeDesc'
-        state nullable: true, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR'], xmlNodeName: 'CEtaVal'
+        state nullable: true, xmlNodeName: 'CEtaVal'//, inList: ['I', 'A', 'AG', 'AS', 'AR', 'IG', 'IS', 'IR']
         data nullable: true
     }
 }

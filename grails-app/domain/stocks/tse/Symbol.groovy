@@ -61,11 +61,11 @@ class Symbol {
         stockCount nullable: true
         changeDate nullable: true
         todayChangeType nullable: true
-        status nullable: true, inList: ['A', 'I', 'O']
+        status nullable: true//, inList: ['A', 'I', 'O']
         groupCode nullable: true
         firstTradeDate nullable: true
-        valueUnit nullable: true, inList: ['0', '1']
-        marketCode nullable: true, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI']
+        valueUnit nullable: true//, inList: ['0', '1']
+        marketCode nullable: true//, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI']
         board nullable: true
         boardCode nullable: true
         industryGroup nullable: true
@@ -76,10 +76,10 @@ class Symbol {
         maxAllowedValue nullable: true
         minAllowedValue nullable: true
         baseVolume nullable: true
-        type nullable: true, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
+        type nullable: true//, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
         minTradableValueUnit nullable: true
         minTradableStockCount nullable: true
-        marketIdentifier nullable: true, inList: [0, 1, 2, 3, 4, 5]
+        marketIdentifier nullable: true//, inList: [0, 1, 2, 3, 4, 5]
         minOrderVolume nullable: true
         maxOrderVolume nullable: true
         date nullable: true
