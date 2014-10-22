@@ -15,7 +15,7 @@ class IndustryGroupEvent {
     }
 
     static constraints = {
-        code unique: true, xmlNodeName: 'CSecVal'
+        code xmlNodeName: 'CSecVal'
         name nullable: true, xmlNodeName: 'LSecVal'
         data nullable: true
     }
