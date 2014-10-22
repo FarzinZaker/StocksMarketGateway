@@ -24,7 +24,7 @@ class BulkDataService {
 
     @Synchronized
     def save(object) {
-        Thread.start {
+        Thread.startDaemon {
             if (!dataQueue)
                 init()
 
