@@ -89,13 +89,14 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         grails.serverURL = "http://localhost:8080/${appName}"
-//        grails.assets.bundle=true
+//        grails.assets.bundle=false
     }
     production {
         grails.logging.jul.usebridge = false
-        grails.assets.bundle=false
     }
 }
+grails.assets.bundle=false
+grails.assets.excludes = ["application.js","angular*.js","kendo-ui/*.*"]
 
 // log4j configuration
 log4j.main = {
