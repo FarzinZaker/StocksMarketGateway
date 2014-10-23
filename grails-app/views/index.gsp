@@ -13,18 +13,23 @@
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-xs-12">
-            <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN}">
-                <g:render template="/layouts/admin/flatMenu"/>
-            </sec:ifAnyGranted>
+    <div class="col-xs-12">
+        <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN}">
+        <g:render template="/layouts/admin/flatMenu"/>
+        </sec:ifAnyGranted>
+        <sec:ifNotGranted roles="${RoleHelper.ROLE_ADMIN}">
             <sec:ifAnyGranted roles="${RoleHelper.ROLE_USER}">
                 <g:render template="/layouts/site/flatMenu"/>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="${RoleHelper.ROLE_BROKER_USER}">
-                <g:render template="/layouts/brokerUser/flatMenu"/>
-            </sec:ifAnyGranted>
-        </div>
+            <sec:ifNotGranted roles="${RoleHelper.ROLE_USER}">
+                <sec:ifAnyGranted roles="${RoleHelper.ROLE_BROKER_USER}">
+                    <g:render template="/layouts/brokerUser/flatMenu"/>
+                </sec:ifAnyGranted>
+                </div>
+            </sec:ifNotGranted>
+        </sec:ifNotGranted>
     </div>
+</div>
 </div>
 
 <asset:javascript src="tilt.min.js"/>

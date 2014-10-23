@@ -20,12 +20,16 @@
 <asset:stylesheet src="awesome/css/font-awesome.min.css"/>
 <asset:stylesheet src="common.less"/>
 
-<sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">
-    <g:render template="/layouts/admin/includesTop"/>
-</sec:ifAnyGranted>
-<sec:ifAnyGranted roles="${RoleHelper.ROLE_USER},${RoleHelper.ROLE_BROKER_USER}">
-    <g:render template="/layouts/site/includesTop"/>
-</sec:ifAnyGranted>
+<sec:ifLoggedIn>
+    <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">
+        <g:render template="/layouts/admin/includesTop"/>
+    </sec:ifAnyGranted>
+    <sec:ifNotGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">
+        <sec:ifAnyGranted roles="${RoleHelper.ROLE_USER},${RoleHelper.ROLE_BROKER_USER}">
+            <g:render template="/layouts/site/includesTop"/>
+        </sec:ifAnyGranted>
+    </sec:ifNotGranted>
+</sec:ifLoggedIn>
 <sec:ifNotLoggedIn>
     <asset:stylesheet src="site.less"/>
     <asset:stylesheet src="default.less"/>

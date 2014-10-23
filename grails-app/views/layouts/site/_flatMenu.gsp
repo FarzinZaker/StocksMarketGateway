@@ -45,15 +45,15 @@
     </li>
 
 
-    <li data-tile-type="s,5_s,8m">
-        <div>
+    %{--<li data-tile-type="s,5_s,8m">--}%
+        %{--<div>--}%
 
-            <a class="tilt tilt-tile tilt-tile-steel tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'user', action:'profile')}">
-                <i class="fa fa-user"></i><span><g:message code="menu.currentUser.profile"/></span>
-            </a>
+            %{--<a class="tilt tilt-tile tilt-tile-steel tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'user', action:'profile')}">--}%
+                %{--<i class="fa fa-user"></i><span><g:message code="menu.currentUser.profile"/></span>--}%
+            %{--</a>--}%
 
-        </div>
-    </li>
+        %{--</div>--}%
+    %{--</li>--}%
 
 
     <li data-tile-type="s,5_s,8m">

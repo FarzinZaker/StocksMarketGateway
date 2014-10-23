@@ -163,12 +163,12 @@ class UserController {
         render "code error"
     }
 
-    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def changePassword() {
 
     }
 
-    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def saveNewPassword() {
         def user = (User) springSecurityService.currentUser
         if (user.password == springSecurityService.encodePassword(params.oldPassword)) {
@@ -196,7 +196,7 @@ class UserController {
         }
     }
 
-    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER])
+    @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def passwordChanged() {
 
     }

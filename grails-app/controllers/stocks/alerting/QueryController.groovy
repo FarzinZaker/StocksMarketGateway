@@ -29,9 +29,9 @@ class QueryController {
                 queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${FarsiNormalizationFilter.apply(message(code: "${queryInstance.domainClazz}.${it.name}.label"))}]")
             }
             stocks.TemplateHelper.SYSTEM_TOKENS.each {
-                queryInstance.smsHeaderTemplate = queryInstance.smsHeaderTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
-                queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
-                queryInstance.smsFooterTemplate = queryInstance.smsFooterTemplate.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+                queryInstance.smsHeaderTemplate = queryInstance.smsHeaderTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+                queryInstance.smsTemplate = queryInstance.smsTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+                queryInstance.smsFooterTemplate = queryInstance.smsFooterTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
             }
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
@@ -116,7 +116,7 @@ class QueryController {
 
         //prepare sortingRules
         if (params.sortingRuleFieldNames instanceof String) {
-            params.sortingRuleFieldNames = [params.parameterNames]
+            params.sortingRuleFieldNames = [params.sortingRuleFieldNames]
             params.sortingRuleSortDirections = [params.sortingRuleSortDirections]
             params.sortingRuleSortOrders = [params.sortingRuleSortOrders]
         }
@@ -161,7 +161,6 @@ class QueryController {
 
             def currentRule = query.rule
             query.rule = null
-            query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate)
             query.save()
             deleteRuleTree(currentRule)
             query = Query.get(query.id)
@@ -169,10 +168,7 @@ class QueryController {
         } else {
             query = new Query(params)
             query.owner = springSecurityService.currentUser as User ?: User.findByUsername('admin')
-            query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate)
         }
-
-        query.category = QueryCategory.get(params.category)
 
         def domainClass = grailsApplication.getDomainClass(params.domainClazz)
         domainClass.persistentProperties.findAll {
@@ -181,14 +177,22 @@ class QueryController {
             query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
         stocks.TemplateHelper.SYSTEM_TOKENS.each {
-            query.smsHeaderTemplate = query.smsHeaderTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
-            query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
-            query.smsFooterTemplate = query.smsFooterTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+            query.smsHeaderTemplate = query.smsHeaderTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+            query.smsTemplate = query.smsTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+            query.smsFooterTemplate = query.smsFooterTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
         }
 
 
         query.rule = parseRule(domainClass, JSON.parse(params.query), null)
-        query.save()
+
+        query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
+        query.category = QueryCategory.get(params.category)
+        if(!query.save()){
+            query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
+            query.category = QueryCategory.get(params.category)
+            query.save()
+
+        }
 
         parameters.findAll { !Parameter.findByQueryAndName(query, it.name) }.each { param ->
             def parameter = new Parameter(query: query)

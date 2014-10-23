@@ -68,7 +68,8 @@ class FormTagLib {
                 ${attrs.placeholder ? "placeholder='${attrs.placeholder}'" : ''} data-validation="${
             attrs.validation ?: ''
         }"
-            ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} />
+            ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''}
+            ${attrs."ng-keyup" ? "ng-keyup=${attrs."ng-keyup"}" : ''} />
 """
     }
 

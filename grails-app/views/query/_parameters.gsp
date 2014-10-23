@@ -136,7 +136,7 @@
     <div ng-repeat="parameter in parameterList" class="grid-form-row" ng-animate="'animate'">
         <input type="button" class="btn-delete-row" onclick="removeParameter(this)" data-row="{{$index}}"/>
         <form:textBox validation="required" ng-model="parameter.name" name="parameterNames" style="width:200px;"
-                      placeholder="${message(code: 'query.build.parameters.name')}"/>
+                      placeholder="${message(code: 'query.build.parameters.name')}" ng-keyup="refillAutoCompleteList()"/>
 
         <span class="k-rtl">
             <input class="k-textbox" name="parameterTypes" id="type{{$index + 1}}" ng-model="parameter.type"/>

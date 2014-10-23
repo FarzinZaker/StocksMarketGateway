@@ -6,7 +6,7 @@ class FarsiNormalizationFilters {
     def filters = {
         all(controller: '*', action: '*') {
             before = {
-                params.findAll{
+                params.findAll {
                     it.value instanceof String
                 }.each { param ->
                     if (params."${param.key}" instanceof String[]) {
@@ -15,8 +15,7 @@ class FarsiNormalizationFilters {
                         }
                         def array = new String[list.size()]
                         params."${param.key}" = list.toArray(array)
-                    }
-                    else
+                    } else if (params."${param.key}" instanceof String)
                         params."${param.key}" = FarsiNormalizationFilter.apply(param.value as String)
                 }
             }

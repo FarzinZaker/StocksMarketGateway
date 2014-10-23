@@ -38,6 +38,7 @@ class Query {
         image nullable: true
         smsHeaderTemplate nullable: true
         smsFooterTemplate nullable: true
+        category nullable: true
     }
 
     static transients = ['parameterListString']
