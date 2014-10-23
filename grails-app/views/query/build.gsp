@@ -10,7 +10,7 @@
 <head>
     <meta name="layout" content="main"/>
     <title><g:message code="query.build.title" args="${[message(code: "${domainClass}.label")]}"/></title>
-    <asset:javascript src="angular.min.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'angular.min.js')}"></script>
     <script language="JavaScript">
         var parameterList = <format:html value="${parameters.collect {
                 [
@@ -30,7 +30,7 @@
         var fieldList = <format:html value="${fields.collect{[name: message(code: "${domainClass}.${it}.label"), value: it, type:'field', typeString:message(code:"autocomplete.itemType.field")]} as JSON}"/>
         var parameterTypeString = "${message(code:'autocomplete.itemType.parameter')}"
     </script>
-    <asset:javascript src="alerting.query.controller.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'alerting.query.controller.js')}"></script>
 </head>
 
 <body>

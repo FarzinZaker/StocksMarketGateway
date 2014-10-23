@@ -10,7 +10,7 @@
 <head>
     <meta name="layout" content="main"/>
     <title><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></title>
-    <asset:javascript src="angular.min.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'angular.min.js')}"></script>
     <asset:stylesheet src="jquery-clockpicker.css"/>
     <asset:javascript src="jquery-clockpicker.js"/>
     <script language="JavaScript">
@@ -19,7 +19,7 @@
                 [value: String.format('%02d:%02d', (it.timeInMinute / 60).toInteger(), (it.timeInMinute % 60).toInteger())]
     } as grails.converters.JSON}"/>
     </script>
-    <asset:javascript src="alerting.register.controller.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'alerting.register.controller.js')}"></script>
 </head>
 
 <body>

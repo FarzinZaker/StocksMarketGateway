@@ -10,12 +10,12 @@
 <head>
     <meta name="layout" content="main"/>
     <title><g:message code="scheduleTemplate.build.title"/></title>
-    <asset:javascript src="angular.min.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'angular.min.js')}"></script>
     <script language="JavaScript">
         var intervalSteps =
         <format:html value="${scheduleTemplateInstance.intervalSteps.collect {[value: it]} as JSON}"/>
     </script>
-    <asset:javascript src="alerting.scheduleTemplate.controller.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'alerting.scheduleTemplate.controller.js')}"></script>
 </head>
 
 <body>
