@@ -130,18 +130,21 @@ class QueryController {
             query = Query.get(params.id)
             query.properties = params
 
-            Parameter.findAllByQueryAndNameNotInList(query, parameters.collect { it.name }).each { parameter ->
-                ParameterValue.findAllByParameter(parameter).each {it.delete()}
+            (parameters && parameters.size() ? Parameter.findAllByQueryAndNameNotInList(query, parameters?.collect {
+                it?.name
+            }) : Parameter.findAllByQuery(query)).each { parameter ->
+                ParameterValue.findAllByParameter(parameter).each { it.delete() }
                 parameter.delete()
             }
 
-            Parameter.findAllByQueryAndNameInList(query, parameters.collect { it.name }).each { parameter ->
-                def newParameter = parameters.find { it.name == parameter.name }
-                parameter.name = newParameter.name
-                parameter.type = newParameter.type
-                parameter.defaultValue = newParameter.defaultValue
-                parameter.save()
-            }
+            if (parameters && parameters.size())
+                Parameter.findAllByQueryAndNameInList(query, parameters.collect { it.name })?.each { parameter ->
+                    def newParameter = parameters.find { it.name == parameter.name }
+                    parameter.name = newParameter.name
+                    parameter.type = newParameter.type
+                    parameter.defaultValue = newParameter.defaultValue
+                    parameter.save()
+                }
 
             SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules.collect {
                 it.fieldName
@@ -187,7 +190,7 @@ class QueryController {
 
         query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
         query.category = QueryCategory.get(params.category)
-        if(!query.save()){
+        if (!query.save()) {
             query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
             query.category = QueryCategory.get(params.category)
             query.save()
@@ -241,7 +244,9 @@ class QueryController {
             def fieldsMap = [:]
             domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
-            }.each { fieldsMap.put(FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label")), it.name) }
+            }.each {
+                fieldsMap.put(FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label")), it.name)
+            }
 
             rule.value = fieldsMap[rule.value] ?: rule.value
 
@@ -272,7 +277,9 @@ class QueryController {
             def fieldsMap = [:]
             domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
-            }.each { fieldsMap.put(it.name, FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label"))) }
+            }.each {
+                fieldsMap.put(it.name, FarsiNormalizationFilter.apply(message(code: "${domainClass.fullName}.${it.name}.label")))
+            }
 
             object.value = fieldsMap[object.value] ?: object.value
         }
