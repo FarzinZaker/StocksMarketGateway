@@ -55,7 +55,8 @@
                 </div>
 
                 <div class="toolbar">
-                    <form:submitButton text="${message(code: 'query.register.submit')}"/>
+                    <form:submitButton text="${message(code: 'query.register.submit')}" name="save"/>
+                    <form:submitButton text="${message(code: 'query.register.submitAndNew')}" name="saveAndNew"/>
                 </div>
             </form:form>
         </div>

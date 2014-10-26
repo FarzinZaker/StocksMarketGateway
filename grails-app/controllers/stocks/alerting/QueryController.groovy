@@ -481,7 +481,10 @@ class QueryController {
         }
         scheduleService.calculateQueryInstanceNextExecutionTime(queryInstance)
 
-        redirect(action: 'instanceList')
+        if (params.saveAndNew)
+            redirect(action: 'register', id: params.queryId)
+        else
+            redirect(action: 'instanceList')
     }
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])

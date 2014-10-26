@@ -140,6 +140,12 @@ class AlertingTagLib {
             case Date:
                 'date'
                 break
+            case Double:
+                'double'
+                break
+            case Float:
+                'float'
+                break
             default:
                 'string'
         }
