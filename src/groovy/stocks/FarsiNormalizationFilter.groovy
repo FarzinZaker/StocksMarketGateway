@@ -17,14 +17,14 @@ public final class FarsiNormalizationFilter {
 
     private final static String normalize(def input, def len)
     {
-        if(input == 'تعداد نمادهاي کاهش يافته در شاخص') {
+        if(input.contains('ک')) {
             println('-----------------------------------------')
             println('normilizing')
             println('-----------------------------------------')
         }
 
         def s = input.toString().toCharArray()
-        if(input == 'تعداد نمادهاي کاهش يافته در شاخص') {
+        if(input.contains('ک')) {
             println(2)
         }
         for(int i = 0; i < len; i++) {
@@ -55,7 +55,7 @@ public final class FarsiNormalizationFilter {
             }
         }
 
-        if(input == 'تعداد نمادهاي کاهش يافته در شاخص') {
+        if(input.contains('ک')) {
             println(s)
             println('-----------------------------------------')
         }
