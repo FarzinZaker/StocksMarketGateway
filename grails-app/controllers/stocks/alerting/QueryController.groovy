@@ -145,21 +145,27 @@ class QueryController {
                     parameter.defaultValue = newParameter.defaultValue
                     parameter.save()
                 }
+            if (sortingRules) {
+                SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules?.collect {
+                    it?.fieldName
+                } ?: []).each { sortingRule ->
+                    sortingRule.delete()
+                }
 
-            SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules?.collect {
-                it?.fieldName
-            }?:[]).each { sortingRule ->
-                sortingRule.delete()
+                SortingRule.findAllByQueryAndFieldNameInList(query, sortingRules?.collect {
+                    it?.fieldName
+                } ?: []).each { sortingRule ->
+                    def newSortingRule = sortingRules.find { it.fieldName == sortingRule.fieldName }
+                    sortingRule.fieldName = newSortingRule.fieldName
+                    sortingRule.sortDirection = newSortingRule.sortDirection
+                    sortingRule.sortOrder = newSortingRule.sortOrder
+                    sortingRule.save()
+                }
             }
-
-            SortingRule.findAllByQueryAndFieldNameInList(query, sortingRules?.collect {
-                it?.fieldName
-            }?:[]).each { sortingRule ->
-                def newSortingRule = sortingRules.find { it.fieldName == sortingRule.fieldName }
-                sortingRule.fieldName = newSortingRule.fieldName
-                sortingRule.sortDirection = newSortingRule.sortDirection
-                sortingRule.sortOrder = newSortingRule.sortOrder
-                sortingRule.save()
+            else{
+                SortingRule.findAllByQuery(query).each { sortingRule ->
+                    sortingRule.delete()
+                }
             }
 
             def currentRule = query.rule
@@ -174,14 +180,10 @@ class QueryController {
         }
 
         def domainClass = grailsApplication.getDomainClass(params.domainClazz)
-        query.smsTemplate= FarsiNormalizationFilter.apply(query.smsTemplate)
+        query.smsTemplate = FarsiNormalizationFilter.apply(query.smsTemplate)
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
         }.each {
-//            println(query.smsTemplate)
-//            println(message(code: "${query.domainClazz}.${it.name}.label"))
-//            println("[${it.name}]")
-//            println("[${FarsiNormalizationFilter.apply(message(code:"${query.domainClazz}.${it.name}.label"))}]")
             query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
         stocks.TemplateHelper.SYSTEM_TOKENS.each {
