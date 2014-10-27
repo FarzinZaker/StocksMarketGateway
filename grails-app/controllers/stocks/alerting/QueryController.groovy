@@ -379,6 +379,12 @@ class QueryController {
     def delete() {
 
         def query = Query.get(params.id)
+
+        QueryInstance.findAllByQuery(query).each {
+            it.deleted = true
+            it.save()
+        }
+
         query.deleted = true
         render(query.save() ? '1' : '0')
     }
