@@ -17,16 +17,7 @@ public final class FarsiNormalizationFilter {
 
     private final static String normalize(def input, def len)
     {
-        if(input.contains('ک')) {
-            println('-----------------------------------------')
-            println('normilizing')
-            println('-----------------------------------------')
-        }
-
         def s = input.toString().toCharArray()
-        if(input.contains('ک')) {
-            println(2)
-        }
         for(int i = 0; i < len; i++) {
             switch((int)s[i])
             {
@@ -53,11 +44,6 @@ public final class FarsiNormalizationFilter {
                     i--
                     break
             }
-        }
-
-        if(input.contains('ک')) {
-            println(s)
-            println('-----------------------------------------')
         }
         s.toString()
     }

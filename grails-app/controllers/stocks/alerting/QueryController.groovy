@@ -177,6 +177,10 @@ class QueryController {
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
         }.each {
+            println(query.smsTemplate)
+            println(message(code: "${query.domainClazz}.${it.name}.label"))
+            println("[${it.name}]")
+            println("[${FarsiNormalizationFilter.apply(message(code:"${query.domainClazz}.${it.name}.label"))}]")
             query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
         stocks.TemplateHelper.SYSTEM_TOKENS.each {
@@ -218,7 +222,7 @@ class QueryController {
     }
 
     private void deleteRuleTree(Rule rule) {
-        if(!rule)
+        if (!rule || Query.findByRule(rule))
             return
         Rule.findAllByParent(rule).each {
             deleteRuleTree(it)
