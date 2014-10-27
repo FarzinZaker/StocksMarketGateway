@@ -164,7 +164,7 @@ class QueryController {
 
             def currentRule = query.rule
             query.rule = null
-            query.save(flush:true)
+            query.save(flush: true)
             deleteRuleTree(currentRule)
             query = Query.get(query.id)
 
@@ -218,6 +218,8 @@ class QueryController {
     }
 
     private void deleteRuleTree(Rule rule) {
+        if(!rule)
+            return
         Rule.findAllByParent(rule).each {
             deleteRuleTree(it)
         }
@@ -225,7 +227,7 @@ class QueryController {
     }
 
     private Rule parseRule(GrailsClass domainClass, json, Rule parent) {
-        if(!json.field && !json.condition)
+        if (!json.field && !json.condition)
             return null
         def rule = new Rule()
         if (parent)
@@ -252,7 +254,7 @@ class QueryController {
 
             rule.value = fieldsMap[rule.value] ?: rule.value
 
-            rule.save(flush:true)
+            rule.save(flush: true)
         }
         if (rule.aggregationType || rule.field)
             rule
