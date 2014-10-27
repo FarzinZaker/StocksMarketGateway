@@ -14,7 +14,7 @@ class AlertingJob {
 
     def execute() {
         def session = SessionFactoryUtils.getSession(sessionFactory, true)
-        QueryInstance.findAllByNextExecutionTimeLessThanEqualsAndEnabled(new Date(), true).each { queryInstance ->
+        QueryInstance.findAllByNextExecutionTimeLessThanEqualsAndEnabledAndDeleted(new Date(), true, false).each { queryInstance ->
             queryService.applyScheduledQuery(queryInstance)
         }
         session.flush()
