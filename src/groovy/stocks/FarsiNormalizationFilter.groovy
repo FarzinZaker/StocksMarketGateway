@@ -17,7 +17,12 @@ public final class FarsiNormalizationFilter {
 
     private final static String normalize(def input, def len)
     {
+        println('-----------------------------------------')
+        println('normilizing')
+        println('-----------------------------------------')
+
         def s = input.toString().toCharArray()
+        println(2)
         for(int i = 0; i < len; i++) {
             switch((int)s[i])
             {
@@ -46,6 +51,8 @@ public final class FarsiNormalizationFilter {
             }
         }
 
+        println(2)
+        println('-----------------------------------------')
         s.toString()
     }
 
