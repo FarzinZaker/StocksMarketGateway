@@ -2,7 +2,6 @@ package stocks
 
 import stocks.alerting.QueuedMessage
 
-
 class MessageJob {
 
     def smsService

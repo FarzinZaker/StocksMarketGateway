@@ -53,10 +53,10 @@ class AnnouncementDataService {
 
         try {
             def htmlParser = new XmlSlurper(new Parser()).parseText(getList(url))
-            def containerDiv = htmlParser.'**'.find { it.@id == 'divLetterFormList' }
-            def rows = containerDiv.'**'.findAll { it.name() == 'tr' }
-            rows.remove(0)
-            rows.each { row ->
+            def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
+            def rows = containerDiv?.'**'?.findAll { it?.name() == 'tr' }
+            rows?.remove(0)
+            rows?.each { row ->
                 def announcementEvent = new AnnouncementEvent()
                 def cells = row.children()
                 announcementEvent.symbolPersianCode = FarsiNormalizationFilter.apply(cells[0].text() as String)
@@ -93,6 +93,7 @@ class AnnouncementDataService {
             logState([status: 'successful'])
         }
         catch (ex) {
+            ex.printStackTrace()
             logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
         }
     }

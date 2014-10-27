@@ -37,7 +37,7 @@
     <li data-tile-type="s,5m,8_l">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-lime tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'query', action: 'instanceDelete')}">
+            <a class="tilt tilt-tile tilt-tile-lime tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'query', action: 'instanceList')}">
                 <i class="fa fa-paper-plane-o"></i><span><g:message code="menu.newsletter.register.my"/></span>
             </a>
 

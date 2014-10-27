@@ -22,14 +22,14 @@ class SmsService {
         if (!record)
             return
 
-        sendMessage(queryInstance.owner, prepareMessage(queryInstance, [record]))
+        sendMessage(User.get(queryInstance.ownerId), prepareMessage(queryInstance, [record]))
     }
 
     def sendScheduledMessage(QueryInstance queryInstance, recordList) {
         if (!recordList?.size())
             return
 
-        sendMessage(queryInstance.owner, prepareMessage(queryInstance, recordList))
+        sendMessage(User.get(queryInstance.ownerId), prepareMessage(queryInstance, recordList))
     }
 
     String prepareMessage(QueryInstance queryInstance, recordList) {
@@ -67,11 +67,13 @@ class SmsService {
     }
 
     def sendMessage(User user, String body) {
-        def message = new QueuedMessage()
-        message.body = body
-        message.receiverNumber = user.mobile
-        message.user = user
-        message.save()
+        QueuedMessage.withTransaction {
+            def message = new QueuedMessage()
+            message.body = body
+            message.receiverNumber = user.mobile
+            message.user = user
+            message.save()
+        }
     }
 
     def sendMessage(QueuedMessage message) {
@@ -89,18 +91,26 @@ class SmsService {
         message.lastExecutionMessage = result
 
         if (result.toLowerCase().contains('ok')) {
-            def sentMessage = new SentMessage(message.properties)
-            sentMessage.dateCreated = new Date()
-            sentMessage.save()
-            message.delete()
+            SentMessage.withTransaction {
+                def sentMessage = new SentMessage(message.properties)
+                sentMessage.dateCreated = new Date()
+                sentMessage.save()
+            }
+            QueuedMessage.withTransaction {
+                message.delete()
+            }
         } else {
             if (message.retryCount < 5) {
                 message.save()
             } else {
-                def failedMessage = new FailedMessage(message.properties)
-                failedMessage.dateCreated = new Date()
-                failedMessage.save()
-                message.delete()
+                FailedMessage.withTransaction {
+                    def failedMessage = new FailedMessage(message.properties)
+                    failedMessage.dateCreated = new Date()
+                    failedMessage.save()
+                }
+                QueuedMessage.withTransaction {
+                    message.delete()
+                }
             }
         }
 

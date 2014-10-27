@@ -19,6 +19,11 @@ class QueryService {
     def applyEventBasedQueries(data) {
 
         QueryInstance.createCriteria().list {
+            eq('enabled', true)
+            or {
+                eq('deleted', false)
+                isNull('deleted')
+            }
             schedule {
                 eq('type', 'eventBased')
             }
@@ -42,11 +47,15 @@ class QueryService {
     }
 
     def list(QueryInstance queryInstance) {
-        getDetachedCriteria(queryInstance).list(getAdditionalCriteria(queryInstance))
+        def query = Query.get(queryInstance.queryId)
+        if (query.maxRecordsCount > 0)
+            getDetachedCriteria(queryInstance).list([max: query.maxRecordsCount], getAdditionalCriteria(queryInstance))
+        else
+            getDetachedCriteria(queryInstance).list(getAdditionalCriteria(queryInstance))
     }
 
     def count(QueryInstance queryInstance) {
-        getDetachedCriteria(queryInstance).count(getAdditionalCriteria(queryInstance))
+        getDetachedCriteria(queryInstance).count()
     }
 
     def get(QueryInstance queryInstance) {
@@ -54,13 +63,14 @@ class QueryService {
     }
 
     def check(QueryInstance queryInstance, Long id) {
-        getDetachedCriteria(queryInstance, id).count(getAdditionalCriteria(queryInstance))
+        def criteria = getDetachedCriteria(queryInstance, id)
+        QueryInstance.withTransaction {
+            criteria.count()
+        }
     }
 
     Closure getAdditionalCriteria(QueryInstance queryInstance) {
         return {
-            if (queryInstance.query?.maxRecordsCount > 0)
-                max(queryInstance.query.maxRecordsCount)
             SortingRule.findAllByQuery(queryInstance.query).each { sortingRule ->
                 order(sortingRule.fieldName, sortingRule.sortDirection)
             }
@@ -81,7 +91,9 @@ class QueryService {
         def parameters = getParameters(queryInstance)
         def criteria = new Conjunction()
         criteria.add(Restrictions.eq('id', itemId))
-        criteria.add(createCriteria(queryInstance.query.rule, domainClass, parameters))
+        def query = Query.get(queryInstance.queryId)
+        def rule = Rule.get(query.ruleId)
+        criteria.add(createCriteria(rule, domainClass, parameters))
         def dc = new DetachedCriteria(domainClass.clazz)
         dc.add(criteria)
         dc
@@ -209,8 +221,9 @@ class QueryService {
 
     private static Map getParameters(QueryInstance queryInstance) {
         def parameters = [:]
-        queryInstance.parameterValues.each { parameterValue ->
-            parameters.put(parameterValue.parameter.name, parameterValue.value.toString())
+        ParameterValue.findAllByQueryInstance(queryInstance).each { parameterValue ->
+            def parameter = Parameter.get(parameterValue.parameterId)
+            parameters.put(parameter.name, parameterValue.value.toString())
         }
         parameters
     }
@@ -220,4 +233,5 @@ class QueryService {
         JalaliCalendar jc = new JalaliCalendar(parts[0], parts[1], parts[2])
         jc.toJavaUtilGregorianCalendar().time
     }
+
 }
