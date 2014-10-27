@@ -146,15 +146,15 @@ class QueryController {
                     parameter.save()
                 }
 
-            SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules.collect {
-                it.fieldName
-            }).each { sortingRule ->
+            SortingRule.findAllByQueryAndFieldNameNotInList(query, sortingRules?.collect {
+                it?.fieldName
+            }?:[]).each { sortingRule ->
                 sortingRule.delete()
             }
 
-            SortingRule.findAllByQueryAndFieldNameInList(query, sortingRules.collect {
-                it.fieldName
-            }).each { sortingRule ->
+            SortingRule.findAllByQueryAndFieldNameInList(query, sortingRules?.collect {
+                it?.fieldName
+            }?:[]).each { sortingRule ->
                 def newSortingRule = sortingRules.find { it.fieldName == sortingRule.fieldName }
                 sortingRule.fieldName = newSortingRule.fieldName
                 sortingRule.sortDirection = newSortingRule.sortDirection
@@ -174,13 +174,14 @@ class QueryController {
         }
 
         def domainClass = grailsApplication.getDomainClass(params.domainClazz)
+        query.smsTemplate= FarsiNormalizationFilter.apply(query.smsTemplate)
         domainClass.persistentProperties.findAll {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
         }.each {
-            println(query.smsTemplate)
-            println(message(code: "${query.domainClazz}.${it.name}.label"))
-            println("[${it.name}]")
-            println("[${FarsiNormalizationFilter.apply(message(code:"${query.domainClazz}.${it.name}.label"))}]")
+//            println(query.smsTemplate)
+//            println(message(code: "${query.domainClazz}.${it.name}.label"))
+//            println("[${it.name}]")
+//            println("[${FarsiNormalizationFilter.apply(message(code:"${query.domainClazz}.${it.name}.label"))}]")
             query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
         stocks.TemplateHelper.SYSTEM_TOKENS.each {
