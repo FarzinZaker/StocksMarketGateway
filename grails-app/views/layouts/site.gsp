@@ -14,15 +14,16 @@
     <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
     <g:javascript library="jquery" plugin="jquery"/>
     %{--kendo.ui start--}%
-    <asset:stylesheet src="kendo.ui/kendo.common-bootstrap.min.css" rel="stylesheet"/>
-    <asset:stylesheet src="kendo.ui/kendo.metro.min.css" rel="stylesheet"/>
-    <asset:stylesheet src="kendo.ui/kendo.rtl.min.css" rel="stylesheet"/>
-    <asset:javascript src="kendo.ui/kendo.all.min.js"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common-bootstrap.min.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.min.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.min.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.menu.min.min.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.all.min.css')}"/>
     %{--kendo.ui end--}%
     <asset:javascript src="dotdotdot.js"/>
     <asset:javascript src="form-validator/form-validator.js"/>
-    <asset:stylesheet src="bootstrap/bootstrap-responsive.css"/>
-    <asset:stylesheet src="bootstrap/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/bootstrap', file: 'bootstrap-responsive.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/bootstrap', file: 'bootstrap.css')}"/>
     <asset:stylesheet src="kendo.corrections.less"/>
     <asset:stylesheet src="common.less"/>
     <asset:stylesheet src="site.less"/>
