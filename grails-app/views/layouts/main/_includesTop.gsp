@@ -4,21 +4,20 @@
 %{--kendo.ui start--}%
 %{--<asset:stylesheet src="kendo.ui/kendo.common.min.css" rel="stylesheet"/>--}%
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common-bootstrap.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.menu.min.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.all.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.css')}"/>
 %{--kendo.ui end--}%
 <asset:javascript src="form-validator/form-validator.js"/>
 <asset:javascript src="form-validator/national-code.js"/>
 <asset:javascript src="dotdotdot.js"/>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/bootstrap', file: 'bootstrap-responsive.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/bootstrap', file: 'bootstrap.css')}"/>
 <asset:stylesheet src="kendo.corrections.less"/>
 <asset:stylesheet src="awesome/css/font-awesome.min.css"/>
 <asset:stylesheet src="common.less"/>
+
+<script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.all.min.js')}"></script>
 
 <sec:ifLoggedIn>
     <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">

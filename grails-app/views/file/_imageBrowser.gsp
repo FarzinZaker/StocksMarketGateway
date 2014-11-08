@@ -6,30 +6,11 @@
 --%>
 
 <g:javascript library="jquery" plugin="jquery"/>
-<asset:stylesheet src="kendo.ui/kendo.common.min.css"/>
-<asset:stylesheet src="kendo.ui/kendo.metro.min.css" rel="stylesheet"/>
-<asset:stylesheet src="kendo.ui/kendo.rtl.min.css" rel="stylesheet"/>
-<asset:stylesheet src="kendo.ui/kendo.menu.min.css" rel="stylesheet"/>
-<asset:javascript src="kendo.ui/kendo.core.min.js"/>
-<asset:javascript src="kendo.ui/kendo.menu.min.js"/>
-<asset:javascript src="kendo.ui/kendo.popup.min.js"/>
-<asset:javascript src="kendo.ui/kendo.data.min.css"/>
-<asset:javascript src="kendo.ui/kendo.popup.min.css"/>
-<asset:javascript src="kendo.ui/kendo.list.min.css"/>
-<asset:javascript src="kendo.ui/kendo.combobox.min.css"/>
-<asset:javascript src="kendo.ui/kendo.dropdownlist.min.css"/>
-<asset:javascript src="kendo.ui/kendo.userevents.min.css"/>
-<asset:javascript src="kendo.ui/kendo.draganddrop.min.css"/>
-<asset:javascript src="kendo.ui/kendo.window.min.css"/>
-<asset:javascript src="kendo.ui/kendo.slider.min.css"/>
-<asset:javascript src="kendo.ui/kendo.colorpicker.min.css"/>
-<asset:javascript src="kendo.ui/kendo.listview.min.css"/>
-<asset:javascript src="kendo.ui/kendo.upload.min.css"/>
-<asset:javascript src="kendo.ui/kendo.binder.min.css"/>
-<asset:javascript src="kendo.ui/kendo.validator.min.css"/>
-<asset:javascript src="kendo.ui/kendo.editable.min.css"/>
-<asset:javascript src="kendo.ui/kendo.selectable.min.css"/>
-<asset:javascript src="kendo.ui/kendo.imagebrowser.min.css"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common-bootstrap.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.menu.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.all.min.css')}"/>
 <asset:stylesheet src="kendo.corrections.less"/>
 <asset:stylesheet src="common.less"/>
 <div class="k-rtl" id="imgBrowser" style="margin:10px;"></div>
