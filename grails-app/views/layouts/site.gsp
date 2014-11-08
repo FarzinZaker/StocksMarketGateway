@@ -43,7 +43,7 @@
 <div class="footer">
     <g:message code="copyright"/>
 </div>
-<asset:javascript src="bootstrap/bootstrap.js"/>
+<script language="javascript" type="text/javascript" src="${resource(dir:'js/bootstrap', file: 'bootstrap.js')}"></script>
 <script language="javascript" type="text/javascript">
     var likeUrl = '${createLink(controller: 'like')}';
 </script>

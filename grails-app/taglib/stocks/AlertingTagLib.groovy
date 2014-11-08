@@ -31,9 +31,9 @@ class AlertingTagLib {
     def queryBuilder = { attrs, body ->
 
         out << asset.stylesheet(src: "query-builder/query-builder.css")
-        out << asset.stylesheet(src: "bootstrap/datepicker/bootstrap-datepicker.css")
-        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.js")
-        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.fa.js")
+        out << "<link rel='stylesheet' type='text/css' href='${resource(dir:"css/bootstrap/datepicker", file:"bootstrap-datepicker.css")}'/>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.js")}'></script>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.fa.js")}'></script>"
         out << asset.javascript(src: "query-builder/query-builder.js")
         out << asset.javascript(src: "query-builder/i18n/fa.js")
 

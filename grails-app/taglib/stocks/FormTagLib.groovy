@@ -430,9 +430,9 @@ class FormTagLib {
     }
 
     def datePicker = { attrs, body ->
-        out << asset.stylesheet(src: "bootstrap/datepicker/bootstrap-datepicker.css")
-        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.js")
-        out << asset.javascript(src: "bootstrap/datepicker/bootstrap-datepicker.fa.js")
+        out << "<link rel='stylesheet' type='text/css' href='${resource(dir:"css/bootstrap/datepicker", file:"bootstrap-datepicker.css")}'/>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.js")}'></script>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.fa.js")}'></script>"
 
         out << textBox(attrs, body)
 

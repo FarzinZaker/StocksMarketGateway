@@ -57,7 +57,10 @@ class AdminController {
 //        dataService.initializeJobs()
 //        render dataService.printJobList()
 
-        boardDataService.importData()
+//        boardDataService.importData()
+        def test = 'کا'
+        def test2 = FarsiNormalizationFilter.apply(test)
+        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
     }
 
     def throwException(){

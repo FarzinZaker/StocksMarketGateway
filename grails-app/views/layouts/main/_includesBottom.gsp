@@ -1,6 +1,6 @@
 <%@ page import="stocks.RoleHelper" %>
 
-<asset:javascript src="bootstrap/bootstrap.js"/>
+<script language="javascript" type="text/javascript" src="${resource(dir:'js/bootstrap', file: 'bootstrap.js')}"></script>
 <asset:javascript src="common.js"/>
 
 <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN}">
