@@ -96,7 +96,7 @@ environments {
     }
 }
 grails.assets.bundle=false
-grails.assets.excludes = ["application.js","angular*.js","kendo-ui/*.*"]
+grails.assets.excludes = ["application.js","angular*.js","kendo.ui/*.*","bootstrap/*.*"]
 
 // log4j configuration
 log4j.main = {
