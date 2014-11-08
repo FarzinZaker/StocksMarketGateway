@@ -69,4 +69,68 @@ class MonitorController {
         cal.setTime(date)
         String.format("%02d:%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND))
     }
+
+    def messages() {
+
+    }
+
+    def queuedMessagesJson() {
+        def value = [:]
+
+
+        value.data = QueuedMessage.list([max: 20, sort: "id", order: "desc"]).collect { item ->
+            [
+                    id                  : item.id,
+                    receiverNumber      : item.receiverNumber,
+                    user                : item.user?.toString(),
+                    timeCreated         : formatTime(item.dateCreated),
+                    dateCreated         : formatDate(item.dateCreated),
+                    retryCount          : item.retryCount,
+                    lastExecutionMessage: item.lastExecutionMessage,
+                    body                : item.body
+            ]
+        }
+        value.total = value.data.size()
+        render value as JSON
+    }
+
+    def sentMessagesJson() {
+        def value = [:]
+
+
+        value.data = SentMessage.list([max: 20, sort: "id", order: "desc"]).collect { item ->
+            [
+                    id                  : item.id,
+                    receiverNumber      : item.receiverNumber,
+                    user                : item.user?.toString(),
+                    timeCreated         : formatTime(item.dateCreated),
+                    dateCreated         : formatDate(item.dateCreated),
+                    retryCount          : item.retryCount,
+                    lastExecutionMessage: item.lastExecutionMessage,
+                    body                : item.body
+            ]
+        }
+        value.total = value.data.size()
+        render value as JSON
+    }
+
+    def failedMessagesJson() {
+        def value = [:]
+
+
+        value.data = FailedMessage.list([max: 20, sort: "id", order: "desc"]).collect { item ->
+            [
+                    id                  : item.id,
+                    receiverNumber      : item.receiverNumber,
+                    user                : item.user.toString(),
+                    timeCreated         : formatTime(item.dateCreated),
+                    dateCreated         : formatDate(item.dateCreated),
+                    retryCount          : item.retryCount,
+                    lastExecutionMessage: item.lastExecutionMessage,
+                    body                : item.body
+            ]
+        }
+        value.total = value.data.size()
+        render value as JSON
+    }
 }
