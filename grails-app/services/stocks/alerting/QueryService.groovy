@@ -9,6 +9,7 @@ import org.grails.datastore.mapping.query.Query.Disjunction
 import org.grails.datastore.mapping.query.Query.Conjunction
 import org.grails.datastore.mapping.query.Query.Junction
 import org.grails.datastore.mapping.query.Query.Negation
+import stocks.FarsiNormalizationFilter
 
 class QueryService {
     static transactional = false
@@ -145,7 +146,7 @@ class QueryService {
                 value = parseDate(value)
                 break;
             default:
-                value = value.toString()
+                value = FarsiNormalizationFilter.apply(value.toString())
         }
 
         switch (rule.operator) {
