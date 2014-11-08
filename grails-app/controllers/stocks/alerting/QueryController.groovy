@@ -53,6 +53,7 @@ class QueryController {
                     [text: message(code: 'query.build.parameters.type.date'), value: 'date']
             ]
 
+            queryInstance.discard()
             [
                     queryInstance    : queryInstance,
                     domainClass      : queryInstance.domainClazz,

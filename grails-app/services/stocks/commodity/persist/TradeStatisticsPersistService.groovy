@@ -39,7 +39,7 @@ class TradeStatisticsPersistService {
     }
 
     private void afterCreate(TradeStatisticsEvent event, TradeStatistics data) {
-        queryService.applyEventBasedQueries(data)
+//        queryService.applyEventBasedQueries(data)
     }
 
     private void beforeUpdate(TradeStatisticsEvent event, TradeStatistics data) {

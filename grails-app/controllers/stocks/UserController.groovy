@@ -118,6 +118,11 @@ class UserController {
             user = new User(params)
         }
 
+        user.enabled = params.enabled ? true : false
+        user.accountExpired = params.accountExpired ? true : false
+        user.accountLocked = params.accountLocked ? true : false
+        user.passwordExpired = params.passwordExpired ? true : false
+
         user.city = City.get(params.cityId)
         user.username = user.email
 

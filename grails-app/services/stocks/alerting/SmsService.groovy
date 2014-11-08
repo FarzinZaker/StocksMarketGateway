@@ -1,6 +1,7 @@
 package stocks.alerting
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import grails.util.Environment
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import sms1000.SmsLocator
 import stocks.TemplateHelper
@@ -80,13 +81,17 @@ class SmsService {
         def messageService = new SmsLocator().getsmsSoap()
 
         message.retryCount++
-        def result = messageService.doSendSMS(
-                parameters.agah.userName,
-                parameters.agah.userPassword,
-                parameters.agah.senderNumber,
-                message.receiverNumber,
-                message.body,
-                true, false, false, '')
+        def result
+        if (Environment.current == Environment.DEVELOPMENT)
+            result = 'development test: ok'
+        else
+            result = messageService.doSendSMS(
+                    parameters.agah.userName,
+                    parameters.agah.userPassword,
+                    parameters.agah.senderNumber,
+                    message.receiverNumber,
+                    message.body,
+                    true, false, false, '')
 
         message.lastExecutionMessage = result
 
