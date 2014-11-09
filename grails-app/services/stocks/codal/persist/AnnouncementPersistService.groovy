@@ -1,5 +1,6 @@
 package stocks.codal.persist
 
+import groovy.transform.TimedInterrupt
 import stocks.alerting.QueryInstance
 import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
@@ -40,8 +41,9 @@ class AnnouncementPersistService {
             downloadFile(announcement.xmlUrl, "${filesPath}/xml/${announcement.id}.xml")
     }
 
-    private static def downloadFile(String url, String path, Integer retryCount = 0) {
-        if ((!url || url == '') && retryCount == 0)
+    @TimedInterrupt(60L)
+    private def downloadFile(String url, String path, Integer retryCount = 0) {
+        if ((!url || url == '' || url == 'null') && retryCount == 0)
             return
         try {
             def file = new File(path)
@@ -61,10 +63,12 @@ class AnnouncementPersistService {
                 }
             }
         } catch (ignored) {
-            if (retryCount < 5)
+            if (retryCount < 3)
                 downloadFile(url, path, retryCount + 1)
-            else
-                println("unable to download ${url}")
+            else {
+                println("unable to download ${url} because of ")
+                ignored.printStackTrace()
+            }
         }
     }
 
