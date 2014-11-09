@@ -39,8 +39,5 @@ class CodalEventService {
     }
 
     def handle(AnnouncementEvent event) {
-        Thread.start {
-            announcementPersistService.grabFiles(event)
-        }
     }
 }

@@ -30,9 +30,8 @@ class AnnouncementPersistService {
         data
     }
 
-    def grabFiles(AnnouncementEvent event) {
+    def grabFiles(Announcement announcement) {
         def filesPath = grailsApplication.config.codal.filesPath
-        def announcement = event.data
         if (announcement.pdfUrl)
             downloadFile(announcement.pdfUrl, "${filesPath}/pdf/${announcement.id}.pdf")
         if (announcement.excelUrl)
@@ -52,8 +51,8 @@ class AnnouncementPersistService {
             file.parentFile.mkdirs()
             new URL(url).openConnection().with { conn ->
                 conn.instanceFollowRedirects = false
-                url = conn.getHeaderField("Location")
-                if (!url) {
+                def headerFiled = conn.getHeaderField("Location")
+                if (!headerFiled) {
                     new File(path).withOutputStream { out ->
                         conn.inputStream.with { inp ->
                             out << inp
@@ -66,8 +65,8 @@ class AnnouncementPersistService {
             if (retryCount < 3)
                 downloadFile(url, path, retryCount + 1)
             else {
-                println("unable to download ${url} because of ")
-                ignored.printStackTrace()
+                println("unable to download ${url}")
+//                ignored.printStackTrace()
             }
         }
     }
@@ -77,6 +76,7 @@ class AnnouncementPersistService {
     }
 
     protected void afterCreate(AnnouncementEvent event, Announcement data) {
+        Thread.start { grabFiles(data) }
         queryService.applyEventBasedQueries(data)
     }
 
