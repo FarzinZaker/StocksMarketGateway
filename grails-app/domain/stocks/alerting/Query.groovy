@@ -48,4 +48,34 @@ class Query {
     String getParameterListString(){
         Parameter.findAllByQuery(this).collect {it.name}.join(',')
     }
+
+    def beforeInsert(){
+        checkToken()
+    }
+
+    def afterInsert(){
+        checkToken()
+    }
+
+    def beforeUpdate(){
+        checkToken()
+    }
+
+    def afterUpdate(){
+        checkToken()
+    }
+
+    def checkToken(){
+
+        try{
+            if(smsHeaderTemplate.contains('[تاريخ]'))
+                throw new Exception('Date problem again!!!!')
+        }
+        catch(ex){
+
+            println(ex.message)
+            ex.printStackTrace()
+            throw ex
+        }
+    }
 }
