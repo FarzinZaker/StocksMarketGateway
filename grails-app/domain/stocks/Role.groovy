@@ -2,6 +2,8 @@ package stocks
 
 class Role {
 
+    static auditable = true
+
     String authority
 
     static mapping = {

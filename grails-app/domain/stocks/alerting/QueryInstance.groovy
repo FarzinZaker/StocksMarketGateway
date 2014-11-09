@@ -4,6 +4,8 @@ import stocks.User
 
 class QueryInstance {
 
+    static auditable = true
+
     static searchable = true
 
     Query query

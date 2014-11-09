@@ -2,6 +2,8 @@ package stocks.alerting
 
 class SortingRule {
 
+    static auditable = true
+
     String fieldName
     String sortDirection
     Integer sortOrder

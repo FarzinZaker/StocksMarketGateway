@@ -2,6 +2,8 @@ package stocks
 
 class Chart extends Image {
 
+    static auditable = true
+
     String options
 
     static mapping={

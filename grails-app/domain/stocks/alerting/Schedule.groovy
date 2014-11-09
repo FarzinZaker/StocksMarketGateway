@@ -2,6 +2,8 @@ package stocks.alerting
 
 class Schedule {
 
+    static auditable = true
+
     Integer intervalStep
 
 

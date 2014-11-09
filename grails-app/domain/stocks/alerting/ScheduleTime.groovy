@@ -2,6 +2,8 @@ package stocks.alerting
 
 class ScheduleTime {
 
+    static auditable = true
+
     Integer timeInMinute
 
     Schedule schedule

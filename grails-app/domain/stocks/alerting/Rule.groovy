@@ -2,6 +2,8 @@ package stocks.alerting
 
 class Rule {
 
+    static auditable = true
+
     String aggregationType
     String field
     String type

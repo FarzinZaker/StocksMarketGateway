@@ -2,6 +2,8 @@ package stocks.alerting
 
 class Parameter {
 
+    static auditable = true
+
     String name
     String type
     String defaultValue

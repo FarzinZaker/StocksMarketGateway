@@ -3,6 +3,8 @@ package stocks
 
 class BrokerBranch {
 
+    static auditable = true
+
     Broker broker
     City city
     String type

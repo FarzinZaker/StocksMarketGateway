@@ -4,6 +4,8 @@ import stocks.User
 
 class Like {
 
+    static auditable = true
+
     Date dateCreated
     Comment comment
     String type

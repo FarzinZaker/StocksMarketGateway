@@ -4,6 +4,8 @@ import stocks.User
 
 class FailedMessage {
 
+    static auditable = true
+
     String body
     String receiverNumber
     User user

@@ -4,6 +4,8 @@ import stocks.User
 
 class ScheduleTemplate {
 
+    static auditable = true
+
     static searchable = true
 
     String title

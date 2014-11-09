@@ -4,6 +4,8 @@ import stocks.User
 
 class Comment {
 
+    static auditable = true
+
     User author
     String body
     Date dateCreated

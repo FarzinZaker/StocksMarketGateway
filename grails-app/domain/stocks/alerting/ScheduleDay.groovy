@@ -2,6 +2,8 @@ package stocks.alerting
 
 class ScheduleDay {
 
+    static auditable = true
+
     String day
     Integer startTimeInMinute = -1
     Integer endTimeInMinute = -1

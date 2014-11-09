@@ -5,6 +5,8 @@ import stocks.User
 
 class QueryCategory {
 
+    static auditable = true
+
     String name
     String description
     Image image

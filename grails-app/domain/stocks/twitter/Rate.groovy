@@ -4,6 +4,8 @@ import stocks.User
 
 class Rate {
 
+    static auditable = true
+
     Integer value
     Date dateCreated
     Document document

@@ -2,6 +2,8 @@ package stocks
 
 class Broker {
 
+    static auditable = true
+
     String name
     String englishName
     Image logo

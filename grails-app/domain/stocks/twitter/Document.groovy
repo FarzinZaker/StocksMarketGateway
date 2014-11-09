@@ -5,6 +5,8 @@ import stocks.User
 
 class Document {
 
+    static auditable = true
+
     User author
     String title
     String summary

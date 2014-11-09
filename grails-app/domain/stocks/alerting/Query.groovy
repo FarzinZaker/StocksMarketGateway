@@ -6,6 +6,8 @@ import stocks.User
 
 class Query {
 
+    static auditable = true
+
     static searchable = true
 
     String title

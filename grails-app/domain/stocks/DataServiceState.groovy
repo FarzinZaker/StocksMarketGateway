@@ -2,6 +2,8 @@ package stocks
 
 class DataServiceState {
 
+    static auditable = true
+
     String serviceName
     String data
     Boolean isLastState = true

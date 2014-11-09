@@ -2,6 +2,8 @@ package stocks
 
 class City {
 
+    static auditable = true
+
     String name
     Province province
 

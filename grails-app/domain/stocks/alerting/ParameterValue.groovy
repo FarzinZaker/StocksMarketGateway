@@ -2,6 +2,8 @@ package stocks.alerting
 
 class ParameterValue {
 
+    static auditable = true
+
     String value
     QueryInstance queryInstance
     Parameter parameter

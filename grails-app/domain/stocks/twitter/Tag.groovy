@@ -2,6 +2,8 @@ package stocks.twitter
 
 class Tag {
 
+    static auditable = true
+
     String name
     Date dateCreated
 

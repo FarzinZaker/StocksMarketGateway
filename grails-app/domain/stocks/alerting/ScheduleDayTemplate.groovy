@@ -5,6 +5,8 @@ import org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime
 
 class ScheduleDayTemplate {
 
+    static auditable = true
+
     String day
     Integer minStartTimeInMinute
     Integer maxEndTimeInMinute

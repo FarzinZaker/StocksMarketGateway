@@ -2,6 +2,8 @@ package stocks
 
 class User {
 
+    static auditable = true
+
     static searchable = true
 
     transient springSecurityService
