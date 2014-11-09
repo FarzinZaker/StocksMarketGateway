@@ -47,16 +47,16 @@ grails.project.dependency.resolution = {
 //        compile 'org.axonframework:axon-core:2.2'
 //        runtime 'com.thoughtworks.xstream:xstream:1.4.7'
 
-        build 'org.apache.axis:axis:1.4'
-        build 'javax.xml:jaxrpc-api:1.1'
-        build 'commons-discovery:commons-discovery:0.4'
-        build 'org.ccil.cowan.tagsoup:tagsoup:1.2'
+        compile 'org.apache.axis:axis:1.4'
+        compile 'javax.xml:jaxrpc-api:1.1'
+        compile 'commons-discovery:commons-discovery:0.4'
+        compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
 
         build 'joda-time:joda-time:2.3'
         build 'joda-time:joda-time-hibernate:1.3'
 
-        build 'commons-httpclient:commons-httpclient:3.1'
-        build 'org.jsoup:jsoup:1.8.1'
+        compile 'commons-httpclient:commons-httpclient:3.1'
+        compile 'org.jsoup:jsoup:1.8.1'
     }
 
     plugins {
@@ -87,6 +87,6 @@ grails.project.dependency.resolution = {
 
         compile ":quartz:0.4.1"
 
-        ompile ":audit-logging:1.0.3"
+        compile ":audit-logging:1.0.3"
     }
 }
