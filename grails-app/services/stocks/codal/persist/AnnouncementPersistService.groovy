@@ -41,7 +41,7 @@ class AnnouncementPersistService {
             downloadFile(announcement.xmlUrl, "${filesPath}/xml/${announcement.id}.xml")
     }
 
-    @TimedInterrupt(60L)
+//    @TimedInterrupt(60L)
     private def downloadFile(String url, String path, Integer retryCount = 0) {
         if ((!url || url == '' || url == 'null') && retryCount == 0)
             return
