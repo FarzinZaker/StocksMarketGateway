@@ -1,6 +1,7 @@
 package stocks.alerting
 
 import grails.converters.JSON
+import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.commons.GrailsClass
 import stocks.FarsiNormalizationFilter
 import stocks.RoleHelper
@@ -41,12 +42,12 @@ class QueryController {
             }.collect { it.name }
             def parameterTypes = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.domain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.value
             }.collect {
-                [text        : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
-                 sourceDomain: it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain,
-                 sourceField : it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField]
+                [text  : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
+                 domain: it.domainClass.fullName,
+                 field : "${it.name}"]
             } + [
                     [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
                     [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
@@ -75,12 +76,12 @@ class QueryController {
             }.collect { it.name }
             def parameterTypes = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.domain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.value
             }.collect {
-                [text        : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
-                 sourceDomain: it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceDomain,
-                 sourceField : it.domainClass.constrainedProperties."${it.name}".metaConstraints.sourceField]
+                [text  : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
+                 domain: it.domainClass.fullName,
+                 field : "${it.name}"]
             } + [
                     [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
                     [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
@@ -162,8 +163,7 @@ class QueryController {
                     sortingRule.sortOrder = newSortingRule.sortOrder
                     sortingRule.save()
                 }
-            }
-            else{
+            } else {
                 SortingRule.findAllByQuery(query).each { sortingRule ->
                     sortingRule.delete()
                 }
@@ -580,14 +580,24 @@ class QueryController {
     }
 
     def autoComplete() {
-        def domainClass = grailsApplication.getDomainClass("stocks.${params.sourceDomain}")
-        def result = domainClass.clazz."findAllBy${params.sourceField}Like"("%${params."filter[filters][0][value]"}%").collect {
-            [name: it."get${params.sourceField}"(), typeString: message(code: 'autocomplete.itemType.domain')]
+        def term = params."filter[filters][0][value]"?.toString() ?: ''
+        def domainClass = grailsApplication.getDomainClass("${params.domain}")
+        def property = domainClass.persistentProperties.find { it.name == params.field }
+        def sourceDomainClass = domainClass.constrainedProperties."${property.name}".metaConstraints.source?.domain
+        BooleanQuery.setMaxClauseCount(1000000)
+        def result = sourceDomainClass.search("*${term}*", max: 1000000)
+        result = result.results.findAll {
+            domainClass.constrainedProperties."${property.name}".metaConstraints.source?.filter(it)
+        }
+        result = result.collect {
+            [name: domainClass.constrainedProperties."${property.name}".metaConstraints.source?.display(it), value: domainClass.constrainedProperties."${property.name}".metaConstraints.source?.value(it), typeString: message(code: 'autocomplete.itemType.domain')]
         }.sort { it.name }
         def parameters = []
         def indexer = 0
         while (params."currentData[${indexer}][name]") {
-            parameters << [name: params."currentData[${indexer}][name]", typeString: params."currentData[${indexer}][typeString]"]
+            def name = params."currentData[${indexer}][name]"?.toString()
+            if (!term?.split(' ')?.any { !name.contains(it) })
+                parameters << [name: name, value: name, typeString: params."currentData[${indexer}][typeString]"]
             indexer++
         }
         render([data: parameters + result] as JSON)

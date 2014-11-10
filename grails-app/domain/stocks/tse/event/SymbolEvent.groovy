@@ -71,7 +71,7 @@ class SymbolEvent {
         groupCode nullable: true, xmlNodeName: 'CGrValCot'
         firstTradeDate nullable: true, xmlNodeName: 'DInMar', locale: 'en'
         valueUnit nullable: true, xmlNodeName: 'YUniExpP'//, inList: ['0', '1']
-        marketCode nullable: true, xmlNodeName: 'YMarNSC'//, inList:['NO', 'OL', 'BK', 'BY', 'ID', 'UI']
+        marketCode nullable: true, xmlNodeName: 'YMarNSC'//, ok:NO
         board nullable: true, xmlNodeName: 'CComVal', fkColumn: 'Code'
         boardCode nullable: true, xmlNodeName: 'CComVal'
         industryGroup nullable: true, xmlNodeName: 'CSecVal', fkColumn: 'Code'
@@ -82,7 +82,7 @@ class SymbolEvent {
         maxAllowedValue nullable: true, xmlNodeName: 'PSaiSMaxOkValMdv'
         minAllowedValue nullable: true, xmlNodeName: 'PSaiSMinOkValMdv'
         baseVolume nullable: true, xmlNodeName: 'BaseVol'
-        type nullable: true, xmlNodeName: 'YVal'//, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
+        type nullable: true, xmlNodeName: 'YVal'// ok:300,400
         minTradableValueUnit nullable: true, xmlNodeName: 'QPasCotFxeVal'
         minTradableStockCount nullable: true, xmlNodeName: 'QQtTranMarVal'
         marketIdentifier nullable: true, xmlNodeName: 'Flow'//, inList: [0, 1, 2, 3, 4, 5]

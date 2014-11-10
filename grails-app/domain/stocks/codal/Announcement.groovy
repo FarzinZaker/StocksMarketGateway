@@ -31,7 +31,31 @@ class Announcement {
 
     static constraints = {
         symbol nullable: true
-        symbolPersianCode nullable: true, query: true, token: true, sourceDomain: 'tse.Symbol', sourceField: 'PersianCode'
+        symbolPersianCode(
+                nullable: true,
+                query: true,
+                token: true,
+                source: [
+                        domain : Symbol,
+                        value  : { Symbol item -> "${item.persianCode}" },
+                        display: { Symbol item -> "${item.persianCode} - ${item.persianName}" },
+                        filter : { Symbol item ->
+                            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
+                                    item.persianCode.charAt(0) != 'ج'
+                                    ['300', '400'].contains(item.type) &&
+                                    item.marketCode == 'NO'
+                        }
+                ])
+//                searchFields: [
+//                        'code',
+//                        'companyCode',
+//                        'companyName',
+//                        'companySmallCode',
+//                        'name',
+//                        'PersianCode',
+//                        'PersianName',
+//                        'shortCode'
+//                ])
         company nullable: true
         companyName nullable: true, query: true, token: true
         title nullable: true, query: true, token: true

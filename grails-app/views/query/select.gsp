@@ -66,7 +66,7 @@ Time: 2:53 PM
                     <div class='text'>
                         <h3>#:title#</h3>
                         <p>#:description#</p>
-                        <div class='parameters'>
+                        <div class='parameters' style='float:none;'>
                         ${message(code: 'query.parameters.list')}: <span>#:parameterTags#</span>
                         </div>
                         <div class='toolbar'>

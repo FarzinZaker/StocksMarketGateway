@@ -67,7 +67,7 @@ class AlertingTagLib {
             it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
         }.each { property ->
 
-            def sourceDomain = property.domainClass.constrainedProperties."${property.name}".metaConstraints.sourceDomain
+            def sourceDomain = property.domainClass.constrainedProperties."${property.name}".metaConstraints.source?.domain
 
             def filter = [:]
 
@@ -88,9 +88,9 @@ class AlertingTagLib {
             }
 
             if (filter.type == 'domain') {
-                filter.sourceDomain = sourceDomain
-                filter.sourceField = property.domainClass.constrainedProperties."${property.name}".metaConstraints.sourceField
-                filter.dataUrl = createLink(controller: 'query', action: 'autoComplete', params: [sourceDomain: filter.sourceDomain, sourceField: filter.sourceField])
+                filter.domain = property.domainClass.constrainedProperties."${property.name}".metaConstraints.source?.domain?.name
+                filter.field = "${property.name}"
+                filter.dataUrl = createLink(controller: 'query', action: 'autoComplete', params: [domain:property.domainClass.fullName, field:property.name])
             }
 
             options.filters << filter

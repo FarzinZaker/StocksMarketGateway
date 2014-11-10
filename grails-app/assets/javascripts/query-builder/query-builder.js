@@ -756,8 +756,9 @@
         }
 
         if (filter.type == 'domain') {
-            $ruleInput.kendoAutoComplete({
+            $ruleInput.width('350px').kendoComboBox({
                 dataTextField: "name",
+                dataValueField: "value",
                 filter: "contains",
                 template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
                 dataSource: {
@@ -789,9 +790,10 @@
         }
         else {
             var $scope = angular.element(document.getElementById('ngController')).scope();
-            $ruleInput.kendoAutoComplete({
+            $ruleInput.width('350px').kendoComboBox({
                 dataSource: $scope.autoCompleteList,
                 dataTextField: "name",
+                dataValueField: "value",
                 filter: "contains",
                 template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>'
             });

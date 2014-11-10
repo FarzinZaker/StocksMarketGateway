@@ -2,6 +2,8 @@ package stocks.tse
 
 class Symbol {
 
+    static searchable = true
+
     String code
     Long internalCode
     String shortCode

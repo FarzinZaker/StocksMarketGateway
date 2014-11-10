@@ -52,7 +52,7 @@
                     combobox.value() != 'date' &&
                     combobox.value() != 'integer') {
                 //complex types
-                $(this).removeClass('k-textbox').kendoAutoComplete({
+                $(this).removeClass('k-textbox').kendoComboBox({
                     dataTextField: "name",
                     filter: "contains",
                     template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
@@ -61,7 +61,7 @@
                         transport: {
                             type: 'odata',
                             read: {
-                                url: "${createLink(action: 'autoComplete')}?sourceDomain=" + findParameterTypeSourceDomain(combobox.value()) + "&sourceField=" + findParameterTypeSourceField(combobox.value()),
+                                url: "${createLink(action: 'autoComplete')}?domain=" + findParameterTypeSourceDomain(combobox.value()) + "&field=" + findParameterTypeSourceField(combobox.value()),
                                 dataType: "json",
                                 type: "POST"
 
@@ -82,7 +82,7 @@
         input.unwrap().removeAttr('style').addClass('k-textbox');
         if (input.length == 0)
             input = $(e.sender.element).parent().parent().next('input');
-        var autocomplete = input.data("kendoAutoComplete");
+        var autocomplete = input.data("kendoComboBox");
         if (autocomplete)
             autocomplete.destroy();
         widget.remove();
@@ -90,7 +90,7 @@
                 e.sender.value() != 'date' &&
                 e.sender.value() != 'integer') {
             //complex types
-            input.removeClass('k-textbox').kendoAutoComplete({
+            input.removeClass('k-textbox').kendoComboBox({
                 dataTextField: "name",
                 filter: "contains",
                 template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
@@ -99,7 +99,7 @@
                     transport: {
                         type: 'odata',
                         read: {
-                            url: "${createLink(action: 'autoComplete')}?sourceDomain=" + findParameterTypeSourceDomain(e.sender.value()) + "&sourceField=" + findParameterTypeSourceField(e.sender.value()),
+                            url: "${createLink(action: 'autoComplete')}?domain=" + findParameterTypeSourceDomain(e.sender.value()) + "&field=" + findParameterTypeSourceField(e.sender.value()),
                             dataType: "json",
                             type: "POST"
 
@@ -117,7 +117,7 @@
         var result = '';
         $.each(parameterTypeData, function (index, item) {
             if (item.value == type)
-                result = item.sourceDomain;
+                result = item.domain;
         });
         return result;
     }
@@ -126,7 +126,7 @@
         var result = '';
         $.each(parameterTypeData, function (index, item) {
             if (item.value == type)
-                result = item.sourceField;
+                result = item.field;
         });
         return result;
     }
