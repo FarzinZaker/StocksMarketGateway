@@ -16,7 +16,8 @@
                 [
                         name: it.name,
                         type: it.type,
-                        defaultValue: it.defaultValue
+                        defaultValue: it.defaultValue ,
+                        multiSelect: it.multiSelect
                 ]
                 } as JSON}"/>
         var sortingRuleList = <format:html value="${sortingRules.collect {

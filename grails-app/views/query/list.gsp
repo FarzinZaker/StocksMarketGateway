@@ -147,6 +147,7 @@
                                 field: "lastUpdated",
                                 title: "${message(code:'query.lastUpdated.label')}"
                             } ,
+                            { command: { text: "${message(code:'query.parameter.allowedValues.btn')}", click: setParameterValues }, title: "", width: "125px", headerAttributes: { style: "text-align: center"} },
                             { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
                             { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
                         ]
@@ -155,6 +156,10 @@
 
                 function editGridItem(e) {
                     window.location.href = "${createLink(action: 'build')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+                }
+
+                function setParameterValues(e) {
+                    window.location.href = "${createLink(action: 'parameterValues')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
                 }
 
                 var idForDelete = 0;

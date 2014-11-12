@@ -31,7 +31,7 @@
                 <script language="javascript" type="text/javascript">
                     $(document).ready(function () {
 
-                        $("#parameter_${parameter.id}").removeClass('k-textbox').kendoComboBox({
+                        $("#parameter_${parameter.id}").removeClass('k-textbox').width('350px').kendoComboBox({
                             dataTextField: "name",
                             dataValueField: "value",
                             filter: "contains",

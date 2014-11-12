@@ -3,7 +3,7 @@
     var parameterTypeData = <format:html value="${parameterTypeList as JSON}"/>;
     function addParameter() {
         var $scope = angular.element(document.getElementById('ngController')).scope();
-        $scope.parameterList.push({name: '', type: 'string', defaultValue: ''});
+        $scope.parameterList.push({name: '', type: 'string', defaultValue: '', multiSelect: false});
         $scope.parameterCounter += 1;
         $scope.$apply();
 
@@ -54,6 +54,7 @@
                 //complex types
                 $(this).removeClass('k-textbox').kendoComboBox({
                     dataTextField: "name",
+                    dataValueField: "value",
                     filter: "contains",
                     template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
                     dataSource: {
@@ -73,25 +74,30 @@
                     }
                 });
             }
+            else{
+                $(this).addClass('k-textbox');
+            }
         });
     });
 
     function handleParameterTypeChange(e) {
-        var widget = $(e.sender.element).parent().parent().next('.k-autocomplete');
+        var widget = $(e.sender.element).parent().parent().next('.k-combobox');
         var input = widget.find('input');
-        input.unwrap().removeAttr('style').addClass('k-textbox');
+//        input.unwrap().removeAttr('style').addClass('k-textbox');
         if (input.length == 0)
             input = $(e.sender.element).parent().parent().next('input');
+        var simpleInput = input.parent().next('input');
         var autocomplete = input.data("kendoComboBox");
         if (autocomplete)
             autocomplete.destroy();
-        widget.remove();
         if (e.sender.value() != 'string' &&
                 e.sender.value() != 'date' &&
                 e.sender.value() != 'integer') {
+            widget.remove();
             //complex types
-            input.removeClass('k-textbox').kendoComboBox({
+            input.removeClass('k-textbox').width('350px').kendoComboBox({
                 dataTextField: "name",
+                dataValueField: "value",
                 filter: "contains",
                 template: '<div class="autocomplete-row"><h4>#: data.name #</h4><span>#: data.typeString #</span></div>',
                 dataSource: {
@@ -110,6 +116,9 @@
                     }
                 }
             });
+        }
+        else{
+            simpleInput.unwrap().show().addClass('k-textbox').prev('.k-dropdown-wrap').remove()
         }
     }
 
@@ -143,8 +152,14 @@
         </span>
 
         <input class="k-textbox" name="parameterValues" id="parameterValue{{$index + 1}}"
-               ng-model="parameter.defaultValue" style="width:200px;"
+               ng-model="parameter.defaultValue" style="width:350px;"
                placeholder="${message(code: 'query.build.parameters.defaultValue')}"/>
+
+        <input type="checkbox" class="css-checkbox" id="parameterMultiSelect{{$index + 1}}" name="parameterMultiSelects_{{$index + 1}}"
+               ng-model="parameter.multiSelect" />
+        <label class="css-label" for="parameterMultiSelect{{$index + 1}}">
+            <g:message code='query.build.parameters.defaultValue'/>
+        </label>
     </div>
 </div>
 

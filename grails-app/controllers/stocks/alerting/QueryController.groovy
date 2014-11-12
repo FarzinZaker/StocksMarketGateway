@@ -113,7 +113,7 @@ class QueryController {
 
         def parameters = []
         params.parameterNames.eachWithIndex { parameterName, index ->
-            parameters << [name: parameterName, type: params.parameterTypes[index], defaultValue: params.parameterValues[index]]
+            parameters << [name: parameterName, type: params.parameterTypes[index], defaultValue: params.parameterValues[index], multiSelect: params."parameterMultiSelects_${index + 1}" == 'on']
         }
 
         //prepare sortingRules
@@ -145,6 +145,7 @@ class QueryController {
                     parameter.name = newParameter.name
                     parameter.type = newParameter.type
                     parameter.defaultValue = newParameter.defaultValue
+                    parameter.multiSelect = newParameter.multiSelect
                     parameter.save()
                 }
             if (sortingRules) {
@@ -209,6 +210,7 @@ class QueryController {
             def parameter = new Parameter(query: query)
             parameter.name = param.name
             parameter.type = param.type
+            parameter.multiSelect = param.multiSelect
             if (param.defaultValue && param.defaultValue != '')
                 parameter.defaultValue = param.defaultValue
             parameter.save()
@@ -601,5 +603,13 @@ class QueryController {
             indexer++
         }
         render([data: parameters + result] as JSON)
+    }
+
+    def parameterValues() {
+        def query = Query.get(params.id)
+        [
+                query     : query,
+                parameters: Parameter.findAllByQuery(query)
+        ]
     }
 }

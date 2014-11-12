@@ -7,7 +7,10 @@ class Parameter {
     String name
     String type
     String defaultValue
+    Boolean multiSelect
     Query query
+
+    static hasMany = [suggestedValues: ParameterSuggestedValue]
 
     static mapping = {
         table 'alerting_parameter'
@@ -17,5 +20,6 @@ class Parameter {
 
     static constraints = {
         defaultValue nullable: true
+        multiSelect nullable: true
     }
 }
