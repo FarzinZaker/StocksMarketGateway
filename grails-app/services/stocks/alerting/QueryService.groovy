@@ -104,7 +104,10 @@ class QueryService {
 
         if (!rule) {
             def someProperty = domainClass.persistantProperties.find();
-            return Restrictions.eqProperty(someProperty.name, someProperty.name)
+            def criterion = new Disjunction()
+            criterion.add(Restrictions.eqProperty(someProperty.name, someProperty.name))
+            criterion.add(Restrictions.isNull(someProperty.name))
+            return criterion
         }
 
         Criterion criterion
