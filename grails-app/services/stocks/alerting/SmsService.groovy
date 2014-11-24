@@ -82,16 +82,21 @@ class SmsService {
 
         message.retryCount++
         def result
-        if (Environment.current == Environment.DEVELOPMENT)
-            result = 'development test: ok'
-        else
-            result = messageService.doSendSMS(
-                    parameters.agah.userName,
-                    parameters.agah.userPassword,
-                    parameters.agah.senderNumber,
-                    message.receiverNumber,
-                    message.body,
-                    true, false, false, '')
+        try {
+            if (Environment.current == Environment.DEVELOPMENT)
+                result = 'development test: ok'
+            else
+                result = messageService.doSendSMS(
+                        parameters.agah.userName,
+                        parameters.agah.userPassword,
+                        parameters.agah.senderNumber,
+                        message.receiverNumber,
+                        message.body,
+                        true, false, false, '')
+        }
+        catch(exception){
+            result = exception.message
+        }
 
         message.lastExecutionMessage = result
 
