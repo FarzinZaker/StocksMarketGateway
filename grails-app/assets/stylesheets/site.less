@@ -454,3 +454,67 @@ ul.linkList {
     font-size: 12px;
   }
 }
+
+.multiSelectValues{
+//  background: white;
+//  border:1px solid #dadada;
+  padding:10px;
+  margin-top:3px;
+  ul {
+    padding: 0;
+    li {
+      border: 1px solid #dadada;
+      background: white;
+      padding: 5px 5px 5px 10px;
+      margin-left: 5px;
+      float: right;
+      display: block;
+      i {
+        color: #787878;
+        font-size: 9px;
+        font-style: normal;
+        margin-left: 3px;
+        cursor: pointer;
+        padding: 4px 5px 3px;
+        float: right;
+        &:hover {
+          background-color: @error-color;
+          color: white;
+        }
+      }
+    }
+  }
+  div{
+    clear:both;
+  }
+}
+
+.pushButtonRadioGroup{
+  input[type=radio]{
+    display: none;
+    &:checked+label{
+      background: @main-color;
+      color: white;
+    }
+  }
+  label{
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-right:10px;
+    padding-left:10px;
+    margin-left:10px;
+    display: inline-block !important;
+    cursor: pointer;
+    background: white;
+  }
+}
+
+.deliveryMethodPage{
+  display: none;
+
+  &.underConstruction{
+    & + .k-button{
+      display: none;
+    }
+  }
+}

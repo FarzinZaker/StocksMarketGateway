@@ -5,6 +5,8 @@ class ParameterValue {
     static auditable = true
 
     String value
+    String text
+    String type
     QueryInstance queryInstance
     Parameter parameter
 
@@ -16,5 +18,7 @@ class ParameterValue {
 
 
     static constraints = {
+        text nullable: true
+        type nullable: true
     }
 }

@@ -1,6 +1,9 @@
 package stocks.codal
 
+import stocks.DeliveryMethods
 import stocks.tse.Company
+import stocks.tse.IndustryGroup
+import stocks.tse.IndustrySubgroup
 import stocks.tse.Symbol
 
 class Announcement {
@@ -33,29 +36,46 @@ class Announcement {
         symbol nullable: true
         symbolPersianCode(
                 nullable: true,
-                query: true,
                 token: true,
-                source: [
-                        domain : Symbol,
-                        value  : { Symbol item -> "${item.persianCode}" },
-                        display: { Symbol item -> "${item.persianCode} - ${item.persianName}" },
-                        filter : { Symbol item ->
+                query: [
+                        domain         : Symbol,
+                        value          : 'persianCode',//{ Symbol item -> "${item.persianCode}" },
+                        display        : { Symbol item -> "${item.persianCode} - ${item.persianName}" },
+                        filter         : { Symbol item ->
                             !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
                                     item.persianCode.charAt(0) != 'ج'
-                                    ['300', '400'].contains(item.type) &&
+                            ['300', '400'].contains(item.type) &&
                                     item.marketCode == 'NO'
-                        }
+                        },
+                        deliveryMethods: [
+                                [
+                                        name       : "search",
+                                        type       : DeliveryMethods.DIRECT
+                                ],
+                                [
+                                        name       : "industryGroup",
+                                        type       : DeliveryMethods.PARENT,
+                                        relations  : [
+                                                [
+                                                        domain    : IndustryGroup,
+                                                        primaryKey: 'id',
+                                                        foreignKey: 'industryGroup',
+                                                        display: 'name'
+                                                ],
+                                                [
+                                                        domain    : IndustrySubgroup,
+                                                        primaryKey: 'id',
+                                                        foreignKey: 'industrySubgroup',
+                                                        display: 'name'
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name       : "portfolio",
+                                        type       : DeliveryMethods.SPECIAL
+                                ]
+                        ]
                 ])
-//                searchFields: [
-//                        'code',
-//                        'companyCode',
-//                        'companyName',
-//                        'companySmallCode',
-//                        'name',
-//                        'PersianCode',
-//                        'PersianName',
-//                        'shortCode'
-//                ])
         company nullable: true
         companyName nullable: true, query: true, token: true
         title nullable: true, query: true, token: true

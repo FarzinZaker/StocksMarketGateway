@@ -3,7 +3,7 @@
     var parameterTypeData = <format:html value="${parameterTypeList as JSON}"/>;
     function addParameter() {
         var $scope = angular.element(document.getElementById('ngController')).scope();
-        $scope.parameterList.push({name: '', type: 'string', defaultValue: '', multiSelect: false});
+        $scope.parameterList.push({name: '', type: 'string', defaultValue: '', multiSelect: true});
         $scope.parameterCounter += 1;
         $scope.$apply();
 
@@ -49,7 +49,6 @@
         $("input[name=parameterValues]").removeClass('k-textbox').each(function (index, item) {
             var combobox = $(this).parent().find('input[name=parameterTypes]').data('kendoComboBox');
             if (combobox.value() != 'string' &&
-                    combobox.value() != 'date' &&
                     combobox.value() != 'integer') {
                 //complex types
                 $(this).removeClass('k-textbox').kendoComboBox({
@@ -91,7 +90,6 @@
         if (autocomplete)
             autocomplete.destroy();
         if (e.sender.value() != 'string' &&
-                e.sender.value() != 'date' &&
                 e.sender.value() != 'integer') {
             widget.remove();
             //complex types
@@ -156,9 +154,9 @@
                placeholder="${message(code: 'query.build.parameters.defaultValue')}"/>
 
         <input type="checkbox" class="css-checkbox" id="parameterMultiSelect{{$index + 1}}" name="parameterMultiSelects_{{$index + 1}}"
-               ng-model="parameter.multiSelect" />
-        <label class="css-label" for="parameterMultiSelect{{$index + 1}}">
-            <g:message code='query.build.parameters.defaultValue'/>
+               ng-model="parameter.multiSelect" style="display: none" />
+        <label class="css-label" for="parameterMultiSelect{{$index + 1}}" style="display: none">
+            <g:message code='query.build.parameters.multiSelect'/>
         </label>
     </div>
 </div>

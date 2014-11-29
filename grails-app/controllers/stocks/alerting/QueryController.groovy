@@ -42,16 +42,16 @@ class QueryController {
             }.collect { it.name }
             def parameterTypes = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.domain &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.value
+                        !(it.domainClass.constrainedProperties."${it.name}".metaConstraints.query instanceof Boolean) &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.query?.domain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.query?.value
             }.collect {
                 [text  : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
                  domain: it.domainClass.fullName,
                  field : "${it.name}"]
             } + [
                     [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
-                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
-                    [text: message(code: 'query.build.parameters.type.date'), value: 'date']
+                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer']
             ]
 
             queryInstance.discard()
@@ -76,16 +76,16 @@ class QueryController {
             }.collect { it.name }
             def parameterTypes = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.domain &&
-                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.source?.value
+                        !(it.domainClass.constrainedProperties."${it.name}".metaConstraints.query instanceof Boolean) &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.query?.domain &&
+                        it.domainClass.constrainedProperties."${it.name}".metaConstraints.query?.value
             }.collect {
                 [text  : message(code: "${domainClass.fullName}.${it.name}.label"), value: it.name,
                  domain: it.domainClass.fullName,
                  field : "${it.name}"]
             } + [
                     [text: message(code: 'query.build.parameters.type.string'), value: 'string'],
-                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer'],
-                    [text: message(code: 'query.build.parameters.type.date'), value: 'date']
+                    [text: message(code: 'query.build.parameters.type.integer'), value: 'integer']
             ]
             [
                     domainClass      : params.domainClass,
@@ -113,7 +113,7 @@ class QueryController {
 
         def parameters = []
         params.parameterNames.eachWithIndex { parameterName, index ->
-            parameters << [name: parameterName, type: params.parameterTypes[index], defaultValue: params.parameterValues[index], multiSelect: params."parameterMultiSelects_${index + 1}" == 'on']
+            parameters << [name: parameterName, type: params.parameterTypes[index], defaultValue: params.parameterValues[index], multiSelect: true]//params."parameterMultiSelects_${index + 1}" == 'on']
         }
 
         //prepare sortingRules
@@ -450,6 +450,7 @@ class QueryController {
             queryInstance.owner = springSecurityService.currentUser as User ?: User.findByUsername('admin')
         }
         queryInstance.query = Query.get(params.queryId)
+
         if (!queryInstance.schedule) {
             queryInstance.schedule = new Schedule()
         }
@@ -492,17 +493,29 @@ class QueryController {
             }
         }
 
-
+        //save parameters
         Parameter.findAllByQuery(queryInstance.query).each { parameter ->
-            def parameterValue = new ParameterValue(queryInstance: queryInstance)
-            parameterValue.parameter = parameter
-            parameterValue.value = params."parameter_${parameter.id}"
-            parameterValue.save()
+            if (params."parameterValueValue_${parameter.id}" instanceof String) {
+                params."parameterValueValue_${parameter.id}" = [params."parameterValueValue_${parameter.id}"]
+                params."parameterValueText_${parameter.id}" = [params."parameterValueText_${parameter.id}"]
+                params."parameterValueType_${parameter.id}" = [params."parameterValueType_${parameter.id}"]
+            }
+
+            for (def i = 0; i < params."parameterValueValue_${parameter.id}".size(); i++) {
+                def parameterValue = new ParameterValue(queryInstance: queryInstance)
+                parameterValue.parameter = parameter
+                parameterValue.value = params."parameterValueValue_${parameter.id}"[i]
+                parameterValue.text = params."parameterValueText_${parameter.id}"[i]
+                parameterValue.type = params."parameterValueType_${parameter.id}"[i]
+                parameterValue.save()
+            }
         }
+
+        //schedule execution
         scheduleService.calculateQueryInstanceNextExecutionTime(queryInstance)
 
         if (params.saveAndNew)
-            redirect(action: 'register', id: params.queryId)
+            redirect(action: 'register', params: [query: queryInstance?.queryId])
         else
             redirect(action: 'instanceList')
     }
@@ -541,7 +554,7 @@ class QueryController {
                     dateCreated      : format.jalaliDate(date: it.dateCreated, hm: 'true'),
                     lastUpdated      : format.jalaliDate(date: it.lastUpdated, hm: 'true'),
                     parameterTags    : parameterList?.size() > 0 ? parameterList.sort { it.parameter.name }.collect {
-                        "${it.parameter.name}: ${it.value}"
+                        "${it.parameter.name}: ${it.text ?: it.value}"
                     }.join(' , ') : '-',
                     toggleAction     : it.enabled ? 'disable' : 'enable',
                     toggleActionTitle: it.enabled ? message(code: 'queryInstance.disable.button') : message(code: 'queryInstance.enable.button')
@@ -585,14 +598,17 @@ class QueryController {
         def term = params."filter[filters][0][value]"?.toString() ?: ''
         def domainClass = grailsApplication.getDomainClass("${params.domain}")
         def property = domainClass.persistentProperties.find { it.name == params.field }
-        def sourceDomainClass = domainClass.constrainedProperties."${property.name}".metaConstraints.source?.domain
+        def sourceDomainClass = domainClass.constrainedProperties."${property.name}".metaConstraints.query?.domain
         BooleanQuery.setMaxClauseCount(1000000)
         def result = sourceDomainClass.search("*${term}*", max: 1000000)
         result = result.results.findAll {
-            domainClass.constrainedProperties."${property.name}".metaConstraints.source?.filter(it)
+            domainClass.constrainedProperties."${property.name}".metaConstraints.query?.filter(it)
         }
         result = result.collect {
-            [name: domainClass.constrainedProperties."${property.name}".metaConstraints.source?.display(it), value: domainClass.constrainedProperties."${property.name}".metaConstraints.source?.value(it), typeString: message(code: 'autocomplete.itemType.domain')]
+            [
+                    name      : domainClass.constrainedProperties."${property.name}".metaConstraints.query?.display(it),
+                    value     : it."${domainClass.constrainedProperties."${property.name}".metaConstraints.query?.value}",
+                    typeString: message(code: 'autocomplete.itemType.domain')]
         }.sort { it.name }
         def parameters = []
         def indexer = 0
@@ -611,5 +627,25 @@ class QueryController {
                 query     : query,
                 parameters: Parameter.findAllByQuery(query)
         ]
+    }
+
+    def cascadingData() {
+        def domainClass = grailsApplication.getDomainClass("${params.domain}")
+        if (!params.parentDomain) {
+            render([data: domainClass.clazz.findAll().collect {
+                [name: it."${params.display}", value: it."${params.primaryKey}"]
+            }] as JSON)
+        } else {
+            def foreignKey = params.foreignKey.toCharArray()
+            foreignKey[0] = foreignKey.toString().toUpperCase()[0]
+            def parentDomainClass = grailsApplication.getDomainClass("${params.parentDomain}")
+            def parent = parentDomainClass.clazz.get(params."filter[filters][0][value]")
+            def result = domainClass.clazz."findAllBy${foreignKey.toString()}"(parent).collect {
+                [name: it."${params.display}", value: it."${params.primaryKey}"]
+            }
+            result = [[name: message(code: "${params.domain}.all"), value: 0]] + result
+            render([data: result] as JSON)
+        }
+
     }
 }

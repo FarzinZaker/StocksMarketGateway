@@ -68,12 +68,17 @@ class SmsService {
     }
 
     def sendMessage(User user, String body) {
-        QueuedMessage.withTransaction {
-            def message = new QueuedMessage()
-            message.body = body
-            message.receiverNumber = user.mobile
-            message.user = user
-            message.save()
+        try {
+            QueuedMessage.withTransaction {
+                def message = new QueuedMessage()
+                message.body = body
+                message.receiverNumber = user.mobile
+                message.user = user
+                message.save()
+            }
+        } catch (ignored) {
+            if (Environment.current != Environment.DEVELOPMENT)
+                throw ignored
         }
     }
 
@@ -94,7 +99,7 @@ class SmsService {
                         message.body,
                         true, false, false, '')
         }
-        catch(exception){
+        catch (exception) {
             result = exception.message
         }
 

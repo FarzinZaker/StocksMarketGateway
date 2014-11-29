@@ -105,7 +105,7 @@ class QueryService {
         if (!rule) {
             def someProperty = domainClass.persistantProperties.find();
             def criterion = new Disjunction()
-            criterion.add(Restrictions.eqProperty(someProperty.name, someProperty.name))
+            criterion.add(Restrictions.isNotNull(someProperty.name))
             criterion.add(Restrictions.isNull(someProperty.name))
             return criterion
         }
@@ -122,7 +122,15 @@ class QueryService {
             }
         } else {
             if (getOperandsCount(rule.operator) == 2) {
-                criterion = Restrictions."${getOperator(rule, domainClass)}"(rule.field, getValue(rule, domainClass, parameters))
+                def valueList = getValue(rule, domainClass, parameters)
+                if (valueList.size() == 1)
+                    criterion = Restrictions."${getOperator(rule, domainClass)}"(rule.field, valueList.find())
+                else {
+                    criterion = new Disjunction()
+                    valueList.each { value ->
+                        ((Junction) criterion).add(Restrictions."${getOperator(rule, domainClass)}"(rule.field, value))
+                    }
+                }
             } else {
                 criterion = Restrictions."${getOperator(rule, domainClass)}"(rule.field)
             }
@@ -133,9 +141,12 @@ class QueryService {
     }
 
     private static def getValue(Rule rule, DefaultGrailsDomainClass domainClass, Map parameters) {
-        if (domainClass.persistantProperties.any { it.name == rule.value })
-            return rule.value.toString()
 
+        //property comparison
+        if (domainClass.persistantProperties.any { it.name == rule.value })
+            return [rule.value.toString()]
+
+        //parametric
         def value = rule.value
         if (parameters.containsKey(rule.value))
             value = parameters."${value}"
@@ -227,7 +238,10 @@ class QueryService {
         def parameters = [:]
         ParameterValue.findAllByQueryInstance(queryInstance).each { parameterValue ->
             def parameter = Parameter.get(parameterValue.parameterId)
-            parameters.put(parameter.name, parameterValue.value.toString())
+            if (parameters.containsKey(parameter))
+                parameters[parameter].add(parameterValue)
+            else
+                parameters.put(parameter, parameterValue)
         }
         parameters
     }

@@ -141,14 +141,31 @@ class FormTagLib {
                         dataTextField: "text",
                         dataValueField: "value",
                         dataSource: data,
+"""
+        if (!attrs.preSelect || attrs.preSelect == 'true')
+            out << """
                         index: 0,
+"""
+        out << """
+                        suggest:${attrs.suggest ?: 'false'},
                         change : function (e) {
                             ${attrs.onchange ? "${attrs.onchange}(e);" : ''}
+"""
+        if (attrs.allowUserInput != 'true')
+            out << """
                             if (this.value() && this.selectedIndex == -1) {
                                 var dt = this.dataSource._data[0];
                                 this.text(dt[this.options.dataTextField]);
                                 this._selectItem();
                             }
+"""
+        if (attrs.valueValidate == 'numeric')
+            out << """
+                            if(this.value() && this.selectedIndex == -1 && !\$.isNumeric(this.value())){
+                                this.value('0');
+                            }
+"""
+        out << """
                         }
                     });
                 });
@@ -430,9 +447,9 @@ class FormTagLib {
     }
 
     def datePicker = { attrs, body ->
-        out << "<link rel='stylesheet' type='text/css' href='${resource(dir:"css/bootstrap/datepicker", file:"bootstrap-datepicker.css")}'/>"
-        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.js")}'></script>"
-        out << "<script language='javascript' type='text/javascript' src='${resource(dir:"js/bootstrap/datepicker", file:"bootstrap-datepicker.fa.js")}'></script>"
+        out << "<link rel='stylesheet' type='text/css' href='${resource(dir: "css/bootstrap/datepicker", file: "bootstrap-datepicker.css")}'/>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir: "js/bootstrap/datepicker", file: "bootstrap-datepicker.js")}'></script>"
+        out << "<script language='javascript' type='text/javascript' src='${resource(dir: "js/bootstrap/datepicker", file: "bootstrap-datepicker.fa.js")}'></script>"
 
         out << textBox(attrs, body)
 
@@ -440,6 +457,17 @@ class FormTagLib {
             <script language='javascript' type='text/javascript'>
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').datepicker({
+"""
+        if (attrs.direction == 'up')
+            out << """
+                beforeShow: function (textbox, instance) {
+                       instance.dpDiv.css({
+                           marginTop: (-textbox.offsetHeight) + 'px',
+                           marginLeft: textbox.offsetWidth + 'px'
+                       });
+                   }
+"""
+        out << """
                     });
                 });
             </script>

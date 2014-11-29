@@ -10,16 +10,18 @@
 <head>
     <meta name="layout" content="main"/>
     <title><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></title>
-    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'angular.min.js')}"></script>
+    <script language="javascript" type="text/javascript" src="${resource(dir: 'js', file: 'angular.min.js')}"></script>
     <asset:stylesheet src="jquery-clockpicker.css"/>
     <asset:javascript src="jquery-clockpicker.js"/>
+    <asset:javascript src="jquery.color.js"/>
     <script language="JavaScript">
         var timeList =
         <format:html value="${ScheduleTime.findAllBySchedule(queryInstance?.schedule)?.collect {
                 [value: String.format('%02d:%02d', (it.timeInMinute / 60).toInteger(), (it.timeInMinute % 60).toInteger())]
     } as grails.converters.JSON}"/>
     </script>
-    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'alerting.register.controller.js')}"></script>
+    <script language="javascript" type="text/javascript"
+            src="${resource(dir: 'js', file: 'alerting.register.controller.js')}"></script>
 </head>
 
 <body>
@@ -32,7 +34,9 @@
             <form:form name="registerForm" action="saveRegistration">
                 <form:hidden name="id" value="${queryInstance?.id}"/>
                 <form:hidden name="queryId" value="${params.query ?: queryInstance?.query?.id}"/>
-                <g:render template="register/parameters"/>
+                <div class="k-rtl">
+                    <alerting:parameterFieldList queryInstanceId="${queryInstance?.id}" queryId="${params.query}"/>
+                </div>
                 <form:field fieldName="query.register.scheduleType" showHelp="${scheduleTypes?.size() > 1 ? '1' : '0'}"
                             showLabel="${scheduleTypes?.size() > 1 ? '1' : '0'}">
                     <g:if test="${scheduleTypes?.size() > 1}">
@@ -86,6 +90,22 @@
         });
 
         toggle_periodicSchedule();
+
+        //this would do the same as button click as both submit the form
+        $(document).on("submit", "#registerForm", function (e) {
+
+            var result = true;
+            <g:each in="${stocks.alerting.Parameter.findAllByQuery(queryInstance?.query)}" var="parameter">
+            if ($('input[name=parameterValueValue_${parameter.id}]').length == 0) {
+                $('#parameterValuesContainer_${parameter.id}').parent().parent().find('.help').append('<span class="help-block form-error">${message(code:'query.register.validation.required')}</span>');
+                result = false;
+            }
+            </g:each>
+
+            if (!result) {
+                return false;
+            }
+        });
     });
 </script>
 </body>
