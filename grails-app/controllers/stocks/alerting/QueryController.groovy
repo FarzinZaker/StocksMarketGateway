@@ -632,7 +632,21 @@ class QueryController {
     def cascadingData() {
         def domainClass = grailsApplication.getDomainClass("${params.domain}")
         if (!params.parentDomain) {
-            render([data: domainClass.clazz.findAll().collect {
+            def data = domainClass.clazz.findAll()
+            if (params.filter) {
+                def filter = JSON.parse(params.filter)
+                filter.keySet().each { key ->
+                    switch (filter[key]) {
+                        case 'currentUser':
+                            data = data.findAll { it."${key}" == springSecurityService.currentUser }
+                            break;
+                        default:
+                            data = data.findAll { it."${key}" == it."${filter[key]}" }
+
+                    }
+                }
+            }
+            render([data: data.collect {
                 [name: it."${params.display}", value: it."${params.primaryKey}"]
             }] as JSON)
         } else {

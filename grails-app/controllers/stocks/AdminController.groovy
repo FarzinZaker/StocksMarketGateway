@@ -1,6 +1,7 @@
 package stocks
 
 import grails.plugins.springsecurity.Secured
+import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
 
 @Secured([RoleHelper.ROLE_ADMIN])
@@ -61,7 +62,7 @@ class AdminController {
 //        def test = 'کا'
 //        def test2 = FarsiNormalizationFilter.apply(test)
 //        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
-        queryService.getDetachedCriteria(QueryInstance.get(3));
+        queryService.getDomainParameterValues(ParameterValue.get(39));
     }
 
     def throwException(){
