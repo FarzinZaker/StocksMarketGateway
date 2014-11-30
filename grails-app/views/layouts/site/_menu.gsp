@@ -19,6 +19,13 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <g:message code="menu.portfolios"/>
+            <ul>
+                <li><a href="${createLink(controller: 'portfolio', action: 'list')}"><g:message
+                        code="menu.portfolios.list"/></a></li>
+            </ul>
+        </li>
         <g:render template="/layouts/common/menu"/>
     </ul>
 </div>
