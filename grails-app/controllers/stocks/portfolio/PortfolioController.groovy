@@ -3,6 +3,8 @@ package stocks.portfolio
 import grails.converters.JSON
 
 class PortfolioController {
+    def springSecurityService
+
     def build() {
         [portfolio: params.id ? Portfolio.get(params.id) : null]
     }
@@ -25,7 +27,7 @@ class PortfolioController {
 
     }
 
-    def view() {
+    def portfolioView() {
 
     }
 
@@ -38,8 +40,9 @@ class PortfolioController {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "name", order: params["sort[0][dir]"] ?: "asc"]
 
-        def list = Portfolio.findAllByDeleted(false, parameters)
-        value.total = Portfolio.countByDeleted(false)
+        def owner = springSecurityService.currentUser
+        def list = Portfolio.findAllByOwnerAndDeleted(owner, false, parameters)
+        value.total = Portfolio.countByOwnerAndDeleted(owner, false)
 
         value.data = list.collect {
             [

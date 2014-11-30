@@ -8,8 +8,14 @@ class PortfolioItem {
     Long cost
     Long currentValue
 
+    String getPortfolioName() {
+        portfolio?.name
+    }
+
     static hasMany = [actions: PortfolioAction]
     static belongsTo = [portfolio: Portfolio]
+
+    static transients = ['currentValue', 'portfolioName']
 
     static constraints = {
         symbol(nullable: false)

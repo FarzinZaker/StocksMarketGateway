@@ -45,8 +45,10 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        id: { type: "number" },
-                                        title: { type: "string" }
+                                        symbol: { type: "string" },
+                                        count: { type: "number" },
+                                        cost: { type: "number" },
+                                        currentValue: { type: "number" }
                                     }
                                 },
                                 data: "data", // records are returned in the "data" field of the response
@@ -63,12 +65,20 @@
                         pageable: true,
                         columns: [
                             {
-                                field: "id",
-                                title: "${message(code:'portfolio.id.label')}"
-                            },
+                                field: "symbol",
+                                title: "${message(code:'symbol.label')}"
+                            } ,
                             {
-                                field: "name",
-                                title: "${message(code:'portfolio.name.label')}"
+                                field: "count",
+                                title: "${message(code:'portfolioItem.count.label')}"
+                            } ,
+                            {
+                                field: "cost",
+                                title: "${message(code:'portfolioItem.cost.label')}"
+                            } ,
+                            {
+                                field: "currentValue",
+                                title: "${message(code:'portfolioItem.currentValue.label')}"
                             } ,
                             { command: { text: "${message(code:'view')}", click: viewGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
                             { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },

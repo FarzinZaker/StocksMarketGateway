@@ -78,7 +78,7 @@
                 });
 
                 function viewGridItem(e) {
-                    window.location.href = "${createLink(action: 'view')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+                    window.location.href = "${createLink(action: 'portfolioView')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
                 }
 
                 function editGridItem(e) {
