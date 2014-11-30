@@ -21,7 +21,7 @@
             return combobox.text();
     }
     function getParameterValueType_${parameter.id}_${deliveryMethod.name}() {
-        return '${property.name}_${deliveryMethod.name}';
+        return '${deliveryMethod.name}';
     }
     $(document).ready(function () {
 

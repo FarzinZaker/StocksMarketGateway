@@ -263,7 +263,7 @@ class AlertingTagLib {
         if(!queryOptions || queryOptions instanceof Boolean)
             out << 'const'
         else{
-            out << "${property.name}-search"
+            out << "search"
         }
     }
 }

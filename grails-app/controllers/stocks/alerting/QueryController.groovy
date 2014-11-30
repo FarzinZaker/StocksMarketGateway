@@ -625,7 +625,7 @@ class QueryController {
         def query = Query.get(params.id)
         [
                 query     : query,
-                parameters: Parameter.findAllByQuery(query)
+                parameters: Parameter.findAllByQueryAndTypeInList(query, ['integer', 'string'])
         ]
     }
 

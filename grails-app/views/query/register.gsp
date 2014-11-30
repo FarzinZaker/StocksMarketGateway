@@ -69,15 +69,17 @@
 <script language="javascript">
 
     function toggle_periodicSchedule(e) {
-        if ($('#scheduleType').data('kendoComboBox').value() == 'periodic')
-            $('#periodicScheduleForm').stop().slideDown();
-        else
-            $('#periodicScheduleForm').stop().slideUp();
+        if ($('#scheduleType').length > 0 && $('#scheduleType').data('kendoComboBox')) {
+            if ($('#scheduleType').data('kendoComboBox').value() == 'periodic')
+                $('#periodicScheduleForm').stop().slideDown();
+            else
+                $('#periodicScheduleForm').stop().slideUp();
 
-        if ($('#scheduleType').data('kendoComboBox').value() == 'specificTime')
-            $('#specificTimeScheduleForm').stop().slideDown();
-        else
-            $('#specificTimeScheduleForm').stop().slideUp();
+            if ($('#scheduleType').data('kendoComboBox').value() == 'specificTime')
+                $('#specificTimeScheduleForm').stop().slideDown();
+            else
+                $('#specificTimeScheduleForm').stop().slideUp();
+        }
     }
 
     $(document).ready(function () {

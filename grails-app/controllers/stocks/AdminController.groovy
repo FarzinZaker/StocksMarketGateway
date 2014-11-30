@@ -58,9 +58,10 @@ class AdminController {
 //        render dataService.printJobList()
 
 //        boardDataService.importData()
-        def test = 'کا'
-        def test2 = FarsiNormalizationFilter.apply(test)
-        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
+//        def test = 'کا'
+//        def test2 = FarsiNormalizationFilter.apply(test)
+//        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
+        queryService.getDetachedCriteria(QueryInstance.get(3));
     }
 
     def throwException(){

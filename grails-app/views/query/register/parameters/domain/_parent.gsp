@@ -71,6 +71,6 @@
         return value.join(',');
     }
     function getParameterValueType_${parameter.id}_${deliveryMethod.name}() {
-        return '${property.name}_${deliveryMethod.name}';
+        return '${deliveryMethod.name}';
     }
 </script>

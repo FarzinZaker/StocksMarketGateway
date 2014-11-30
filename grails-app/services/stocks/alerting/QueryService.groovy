@@ -9,6 +9,7 @@ import org.grails.datastore.mapping.query.Query.Disjunction
 import org.grails.datastore.mapping.query.Query.Conjunction
 import org.grails.datastore.mapping.query.Query.Junction
 import org.grails.datastore.mapping.query.Query.Negation
+import stocks.DeliveryMethods
 import stocks.FarsiNormalizationFilter
 
 class QueryService {
@@ -100,7 +101,7 @@ class QueryService {
         dc
     }
 
-    private static Criterion createCriteria(Rule rule, DefaultGrailsDomainClass domainClass, Map parameters) {
+    private Criterion createCriteria(Rule rule, DefaultGrailsDomainClass domainClass, Map parameters) {
 
         if (!rule) {
             def someProperty = domainClass.persistantProperties.find();
@@ -140,44 +141,95 @@ class QueryService {
         criterion
     }
 
-    private static def getValue(Rule rule, DefaultGrailsDomainClass domainClass, Map parameters) {
+    private def getValue(Rule rule, DefaultGrailsDomainClass domainClass, Map parameters) {
 
         //property comparison
         if (domainClass.persistantProperties.any { it.name == rule.value })
             return [rule.value.toString()]
 
-        //parametric
-        def value = rule.value
-        if (parameters.containsKey(rule.value))
-            value = parameters."${value}"
+        def list = [rule.value]
 
+        //parametric
+        def parameter = parameters.keySet().find { it.name == rule.value }
+        if (parameter) {
+            list = []
+            def values = parameters[parameter]
+            values.each { ParameterValue parameterValue ->
+                switch (parameterValue.type) {
+                    case 'const':
+                        list << parameterValue.value
+                        break;
+                    case 'predefined':
+                        ParameterSuggestedValue.get(parameterValue.value as Long).variations.each {
+                            list.add(it.title)
+                        }
+                        break;
+                    default:
+                        list.addAll(getDomainParameterValues(parameterValue))
+                        break;
+                }
+            }
+        }
+
+        //format value list
         def property = domainClass.persistantProperties.find { it.name == rule.field }
         switch (property.type) {
             case Integer:
-                value = value.toInteger()
+                list = list.collect { it.toInteger() }
                 break;
             case Date:
-                value = parseDate(value)
+                list = list.collect { parseDate(it) }
                 break;
             default:
-                value = FarsiNormalizationFilter.apply(value.toString())
+                list = list.collect { FarsiNormalizationFilter.apply(it.toString()) }
         }
 
         switch (rule.operator) {
             case 'contains':
-                return "%${value}%"
+                return list.collect { "%${it}%" }
             case 'not_contains':
-                return "%${value}%"
+                return list.collect { "%${it}%" }
             case 'begins_with':
-                return "${value}%"
+                return list.collect { "${it}%" }
             case 'not_begins_with':
-                return "${value}%"
+                return list.collect { "${it}%" }
             case 'ends_with':
-                return "%${value}"
+                return list.collect { "%${it}" }
             case 'not_ends_with':
-                return "%${value}"
+                return list.collect { "%${it}" }
             default:
-                return value
+                return list
+        }
+    }
+
+    private def getDomainParameterValues(ParameterValue parameterValue) {
+
+        def parameter = parameterValue.parameter as Parameter
+        def domainClass = grailsApplication.getDomainClass(parameter.query.domainClazz)
+        def property = domainClass.persistentProperties.find { it.name == parameter.type }
+        def queryOptions = domainClass.constrainedProperties."${property?.name}".metaConstraints.query
+        def deliveryMethod = queryOptions.deliveryMethods.find { it.name == parameterValue.type }
+        switch (deliveryMethod.type) {
+            case DeliveryMethods.DIRECT:
+                return [parameterValue.value]
+            case DeliveryMethods.PARENT:
+                def idList = parameterValue.value.split(',').collect { it as Long }
+                def parentList = deliveryMethod.relations as ArrayList
+                def previousRelation
+                def lastRelation = parentList.first()
+                def lastItems = lastRelation.domain."findAllBy${lastRelation.primaryKey.capitalize()}"(idList.first())
+                for (def i = 1; i < idList.size(); i++) {
+                    previousRelation = lastRelation
+                    lastRelation = parentList[i]
+                    if (idList[i] != 0) {
+                        lastItems = lastRelation.domain."findAllBy${lastRelation.primaryKey.capitalize()}"(idList[i])
+                    } else {
+                        lastItems = lastRelation.domain."findAllBy${previousRelation.foreignKey.capitalize()}InList"(lastItems)
+                    }
+                }
+                return queryOptions.domain."findAllBy${lastRelation.foreignKey.capitalize()}InList"(lastItems).collect {
+                    it."${queryOptions.value}"
+                }
         }
     }
 
@@ -234,14 +286,14 @@ class QueryService {
         operator in ['not_contains', 'not_begins_with', 'not_ends_with']
     }
 
-    private static Map getParameters(QueryInstance queryInstance) {
+    private Map getParameters(QueryInstance queryInstance) {
         def parameters = [:]
         ParameterValue.findAllByQueryInstance(queryInstance).each { parameterValue ->
             def parameter = Parameter.get(parameterValue.parameterId)
             if (parameters.containsKey(parameter))
                 parameters[parameter].add(parameterValue)
             else
-                parameters.put(parameter, parameterValue)
+                parameters.put(parameter, [parameterValue])
         }
         parameters
     }
