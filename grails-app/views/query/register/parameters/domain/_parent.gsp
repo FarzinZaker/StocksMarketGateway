@@ -19,7 +19,7 @@
                     transport: {
                         type: "odata",
                         read: {
-                            url: '<format:html value="${createLink(controller: 'query', action: 'cascadingData', params:[domain:relation.domain.name,parentDomain:parentRelation?.domain?.name, primaryKey:relation?.primaryKey, foreignKey:parentRelation?.foreignKey, display:relation.display])}"/>',
+                            url: '<format:html value="${createLink(controller: 'query', action: 'cascadingData', params:[domain:relation.domain.name,parentDomain:parentRelation?.domain?.name, primaryKey:relation?.primaryKey, foreignKey:parentRelation?.foreignKey, display:relation.display, filter: relation.filter])}"/>',
                             dataType: "json",
                             type: "POST"
                         }

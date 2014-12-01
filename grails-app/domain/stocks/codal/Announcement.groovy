@@ -1,6 +1,8 @@
 package stocks.codal
 
 import stocks.DeliveryMethods
+import stocks.portfolio.Portfolio
+import stocks.portfolio.PortfolioItem
 import stocks.tse.Company
 import stocks.tse.IndustryGroup
 import stocks.tse.IndustrySubgroup
@@ -72,7 +74,22 @@ class Announcement {
                                 ],
                                 [
                                         name       : "portfolio",
-                                        type       : DeliveryMethods.SPECIAL
+                                        type       : DeliveryMethods.PARENT,
+                                        relations  : [
+                                                [
+                                                        domain    : Portfolio,
+                                                        primaryKey: 'id',
+                                                        filter: [
+                                                                'owner':'currentUser'
+                                                        ],
+                                                        relationDomain:[
+                                                                domain: PortfolioItem,
+                                                                parentField:'portfolio',
+                                                                childField:'symbol'
+                                                        ],
+                                                        display: 'name'
+                                                ]
+                                        ]
                                 ]
                         ]
                 ])
