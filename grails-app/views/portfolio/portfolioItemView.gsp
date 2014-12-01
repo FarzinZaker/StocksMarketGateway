@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title><g:message code="portfolio.view.title"/></title>
+    <title><g:message code="portfolioItem.view.title"/></title>
 </head>
 
 <body>
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="portfolio.view.title"/></h1>
+            <h1><g:message code="portfolioItem.view.title"/></h1>
 
             <div class="k-rtl">
                 <div id="grid"></div>
@@ -28,7 +28,7 @@
                             transport: {
                                 type: 'odata',
                                 read: {
-                                    url: "${createLink(action: 'jsonPortfolioView', params: [id: params.id])}",
+                                    url: "${createLink(action: 'jsonPortfolioItemView', params: [id: params.id])}",
                                     dataType: "json",
                                     type: "POST"
 
@@ -47,11 +47,10 @@
                                     id: "id",
                                     fields: {
                                         id: { type: "number" },
-                                        symbol: { type: "string" },
-                                        count: { type: "number" },
-                                        cost: { type: "number" },
-                                        shareValue: {type: "number" },
-                                        currentValue: { type: "number" }
+                                        actionType: { type: "string" },
+                                        actionDate: { type: "string" },
+                                        sharePrice: { type: "number" },
+                                        shareCount: { type: "number" }
                                     }
                                 },
                                 data: "data", // records are returned in the "data" field of the response
@@ -68,33 +67,24 @@
                         pageable: true,
                         columns: [
                             {
-                                field: "symbol",
-                                title: "${message(code:'symbol.label')}"
+                                field: "actionType",
+                                title: "${message(code:'portfolioAction.actionType.label')}"
+                            } ,
+                            {
+                                field: "actionDate",
+                                title: "${message(code:'portfolioAction.actionDate.label')}"
+                            } ,
+                            {
+                                field: "sharePrice",
+                                title: "${message(code:'portfolioAction.sharePrice.label')}"
                             } ,
                             {
                                 field: "shareCount",
-                                title: "${message(code:'portfolioItem.shareCount.label')}"
-                            } ,
-                            {
-                                field: "cost",
-                                title: "${message(code:'portfolioItem.cost.label')}"
-                            } ,
-                            {
-                                field: "shareValue",
-                                title: "${message(code:'portfolioItem.shareValue.label')}"
-                            } ,
-                            {
-                                field: "currentValue",
-                                title: "${message(code:'portfolioItem.currentValue.label')}"
-                            } ,
-                            { command: { text: "${message(code:'view')}", click: viewGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
+                                title: "${message(code:'portfolioAction.shareCount.label')}"
+                            }
                         ]
                     });
                 });
-
-                function viewGridItem(e) {
-                    window.location.href = "${createLink(action: 'portfolioItemView')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
-                }
             </script>
         </div>
     </div>

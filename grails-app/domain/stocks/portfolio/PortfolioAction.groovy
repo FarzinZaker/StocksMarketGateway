@@ -2,8 +2,9 @@ package stocks.portfolio
 
 class PortfolioAction {
     String actionType
-    String actionDate
-    String price
+    Date actionDate
+    Long sharePrice
+    Long shareCount
     String actionDescription
     PortfolioItem portfolioItem
 
@@ -12,7 +13,9 @@ class PortfolioAction {
     static constraints = {
         actionType(nullable: false, inList: ['b', 's']) // in future additional actions could be added, like going short or long
         actionDate(nullable: false)
-        price(nullable: false)
+        sharePrice(nullable: false)
+        shareCount(nullable: false)
         actionDescription()
+        portfolioItem(nullable: false)
     }
 }

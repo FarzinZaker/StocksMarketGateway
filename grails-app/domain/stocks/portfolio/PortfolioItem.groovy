@@ -5,8 +5,8 @@ import stocks.tse.Symbol
 class PortfolioItem {
     Symbol symbol
     Portfolio portfolio
+    Long shareCount
     Long cost
-    Long currentValue
 
     String getPortfolioName() {
         portfolio?.name
@@ -14,11 +14,12 @@ class PortfolioItem {
 
     static hasMany = [actions: PortfolioAction]
     static belongsTo = [portfolio: Portfolio]
-
-    static transients = ['currentValue', 'portfolioName']
+    static transients = ['portfolioName']
 
     static constraints = {
         symbol(nullable: false)
         portfolio(nullable: false)
+        shareCount(nullable: false)
+        cost(nullable: false)
     }
 }

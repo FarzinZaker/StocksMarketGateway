@@ -71,6 +71,7 @@
                                 title: "${message(code:'portfolio.name.label')}"
                             } ,
                             { command: { text: "${message(code:'view')}", click: viewGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
+                            { command: { text: "${message(code:'portfolio.manage')}", click: manageGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
                             { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} },
                             { command: { text: "${message(code:'remove')}", click: removeGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
                         ]
@@ -79,6 +80,10 @@
 
                 function viewGridItem(e) {
                     window.location.href = "${createLink(action: 'portfolioView')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+                }
+
+                function manageGridItem(e) {
+                    window.location.href = "${createLink(action: 'portfolioManage')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
                 }
 
                 function editGridItem(e) {
