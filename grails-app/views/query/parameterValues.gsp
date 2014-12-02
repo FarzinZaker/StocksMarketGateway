@@ -107,7 +107,6 @@
                 }
             },
             batch: true,
-            pageSize: 20,
             schema: {
                 model: {
                     id: "id",
@@ -122,7 +121,7 @@
         });
         $("#grid_${parameter.id}").kendoGrid({
             dataSource: dataSource_${parameter.id},
-            pageable: true,
+            pageable: false,
             height: 550,
             toolbar: ["create"],
 //            selectable: true,

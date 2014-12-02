@@ -8,7 +8,7 @@ class ParameterController {
 
         def parameter = Parameter.get(params.id)
         def value = [:]
-        value.data = ParameterSuggestedValue.findAllByParameter(parameter, [max: 10, offset: 0]).collect {
+        value.data = ParameterSuggestedValue.findAllByParameter(parameter, [max: 1000, offset: 0]).collect {
             [
                     id   : it.id,
                     title: it.title
@@ -70,7 +70,7 @@ class ParameterController {
         def value = [:]
         value.data = ParameterSuggestedValueVariation.createCriteria().list({
             eq('suggestedValue', parameterSuggestedValue)
-            maxResults(10)
+//            maxResults(10)
         }).collect {
             [
                     id   : it.id,
