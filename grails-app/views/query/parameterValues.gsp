@@ -131,7 +131,7 @@
             %{--change: onChange_${parameter.id},--}%
             columns: [
                 { field: "title", title: "${message(code:'parameterSuggestedValue.title')}" },
-                { command: { text: "${message(code:'parameterSuggestedValueVariation.button')}", click: showVariations_${parameter.id} }, title: " ", width: "110px" },
+                %{--{ command: { text: "${message(code:'parameterSuggestedValueVariation.button')}", click: showVariations_${parameter.id} }, title: " ", width: "110px" },--}%
                 { command: ["edit", "destroy"], title: "&nbsp;", width: "175px" }
             ],
             editable: "inline",
