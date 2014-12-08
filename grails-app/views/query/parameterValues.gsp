@@ -107,7 +107,6 @@
                 }
             },
             batch: true,
-            pageSize: 20,
             schema: {
                 model: {
                     id: "id",
@@ -120,20 +119,81 @@
                 total: "total"
             }
         });
+
+//        var dataSource_variation = new kendo.data.DataSource();
+
         $("#grid_${parameter.id}").kendoGrid({
             dataSource: dataSource_${parameter.id},
-            pageable: true,
-            height: 550,
+            pageable: false,
+            scrollable: false,
             toolbar: ["create"],
 //            selectable: true,
             %{--change: onChange_${parameter.id},--}%
             columns: [
                 { field: "title", title: "${message(code:'parameterSuggestedValue.title')}" },
-                { command: { text: "${message(code:'parameterSuggestedValueVariation.button')}", click: showVariations_${parameter.id} }, title: " ", width: "110px" },
+                %{--{ command: { text: "${message(code:'parameterSuggestedValueVariation.button')}", click: showVariations_${parameter.id} }, title: " ", width: "110px" },--}%
                 { command: ["edit", "destroy"], title: "&nbsp;", width: "175px" }
             ],
-            editable: "inline"
+            editable: "inline",
+            detailInit: detailInit
         });
+
+        function detailInit(e) {
+            $("<div/>").appendTo(e.detailCell).kendoGrid({
+                dataSource: {
+                    transport: {
+                        type: 'odata',
+                        read: {
+                            url: "${createLink(controller: 'parameter', action: 'parameterSuggestedValueVariationList')}/" + e.data.id,
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        update: {
+                            url: "${createLink(controller: 'parameter', action: 'parameterSuggestedValueVariationUpdate')}/" + e.data.id,
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: "${createLink(controller: 'parameter', action: 'parameterSuggestedValueVariationDelete')}/" + e.data.id,
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        create: {
+                            url: "${createLink(controller: 'parameter', action: 'parameterSuggestedValueVariationCreate')}/" + e.data.id,
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return {models: kendo.stringify(options.models)};
+                            }
+                        }
+                    },
+                    batch: true,
+                    schema: {
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: { editable: false, nullable: true },
+                                title: { validation: { required: true } }
+                            }
+                        },
+                        data: "data",
+                        total: "total"
+                    },
+                    serverFiltering: true
+                },
+//                height: 550,
+                toolbar: ["create"],
+                columns: [
+                    { field: "title", title: "${message(code:'parameterSuggestedValueVariation.title')}" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }
+                ],
+                editable: "inline",
+                scrollable: false,
+                pageable: false
+            });
+        }
 
         function showVariations_${parameter.id}(e) {
             e.preventDefault();

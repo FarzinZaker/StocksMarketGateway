@@ -52,7 +52,6 @@
                 }
             },
             batch: true,
-            pageSize: 20,
             schema: {
                 model: {
                     id: "id",
@@ -67,7 +66,7 @@
         });
         $("#grid_variation_${suggestedValue.id}").kendoGrid({
             dataSource: dataSource_variation_${suggestedValue.id},
-            pageable: true,
+            pageable: false,
             height: 550,
             toolbar: ["create"],
             columns: [
