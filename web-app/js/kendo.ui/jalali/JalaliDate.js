@@ -407,5 +407,4 @@ JalaliDate.parse = function (datestring) {
     } catch (e) {
         return new JalaliDate(1300, 1, 1)
     }
-
 }
