@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.tse.Symbol" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -23,7 +23,7 @@
                         transport: {
                             type: 'odata',
                             read: {
-                                url: "${createLink(action: 'jsonPortfolioActions', id: params.id)}",
+                                url: "${createLink(controller: 'portfolioAction', action: 'jsonPortfolioActions', id: params.id)}",
                                 dataType: "json",
                                 type: "POST"
                             },
@@ -50,17 +50,16 @@
                         },
                         batch: true,
                         pageSize: 20,
-                        serverPaging: true,
-                        serverFiltering: true,
-                        serverSorting: true,
                         schema: {
                             model: {
                                 id: "id",
                                 fields: {
                                     id: { type: "number" },
-                                    symbol: { type: "string" },
-                                    actionType: { type: "string" },
-                                    actionDate: { type: "string" },
+                                    symbol: {
+                                        defaultValue: { symbolId: "", symbolTitle: "" }
+                                    },
+                                    actionType: { defaultValue: { actionTypeId: "b", actionTypeTitle: "<g:message code="portfolioAction.actionType.b"/>"} },
+                                    actionDate: { type: "date" },
                                     sharePrice: { type: "number" },
                                     shareCount: { type: "number" }
                                 }
@@ -69,21 +68,23 @@
                             total: "total"
                         }
                     });
+
                     $("#grid").kendoGrid({
                         dataSource: dataSource,
+                        navigatable: true,
                         pageable: true,
                         height: 550,
-                        toolbar: ["create"],
-//              selectable: true,
-                        %{--change: onChange_${parameter.id},--}%
+                        toolbar: ["create", "save", "cancel"],
                         columns: [
                             {
                                 field: "symbol",
-                                title: "${message(code:'symbol.label')}"
+                                title: "${message(code:'symbol.label')}",
+                                editor: symbolDropDownEditor, template: "#=symbol.symbolTitle#"
                             } ,
                             {
                                 field: "actionType",
-                                title: "${message(code:'portfolioAction.actionType.label')}"
+                                title: "${message(code:'portfolioAction.actionType.label')}",
+                                editor: actionTypeDropDownEditor, template: "#=actionType.actionTypeTitle#"
                             } ,
                             {
                                 field: "actionDate",
@@ -97,10 +98,69 @@
                                 field: "shareCount",
                                 title: "${message(code:'portfolioAction.shareCount.label')}"
                             },
-                            { command: ["edit", "destroy"], title: "&nbsp;", width: "175px" }
+                            { command: ["destroy"], title: "&nbsp;", width: "175px" }
                         ],
-                        editable: "inline"
+                        editable: "incell",
+                        save:function(e){
+                            var combobox = e.container.find('.symbolComboBox[data-role=combobox]');
+                            if (combobox.length > 0) {
+                                if (!combobox.data().kendoComboBox.dataItem()) {
+                                    e.model.one('change', function (e) {
+                                        this.set('symbol', {
+                                            symbolId: prevSymbol.symbolId,
+                                            symbolTitle: prevSymbol.symbolTitle
+                                        });
+                                        prevSymbol = {symbolId: "", symbolTitle: ""};
+                                    })
+                                }
+                                //this.refresh();
+                            }
+                        }
                     });
+
+                    function actionTypeDropDownEditor(container, options) {
+                        $('<input required data-text-field="actionTypeTitle" data-value-field="actionTypeId" data-bind="value:' + options.field + '"/>')
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                autoBind: false,
+                                dataTextField: "actionTypeTitle",
+                                dataValueField: "actionTypeId",
+                                dataSource: [
+                                    { actionTypeTitle: "<g:message code="portfolioAction.actionType.b"/>", actionTypeId: "b" },
+                                    { actionTypeTitle: "<g:message code="portfolioAction.actionType.s"/>", actionTypeId: "s" }
+                                ]
+                            });
+                    }
+
+                    var prevSymbol = { symbolId: "", symbolTitle: "" };
+
+                    function symbolDropDownEditor(container, options) {
+                        var currentSymbolId =  options.model.symbol.symbolId;
+                        if (currentSymbolId != "") {
+                            prevSymbol.symbolId = currentSymbolId;
+                            prevSymbol.symbolTitle = options.model.symbol.symbolTitle;
+                            currentSymbolId = "/" + currentSymbolId;
+                        }
+
+                        $('<input required class="symbolComboBox" data-text-field="symbolTitle" data-value-field="symbolId" data-bind="value:' + options.field + '"/>')
+                            .appendTo(container)
+                            .kendoComboBox({
+                                dataTextField: "symbolTitle",
+                                dataValueField: "symbolId",
+                                filter: "contains",
+                                autoBind: false,
+                                minLength: 2,
+                                dataSource: {
+                                    type: "json",
+                                    serverFiltering: true,
+                                    transport: {
+                                        read: {
+                                            url: "${createLink(controller: 'portfolioAction', action: 'symbols')}" + currentSymbolId
+                                        }
+                                    }
+                                }
+                            });
+                    }
                 });
             </script>
         </div>

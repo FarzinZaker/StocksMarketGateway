@@ -17,7 +17,7 @@ class PortfolioItem {
     static transients = ['portfolioName']
 
     static constraints = {
-        symbol(nullable: false)
+        symbol(nullable: false, unique: ["portfolio"])
         portfolio(nullable: false)
         shareCount(nullable: false)
         cost(nullable: false)

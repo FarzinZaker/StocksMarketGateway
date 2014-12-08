@@ -17,6 +17,7 @@ hibernate {
 environments {
     development {
         dataSource {
+// mysql
 //            dbCreate = "update"
 //            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
 //            username = "root"
@@ -35,24 +36,44 @@ environments {
 //                testOnReturn = true
 //                validationQuery = "SELECT 1"
 //            }
-            dbCreate = "update"
-            username = "sa"
-            password = "Cube1234"
-//            logSql = true
-            url = "jdbc:sqlserver://192.168.0.30:1433;databaseName=Stocks"
 
-            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-            dialect = "org.hibernate.dialect.SQLServerDialect"
+// mariadb
+            dbCreate = "update"
+            url = "jdbc:mariadb://localhost:3306/Stocks"
+            driverClassName = "org.mariadb.jdbc.Driver"
+            username = "root"
+            password = "Salam123"
+            pooled = true
             properties {
                 maxActive = -1
-                minEvictableIdleTimeMillis = 1800000
-                timeBetweenEvictionRunsMillis = 1800000
-                numTestsPerEvictionRun = 3
-                testOnBorrow = true
-                testWhileIdle = true
-                testOnReturn = true
-                validationQuery = "SELECT 1"
+                minEvictableIdleTimeMillis=1800000
+                timeBetweenEvictionRunsMillis=1800000
+                numTestsPerEvictionRun=3
+                testOnBorrow=true
+                testWhileIdle=true
+                testOnReturn=true
+                validationQuery="SELECT 1"
             }
+
+// SQL Server
+//            dbCreate = "update"
+//            username = "sa"
+//            password = "Cube1234"
+////            logSql = true
+//            url = "jdbc:sqlserver://192.168.0.30:1433;databaseName=Stocks"
+//
+//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+//            dialect = "org.hibernate.dialect.SQLServerDialect"
+//            properties {
+//                maxActive = -1
+//                minEvictableIdleTimeMillis = 1800000
+//                timeBetweenEvictionRunsMillis = 1800000
+//                numTestsPerEvictionRun = 3
+//                testOnBorrow = true
+//                testWhileIdle = true
+//                testOnReturn = true
+//                validationQuery = "SELECT 1"
+//            }
         }
     }
     test {
