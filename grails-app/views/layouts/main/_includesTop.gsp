@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common-bootstrap.min.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.css')}"/>
+<asset:stylesheet src="kendo.corrections.less"/>
 %{--kendo.ui end--}%
 <asset:javascript src="form-validator/form-validator.js"/>
 <asset:javascript src="form-validator/national-code.js"/>
@@ -13,13 +14,15 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/bootstrap', file: 'bootstrap.css')}"/>
-<asset:stylesheet src="kendo.corrections.less"/>
 <asset:stylesheet src="awesome/css/font-awesome.min.css"/>
 <asset:stylesheet src="common.less"/>
 
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui/jalali', file:'JalaliDate.js')}"></script>
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.all.js')}"></script>
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui/jalali', file:'fa-IR.js')}"></script>
+
+<script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'kendo.corrections.js')}"></script>
+
 
 <sec:ifLoggedIn>
     <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN},${RoleHelper.ROLE_BROKER_ADMIN}">

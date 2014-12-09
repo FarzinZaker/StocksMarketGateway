@@ -341,7 +341,7 @@
 
     this.valueOf = function () {
         var v = this.gregoriandate.valueOf();
-        console.log("valueOf() => " + v);
+        //console.log("valueOf() => " + v);
         return v;
     }
 
