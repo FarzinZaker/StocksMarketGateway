@@ -45,49 +45,49 @@ class Announcement {
                         display        : { Symbol item -> "${item.persianCode} - ${item.persianName}" },
                         filter         : { Symbol item ->
                             !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                                    item.persianCode.charAt(0) != 'ج'
-                            ['300', '400'].contains(item.type) &&
+                                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
+                                    ['300', '400', '309', '404'].contains(item.type) &&
                                     item.marketCode == 'NO'
                         },
                         deliveryMethods: [
                                 [
-                                        name       : "search",
-                                        type       : DeliveryMethods.DIRECT
+                                        name: "search",
+                                        type: DeliveryMethods.DIRECT
                                 ],
                                 [
-                                        name       : "industryGroup",
-                                        type       : DeliveryMethods.PARENT,
-                                        relations  : [
+                                        name     : "industryGroup",
+                                        type     : DeliveryMethods.PARENT,
+                                        relations: [
                                                 [
                                                         domain    : IndustryGroup,
                                                         primaryKey: 'id',
                                                         foreignKey: 'industryGroup',
-                                                        display: 'name'
+                                                        display   : 'name'
                                                 ],
                                                 [
                                                         domain    : IndustrySubgroup,
                                                         primaryKey: 'id',
                                                         foreignKey: 'industrySubgroup',
-                                                        display: 'name'
+                                                        display   : 'name'
                                                 ]
                                         ]
                                 ],
                                 [
-                                        name       : "portfolio",
-                                        type       : DeliveryMethods.PARENT,
-                                        relations  : [
+                                        name     : "portfolio",
+                                        type     : DeliveryMethods.PARENT,
+                                        relations: [
                                                 [
-                                                        domain    : Portfolio,
-                                                        primaryKey: 'id',
-                                                        filter: [
-                                                                'owner':'currentUser'
+                                                        domain        : Portfolio,
+                                                        primaryKey    : 'id',
+                                                        filter        : [
+                                                                'owner': 'currentUser'
                                                         ],
-                                                        relationDomain:[
-                                                                domain: PortfolioItem,
-                                                                parentField:'portfolio',
-                                                                childField:'symbol'
+                                                        relationDomain: [
+                                                                domain     : PortfolioItem,
+                                                                parentField: 'portfolio',
+                                                                childField : 'symbol'
                                                         ],
-                                                        display: 'name'
+                                                        display       : 'name'
                                                 ]
                                         ]
                                 ]
