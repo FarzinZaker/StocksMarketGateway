@@ -54,6 +54,15 @@
 
         %{--</div>--}%
     %{--</li>--}%
+    <li data-tile-type="s,6m">
+        <div>
+
+            <a class="tilt tilt-tile tilt-tile-cyan tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'portfolio', action: 'list')}">
+                <i class="fa fa-shopping-cart"></i><span><g:message code="menu.portfolios.list"/></span>
+            </a>
+
+        </div>
+    </li>
 
 
     <li data-tile-type="s,5_s,8m">
