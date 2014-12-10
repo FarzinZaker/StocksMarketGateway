@@ -46,6 +46,7 @@ class Announcement {
                         filter         : { Symbol item ->
                             !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
                                     (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
+                                    (item.persianCode.charAt(item.persianCode.size() - 1) != 'ح' || item.persianCode.charAt(item.persianCode.size() - 2) != ' ') &&
                                     ['300', '400', '309', '404'].contains(item.type) &&
                                     item.marketCode == 'NO'
                         },

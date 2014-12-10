@@ -532,6 +532,7 @@
                             case 'text':
                             default:
                                 $value.find('input[name$=_value]').val(rule.value).trigger('change');
+                                $value.find('input[name$=_value]').data('kendoComboBox').value(rule.value);
                                 break;
                         }
 
