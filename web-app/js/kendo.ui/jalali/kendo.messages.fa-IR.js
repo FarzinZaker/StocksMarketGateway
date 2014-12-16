@@ -3,8 +3,8 @@
 if (kendo.ui.FlatColorPicker) {
   kendo.ui.FlatColorPicker.prototype.options.messages =
       $.extend(true, kendo.ui.FlatColorPicker.prototype.options.messages,{
-        "apply": "确定",
-        "cancel": "取消"
+        "apply": "انتخاب",
+        "cancel": "انصراف"
       });
 }
 
@@ -13,8 +13,8 @@ if (kendo.ui.FlatColorPicker) {
 if (kendo.ui.ColorPicker) {
   kendo.ui.ColorPicker.prototype.options.messages =
       $.extend(true, kendo.ui.ColorPicker.prototype.options.messages,{
-        "apply": "确定",
-        "cancel": "取消"
+        "apply": "انتخاب",
+        "cancel": "انصراف"
       });
 }
 
@@ -23,14 +23,14 @@ if (kendo.ui.ColorPicker) {
 if (kendo.ui.ColumnMenu) {
   kendo.ui.ColumnMenu.prototype.options.messages =
       $.extend(true, kendo.ui.ColumnMenu.prototype.options.messages,{
-        "sortAscending": "升序",
-        "sortDescending": "降序",
-        "filter": "过滤",
-        "columns": "列",
-        "done": "完成",
-        "settings": "列设置",
-        "lock": "锁定",
-        "unlock": "解除锁定"
+        "sortAscending": "مرتب سازی صعودی",
+        "sortDescending": "مرتب سازی نزولی",
+        "filter": "فیلتر",
+        "columns": "ستون ها",
+        "done": "انجام شد",
+        "settings": "تنظیمات",
+        "lock": "قفل کردن",
+        "unlock": "باز کردن"
       });
 }
 
@@ -106,17 +106,17 @@ if (kendo.ui.Editor) {
 if (kendo.ui.FileBrowser) {
   kendo.ui.FileBrowser.prototype.options.messages =
       $.extend(true, kendo.ui.FileBrowser.prototype.options.messages,{
-        "uploadFile": "上传",
-        "orderBy": "排序条件",
-        "orderByName": "名称",
-        "orderBySize": "大小",
-        "directoryNotFound": "此文件夹未找到",
-        "emptyFolder": "文件夹为空",
-        "deleteFile": '您确定要删除 \"{0}\"?',
+        "uploadFile": "ارسال فایل",
+        "orderBy": "مرتب سازی",
+        "orderByName": "مرتب سازی بر اساس نام",
+        "orderBySize": "مرتب سازی بر اساس اندازه",
+        "directoryNotFound": "پوشه مورد نظر پیدا نشد",
+        "emptyFolder": "پوشه خالی است",
+        "deleteFile": 'آیا از حذف  \"{0}\" اطمینان دارید?',
         "invalidFileType": "选中的文件 \"{0}\" 非法，支持的文件类型为 {1}。",
-        "overwriteFile": "当前文件夹已存在文件名为 \"{0}\" 的文件，您确定要覆盖么？",
-        "dropFilesHere": "拖拽要上传的文件到此处",
-        "search": "搜索"
+        "overwriteFile": "ایا فایل  \"{0}\" بازنویسی شود？",
+        "dropFilesHere": "فایل مورد نظر را اینجا بیاندازید",
+        "search": "جستجو"
       });
 }
 
@@ -125,17 +125,17 @@ if (kendo.ui.FileBrowser) {
 if (kendo.ui.FilterMenu) {
   kendo.ui.FilterMenu.prototype.options.messages =
       $.extend(true, kendo.ui.FilterMenu.prototype.options.messages,{
-        "info": "显示符合以下条件的行",
-        "isTrue": "为真",
-        "isFalse": "为假",
-        "filter": "过滤",
-        "clear": "清除",
-        "and": "并且",
-        "or": "或",
-        "selectValue": "-选择-",
-        "operator": "运算符",
-        "value": "值",
-        "cancel": "取消"
+        "info": "اطلاعات",
+        "isTrue": "درست است",
+        "isFalse": "نادرست است",
+        "filter": "فیلتر",
+        "clear": "پاک کردن",
+        "and": "همه موارد",
+        "or": "هر یک",
+        "selectValue": "-یک مقدار انتخاب کنید-",
+        "operator": "عملگر",
+        "value": "مقدار",
+        "cancel": "انصراف"
       });
 }
 
@@ -201,19 +201,19 @@ if (kendo.ui.Grid) {
   kendo.ui.Grid.prototype.options.messages =
       $.extend(true, kendo.ui.Grid.prototype.options.messages,{
         "commands": {
-          "cancel": "取消",
-          "canceledit": "取消",
-          "create": "新增",
-          "destroy": "删除",
-          "edit": "编辑",
-          "save": "保存",
-          "select": "选择",
-          "update": "更新"
+          "cancel": "انصراف",
+          "canceledit": "انصراف",
+          "create": "جدید",
+          "destroy": "حذف",
+          "edit": "ویرایش",
+          "save": "ذخیره",
+          "select": "انتخاب",
+          "update": "بروزرسانی"
         },
         "editable": {
-          "cancelDelete": "取消",
-          "confirmation": "确定要删除吗？",
-          "confirmDelete": "删除"
+          "cancelDelete": "انصراف از حذف",
+          "confirmation": "آیا اطمینان دارید？",
+          "confirmDelete": "بلی"
         }
       });
 }
@@ -232,8 +232,8 @@ if (kendo.ui.Groupable) {
 if (kendo.ui.NumericTextBox) {
   kendo.ui.NumericTextBox.prototype.options =
       $.extend(true, kendo.ui.NumericTextBox.prototype.options,{
-        "upArrowText": "增加",
-        "downArrowText": "减少"
+        "upArrowText": "افزایش",
+        "downArrowText": "کاهش"
       });
 }
 
@@ -242,17 +242,17 @@ if (kendo.ui.NumericTextBox) {
 if (kendo.ui.Pager) {
   kendo.ui.Pager.prototype.options.messages =
       $.extend(true, kendo.ui.Pager.prototype.options.messages,{
-        "display": "显示条目 {0} - {1} 共 {2}",
-        "empty": "没有可显示的记录。",
-        "page": "页",
-        "of": "共 {0}",
-        "itemsPerPage": "每页",
-        "first": "首页",
-        "last": "末页",
-        "next": "下一页",
-        "previous": "上一页",
-        "refresh": "刷新",
-        "morePages": "更多..."
+        "display": "موارد {0} - {1} از {2} مورد",
+        "empty": "هیچ داده ای پیدا نشد",
+        "page": "صفحه",
+        "of": "از {0}",
+        "itemsPerPage": "تعداد رکورد در هر صفحه",
+        "first": "اول",
+        "last": "آخر",
+        "next": "بعدی",
+        "previous": "قبلی",
+        "refresh": "بارگزاری مجدد",
+        "morePages": "صفحات بیشتر..."
       });
 }
 
@@ -402,18 +402,18 @@ if (kendo.ui.TreeView) {
 if (kendo.ui.Upload) {
   kendo.ui.Upload.prototype.options.localization =
       $.extend(true, kendo.ui.Upload.prototype.options.localization,{
-        "select": "选择...",
-        "cancel": "取消",
-        "retry": "重试",
-        "remove": "移除",
-        "uploadSelectedFiles": "上传文件",
-        "dropFilesHere": "拖拽要上传的文件到此处",
-        "statusUploading": "上传中",
-        "statusUploaded": "已上传",
-        "statusWarning": "警告",
-        "statusFailed": "失败",
-        "headerStatusUploading": "上传...",
-        "headerStatusUploaded": "完成"
+        "select": "انتخاب فایل...",
+        "cancel": "انصراف",
+        "retry": "تلاش مجدد",
+        "remove": "حذف",
+        "uploadSelectedFiles": "ارسال فایل ها",
+        "dropFilesHere": "فایل مورد نظرتان را اینجا بیاندازید",
+        "statusUploading": "در حال ارسال",
+        "statusUploaded": "ارسال شد",
+        "statusWarning": "هشدار",
+        "statusFailed": "خطا",
+        "headerStatusUploading": "در حال ارسال...",
+        "headerStatusUploaded": "ارسال شد"
       });
 }
 
@@ -422,13 +422,13 @@ if (kendo.ui.Upload) {
 if (kendo.ui.Validator) {
   kendo.ui.Validator.prototype.options.messages =
       $.extend(true, kendo.ui.Validator.prototype.options.messages,{
-        "required": "{0} 为必填项",
-        "pattern": "{0} 非法",
-        "min": "{0} 应该大于或等于 {1}",
-        "max": "{0} 应该小于或等于 {1}",
-        "step": "{0} 非法",
-        "email": "{0} 不是合法的邮件地址",
-        "url": "{0} 不是合法的URL",
-        "date": "{0} 不是合法的日期"
+        "required": "{0} اجباری است",
+        "pattern": "{0} رعایت نشده است",
+        "min": "{0} باید حداقل {1} باشد",
+        "max": "{0} باید حداقل {1} باشد",
+        "step": "{0} مرحله",
+        "email": "{0} از قواعد نام گذاری پست الکترونیک پیروی نمی کند.",
+        "url": "{0} از قواعد آدرس های وب پیروی نمی کند.",
+        "date": "{0} تاریخ درستی نیست"
       });
 }
