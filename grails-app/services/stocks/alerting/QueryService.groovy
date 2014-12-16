@@ -233,11 +233,9 @@ class QueryService {
                     }
                 }
                 if (lastRelation.relationDomain) {
-                    return lastRelation.relationDomain.domain."findAllBy${lastRelation.relationDomain.parentField.capitalize()}InList"(lastItems).collect {
-                        it."${lastRelation.relationDomain.childField}"
-                    }.collect {
-                        it."${queryOptions.value}"
-                    }
+                    return queryOptions.domain.findAllByIdInList(lastRelation.relationDomain.domain."findAllBy${lastRelation.relationDomain.parentField.capitalize()}InList"(lastItems).collect {
+                        it."${lastRelation.relationDomain.childField}Id"
+                    }).collect{it."${queryOptions.value}"}
                 } else {
                     return queryOptions.domain."findAllBy${lastRelation.foreignKey.capitalize()}InList"(lastItems).collect {
                         it."${queryOptions.value}"

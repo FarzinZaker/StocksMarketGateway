@@ -52,7 +52,7 @@
                     <form:textBox name="title" entity="${queryInstance}" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="query.description">
-                    <form:editor name="description" entity="${queryInstance}" validation="required" width="500"/>
+                    <form:editor name="description" entity="${queryInstance}" width="500"/>
                 </form:field>
                 <form:field fieldName="query.category">
                     <form:treeCombo name="category" style="width:500px" value="${queryInstance?.category?.id ?: 0}"
