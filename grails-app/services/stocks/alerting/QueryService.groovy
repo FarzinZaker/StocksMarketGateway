@@ -160,7 +160,11 @@ class QueryService {
                         list << parameterValue.value
                         break;
                     case 'predefined':
-                        ParameterSuggestedValue.get(parameterValue.value as Long).variations.each {
+                        ParameterSuggestedValueVariation.createCriteria().list {
+                            suggestedValue{
+                                eq('id', parameterValue.value as Long)
+                            }
+                        }.each {
                             list.add(it.title)
                         }
                         break;
@@ -204,8 +208,9 @@ class QueryService {
 
      def getDomainParameterValues(ParameterValue parameterValue) {
 
-        def parameter = parameterValue.parameter as Parameter
-        def domainClass = grailsApplication.getDomainClass(parameter.query.domainClazz)
+        def parameter = Parameter.get(parameterValue.parameterId)
+        def query = Query.get(parameter.queryId)
+        def domainClass = grailsApplication.getDomainClass(query.domainClazz)
         def property = domainClass.persistentProperties.find { it.name == parameter.type }
         def queryOptions = domainClass.constrainedProperties."${property?.name}".metaConstraints.query
         def deliveryMethod = queryOptions.deliveryMethods.find { it.name == parameterValue.type }
