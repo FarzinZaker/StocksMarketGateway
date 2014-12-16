@@ -48,8 +48,9 @@
                                     fields: {
                                         id: { type: "number" },
                                         symbol: { type: "string" },
-                                        count: { type: "number" },
+                                        shareCount: { type: "number" },
                                         cost: { type: "number" },
+                                        avgPrice: { type: "number" },
                                         shareValue: {type: "number" },
                                         currentValue: { type: "number" }
                                     }
@@ -78,6 +79,10 @@
                             {
                                 field: "cost",
                                 title: "${message(code:'portfolioItem.cost.label')}"
+                            } ,
+                            {
+                                field: "avgPrice",
+                                title: "${message(code:'portfolioItem.avgPrice.label')}"
                             } ,
                             {
                                 field: "shareValue",

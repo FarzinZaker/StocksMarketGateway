@@ -10,6 +10,29 @@ class PortfolioAction {
     String actionDescription
     PortfolioItem portfolioItem
 
+    byte getSign() {
+        if (actionType == 'b')
+            return 1
+        else
+            return -1
+    }
+
+    Long getSignedShareCount() {
+        if (actionType == 'b')
+            return shareCount
+        else
+            return -shareCount
+    }
+
+    Long getSignedCost() {
+        if (actionType == 'b')
+            return shareCount * sharePrice
+        else
+            return -shareCount * sharePrice
+    }
+
+    static transients = ['sign', 'signedShareCount', 'signedCost']
+
     static belongsTo = [portfolioItem: PortfolioItem]
 
     static constraints = {

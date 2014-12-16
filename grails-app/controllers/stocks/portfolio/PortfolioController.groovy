@@ -5,6 +5,7 @@ import stocks.DateHelper
 
 class PortfolioController {
     def springSecurityService
+    def priceService
 
     def build() {
         [portfolio: params.id ? Portfolio.get(params.id) : null]
@@ -62,17 +63,19 @@ class PortfolioController {
         def portfolio = Portfolio.get(params.id)
         if (portfolio.ownerId != owner.id)
             return render ([] as JSON)
-        def list = PortfolioItem.findAllByPortfolioAndShareCountGreaterThan(portfolio, 0, parameters)
-        value.total = PortfolioItem.countByPortfolioAndShareCountGreaterThan(portfolio, 0)
+        def list = PortfolioItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
+        value.total = PortfolioItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
 
         value.data = list.collect {
+            def shareValue = priceService.lastPrice(it.symbol)
             [
                     id: it.id,
                     symbol: "${it.symbol.persianCode} - ${it.symbol.persianName}",
                     shareCount: it.shareCount,
                     cost: it.cost,
-                    currentValue: 0,
-                    shareValue: 0
+                    avgPrice: String.format("%.2f", it.cost / it.shareCount),
+                    shareValue: shareValue,
+                    currentValue: it.shareCount * shareValue
             ]
         }
 

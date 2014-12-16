@@ -1,4 +1,4 @@
-<%@ page import="stocks.tse.Symbol" contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.text.SimpleDateFormat; stocks.tse.Symbol" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -64,9 +64,9 @@
                                             actionTypeTitle: "<g:message code="portfolioAction.actionType.b"/>"
                                         }
                                     },
-                                    actionDate: {type: "string"},
-                                    sharePrice: {type: "number"},
-                                    shareCount: {type: "number"}
+                                    actionDate: {type: "string", defaultValue: "${ new java.text.SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'").format(new Date()) }"},
+                                    sharePrice: {type: "number", defaultValue: 0},
+                                    shareCount: {type: "number", defaultValue: 0}
                                 }
                             },
                             data: "data",
@@ -79,7 +79,11 @@
                         navigatable: true,
                         pageable: true,
                         height: 550,
-                        toolbar: ["create", "save", "cancel"],
+                        toolbar: [
+                            { name: "create", text: "<g:message code="create"/>" },
+                            { name: "save", text: "<g:message code="save"/>" },
+                            { name: "cancel", text: "<g:message code="cancel"/>" }
+                        ],
                         columns: [
                             {
                                 field: "symbol",
@@ -105,7 +109,7 @@
                                 field: "shareCount",
                                 title: "${message(code:'portfolioAction.shareCount.label')}"
                             },
-                            {command: ["destroy"], title: "&nbsp;", width: "175px"}
+                            {command: [ { name: "destroy", text: "<g:message code="delete"/>" } ], title: "&nbsp;", width: "175px"}
                         ],
                         editable: "incell",
                         save: function (e) {
