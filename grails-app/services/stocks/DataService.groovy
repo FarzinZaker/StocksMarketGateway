@@ -15,7 +15,8 @@ class DataService {
     def dataServicePackages = [
             'stocks.codal.data',
             'stocks.tse.data' ,
-            'stocks.commodity.data'
+            'stocks.commodity.data' ,
+            'stocks.rate.data'
     ]
 
     def initializeJobs() {

@@ -31,6 +31,11 @@ class AdminController {
 
     def tradeStatisticsDataService
 
+    def coinDataService
+    def metalDataService
+    def coinFutureDataService
+    def currencyDataService
+
     def index() {
     }
 
@@ -62,14 +67,16 @@ class AdminController {
 //        def test = 'کا'
 //        def test2 = FarsiNormalizationFilter.apply(test)
 //        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
-        queryService.getDomainParameterValues(ParameterValue.get(39));
+//        queryService.getDomainParameterValues(ParameterValue.get(39));
+        currencyDataService.importData()
+
     }
 
-    def throwException(){
+    def throwException() {
         throw new Exception('test exception')
     }
 
-    def scheduleItem(){
+    def scheduleItem() {
         scheduleService.calculateQueryInstanceNextExecutionTime(QueryInstance.get(params.id))
     }
 }
