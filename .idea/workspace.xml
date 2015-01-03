@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" afterPath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks.iml" afterPath="$PROJECT_DIR$/Stocks.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -801,13 +803,7 @@
       <workItem from="1414484980154" duration="899000" />
       <workItem from="1414595943536" duration="986000" />
       <workItem from="1415261367666" duration="7074000" />
-      <workItem from="1420295440300" duration="106000" />
-    </task>
-    <task id="LOCAL-00046" summary="codal changed">
-      <created>1413649289892</created>
-      <option name="number" value="00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1413649289892</updated>
+      <workItem from="1420295440300" duration="112000" />
     </task>
     <task id="LOCAL-00047" summary="codal changed">
       <created>1413649694811</created>
@@ -1097,11 +1093,17 @@
       <option name="project" value="LOCAL" />
       <updated>1420295501389</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="calculator&#10;">
+      <created>1420295550302</created>
+      <option name="number" value="00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1420295550302</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="944356000" />
+    <option name="totallyTimeSpent" value="944362000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
