@@ -21,6 +21,13 @@ class MetalEvent {
     }
     static constraints = {
 
+        symbol nullable: true
+        price nullable: true
+        change nullable: true
+        percent nullable: true
+        low nullable: true
+        high nullable: true
+        time nullable: true
 
         data nullable: true
     }

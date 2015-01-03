@@ -159,12 +159,14 @@ public class RateHelper {
             ]
     ]
 
-    public static final FUTURES = [:]
-
     public static final METALS = [
             'mesghal'  : [
                     name: FarsiNormalizationFilter.apply('مثقال طلا'),
                     source: 'mesghal'
+            ],
+            'ons'  : [
+                    name: FarsiNormalizationFilter.apply('انس طلا'),
+                    source: 'ons'
             ],
             'geram18'  : [
                     name: FarsiNormalizationFilter.apply('گرم طلای 18'),

@@ -693,38 +693,33 @@ span.has-error {
   text-align: center;
 }
 
+.left{
+  text-align: left;
+}
+
 .calculator {
+  th,td{
+    padding:5px;
+  }
   .baseInfo {
-    line-height: 24px;
     background-color: white;
   }
   .resultTitle {
     background-color: @main-color;
     color: @body-color;
-    font-size: 16px;
     line-height: 32px;
   }
   .resultSubtitle {
     background-color: @editor-border-color;
-    font-size: 14px;
-    line-height: 28px;
   }
   .odd {
-    div {
+    td {
       background-color: white;
-      line-height: 24px;
-      &.double {
-        line-height: 48px;
-      }
     }
   }
   .even {
-    div {
+    td {
       background-color: #f5f5f5;
-      line-height: 24px;
-      &.double {
-        line-height: 48px;
-      }
     }
   }
 }

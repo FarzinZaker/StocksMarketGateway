@@ -41,18 +41,20 @@ class MetalDataService {
 
             RateHelper.METALS.keySet().each { key ->
 
-                def metalEvent = new MetalEvent()
                 def object = list."${RateHelper.METALS."${key}".source}"
-                metalEvent.symbol = key
-                metalEvent.price = object.p.toString().replaceAll(',', '') as Double
-                metalEvent.change = (object.dt.toString().equals("low") ? -1 : 1) * (object.d.toString().replaceAll(',', '') as Double)
-                metalEvent.percent = object.dp.toString().replaceAll(',', '') as Double
-                metalEvent.low = object.l.toString().replaceAll(',', '') as Double
-                metalEvent.high = object.h.toString().replaceAll(',', '') as Double
-                metalEvent.time = parseTime(object.t.toString())
+                if (object) {
+                    def metalEvent = new MetalEvent()
+                    metalEvent.symbol = key
+                    metalEvent.price = object.p.toString().replaceAll(',', '') as Double
+                    metalEvent.change = (object.dt.toString().equals("low") ? -1 : 1) * (object.d.toString().replaceAll(',', '') as Double)
+                    metalEvent.percent = object.dp.toString().replaceAll(',', '') as Double
+                    metalEvent.low = object.l.toString().replaceAll(',', '') as Double
+                    metalEvent.high = object.h.toString().replaceAll(',', '') as Double
+                    metalEvent.time = parseTime(object.t.toString())
 
-                metalEvent.data = find(metalEvent)
-                rateEventGateway.send(metalEvent)
+                    metalEvent.data = find(metalEvent)
+                    rateEventGateway.send(metalEvent)
+                }
             }
             logState([status: 'successful'])
         }
@@ -77,10 +79,13 @@ class MetalDataService {
     private static Date parseTime(String time) {
         JalaliCalendar jc = new JalaliCalendar()
         def cal = jc.toJavaUtilGregorianCalendar()
-        def timeParts = time.split(":")
-        cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
-        cal.set(Calendar.MINUTE, timeParts[1] as Integer)
-        cal.set(Calendar.SECOND, 0)
+        try {
+            def timeParts = time.split(":")
+            cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
+            cal.set(Calendar.MINUTE, timeParts[1] as Integer)
+            cal.set(Calendar.SECOND, 0)
+        } catch (ignored) {
+        }
         cal.time
     }
 }

@@ -135,6 +135,10 @@ class CoinFutureDataService {
     }
 
     private static Date getFullDateTime(String dateStr) {
+
+        if(!dateStr || dateStr == '')
+            return null
+
         def months = [
                 FarsiNormalizationFilter.apply('فروردین'),
                 FarsiNormalizationFilter.apply('اردیبهشت'),

@@ -41,18 +41,20 @@ class CoinDataService {
 
             RateHelper.COINS.keySet().each { key ->
 
-                def coinEvent = new CoinEvent()
                 def object = list."${RateHelper.COINS."${key}".source}"
-                coinEvent.symbol = key
-                coinEvent.price = object.p.toString().replaceAll(',', '') as Double
-                coinEvent.change = (object.dt.toString().equals("low") ? -1 : 1) * (object.d.toString().replaceAll(',', '') as Double)
-                coinEvent.percent = object.dp.toString().replaceAll(',', '') as Double
-                coinEvent.low = object.l.toString().replaceAll(',', '') as Double
-                coinEvent.high = object.h.toString().replaceAll(',', '') as Double
-                coinEvent.time = parseTime(object.t.toString())
+                if(object) {
+                    def coinEvent = new CoinEvent()
+                    coinEvent.symbol = key
+                    coinEvent.price = object.p.toString().replaceAll(',', '') as Double
+                    coinEvent.change = (object.dt.toString().equals("low") ? -1 : 1) * (object.d.toString().replaceAll(',', '') as Double)
+                    coinEvent.percent = object.dp.toString().replaceAll(',', '') as Double
+                    coinEvent.low = object.l.toString().replaceAll(',', '') as Double
+                    coinEvent.high = object.h.toString().replaceAll(',', '') as Double
+                    coinEvent.time = parseTime(object.t.toString())
 
-                coinEvent.data = find(coinEvent)
-                rateEventGateway.send(coinEvent)
+                    coinEvent.data = find(coinEvent)
+                    rateEventGateway.send(coinEvent)
+                }
             }
             logState([status: 'successful'])
         }
@@ -77,10 +79,13 @@ class CoinDataService {
     private static Date parseTime(String time) {
         JalaliCalendar jc = new JalaliCalendar()
         def cal = jc.toJavaUtilGregorianCalendar()
-        def timeParts = time.split(":")
-        cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
-        cal.set(Calendar.MINUTE, timeParts[1] as Integer)
-        cal.set(Calendar.SECOND, 0)
+        try {
+            def timeParts = time.split(":")
+            cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
+            cal.set(Calendar.MINUTE, timeParts[1] as Integer)
+            cal.set(Calendar.SECOND, 0)
+        } catch (ignored) {
+        }
         cal.time
     }
 }

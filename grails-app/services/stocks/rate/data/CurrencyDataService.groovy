@@ -30,7 +30,7 @@ class CurrencyDataService {
 
     private static Currency find(CurrencyEvent object) {
         Currency.withTransaction {
-            Currency.findBySymbol(object.name)
+            Currency.findBySymbol(object.symbol)
         }
     }
 
@@ -41,7 +41,6 @@ class CurrencyDataService {
 
             RateHelper.CURRENCIES.keySet().each { key ->
 
-                Map<String, Object> map = new HashMap<String, Object>()
                 def source = RateHelper.CURRENCIES."${key}".source
                 def name = RateHelper.CURRENCIES."${key}".name
 
@@ -52,8 +51,8 @@ class CurrencyDataService {
                 currencyEvent.percent = cp.split("%")[0] as Double
                 currencyEvent.low = (list."f_${source}_65".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "") as Double) * 10
                 currencyEvent.high = (list."f_${source}_66".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "") as Double) * 10
-                currencyEvent.name = key
-                currencyEvent.symbol = name
+                currencyEvent.name = name
+                currencyEvent.symbol = key
                 currencyEvent.time = new Date()
 
                 currencyEvent.data = find(currencyEvent)
@@ -76,16 +75,5 @@ class CurrencyDataService {
         client.executeMethod(method)
 
         method.getResponseBodyAsString()
-    }
-
-
-    private static Date parseTime(String time) {
-        JalaliCalendar jc = new JalaliCalendar()
-        def cal = jc.toJavaUtilGregorianCalendar()
-        def timeParts = time.split(":")
-        cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
-        cal.set(Calendar.MINUTE, timeParts[1] as Integer)
-        cal.set(Calendar.SECOND, 0)
-        cal.time
     }
 }
