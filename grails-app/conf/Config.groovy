@@ -89,6 +89,10 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         grails.serverURL = "http://localhost:8080/${appName}"
+        searchable {
+            // disable bulk index on startup
+            bulkIndexOnStartup = false
+        }
 //        grails.assets.bundle=false
     }
     production {

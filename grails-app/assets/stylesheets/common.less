@@ -131,8 +131,8 @@ button {
       border-width: 0;
       float: right;
       color: #000000;
-      margin-top:5px;
-      margin-right:5px;
+      margin-top: 5px;
+      margin-right: 5px;
       span {
         color: grey;
         display: block;
@@ -160,7 +160,7 @@ button {
   margin-bottom: -10px;
   margin-left: -20px;
   margin-right: -20px;
-  clear:both;
+  clear: both;
   .k-popup {
     box-shadow: none;
   }
@@ -687,5 +687,45 @@ span.has-error {
   left: 200px;
   width: 600px;
   display: block;
+}
+
+.center {
+  text-align: center;
+}
+
+.calculator {
+  .baseInfo {
+    line-height: 24px;
+    background-color: white;
+  }
+  .resultTitle {
+    background-color: @main-color;
+    color: @body-color;
+    font-size: 16px;
+    line-height: 32px;
+  }
+  .resultSubtitle {
+    background-color: @editor-border-color;
+    font-size: 14px;
+    line-height: 28px;
+  }
+  .odd {
+    div {
+      background-color: white;
+      line-height: 24px;
+      &.double {
+        line-height: 48px;
+      }
+    }
+  }
+  .even {
+    div {
+      background-color: #f5f5f5;
+      line-height: 24px;
+      &.double {
+        line-height: 48px;
+      }
+    }
+  }
 }
 
