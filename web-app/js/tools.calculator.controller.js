@@ -1,4 +1,4 @@
-var alertingQuery = angular.module('stocks', []);
+var alertingQuery = angular.module('stocks', ["highcharts-ng"]);
 
 alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     //assumptions
@@ -86,4 +86,36 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
 
         return $scope.relativeArbitrage(contract, relatedContract, relatedIndex, index) < $scope.expectedReturn ? 'no' : 'yes';
     };
+
+
+//    chart
+
+    $scope.chartSeries = [
+        {"name": "Some data 2", "data": [5], type: "column"},
+        {"name": "My Super Column", "data": [1], type: "column"},
+        {"name": "My Super Column", "data": [10], type: "column"},
+        {"name": "My Super Column", "data": [8], type: "column"}
+    ];
+
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'areaspline'
+            },
+            plotOptions: {
+                series: {
+                    stacking: ''
+                }
+            }
+        },
+        series: $scope.chartSeries,
+        title: {
+            text: ''
+        },
+        credits: {
+            enabled: false
+        },
+        loading: false,
+        size: {}
+    }
 });

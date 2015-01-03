@@ -13,6 +13,8 @@
     <script language="javascript" type="text/javascript" src="${resource(dir: 'js', file: 'angular.min.js')}"></script>
     <asset:javascript src="moment.js"/>
     <asset:javascript src="XIRR.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir: 'highcharts/js', file: 'highcharts.js')}"></script>
+    <script language="javascript" type="text/javascript" src="${resource(dir: 'highcharts/js', file: 'highcharts-ng.min.js')}"></script>
     <script language="JavaScript">
         var dollarPrice = ${dollarPrice};
         var onsPrice = ${onsPrice};
