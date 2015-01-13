@@ -9,7 +9,6 @@ class Coin {
     Double low
     Double high
     Date time
-
     Date creationDate
     Date modificationDate
 

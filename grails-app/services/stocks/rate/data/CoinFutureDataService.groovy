@@ -130,13 +130,18 @@ class CoinFutureDataService {
     private def getList() {
         def contractsList = getService().getContractsList().split(',')
         contractsList.collect { contractCode ->
-            getService().getContractInfo(contractCode)
-        }
+            def contract = null
+            try {
+                getService().getContractInfo(contractCode)
+            } catch (ignored) {
+            }
+            contract
+        }.findAll { it }
     }
 
     private static Date getFullDateTime(String dateStr) {
 
-        if(!dateStr || dateStr == '')
+        if (!dateStr || dateStr == '')
             return null
 
         def months = [

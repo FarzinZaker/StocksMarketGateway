@@ -2,6 +2,8 @@ package stocks.tse
 
 class Index {
 
+    static searchable = [only:['persianName']]
+
     static notify = true
 
     Integer marketIdentifier

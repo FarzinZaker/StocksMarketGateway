@@ -29,6 +29,12 @@ class IndexEvent {
     Double averageDecreasedSymbolsChangePercent
     Double averageIncreasedSymbolsChangePercent
 
+    static snapshotGroupProperty = 'data'
+
+    Date dailySnapshot
+    Date weeklySnapshot
+    Date monthlySnapshot
+
 
     Date creationDate
     Index data
@@ -63,5 +69,9 @@ class IndexEvent {
         averageIncreasedSymbolsChangePercent nullable: true, xmlNodeName: 'XmoyVarValHauIbs'
 
         data nullable: true
+
+        dailySnapshot nullable: true
+        weeklySnapshot nullable: true
+        monthlySnapshot nullable: true
     }
 }

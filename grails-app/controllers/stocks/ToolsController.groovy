@@ -1,12 +1,18 @@
 package stocks
 
+import fi.joensuu.joyds1.calendar.JalaliCalendar
+import grails.converters.JSON
 import groovy.time.TimeCategory
 import stocks.rate.CoinFuture
 import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Coin
+import stocks.tools.CorrelationServiceBase
 
 class ToolsController {
+
+    def correlationService
+    def snapshotService
 
     def calculator() {
         [
@@ -28,4 +34,59 @@ class ToolsController {
                 }
         ]
     }
+
+    def correlation() {
+        def groups = grailsApplication.serviceClasses.findAll { service ->
+            service.fullName.contains('stocks.tools.correlation')
+        }.collect { [text: it.propertyName + ".name", value: it.fullName] }
+        [groups: groups]
+    }
+
+    def correctSnapshots(){
+        snapshotService.applyPreviousSnapshots()
+    }
+
+    def correlationAutoComplete() {
+        def term = params."filter[filters][0][value]"?.toString() ?: ''
+        def serviceClass = grailsApplication.serviceClasses.find { service ->
+            service.fullName == params.group
+        }
+        def service = grailsApplication.mainContext[serviceClass.propertyName] as CorrelationServiceBase
+        def result = service.searchItems(term)
+        if (params.role == "target")
+            result = [[value: 'all', text: message(code: "${serviceClass.propertyName}.all")]] + result
+        render([data: result] as JSON)
+    }
+
+    def correlationGrid() {
+        def data = correlationService.calculateSeries(params.sourceGroup, params.sourceItem, params.targetGroup, params.targetItem, parseDate(params.startDate), parseDate(params.endDate), params.period)
+        render(template: "/tools/correlation/grid", model: [data: data])
+    }
+
+    def correlationChart() {
+        render(template: "/tools/correlation/chart", model: [params: params])
+    }
+
+    def correlationChartData() {
+        def serviceClass = grailsApplication.serviceClasses.find { service ->
+            service.fullName == params.group
+        }
+        def service = grailsApplication.mainContext[serviceClass.propertyName] as CorrelationServiceBase
+        def data = service.getItemValues(params.item?.toString(), parseDate(params.startDate?.toString()), parseDate(params.endDate?.toString()), params.period?.toString())
+        def name = service.getItemName(params.item?.toString())
+        render([
+                name: name,
+                data: data.collect {
+                    [it.date.time, it.value]
+                }.sort{it[0]}
+        ] as JSON)
+    }
+
+    private static Date parseDate(String date) {
+        if (!date || date.trim() == '' || date.trim() == 'null')
+            return null
+        def dateParts = date.split("/").collect { it as Integer }
+        new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2]).toJavaUtilGregorianCalendar().time
+    }
+
 }

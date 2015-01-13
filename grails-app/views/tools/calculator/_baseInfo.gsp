@@ -1,8 +1,8 @@
-<div class="row-fluid">
-    <div class="col-xs-12">
-        <h2><g:message code="tools.calculator.baseInfo.title"/></h2>
-    </div>
-</div>
+%{--<div class="row-fluid">--}%
+    %{--<div class="col-xs-12">--}%
+        %{--<h2><g:message code="tools.calculator.baseInfo.title"/></h2>--}%
+    %{--</div>--}%
+%{--</div>--}%
 
 <div class="row-fluid">
     <div class="col-xs-3 baseInfo">

@@ -23,8 +23,15 @@ class SymbolDailyTrade {
     Date creationDate
     Date modificationDate
 
+    static snapshotGroupProperty = 'symbol'
+
+    Date dailySnapshot
+    Date weeklySnapshot
+    Date monthlySnapshot
+
     static mapping = {
         table 'tse_symbol_daily_trade'
+        sort id: "desc"
     }
 
     static constraints = {
@@ -45,5 +52,9 @@ class SymbolDailyTrade {
         maxPrice nullable: true
         yesterdayPrice nullable: true
         isLast nullable: true
+
+        dailySnapshot nullable: true
+        weeklySnapshot nullable: true
+        monthlySnapshot nullable: true
     }
 }

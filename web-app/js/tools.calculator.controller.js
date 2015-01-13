@@ -10,7 +10,16 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     $scope.lendingRate = 0.20;
     $scope.margin = 20000000.0;
     $scope.marginChanges = 0.0;
-    //
+
+    $scope.$watch('multiplicationCost', onScopeChange);
+    $scope.$watch('addedValueTax', onScopeChange);
+    $scope.$watch('interestRate', onScopeChange);
+    $scope.$watch('expectedReturn', onScopeChange);
+    $scope.$watch('borrowingRate', onScopeChange);
+    $scope.$watch('lendingRate', onScopeChange);
+    $scope.$watch('margin', onScopeChange);
+    $scope.$watch('marginChanges', onScopeChange);
+
     $scope.dollarPrice = dollarPrice;
     $scope.onsPrice = onsPrice;
     $scope.coinPrice = coinPrice;
@@ -87,35 +96,9 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
         return $scope.relativeArbitrage(contract, relatedContract, relatedIndex, index) < $scope.expectedReturn ? 'no' : 'yes';
     };
 
+    $scope.chartSeries = $.map($scope.contracts, function (contract, index) {
+        return {"name": contract.name, "data": [$scope.netArbitrage(contract)], type: "column"};
+    });
 
-//    chart
 
-    $scope.chartSeries = [
-        {"name": "Some data 2", "data": [5], type: "column"},
-        {"name": "My Super Column", "data": [1], type: "column"},
-        {"name": "My Super Column", "data": [10], type: "column"},
-        {"name": "My Super Column", "data": [8], type: "column"}
-    ];
-
-    $scope.chartConfig = {
-        options: {
-            chart: {
-                type: 'areaspline'
-            },
-            plotOptions: {
-                series: {
-                    stacking: ''
-                }
-            }
-        },
-        series: $scope.chartSeries,
-        title: {
-            text: ''
-        },
-        credits: {
-            enabled: false
-        },
-        loading: false,
-        size: {}
-    }
 });

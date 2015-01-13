@@ -13,9 +13,9 @@ class DataService {
     def grailsApplication
 
     def dataServicePackages = [
-//            'stocks.codal.data',
-//            'stocks.tse.data' ,
-//            'stocks.commodity.data' ,
+            'stocks.codal.data',
+            'stocks.tse.data' ,
+            'stocks.commodity.data' ,
             'stocks.rate.data'
     ]
 

@@ -67,6 +67,12 @@ class CoinFutureEvent {
     Date lastUpdate
     Boolean expired
 
+    static snapshotGroupProperty = 'data'
+
+    Date dailySnapshot
+    Date weeklySnapshot
+    Date monthlySnapshot
+
     Date creationDate
     CoinFuture data
 
@@ -139,5 +145,9 @@ class CoinFutureEvent {
         expired nullable: true
 
         data nullable: true
+
+        dailySnapshot nullable: true
+        weeklySnapshot nullable: true
+        monthlySnapshot nullable: true
     }
 }

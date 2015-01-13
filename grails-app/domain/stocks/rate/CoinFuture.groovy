@@ -2,6 +2,8 @@ package stocks.rate
 
 class CoinFuture {
 
+    static searchable = [only:['contractCode', 'contractDescription', 'contractSizeUnitPersianDescription']]
+
     String contractCode
     Date lastTradingDate
     String contractDescription

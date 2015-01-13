@@ -37,7 +37,10 @@ class MetalDataService {
     private void parseData(String url) {
 
         try {
-            def list = JSON.parse(getList(url))
+            def str = getList(url)
+            if(!str)
+                return
+            def list = JSON.parse(str)
 
             RateHelper.METALS.keySet().each { key ->
 
@@ -65,14 +68,18 @@ class MetalDataService {
     }
 
     private static String getList(String url) {
-        HttpClient client = new HttpClient()
-        client.getParams().setParameter("http.protocol.content-charset", "UTF-8")
-        HttpMethod method = new GetMethod("${url}?t=" + new Date().getTime())
-        method.setRequestHeader("User-Agent", RandomUserAgent.randomUserAgent)
-        method.setRequestHeader("Accept-Language", "en-US,en;q=0.5")
-        client.executeMethod(method)
+        try {
+            HttpClient client = new HttpClient()
+            client.getParams().setParameter("http.protocol.content-charset", "UTF-8")
+            HttpMethod method = new GetMethod("${url}?t=" + new Date().getTime())
+            method.setRequestHeader("User-Agent", RandomUserAgent.randomUserAgent)
+            method.setRequestHeader("Accept-Language", "en-US,en;q=0.5")
+            client.executeMethod(method)
 
-        method.getResponseBodyAsString()
+            method.getResponseBodyAsString()
+        }catch(ignored){
+            null
+        }
     }
 
 

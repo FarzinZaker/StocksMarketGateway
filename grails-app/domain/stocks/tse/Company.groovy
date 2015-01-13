@@ -2,6 +2,8 @@ package stocks.tse
 
 class Company {
 
+    static searchable = true
+
     Integer marketIdentifier
     String code
     String name
