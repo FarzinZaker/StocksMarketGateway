@@ -132,7 +132,7 @@ class CoinFutureDataService {
         contractsList.collect { contractCode ->
             def contract = null
             try {
-                getService().getContractInfo(contractCode)
+                contract = getService().getContractInfo(contractCode)
             } catch (ignored) {
             }
             contract
