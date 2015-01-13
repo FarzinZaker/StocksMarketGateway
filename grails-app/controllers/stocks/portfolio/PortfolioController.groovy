@@ -66,8 +66,11 @@ class PortfolioController {
         def list = PortfolioItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
         value.total = PortfolioItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
 
+        def totalValue = 0
+
         value.data = list.collect {
             def shareValue = priceService.lastPrice(it.symbol)
+            totalValue += it.shareCount * shareValue
             [
                     id: it.id,
                     symbol: "${it.symbol.persianCode} - ${it.symbol.persianName}",
@@ -79,7 +82,15 @@ class PortfolioController {
             ]
         }
 
-        render value as JSON
+        def shareChartData = []
+        for (item in value.data) {
+            shareChartData << [item.symbol, Math.round(item.currentValue / totalValue * 1000) / 10]
+        }
+
+        def model = [:]
+        model.gridData = value
+        model.shareChartData = shareChartData
+        render model as JSON
     }
 
     def portfolioItemView() {

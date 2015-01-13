@@ -10,6 +10,9 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <h1><g:message code="portfolio.manage"/></h1>
+            <div class="k-rtl k-header">
+                <div id="toolbar"></div>
+            </div>
 
             <div class="k-rtl">
                 <div id="grid"></div>
@@ -19,6 +22,7 @@
                 useOldConfirm = true;
 
                 $(document).ready(function () {
+
                     var dataSource = new kendo.data.DataSource({
                         transport: {
                             type: 'odata',
@@ -192,6 +196,13 @@
                                     }
                                 });
                     }
+
+                    $("#toolbar").kendoToolBar({
+                        items: [
+                            { type: "button", text: "<g:message code="portfolio.list.title"/>" },
+                            { type: "button", text: "<g:message code="portfolio.property.manage"/>" }
+                        ]
+                    });
                 });
             </script>
         </div>
