@@ -55,7 +55,7 @@
             <g:message code="tools.calculator.netArbitrage"/>
         </td>
         <td ng-repeat="contract in contracts" class="center">{{netArbitrage(contract) * 100 | number:1}}% <img
-                width="16px" ng-src="${createLink(uri: '/')}/images/{{netArbitrageFlag(contract)}}.png"/></td>
+                width="16px" ng-src="${createLink(uri: '/')}images/{{netArbitrageFlag(contract)}}.png"/></td>
     </tr>
     <tr ng-repeat="contract in contracts" ng-class="{'odd': $index % 2 == 1}">
         <td ng-show="$index < contracts.length - 1" class="left">

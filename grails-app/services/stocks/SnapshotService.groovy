@@ -9,11 +9,11 @@ class SnapshotService {
 
     def grailsApplication
 
-    def applyPreviousSnapshots(String domain, def daysCount = 100) {
+    def applyPreviousSnapshots(String domain, def daysCount = 1000) {
 
         def indexer = 0
         def currentDate = new Date()
-        while (indexer < daysCount) {
+        while (indexer++ < daysCount) {
             def cal = Calendar.getInstance()
             cal.setTime(currentDate)
             def jc = new JalaliCalendar(cal as GregorianCalendar)
@@ -24,10 +24,11 @@ class SnapshotService {
             applyDailySnapshot(domain, currentDate)
 
             use(TimeCategory) {
-                currentDate = currentDate - (++indexer).day
+                currentDate = currentDate - 1.day
             }
         }
 
+        println('finished!')
     }
 
     def applyDailySnapshot(String domain = '.', def maxDate = null) {
