@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/tools/calculator/_grid.gsp" afterPath="$PROJECT_DIR$/grails-app/views/tools/calculator/_grid.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -85,8 +84,8 @@
       <file leaf-file-name="SnapshotService.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24637681" vertical-offset="0" max-vertical-offset="1530">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.30112723" vertical-offset="0" max-vertical-offset="1530">
+              <caret line="11" column="65" selection-start-line="11" selection-start-column="65" selection-end-line="11" selection-end-column="65" />
               <folding>
                 <element signature="e#16#64#0" expanded="true" />
               </folding>
@@ -843,13 +842,7 @@
       <workItem from="1421076658070" duration="99000" />
       <workItem from="1421076862765" duration="11335000" />
       <workItem from="1421148646462" duration="8405000" />
-      <workItem from="1421222212104" duration="5608000" />
-    </task>
-    <task id="LOCAL-00052" summary="codal changed">
-      <created>1413806071568</created>
-      <option name="number" value="00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1413806071568</updated>
+      <workItem from="1421222212104" duration="5631000" />
     </task>
     <task id="LOCAL-00053" summary="codal changed">
       <created>1413806758558</created>
@@ -1139,11 +1132,17 @@
       <option name="project" value="LOCAL" />
       <updated>1421224540291</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="correlation">
+      <created>1421231601992</created>
+      <option name="number" value="00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1421231601992</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1084501000" />
+    <option name="totallyTimeSpent" value="1084524000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1712,8 +1711,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24637681" vertical-offset="0" max-vertical-offset="1530">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.30112723" vertical-offset="0" max-vertical-offset="1530">
+          <caret line="11" column="65" selection-start-line="11" selection-start-column="65" selection-end-line="11" selection-end-column="65" />
           <folding>
             <element signature="e#16#64#0" expanded="true" />
           </folding>

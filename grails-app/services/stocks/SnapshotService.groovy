@@ -9,7 +9,7 @@ class SnapshotService {
 
     def grailsApplication
 
-    def applyPreviousSnapshots(String domain, def daysCount = 1000) {
+    def applyPreviousSnapshots(String domain, def daysCount = 100) {
 
         def indexer = 0
         def currentDate = new Date()
