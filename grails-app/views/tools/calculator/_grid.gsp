@@ -64,7 +64,7 @@
         <td ng-show="$parent.$index < contracts.length - 1" ng-repeat="relatedContract in contracts"
             class="center">{{relativeArbitrage(contract, relatedContract, $index, $parent.$index) * 100 | number:1}}<span
                 ng-show="$index > $parent.$index">% <img width="16px"
-                                                         ng-src="${createLink(uri: '/')}/images/{{relativeArbitrageFlag(contract, relatedContract, $index, $parent.$index)}}.png"/>
+                                                         ng-src="${createLink(uri: '/')}images/{{relativeArbitrageFlag(contract, relatedContract, $index, $parent.$index)}}.png"/>
         </span><span ng-show="$index <= $parent.$index">-</span></td>
     </tr>
 </table>

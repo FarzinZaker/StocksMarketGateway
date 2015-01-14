@@ -9,7 +9,7 @@ class SnapshotService {
 
     def grailsApplication
 
-    def applyPreviousSnapshots(def daysCount = 100) {
+    def applyPreviousSnapshots(String domain, def daysCount = 100) {
 
         def indexer = 0
         def currentDate = new Date()
@@ -18,10 +18,10 @@ class SnapshotService {
             cal.setTime(currentDate)
             def jc = new JalaliCalendar(cal as GregorianCalendar)
             if (jc.getDayOfWeek() == 5)
-                applyWeeklySnapshot(currentDate)
+                applyWeeklySnapshot(domain, currentDate)
             if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-                applyMonthlySnapshot(currentDate)
-            applyDailySnapshot(currentDate)
+                applyMonthlySnapshot(domain, currentDate)
+            applyDailySnapshot(domain, currentDate)
 
             use(TimeCategory) {
                 currentDate = currentDate - (++indexer).day
@@ -30,42 +30,42 @@ class SnapshotService {
 
     }
 
-    def applyDailySnapshot(def maxDate = null) {
+    def applyDailySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
-        findDomainClassesBySnapshot('daily').each { domainClass ->
+        findDomainClassesBySnapshot(domain, 'daily').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.dailySnapshot = today
-                println record.save(flush: true)
+                println "daily: ${record.save(flush: true)}"
             }
         }
     }
 
-    def applyWeeklySnapshot(def maxDate = null) {
+    def applyWeeklySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
-        findDomainClassesBySnapshot('weekly').each { domainClass ->
+        findDomainClassesBySnapshot(domain, 'weekly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.weeklySnapshot = today
-                println record.save(flush: true)
+                println "weekly: ${record.save(flush: true)}"
             }
         }
     }
 
-    def applyMonthlySnapshot(def maxDate = null) {
+    def applyMonthlySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
-        findDomainClassesBySnapshot('monthly').each { domainClass ->
+        findDomainClassesBySnapshot(domain, 'monthly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.monthlySnapshot = today
-                println record.save(flush: true)
+                println "monthly: ${record.save(flush: true)}"
             }
         }
     }
 
-    ArrayList<DefaultGrailsDomainClass> findDomainClassesBySnapshot(String type) {
+    ArrayList<DefaultGrailsDomainClass> findDomainClassesBySnapshot(String domain, String type) {
         grailsApplication.getArtefacts("Domain").findAll { DefaultGrailsDomainClass domainClass ->
-            domainClass.persistantProperties*.name.contains("${type}Snapshot".toString())
+            domainClass.persistantProperties*.name.contains("${type}Snapshot".toString()) && domainClass.fullName.toLowerCase().contains(domain)
         }.collect { it as DefaultGrailsDomainClass }
     }
 
