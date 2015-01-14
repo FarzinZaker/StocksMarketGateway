@@ -345,6 +345,10 @@ a.tilt:hover,a.tilt:focus,a.tilt:active{
     background-color: #a4c400
 }
 
+.tilt-tile-darkBlue{
+    background-color: #3b5998;;
+}
+
 .tilt-tile-indigo {
     background-color: #6a00ff
 }

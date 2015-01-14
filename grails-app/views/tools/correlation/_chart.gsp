@@ -55,82 +55,92 @@
 
                     $('#container').highcharts('StockChart', {
 
-                        rangeSelector: false,
+                                rangeSelector: false,
 
-                        yAxis: {
-                            labels: {
+                                yAxis: {
+                                    labels: {
 //                                formatter: function () {
 //                                    return (this.value > 0 ? ' + ' : '') + this.value + '%';
 //                                }
-                            },
-                            plotLines: [{
-                                value: 0,
-                                width: 2,
-                                color: 'silver'
-                            }]
-                        },
-                        xAxis: {
-                            dateTimeLabelFormats: {
-                                second: '%H:%M:%S',
-                                minute: '%H:%M',
-                                hour: '%H:%M',
-                                day: '%d',
-                                week: '%d',
-                                month: '%m',
-                                year: '%y'
-                            },
-                            labels: {
-                                useHTML: true
-                            }
-                        },
-
-                        navigator: {
-                            xAxis: {
-                                dateTimeLabelFormats: {
-                                    second: '%H:%M:%S',
-                                    minute: '%H:%M',
-                                    hour: '%H:%M',
-                                    day: '%d',
-                                    week: '%d',
-                                    month: '%m',
-                                    year: '%y'
+                                    },
+                                    plotLines: [{
+                                        value: 0,
+                                        width: 2,
+                                        color: 'silver'
+                                    }]
                                 },
-                                labels: {
-                                    useHTML: true
-                                }
-                            }
-                        },
+                                xAxis: {
+                                    dateTimeLabelFormats: {
+                                        second: '%H:%M:%S',
+                                        minute: '%H:%M',
+                                        hour: '%H:%M',
+                                        day: '%d',
+                                        week: '%d',
+                                        month: '%m',
+                                        year: '%y'
+                                    },
+                                    labels: {
+                                        useHTML: true
+                                    }
+                                },
 
-                        plotOptions: {
-                            series: {
+                                navigator: {
+                                    xAxis: {
+                                        dateTimeLabelFormats: {
+                                            second: '%H:%M:%S',
+                                            minute: '%H:%M',
+                                            hour: '%H:%M',
+                                            day: '%d',
+                                            week: '%d',
+                                            month: '%m',
+                                            year: '%y'
+                                        },
+                                        labels: {
+                                            useHTML: true
+                                        }
+                                    }
+                                },
+
+                                plotOptions: {
+                                    series: {
 //                                compare: 'percent'
-                            }
-                        },
+                                    }
+                                },
 
-                        tooltip: {
-                            formatter: function () {
-                                var s = getLongJalaliDate(new Date(this.x)) + '<br/>';
+                                tooltip: {
+                                    formatter: function () {
+                                        var s = getLongJalaliDate(new Date(this.x)) + '<br/>';
 
-                                $.each(this.points, function () {
-                                    s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + this.y + '</b><br/>';
-                                });
+                                        $.each(this.points, function () {
+                                            s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + this.y + '</b><br/>';
+                                        });
 
-                                return s;
-                            },
+                                        return s;
+                                    },
 //                            pointFormat: '<span style="color:{series.color};direction:rtl;text-align:right;">{series.name}</span>: <b>{point.y}</b><br/>',
-                            valueDecimals: 2,
-                            useHTML: true
-                        },
+                                    valueDecimals: 2,
+                                    useHTML: true
+                                },
 
-                        series: seriesOptions
-                    });
+                                series: seriesOptions
+                            }
+                            , function (chart) {
+                                chart.addSeries({
+                                    data: dataList[1],
+                                    isInternal: true,
+                                    xAxis: 1,
+                                    yAxis: 1
+                                });
+                            });
                 };
 
+        var dataList = [];
         $.each(names, function (i, name) {
             $.ajax({
                 type: "POST",
                 url: '<format:html value="${createLink(action: 'correlationChartData', params: [startDate:params.startDate, endDate:params.endDate, period:params.period,])}"/>&group=' + name.group + '&item=' + name.item
             }).done(function (response) {
+                dataList[dataList.length] = response.data;
                 seriesOptions[i] = {
                     name: response.name,
                     data: response.data
