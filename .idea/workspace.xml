@@ -2,44 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/FontAwesome.otf" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/FontAwesome.otf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.eot" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.woff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_bordered-pulled.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_bordered-pulled.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/tools/correlation/_chart.gsp" afterPath="$PROJECT_DIR$/grails-app/views/tools/correlation/_chart.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_core.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_core.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_fixed-width.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_fixed-width.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/brokerUser/_flatMenu.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/brokerUser/_flatMenu.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/site/_flatMenu.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/site/_flatMenu.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_icons.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_icons.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_larger.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_larger.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_list.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_list.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_mixins.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_mixins.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_path.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_path.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_rotated-flipped.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_rotated-flipped.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_spinning.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_spinning.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_stacked.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_stacked.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_variables.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/_variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/bordered-pulled.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/bordered-pulled.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/core.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/core.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/fixed-width.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/fixed-width.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/css/font-awesome.css" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/css/font-awesome.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/font-awesome.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/font-awesome.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/css/font-awesome.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/font-awesome.scss" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/scss/font-awesome.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/fonts/fontawesome-webfont.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/icons.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/icons.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/larger.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/larger.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/list.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/list.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/mixins.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/mixins.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/path.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/path.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/rotated-flipped.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/rotated-flipped.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/spinning.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/spinning.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/stacked.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/stacked.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/tilt.min.css" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/tilt.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/variables.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/awesome/less/variables.less" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\bordered-pulled.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\core.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\fixed-width.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\font-awesome.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\icons.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\larger.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\list.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\mixins.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\path.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\rotated-flipped.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\spinning.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\stacked.less" afterPath="" />
+      <change type="DELETED" beforePath="D:\DevDesk\Stocks\grails-app\assets\stylesheets\awesome\less\variables.less" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -910,13 +885,7 @@
       <workItem from="1421076658070" duration="99000" />
       <workItem from="1421076862765" duration="11335000" />
       <workItem from="1421148646462" duration="8405000" />
-      <workItem from="1421222212104" duration="13716000" />
-    </task>
-    <task id="LOCAL-00055" summary="codal changed">
-      <created>1413807724193</created>
-      <option name="number" value="00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1413807724193</updated>
+      <workItem from="1421222212104" duration="14307000" />
     </task>
     <task id="LOCAL-00056" summary="codal changed">
       <created>1413809112520</created>
@@ -1206,11 +1175,17 @@
       <option name="project" value="LOCAL" />
       <updated>1421234061096</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="correlation">
+      <created>1421250829638</created>
+      <option name="number" value="00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1421250829638</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1092609000" />
+    <option name="totallyTimeSpent" value="1093200000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1248,9 +1223,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27345416" sideWeight="0.54324734" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Grails View" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27345416" sideWeight="0.54324734" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45545658" sideWeight="0.4989339" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27728286" sideWeight="0.4989339" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27728286" sideWeight="0.4989339" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964823" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964823" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
