@@ -109,7 +109,7 @@ class IndexCorrelationService extends CorrelationServiceBase {
         def result = [:]
         list.each { item ->
             def futureId = (item[0] as Index).id?.toString()
-            def value = indexEvents.find { it.id == (item[1] as Double) }?.closingPrice ?: 0
+            def value = indexEvents.find { it.id == (item[1] as Double) }?.finalIndexValue ?: 0
             if (!result.containsKey(futureId))
                 result.put(futureId, value)
         }
