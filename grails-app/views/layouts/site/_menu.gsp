@@ -26,6 +26,15 @@
                         code="menu.portfolios.list"/></a></li>
             </ul>
         </li>
+        <li>
+            <g:message code="menu.tools"/>
+            <ul>
+                <li><a href="${createLink(controller: 'tools', action: 'calculator')}"><g:message
+                        code="menu.tools.calculator"/></a></li>
+            <li><a href="${createLink(controller: 'tools', action: 'correlation')}"><g:message
+                    code="menu.tools.correlation"/></a></li>
+            </ul>
+        </li>
         <g:render template="/layouts/common/menu"/>
     </ul>
 </div>
