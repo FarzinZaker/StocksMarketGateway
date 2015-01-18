@@ -53,6 +53,9 @@
                     field: "correlation",
                     title: "${message(code:'tools.correlation.grid.correlation')}",
                     width: "130px",
+                    attributes: {
+                        style: "direction:ltr;text-align:right;"
+                    },
                     aggregates: ["average"],
                     groupFooterTemplate: "${message(code:'tools.correlation.grid.correlation.average')}: #=kendo.toString(average, 'n')#"
                 },

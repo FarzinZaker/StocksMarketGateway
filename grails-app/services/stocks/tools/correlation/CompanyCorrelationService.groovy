@@ -18,11 +18,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
                     (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
                     ['300', '400', '309', '404'].contains(item.type) &&
                     item.marketCode == 'NO'
-        }.collect { it.company }.findAll {
-            it
         }.unique { a, b -> a?.id <=> b?.id }.collect {
             [
-                    text : it.name,
+                    text : "${it.persianCode} - ${it.persianName}",
                     value: it.id
             ]
         }
@@ -30,12 +28,13 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     String getItemName(String item) {
-        Company.get(item as Long).name
+        def symbol = Symbol.get(item as Long)
+        "${symbol.persianCode} - ${symbol.persianName}"
     }
 
     @Override
     def all() {
-        Company.createCriteria().list {
+        Symbol.createCriteria().list {
             projections {
                 property('id')
             }
@@ -44,7 +43,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
-        List<Symbol> symList = getCompaniesSymbols(Company.findAllByIdInList(items.collect { it as Long }))
+        List<Symbol> symList = Symbol.findAllByIdInList(items.collect { it as Long })
         def itemList = SymbolDailyTrade.createCriteria().list {
             'in'('symbol', symList)
             isNotNull("${period}Snapshot")
@@ -52,9 +51,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
             lte("${period}Snapshot", endDate)
             projections {
                 symbol {
-                    company {
-                        property('id')
-                    }
+                    property('id')
                 }
                 property("${period}Snapshot")
                 property('closingPrice')
@@ -79,7 +76,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     List getItemValues(String item, Date startDate, Date endDate, String period) {
-        Symbol symbol = getCompanySymbol(Company.get(item as Long))
+        Symbol symbol = Symbol.get(item as Long)
         SymbolDailyTrade.createCriteria().list {
             eq('symbol', symbol)
             isNotNull("${period}Snapshot")
@@ -99,7 +96,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Double getBaseValue(String item, Date startDate) {
-        Symbol symbol = getCompanySymbol(Company.get(item as Long))
+        Symbol symbol = Symbol.get(item as Long)
         SymbolDailyTrade.get(SymbolDailyTrade.createCriteria().get {
             eq('symbol', symbol)
             lt('creationDate', startDate)
@@ -111,8 +108,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
-        def companies = Company.findAllByIdInList(items.collect { it as Long })
-        List<Symbol> symList = getCompaniesSymbols(companies)
+        List<Symbol> symList = Symbol.findAllByIdInList(items.collect { it as Long })
         def list = SymbolDailyTrade.createCriteria().list {
             'in'('symbol', symList)
             lt('creationDate', startDate)
@@ -124,36 +120,11 @@ class CompanyCorrelationService extends CorrelationServiceBase {
         def dailyTrades = SymbolDailyTrade.findAllByIdInList(list.collect { it[1] })
         def result = [:]
         list.each { item ->
-            def companyId = (item[0] as Symbol).companyId?.toString()
+            def symbolId = (item[0] as Symbol).id?.toString()
             def value = dailyTrades.find { it.id == (item[1] as Double) }?.closingPrice ?: 0
-            if (!result.containsKey(companyId))
-                result.put(companyId, value)
-        }
-
-        companies.each {
-            if (!result.keySet().contains(it.id.toString()))
-                result.put(it.id.toString(), 0)
+            if (!result.containsKey(symbolId))
+                result.put(symbolId, value)
         }
         result
-    }
-
-    Symbol getCompanySymbol(Company company) {
-        Symbol.findAllByCompany(company).find { Symbol item ->
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
-        }
-    }
-
-    List<Symbol> getCompaniesSymbols(List<Company> list) {
-        Symbol.findAllByCompanyInList(list).findAll { Symbol item ->
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
-        }
     }
 }

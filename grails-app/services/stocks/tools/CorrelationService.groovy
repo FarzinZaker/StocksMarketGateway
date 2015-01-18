@@ -1,6 +1,9 @@
 package stocks.tools
 
+import com.tictactec.ta.lib.Core
+import com.tictactec.ta.lib.MInteger
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import stocks.util.TypeCast
 
 import java.text.NumberFormat
 
@@ -25,9 +28,14 @@ class CorrelationService {
                 continue
             def minDate = sourceData.minDate as Date
             def maxDate = sourceData.maxDate as Date
-            def sourceAverage = sourceDataList.sum() / sourceDataList.size()
-            def sourceDiffList = sourceDataList.collect { it - sourceAverage }
-            def sourceDiffPowSum = sourceDiffList.sum { Math.pow(it as Double, 2) }
+
+            def core = new Core()
+            int start = 0
+            int end = sourceDataList.size() - 1
+            def MInteger beginIndex
+            def MInteger endIndex
+            double[] res
+            double[] sourceD = TypeCast.toDoubleArray(sourceDataList)
 
             def targetServices = getServiceClasses(targetGroup)
             for (def j = 0; j < targetServices.size(); j++) {
@@ -40,21 +48,28 @@ class CorrelationService {
                     def targetDataList = targetService.getItemChangeValues(targetItem, period, cache, baseValueCache, minDate, maxDate).itemChangeValues
                     if (targetDataList.size() == 0)
                         continue
-                    def targetAverage = targetDataList.sum() / targetDataList.size()
-                    def targetDiffList = sourceDataList.collect { it - targetAverage }
-                    def targetDiffPowSum = targetDiffList.sum { Math.pow(it as Double, 2) }
-                    def sourceDiffAndTargetDiffMultiplicationSum = 0
-                    for (def l = 0; l < sourceDiffList.size(); l++)
-                        sourceDiffAndTargetDiffMultiplicationSum += sourceDiffList[l] * targetDiffList[l]
 
-                    def correlation = sourceDiffAndTargetDiffMultiplicationSum / (Math.pow(sourceDiffPowSum as Double, 0.5) * Math.pow(targetDiffPowSum as Double, 0.5))
+                    double[] targetD = TypeCast.toDoubleArray(targetDataList)
+                    beginIndex = new MInteger()
+                    endIndex = new MInteger()
+                    res = new double[end + 1]
+                    def retCode = core.correl(
+                            start,
+                            end,
+                            sourceD,
+                            targetD,
+                            end + 1,
+                            beginIndex,
+                            endIndex,
+                            res)
+
                     result <<
                             [
                                     targetGroup    : targetService.class.name,
                                     targetGroupName: messageSource.getMessage(targetService.class.name, null, localeResolver.defaultLocale),
                                     targetItem     : targetItem,
                                     targetItemName : targetService.getItemName(targetItem),
-                                    correlation    : correlation == Double.NaN ? '0' : format.format(correlation)
+                                    correlation    : Math.round(res[0] * 100) / 100D
                             ]
                 }
             }

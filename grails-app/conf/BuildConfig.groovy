@@ -59,6 +59,9 @@ grails.project.dependency.resolution = {
 
         compile 'commons-httpclient:commons-httpclient:3.1'
         compile 'org.jsoup:jsoup:1.8.1'
+
+
+        compile 'com.tictactec:ta-lib:0.4.0'
     }
 
     plugins {

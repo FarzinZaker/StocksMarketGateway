@@ -109,10 +109,15 @@
 
                                 tooltip: {
                                     formatter: function () {
+
+                                        if (this.points.length < 2 && this.points[0].series.name == 'navigator_series')
+                                            return false;
+
                                         var s = getLongJalaliDate(new Date(this.x)) + '<br/>';
 
                                         $.each(this.points, function () {
-                                            s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + this.y + '</b><br/>';
+                                            if (this.series.name != 'navigator_series')
+                                                s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + this.y + '</b><br/>';
                                         });
 
                                         return s;
@@ -126,10 +131,12 @@
                             }
                             , function (chart) {
                                 chart.addSeries({
+                                    name: 'navigator_series',
                                     data: dataList[1],
                                     isInternal: true,
                                     xAxis: 1,
-                                    yAxis: 1
+                                    yAxis: 1,
+                                    showInLegend: false
                                 });
                             });
                 };
