@@ -33,7 +33,7 @@ public abstract class CorrelationServiceBase {
             minDate = itemValues.collect { it.date }.min() as Date
 
         def currentDate = minDate
-        def lastValue = baseValue
+        def lastValue = baseValue ?: 0
         while (currentDate <= maxDate) {
             def item = itemValues.find { it.date == currentDate }
             if (!item)
@@ -71,10 +71,12 @@ public abstract class CorrelationServiceBase {
         }
         def itemChangeValues = []
         for (def i = 1; i < itemValues.size(); i++)
-            itemChangeValues << (itemValues[i].value - itemValues[i - 1].value) / itemValues[i - 1].value
+            itemChangeValues << ((itemValues[i].value ?: 0) - (itemValues[i - 1].value ?: 0)) / (itemValues[i - 1].value ?: 1)
 
         [
-                itemChangeValues: itemChangeValues?.collect { it == Double.NaN || it == Double.POSITIVE_INFINITY || it == Double.NEGATIVE_INFINITY ? 0 : it },
+                itemChangeValues: itemChangeValues?.collect {
+                    it == Double.NaN || it == Double.POSITIVE_INFINITY || it == Double.NEGATIVE_INFINITY ? 0 : it
+                },
                 minDate         : itemValues.collect { it.date }.min(),
                 maxDate         : itemValues.collect { it.date }.max()
         ]
