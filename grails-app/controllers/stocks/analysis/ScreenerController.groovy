@@ -1,6 +1,6 @@
 package stocks.analysis
 
-import com.sun.servicetag.UnauthorizedAccessException
+//import com.sun.servicetag.UnauthorizedAccessException
 import grails.converters.JSON
 import grails.util.Environment
 import net.sf.json.JSONArray
@@ -158,7 +158,7 @@ class ScreenerController {
 
         def screener = Screener.get(params.id as Long)
         if (screener.ownerId != owner?.id && Environment.current != Environment.DEVELOPMENT)
-            throw new UnauthorizedAccessException()
+            render [] as JSON
 
         def list = filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule))
         value.total = list.size()
