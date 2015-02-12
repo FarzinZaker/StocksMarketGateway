@@ -36,6 +36,8 @@ class AdminController {
     def coinFutureDataService
     def currencyDataService
 
+    def symbolIndicatorService
+
     def index() {
     }
 
@@ -68,8 +70,22 @@ class AdminController {
 //        def test2 = FarsiNormalizationFilter.apply(test)
 //        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
 //        queryService.getDomainParameterValues(ParameterValue.get(39));
-        currencyDataService.importData()
+//        currencyDataService.importData()
 
+        def dailyTrade = stocks.tse.SymbolDailyTrade.createCriteria().list {
+            or {
+                isNull('indicatorsCalculated')
+                eq('indicatorsCalculated', false)
+            }
+            isNotNull('symbol')
+            order('date', ORDER_DESCENDING)
+            maxResults(1)
+        }?.find()
+        if(dailyTrade) {
+            symbolIndicatorService.calculateIndicators(stocks.tse.Symbol.get(dailyTrade.symbolId), dailyTrade.date)
+            dailyTrade.indicatorsCalculated = true
+            dailyTrade.save(flush: true)
+        }
     }
 
     def throwException() {

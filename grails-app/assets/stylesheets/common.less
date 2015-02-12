@@ -47,6 +47,10 @@ h3 {
   direction: rtl;
 }
 
+.inlineBlock {
+  display: inline-block;
+}
+
 .clear-fix {
   clear: both;
 }
@@ -693,13 +697,13 @@ span.has-error {
   text-align: center;
 }
 
-.left{
+.left {
   text-align: left;
 }
 
 .calculator {
-  th,td{
-    padding:5px;
+  th, td {
+    padding: 5px;
   }
   .baseInfo {
     background-color: white;
@@ -728,13 +732,13 @@ span.has-error {
   border: 1px solid #dadada;
 }
 
-.k-toolbar{
+.k-toolbar {
   margin-bottom: 5px;
-  padding-right:2px;
-  .k-button{
-    margin-top:3px;
-    &.k-overflow-anchor{
-      margin-top:0;
+  padding-right: 2px;
+  .k-button {
+    margin-top: 3px;
+    &.k-overflow-anchor {
+      margin-top: 0;
       border-width: 0 1px 0 0;
       float: left;
       padding: 0 0.5em;
@@ -751,12 +755,59 @@ span.has-error {
   cursor: default;
   margin: 0;
   padding: 3px 1em 3px 0.2em;
-//  text-align: left;
+  //  text-align: left;
 }
 
-.vertical-spacer-20{
-  clear:both;
-  margin-top:20px;
+.vertical-spacer-20 {
+  clear: both;
+  margin-top: 20px;
   content: ' ';
   line-height: 20px;
+}
+
+#filtersList .k-link.k-header {
+  //  background-color: @body-color;
+  //  color:@main-color !important;
+}
+
+.filter-value-panel {
+  background: #ffffff;
+  border: 1px solid #dadada;
+  padding: 10px;
+}
+
+#filter-query-panel {
+  border: 1px solid #dadada;
+  background: #EEEEEE;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  .queryItem {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #dadada;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    padding: 5px 10px;
+    &.readonly {
+      i.fa-close {
+        display: none;
+      }
+    }
+    i.fa-close {
+      color: @error-color;
+      font-size: 16px;
+      line-height: 16px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.filterParameter {
+  display: none;
+  margin-right: 10px;
+}
+
+.k-state-selected .filterParameter {
+  display: inline;
 }

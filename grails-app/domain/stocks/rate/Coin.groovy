@@ -15,6 +15,7 @@ class Coin {
     static mapping = {
         table 'rate_coin'
         percent column: 'perc'
+        symbol index: 'idx_symbol'
     }
 
     static constraints = {

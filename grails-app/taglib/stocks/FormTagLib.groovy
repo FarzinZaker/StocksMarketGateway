@@ -92,7 +92,13 @@ class FormTagLib {
             <script language='javascript' type='text/javascript'>
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoNumericTextBox({
-                        decimals: 0
+                        decimals: 0,
+                        format: 'n0'"""
+        if (attrs.onchange)
+            out << """
+                        ,change: ${attrs.onchange}
+"""
+        out << """
                     });
                 });
             </script>
@@ -137,7 +143,7 @@ class FormTagLib {
                 \$(document).ready(function() {
                     var data = ${attrs.items as JSON};
 
-                    \$("input[name=${attrs.name}]").removeClass('k-textbox').kendoComboBox({
+                    \$("#${attrs.id ?: attrs.name}").removeClass('k-textbox').kendoComboBox({
                         dataTextField: "text",
                         dataValueField: "value",
                         dataSource: data,
@@ -149,7 +155,7 @@ class FormTagLib {
         out << """
                         suggest:${attrs.suggest ?: 'false'},
                         change : function (e) {
-                            ${attrs.onchange ? "${attrs.onchange}(e);" : ''}
+                            ${attrs.onchange ? "${attrs.onchange}(e, this.value());" : ''}
 """
         if (attrs.allowUserInput != 'true')
             out << """
@@ -582,7 +588,8 @@ class FormTagLib {
             attrs.class
         }" value="${
             attrs.text
-        }"></input>
+        }"
+                ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}></input>
             <script language="javascript" type="text/javscript">
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoButton();

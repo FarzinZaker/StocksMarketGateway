@@ -4,7 +4,7 @@ import fi.joensuu.joyds1.calendar.JalaliCalendar
 
 
 class SnapshotJob {
-    def cronExpression = "0 25 15 * * ?"
+    def cronExpression = "0 0 1 * * ?"
 
     def snapshotService
 

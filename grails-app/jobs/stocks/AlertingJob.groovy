@@ -8,9 +8,9 @@ class AlertingJob {
     def queryService
     def sessionFactory
 
-//    static startDelay = 60000
-//    static timeout = 5000l
-//    static concurrent = false
+    static startDelay = 60000
+    static timeout = 5000l
+    static concurrent = false
 
     def execute() {
         def session = SessionFactoryUtils.getSession(sessionFactory, true)

@@ -1,14 +1,14 @@
-package stocks.commodity.persist
+package stocks.filters.symbol
 
 
 import grails.test.mixin.*
-import stocks.commodity.data.TradeDataService
+import stocks.filters.FilterService
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(TradeDataService)
-class TradeDataServiceTests {
+@TestFor(FilterService)
+class FilterServiceTests {
 
     void testSomething() {
         fail "Implement me"

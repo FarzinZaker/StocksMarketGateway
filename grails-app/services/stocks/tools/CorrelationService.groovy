@@ -53,7 +53,7 @@ class CorrelationService {
                     beginIndex = new MInteger()
                     endIndex = new MInteger()
                     res = new double[end + 1]
-                    def retCode = core.correl(
+                    core.correl(
                             start,
                             end,
                             sourceD,

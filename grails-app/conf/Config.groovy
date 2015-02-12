@@ -181,6 +181,16 @@ grails {
     }
 }
 
+grails.cache.config = {
+    cache {
+        name 'loadAllIndicatorValues'
+        eternal false
+        overflowToDisk false
+        maxElementsInMemory 10000000
+//        maxElementsOnDisk 10000000
+    }
+}
+
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'stocks.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRole'

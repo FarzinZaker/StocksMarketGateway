@@ -16,6 +16,7 @@ class Metal {
     static mapping = {
         table 'rate_metal'
         percent column: 'perc'
+        symbol index: 'idx_symbol'
     }
 
     static constraints = {

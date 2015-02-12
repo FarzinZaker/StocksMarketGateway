@@ -4,6 +4,7 @@ class BootStrap {
 
     def dataService
     def dataStateService
+    def grailsCacheManager
 
     def init = { servletContext ->
 
@@ -33,6 +34,9 @@ class BootStrap {
 
         dataStateService.initializeStateLogging()
         dataService.initializeJobs()
+
+        //init caches
+//        grailsCacheManager.getCache('loadAllIndicatorValues')
 
     }
     def destroy = {

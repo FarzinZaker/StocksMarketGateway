@@ -29,9 +29,13 @@ class SymbolDailyTrade {
     Date weeklySnapshot
     Date monthlySnapshot
 
+    Boolean indicatorsCalculated = false
+
     static mapping = {
         table 'tse_symbol_daily_trade'
         sort id: "desc"
+        symbol index: 'idx_symbol,idx_indicatorsCalculated'
+        indicatorsCalculated index: 'idx_indicatorsCalculated'
     }
 
     static constraints = {
@@ -56,5 +60,7 @@ class SymbolDailyTrade {
         dailySnapshot nullable: true
         weeklySnapshot nullable: true
         monthlySnapshot nullable: true
+
+        indicatorsCalculated nullable: true
     }
 }
