@@ -3,7 +3,6 @@ package stocks.filters
 import eu.verdelhan.ta4j.Tick
 import eu.verdelhan.ta4j.TimeSeries
 import fi.joensuu.joyds1.calendar.JalaliCalendar
-import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.joda.time.DateTime
