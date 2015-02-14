@@ -97,6 +97,10 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
+        searchable {
+            // disable bulk index on startup
+            bulkIndexOnStartup = false
+        }
     }
 }
 grails.assets.bundle=false

@@ -38,6 +38,8 @@ class AdminController {
 
     def symbolIndicatorService
 
+    def searchableService
+
     def index() {
     }
 
@@ -94,5 +96,9 @@ class AdminController {
 
     def scheduleItem() {
         scheduleService.calculateQueryInstanceNextExecutionTime(QueryInstance.get(params.id))
+    }
+
+    def reindex(){
+        searchableService.reindexAll()
     }
 }
