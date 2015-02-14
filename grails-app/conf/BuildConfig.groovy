@@ -69,9 +69,9 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
 
         // plugins for the compile step
-//        compile ":scaffolding:2.1.1"
-        compile ":cache:1.1.6"
-        compile ":cache-ehcache:1.0.1"
+////        compile ":scaffolding:2.1.1"
+//        compile ":cache:1.1.6"
+//        compile ":cache-ehcache:1.0.1"
         compile ":asset-pipeline:1.8.11"
 
         // plugins needed at runtime but not for compilation
