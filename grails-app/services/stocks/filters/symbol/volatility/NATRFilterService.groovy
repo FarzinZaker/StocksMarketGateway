@@ -1,15 +1,16 @@
-package stocks.filters.symbol.trend
+package stocks.filters.symbol.volatility
 
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
 import stocks.filters.Operators
 import stocks.filters.QueryFilterServiceBase
-import stocks.indicators.symbol.trend.AroonUp
+import stocks.indicators.symbol.trend.ADX
+import stocks.indicators.symbol.volatility.NATR
 
 import java.text.NumberFormat
 
-class AroonUpFilterService implements QueryFilterServiceBase {
+class NATRFilterService implements QueryFilterServiceBase {
 
     def lowLevelDataService
 
@@ -31,7 +32,7 @@ class AroonUpFilterService implements QueryFilterServiceBase {
 
     @Override
     def getFilterParamsModel() {
-        [value: 26]
+        [value: 14]
     }
 
     @Override
@@ -57,28 +58,28 @@ class AroonUpFilterService implements QueryFilterServiceBase {
         switch (operator) {
             case Operators.UPPER_THAN:
                 idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_value_filter', [
-                        sourceClass    : AroonUp.canonicalName,
+                        sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.LOWER_THAN:
                 idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_value_filter', [
-                        sourceClass    : AroonUp.canonicalName,
+                        sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.GO_UPPER_THAN:
                 idList = lowLevelDataService.executeStoredProcedure('indicator_go_upper_than_value_filter', [
-                        sourceClass    : AroonUp.canonicalName,
+                        sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.GO_LOWER_THAN:
                 idList = lowLevelDataService.executeStoredProcedure('indicator_go_lower_than_value_filter', [
-                        sourceClass    : AroonUp.canonicalName,
+                        sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
