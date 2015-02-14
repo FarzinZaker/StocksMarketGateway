@@ -1,11 +1,12 @@
 <table cellpadding="5">
     <tr>
-        <td></td>
+        <td rowspan="2" class="calculator-button">
+            <g:message code="tools.calculator.button"/>
+        </td>
         <td colspan="{{contracts.length}}" class="center resultTitle"><g:message
                 code="tools.calculator.grid.title"/></td>
     </tr>
     <tr>
-        <td></td>
         <td ng-repeat="contract in contracts" class="center resultSubtitle">{{contract.name}}</td>
     </tr>
     <tr>

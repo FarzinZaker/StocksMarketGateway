@@ -15,6 +15,8 @@
     <asset:javascript src="XIRR.js"/>
     <asset:javascript src="highcharts/highcharts.js"/>
     <asset:javascript src="highcharts/highcharts-ng.min.js"/>
+    <asset:javascript src="jquery.plugin.js"/>
+    <asset:javascript src="jquery.timer.js"/>
     <script language="JavaScript">
         var dollarPrice = ${dollarPrice};
         var onsPrice = ${onsPrice};
@@ -59,6 +61,36 @@
             <g:render template="calculator/chart"/>
         </div>
     </div>
+
+    <div id="timer"></div>
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+//            loadData();
+            $('#timer').timer({
+                delay: 2000,
+                repeat: true,
+                autostart: true,
+                callback: function (index) {
+                    loadData();
+                }
+            });
+        });
+
+        function loadData(){
+            $.ajax({
+                type: "POST",
+                url: '${createLink(action: 'calculatorJson')}'
+            }).done(function (response) {
+                var $scope = angular.element(document.getElementById('ngController')).scope();
+                $scope.dollarPrice = response.dollarPrice;
+                $scope.onsPrice = response.onsPrice;
+                $scope.coinPrice = response.coinPrice;
+                $scope.contracts = response.contracts;
+                $scope.$apply();
+            });
+        }
+    </script>
 </div>
 </body>
 </html>

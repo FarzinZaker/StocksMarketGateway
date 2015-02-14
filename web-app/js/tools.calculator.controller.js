@@ -3,12 +3,12 @@ var alertingQuery = angular.module('stocks', ["highcharts-ng"]);
 alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     //assumptions
     $scope.multiplicationCost = 20000.0;
-    $scope.addedValueTax = 1.0;
+    $scope.addedValueTax = 0;
     $scope.interestRate = 0.25;
     $scope.expectedReturn = 0.30;
-    $scope.borrowingRate = 0.23;
+    $scope.borrowingRate = 0.25;
     $scope.lendingRate = 0.20;
-    $scope.margin = 20000000.0;
+    $scope.margin = 22000000.0;
     $scope.marginChanges = 0.0;
 
     $scope.$watch('multiplicationCost', onScopeChange);
@@ -20,10 +20,10 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     $scope.$watch('margin', onScopeChange);
     $scope.$watch('marginChanges', onScopeChange);
 
-    $scope.dollarPrice = dollarPrice;
-    $scope.onsPrice = onsPrice;
-    $scope.coinPrice = coinPrice;
-    $scope.contracts = contracts;
+    $scope.dollarPrice = 0;
+    $scope.onsPrice = 0;
+    $scope.coinPrice = 0;
+    $scope.contracts = 0;
 
     $scope.coinTheoricPrice = function () {
         return (($scope.dollarPrice * $scope.onsPrice / 4.249) + $scope.multiplicationCost) * $scope.addedValueTax;

@@ -15,7 +15,8 @@
             <script language="javascript" type="text/javascript">
                 $(document).ready(function () {
                     $('#multiplicationCost').kendoNumericTextBox({
-                        format: "n0"
+                        format: "##,# ریال",
+                        step: 5000
                     });
                 });
             </script>
@@ -32,8 +33,10 @@
             <script language="javascript" type="text/javascript">
                 $(document).ready(function () {
                     $('#addedValueTax').kendoNumericTextBox({
-                        format: "n2",
-                        step: 0.1
+                        format: "p0",
+                        min: 0,
+                        max: 1,
+                        step: 0.01
                     });
                 });
             </script>
@@ -53,7 +56,8 @@
                         format: "p1",
                         min: 0,
                         max: 1,
-                        step: 0.01
+                        decimals: 3,
+                        step: 0.005
                     });
                 });
             </script>
@@ -73,7 +77,8 @@
                         format: "p1",
                         min: 0,
                         max: 1,
-                        step: 0.01
+                        decimals: 3,
+                        step: 0.005
                     });
                 });
             </script>
@@ -95,7 +100,8 @@
                         format: "p1",
                         min: 0,
                         max: 1,
-                        step: 0.01
+                        decimals: 3,
+                        step: 0.005
                     });
                 });
             </script>
@@ -115,7 +121,8 @@
                         format: "p1",
                         min: 0,
                         max: 1,
-                        step: 0.01
+                        decimals: 3,
+                        step: 0.005
                     });
                 });
             </script>
@@ -132,7 +139,8 @@
             <script language="javascript" type="text/javascript">
                 $(document).ready(function () {
                     $('#margin').kendoNumericTextBox({
-                        format: "n0"
+                        format: "##,# ریال",
+                        step: 1000000
                     });
                 });
             </script>
@@ -149,7 +157,8 @@
             <script language="javascript" type="text/javascript">
                 $(document).ready(function () {
                     $('#marginChanges').kendoNumericTextBox({
-                        format: "n0"
+                        format: "##,# ریال",
+                        step: 1000000
                     });
                 });
             </script>

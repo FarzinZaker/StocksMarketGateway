@@ -26,6 +26,15 @@
                         code="menu.tools.correlation"/></a></li>
             </ul>
         </li>
+        <li>
+            <g:message code="menu.screener"/>
+            <ul>
+                <li><a href="${createLink(controller: 'screener', action: 'list')}"><g:message
+                        code="menu.screener.list"/></a></li>
+                <li><a href="${createLink(controller: 'screener', action: 'build')}"><g:message
+                        code="menu.screener.new"/></a></li>
+            </ul>
+        </li>
         <g:render template="/layouts/common/menu"/>
     </ul>
 </div>

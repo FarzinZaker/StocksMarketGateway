@@ -38,6 +38,31 @@ class ToolsController {
         ]
     }
 
+    def calculatorJson() {
+
+        render([
+                dollarPrice: Currency.findBySymbol('us-dollar')?.price,
+                onsPrice   : Metal.findBySymbol('ons')?.price,
+                coinPrice  : Coin.findBySymbol('n-coin')?.price,
+                contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).collect { future ->
+                    def remainingDays = 0
+                    use(TimeCategory) {
+                        def duration = future.lastTradingDate - new Date()
+                        remainingDays = duration.days
+                        if (duration.hours > 0)
+                            remainingDays++
+
+                    }
+                    [
+                            name           : future.contractDescription,
+                            lastTradingDate: format.jalaliDate(date: future.lastTradingDate),
+                            remainingDays  : remainingDays,
+                            lastTradedPrice: future.lastTradedPrice
+                    ]
+                }
+        ] as JSON)
+    }
+
     def correlation() {
         def groups = grailsApplication.serviceClasses.findAll { service ->
             service.fullName.contains('stocks.tools.correlation')

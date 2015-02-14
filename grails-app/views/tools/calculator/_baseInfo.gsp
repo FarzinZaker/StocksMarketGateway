@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-sm-12 center">
-            <b>{{dollarPrice | number:0}}</b>
+            <b>{{dollarPrice | number:0}} <g:message code="rial"/></b>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-sm-12 center">
-            <b>{{onsPrice | number:2}}</b>
+            <b>{{onsPrice | number:2}} <g:message code="dollar"/></b>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-sm-12 center">
-            <b>{{coinPrice | number:0}}</b>
+            <b>{{coinPrice | number:0}} <g:message code="rial"/></b>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
         </div>
 
         <div class="col-sm-12 center">
-            <b>{{coinTheoricPrice() | number:0}}</b>
+            <b>{{coinTheoricPrice() | number:0}} <g:message code="rial"/></b>
         </div>
     </div>
 </div>

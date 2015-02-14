@@ -63,6 +63,27 @@
     </li>
     %{--tools end--}%
 
+    %{--screener start--}%
+    <li data-tile-type="s,5_s,8m">
+        <div>
+
+            <a class="tilt tilt-tile tilt-tile-crimson tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'list')}">
+                <i class="fa fa-filter"></i><span><g:message code="menu.screener.list"/></span>
+            </a>
+
+        </div>
+    </li>
+    <li data-tile-type="s,5_s,8m">
+        <div>
+
+            <a class="tilt tilt-tile tilt-tile-magenta tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'build')}">
+                <i class="fa fa-filter"></i><span><g:message code="menu.screener.new"/></span>
+            </a>
+
+        </div>
+    </li>
+    %{--screener end--}%
+
 
     <li data-tile-type="s,5_s,8m">
         <div>
