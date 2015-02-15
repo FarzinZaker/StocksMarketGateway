@@ -171,7 +171,7 @@ class ScreenerController {
                     persianCode: it.persianCode
             ]
         }
-        render value as JSON
+        render (value as JSON)
     }
 
 }
