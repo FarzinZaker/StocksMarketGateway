@@ -116,10 +116,7 @@ class SMAFilterService implements QueryFilterServiceBase {
 
 
         return Restrictions.in('id', idList?.collect {
-            def val = it?.values()?.first()
-            if (val)
-                val = (val as BigDecimal).toLong()
-            val
+            it?.toLong()
         }?.findAll { it } ?: [])
     }
 }
