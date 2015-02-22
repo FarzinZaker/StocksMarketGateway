@@ -38,6 +38,21 @@
             </div>
 
             <script>
+
+                function formatPriceChange(model) {
+                    if (model.priceChange > 0) {
+                        return Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
+                                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                                }) + "<i class='fa fa-icon fa-arrow-up' style='color: green;float:left;line-height:22px;'></i>";
+                    } else if (model.priceChange < 0) {
+                        return Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
+                                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                                }) + "<i class='fa fa-icon fa-arrow-down' style='color: red;float:left;;line-height:22px;'></i>";
+                    } else {
+                        return "-";
+                    }
+                }
+
                 $(document).ready(function () {
                     $("#grid").kendoGrid({
 
@@ -55,7 +70,20 @@
                                 model: {
                                     fields: {
                                         id: {type: "number"},
-                                        persianName: {type: "persianName"}
+                                        symbol: {type: "string"},
+                                        closingPrice: {type: "number"},
+                                        firstTradePrice: {type: "number"},
+                                        lastTradePrice: {type: "number"},
+                                        maxPrice: {type: "number"},
+                                        minPrice: {type: "number"},
+                                        priceChange: {type: "number"},
+                                        totalTradeCount: {type: "number"},
+                                        totalTradeValue: {type: "number"},
+                                        totalTradeVolume: {type: "number"},
+                                        yesterdayPrice: {type: "number"},
+                                        <g:each in="${indicatorColumns.keySet()}" var="indicatorColumn">
+                                        '${indicatorColumn}': {type: "number"},
+                                        </g:each>
                                     }
                                 },
                                 data: "data", // records are returned in the "data" field of the response
@@ -63,30 +91,74 @@
                             },
                             pageSize: 10
                         },
-                        height: 450,
+//                        height: 450,
                         filterable: false,
                         sortable: true,
                         pageable: true,
                         columns: [
-                            %{--{--}%
-                            %{--field: "id",--}%
-                            %{--title: "${message(code:'symbol.id.label')}",--}%
-                            %{--width: "70px",--}%
-                            %{--attributes: {style: "text-align: center"},--}%
-                            %{--headerAttributes: {style: "text-align: center"}--}%
-                            %{--},--}%
                             {
-                                field: "persianName",
-                                title: "${message(code:'symbol.persianName.label')}"
+                                field: "symbol",
+                                title: "${message(code:'symbol.title.label')}"
                             },
                             {
-                                field: "persianCode",
-                                title: "${message(code:'symbol.persianCode.label')}"
+                                field: "closingPrice",
+                                title: "${message(code:'symbol.closingPrice.label')}",
+                                format: '{0:n0}'
                             },
                             {
-                                field: "companyName",
-                                title: "${message(code:'symbol.companyName.label')}"
-                            }
+                                field: "firstTradePrice",
+                                title: "${message(code:'symbol.firstTradePrice.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "lastTradePrice",
+                                title: "${message(code:'symbol.lastTradePrice.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "maxPrice",
+                                title: "${message(code:'symbol.maxPrice.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "minPrice",
+                                title: "${message(code:'symbol.minPrice.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "priceChange",
+                                title: "${message(code:'symbol.priceChange.label')}",
+                                template: "#= formatPriceChange(data) #"
+
+                            },
+                            {
+                                field: "totalTradeCount",
+                                title: "${message(code:'symbol.totalTradeCount.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "totalTradeValue",
+                                title: "${message(code:'symbol.totalTradeValue.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "totalTradeVolume",
+                                title: "${message(code:'symbol.totalTradeVolume.label')}",
+                                format: '{0:n0}'
+                            },
+                            {
+                                field: "yesterdayPrice",
+                                title: "${message(code:'symbol.yesterdayPrice.label')}",
+                                format: '{0:n0}'
+                            },
+
+                            <g:each in="${indicatorColumns}" var="indicatorColumn">
+                            {
+                                field: "${indicatorColumn.key}",
+                                title: "${indicatorColumn.value}",
+                                format: '{0:n0}'
+                            },
+                            </g:each>
                         ]
                     });
                 });

@@ -5,10 +5,12 @@ import eu.verdelhan.ta4j.indicators.AbstractIndicator
 /**
  * Created by farzin on 03/02/2015.
  */
-public abstract class IndicatorServiceBase<T, K> {
+interface IndicatorServiceBase<T, K> {
 
-    public abstract List<K> getCommonParameters()
+    Boolean getEnabled()
 
-    public abstract Double calculate(T item, K parameter, Date date)
+    List<K> getCommonParameters()
+
+    Double calculate(T item, K parameter, Date date)
 
 }

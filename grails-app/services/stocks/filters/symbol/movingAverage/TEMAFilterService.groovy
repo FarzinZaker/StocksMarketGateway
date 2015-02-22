@@ -1,21 +1,28 @@
 package stocks.filters.symbol.movingAverage
 
-import eu.verdelhan.ta4j.indicators.AbstractIndicator
-import eu.verdelhan.ta4j.indicators.simple.PreCalculatedIndicator
 import grails.util.Holders
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import stocks.User
+import stocks.filters.FilterServiceBase
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
-import stocks.filters.TechnicalFilterServiceBase
+import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.movingAverage.TEMA
-import stocks.tse.Symbol
+import stocks.util.ClassResolver
 
-class TEMAFilterService implements QueryFilterServiceBase {
+class TEMAFilterService implements IncludeFilterService {
 
     def tradesDataService
     def lowLevelDataService
+    def messageSource
+    SessionLocaleResolver localeResolver
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     ArrayList<String> getOperators() {
@@ -35,7 +42,7 @@ class TEMAFilterService implements QueryFilterServiceBase {
 
     @Override
     def getFilterParamsModel() {
-        [value:21]
+        [value: 21]
     }
 
     @Override
@@ -48,6 +55,8 @@ class TEMAFilterService implements QueryFilterServiceBase {
         [
                 list: Holders.grailsApplication.getArtefacts('Service').findAll {
                     it.packageName == 'stocks.filters.symbol.movingAverage'
+                }.findAll {
+                    (ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase).enabled
                 }.collect {
                     [
                             text : it.name.replace('Filter', ''),
@@ -58,16 +67,16 @@ class TEMAFilterService implements QueryFilterServiceBase {
     }
 
     @Override
-    String formatQueryValue(Object value) {
+    String[] formatQueryValue(Object value, String operator) {
         def parameter = value.first()[1]
         if (parameter && parameter != '')
-            "${value.first()[0].split('\\.').last().replace('FilterService', '')} (${parameter})"
+            ["${value.first()[0].split('\\.').last().replace('FilterService', '')} (${parameter})"]
         else
-            "${value.first()[0].split('\\.').last().replace('FilterService', '')}"
+            [messageSource.getMessage(value.first()[0].split('\\.').last().replace('FilterService', ''), null, localeResolver.defaultLocale)]
     }
 
     @Override
-    Query.Criterion getCriteria(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
 
         def idList = []
         def targetIndicator = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
@@ -91,7 +100,7 @@ class TEMAFilterService implements QueryFilterServiceBase {
                 ])
                 break
             case Operators.CROSSING_TO_UP:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_indicator_filter', [
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
                         sourceClass    : TEMA.class.canonicalName,
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
@@ -99,7 +108,7 @@ class TEMAFilterService implements QueryFilterServiceBase {
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_indicator_filter', [
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
                         sourceClass    : targetIndicator,
                         sourceParameter: targetParameter,
                         targetClass    : TEMA.class.canonicalName,
@@ -108,9 +117,8 @@ class TEMAFilterService implements QueryFilterServiceBase {
                 break
         }
 
-
-        return Restrictions.in('id', idList?.collect {
-            it?.toLong()
-        }?.findAll { it } ?: [])
+        idList?.collect {
+            it?.values()?.first()?.toLong()
+        }
     }
 }

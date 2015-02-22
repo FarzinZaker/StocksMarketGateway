@@ -6,9 +6,14 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class BETAService extends IndicatorServiceBase<Symbol, Integer> {
+class BETAService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     List<Integer> getCommonParameters() {

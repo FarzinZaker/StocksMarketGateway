@@ -7,24 +7,29 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class RSIService extends IndicatorServiceBase<Symbol, Integer> {
+class RSIService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
 
     @Override
+    Boolean getEnabled() {
+        true
+    }
+
+    @Override
     List<Integer> getCommonParameters() {
-        [3, 7, 13, 26, 50, 200]
+        [14, 9]
     }
 
     @Override
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
-        def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter, date)
+        def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter + 1, date)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.rsi(0, parameter - 1, TypeCast.toDoubleArray(closeSeries), parameter, beginIndex, endIndex, result)
+        core.rsi(0, parameter, TypeCast.toDoubleArray(closeSeries), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
 }

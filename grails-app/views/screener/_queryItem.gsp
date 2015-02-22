@@ -1,5 +1,5 @@
 <i class="fa fa-close" onclick="removeQueryItem(this)"></i>
-<g:message code="filters.queryItem.${filter}.${operator}" args="${[text, parameter]}"/>
+<g:message code="filters.queryItem.${filter}.${operator}" args="${text + [parameter]}"/>
 <form>
     <g:hiddenField name="filter" value="${filter}"/>
     <g:hiddenField name="parameter" value="${parameter}"/>

@@ -13,4 +13,10 @@ public class ClassResolver {
     public static loadServiceByName(String serviceName) {
         Holders.applicationContext.getBean(Introspector.decapitalize(serviceName.split('\\.')?.last()))
     }
+
+    public static Boolean serviceExists(String serviceName){
+        Holders.grailsApplication.getArtefacts('Service').any {
+            it.fullName == serviceName
+        }
+    }
 }

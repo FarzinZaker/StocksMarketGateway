@@ -3,6 +3,8 @@ package stocks
 import grails.plugins.springsecurity.Secured
 import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
+import stocks.tse.SymbolDailyTrade
+import stocks.tse.Symbol
 
 @Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -74,20 +76,8 @@ class AdminController {
 //        queryService.getDomainParameterValues(ParameterValue.get(39));
 //        currencyDataService.importData()
 
-        def dailyTrade = stocks.tse.SymbolDailyTrade.createCriteria().list {
-            or {
-                isNull('indicatorsCalculated')
-                eq('indicatorsCalculated', false)
-            }
-            isNotNull('symbol')
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-        }?.find()
-        if(dailyTrade) {
-            symbolIndicatorService.calculateIndicators(stocks.tse.Symbol.get(dailyTrade.symbolId), dailyTrade.date)
-            dailyTrade.indicatorsCalculated = true
-            dailyTrade.save(flush: true)
-        }
+        def dailyTrade = SymbolDailyTrade.get(35645) //mellat bank
+        render symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date).replace('\n', '<br/>')
     }
 
     def throwException() {

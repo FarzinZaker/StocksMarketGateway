@@ -9,24 +9,29 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class DEMAService extends IndicatorServiceBase<Symbol, Integer> {
+class DEMAService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
 
     @Override
+    Boolean getEnabled() {
+        false
+    }
+
+    @Override
     List<Integer> getCommonParameters() {
-        [7,3,26,50,200]
+        [3, 7, 26, 50, 200]
     }
 
     @Override
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
-        def series = tradesDataService.getClosingPriceSeries(item, parameter, date)
+        def series = tradesDataService.getClosingPriceSeries(item, parameter * 2 - 1, date)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.dema(0, parameter - 1, TypeCast.toDoubleArray(series), parameter, beginIndex, endIndex, result)
+        core.dema(0, parameter * 2 - 2, TypeCast.toDoubleArray(series), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
 }

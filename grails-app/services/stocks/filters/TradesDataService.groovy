@@ -47,6 +47,14 @@ class TradesDataService {
             projections {
                 property('closingPrice')
             }
+        }.find() ?: SymbolDailyTrade.createCriteria().list {
+            eq('symbol', symbol)
+            lte('date', maxDate)
+            order('date', ORDER_ASCENDING)
+            maxResults(1)
+            projections {
+                property('closingPrice')
+            }
         }.find()
 
 //        if (!itemValues || itemValues.size() == 0)
@@ -99,7 +107,15 @@ class TradesDataService {
             order('date', ORDER_DESCENDING)
             maxResults(1)
             projections {
-                property('closingPrice')
+                property('minPrice')
+            }
+        }.find() ?: SymbolDailyTrade.createCriteria().list {
+            eq('symbol', symbol)
+            lte('date', maxDate)
+            order('date', ORDER_ASCENDING)
+            maxResults(1)
+            projections {
+                property('minPrice')
             }
         }.find()
 
@@ -153,7 +169,15 @@ class TradesDataService {
             order('date', ORDER_DESCENDING)
             maxResults(1)
             projections {
-                property('closingPrice')
+                property('maxPrice')
+            }
+        }.find() ?: SymbolDailyTrade.createCriteria().list {
+            eq('symbol', symbol)
+            lte('date', maxDate)
+            order('date', ORDER_ASCENDING)
+            maxResults(1)
+            projections {
+                property('maxPrice')
             }
         }.find()
 

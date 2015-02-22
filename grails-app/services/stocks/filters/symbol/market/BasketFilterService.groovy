@@ -4,16 +4,23 @@ import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Query.Criterion
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
+import stocks.filters.ExcludeFilterService
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
+import stocks.filters.QueryFilterService
 import stocks.portfolio.Portfolio
 import stocks.portfolio.PortfolioItem
 
 import javax.naming.OperationNotSupportedException
 
-class BasketFilterService implements QueryFilterServiceBase {
+class BasketFilterService implements IncludeFilterService, ExcludeFilterService {
 
     def springSecurityService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     ArrayList<String> getOperators() {
@@ -51,23 +58,25 @@ class BasketFilterService implements QueryFilterServiceBase {
     }
 
     @Override
-    String formatQueryValue(Object value) {
-        value.collect { Portfolio.get(it as Long).name }.join('، ')
+    String[] formatQueryValue(Object value, String operator) {
+        [value.collect { Portfolio.get(it as Long).name }.join('، ')]
     }
 
     @Override
-    Criterion getCriteria(String parameter, String operator, Object value) {
-        switch (operator) {
-            case Operators.MEMBER_OF:
-                return Restrictions.in('id', PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
-                    it.symbol?.id
-                })
-            case Operators.NOT_MEMBER_OF:
-                return new Query.Negation().add(Restrictions.in('id', PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
-                    it.symbol?.id
-                }))
-            default:
-                throw new OperationNotSupportedException("Invalid operator for ${this.class.simpleName}: ${operator}")
-        }
+    List<Long> getExcludeList(String parameter, String operator, Object value) {
+        if (operator == Operators.NOT_MEMBER_OF)
+            return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+                it.symbol?.id
+            }
+        null
+    }
+
+    @Override
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
+        if (operator == Operators.MEMBER_OF)
+            return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+                it.symbol?.id
+            }
+        null
     }
 }

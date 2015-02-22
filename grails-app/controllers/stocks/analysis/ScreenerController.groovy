@@ -35,10 +35,10 @@ class ScreenerController {
                         operator : rule.operator,
                         value    : value,
                         parameter: rule.inputType,
-                        text     : message(code: (ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value))
+                        text     : (ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value, rule.operator)
                 ]
             }
-        [filterMap: filterMap, screener: screener, rules: rules]
+        [filterMap: filterMap.findAll { it.value.size() }, screener: screener, rules: rules]
     }
 
     def operators() {
@@ -54,7 +54,7 @@ class ScreenerController {
         def value = params.findAll { it.key.toString().contains('value') }.collect {
             it.value == 'on' ? it.key.toString().replace('value_', '') : it.value
         }
-        render template: 'queryItem', model: [text: message(code: filterService.getQueryText(params.filter?.toString(), value)), filter: params.filter, parameter: params.parameter, operator: params.operator, value: value as JSON]
+        render template: 'queryItem', model: [text: filterService.getQueryText(params.filter?.toString(), params.operator, value), filter: params.filter, parameter: params.parameter, operator: params.operator, value: value as JSON]
     }
 
     def save() {
@@ -75,7 +75,10 @@ class ScreenerController {
         screener.save(flush: true)
         rule?.delete()
 
-        redirect(action: 'list')
+        if (params.submitAndExit)
+            redirect(action: 'list')
+        else
+            redirect(action: 'build', id: screener.id)
     }
 
     Rule parseRules(String ruleStr) {
@@ -135,16 +138,29 @@ class ScreenerController {
 
     def view() {
         def screener = Screener.get(params.id as Long)
+        def rules = Rule.findAllByParent(screener?.rule)
+        def indicatorColumns = [:]
+        rules.each { rule ->
+            def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
+            if (ClassResolver.serviceExists(indicatorName + "Service"))
+                indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}", "(${message(code: rule.field)} (${rule.inputType}")
+
+            def value =  JSON.parse(rule.value)?.first()
+            indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+            if (ClassResolver.serviceExists(indicatorName + "Service"))
+                indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}", "(${message(code: value?.first())} (${value?.last()}")
+        }
         [
-                screener: screener,
-                rules   : Rule.findAllByParent(screener?.rule).collect { rule ->
+                screener        : screener,
+                indicatorColumns: indicatorColumns,
+                rules           : rules.collect { rule ->
                     def value = JSON.parse(rule.value)
                     [
                             filter   : rule.field,
                             parameter: rule.inputType,
                             operator : rule.operator,
                             value    : value,
-                            text     : (ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value)
+                            text     : (ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value, rule.operator)
                     ]
 
                 }
@@ -158,20 +174,13 @@ class ScreenerController {
 
         def screener = Screener.get(params.id as Long)
         if (screener.ownerId != owner?.id && Environment.current != Environment.DEVELOPMENT)
-            render [] as JSON
+            render[] as JSON
 
         def list = filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule))
         value.total = list.size()
 
-        value.data = list.collect {
-            [
-                    id         : it.id,
-                    persianName: it.persianName,
-                    companyName: it.companyName,
-                    persianCode: it.persianCode
-            ]
-        }
-        render (value as JSON)
+        value.data = list
+        render(value as JSON)
     }
 
 }

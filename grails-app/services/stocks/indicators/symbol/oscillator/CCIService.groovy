@@ -7,13 +7,18 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class CCIService extends IndicatorServiceBase<Symbol, Integer> {
+class CCIService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
 
     @Override
+    Boolean getEnabled() {
+        true
+    }
+
+    @Override
     List<Integer> getCommonParameters() {
-        [3, 7, 13, 26, 50, 200]
+        [14]
     }
 
     @Override

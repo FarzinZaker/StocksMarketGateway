@@ -1,24 +1,29 @@
 package stocks.filters.symbol.value
 
-import org.grails.datastore.mapping.query.Query
-import org.grails.datastore.mapping.query.Restrictions
+import grails.converters.JSON
+import groovy.time.TimeCategory
 import stocks.User
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
-import stocks.tse.SymbolDailyTrade
 
-import javax.naming.OperationNotSupportedException
 import java.text.NumberFormat
 
-class VolumeFilterService implements QueryFilterServiceBase {
+class VolumeFilterService implements IncludeFilterService {
+
+    def lowLevelDataService
+
+    @Override
+    Boolean getEnabled() {
+        true
+    }
 
     @Override
     ArrayList<String> getOperators() {
         [
                 Operators.GREATER_THAN,
-                Operators.GREATER_THAN_OR_EQUAL,
                 Operators.LESS_THAN,
-                Operators.LESS_THAN_OR_EQUAL
+                Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN,
+                Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN
         ]
     }
 
@@ -34,46 +39,75 @@ class VolumeFilterService implements QueryFilterServiceBase {
 
     @Override
     String getValueTemplate(String operator) {
-        'value'
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                return 'value'
+            case Operators.LESS_THAN:
+                return 'value'
+            case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return 'percent'
+            case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return 'percent'
+            default:
+                return 'value'
+        }
     }
 
     @Override
     def getValueModel(User user, String operator) {
-        [:]
-    }
-
-    @Override
-    String formatQueryValue(Object value) {
-        value.collect { NumberFormat.instance.format(it as Double) }.join('، ')
-    }
-
-    @Override
-    Query.Criterion getCriteria(String parameter, String operator, Object value) {
-        def lastSymbolDailyTrades = SymbolDailyTrade.createCriteria().list {
-            projections {
-                groupProperty('symbol')
-                max('id')
-            }
-        }.collect { it.last() }
         switch (operator) {
             case Operators.GREATER_THAN:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByTotalTradeVolumeGreaterThanAndIdInList(value.find() as Integer, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
-            case Operators.GREATER_THAN_OR_EQUAL:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByTotalTradeVolumeGreaterThanEqualsAndIdInList(value.find() as Integer, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
+                return [value: 100000]
             case Operators.LESS_THAN:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByTotalTradeVolumeLessThanAndIdInList(value.find() as Integer, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
-            case Operators.LESS_THAN_OR_EQUAL:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByTotalTradeVolumeLessThanEqualsAndIdInList(value.find() as Integer, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
+                return [value: 100000]
+            case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return [percent: 0.1, days: 30]
+            case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return [percent: 0.1, days: 30]
             default:
-                throw new OperationNotSupportedException("Invalid operator for ${this.class.simpleName}: ${operator}")
+                return [value: 100000]
+        }
+    }
+
+    @Override
+    String[] formatQueryValue(Object value, String operator) {
+        if (operator in [Operators.GREATER_THAN, Operators.LESS_THAN])
+            [NumberFormat.instance.format(value.first() as Double)]
+        else
+            [NumberFormat.instance.format((value.first().first() as Double) * 100), NumberFormat.instance.format((value.first().last() as Double))]
+    }
+
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
+        def idList = []
+        def parsedValue = JSON.parse(value?.toString()).first()
+
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('volume_greater_than', [
+                        value: parsedValue as double
+                ])
+                break
+            case Operators.LESS_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('volume_less_than', [
+                        value: parsedValue as double
+                ])
+                break
+            case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('volume_positive_change_compare_to_average_greater_than', [
+                        percent: parsedValue.first() as double,
+                        days   : parsedValue.last() as Integer
+                ])
+                break
+            case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('volume_negative_change_compare_to_average_greater_than', [
+                        percent: parsedValue.first() as double,
+                        days   : parsedValue.last() as Integer
+                ])
+                break
+        }
+
+        idList?.collect {
+            it?.values()?.first()?.toLong()
         }
     }
 }

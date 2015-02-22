@@ -3,15 +3,21 @@ package stocks.filters.symbol.oscillator
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
+import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.oscillator.ROC
 
 import java.text.NumberFormat
 
-class ROCFilterService implements QueryFilterServiceBase {
+class ROCFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     ArrayList<String> getOperators() {
@@ -31,7 +37,7 @@ class ROCFilterService implements QueryFilterServiceBase {
 
     @Override
     def getFilterParamsModel() {
-        [value: 13]
+        [value: 10]
     }
 
     @Override
@@ -45,12 +51,12 @@ class ROCFilterService implements QueryFilterServiceBase {
     }
 
     @Override
-    String formatQueryValue(Object value) {
-        value.collect { NumberFormat.instance.format(it as Double) }.join('، ')
+    String[] formatQueryValue(Object value, String operator) {
+        [NumberFormat.instance.format(value.first() as Double)]
     }
 
     @Override
-    Query.Criterion getCriteria(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
         def idList = []
         def targetValue = value.first()
 
@@ -85,8 +91,8 @@ class ROCFilterService implements QueryFilterServiceBase {
                 break
         }
 
-        return Restrictions.in('id', idList?.collect {
-            it?.toLong()
-        }?.findAll { it } ?: [])
+        idList?.collect {
+            it?.values()?.first()?.toLong()
+        }
     }
 }

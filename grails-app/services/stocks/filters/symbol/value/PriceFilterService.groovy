@@ -1,23 +1,30 @@
 package stocks.filters.symbol.value
 
-import org.grails.datastore.mapping.query.Query.Criterion
-import org.grails.datastore.mapping.query.Restrictions
+import grails.converters.JSON
 import stocks.User
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
-import stocks.tse.SymbolDailyTrade
 
-import javax.naming.OperationNotSupportedException
 import java.text.NumberFormat
 
-class PriceFilterService implements QueryFilterServiceBase {
+class PriceFilterService implements IncludeFilterService {
+
+    def lowLevelDataService
+
+    @Override
+    Boolean getEnabled() {
+        true
+    }
+
     @Override
     ArrayList<String> getOperators() {
         [
                 Operators.GREATER_THAN,
-                Operators.GREATER_THAN_OR_EQUAL,
                 Operators.LESS_THAN,
-                Operators.LESS_THAN_OR_EQUAL
+                Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN,
+                Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN,
+                Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN,
+                Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN
         ]
     }
 
@@ -33,46 +40,92 @@ class PriceFilterService implements QueryFilterServiceBase {
 
     @Override
     String getValueTemplate(String operator) {
-        'value'
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                return 'value'
+            case Operators.LESS_THAN:
+                return 'value'
+            case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return 'percent'
+            case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return 'percent'
+            case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return 'percent'
+            case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return 'percent'
+            default:
+                return 'value'
+        }
     }
 
     @Override
     def getValueModel(User user, String operator) {
-        [:]
-    }
-
-    @Override
-    String formatQueryValue(Object value) {
-        value.collect { NumberFormat.instance.format(it as Double) }.join('، ')
-    }
-
-    @Override
-    Criterion getCriteria(String parameter, String operator, Object value) {
-        def lastSymbolDailyTrades = SymbolDailyTrade.createCriteria().list {
-            projections {
-                groupProperty('symbol')
-                max('id')
-            }
-        }.collect { it.last() }
         switch (operator) {
             case Operators.GREATER_THAN:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByClosingPriceGreaterThanAndIdInList(value.find() as Long, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
-            case Operators.GREATER_THAN_OR_EQUAL:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByClosingPriceGreaterThanEqualsAndIdInList(value.find() as Long, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
+                return [value: 1000]
             case Operators.LESS_THAN:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByClosingPriceLessThanAndIdInList(value.find() as Long, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
-            case Operators.LESS_THAN_OR_EQUAL:
-                return Restrictions.in('id', SymbolDailyTrade.findAllByClosingPriceLessThanEqualsAndIdInList(value.find() as Long, lastSymbolDailyTrades).collect {
-                    it.symbol?.id
-                })
+                return [value: 1000]
+            case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return [value: 0.1]
+            case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return [value: 0.1]
+            case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return [value: 0.1]
+            case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return [value: 0.1]
             default:
-                throw new OperationNotSupportedException("Invalid operator for ${this.class.simpleName}: ${operator}")
+                return [value: 1000]
+        }
+    }
+
+    @Override
+    String[] formatQueryValue(Object value, String operator) {
+        if (operator in [Operators.GREATER_THAN, Operators.LESS_THAN])
+            [NumberFormat.instance.format(value.first() as Double)]
+        else
+            [NumberFormat.instance.format((value.first() as Double) * 100)]
+    }
+
+    @Override
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
+        def idList = []
+        def parsedValue = JSON.parse(value?.toString()).find()
+
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_greater_than', [
+                        value: parsedValue as double
+                ])
+                break
+            case Operators.LESS_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_less_than', [
+                        value: parsedValue as double
+                ])
+                break
+            case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_positive_change_compare_to_previous_day_greater_than', [
+                        percent: parsedValue as double
+                ])
+                break
+            case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_negative_change_compare_to_previous_day_greater_than', [
+                        percent: parsedValue as double
+                ])
+                break
+            case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_positive_change_compare_to_first_price_greater_than', [
+                        percent: parsedValue as double
+                ])
+                break
+            case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                idList = lowLevelDataService.executeStoredProcedure('price_negative_change_compare_to_first_price_greater_than', [
+                        percent: parsedValue as double
+                ])
+                break
+        }
+
+        idList?.collect {
+            it?.values()?.first()?.toLong()
         }
     }
 }

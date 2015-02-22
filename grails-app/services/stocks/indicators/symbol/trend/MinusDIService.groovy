@@ -6,9 +6,14 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class MinusDIService extends IndicatorServiceBase<Symbol, Integer> {
+class MinusDIService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     List<Integer> getCommonParameters() {

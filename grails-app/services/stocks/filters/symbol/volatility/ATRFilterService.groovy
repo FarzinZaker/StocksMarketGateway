@@ -3,16 +3,21 @@ package stocks.filters.symbol.volatility
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
+import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterServiceBase
-import stocks.indicators.symbol.trend.ADX
+import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.volatility.ATR
 
 import java.text.NumberFormat
 
-class ATRFilterService implements QueryFilterServiceBase {
+class ATRFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     ArrayList<String> getOperators() {
@@ -46,12 +51,12 @@ class ATRFilterService implements QueryFilterServiceBase {
     }
 
     @Override
-    String formatQueryValue(Object value) {
-        value.collect { NumberFormat.instance.format(it as Double) }.join('، ')
+    String[] formatQueryValue(Object value, String operator) {
+        [NumberFormat.instance.format(value.first() as Double)]
     }
 
     @Override
-    Query.Criterion getCriteria(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value) {
         def idList = []
         def targetValue = value.first()
 
@@ -86,8 +91,8 @@ class ATRFilterService implements QueryFilterServiceBase {
                 break
         }
 
-        return Restrictions.in('id', idList?.collect {
-            it?.toLong()
-        }?.findAll { it } ?: [])
+        idList?.collect {
+            it?.values()?.first()?.toLong()
+        }
     }
 }

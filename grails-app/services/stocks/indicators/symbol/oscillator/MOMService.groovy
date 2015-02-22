@@ -7,9 +7,14 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class MOMService extends IndicatorServiceBase<Symbol, Integer> {
+class MOMService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
+
+    @Override
+    Boolean getEnabled() {
+        true
+    }
 
     @Override
     List<Integer> getCommonParameters() {
@@ -19,12 +24,12 @@ class MOMService extends IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
-        def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter, date)
+        def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter + 1, date)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.mom(0, parameter - 1, TypeCast.toDoubleArray(closeSeries), parameter, beginIndex, endIndex, result)
+        core.mom(0, parameter, TypeCast.toDoubleArray(closeSeries), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
 }

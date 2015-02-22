@@ -7,13 +7,18 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class ROCService extends IndicatorServiceBase<Symbol, Integer> {
+class ROCService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
 
     @Override
+    Boolean getEnabled() {
+        false
+    }
+
+    @Override
     List<Integer> getCommonParameters() {
-        [3, 7, 13, 26, 50, 200]
+        [10]
     }
 
     @Override

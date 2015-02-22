@@ -6,9 +6,14 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class PSARService extends IndicatorServiceBase<Symbol, List<Integer>> {
+class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
 
     def tradesDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     List<List<Integer>> getCommonParameters() {

@@ -1,8 +1,10 @@
 package stocks
 
+import stocks.indicators.IndicatorServiceBase
 import stocks.indicators.SymbolIndicatorService
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
+import stocks.util.ClassResolver
 
 
 class IndicatorJob {
@@ -12,22 +14,44 @@ class IndicatorJob {
     static concurrent = false
 
     def symbolIndicatorService
+    def grailsApplication
+    def lowLevelDataService
 
     def execute() {
-
-        def dailyTrade = SymbolDailyTrade.createCriteria().list {
-            or {
-                isNull('indicatorsCalculated')
-                eq('indicatorsCalculated', false)
+        grailsApplication.getArtefacts('Service').findAll {
+            it.fullName.startsWith("stocks.indicators.symbol.")
+        }.each { serviceClass ->
+            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+            if(service.enabled) {
+                service.commonParameters.each { parameter ->
+//                    println(serviceClass.fullName)
+//                    println(parameter)
+                    def id = lowLevelDataService.executeStoredProcedure('symbol_daily_trade_select_not_indexed',
+                            [
+                                    'class'    : serviceClass.fullName.replace('Service', ''),
+                                    'parameter': parameter.class == ArrayList ? parameter.join(',') : parameter
+                            ])?.first()?.values()?.first()?.toLong()
+                    if (id) {
+                        def dailyTrade = SymbolDailyTrade.get(id as Long)
+                        symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
+                    }
+                }
             }
-            isNotNull('symbol')
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-        }?.find()
-        if(dailyTrade) {
-            symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date)
-            dailyTrade.indicatorsCalculated = true
-            dailyTrade.save(flush: true)
         }
+
+//        def dailyTrade = SymbolDailyTrade.createCriteria().list {
+//            or {
+//                isNull('indicatorsCalculated')
+//                eq('indicatorsCalculated', false)
+//            }
+//            isNotNull('symbol')
+//            order('date', ORDER_DESCENDING)
+//            maxResults(1)
+//        }?.find()
+//        if (dailyTrade) {
+//            symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date)
+//            dailyTrade.indicatorsCalculated = true
+//            dailyTrade.save(flush: true)
+//        }
     }
 }

@@ -25,7 +25,7 @@ class LowLevelDataService {
         log.info "Running: $sqlCall with params $parameters"
         def rows = []
         try {
-            rows = sql.rows(sqlCall, parameters)?.collect { it?.values()?.first() }
+            rows = sql.rows(sqlCall, parameters)
         } catch (Exception e) {
             log.warn "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()}", e
         }

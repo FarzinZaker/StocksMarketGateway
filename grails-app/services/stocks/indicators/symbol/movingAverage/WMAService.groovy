@@ -9,9 +9,14 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class WMAService extends IndicatorServiceBase<Symbol, Integer> {
+class WMAService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
+
+    @Override
+    Boolean getEnabled() {
+        false
+    }
 
     @Override
     List<Integer> getCommonParameters() {

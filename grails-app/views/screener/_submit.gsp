@@ -4,6 +4,7 @@
     <g:hiddenField name="rules" id="form_rules"/>
     <div class="toolbar" style="border-top:1px dashed #9e9e9e;margin0top:10px;padding-top:10px;" onclick="gatherData()">
         <form:submitButton name="submit" text="${message(code: 'screener.save')}"/>
+        <form:submitButton name="submitAndExit" text="${message(code: 'screener.saveAndExit')}"/>
     </div>
 </g:form>
 

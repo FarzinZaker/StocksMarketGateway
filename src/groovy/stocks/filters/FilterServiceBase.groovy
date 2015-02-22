@@ -7,7 +7,9 @@ import stocks.User
  */
 interface FilterServiceBase {
 
-    ArrayList<String> getOperators();
+    Boolean getEnabled()
+
+    ArrayList<String> getOperators()
 
     String getFilterParamsTemplate()
 
@@ -17,5 +19,5 @@ interface FilterServiceBase {
 
     def getValueModel(User user, String operator)
 
-    String formatQueryValue(value)
+    String[] formatQueryValue(value, String operator)
 }

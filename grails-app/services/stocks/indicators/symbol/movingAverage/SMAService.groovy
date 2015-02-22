@@ -9,13 +9,18 @@ import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.util.TypeCast
 
-class SMAService extends IndicatorServiceBase<Symbol, Integer> {
+class SMAService implements IndicatorServiceBase<Symbol, Integer> {
 
     def tradesDataService
 
     @Override
+    public Boolean getEnabled(){
+        true
+    }
+
+    @Override
     List<Integer> getCommonParameters() {
-        [7,3,26,50,200]
+        [7, 13, 26, 50, 200]
     }
 
     @Override
