@@ -16,7 +16,7 @@ class RSIFilterService implements IncludeFilterService {
 
     @Override
     Boolean getEnabled() {
-        true
+        false
     }
 
     @Override
@@ -25,8 +25,8 @@ class RSIFilterService implements IncludeFilterService {
         [
                 Operators.UPPER_THAN,
                 Operators.LOWER_THAN,
-                Operators.GO_UPPER_THAN,
-                Operators.GO_LOWER_THAN
+                Operators.CROSSING_TO_UP,
+                Operators.CROSSING_TO_DOWN
         ]
     }
 
@@ -47,7 +47,7 @@ class RSIFilterService implements IncludeFilterService {
 
     @Override
     def getValueModel(User user, String operator) {
-        [:]
+        [value: 50]
     }
 
     @Override

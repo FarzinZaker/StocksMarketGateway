@@ -15,7 +15,7 @@ import javax.naming.OperationNotSupportedException
 class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     @Override
     Boolean getEnabled() {
-        false
+        true
     }
 
     @Override
@@ -47,9 +47,9 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
                 indexes: Index.findAll().collect {
                     [
                             id  : it.id,
-                            name: it.persianName
+                            name: it.toString()
                     ]
-                }
+                }.sort { it.name }
         ]
     }
 

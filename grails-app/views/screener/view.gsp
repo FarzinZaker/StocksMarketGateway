@@ -5,7 +5,7 @@
   Time: 4:48 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.util.Environment" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -96,6 +96,15 @@
                         sortable: true,
                         pageable: true,
                         columns: [
+                            <g:if test="${Environment.developmentMode}">
+                            {
+                                field: "id",
+                                title: "#",
+                                width: "70px",
+                                attributes: { style: "text-align: center"},
+                                headerAttributes: { style: "text-align: center"}
+                            },
+                            </g:if>
                             {
                                 field: "symbol",
                                 title: "${message(code:'symbol.title.label')}"

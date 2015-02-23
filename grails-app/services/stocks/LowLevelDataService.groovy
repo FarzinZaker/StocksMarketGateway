@@ -27,9 +27,10 @@ class LowLevelDataService {
         try {
             rows = sql.rows(sqlCall, parameters)
         } catch (Exception e) {
-            log.warn "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()}", e
+            println() "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
         }
+//        connection.close()
+        println rows
         rows
-
     }
 }

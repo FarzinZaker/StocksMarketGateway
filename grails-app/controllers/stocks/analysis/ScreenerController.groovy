@@ -3,12 +3,12 @@ package stocks.analysis
 //import com.sun.servicetag.UnauthorizedAccessException
 import grails.converters.JSON
 import grails.util.Environment
-import net.sf.json.JSONArray
 import stocks.User
 import stocks.alerting.Rule
 import stocks.filters.FilterServiceBase
 import stocks.tse.Symbol
 import stocks.util.ClassResolver
+import org.codehaus.groovy.grails.web.json.JSONArray
 
 class ScreenerController {
 
@@ -146,9 +146,11 @@ class ScreenerController {
                 indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}", "(${message(code: rule.field)} (${rule.inputType}")
 
             def value =  JSON.parse(rule.value)?.first()
-            indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
-            if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}", "(${message(code: value?.first())} (${value?.last()}")
+            if(value instanceof JSONArray) {
+                indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+                if (ClassResolver.serviceExists(indicatorName + "Service"))
+                    indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}", "(${message(code: value?.first())} (${value?.last()}")
+            }
         }
         [
                 screener        : screener,

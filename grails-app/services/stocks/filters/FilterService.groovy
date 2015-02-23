@@ -79,13 +79,14 @@ class FilterService {
         includeFilters.each {
             if (!noResult) {
                 def newCollection = (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
-                if (newCollection && newCollection.size()) {
-                    if (includeList.size() == 0)
-                        includeList.addAll(newCollection)
-                    else
-                        includeList = includeList.intersect(newCollection)
-                } else
-                    noResult = true
+                if (newCollection)
+                    if (newCollection.size()) {
+                        if (includeList.size() == 0)
+                            includeList.addAll(newCollection)
+                        else
+                            includeList = includeList.intersect(newCollection)
+                    } else
+                        noResult = true
             }
         }
 

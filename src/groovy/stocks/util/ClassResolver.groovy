@@ -19,4 +19,8 @@ public class ClassResolver {
             it.fullName == serviceName
         }
     }
+
+    public static def loadDomainClassByName(String domainName){
+        Holders.grailsApplication.getDomainClass(domainName).clazz
+    }
 }

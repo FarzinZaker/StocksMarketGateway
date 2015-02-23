@@ -16,7 +16,7 @@ class MACDFilterService implements IncludeFilterService {
 
     @Override
     Boolean getEnabled() {
-        true
+        false
     }
 
     @Override

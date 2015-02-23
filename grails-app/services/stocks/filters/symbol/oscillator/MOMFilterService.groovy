@@ -16,7 +16,7 @@ class MOMFilterService implements IncludeFilterService {
 
     @Override
     Boolean getEnabled() {
-        true
+        false
     }
 
     @Override

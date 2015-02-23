@@ -35,6 +35,7 @@ class Index {
 
     static mapping = {
         table 'tse_index'
+        sort 'persianName'
     }
 
     static constraints = {
@@ -61,5 +62,13 @@ class Index {
         averageSymbolChangePercent nullable: true, query: true, token: true
         averageDecreasedSymbolsChangePercent nullable: true, query: true, token: true
         averageIncreasedSymbolsChangePercent nullable: true, query: true, token: true
+    }
+
+    @Override
+    String toString(){
+        if(persianName.contains('-'))
+            persianName.split('-').last()
+        else
+            persianName
     }
 }

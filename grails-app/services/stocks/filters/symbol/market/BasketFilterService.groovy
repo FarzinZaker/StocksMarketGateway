@@ -19,7 +19,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
 
     @Override
     Boolean getEnabled() {
-        false
+        true
     }
 
     @Override
@@ -32,12 +32,12 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
 
     @Override
     String getFilterParamsTemplate() {
-        return null
+        null
     }
 
     @Override
     def getFilterParamsModel() {
-        return null
+        null
     }
 
     @Override

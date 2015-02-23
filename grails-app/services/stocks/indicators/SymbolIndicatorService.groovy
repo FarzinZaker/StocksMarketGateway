@@ -12,7 +12,7 @@ class SymbolIndicatorService {
     def lowLevelDataService
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
-        def symbol = Symbol.get(dailyTrade.symbolId)
+        def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
 //        if (!symbol) {
 //            symbol = Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
 //            if (symbol) {
@@ -21,39 +21,19 @@ class SymbolIndicatorService {
 //            }
 //        }
         def value = symbol ? serviceClass.calculate(symbol, parameter, dailyTrade.date) : 0
-        lowLevelDataService.executeStoredProcedure('indicator_insert',
-                [
-                        daily_trade_id  : dailyTrade.id,
-                        parameter       : parameter.class == ArrayList ? parameter.join(',') : parameter,
-                        symbol_id       : symbol?.id ?: 0,
-                        value           : value,
-                        'class'         : serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service')),
-                        calculation_date: dailyTrade.date
-                ]
-        )
-    }
+        def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
+        def clazz = ClassResolver.loadDomainClassByName(className)
+        def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
+        def indicator = clazz.newInstance()
+        indicator.dailyTrade = dailyTrade
+        indicator.parameter = parameterString
+        indicator.value = value
+        indicator.symbol = dailyTrade.symbol ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
+        indicator.dayNumber = 1
+        indicator.calculationDate = dailyTrade.date
+        indicator.save(flush:true)
 
-//    def calculateIndicators(Symbol symbol, Date calculationDate = new Date()) {
-//        def result = ""
-//        grailsApplication.getArtefacts('Service').findAll {
-//            it.fullName.startsWith("stocks.indicators.symbol.")
-//        }.each {
-//            def service = ClassResolver.loadServiceByName(it.fullName) as IndicatorServiceBase
-//            service.commonParameters.each { parameter ->
-//                def value = service.calculate(symbol, parameter, calculationDate)
-//                if (Environment.current == Environment.DEVELOPMENT)
-//                    result += "<span style='color:${value == 0 ? 'red' : 'gray'}'>${service.class.simpleName}(${parameter}):${value}</span><br/>"
-//                if (value != null) {
-//                    def domain = grailsApplication.getDomainClass(it.fullName.replace('Service', '')).clazz
-//                    def object = domain.newInstance() as IndicatorBase
-//                    object.symbol = symbol
-//                    object.calculationDate = calculationDate
-//                    object.parameter = parameter
-//                    object.value = value
-//                    object.save(flush: true)
-//                }
-//            }
-//        }
-//        result
-//    }
+        clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${symbol.id}")
+
+    }
 }

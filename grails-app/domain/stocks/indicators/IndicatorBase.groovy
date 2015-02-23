@@ -24,6 +24,7 @@ class IndicatorBase {
     }
 
     static constraints = {
+        symbol nullable: true
     }
 
     def beforeInsert() {
