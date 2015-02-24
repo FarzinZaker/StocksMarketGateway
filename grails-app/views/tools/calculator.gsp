@@ -66,7 +66,7 @@
     <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
-//            loadData();
+            loadData();
             $('#timer').timer({
                 delay: 60000,
                 repeat: true,
