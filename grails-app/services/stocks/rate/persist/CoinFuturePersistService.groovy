@@ -4,7 +4,7 @@ import stocks.rate.CoinFuture
 import stocks.rate.event.CoinFutureEvent
 
 class CoinFuturePersistService {
-//    static transactional = false
+    static transactional = false
     def bulkDataGateway
     def grailsApplication
     def queryService
@@ -21,8 +21,7 @@ class CoinFuturePersistService {
         future.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
-        future.save(flush: true)
-//        bulkDataGateway.save(future)
+        bulkDataGateway.save(future)
         afterUpdate(event, future)
         result
     }

@@ -7,7 +7,10 @@ import stocks.rate.CoinFuture
 import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Coin
+import stocks.rate.event.CoinFutureEvent
 import stocks.tools.CorrelationServiceBase
+
+import javax.persistence.OrderBy
 
 class ToolsController {
 
@@ -28,11 +31,24 @@ class ToolsController {
                             remainingDays++
 
                     }
+                    def lastTradedPrice = future.lastTradedPrice
+                    if (!lastTradedPrice || lastTradedPrice == 0)
+                        lastTradedPrice = CoinFutureEvent.createCriteria().list {
+                            data {
+                                eq('id', future.id)
+                            }
+                            gt('lastTradedPrice', 0D)
+                            order('creationDate', ORDER_DESCENDING)
+                            maxResults(1)
+                            projections {
+                                property('lastTradedPrice')
+                            }
+                        }.find()
                     [
                             name           : future.contractDescription,
                             lastTradingDate: format.jalaliDate(date: future.lastTradingDate),
                             remainingDays  : remainingDays,
-                            lastTradedPrice: future.lastTradedPrice
+                            lastTradedPrice: lastTradedPrice
                     ]
                 }
         ]

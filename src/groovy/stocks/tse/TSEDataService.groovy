@@ -19,7 +19,7 @@ public abstract class TSEDataService<T, K> {
 
     def tseEventGateway
 
-    private def authenticationParameters = ['ecportal.ir', 'ecportal']
+    private def authenticationParameters = ['aeam.ir', 'aeam']
 
     private TsePublicV2Soap_PortType service
 

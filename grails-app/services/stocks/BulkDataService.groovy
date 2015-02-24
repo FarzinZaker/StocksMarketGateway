@@ -13,7 +13,7 @@ import stocks.tse.Symbol
 import java.util.concurrent.ArrayBlockingQueue
 
 class BulkDataService {
-    static transactional = false
+//    static transactional = false
 //    SessionFactory sessionFactory
 
     private static ArrayBlockingQueue dataQueue
@@ -24,6 +24,11 @@ class BulkDataService {
 
     @Synchronized
     def save(object) {
+        if (object.id)
+            object.domainClass.clazz.withTransaction {
+                object.save(flush: true)
+            }
+
         Thread.startDaemon {
             if (!dataQueue)
                 init()
@@ -38,8 +43,6 @@ class BulkDataService {
                 } catch (x) {
                     x.properties
                 }
-
-
             }
         }.join()
     }

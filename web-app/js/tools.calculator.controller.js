@@ -26,15 +26,15 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     $scope.contracts = 0;
 
     $scope.coinTheoricPrice = function () {
-        return (($scope.dollarPrice * $scope.onsPrice / 4.249) + $scope.multiplicationCost) * $scope.addedValueTax;
+        return (($scope.dollarPrice * $scope.onsPrice / 4.249) + $scope.multiplicationCost) * (1 + $scope.addedValueTax);
     };
 
     $scope.onsWitchFixedDollar = function (contract) {
-        return (((contract.lastTradedPrice / $scope.addedValueTax) - $scope.multiplicationCost) * 4.249) / $scope.dollarPrice;
+        return (((contract.lastTradedPrice / (1 + $scope.addedValueTax)) - $scope.multiplicationCost) * 4.249) / $scope.dollarPrice;
     };
 
     $scope.dollarWithFixedOns = function (contract) {
-        return (((contract.lastTradedPrice / $scope.addedValueTax) - $scope.multiplicationCost) * 4.249) / $scope.onsPrice;
+        return (((contract.lastTradedPrice / (1 + $scope.addedValueTax)) - $scope.multiplicationCost) * 4.249) / $scope.onsPrice;
     };
 
     $scope.theoricBasedOnDollarAndOns = function (contract) {

@@ -11,9 +11,13 @@ class IndexSymbolDataService extends TSEDataService<IndexSymbol, IndexSymbolEven
     static schedules = [
             [
                     method : 'importData',
+//                    trigger: [
+//                            type      : 'Simple',
+//                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+//                    ]
                     trigger: [
-                            type      : 'Simple',
-                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 20 1 * * ?']
                     ]
             ]
     ]

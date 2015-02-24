@@ -10,14 +10,14 @@ class CompanyDataService extends TSEDataService<Company, CompanyEvent> {
     static schedules = [
             [
                     method : 'importData',
-                    trigger: [
-                            type      : 'Simple',
-                            parameters: [repeatInterval: 300000l, startDelay: 60000]
-                    ]
 //                    trigger: [
-//                            type      : 'Cron',
-//                            parameters: [cronExpression: '0 0 1 * * ?']
+//                            type      : 'Simple',
+//                            parameters: [repeatInterval: 300000l, startDelay: 60000]
 //                    ]
+                    trigger: [
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 10 1 * * ?']
+                    ]
             ]
     ]
     @Override

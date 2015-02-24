@@ -68,7 +68,7 @@
         $(document).ready(function () {
 //            loadData();
             $('#timer').timer({
-                delay: 2000,
+                delay: 5000,
                 repeat: true,
                 autostart: true,
                 callback: function (index) {
