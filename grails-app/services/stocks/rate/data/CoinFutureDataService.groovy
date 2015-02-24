@@ -18,7 +18,7 @@ class CoinFutureDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 60000l, startDelay: 60000]
+                            parameters: [repeatInterval: 600000l, startDelay: 60000]
                     ]
             ]
     ]

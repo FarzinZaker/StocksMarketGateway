@@ -19,7 +19,7 @@ class MetalDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 90000l, startDelay: 60000]
+                            parameters: [repeatInterval: 900000l, startDelay: 60000]
                     ]
             ]
     ]

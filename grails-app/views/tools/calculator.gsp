@@ -68,7 +68,7 @@
         $(document).ready(function () {
 //            loadData();
             $('#timer').timer({
-                delay: 5000,
+                delay: 60000,
                 repeat: true,
                 autostart: true,
                 callback: function (index) {
@@ -77,7 +77,7 @@
             });
         });
 
-        function loadData(){
+        function loadData() {
             $.ajax({
                 type: "POST",
                 url: '${createLink(action: 'calculatorJson')}'
@@ -88,6 +88,7 @@
                 $scope.coinPrice = response.coinPrice;
                 $scope.contracts = response.contracts;
                 $scope.$apply();
+                onScopeChange(null, null, angular.element(document.getElementById('ngController')).scope());
             });
         }
     </script>

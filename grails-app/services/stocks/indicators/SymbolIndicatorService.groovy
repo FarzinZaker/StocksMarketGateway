@@ -31,9 +31,9 @@ class SymbolIndicatorService {
         indicator.symbol = dailyTrade.symbol ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
         indicator.dayNumber = 1
         indicator.calculationDate = dailyTrade.date
-        indicator.save(flush:true)
-
-        clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${symbol.id}")
+        indicator.save(flush: true)
+        if (symbol)
+            clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${symbol.id}")
 
     }
 }

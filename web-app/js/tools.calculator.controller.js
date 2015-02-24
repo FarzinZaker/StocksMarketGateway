@@ -38,11 +38,11 @@ alertingQuery.controller('toolsCalculatorController', function ($scope, $http) {
     };
 
     $scope.theoricBasedOnDollarAndOns = function (contract) {
-        return $scope.coinTheoricPrice() * Math.pow(1 + $scope.interestRate, contract.remainingDays / 365);
+        return $scope.coinTheoricPrice() * Math.pow(Math.E, $scope.interestRate * contract.remainingDays / 365);
     };
 
     $scope.theoricBasedNetPrice = function (contract) {
-        return $scope.coinPrice * Math.pow((1 + $scope.interestRate), (contract.remainingDays / 365.0));
+        return $scope.coinPrice * Math.pow(Math.E, $scope.interestRate * contract.remainingDays / 365.0);
     };
 
     $scope.netArbitrage = function (contract) {

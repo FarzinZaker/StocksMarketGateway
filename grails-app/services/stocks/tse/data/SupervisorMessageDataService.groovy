@@ -11,7 +11,7 @@ class SupervisorMessageDataService extends TSEDataService<SupervisorMessage, Sup
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 5000l, startDelay: 60000]
+                            parameters: [repeatInterval: 50000l, startDelay: 60000]
                     ]
             ]
     ]
