@@ -13,7 +13,7 @@ class ROCService implements IndicatorServiceBase<Symbol, Integer> {
 
     @Override
     Boolean getEnabled() {
-        false
+        true
     }
 
     @Override

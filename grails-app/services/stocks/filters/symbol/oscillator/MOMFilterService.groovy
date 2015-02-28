@@ -16,7 +16,7 @@ class MOMFilterService implements IncludeFilterService {
 
     @Override
     Boolean getEnabled() {
-        false
+        true
     }
 
     @Override
@@ -25,8 +25,8 @@ class MOMFilterService implements IncludeFilterService {
         [
                 Operators.UPPER_THAN,
                 Operators.LOWER_THAN,
-                Operators.GO_UPPER_THAN,
-                Operators.GO_LOWER_THAN
+                Operators.CROSSING_TO_UP,
+                Operators.CROSSING_TO_DOWN
         ]
     }
 
@@ -47,7 +47,7 @@ class MOMFilterService implements IncludeFilterService {
 
     @Override
     def getValueModel(User user, String operator) {
-        [:]
+        [value: 0]
     }
 
     @Override
@@ -75,15 +75,15 @@ class MOMFilterService implements IncludeFilterService {
                         targetValue    : targetValue as Double
                 ])
                 break
-            case Operators.GO_UPPER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_go_upper_than_value_filter', [
+            case Operators.CROSSING_TO_UP:
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_value_filter', [
                         sourceClass    : MOM.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
-            case Operators.GO_LOWER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_go_lower_than_value_filter', [
+            case Operators.CROSSING_TO_DOWN:
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_value_filter', [
                         sourceClass    : MOM.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
