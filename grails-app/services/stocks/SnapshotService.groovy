@@ -34,6 +34,9 @@ class SnapshotService {
     def applyDailySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
+        use(TimeCategory){
+            today = today - 1
+        }
         findDomainClassesBySnapshot(domain, 'daily').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.dailySnapshot = today
@@ -45,6 +48,9 @@ class SnapshotService {
     def applyWeeklySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
+        use(TimeCategory){
+            today = today - 1
+        }
         findDomainClassesBySnapshot(domain, 'weekly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.weeklySnapshot = today
@@ -56,6 +62,9 @@ class SnapshotService {
     def applyMonthlySnapshot(String domain = '.', def maxDate = null) {
         def today = maxDate ?: new Date()
         today.clearTime()
+        use(TimeCategory){
+            today = today - 1
+        }
         findDomainClassesBySnapshot(domain, 'monthly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
                 record.monthlySnapshot = today

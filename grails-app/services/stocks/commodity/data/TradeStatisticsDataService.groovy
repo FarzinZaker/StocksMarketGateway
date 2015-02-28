@@ -18,19 +18,19 @@ import stocks.commodity.event.TradeStatisticsEvent
 
 class TradeStatisticsDataService {
 
-    static schedules = [
-            [
-                    method : 'importData',
-                    trigger: [
-                            type      : 'Simple',
-                            parameters: [repeatInterval: 120000l, startDelay: 10000]
-                    ]
+//    static schedules = [
+//            [
+//                    method : 'importData',
+//                    trigger: [
+//                            type      : 'Simple',
+//                            parameters: [repeatInterval: 120000l, startDelay: 10000]
+//                    ]
 //                    trigger: [
 //                            type      : 'Cron',
 //                            parameters: [cronExpression: '0 10 12 2 OCT ? 2014']
 //                    ]
-            ]
-    ]
+//            ]
+//    ]
 
     def commodityEventGateway
 

@@ -39,12 +39,4 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
                         [new UnsignedByte(5)]
                 ])
     }
-
-    public void importData(Date date, int marketIdentifier){
-        importData('tradeOneDay',[[date.format('yyyyMMdd').toInteger(), new UnsignedByte(marketIdentifier)]])
-    }
-
-    public void importData(Long symbolInternalCode, Date startDate, Date endDate){
-        importData('instTrade',[[symbolInternalCode, startDate.format('yyyyMMdd').toInteger(), endDate.format('yyyyMMdd').toInteger()]])
-    }
 }

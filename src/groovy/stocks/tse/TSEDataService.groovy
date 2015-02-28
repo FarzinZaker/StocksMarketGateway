@@ -8,6 +8,8 @@ import stocks.tse.ws.TsePublicV2Soap_BindingStub
 import stocks.tse.ws.TsePublicV2Locator
 import stocks.tse.ws.TsePublicV2Soap_PortType
 
+import java.text.SimpleDateFormat
+
 /**
  * Created with IntelliJ IDEA.
  * User: Farzin
@@ -20,6 +22,10 @@ public abstract class TSEDataService<T, K> {
     def tseEventGateway
 
     private def authenticationParameters = ['aeam.ir', 'aeam']
+
+    protected Boolean getAutoLogStateEnabled() {
+        true
+    }
 
     private TsePublicV2Soap_PortType service
 
@@ -104,13 +110,15 @@ public abstract class TSEDataService<T, K> {
                 }
 
                 object.data = find(object as K)
-                list << tseEventGateway.send(object)
+                list << tseEventGateway.send(object, this.class.name)
             }
-            logState([status: 'successful'])
+            if (autoLogStateEnabled)
+                logState([status: 'successful'])
             list
         }
         catch (ex) {
-            logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
+            if (autoLogStateEnabled)
+                logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
             []
         }
     }
@@ -137,9 +145,9 @@ public abstract class TSEDataService<T, K> {
         if (locale == 'en')
             if (time) {
                 time = String.format("%06d", time as Integer);
-                new java.text.SimpleDateFormat('yyyyMMdd-hhmmss').parse("${value}-${time}")
+                new SimpleDateFormat('yyyyMMdd-hhmmss').parse("${value}-${time}")
             } else
-                new java.text.SimpleDateFormat('yyyyMMdd').parse(value)
+                new SimpleDateFormat('yyyyMMdd').parse(value)
         else if (locale == 'fa')
             throw new Exception('not implemented yet')
         else

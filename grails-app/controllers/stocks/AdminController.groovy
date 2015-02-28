@@ -25,6 +25,7 @@ class AdminController {
     def indexDataService
     def indexSymbolDataService
     def dataService
+    def symbolDailyTradeMissingDataService
 
 
     def queryService
@@ -41,6 +42,8 @@ class AdminController {
     def symbolIndicatorService
 
     def searchableService
+
+    def ratePurgeService
 
     def index() {
     }
@@ -76,8 +79,13 @@ class AdminController {
 //        queryService.getDomainParameterValues(ParameterValue.get(39));
 //        currencyDataService.importData()
 
-        def dailyTrade = SymbolDailyTrade.get(35645) //mellat bank
-        render symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date).replace('\n', '<br/>')
+//        def dailyTrade = SymbolDailyTrade.get(35645) //mellat bank
+//        render symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date).replace('\n', '<br/>')
+
+//        symbolDailyTradeMissingDataService.importData()
+
+        println ratePurgeService.purgeMetal()
+        println 'finished'
     }
 
     def throwException() {

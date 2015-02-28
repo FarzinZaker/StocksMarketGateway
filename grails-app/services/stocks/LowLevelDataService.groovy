@@ -30,7 +30,7 @@ class LowLevelDataService {
             println() "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
         }
 //        connection.close()
-        println rows
+//        println rows
         rows
     }
 }

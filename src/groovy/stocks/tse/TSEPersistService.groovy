@@ -31,21 +31,24 @@ public abstract class TSEPersistService<T, K> {
     protected abstract void afterCreate(K event, T data)
 
     Boolean update(K event) {
-        def result = null
+        def result
         def object = event.data
         def domainClass = new DefaultGrailsDomainClass(object.class)
-        beforeUpdate(event, object)
-        result = domainClass.persistantProperties.findAll {
-            !(it.name in ['creationDate', 'modificationDate']) &&
-                    (it.type in [Integer, Long, Double, Boolean, Date, String])
-        }.any { property ->
-            event.data."${property.name}" != event."${property.name}"
+        if(beforeUpdate(event, object) != false) {
+            result = domainClass.persistantProperties.findAll {
+                !(it.name in ['creationDate', 'modificationDate']) &&
+                        (it.type in [Integer, Long, Double, Boolean, Date, String])
+            }.any { property ->
+                event.data."${property.name}" != event."${property.name}"
+            }
+            object.properties = event.properties.findAll {
+                !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
+            }
+            bulkDataGateway.save(object)
+            afterUpdate(event, object)
         }
-        object.properties = event.properties.findAll {
-            !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
-        }
-        bulkDataGateway.save(object)
-        afterUpdate(event, object)
+        else
+            result = false
         result
     }
 

@@ -18,6 +18,7 @@ class IndicatorJob {
     def lowLevelDataService
 
     def execute() {
+
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.indicators.symbol.")
         }.each { serviceClass ->

@@ -33,7 +33,7 @@ class SymbolIndicatorService {
         indicator.calculationDate = dailyTrade.date
         indicator.save(flush: true)
         if (symbol)
-            clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${symbol.id}")
+            clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${indicator.id}")
 
     }
 }
