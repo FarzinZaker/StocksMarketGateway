@@ -27,6 +27,8 @@ class DEMAService implements IndicatorServiceBase<Symbol, Integer> {
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
         def series = tradesDataService.getClosingPriceSeries(item, parameter * 2 - 1, date)
+        if (series.size() < parameter * 2 - 1)
+            return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

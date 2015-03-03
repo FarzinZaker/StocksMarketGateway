@@ -25,6 +25,8 @@ class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
 
         def highSeries = tradesDataService.getMaxPriceSeries(item, date)
         def lowSeries = tradesDataService.getMinPriceSeries(item, date)
+        if ([highSeries.size(), lowSeries.size()].min() < parameter)
+            return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

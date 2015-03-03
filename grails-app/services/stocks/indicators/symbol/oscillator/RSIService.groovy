@@ -25,6 +25,8 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
         def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter + 1, date)
+        if (closeSeries.size() < parameter + 1)
+            return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

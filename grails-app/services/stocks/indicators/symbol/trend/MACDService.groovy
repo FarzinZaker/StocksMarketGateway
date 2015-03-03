@@ -24,6 +24,8 @@ class MACDService implements IndicatorServiceBase<Symbol, List<Integer>> {
     Double calculate(Symbol item, List<Integer> parameter, Date date) {
 
         def closeSeries = tradesDataService.getClosingPriceSeries(item, parameter.max() * 2, date)
+        if (closeSeries.size() < parameter.max() * 2)
+            return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

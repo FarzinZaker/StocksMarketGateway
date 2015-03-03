@@ -25,6 +25,8 @@ class AroonDownService implements IndicatorServiceBase<Symbol, Integer> {
 
         def highSeries = tradesDataService.getMaxPriceSeries(item, parameter, date)
         def lowSeries = tradesDataService.getMinPriceSeries(item, parameter, date)
+        if ([highSeries.size(), lowSeries.size()].min() < parameter)
+            return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
