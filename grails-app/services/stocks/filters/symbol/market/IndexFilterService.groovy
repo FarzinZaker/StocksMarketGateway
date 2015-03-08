@@ -9,13 +9,18 @@ import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.tse.Index
 import stocks.tse.IndexSymbol
+import stocks.tse.Symbol
 
 import javax.naming.OperationNotSupportedException
 
 class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
+
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: false
+        ]
     }
 
     @Override
@@ -56,6 +61,11 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     @Override
     String[] formatQueryValue(Object value, String operator) {
         [value.collect { Index.get(it as Long) }*.persianName.join('، ')]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        false
     }
 
     @Override

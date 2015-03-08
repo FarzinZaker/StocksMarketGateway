@@ -1,13 +1,14 @@
 package stocks.filters
 
 import stocks.User
+import stocks.tse.Symbol
 
 /**
  * Created by farzin on 19/01/2015.
  */
 interface FilterServiceBase {
 
-    Boolean getEnabled()
+    Map getEnabled()
 
     ArrayList<String> getOperators()
 
@@ -20,4 +21,6 @@ interface FilterServiceBase {
     def getValueModel(User user, String operator)
 
     String[] formatQueryValue(value, String operator)
+
+    Boolean check(Symbol symbol, String parameter, String operator, value, Date date)
 }

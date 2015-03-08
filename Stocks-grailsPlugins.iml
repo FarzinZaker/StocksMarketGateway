@@ -145,22 +145,9 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.tictactec/ta-lib/jars/ta-lib-0.4.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-3.3.0-platform.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.mariadb.jdbc/mariadb-java-client/jars/mariadb-java-client-1.1.7.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/ws-client/zips/ws-client-1.0.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/jquery/zips/jquery-1.11.1.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/hibernate/zips/hibernate-2.2.3.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/audit-logging/zips/audit-logging-1.0.3.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/quartz/zips/quartz-0.4.1.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/mail/zips/mail-1.0.6.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/cache-headers/zips/cache-headers-1.1.5.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/simple-captcha/zips/simple-captcha-0.9.9.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/searchable/zips/searchable-0.6.8.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/rest/zips/rest-0.8.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/spring-security-core/zips/spring-security-core-1.2.7.3.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/coffee-asset-pipeline/zips/coffee-asset-pipeline-1.7.0.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/less-asset-pipeline/zips/less-asset-pipeline-1.7.0.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/asset-pipeline/zips/asset-pipeline-1.8.11.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/webxml/zips/webxml-1.4.1.zip!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/tomcat/zips/tomcat-2.2.3.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.codehaus.jsr166-mirror/jsr166y/jars/jsr166y-1.7.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.multiverse/multiverse-core/jars/multiverse-core-0.7.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-1.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>

@@ -1,15 +1,12 @@
 package stocks.filters.symbol.movingAverage
-
 import grails.util.Holders
-import org.grails.datastore.mapping.query.Query
-import org.grails.datastore.mapping.query.Restrictions
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import stocks.User
 import stocks.filters.FilterServiceBase
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.movingAverage.SMA
+import stocks.tse.Symbol
 import stocks.util.ClassResolver
 
 class SMAFilterService implements IncludeFilterService {
@@ -18,10 +15,14 @@ class SMAFilterService implements IncludeFilterService {
     def lowLevelDataService
     def messageSource
     SessionLocaleResolver localeResolver
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: true
+        ]
     }
 
     @Override
@@ -73,6 +74,37 @@ class SMAFilterService implements IncludeFilterService {
             ["${value.first()[0].split('\\.').last().replace('FilterService', '')} (${parameter})"]
         else
             [messageSource.getMessage(value.first()[0].split('\\.').last().replace('FilterService', ''), null, localeResolver.defaultLocale)]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        def targetIndicatorName = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
+        def targetIndicator = targetIndicatorName != 'Price' ? ClassResolver.loadDomainClassByName(targetIndicatorName) : null
+        def targetParameter = value.first()[1] as String
+
+        switch (operator) {
+            case Operators.UPPER_THAN:
+                if (targetIndicator)
+                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, SMA, parameter, targetIndicator, targetParameter, date)
+                else
+                    return indicatorCompareService.indicatorUpperThanPrice(symbol, SMA, parameter, date)
+            case Operators.LOWER_THAN:
+                if (targetIndicator)
+                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, SMA, parameter, targetIndicator, targetParameter, date)
+                else
+                    return indicatorCompareService.indicatorLowerThanPrice(symbol, SMA, parameter, date)
+            case Operators.CROSSING_TO_UP:
+                if (targetIndicator)
+                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, SMA, parameter, targetIndicator, targetParameter, date)
+                else
+                    return indicatorCompareService.indicatorCrossUpPrice(symbol, SMA, parameter, date)
+            case Operators.CROSSING_TO_DOWN:
+                if (targetIndicator)
+                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, SMA, parameter, targetIndicator, targetParameter, date)
+                else
+                    return indicatorCompareService.indicatorCrossDownPrice(symbol, SMA, parameter, date)
+        }
+        false
     }
 
     @Override

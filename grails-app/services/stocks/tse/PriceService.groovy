@@ -2,10 +2,13 @@ package stocks.tse
 
 class PriceService {
 
-    def lastPrice(Symbol symbol) {
-        def parameters = [max: 1, sort: "creationDate", order: "desc"]
-        def dailyTrade = SymbolDailyTrade.findAllBySymbol(symbol, parameters)
+    Double lastPrice(Symbol symbol, Date date = new Date()) {
+        def dailyTrade = lastDailyTrade(symbol, date)
+        dailyTrade ? (dailyTrade?.closingPrice ?: 0) : 0
+    }
 
-        dailyTrade? (dailyTrade[0]?.closingPrice?:0):0
+    SymbolDailyTrade lastDailyTrade(Symbol symbol, Date date = new Date()) {
+        def parameters = [max: 1, sort: "creationDate", order: "desc"]
+        SymbolDailyTrade.findAllBySymbolAndDateLessThanEquals(symbol, date, parameters)?.find()
     }
 }

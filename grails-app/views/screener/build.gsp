@@ -68,7 +68,6 @@
             <g:render template="submit"/>
         </div>
     </div>
-
 </div>
 
 </body>

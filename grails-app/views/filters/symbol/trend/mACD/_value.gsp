@@ -10,7 +10,7 @@
     </div>
 
     <div id="macd_value_value">
-        <form:numericTextBox name="value" value="${value}"/>
+        <form:numericTextBox name="value" value="${value}" decimals="0"/>
     </div>
 </div>
 

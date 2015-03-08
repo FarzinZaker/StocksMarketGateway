@@ -5,16 +5,21 @@ import groovy.time.TimeCategory
 import stocks.User
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
+import stocks.tse.Symbol
 
 import java.text.NumberFormat
 
 class VolumeFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: true
+        ]
     }
 
     @Override
@@ -75,6 +80,22 @@ class VolumeFilterService implements IncludeFilterService {
             [NumberFormat.instance.format(value.first() as Double)]
         else
             [NumberFormat.instance.format((value.first().first() as Double) * 100), NumberFormat.instance.format((value.first().last() as Double))]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        def parsedValue = JSON.parse(value?.toString()).first() as Double
+
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                return indicatorCompareService.volumeUpperThanValue(symbol, parsedValue as Double, date)
+            case Operators.LESS_THAN:
+                return indicatorCompareService.volumeLowerThanValue(symbol, parsedValue as Double, date)
+            case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return indicatorCompareService.volumePositiveChangeCompareToAverageGreaterThan(symbol, parsedValue.first() as double, parsedValue.last() as Integer, date)
+            case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                return indicatorCompareService.volumeNegativeChangeCompareToAverageGreaterThan(symbol, parsedValue.first() as double, parsedValue.last() as Integer, date)
+        }
     }
 
     List<Long> getIncludeList(String parameter, String operator, Object value) {

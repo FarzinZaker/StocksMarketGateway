@@ -9,6 +9,7 @@ import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.trend.MACD
 import stocks.indicators.symbol.trend.MACDSignal
+import stocks.tse.Symbol
 
 import java.text.NumberFormat
 
@@ -17,10 +18,14 @@ class MACDFilterService implements IncludeFilterService {
     def lowLevelDataService
     def messageSource
     SessionLocaleResolver localeResolver
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: true
+        ]
     }
 
     @Override
@@ -60,6 +65,35 @@ class MACDFilterService implements IncludeFilterService {
             [NumberFormat.instance.format(value.first() as Double)]
         else
             [messageSource.getMessage('macd.signal', null, localeResolver.defaultLocale)]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        if (value.last() == 'constant_switch') {
+            def targetValue = value.first() as Double
+            switch (operator) {
+                case Operators.UPPER_THAN:
+                    return indicatorCompareService.indicatorUpperThanValue(symbol, MACD, parameter, targetValue, date)
+                case Operators.LOWER_THAN:
+                    return indicatorCompareService.indicatorLowerThanValue(symbol, MACD, parameter, targetValue, date)
+                case Operators.CROSSING_TO_UP:
+                    return indicatorCompareService.indicatorCrossUpValue(symbol, MACD, parameter, targetValue, date)
+                case Operators.CROSSING_TO_DOWN:
+                    return indicatorCompareService.indicatorCrossDownValue(symbol, MACD, parameter, targetValue, date)
+            }
+        } else
+            switch (operator) {
+                case Operators.UPPER_THAN:
+                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                case Operators.LOWER_THAN:
+                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                case Operators.CROSSING_TO_UP:
+                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                case Operators.CROSSING_TO_DOWN:
+                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+            }
+
+        false
     }
 
     @Override

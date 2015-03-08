@@ -10,6 +10,7 @@ import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.portfolio.Portfolio
 import stocks.portfolio.PortfolioItem
+import stocks.tse.Symbol
 
 import javax.naming.OperationNotSupportedException
 
@@ -18,8 +19,11 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     def springSecurityService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: false
+        ]
     }
 
     @Override
@@ -60,6 +64,11 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     @Override
     String[] formatQueryValue(Object value, String operator) {
         [value.collect { Portfolio.get(it as Long).name }.join('، ')]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        false
     }
 
     @Override

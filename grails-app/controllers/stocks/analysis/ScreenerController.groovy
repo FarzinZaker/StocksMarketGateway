@@ -23,7 +23,7 @@ class ScreenerController {
         def property = 'symbol'
         def filterMap = [:]
         filterService.getFilterGroupList(property).each { group ->
-            filterMap.put(group, filterService.getGroupFilters(group))
+            filterMap.put(group, filterService.getGroupFilters(group, 'screener'))
         }
         def screener = Screener.get(params.id as Long) ?: new Screener()
         def rules = []

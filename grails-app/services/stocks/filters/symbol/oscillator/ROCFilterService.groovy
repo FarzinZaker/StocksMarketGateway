@@ -7,16 +7,21 @@ import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.oscillator.ROC
+import stocks.tse.Symbol
 
 import java.text.NumberFormat
 
 class ROCFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: false,
+                backTest: false
+        ]
     }
 
     @Override
@@ -53,6 +58,23 @@ class ROCFilterService implements IncludeFilterService {
     @Override
     String[] formatQueryValue(Object value, String operator) {
         [NumberFormat.instance.format(value.first() as Double)]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        def targetValue = value.first() as Double
+
+        switch (operator) {
+            case Operators.UPPER_THAN:
+                return indicatorCompareService.indicatorUpperThanValue(symbol, ROC, parameter, targetValue, date)
+            case Operators.LOWER_THAN:
+                return indicatorCompareService.indicatorLowerThanValue(symbol, ROC, parameter, targetValue, date)
+            case Operators.CROSSING_TO_UP:
+                return indicatorCompareService.indicatorCrossUpValue(symbol, ROC, parameter, targetValue, date)
+            case Operators.CROSSING_TO_DOWN:
+                return indicatorCompareService.indicatorCrossDownValue(symbol, ROC, parameter, targetValue, date)
+        }
+        false
     }
 
     @Override

@@ -13,13 +13,6 @@ class SymbolIndicatorService {
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
         def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
-//        if (!symbol) {
-//            symbol = Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
-//            if (symbol) {
-//                dailyTrade.symbol = symbol
-//                dailyTrade.save(flush: true)
-//            }
-//        }
         def value = symbol ? serviceClass.calculate(symbol, parameter, dailyTrade.date) : 0
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)

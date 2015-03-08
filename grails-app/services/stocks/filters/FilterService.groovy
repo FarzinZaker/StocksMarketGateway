@@ -24,14 +24,14 @@ class FilterService {
         }.unique { a, b -> a.equals(b) ? 0 : 1 }
     }
 
-    public ArrayList<String> getGroupFilters(String group) {
+    public ArrayList<String> getGroupFilters(String group, String type) {
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("${group}")
         }.findAll {
-            (ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase).enabled
+            (ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase)?.enabled?."${type}"
         }.collect {
             def service = ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase
-            if (service.enabled) {
+            if (service?.enabled?."${type}") {
                 def filterParts = it.fullName.split('\\.')
                 def filterName = Introspector.decapitalize(filterParts.last().replace('FilterService', ''))
                 def path = filterParts[1..filterParts.size() - 2].join('/')

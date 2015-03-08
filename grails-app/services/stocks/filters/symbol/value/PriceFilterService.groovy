@@ -4,16 +4,21 @@ import grails.converters.JSON
 import stocks.User
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
+import stocks.tse.Symbol
 
 import java.text.NumberFormat
 
 class PriceFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        true
+    Map getEnabled() {
+        [
+                screener: true,
+                backTest: true
+        ]
     }
 
     @Override
@@ -84,6 +89,26 @@ class PriceFilterService implements IncludeFilterService {
             [NumberFormat.instance.format(value.first() as Double)]
         else
             [NumberFormat.instance.format((value.first() as Double) * 100)]
+    }
+
+    @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        def parsedValue = JSON.parse(value?.toString()).find() as Double
+
+        switch (operator) {
+            case Operators.GREATER_THAN:
+                return indicatorCompareService.priceUpperThanValue(symbol, parsedValue, date)
+            case Operators.LESS_THAN:
+                return indicatorCompareService.priceLowerThanValue(symbol, parsedValue, date)
+            case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return indicatorCompareService.pricePositiveChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date)
+            case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
+                return indicatorCompareService.priceNegativeChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date)
+            case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return indicatorCompareService.pricePositiveChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date)
+            case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
+                return indicatorCompareService.priceNegativeChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date)
+        }
     }
 
     @Override

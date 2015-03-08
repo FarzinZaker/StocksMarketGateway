@@ -92,11 +92,26 @@ class FormTagLib {
             <script language='javascript' type='text/javascript'>
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoNumericTextBox({
-                        decimals: 0,
-                        format: 'n0'"""
+                        format: '${attrs.format ?: 'n0'}'"""
         if (attrs.onchange)
             out << """
                         ,change: ${attrs.onchange}
+"""
+        if (attrs.min)
+            out << """
+                        ,min: ${attrs.min}
+"""
+        if (attrs.max)
+            out << """
+                        ,max: ${attrs.max}
+"""
+        if (attrs.step)
+            out << """
+                        ,step: ${attrs.step}
+"""
+        if (attrs.decimals)
+            out << """
+                        ,decimals: ${attrs.decimals}
 """
         out << """
                     });

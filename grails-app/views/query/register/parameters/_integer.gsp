@@ -33,7 +33,7 @@
     </script>
 </g:if>
 <g:else>
-    <form:numericTextBox name="parameter_${parameter.id}" validation="${parameter.multiSelect ? '' : 'required'}"
+    <form:numericTextBox name="parameter_${parameter.id}" validation="${parameter.multiSelect ? '' : 'required'}" decimals="0"
                          style="width:500px"
                          value="${queryInstance?.parameterValues?.find {
                              it.parameter?.id == parameter?.id

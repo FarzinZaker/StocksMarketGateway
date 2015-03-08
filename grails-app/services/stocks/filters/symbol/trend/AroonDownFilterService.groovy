@@ -7,16 +7,21 @@ import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.trend.AroonDown
+import stocks.tse.Symbol
 
 import java.text.NumberFormat
 
 class AroonDownFilterService implements IncludeFilterService {
 
     def lowLevelDataService
+    def indicatorCompareService
 
     @Override
-    Boolean getEnabled() {
-        false
+    Map getEnabled() {
+        [
+                screener: false,
+                backTest: false
+        ]
     }
 
     @Override
@@ -25,8 +30,8 @@ class AroonDownFilterService implements IncludeFilterService {
         [
                 Operators.UPPER_THAN,
                 Operators.LOWER_THAN,
-                Operators.GO_UPPER_THAN,
-                Operators.GO_LOWER_THAN
+                Operators.CROSSING_TO_UP,
+                Operators.CROSSING_TO_DOWN
         ]
     }
 
@@ -56,6 +61,23 @@ class AroonDownFilterService implements IncludeFilterService {
     }
 
     @Override
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+        def targetValue = value.first() as Double
+
+        switch (operator) {
+            case Operators.UPPER_THAN:
+                return indicatorCompareService.indicatorUpperThanValue(symbol, AroonDown, parameter, targetValue, date)
+            case Operators.LOWER_THAN:
+                return indicatorCompareService.indicatorLowerThanValue(symbol, AroonDown, parameter, targetValue, date)
+            case Operators.CROSSING_TO_UP:
+                return indicatorCompareService.indicatorCrossUpValue(symbol, AroonDown, parameter, targetValue, date)
+            case Operators.CROSSING_TO_DOWN:
+                return indicatorCompareService.indicatorCrossDownValue(symbol, AroonDown, parameter, targetValue, date)
+        }
+        false
+    }
+
+    @Override
     List<Long> getIncludeList(String parameter, String operator, Object value) {
         def idList = []
         def targetValue = value.first()
@@ -75,15 +97,15 @@ class AroonDownFilterService implements IncludeFilterService {
                         targetValue    : targetValue as Double
                 ])
                 break
-            case Operators.GO_UPPER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_go_upper_than_value_filter', [
+            case Operators.CROSSING_TO_UP:
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_value_filter', [
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
-            case Operators.GO_LOWER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_go_lower_than_value_filter', [
+            case Operators.CROSSING_TO_DOWN:
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_value_filter', [
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
