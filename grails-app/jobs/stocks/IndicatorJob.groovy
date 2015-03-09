@@ -41,7 +41,7 @@ class IndicatorJob {
     def execute() {
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.indicators.symbol.")
-        }.each { serviceClass ->
+        }.sort { it.fullName }.each { serviceClass ->
             def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
             if (service.enabled) {
                 service.commonParameters.each { parameter ->
@@ -55,7 +55,7 @@ class IndicatorJob {
         }
     }
 
-    def findNextSymbol(serviceClass, parameter){
+    def findNextSymbol(serviceClass, parameter) {
         Symbol.executeQuery("from Symbol s where exists (select id from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (select id from ${serviceClass.fullName.split('\\.').last().replace('Service', '')} i where i.parameter = '${parameter.class == ArrayList ? parameter.join(',') : parameter}' and i.symbol.id = s.id)", [max: 1]).find()
     }
 }
