@@ -26,14 +26,33 @@ class DEMAService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
 
-        def series = tradesDataService.getClosingPriceSeries(item, parameter * 2 - 1, date)
+        def series = tradesDataService.getPriceSeries(item, parameter * 2 - 1, date)
         if (series.size() < parameter * 2 - 1)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.dema(0, parameter * 2 - 2, TypeCast.toDoubleArray(series), parameter, beginIndex, endIndex, result)
+        core.dema(0, parameter * 2 - 2, TypeCast.toDoubleArray(series.collect {
+            it.closingPrice
+        }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
+    }
+
+    @Override
+    Map<String, List> bulkCalculate(Symbol item, Integer parameter) {
+
+        def series = tradesDataService.getPriceSeries(item)
+        def core = new Core()
+        def beginIndex = new MInteger()
+        def endIndex = new MInteger()
+        def result = new double[series.size()]
+        core.dema(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
+            it.closingPrice
+        }), parameter, beginIndex, endIndex, result)
+        [
+                series: series,
+                indicators: result?.toList()
+        ]
     }
 }

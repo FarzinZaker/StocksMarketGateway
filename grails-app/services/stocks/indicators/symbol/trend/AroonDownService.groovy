@@ -23,16 +23,35 @@ class AroonDownService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, Date date) {
 
-        def highSeries = tradesDataService.getMaxPriceSeries(item, parameter, date)
-        def lowSeries = tradesDataService.getMinPriceSeries(item, parameter, date)
-        if ([highSeries.size(), lowSeries.size()].min() < parameter)
+        def series = tradesDataService.getPriceSeries(item, parameter, date)
+        if (series.size() < parameter)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
         def ignore = new double[parameter]
-        core.aroon(0, parameter - 1, TypeCast.toDoubleArray(highSeries), TypeCast.toDoubleArray(lowSeries), parameter, beginIndex, endIndex, result, ignore)
+        core.aroon(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
+            it.maxPrice
+        }), TypeCast.toDoubleArray(series.collect { it.minPrice }), parameter, beginIndex, endIndex, result, ignore)
         result?.toList()?.first()
+    }
+
+    @Override
+    Map<String, List> bulkCalculate(Symbol item, Integer parameter) {
+
+        def series = tradesDataService.getPriceSeries(item)
+        def core = new Core()
+        def beginIndex = new MInteger()
+        def endIndex = new MInteger()
+        def result = new double[series.size()]
+        def ignore = new double[series.size()]
+        core.aroon(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
+            it.maxPrice
+        }), TypeCast.toDoubleArray(series.collect { it.minPrice }), parameter, beginIndex, endIndex, result, ignore)
+        [
+                series    : series,
+                indicators: result?.toList()
+        ]
     }
 }

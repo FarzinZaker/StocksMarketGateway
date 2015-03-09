@@ -14,189 +14,19 @@ import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
 
 class TradesDataService {
-    List getClosingPriceSeries(Symbol symbol, Integer daysCount = 100, Date maxDate) {
-        Date minDate = maxDate
-        use(TimeCategory) {
-            minDate = minDate - (daysCount - 1).days
-        }
-        getClosingPriceSeries(symbol, minDate, maxDate)
-    }
+    List<SymbolDailyTrade> getPriceSeries(Symbol symbol, Integer daysCount = null, Date maxDate = null) {
 
-    List getClosingPriceSeries(Symbol symbol, Date minDate, Date maxDate) {
-
-        minDate = minDate.clearTime()
-        maxDate = maxDate.clearTime()
-        def itemValues = SymbolDailyTrade.createCriteria().list {
+        maxDate = maxDate?.clearTime()
+        SymbolDailyTrade.createCriteria().list {
             eq('symbol', symbol)
             isNotNull('dailySnapshot')
-            lte('dailySnapshot', maxDate)
-            gte('dailySnapshot', minDate)
-            projections {
-                property('dailySnapshot')
-                property('closingPrice')
+            if (maxDate) {
+                lte('dailySnapshot', maxDate)
             }
-        }.collect {
-            [date: new Date(it[0].getTime()) as Date, value: it[1]]
-        }
-
-        def baseValue = SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lt('date', minDate)
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-            projections {
-                property('closingPrice')
+            order('dailySnapshot', ORDER_DESCENDING)
+            if (daysCount) {
+                maxResults(daysCount)
             }
-        }.find() ?: SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lte('date', maxDate)
-            order('date', ORDER_ASCENDING)
-            maxResults(1)
-            projections {
-                property('closingPrice')
-            }
-        }.find()
-
-//        if (!itemValues || itemValues.size() == 0)
-//            return []
-
-        def currentDate = minDate
-        def lastValue = baseValue ?: 0
-        while (currentDate <= maxDate) {
-            def item = itemValues.find { it.date == currentDate }
-            if (!item)
-                itemValues.add([date: currentDate, value: lastValue])
-            else
-                lastValue = item.value
-
-            use(TimeCategory) {
-                currentDate = currentDate + 1.day
-            }
-        }
-        itemValues.sort { it.date }.collect { it.value }
-    }
-
-    List getMinPriceSeries(Symbol symbol, Integer daysCount = 100, Date maxDate) {
-        Date minDate = maxDate
-        use(TimeCategory) {
-            minDate = minDate - (daysCount - 1).days
-        }
-        getMinPriceSeries(symbol, minDate, maxDate)
-    }
-
-    List getMinPriceSeries(Symbol symbol, Date minDate, Date maxDate) {
-
-        minDate = minDate.clearTime()
-        maxDate = maxDate.clearTime()
-        def itemValues = SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            isNotNull('dailySnapshot')
-            lte('dailySnapshot', maxDate)
-            gte('dailySnapshot', minDate)
-            projections {
-                property('dailySnapshot')
-                property('minPrice')
-            }
-        }.collect {
-            [date: new Date(it[0].getTime()) as Date, value: it[1]]
-        }
-
-        def baseValue = SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lt('date', minDate)
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-            projections {
-                property('minPrice')
-            }
-        }.find() ?: SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lte('date', maxDate)
-            order('date', ORDER_ASCENDING)
-            maxResults(1)
-            projections {
-                property('minPrice')
-            }
-        }.find()
-
-//        if (!itemValues || itemValues.size() == 0)
-//            return []
-
-        def currentDate = minDate
-        def lastValue = baseValue ?: 0
-        while (currentDate <= maxDate) {
-            def item = itemValues.find { it.date == currentDate }
-            if (!item)
-                itemValues.add([date: currentDate, value: lastValue])
-            else
-                lastValue = item.value
-
-            use(TimeCategory) {
-                currentDate = currentDate + 1.day
-            }
-        }
-        itemValues.sort { it.date }.collect { it.value }
-    }
-
-    List getMaxPriceSeries(Symbol symbol, Integer daysCount = 100, Date maxDate) {
-        Date minDate = maxDate
-        use(TimeCategory) {
-            minDate = minDate - (daysCount - 1).days
-        }
-        getMinPriceSeries(symbol, minDate, maxDate)
-    }
-
-    List getMaxPriceSeries(Symbol symbol, Date minDate, Date maxDate) {
-
-        minDate = minDate.clearTime()
-        maxDate = maxDate.clearTime()
-        def itemValues = SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            isNotNull('dailySnapshot')
-            lte('dailySnapshot', maxDate)
-            gte('dailySnapshot', minDate)
-            projections {
-                property('dailySnapshot')
-                property('maxPrice')
-            }
-        }.collect {
-            [date: new Date(it[0].getTime()) as Date, value: it[1]]
-        }
-
-        def baseValue = SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lt('date', minDate)
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-            projections {
-                property('maxPrice')
-            }
-        }.find() ?: SymbolDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            lte('date', maxDate)
-            order('date', ORDER_ASCENDING)
-            maxResults(1)
-            projections {
-                property('maxPrice')
-            }
-        }.find()
-
-//        if (!itemValues || itemValues.size() == 0)
-//            return []
-
-        def currentDate = minDate
-        def lastValue = baseValue ?: 0
-        while (currentDate <= maxDate) {
-            def item = itemValues.find { it.date == currentDate }
-            if (!item)
-                itemValues.add([date: currentDate, value: lastValue])
-            else
-                lastValue = item.value
-
-            use(TimeCategory) {
-                currentDate = currentDate + 1.day
-            }
-        }
-        itemValues.sort { it.date }.collect { it.value }
+        }.sort { it.dailySnapshot }
     }
 }

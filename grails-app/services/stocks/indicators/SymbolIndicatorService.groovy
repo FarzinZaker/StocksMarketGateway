@@ -29,4 +29,30 @@ class SymbolIndicatorService {
             clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${indicator.id}")
 
     }
+
+    def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
+        def value = symbol ? serviceClass.bulkCalculate(symbol, parameter) : [series: [], indicators: []]
+
+        def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
+        def clazz = ClassResolver.loadDomainClassByName(className)
+        def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
+
+        def dailyTrades = value.series as List<SymbolDailyTrade>
+        def indicatorValues = value.indicators as List<Double>
+
+        def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
+        for (def i = 0; i < loopCount; i++) {
+
+            def indicator = clazz.newInstance()
+            indicator.dailyTrade = dailyTrades[i]
+            indicator.parameter = parameterString
+            indicator.value = indicatorValues[i]
+            indicator.symbol = symbol
+            indicator.dayNumber = loopCount - i + 1
+            indicator.calculationDate = dailyTrades[i].date
+            indicator.save(flush: i == loopCount - 1)
+
+        }
+
+    }
 }
