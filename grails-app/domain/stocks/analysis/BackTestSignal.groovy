@@ -26,6 +26,8 @@ class BackTestSignal {
 
     String indicatorsJSON
 
+    String reason
+
     transient void setIndicators(value){
         indicators = value as JSON
     }

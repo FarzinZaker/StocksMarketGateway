@@ -40,4 +40,12 @@ class BackTest {
     static constraints = {
         status inlist:BackTestHelper.STATUS_LIST
     }
+
+    transient Double getLossLimitValue(){
+        lossLimit * outlay
+    }
+
+    transient Double getProfitLimitValue(){
+        profitLimit * outlay
+    }
 }

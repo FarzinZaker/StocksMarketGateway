@@ -4,6 +4,10 @@ import stocks.tse.Symbol
 
 class SellSignal extends BackTestSignal {
 
+    transient Double getTotalValue(){
+        closingPrice * count - wage - tax
+    }
+
     static constraints = {
     }
 }
