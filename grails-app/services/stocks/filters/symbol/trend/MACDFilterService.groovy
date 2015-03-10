@@ -142,10 +142,10 @@ class MACDFilterService implements IncludeFilterService {
                     ])
                     break
                 case Operators.LOWER_THAN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_indicator_filter', [
-                            sourceClass    : MACDSignal.class.canonicalName,
+                    idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_indicator_filter', [
+                            sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
-                            targetClass    : MACD.class.canonicalName,
+                            targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter
                     ])
                     break
@@ -158,10 +158,10 @@ class MACDFilterService implements IncludeFilterService {
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
-                            sourceClass    : MACDSignal.class.canonicalName,
+                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_indicator_filter', [
+                            sourceClass    : MACD.class.canonicalName,
                             sourceParameter: parameter,
-                            targetClass    : MACD.class.canonicalName,
+                            targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter
                     ])
                     break

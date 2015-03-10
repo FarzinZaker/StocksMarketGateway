@@ -123,11 +123,11 @@ class SMAFilterService implements IncludeFilterService {
                 ])
                 break
             case Operators.LOWER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_indicator_filter', [
-                        sourceClass    : targetIndicator,
-                        sourceParameter: targetParameter,
-                        targetClass    : SMA.class.canonicalName,
-                        targetParameter: parameter
+                idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_indicator_filter', [
+                        sourceClass    : SMA.canonicalName,
+                        sourceParameter: parameter,
+                        targetClass    : targetIndicator,
+                        targetParameter: targetParameter
                 ])
                 break
             case Operators.CROSSING_TO_UP:
@@ -139,11 +139,11 @@ class SMAFilterService implements IncludeFilterService {
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
-                        sourceClass    : targetIndicator,
-                        sourceParameter: targetParameter,
-                        targetClass    : SMA.class.canonicalName,
-                        targetParameter: parameter
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_indicator_filter', [
+                        sourceClass    : SMA.class.canonicalName,
+                        sourceParameter: parameter,
+                        targetClass    : targetIndicator,
+                        targetParameter: targetParameter
                 ])
                 break
         }

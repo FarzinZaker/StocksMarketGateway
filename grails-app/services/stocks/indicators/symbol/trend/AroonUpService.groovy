@@ -38,7 +38,7 @@ class AroonUpService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Map<String, List> bulkCalculate(Symbol item, Integer parameter) {
+    Map bulkCalculate(Symbol item, Integer parameter) {
 
         def series = tradesDataService.getPriceSeries(item)
         def core = new Core()
@@ -51,7 +51,7 @@ class AroonUpService implements IndicatorServiceBase<Symbol, Integer> {
         }), TypeCast.toDoubleArray(series.collect { it.minPrice }), parameter, beginIndex, endIndex, ignore, result)
         [
                 series    : series,
-                indicators: result?.toList()
+                indicators: result
         ]
     }
 }

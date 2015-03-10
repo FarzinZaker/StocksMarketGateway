@@ -13,5 +13,5 @@ interface IndicatorServiceBase<T, K> {
 
     Double calculate(T item, K parameter, Date date)
 
-    Map<String, List> bulkCalculate(T item, K parameter)
+    Map bulkCalculate(T item, K parameter)
 }

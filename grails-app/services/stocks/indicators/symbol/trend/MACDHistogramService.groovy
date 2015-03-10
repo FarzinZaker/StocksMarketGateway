@@ -39,7 +39,7 @@ class MACDHistogramService implements IndicatorServiceBase<Symbol, List<Integer>
     }
 
     @Override
-    Map<String, List> bulkCalculate(Symbol item, List<Integer> parameter) {
+    Map bulkCalculate(Symbol item, List<Integer> parameter) {
 
         def series = tradesDataService.getPriceSeries(item)
         def core = new Core()

@@ -2,6 +2,7 @@ package stocks.filters
 
 import grails.converters.JSON
 import grails.gorm.DetachedCriteria
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
@@ -119,6 +120,21 @@ class FilterService {
                 property('id')
             }
         })
-        lowLevelDataService.executeStoredProcedure('symbol_select_screener', [idList: items.join(',')])
+
+
+        def indicatorColumns = []
+        rules.each { rule ->
+            def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
+            if (ClassResolver.serviceExists(indicatorName + "Service"))
+                indicatorColumns << "[${indicatorName.replace('.', '_')}_${rule.inputType}]"
+
+            def value =  JSON.parse(rule.value)?.first()
+            if(value instanceof JSONArray) {
+                indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+                if (ClassResolver.serviceExists(indicatorName + "Service"))
+                    indicatorColumns << "[${indicatorName.replace('.', '_')}_${value?.last()}]"
+            }
+        }
+        lowLevelDataService.executeStoredProcedure('symbol_select_screener', [idList: items.join(','), cols: indicatorColumns.join(',')])
     }
 }

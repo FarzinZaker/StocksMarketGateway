@@ -109,6 +109,7 @@ class PriceFilterService implements IncludeFilterService {
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
                 return indicatorCompareService.priceNegativeChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date)
         }
+        false
     }
 
     @Override

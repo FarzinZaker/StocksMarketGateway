@@ -125,11 +125,11 @@ class EMAFilterService implements IncludeFilterService {
                 ])
                 break
             case Operators.LOWER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_indicator_filter', [
-                        sourceClass    : targetIndicator,
-                        sourceParameter: targetParameter,
-                        targetClass    : EMA.class.canonicalName,
-                        targetParameter: parameter
+                idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_indicator_filter', [
+                        sourceClass    : EMA.canonicalName,
+                        sourceParameter: parameter,
+                        targetClass    : targetIndicator,
+                        targetParameter: targetParameter
                 ])
                 break
             case Operators.CROSSING_TO_UP:
@@ -141,11 +141,11 @@ class EMAFilterService implements IncludeFilterService {
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
-                        sourceClass    : targetIndicator,
-                        sourceParameter: targetParameter,
-                        targetClass    : EMA.class.canonicalName,
-                        targetParameter: parameter
+                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_indicator_filter', [
+                        sourceClass    : EMA.class.canonicalName,
+                        sourceParameter: parameter,
+                        targetClass    : targetIndicator,
+                        targetParameter: targetParameter
                 ])
                 break
         }

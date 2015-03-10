@@ -40,7 +40,7 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Map<String, List> bulkCalculate(Symbol item, Integer parameter) {
+    Map bulkCalculate(Symbol item, Integer parameter) {
 
         def series = tradesDataService.getPriceSeries(item)
         def core = new Core()
@@ -52,7 +52,7 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,
-                indicators: result?.toList()
+                indicators: result
         ]
     }
 }

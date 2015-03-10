@@ -37,7 +37,7 @@ class MACDService implements IndicatorServiceBase<Symbol, List<Integer>> {
     }
 
     @Override
-    Map<String, List> bulkCalculate(Symbol item, List<Integer> parameter) {
+    Map bulkCalculate(Symbol item, List<Integer> parameter) {
 
         def series = tradesDataService.getPriceSeries(item)
         def core = new Core()
@@ -51,7 +51,7 @@ class MACDService implements IndicatorServiceBase<Symbol, List<Integer>> {
         }), parameter[0], parameter[1], parameter[2], beginIndex, endIndex, result, signal, histogram)
         [
                 series    : series,
-                indicators: result?.toList()
+                indicators: result
         ]
     }
 }

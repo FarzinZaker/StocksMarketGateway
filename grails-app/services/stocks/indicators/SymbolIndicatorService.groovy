@@ -37,8 +37,8 @@ class SymbolIndicatorService {
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
 
-        def dailyTrades = value.series as List<SymbolDailyTrade>
-        def indicatorValues = value.indicators as List<Double>
+        def dailyTrades = value.series.reverse()
+        def indicatorValues = value.indicators
 
         def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
         for (def i = 0; i < loopCount; i++) {
@@ -48,8 +48,8 @@ class SymbolIndicatorService {
             indicator.parameter = parameterString
             indicator.value = indicatorValues[i]
             indicator.symbol = symbol
-            indicator.dayNumber = loopCount - i + 1
-            indicator.calculationDate = dailyTrades[i].date
+            indicator.dayNumber = i + 1
+            indicator.calculationDate = dailyTrades[i].dailySnapshot
             indicator.save(flush: i == loopCount - 1)
 
         }
