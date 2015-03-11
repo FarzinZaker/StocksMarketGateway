@@ -8,7 +8,7 @@ class BackTestSignal {
     BackTest backTest
     Symbol symbol
     Double price
-    Integer count
+    Integer stockCount
     Double wage
     Double tax
     Date date
@@ -29,7 +29,7 @@ class BackTestSignal {
     String reason
 
     transient void setIndicators(value){
-        indicators = value as JSON
+        indicatorsJSON = value as JSON
     }
 
     transient def getIndicators() {

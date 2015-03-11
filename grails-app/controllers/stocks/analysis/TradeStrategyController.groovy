@@ -83,8 +83,8 @@ class TradeStrategyController {
         if(!params.submitAndContinue) {
             strategy.buyRule = parseRules(params.buyRule as String)
             strategy.sellRule = parseRules(params.sellRule as String)
-            strategy.lossLimit = params.lossLimit as Integer
-            strategy.profitLimit = params.profitLimit as Integer
+            strategy.lossLimit = params.lossLimit as Float
+            strategy.profitLimit = params.profitLimit as Float
             strategy.timeLimit = params.timeLimit as Integer
         }
         else {

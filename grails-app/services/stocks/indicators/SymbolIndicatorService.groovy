@@ -55,4 +55,23 @@ class SymbolIndicatorService {
         }
 
     }
+
+    def bulkCalculateIndicator(Symbol symbol) {
+        grailsApplication.getArtefacts('Service').findAll {
+            it.fullName.startsWith("stocks.indicators.symbol.")
+        }.sort { it.fullName }.each { serviceClass ->
+            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+            if (service.enabled) {
+                service.commonParameters.each { parameter ->
+                    bulkCalculateIndicator(symbol, service, parameter)
+                }
+            }
+        }
+    }
+
+    def recalculateIndicators(Symbol symbol) {
+        IndicatorBase.executeUpdate("delete IndicatorBase i where i.symbol.id = :symbolId", [symbolId: symbol.id])
+        bulkCalculateIndicator(symbol)
+    }
+
 }

@@ -12,6 +12,11 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     }
 
     @Override
+    protected List<String> getPropertyExcludeList(){
+        ['oldClosingPrice']
+    }
+
+    @Override
     protected void beforeCreate(SymbolDailyTradeEvent event) {
 
     }

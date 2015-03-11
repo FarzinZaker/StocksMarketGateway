@@ -112,7 +112,7 @@
             <div class="col-xs-12">
                 <form:field fieldName="backTest.outlay">
                     <form:numericTextBox name="outlay" style="width:450px;" value="10000000"
-                                         format="#,## ${message(code: 'rial')}"/>
+                                         format="#,## ${message(code: 'rial')}" step="100000"/>
                 </form:field>
             </div>
         </div>

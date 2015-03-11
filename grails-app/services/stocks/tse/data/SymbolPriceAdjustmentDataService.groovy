@@ -6,14 +6,13 @@ import stocks.tse.TSEDataService
 import stocks.tse.event.SymbolPriceAdjustmentEvent
 
 class SymbolPriceAdjustmentDataService extends TSEDataService<SymbolPriceAdjustment, SymbolPriceAdjustmentEvent> {
-
     static transactional = false
     static schedules = [
             [
                     method : 'importData',
                     trigger: [
-                            type      : 'Simple',
-                            parameters: [repeatInterval: 600000l, startDelay: 60000]
+                            type      : 'Cron',
+                            parameters: [cronExpression: '0 0 4 * * ?']
                     ]
             ]
     ]

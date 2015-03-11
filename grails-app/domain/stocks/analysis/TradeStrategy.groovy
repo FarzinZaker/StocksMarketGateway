@@ -13,8 +13,8 @@ class TradeStrategy {
     String name
     Rule buyRule
     Rule sellRule
-    Integer lossLimit = 0
-    Integer profitLimit = 0
+    Float lossLimit = 0
+    Float profitLimit = 0
     Integer timeLimit = 0
     User owner
 

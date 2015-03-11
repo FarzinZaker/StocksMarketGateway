@@ -17,4 +17,5 @@ class BackTestHelper {
 
     public static
     final String[] REASON_LIST = [REASON_TIME_LIMIT, REASON_PROFIT_LIMIT, REASON_LOSS_LIMIT, REASON_RULES_MATCHED]
+
 }

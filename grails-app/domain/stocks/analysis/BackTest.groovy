@@ -16,7 +16,7 @@ class BackTest {
     Rule sellRule
     Float lossLimit = 0
     Float profitLimit = 0
-    Float timeLimit = 0
+    Integer timeLimit = 0
     Date startDate
     Date endDate
     Integer outlay

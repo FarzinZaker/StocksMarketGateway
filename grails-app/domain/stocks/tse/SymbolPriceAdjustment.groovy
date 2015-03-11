@@ -7,6 +7,7 @@ class SymbolPriceAdjustment {
     Date date
     Double oldPrice
     Double adjustedPrice
+    Boolean applied = false
 
     Date creationDate
     Date modificationDate

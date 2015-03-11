@@ -19,8 +19,8 @@ class SymbolPriceAdjustmentEvent {
     }
 
     static constraints = {
-        symbol nullable: true,  xmlNodeName: 'inscode', fkColumn: 'InternalCode'
-        symbolInternalCode nullable: true, xmlNodeName: 'inscode'
+        symbol nullable: true,  xmlNodeName: 'InsCode', fkColumn: 'InternalCode'
+        symbolInternalCode nullable: true, xmlNodeName: 'InsCode'
         date nullable: true, xmlNodeName: 'DEven', locale: 'en'
         oldPrice nullable: true, xmlNodeName: 'PClosingNoAdj'
         adjustedPrice nullable: true, xmlNodeName: 'PClosing'

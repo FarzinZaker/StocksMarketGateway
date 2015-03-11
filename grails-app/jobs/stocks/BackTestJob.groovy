@@ -16,11 +16,15 @@ class BackTestJob {
 
     def execute() {
         // execute task
-        def waitingBackTests = BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING)
-        withPool {
-            waitingBackTests.eachParallel{ BackTest backTest ->
-                backTestService.startBackTest(backTest)
-            }
+        BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
+            it.status = BackTestHelper.STATUS_IN_PROGRESS
+            it.save(flush:true)
+        }
+        def waitingBackTests = BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
+//        withPool {
+        waitingBackTests.each { BackTest backTest ->
+            backTestService.runBackTest(backTest)
+//            }
         }
     }
 }

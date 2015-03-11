@@ -12,6 +12,7 @@ class SymbolDailyTrade {
     Integer totalTradeVolume
     Double totalTradeValue
     Double closingPrice
+    Double oldClosingPrice
     Double firstTradePrice
     Double lastTradePrice
     Double priceChange
@@ -49,6 +50,7 @@ class SymbolDailyTrade {
         totalTradeValue nullable: true
         symbolPersianName nullable: true
         closingPrice nullable: true
+        oldClosingPrice nullable: true
         firstTradePrice nullable: true
         lastTradePrice nullable: true
         priceChange nullable: true

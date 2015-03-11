@@ -1,4 +1,5 @@
 package stocks.analysis
+
 import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.web.json.JSONArray
@@ -12,17 +13,17 @@ class BackTestService {
     def springSecurityService
     def priceService
 
-    def startBackTest(BackTest backTest) {
-        backTest.status = BackTestHelper.STATUS_IN_PROGRESS
-        backTest.save(flush: true)
-        while (backTest.status != BackTestHelper.STATUS_FINISHED) {
-            stepForwardBackTest(backTest)
+    def runBackTest(BackTest backTest) {
+        10.times {
+            if (backTest.status != BackTestHelper.STATUS_FINISHED) {
+                stepForwardBackTest(backTest)
+            }
         }
     }
 
     void stepForwardBackTest(BackTest backTest) {
         use(TimeCategory) {
-            backTest.currentDate + 1.day
+            backTest.currentDate = backTest.currentDate + 1.day
         }
 
         if (backTest.currentDate >= backTest.endDate) {
@@ -39,17 +40,17 @@ class BackTestService {
                 def signal = buy(backTest, portfolioLog, dailyTrade)
                 updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
             } else if (canSell(portfolioLog)) {
+                def signal = null
                 def limitsResult = shouldSellDueToLimits(backTest, portfolioLog, dailyTrade, lastSignal as BuySignal)
                 if (limitsResult || shouldSell(backTest)) {
-                    def signal = sell(backTest, portfolioLog, dailyTrade, limitsResult ?: BackTestHelper.REASON_RULES_MATCHED)
-                    updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
+                    signal = sell(backTest, portfolioLog, dailyTrade, limitsResult ?: BackTestHelper.REASON_RULES_MATCHED)
                 }
+                updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
             } else
                 updatePortfolioLog(backTest, portfolioLog, dailyTrade)
         }
 
-        backTest.save()
-        backTest
+        backTest.save(flush:true)
     }
 
     Boolean canBuy(PortfolioLog portfolioLog, Double price) {
@@ -63,9 +64,9 @@ class BackTestService {
     BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade) {
         def signal = new BuySignal()
         fillSignalCommonFields(signal, backTest, dailyTrade)
-        signal.count = Math.floor(portfolioLog.remainingOutlay / (dailyTrade.closingPrice * (1 + backTest.buyWage + backTest.buyTax)))
-        signal.wage = backTest.buyWage * signal.count * dailyTrade.closingPrice
-        signal.tax = backTest.buyTax * signal.count * dailyTrade.closingPrice
+        signal.stockCount = Math.floor(portfolioLog.remainingOutlay / (dailyTrade.closingPrice * (1 + backTest.buyWage + backTest.buyTax)))
+        signal.wage = backTest.buyWage * signal.stockCount * dailyTrade.closingPrice
+        signal.tax = backTest.buyTax * signal.stockCount * dailyTrade.closingPrice
         signal.reason = BackTestHelper.REASON_RULES_MATCHED
         signal.save(flush: true)
     }
@@ -79,36 +80,44 @@ class BackTestService {
     }
 
     String shouldSellDueToLimits(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade, BuySignal lastSignal) {
-        if (!lastSignal || lastSignal)
+        if (!lastSignal)
             return null
 
-        def maxAcceptableDate = null
-        use(TimeCategory) {
-            maxAcceptableDate = backTest.currentDate - backTest.timeLimit.days
+        if (backTest.timeLimit) {
+            def maxAcceptableDate = null
+            use(TimeCategory) {
+                maxAcceptableDate = backTest.currentDate - backTest.timeLimit.days
+            }
+            if (maxAcceptableDate >= lastSignal.date)
+                return BackTestHelper.REASON_TIME_LIMIT
         }
-        if (maxAcceptableDate >= lastSignal.date)
-            return BackTestHelper.REASON_TIME_LIMIT
 
-        def sellValue = portfolioLog.stockCount * dailyTrade.closingPrice -
-                backTest.sellWage * portfolioLog.stockCount * dailyTrade.closingPrice -
-                backTest.sellTax * portfolioLog.stockCount * dailyTrade.closingPrice
+        if (backTest.profitLimit || backTest.lossLimit) {
+            def sellValue = portfolioLog.stockCount * dailyTrade.closingPrice -
+                    backTest.sellWage * portfolioLog.stockCount * dailyTrade.closingPrice -
+                    backTest.sellTax * portfolioLog.stockCount * dailyTrade.closingPrice
 
-        if (sellValue - lastSignal.totalValue >= backTest.profitLimitValue)
-            return BackTestHelper.REASON_PROFIT_LIMIT
+            if (backTest.profitLimit && sellValue - lastSignal.totalValue >= backTest.profitLimitValue)
+                return BackTestHelper.REASON_PROFIT_LIMIT
 
-        if (lastSignal.totalValue - sellValue >= backTest.lossLimitValue)
-            return BackTestHelper.REASON_PROFIT_LIMIT
-
+            if (backTest.lossLimit && lastSignal.totalValue - sellValue >= backTest.lossLimitValue)
+                return BackTestHelper.REASON_PROFIT_LIMIT
+        }
         null
     }
 
     BackTestSignal sell(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade, String reason) {
         def signal = new SellSignal()
         fillSignalCommonFields(signal, backTest, dailyTrade)
-        signal.count = portfolioLog.stockCount
-        signal.wage = backTest.sellWage * signal.count * dailyTrade.closingPrice
-        signal.tax = backTest.sellTax * signal.count * dailyTrade.closingPrice
+        signal.stockCount = portfolioLog.stockCount
+        signal.wage = backTest.sellWage * signal.stockCount * dailyTrade.closingPrice
+        signal.tax = backTest.sellTax * signal.stockCount * dailyTrade.closingPrice
         signal.reason = reason
+
+        //calculate effect
+        def previousBuySignals = BuySignal.executeQuery("from BuySignal bs where bs.backTest.id = ${backTest.id} and not exists (select id from SellSignal ss where ss.backTest.id = ${backTest.id} and ss.date > bs.date)")
+        signal.effect = signal.totalValue - (previousBuySignals?.sum { it.totalValue } as Double) ?: 0
+
         signal.save(flush: true)
     }
 
@@ -178,10 +187,10 @@ class BackTestService {
         portfolioLog.price = dailyTrade.closingPrice
         if (signal) {
             if (signal instanceof BuySignal) {
-                portfolioLog.remainingOutlay = previousLog.remainingOutlay - signal.closingPrice * signal.count - signal.wage - signal.tax
-                portfolioLog.stockCount = previousLog.stockCount + signal.count
+                portfolioLog.remainingOutlay = previousLog.remainingOutlay - signal.closingPrice * signal.stockCount - signal.wage - signal.tax
+                portfolioLog.stockCount = previousLog.stockCount + signal.stockCount
             } else { //sell signal
-                portfolioLog.remainingOutlay = previousLog.remainingOutlay + signal.closingPrice * signal.count - signal.wage - signal.tax
+                portfolioLog.remainingOutlay = previousLog.remainingOutlay + signal.closingPrice * signal.stockCount - signal.wage - signal.tax
                 portfolioLog.stockCount = 0
             }
         } else {
@@ -207,7 +216,7 @@ class BackTestService {
             }
         }
         indicatorList.each {
-            it.value = ClassResolver.loadDomainClassByName(it.name).list{
+            it.value = ClassResolver.loadDomainClassByName(it.name?.toString()).list {
                 eq('symbol', backTest.symbol)
                 eq('parameter', it.parameter)
                 lte('calculationDate', backTest.currentDate)

@@ -14,6 +14,11 @@ class SymbolPriceAdjustmentPersistService extends TSEPersistService<SymbolPriceA
     }
 
     @Override
+    protected List<String> getPropertyExcludeList(){
+        ['applied']
+    }
+
+    @Override
     protected void beforeCreate(SymbolPriceAdjustmentEvent event) {
 
     }

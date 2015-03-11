@@ -11,6 +11,10 @@ class PortfolioLog {
     Integer stockCount = 0
     Double price
 
+    static mapping = {
+        table 'analysis_back_test_portfolio_log'
+    }
+
     static constraints = {
     }
 }
