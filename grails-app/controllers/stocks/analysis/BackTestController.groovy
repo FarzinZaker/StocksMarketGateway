@@ -5,6 +5,7 @@ import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import stocks.User
+import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
 
 class BackTestController {
@@ -61,7 +62,106 @@ class BackTestController {
     }
 
     def view() {
-        render "visualizing back test: #${params.id}"
+        def backTest = BackTest.get(params.id as Long)
+        def signals = decorateBackTestSignals(backTest, null)
+        def logs = decoratePortfolioLogs(backTest, null)
+        [
+                backTest: backTest,
+                signals : signals,
+                logs    : logs,
+                summery : backTest.status == BackTestHelper.STATUS_FINISHED ? calculateSummary(backTest, logs, signals) : null
+        ]
+    }
+
+    def viewJson() {
+        def backTest = BackTest.get(params.id as Long)
+        def date = new Date(params.startDate as Long)
+        render([
+                status    : backTest.status,
+                signalList: decorateBackTestSignals(backTest, date),
+                logs      : decoratePortfolioLogs(backTest, date)
+        ] as JSON)
+    }
+
+    private def decorateBackTestSignals(BackTest backTest, Date startDate) {
+        (startDate ? BackTestSignal.findAllByBackTestAndDateGreaterThanEquals(backTest, startDate) : BackTestSignal.findAllByBackTest(backTest)).sort {
+            it.date.time
+        }.collect {
+            [
+                    id        : it.id,
+                    time      : it.date.clearTime().time,
+                    date      : format.jalaliDate(date: it.date.clearTime()),
+                    reason    : message(code: "${it.class.simpleName}.${it.reason}"),
+                    price     : Math.round(it.price),
+                    stockCount: Math.round(it.stockCount),
+                    value     : Math.round(it.price * it.stockCount),
+                    wage      : Math.round(it.wage),
+                    tax       : Math.round(it.tax),
+                    effect    : Math.round((it.effect ?: 0) as float)
+            ]
+        }
+    }
+
+    private static def decoratePortfolioLogs(BackTest backTest, Date startDate) {
+        def list = []
+        if (startDate) {
+            list = PortfolioLog.findAllByBackTestAndDateGreaterThan(backTest, startDate).sort {
+                it.date.time
+            }.collect {
+                [
+                        it.date.clearTime().time,
+                        Math.round(it.remainingOutlay + it.price * it.stockCount),
+                        Math.round(it.price * it.stockCount)
+                ]
+            }
+        } else {
+            def logs = PortfolioLog.findAllByBackTest(backTest)
+            def dailyTrades = SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(backTest.symbol, backTest.startDate, backTest.endDate)
+            dailyTrades.sort {
+                it.dailySnapshot.time
+            }.each { SymbolDailyTrade dailyTrade ->
+                def log = logs.find { it.date.clearTime() == dailyTrade.dailySnapshot.clearTime() }
+                list << [
+                        dailyTrade.dailySnapshot.clearTime().time,
+                        log ? Math.round(log.remainingOutlay + log.price * log.stockCount) : 0,
+                        log ? Math.round(log.price * log.stockCount) : 0
+                ]
+            }
+        }
+        list
+    }
+
+    def summary() {
+        def backTest = BackTest.get(params.id as Long)
+        def signals = decorateBackTestSignals(backTest, null)
+        def logs = decoratePortfolioLogs(backTest, null)
+        render template: 'summary', model: [summary: calculateSummary(backTest, logs, signals)]
+    }
+
+    private def calculateSummary(BackTest backTest, List logs, List signals) {
+        def openDays = SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(backTest.symbol, backTest.startDate, backTest.endDate)
+        def maxDrawDown = 0
+        def sortedLogs = logs.sort{it[0]}
+        for(def i = 1; i < sortedLogs.size(); i++) {
+            def currentDrawDown = (sortedLogs[i][1] - sortedLogs[i - 1][1]) / sortedLogs[i - 1][1]
+            if (currentDrawDown < maxDrawDown)
+                maxDrawDown = currentDrawDown
+        }
+
+        [
+                initialValue         : backTest.outlay,
+                finalValue           : logs.last()[1],
+                profitableTradesCount: signals.count { it.effect > 0 },
+                lossingTradesCount   : signals.count { it.effect < 0 },
+                successRate          : signals.count { it.effect > 0 } * 100 /
+                        (signals.count { it.effect > 0 } + signals.count { it.effect < 0 }),
+                returnOfInvestment   : (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay,
+                yearlyBenefit        : (logs.last()[1] - backTest.outlay) * 365 / backTest.outlay * openDays.size() * 2,
+                dailyBenefit         : (logs.last()[1] - backTest.outlay) / backTest.outlay * openDays.size(),
+                totalWage            : signals.sum { it.wage },
+                totalTax             : signals.sum { it.tax },
+                maxDrawDown          : Math.abs(maxDrawDown * 100)
+        ]
     }
 
     private static Date parseDate(String date) {

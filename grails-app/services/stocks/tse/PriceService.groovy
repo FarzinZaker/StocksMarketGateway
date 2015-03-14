@@ -11,4 +11,9 @@ class PriceService {
         def parameters = [max: 1, sort: "creationDate", order: "desc"]
         SymbolDailyTrade.findAllBySymbolAndDateLessThanEquals(symbol, date, parameters)?.find()
     }
+
+    SymbolDailyTrade dailyTrade(Symbol symbol, Date date = new Date()) {
+        def parameters = [max: 1, sort: "creationDate", order: "desc"]
+        SymbolDailyTrade.findAllBySymbolAndDailySnapshot(symbol, date, parameters)?.find()
+    }
 }

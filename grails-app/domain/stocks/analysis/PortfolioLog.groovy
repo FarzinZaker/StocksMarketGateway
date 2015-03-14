@@ -1,7 +1,5 @@
 package stocks.analysis
 
-import grails.converters.JSON
-
 class PortfolioLog {
 
     BackTest backTest

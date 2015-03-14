@@ -33,7 +33,7 @@ class BootStrap {
         }
 
         dataStateService.initializeStateLogging()
-        dataService.initializeJobs()
+//        dataService.initializeJobs()
 
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')

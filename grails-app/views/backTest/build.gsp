@@ -149,7 +149,7 @@
             </div>
         </div>
         <g:hiddenField name="tradeStrategy.id" value="${tradeStrategy?.id}"/>
-        <div class="toolbar" style="margin0top:10px;padding-top:10px;" onclick="gatherData()">
+        <div class="toolbar" style="margin0top:10px;padding-top:10px;">
             <form:submitButton name="submit" text="${message(code: 'backTest.submit')}"/>
         </div>
     </form:form>

@@ -12,34 +12,36 @@ class BackTestSignal {
     Double wage
     Double tax
     Date date
-
-    Integer totalTradeCount
-    Integer totalTradeVolume
-    Double totalTradeValue
-    Double closingPrice
-    Double firstTradePrice
-    Double lastTradePrice
-    Double priceChange
-    Double minPrice
-    Double maxPrice
-    Double yesterdayPrice
-
-    String indicatorsJSON
-
+    Double effect
     String reason
 
-    transient void setIndicators(value){
-        indicatorsJSON = value as JSON
-    }
+//    Integer totalTradeCount
+//    Integer totalTradeVolume
+//    Double totalTradeValue
+//    Double closingPrice
+//    Double firstTradePrice
+//    Double lastTradePrice
+//    Double priceChange
+//    Double minPrice
+//    Double maxPrice
+//    Double yesterdayPrice
 
-    transient def getIndicators() {
-        JSON.parse(indicatorsJSON)
-    }
+//    String indicatorsJSON
+
+
+//    transient void setIndicators(value){
+//        indicatorsJSON = value as JSON
+//    }
+//
+//    transient def getIndicators() {
+//        JSON.parse(indicatorsJSON)
+//    }
 
     static mapping = {
         table 'analysis_back_test_signal'
     }
 
     static constraints = {
+        effect nullable: true
     }
 }

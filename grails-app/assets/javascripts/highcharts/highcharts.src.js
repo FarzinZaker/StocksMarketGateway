@@ -1557,8 +1557,8 @@ defaultOptions = {
 
 	credits: {
 		enabled: true,
-		text: 'Highcharts.com',
-		href: 'http://www.highcharts.com',
+		text: '4tablo.ir',
+		href: 'http://www.4tablo.ir',
 		position: {
 			align: 'right',
 			x: -10,
