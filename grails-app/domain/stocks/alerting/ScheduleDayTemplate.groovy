@@ -19,7 +19,7 @@ class ScheduleDayTemplate {
 
 
     static mapping = {
-        table 'alerting_schedule_day_template'
+        table 'alt_schedule_day_template'
     }
 
     static constraints = {

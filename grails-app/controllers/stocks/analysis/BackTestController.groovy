@@ -5,6 +5,7 @@ import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import stocks.User
+import stocks.tse.event.IndexEvent
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
 
@@ -138,29 +139,66 @@ class BackTestController {
         render template: 'summary', model: [summary: calculateSummary(backTest, logs, signals)]
     }
 
-    private def calculateSummary(BackTest backTest, List logs, List signals) {
+    private static def calculateSummary(BackTest backTest, List logs, List signals) {
         def openDays = SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(backTest.symbol, backTest.startDate, backTest.endDate)
         def maxDrawDown = 0
-        def sortedLogs = logs.sort{it[0]}
-        for(def i = 1; i < sortedLogs.size(); i++) {
+        def sortedLogs = logs.sort { it[0] }
+        for (def i = 1; i < sortedLogs.size(); i++) {
             def currentDrawDown = (sortedLogs[i][1] - sortedLogs[i - 1][1]) / sortedLogs[i - 1][1]
             if (currentDrawDown < maxDrawDown)
                 maxDrawDown = currentDrawDown
         }
 
+        //success rate
+        def successRate = signals.count { it.effect > 0 } * 100 / (signals.count { it.effect > 0 } + signals.count {
+            it.effect < 0
+        })
+
+        //performance
+        def performance = logs.last()[2] / backTest.outlay - 1
+
+        //index info
+        def indexFirstValue = IndexEvent.createCriteria().list {
+            eq('internalCode', 32097828799138957)
+            lte('date', backTest.startDate)
+            order('date', ORDER_DESCENDING)
+            maxResults(1)
+        }?.find()
+        if(!indexFirstValue)
+            indexFirstValue = IndexEvent.createCriteria().list {
+                eq('internalCode', 32097828799138957)
+                order('date', ORDER_ASCENDING)
+                maxResults(1)
+            }?.find()
+        def indexLastValue = IndexEvent.createCriteria().list {
+            eq('internalCode', 32097828799138957)
+            lte('date', backTest.endDate)
+            order('date', ORDER_DESCENDING)
+            maxResults(1)
+        }?.find()
+
+        //holding condition
+        def hcStockCount = backTest.outlay / (openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax))
+        def hcBuyValue = hcStockCount * openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax)
+        def hcSellValue = hcStockCount * openDays.last()?.closingPrice * (1 - backTest.sellWage + backTest.sellTax)
+        def hcPerformance = indexLastValue?.finalIndexValue / indexFirstValue?.finalIndexValue
+
         [
-                initialValue         : backTest.outlay,
-                finalValue           : logs.last()[1],
-                profitableTradesCount: signals.count { it.effect > 0 },
-                lossingTradesCount   : signals.count { it.effect < 0 },
-                successRate          : signals.count { it.effect > 0 } * 100 /
-                        (signals.count { it.effect > 0 } + signals.count { it.effect < 0 }),
-                returnOfInvestment   : (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay,
-                yearlyBenefit        : (logs.last()[1] - backTest.outlay) * 365 / backTest.outlay * openDays.size() * 2,
-                dailyBenefit         : (logs.last()[1] - backTest.outlay) / backTest.outlay * openDays.size(),
-                totalWage            : signals.sum { it.wage },
-                totalTax             : signals.sum { it.tax },
-                maxDrawDown          : Math.abs(maxDrawDown * 100)
+                initialValue                        : backTest.outlay,
+                finalValue                          : logs.last()[1],
+                profitableTradesCount               : signals.count { it.effect > 0 },
+                lossingTradesCount                  : signals.count { it.effect < 0 },
+                successRate                         : successRate,
+                returnOfInvestment                  : (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay,
+                yearlyBenefit                       : (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / openDays.size() / 2,
+                dailyBenefit                        : (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay / openDays.size(),
+                totalWage                           : signals.sum { it.wage },
+                totalTax                            : signals.sum { it.tax },
+                maxDrawDown                         : Math.abs(maxDrawDown * 100),
+                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / openDays.size() / 2,
+                indexDailyBenefit                   : (hcPerformance - 1) * 100 / openDays.size(),
+                performanceCompareToIndex           : performance - hcPerformance,
+                dailyBenefitInSimpleHoldingCondition: (backTest.outlay - hcBuyValue + hcSellValue) * 100 / backTest.outlay - 100
         ]
     }
 

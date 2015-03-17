@@ -72,6 +72,19 @@ class CoinFuture {
 
     static mapping = {
         table 'rate_future'
+
+        contractSizeUnitPersianDescription column: 'contractSizeUnitFaDesc'
+        contractSizeUnitDescription column: 'contractSizeUnitDesc'
+        contractCurrencyPersianDescription column: 'contractCurrencyFaDesc'
+        contractCurrencyDescription column: 'contractCurrencyDesc'
+        contractCurrencyDecimalPlaces column: 'contractCurrencyDecimalPlaces'
+        firstTradedPriceChangesPercent column: 'firstTradedPriceChangesPerc'
+        lastTradedPriceChangesPercent column: 'lastTradedPriceChangesPerc'
+        highTradedPriceChangesPercent column: 'highTradedPriceChangesPerc'
+        lowTradedPriceChangesPercent column: 'lowTradedPriceChangesPerc'
+        tradesValueCurrencyPersianDescription column: 'tradesValueCurrencyFaDesc'
+        tradesValueCurrencyDescription column: 'tradesValueCurrencyDesc'
+        openInterestsChangesPercent column: 'openInterestsChangesPerc'
     }
 
     static constraints = {

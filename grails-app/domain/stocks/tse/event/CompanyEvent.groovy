@@ -14,7 +14,7 @@ class CompanyEvent {
     Company data
 
     static mapping = {
-        table 'tse_company_event'
+        table 'tse_company_ev'
     }
 
     static constraints = {

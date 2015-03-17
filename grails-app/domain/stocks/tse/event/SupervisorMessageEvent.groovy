@@ -12,8 +12,9 @@ class SupervisorMessageEvent {
     SupervisorMessage data
 
     static mapping = {
-        table 'tse_supervisor_message_event'
+        table 'tse_supervisor_message_ev'
         description type: 'text'
+        date column: 'dat'
     }
 
     static constraints = {

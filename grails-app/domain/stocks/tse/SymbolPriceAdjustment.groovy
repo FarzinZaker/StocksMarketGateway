@@ -14,6 +14,7 @@ class SymbolPriceAdjustment {
 
     static mapping = {
         table 'tse_symbol_price_adjustment'
+        date column: 'dat'
     }
 
     static constraints = {

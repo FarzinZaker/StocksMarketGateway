@@ -21,7 +21,8 @@ class SymbolBestOrderEvent {
     SymbolBestOrder data
 
     static mapping = {
-        table 'tse_symbol_best_order_event'
+        table 'tse_symbol_best_order_ev'
+        number column: 'num'
     }
 
     static constraints = {

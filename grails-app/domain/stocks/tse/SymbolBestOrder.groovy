@@ -19,6 +19,7 @@ class SymbolBestOrder {
 
     static mapping = {
         table 'tse_symbol_best_order'
+        number column: 'num'
     }
 
     static constraints = {

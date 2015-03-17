@@ -13,6 +13,11 @@ class Rate {
 
     static belongsTo = [Document]
 
+
+    static mapping = {
+        table 'twit_rate'
+    }
+
     static constraints = {
     }
 

@@ -13,7 +13,7 @@ class FailedMessage {
     Date dateCreated
 
     static mapping = {
-        table 'alerting_message_failed'
+        table 'alt_message_failed'
         tablePerHierarchy false
         user lazy: true
         body type:'text'

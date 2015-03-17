@@ -10,7 +10,8 @@ class PortfolioLog {
     Double price
 
     static mapping = {
-        table 'analysis_back_test_portfolio_log'
+        table 'ana_back_test_portfolio_log'
+        date column: 'dat'
     }
 
     static constraints = {

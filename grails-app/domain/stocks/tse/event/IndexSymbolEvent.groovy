@@ -22,7 +22,8 @@ class IndexSymbolEvent {
     IndexSymbol data
 
     static mapping = {
-        table 'tse_index_symbol_event'
+        table 'tse_index_symbol_ev'
+        date column: 'dat'
     }
 
     static constraints = {

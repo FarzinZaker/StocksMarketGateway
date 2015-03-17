@@ -8,7 +8,7 @@ class ParameterSuggestedValueVariation {
     static belongsTo = ParameterSuggestedValue
 
     static mapping = {
-        table 'alerting_parameter_suggested_value_variation'
+        table 'alt_param_sgt_val_var'
         sort('value')
     }
 

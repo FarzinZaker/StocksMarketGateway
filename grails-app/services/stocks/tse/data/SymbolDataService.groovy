@@ -10,14 +10,14 @@ class SymbolDataService extends TSEDataService<Symbol, SymbolEvent> {
     static schedules = [
             [
                     method : 'importData',
-//                    trigger: [
-//                            type      : 'Simple',
-//                            parameters: [repeatInterval: 300000l, startDelay: 60000]
-//                    ]
                     trigger: [
-                            type      : 'Cron',
-                            parameters: [cronExpression: '0 0 2 * * ?']
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 300000l, startDelay: 60000]
                     ]
+//                    trigger: [
+//                            type      : 'Cron',
+//                            parameters: [cronExpression: '0 0 2 * * ?']
+//                    ]
             ]
     ]
 

@@ -18,14 +18,16 @@ class SymbolDailyTradeMissingPersistService extends TSEPersistService<SymbolDail
 
     @Override
     protected void afterCreate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
-        data.dailySnapshot = data.date
+        def date = data.date
+        date = date.clearTime()
+        data.dailySnapshot = date
         def calendar = Calendar.getInstance() as GregorianCalendar
-        calendar.setTime(data.date)
+        calendar.setTime(date)
         def jc = new JalaliCalendar(calendar)
         if (jc.getDayOfWeek() == 5)
-            data.weeklySnapshot = data.date
+            data.weeklySnapshot = date
         if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-            data.monthlySnapshot = data.date
+            data.monthlySnapshot = date
         SymbolDailyTrade.withTransaction {
             data.save(flush: true)
         }

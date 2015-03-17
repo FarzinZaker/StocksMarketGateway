@@ -7,10 +7,11 @@ class Image {
     String name
     byte[] content
 
-    static mapping={
-        content sqlType: 'ntext'
+    static mapping = {
+        table 'images'
+        content type: 'text'
     }
     static constraints = {
-        content(maxSize: 2000000000)
+//        content(maxSize: 2000000000)
     }
 }

@@ -1,5 +1,6 @@
 package stocks
 
+import grails.converters.JSON
 import stocks.indicators.IndicatorServiceBase
 import stocks.indicators.SymbolIndicatorService
 import stocks.tse.Symbol
@@ -39,23 +40,55 @@ class IndicatorJob {
 
     //bulk
     def execute() {
-        grailsApplication.getArtefacts('Service').findAll {
-            it.fullName.startsWith("stocks.indicators.symbol.")
-        }.sort { it.fullName }.each { serviceClass ->
-            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-            if (service.enabled) {
-                service.commonParameters.each { parameter ->
-                    def symbol = findNextSymbol(serviceClass, parameter)
-                    while (symbol) {
-                        symbolIndicatorService.bulkCalculateIndicator(symbol, service, parameter)
-                        symbol = findNextSymbol(serviceClass, parameter)
-                    }
-                }
-            }
+
+        return // disabled
+
+//        grailsApplication.getArtefacts('Service').findAll {
+//            it.fullName.startsWith("stocks.indicators.symbol.")
+//        }.sort { it.fullName }.each { serviceClass ->
+//            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+//            if (service.enabled) {
+//                service.commonParameters.each { parameter ->
+//                    def symbol = findNextSymbol(serviceClass, parameter)
+//                    while (symbol) {
+//                        symbolIndicatorService.bulkCalculateIndicator(symbol, service, parameter)
+//                        symbol = findNextSymbol(serviceClass, parameter)
+//                    }
+//                }
+//            }
+//        }
+        def symbol = findNextSymbol(getLastState())
+        if(symbol) {
+            symbolIndicatorService.bulkCalculateIndicator(symbol)
+            logState(symbol?.id)
+        }
+        else{
+            println()
+            println "-----------------------------------------"
+            println "---- calculating indicators finished ----"
+            println "-----------------------------------------"
+            println()
         }
     }
 
-    def findNextSymbol(serviceClass, parameter) {
-        Symbol.executeQuery("from Symbol s where exists (select id from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (select id from ${serviceClass.fullName.split('\\.').last().replace('Service', '')} i where i.parameter = '${parameter.class == ArrayList ? parameter.join(',') : parameter}' and i.symbol.id = s.id)", [max: 1]).find()
+    def findNextSymbol(Long minId) {
+        Symbol.executeQuery("from Symbol s where exists (from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (from IndicatorBase i where i.symbol.id = s.id) and s.id > :id", [id:minId, max: 1]).find()
+    }
+
+    def logState(Long symbolId) {
+        def data = [symbolId: symbolId]
+        def serviceName = 'indicator-bulk-calculate'
+        DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
+
+        DataServiceState state = new DataServiceState()
+        state.serviceName = serviceName
+        state.data = data as JSON
+        state.save(flush: true)
+    }
+
+    Long getLastState() {
+        def serviceName = 'indicator-bulk-calculate'
+        def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
+        data ? JSON.parse(data)?.symbolId ?: 0 : 0
     }
 }

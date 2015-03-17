@@ -28,6 +28,7 @@ class Future {
 
     static mapping = {
         table 'tse_future'
+        date column: 'dat'
     }
 
     static constraints = {

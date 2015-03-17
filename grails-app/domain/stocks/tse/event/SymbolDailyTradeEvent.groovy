@@ -28,7 +28,8 @@ class SymbolDailyTradeEvent {
     SymbolDailyTrade data
 
     static mapping = {
-        table 'tse_symbol_daily_trade_event'
+        table 'tse_symbol_daily_trade_ev'
+        date column: 'dat'
     }
 
     static constraints = {

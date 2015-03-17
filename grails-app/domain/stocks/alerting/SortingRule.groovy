@@ -10,7 +10,7 @@ class SortingRule {
     Query query
 
     static mapping = {
-        table 'alerting_sorting_rule'
+        table 'alt_sorting_rule'
         sort 'sortOrder'
     }
 

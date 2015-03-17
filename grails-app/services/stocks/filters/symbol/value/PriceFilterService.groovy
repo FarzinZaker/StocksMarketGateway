@@ -119,32 +119,32 @@ class PriceFilterService implements IncludeFilterService {
 
         switch (operator) {
             case Operators.GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_greater_than', [
+                idList = lowLevelDataService.executeFunction('PRC_UPPER_THAN_VAL_FILTER', [
                         value: parsedValue as double
                 ])
                 break
             case Operators.LESS_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_less_than', [
+                idList = lowLevelDataService.executeFunction('PRC_LOWER_THAN_VAL_FILTER', [
                         value: parsedValue as double
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_positive_change_compare_to_previous_day_greater_than', [
+                idList = lowLevelDataService.executeFunction('PRC_PCPD_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_negative_change_compare_to_previous_day_greater_than', [
+                idList = lowLevelDataService.executeFunction('PRC_NCPD_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_positive_change_compare_to_first_price_greater_than', [
+                idList = lowLevelDataService.executeFunction('PRC_PCFP_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('price_negative_change_compare_to_first_price_greater_than', [
+                idList = lowLevelDataService.executeFunction('PRC_NCFP_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double
                 ])
                 break

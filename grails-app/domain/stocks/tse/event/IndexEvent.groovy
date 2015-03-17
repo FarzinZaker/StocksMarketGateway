@@ -30,6 +30,7 @@ class IndexEvent {
     Double averageIncreasedSymbolsChangePercent
 
     static snapshotGroupProperty = 'data'
+    static snapshotDateProperty = 'date'
 
     Date dailySnapshot
     Date weeklySnapshot
@@ -40,7 +41,11 @@ class IndexEvent {
     Index data
 
     static mapping = {
-        table 'tse_index_event'
+        table 'tse_index_ev'
+        date column: 'dat'
+        todayIndexChangePercentTowardYesterday column: 'todayIndexChangePercToYest'
+        averageDecreasedSymbolsChangePercent column: 'averageDecSymbolsChangePerc'
+        averageIncreasedSymbolsChangePercent column: 'averageIncSymbolsChangePerc'
     }
 
     static constraints = {

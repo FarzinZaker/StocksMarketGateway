@@ -84,28 +84,28 @@ class CCIFilterService implements IncludeFilterService {
 
         switch (operator) {
             case Operators.UPPER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_value_filter', [
+                idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [
                         sourceClass    : CCI.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.LOWER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_value_filter', [
+                idList = lowLevelDataService.executeFunction('IND_LOWER_THAN_VAL_FILTER', [
                         sourceClass    : CCI.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.CROSSING_TO_UP:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_value_filter', [
+                idList = lowLevelDataService.executeFunction('IND_CROSS_UP_VAL_FILTER', [
                         sourceClass    : CCI.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
-                idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_value_filter', [
+                idList = lowLevelDataService.executeFunction('IND_CROSS_DOWN_VAL_FILTER', [
                         sourceClass    : CCI.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double

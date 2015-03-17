@@ -49,7 +49,9 @@ class SymbolEvent {
     Symbol data
 
     static mapping = {
-        table 'tse_symbol_event'
+        table 'tse_symbol_ev'
+        date column: 'dat'
+        type column: 'typ'
     }
 
     static constraints = {

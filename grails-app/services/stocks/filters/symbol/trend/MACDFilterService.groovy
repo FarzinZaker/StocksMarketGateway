@@ -103,28 +103,28 @@ class MACDFilterService implements IncludeFilterService {
             def targetValue = value.first()
             switch (operator) {
                 case Operators.UPPER_THAN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_value_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double
                     ])
                     break
                 case Operators.LOWER_THAN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_value_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_LOWER_THAN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_value_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_CROSS_UP_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_value_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_CROSS_DOWN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double
@@ -134,7 +134,7 @@ class MACDFilterService implements IncludeFilterService {
         } else
             switch (operator) {
                 case Operators.UPPER_THAN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_upper_than_indicator_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_IND_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
@@ -142,7 +142,7 @@ class MACDFilterService implements IncludeFilterService {
                     ])
                     break
                 case Operators.LOWER_THAN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_lower_than_indicator_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_LOWER_THAN_IND_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
@@ -150,7 +150,7 @@ class MACDFilterService implements IncludeFilterService {
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_up_indicator_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_CROSS_UP_IND_FILTER', [
                             sourceClass    : MACD.class.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
@@ -158,7 +158,7 @@ class MACDFilterService implements IncludeFilterService {
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
-                    idList = lowLevelDataService.executeStoredProcedure('indicator_cross_down_indicator_filter', [
+                    idList = lowLevelDataService.executeFunction('IND_CROSS_DOWN_IND_FILTER', [
                             sourceClass    : MACD.class.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,

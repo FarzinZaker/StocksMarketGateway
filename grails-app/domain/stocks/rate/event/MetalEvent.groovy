@@ -13,6 +13,7 @@ class MetalEvent {
     Date time
 
     static snapshotGroupProperty = 'symbol'
+    static snapshotDateProperty = 'time'
 
     Date dailySnapshot
     Date weeklySnapshot
@@ -22,7 +23,7 @@ class MetalEvent {
     Metal data
 
     static mapping = {
-        table 'rate_metal_event'
+        table 'rate_metal_ev'
         percent column: 'perc'
     }
     static constraints = {

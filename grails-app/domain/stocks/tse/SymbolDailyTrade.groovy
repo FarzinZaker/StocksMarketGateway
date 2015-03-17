@@ -25,6 +25,7 @@ class SymbolDailyTrade {
     Date modificationDate
 
     static snapshotGroupProperty = 'symbol'
+    static snapshotDateProperty = 'date'
 
     Date dailySnapshot
     Date weeklySnapshot
@@ -35,8 +36,9 @@ class SymbolDailyTrade {
     static mapping = {
         table 'tse_symbol_daily_trade'
         sort id: "desc"
-        symbol index: 'idx_symbol,idx_indicatorsCalculated'
-        indicatorsCalculated index: 'idx_indicatorsCalculated'
+        symbol index: 'idx_sdt_symbol,idx_sdt_indicatorsCalculated'
+        indicatorsCalculated index: 'idx_sdt_indicatorsCalculated'
+        date column: 'dat'
     }
 
     static constraints = {

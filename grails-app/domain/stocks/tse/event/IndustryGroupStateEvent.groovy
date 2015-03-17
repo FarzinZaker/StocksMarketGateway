@@ -13,7 +13,8 @@ class IndustryGroupStateEvent {
     IndustryGroupState data
 
     static mapping = {
-        table 'tse_industry_group_state_event'
+        table 'tse_industry_group_state_ev'
+        date column: 'dat'
     }
 
     static constraints = {

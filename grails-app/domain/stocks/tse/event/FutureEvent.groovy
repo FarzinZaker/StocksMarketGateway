@@ -30,7 +30,8 @@ class FutureEvent {
     Future data
 
     static mapping = {
-        table 'tse_future_event'
+        table 'tse_future_ev'
+        date column: 'dat'
     }
 
     static constraints = {

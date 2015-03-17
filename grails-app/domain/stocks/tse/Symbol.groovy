@@ -46,6 +46,8 @@ class Symbol {
 
     static mapping = {
         table 'tse_symbol'
+        date column: 'dat'
+        type column: 'typ'
     }
 
     static constraints = {

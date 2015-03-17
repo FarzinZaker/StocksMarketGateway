@@ -17,7 +17,7 @@ class Currency {
     static mapping = {
         table 'rate_currency'
         percent column: 'perc'
-        symbol index: 'idx_symbol'
+        symbol index: 'idx_cu_symbol'
     }
 
     static constraints = {

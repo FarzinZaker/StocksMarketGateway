@@ -12,7 +12,7 @@ class ScheduleTime {
 
 
     static mapping = {
-        table 'alerting_schedule_time'
+        table 'alt_schedule_time'
     }
 
     static constraints = {

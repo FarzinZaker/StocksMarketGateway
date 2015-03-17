@@ -18,7 +18,8 @@ class MarketActivityEvent {
     MarketActivity data
 
     static mapping = {
-        table 'tse_market_activity_event'
+        table 'tse_market_activity_ev'
+        date column: 'dat'
     }
 
     static constraints = {

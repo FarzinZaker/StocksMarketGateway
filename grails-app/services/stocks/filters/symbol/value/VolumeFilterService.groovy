@@ -104,23 +104,23 @@ class VolumeFilterService implements IncludeFilterService {
 
         switch (operator) {
             case Operators.GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('volume_greater_than', [
+                idList = lowLevelDataService.executeFunction('VOL_UPPER_THAN_VAL_FILTER', [
                         value: parsedValue as double
                 ])
                 break
             case Operators.LESS_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('volume_less_than', [
+                idList = lowLevelDataService.executeFunction('VOL_LOWER_THAN_VAL_FILTER', [
                         value: parsedValue as double
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('volume_positive_change_compare_to_average_greater_than', [
+                idList = lowLevelDataService.executeFunction('VOL_PCA_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue.first() as double,
                         days   : parsedValue.last() as Integer
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
-                idList = lowLevelDataService.executeStoredProcedure('volume_negative_change_compare_to_average_greater_than', [
+                idList = lowLevelDataService.executeFunction('VOL_NCA_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue.first() as double,
                         days   : parsedValue.last() as Integer
                 ])

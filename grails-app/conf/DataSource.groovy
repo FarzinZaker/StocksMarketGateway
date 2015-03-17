@@ -56,14 +56,35 @@ environments {
 //            }
 
 // SQL Server
-            dbCreate = "update"
-            username = "sa"
-            password = "Cube1234"
-//            logSql = true
-            url = "jdbc:sqlserver://192.168.0.30:1433;databaseName=Stocks"
+//            dbCreate = "update"
+//            username = "sa"
+//            password = "Cube1234"
+//            logSql = false
+//            url = "jdbc:sqlserver://192.168.0.30:1433;databaseName=Stocks"
+//
+//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+//            dialect = "org.hibernate.dialect.SQLServerDialect"
+//            properties {
+//                maxActive = -1
+//                minEvictableIdleTimeMillis = 1800000
+//                timeBetweenEvictionRunsMillis = 1800000
+//                numTestsPerEvictionRun = 3
+//                testOnBorrow = true
+//                testWhileIdle = true
+//                testOnReturn = true
+//                validationQuery = "SELECT 1"
+//            }
 
-            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-            dialect = "org.hibernate.dialect.SQLServerDialect"
+//Oracle
+            dbCreate = "update"
+            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
+            username = "stocks"
+            password = "stocks"
+            hibernate.default_schema = "stocks"
+            pooled = true
+            logSql=false
+            driverClassName = "oracle.jdbc.OracleDriver"
+            dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {
                 maxActive = -1
                 minEvictableIdleTimeMillis = 1800000
@@ -72,7 +93,7 @@ environments {
                 testOnBorrow = true
                 testWhileIdle = true
                 testOnReturn = true
-                validationQuery = "SELECT 1"
+                validationQuery = "SELECT 1 from dual"
             }
         }
     }
@@ -84,7 +105,7 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
+//            dbCreate = "update"
 //            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
 //            username = "root"
 //            password = ""
@@ -102,12 +123,33 @@ environments {
 //                testOnReturn = true
 //                validationQuery = "SELECT 1"
 //            }
-            username = "sa"
-            password = "Salam123"
-            url = "jdbc:sqlserver://192.168.52.42:1433;databaseName=Stocks"
+//            username = "sa"
+//            password = "Salam123"
+//            url = "jdbc:sqlserver://192.168.52.42:1433;databaseName=Stocks"
+//
+//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+//            dialect = "org.hibernate.dialect.SQLServerDialect"
+//            properties {
+//                maxActive = -1
+//                minEvictableIdleTimeMillis = 1800000
+//                timeBetweenEvictionRunsMillis = 1800000
+//                numTestsPerEvictionRun = 3
+//                testOnBorrow = true
+//                testWhileIdle = true
+//                testOnReturn = true
+//                validationQuery = "SELECT 1"
+//            }
 
-            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-            dialect = "org.hibernate.dialect.SQLServerDialect"
+            //Oracle
+            dbCreate = "update"
+            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
+            username = "stocks"
+            password = "stocks"
+            hibernate.default_schema = "stocks"
+            pooled = true
+            logSql=false
+            driverClassName = "oracle.jdbc.OracleDriver"
+            dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {
                 maxActive = -1
                 minEvictableIdleTimeMillis = 1800000
@@ -116,7 +158,7 @@ environments {
                 testOnBorrow = true
                 testWhileIdle = true
                 testOnReturn = true
-                validationQuery = "SELECT 1"
+                validationQuery = "SELECT 1 from dual"
             }
 
         }

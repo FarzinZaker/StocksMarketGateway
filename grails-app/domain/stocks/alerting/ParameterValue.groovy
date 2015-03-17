@@ -13,7 +13,7 @@ class ParameterValue {
     static belongsTo = [QueryInstance]
 
     static mapping = {
-        table 'alerting_parameter_value'
+        table 'alt_param_value'
     }
 
 

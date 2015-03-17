@@ -8,7 +8,7 @@ class ParameterSuggestedValue {
     static hasMany = [variations: ParameterSuggestedValueVariation]
 
     static mapping = {
-        table 'alerting_parameter_suggested_value'
+        table 'alt_param_suggested_value'
 //        sort('id')
     }
 

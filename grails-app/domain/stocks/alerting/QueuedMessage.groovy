@@ -14,7 +14,7 @@ class QueuedMessage {
     Date lastUpdated
 
     static mapping = {
-        table 'alerting_message_queued'
+        table 'alt_message_queued'
         tablePerHierarchy false
         user lazy: true
         body type:'text'

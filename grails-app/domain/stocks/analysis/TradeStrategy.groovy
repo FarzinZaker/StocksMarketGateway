@@ -23,7 +23,7 @@ class TradeStrategy {
     Date dateCreated
     Date lastUpdated
     static mapping = {
-        table 'analysis_trade_strategy'
+        table 'ana_trade_strategy'
     }
 
     static constraints = {

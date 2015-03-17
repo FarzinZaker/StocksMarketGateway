@@ -18,7 +18,7 @@ class Screener {
     Date dateCreated
     Date lastUpdated
     static mapping = {
-        table 'analysis_screener'
+        table 'ana_screener'
     }
 
     static constraints = {

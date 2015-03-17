@@ -13,6 +13,7 @@ class CoinEvent {
     Date time
 
     static snapshotGroupProperty = 'symbol'
+    static snapshotDateProperty = 'time'
 
     Date dailySnapshot
     Date weeklySnapshot
@@ -22,7 +23,7 @@ class CoinEvent {
     Coin data
 
     static mapping = {
-        table 'rate_coin_event'
+        table 'rate_coin_ev'
         percent column: 'perc'
     }
     static constraints = {

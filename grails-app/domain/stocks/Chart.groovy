@@ -7,7 +7,7 @@ class Chart extends Image {
     String options
 
     static mapping={
-        options sqlType: 'ntext'
+        options type: 'text'
     }
     static constraints = {
         options(maxSize: 20000000)

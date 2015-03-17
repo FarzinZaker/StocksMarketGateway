@@ -16,7 +16,8 @@ class Comment {
     static hasMany = [likes: Like, comments: Comment]
 
     static mapping = {
-        body sqlType: "text"
+        table 'twit_comment'
+        body type: "text"
     }
 
     static constraints = {

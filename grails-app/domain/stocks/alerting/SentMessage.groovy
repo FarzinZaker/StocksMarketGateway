@@ -13,7 +13,7 @@ class SentMessage {
     Date dateCreated
 
     static mapping = {
-        table 'alerting_message_sent'
+        table 'alt_message_sent'
         tablePerHierarchy false
         user lazy: true
         body type:'text'

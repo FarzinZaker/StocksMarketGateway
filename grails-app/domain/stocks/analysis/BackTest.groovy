@@ -33,7 +33,7 @@ class BackTest {
     Date dateCreated
     Date lastUpdated
     static mapping = {
-        table 'analysis_back_test'
+        table 'ana_back_test'
         currentDate column: 'current_simulation_date'
     }
 

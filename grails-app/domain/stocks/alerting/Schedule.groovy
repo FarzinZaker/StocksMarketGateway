@@ -19,6 +19,6 @@ class Schedule {
     }
 
     static mapping = {
-        table 'alerting_schedule'
+        table 'alt_schedule'
     }
 }

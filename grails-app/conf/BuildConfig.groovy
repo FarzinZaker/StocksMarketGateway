@@ -33,10 +33,14 @@ grails.project.dependency.resolution = {
         mavenRepo "http://download.java.net/maven/2/"
         mavenRepo "http://repository.jboss.com/maven2/"
         mavenRepo "http://repo.grails.org/grails/core" // https://jira.grails.org/browse/GPSEARCHABLE-224
+        mavenRepo "https://code.lds.org/nexus/content/groups/main-repo"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
+
+        compile('com.oracle:ojdbc6:11.2.0.3')
+
         runtime 'mysql:mysql-connector-java:5.1.29'
         runtime 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'

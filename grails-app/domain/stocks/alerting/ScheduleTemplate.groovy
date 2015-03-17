@@ -26,7 +26,10 @@ class ScheduleTemplate {
     }
 
     static mapping = {
-        table 'alerting_schedule_template'
+        table 'alt_schedule_template'
+        eventBasedNotificationEnabled column: 'event_based'
+        periodicNotificationEnabled column: 'periodic'
+        specificTimeNotificationEnabled column: 'specific'
     }
 
     static transients = ['intervalSteps']

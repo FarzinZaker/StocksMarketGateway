@@ -20,8 +20,9 @@ class Document {
     static hasMany = [rates: Rate, comments: Comment, relatedDocuments: Document, tags: Tag]
 
     static mapping = {
-        summary sqlType: "text"
-        body sqlType: "text"
+        table 'twit_comment'
+        summary type: "text"
+        body type: "text"
     }
 
     static constraints = {

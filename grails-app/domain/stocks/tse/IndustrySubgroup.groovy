@@ -13,6 +13,7 @@ class IndustrySubgroup {
 
     static mapping = {
         table 'tse_industry_subgroup'
+        date column: 'dat'
     }
 
     static constraints = {

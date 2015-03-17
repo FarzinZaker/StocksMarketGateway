@@ -18,7 +18,7 @@ class QueryCategory {
     Date lastUpdated
 
     static mapping = {
-        table "alerting_query_category"
+        table "alt_query_category"
     }
 
     static constraints = {

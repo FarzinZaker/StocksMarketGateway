@@ -18,7 +18,7 @@ class Like {
     }
 
     static mapping = {
-        table 'likes'
+        table 'twit_like'
     }
 
     @Override

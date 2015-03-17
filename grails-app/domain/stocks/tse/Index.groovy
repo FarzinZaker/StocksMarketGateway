@@ -36,6 +36,10 @@ class Index {
     static mapping = {
         table 'tse_index'
         sort 'persianName'
+        date column: 'dat'
+        todayIndexChangePercentTowardYesterday column: 'todayIndexChangePercToYest'
+        averageDecreasedSymbolsChangePercent column: 'averageDecSymbolsChangePerc'
+        averageIncreasedSymbolsChangePercent column: 'averageIncSymbolsChangePerc'
     }
 
     static constraints = {

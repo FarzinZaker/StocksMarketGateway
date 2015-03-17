@@ -14,6 +14,7 @@ class CurrencyEvent {
     Date time
 
     static snapshotGroupProperty = 'symbol'
+    static snapshotDateProperty = 'time'
 
     Date dailySnapshot
     Date weeklySnapshot
@@ -23,7 +24,7 @@ class CurrencyEvent {
     Currency data
 
     static mapping = {
-        table 'rate_currency_event'
+        table 'rate_currency_ev'
         percent column: 'perc'
     }
     static constraints = {

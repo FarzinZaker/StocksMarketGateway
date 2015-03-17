@@ -19,6 +19,7 @@ class IndexSymbol {
 
     static mapping = {
         table 'tse_index_symbol'
+        date column: 'dat'
     }
 
     static constraints = {

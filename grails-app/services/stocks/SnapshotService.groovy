@@ -32,13 +32,10 @@ class SnapshotService {
     }
 
     def applyDailySnapshot(String domain = '.', def maxDate = null) {
-        def today = maxDate ?: new Date()
-        today.clearTime()
-        use(TimeCategory){
-            today = today - 1
-        }
         findDomainClassesBySnapshot(domain, 'daily').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
+                def today = record."${domainClass.clazz.snapshotDateProperty}"
+                today = today.clearTime()
                 record.dailySnapshot = today
                 println "daily: ${record.save(flush: true)}"
             }
@@ -46,13 +43,10 @@ class SnapshotService {
     }
 
     def applyWeeklySnapshot(String domain = '.', def maxDate = null) {
-        def today = maxDate ?: new Date()
-        today.clearTime()
-        use(TimeCategory){
-            today = today - 1
-        }
         findDomainClassesBySnapshot(domain, 'weekly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
+                def today = record."${domainClass.clazz.snapshotDateProperty}"
+                today = today.clearTime()
                 record.weeklySnapshot = today
                 println "weekly: ${record.save(flush: true)}"
             }
@@ -60,13 +54,10 @@ class SnapshotService {
     }
 
     def applyMonthlySnapshot(String domain = '.', def maxDate = null) {
-        def today = maxDate ?: new Date()
-        today.clearTime()
-        use(TimeCategory){
-            today = today - 1
-        }
         findDomainClassesBySnapshot(domain, 'monthly').each { domainClass ->
             findLatestEventRecords(domainClass, maxDate).each { record ->
+                def today = record."${domainClass.clazz.snapshotDateProperty}"
+                today = today.clearTime()
                 record.monthlySnapshot = today
                 println "monthly: ${record.save(flush: true)}"
             }

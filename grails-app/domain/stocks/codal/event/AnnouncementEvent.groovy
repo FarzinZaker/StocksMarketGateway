@@ -24,7 +24,7 @@ class AnnouncementEvent {
     Announcement data
 
     static mapping = {
-        table 'codal_announcement_event'
+        table 'codal_announcement_ev'
     }
 
 

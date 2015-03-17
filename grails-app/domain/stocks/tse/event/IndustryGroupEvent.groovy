@@ -11,7 +11,7 @@ class IndustryGroupEvent {
     IndustryGroup data
 
     static mapping = {
-        table 'tse_industry_group_event'
+        table 'tse_industry_group_ev'
     }
 
     static constraints = {

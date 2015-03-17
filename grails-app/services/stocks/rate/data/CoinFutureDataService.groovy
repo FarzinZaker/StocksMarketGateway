@@ -128,12 +128,19 @@ class CoinFutureDataService {
     }
 
     private def getList() {
-        def contractsList = getService().getContractsList().split(',')
+        def contractsList = []
+        try {
+            contractsList = getService().getContractsList().split(',')
+        }
+        catch(ex){
+            println("Future Contracts webservice is not responding: ${ex.message}")
+        }
         contractsList.collect { contractCode ->
             def contract = null
             try {
                 contract = getService().getContractInfo(contractCode)
             } catch (ignored) {
+                println("Future Contracts webservice is not responding: ${ex.message}")
             }
             contract
         }.findAll { it }

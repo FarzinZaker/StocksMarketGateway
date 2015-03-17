@@ -20,7 +20,7 @@ class SymbolStateEvent {
     SymbolState data
 
     static mapping = {
-        table 'tse_symbol_state_event'
+        table 'tse_symbol_state_ev'
     }
 
     static constraints = {

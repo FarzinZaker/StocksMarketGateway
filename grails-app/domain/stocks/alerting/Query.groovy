@@ -29,7 +29,7 @@ class Query {
     Date lastUpdated
 
     static mapping = {
-        table 'alerting_query'
+        table 'alt_query'
         description type:'text'
         smsTemplate type:'text'
         sort('title')

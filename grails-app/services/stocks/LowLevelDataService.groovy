@@ -6,31 +6,41 @@ import groovy.sql.Sql
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.Timestamp
+import org.hibernate.SessionFactory
 
 class LowLevelDataService {
 
     def grailsApplication
+    SessionFactory sessionFactory
 
-    def executeStoredProcedure(String spName, Map parameters) {
-//        println Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+    Connection getConnection(){
+        sessionFactory.currentSession.connection()
+    }
 
-        DriverManager.registerDriver(new SQLServerDriver());
-        Properties properties = new Properties();
-        properties.put("user", grailsApplication.config.dataSource.username);
-        properties.put("password", grailsApplication.config.dataSource.password);
-        def connection = DriverManager.getConnection(grailsApplication.config.dataSource.url, properties);
+    void executeStoredProcedure(String spName, Map parameters) {
+
         def sql = new Sql(connection)
 
-        def sqlCall = "exec ${spName} ${parameters.collect { ":${it.key}" }.join(', ')}"
-        log.info "Running: $sqlCall with params $parameters"
+        def sqlCall = "{call ${spName}(${parameters.collect { "?" }.join(', ')})}"
+        try {
+            sql.call(sqlCall , parameters.collect{it.value})
+        } catch (Exception e) {
+            println()
+            "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
+        }
+    }
+    def executeFunction(String spName, Map parameters) {
+
+        def sql = new Sql(connection)
+
+        def sqlCall = "{? = call ${spName}(${parameters.collect { "?" }.join(', ')})}"
         def rows = []
         try {
-            rows = sql.rows(sqlCall, parameters)
+            rows = sql.call(sqlCall, [rows] + parameters.collect{it.value})
         } catch (Exception e) {
-            println() "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
+            println()
+            "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
         }
-//        connection.close()
-//        println rows
         rows
     }
 }

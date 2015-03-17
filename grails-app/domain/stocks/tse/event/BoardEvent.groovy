@@ -11,7 +11,7 @@ class BoardEvent {
     Board data
 
     static mapping = {
-        table 'tse_board_event'
+        table 'tse_board_ev'
     }
 
     static constraints = {

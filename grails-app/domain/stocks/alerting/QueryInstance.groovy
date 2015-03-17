@@ -23,7 +23,7 @@ class QueryInstance {
     static hasMany = [parameterValues: ParameterValue]
 
     static mapping = {
-        table 'alerting_query_instance'
+        table 'alt_query_instance'
     }
 
     static constraints = {

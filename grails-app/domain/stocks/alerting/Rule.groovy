@@ -13,7 +13,7 @@ class Rule {
     Rule parent
 
     static mapping = {
-        table 'alerting_rule'
+        table 'alt_rule'
     }
 
     static constraints = {

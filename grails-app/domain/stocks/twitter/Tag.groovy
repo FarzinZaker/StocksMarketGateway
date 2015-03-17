@@ -9,6 +9,11 @@ class Tag {
 
     static hasMany = [documents: Document]
 
+
+    static mapping = {
+        table 'twit_tag'
+    }
+
     static constraints = {
     }
 

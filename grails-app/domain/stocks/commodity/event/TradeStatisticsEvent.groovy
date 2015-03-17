@@ -33,7 +33,7 @@ class TradeStatisticsEvent {
     TradeStatistics data
 
     static mapping = {
-        table 'commodity_trade_statistics_event'
+        table 'commodity_trade_statistics_ev'
     }
 
     static constraints = {

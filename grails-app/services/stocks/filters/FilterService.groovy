@@ -135,6 +135,6 @@ class FilterService {
                     indicatorColumns << "[${indicatorName.replace('.', '_')}_${value?.last()}]"
             }
         }
-        lowLevelDataService.executeStoredProcedure('symbol_select_screener', [idList: items.join(','), cols: indicatorColumns.join(',')])
+        lowLevelDataService.executeFunction('symbol_select_screener', [idList: items.join(','), cols: indicatorColumns.join(',')])
     }
 }

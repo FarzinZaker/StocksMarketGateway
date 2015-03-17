@@ -38,7 +38,8 @@ class BackTestSignal {
 //    }
 
     static mapping = {
-        table 'analysis_back_test_signal'
+        table 'ana_back_test_signal'
+        date column: 'dat'
     }
 
     static constraints = {

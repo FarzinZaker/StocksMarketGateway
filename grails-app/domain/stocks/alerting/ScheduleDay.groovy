@@ -14,7 +14,7 @@ class ScheduleDay {
 
 
     static mapping = {
-        table 'alerting_schedule_day'
+        table 'alt_schedule_day'
     }
 
     static constraints = {

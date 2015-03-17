@@ -12,6 +12,7 @@ class SupervisorMessage {
     static mapping = {
         table 'tse_supervisor_message'
         description type: 'text'
+        date column: 'dat'
     }
 
     static constraints = {
