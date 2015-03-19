@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_cross_down_ind_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_cross_down_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_cross_up_ind_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_cross_up_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_lower_than_ind_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_lower_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_nth.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_upper_than_ind_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/ind_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_lower_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_ncfp_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_ncpd_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_nth.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/sym_sel_screener.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_lower_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_pca_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_upper_than_val_filter.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/procedures/rate_purge.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/grails-app/conf/sql/oracle/tempTables.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_cross_down_ind_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_cross_down_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_cross_up_ind_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_cross_up_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_lower_than_ind_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_lower_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_nth.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_upper_than_ind_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_lower_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_ncfp_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_ncpd_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_nth.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/sym_sel_screener.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_pca_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/procedures/rate_purge.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/tempTables.sql" dialect="Oracle" />
   </component>
 </project>

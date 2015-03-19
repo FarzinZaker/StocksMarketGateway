@@ -9,14 +9,14 @@ class IndustryGroupStateDataService extends TSEDataService<IndustryGroupState, I
     static schedules = [
             [
                     method : 'importData',
-//                    trigger: [
-//                            type      : 'Simple',
-//                            parameters: [repeatInterval: 300000l, startDelay: 60000]
-//                    ]
                     trigger: [
-                            type      : 'Cron',
-                            parameters: [cronExpression: '0 40 1 * * ?']
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 300000l, startDelay: 60000]
                     ]
+//                    trigger: [
+//                            type      : 'Cron',
+//                            parameters: [cronExpression: '0 40 1 * * ?']
+//                    ]
             ]
     ]
 
