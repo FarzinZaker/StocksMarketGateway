@@ -132,9 +132,9 @@ class FilterService {
             if(value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns << "[${indicatorName.replace('.', '_')}_${value?.last()}]"
+                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        lowLevelDataService.executeFunction('symbol_select_screener', [idList: items.join(','), cols: indicatorColumns.join(',')])
+        lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.join(',')])
     }
 }

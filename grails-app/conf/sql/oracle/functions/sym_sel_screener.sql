@@ -15,20 +15,38 @@ IS
 
     quer := '
         INSERT INTO TEMP_TSE_SYMBOL_PRICE
-            SELECT t.symbol_id as id, 
-                t.symbol_persian_name || '' ('' || t.symbol_persian_code || '')'' as symbol, 
-                t.closing_price as closingPrice, 
-                t.first_trade_price as firstTradePrice, 
-                t.last_trade_price as lastTradePrice, 
-                t.max_price as maxPrice, 
-                t.min_price as minPrice, 
-                t.price_change as priceChange, 
-                t.total_trade_count as totalTradeCount, 
-                t.total_trade_value as totalTradeValue, 
-                t.total_trade_volume as totalTradeVolume, 
-                t.yesterday_price as yesterdayPrice
-                FROM 
-                    (SELECT * FROM tse_symbol_daily_trade WHERE is_last = 1 and id IN (SELECT max(id) FROM tse_symbol_daily_trade WHERE symbol_id IN (' || idList || ') GROUP BY symbol_id)) t';
+            SELECT 
+                symbol_id as id,
+                symbol, 
+                closing_price, 
+                first_trade_price, 
+                last_trade_price, 
+                max_price, 
+                min_price, 
+                price_change, 
+                total_trade_count, 
+                total_trade_value, 
+                total_trade_volume, 
+                yesterday_price
+            FROM
+                (SELECT 
+                    symbol_id,
+                    symbol_persian_name || ''('' || symbol_persian_code || '')'' as symbol, 
+                    closing_price, 
+                    first_trade_price, 
+                    last_trade_price, 
+                    max_price, 
+                    min_price, 
+                    price_change, 
+                    total_trade_count, 
+                    total_trade_value, 
+                    total_trade_volume, 
+                    yesterday_price,
+                    RANK() OVER (PARTITION BY symbol_id ORDER BY dat DESC) rnk
+                FROM tse_symbol_daily_trade 
+                WHERE symbol_id IN (' || idList || '))
+           WHERE rnk <= 1
+                ';
     EXECUTE IMMEDIATE quer;
 
     IF cols <> '' THEN

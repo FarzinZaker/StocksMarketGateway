@@ -139,7 +139,7 @@ class CoinFutureDataService {
             def contract = null
             try {
                 contract = getService().getContractInfo(contractCode)
-            } catch (ignored) {
+            } catch (ex) {
                 println("Future Contracts webservice is not responding: ${ex.message}")
             }
             contract
