@@ -99,7 +99,7 @@ environments {
         grails.logging.jul.usebridge = false
         searchable {
             // disable bulk index on startup
-            bulkIndexOnStartup = true
+            bulkIndexOnStartup = false
         }
     }
 }
