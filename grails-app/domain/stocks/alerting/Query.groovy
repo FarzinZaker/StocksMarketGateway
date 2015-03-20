@@ -30,8 +30,8 @@ class Query {
 
     static mapping = {
         table 'alt_query'
-        description type:'clob'
-        smsTemplate type:'clob'
+        description type:'text'
+        smsTemplate type:'text'
         sort('title')
     }
 

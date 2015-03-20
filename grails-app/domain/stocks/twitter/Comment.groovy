@@ -17,7 +17,7 @@ class Comment {
 
     static mapping = {
         table 'twit_comment'
-        body type: "clob"
+        body type: "text"
     }
 
     static constraints = {

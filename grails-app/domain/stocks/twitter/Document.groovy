@@ -21,8 +21,8 @@ class Document {
 
     static mapping = {
         table 'twit_comment'
-        summary type: "clob"
-        body type: "clob"
+        summary type: "text"
+        body type: "text"
     }
 
     static constraints = {
