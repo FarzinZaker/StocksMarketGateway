@@ -29,6 +29,8 @@
 
                 function formatJSON(model) {
                     var data = JSON.parse(model.statusData);
+                    if (!data)
+                        return '-';
                     <g:if test="${params.st != '1'}">
                     if (data.stackTrace)
                         data.stackTrace = 'use ?st=1';
