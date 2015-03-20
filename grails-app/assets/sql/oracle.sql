@@ -614,7 +614,7 @@ IS
 
 
 
-CREATE OR REPLACE FUNCTION prc_lower_than_val_filter
+CREATE OR REPLACE FUNCTION vol_lower_than_val_filter
   (
     value FLOAT
   )
