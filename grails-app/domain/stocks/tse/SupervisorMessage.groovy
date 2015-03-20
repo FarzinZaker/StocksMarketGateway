@@ -11,7 +11,7 @@ class SupervisorMessage {
 
     static mapping = {
         table 'tse_supervisor_message'
-        description type: 'text'
+        description type: 'clob'
         date column: 'dat'
     }
 

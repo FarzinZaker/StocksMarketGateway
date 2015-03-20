@@ -16,7 +16,7 @@ class SentMessage {
         table 'alt_message_sent'
         tablePerHierarchy false
         user lazy: true
-        body type:'text'
+        body type:'clob'
     }
 
     static constraints = {

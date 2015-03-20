@@ -17,7 +17,7 @@ class QueuedMessage {
         table 'alt_message_queued'
         tablePerHierarchy false
         user lazy: true
-        body type:'text'
+        body type:'clob'
     }
 
     static constraints = {

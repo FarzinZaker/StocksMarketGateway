@@ -16,7 +16,7 @@ class FailedMessage {
         table 'alt_message_failed'
         tablePerHierarchy false
         user lazy: true
-        body type:'text'
+        body type:'clob'
     }
 
     static constraints = {

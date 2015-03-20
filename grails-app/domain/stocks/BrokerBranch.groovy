@@ -29,7 +29,7 @@ class BrokerBranch {
     static belongsTo = [Broker]
 
     static mapping = {
-        address type: 'text'
+        address type: 'clob'
     }
 
     static constraints = {

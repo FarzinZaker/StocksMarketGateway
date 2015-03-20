@@ -7,7 +7,7 @@ class Chart extends Image {
     String options
 
     static mapping={
-        options type: 'text'
+        options type: 'clob'
     }
     static constraints = {
         options(maxSize: 20000000)

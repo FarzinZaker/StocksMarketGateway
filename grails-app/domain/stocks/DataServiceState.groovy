@@ -11,7 +11,7 @@ class DataServiceState {
 
     static mapping = {
         table 'alt_data_service_state'
-        data type: 'text'
+        data type: 'clob'
         serviceName index: 'idx_dss_service_lastState'
         isLastState index: 'idx_dss_service_lastState'
     }
