@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/META-INF/weblogic.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/META-INF/weblogic.xml" afterPath="$PROJECT_DIR$/web-app/META-INF/weblogic.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
@@ -135,8 +135,8 @@
       <file leaf-file-name="weblogic.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-app/META-INF/weblogic.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42857143" vertical-offset="0" max-vertical-offset="357">
-              <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+              <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -1021,13 +1021,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="4377000" />
-    </task>
-    <task id="LOCAL-00102" summary="correlation">
-      <created>1421231624445</created>
-      <option name="number" value="00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1421231624445</updated>
+      <workItem from="1426816571049" duration="5014000" />
     </task>
     <task id="LOCAL-00103" summary="correlation">
       <created>1421234061096</created>
@@ -1317,11 +1311,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426895025414</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="weblogic problems">
+      <created>1426930976159</created>
+      <option name="number" value="00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1426930976159</updated>
+    </task>
+    <option name="localTasksCounter" value="152" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1881792000" />
+    <option name="totallyTimeSpent" value="1882429000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1405,7 +1405,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="angular problem" />
     <MESSAGE value="BUG FIX" />
     <MESSAGE value="Merge branch 'master' of http://stash.agah-it.com/scm/stc/repository&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;grails-app/i18n/messages.properties&#10;" />
     <MESSAGE value="correlation" />
@@ -1430,7 +1429,8 @@
     <MESSAGE value="jobs" />
     <MESSAGE value="bulk index problem" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="weblogic problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="weblogic problems" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1894,8 +1894,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-app/META-INF/weblogic.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42857143" vertical-offset="0" max-vertical-offset="357">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+          <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
           <folding />
         </state>
       </provider>
