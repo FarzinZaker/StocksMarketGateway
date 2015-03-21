@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" afterPath="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\DevDesk\Stocks\web-app\WEB-INF\weblogic.xml" afterPath="$PROJECT_DIR$/web-app/WEB-INF/weblogic-application.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
     <ignored path="Analio.iws" />
@@ -132,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="weblogic.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
+      <file leaf-file-name="weblogic-application.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic-application.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47619048" vertical-offset="0" max-vertical-offset="357">
-              <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.7619048" vertical-offset="0" max-vertical-offset="442">
+              <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -197,7 +197,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_pca_upper_than_val_filter.sql" />
@@ -248,6 +247,7 @@
         <option value="$PROJECT_DIR$/grails-app/views/monitor/dataSources.gsp" />
         <option value="$PROJECT_DIR$/web-app/META-INF/weblogic.xml" />
         <option value="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" />
+        <option value="$PROJECT_DIR$/web-app/WEB-INF/weblogic-application.xml" />
       </list>
     </option>
   </component>
@@ -1021,13 +1021,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="8928000" />
-    </task>
-    <task id="LOCAL-00110" summary="screener">
-      <created>1423757207427</created>
-      <option name="number" value="00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1423757207427</updated>
+      <workItem from="1426816571049" duration="9537000" />
     </task>
     <task id="LOCAL-00111" summary="memory problem">
       <created>1423908681906</created>
@@ -1317,11 +1311,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426936249049</updated>
     </task>
-    <option name="localTasksCounter" value="159" />
+    <task id="LOCAL-00159" summary="weblogic problems">
+      <created>1426936471437</created>
+      <option name="number" value="00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1426936471437</updated>
+    </task>
+    <option name="localTasksCounter" value="160" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1886343000" />
+    <option name="totallyTimeSpent" value="1886952000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1892,10 +1892,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
+    <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic-application.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47619048" vertical-offset="0" max-vertical-offset="357">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.7619048" vertical-offset="0" max-vertical-offset="442">
+          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
           <folding />
         </state>
       </provider>
