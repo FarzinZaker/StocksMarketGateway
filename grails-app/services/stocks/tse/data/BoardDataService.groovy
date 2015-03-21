@@ -16,7 +16,7 @@ class BoardDataService extends TSEDataService<Board, BoardEvent> {
 //                    ]
                     trigger: [
                             type      : 'Cron',
-                            parameters: [cronExpression: '0 0 1 * * ?']
+                            parameters: [cronExpression: '0 5 1 * * ?']
                     ]
             ]
     ]

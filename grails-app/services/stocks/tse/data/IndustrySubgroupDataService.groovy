@@ -15,7 +15,7 @@ class IndustrySubgroupDataService extends TSEDataService<IndustrySubgroup, Indus
 //                    ]
                     trigger: [
                             type      : 'Cron',
-                            parameters: [cronExpression: '0 50 1 * * ?']
+                            parameters: [cronExpression: '0 30 1 * * ?']
                     ]
             ]
     ]

@@ -15,7 +15,7 @@ class IndustryGroupDataService extends TSEDataService<IndustryGroup, IndustryGro
 //                    ]
                     trigger: [
                             type      : 'Cron',
-                            parameters: [cronExpression: '0 30 1 * * ?']
+                            parameters: [cronExpression: '0 20 1 * * ?']
                     ]
             ]
     ]

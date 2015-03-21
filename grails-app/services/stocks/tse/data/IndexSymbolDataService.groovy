@@ -17,7 +17,7 @@ class IndexSymbolDataService extends TSEDataService<IndexSymbol, IndexSymbolEven
 //                    ]
                     trigger: [
                             type      : 'Cron',
-                            parameters: [cronExpression: '0 20 1 * * ?']
+                            parameters: [cronExpression: '0 15 1 * * ?']
                     ]
             ]
     ]
