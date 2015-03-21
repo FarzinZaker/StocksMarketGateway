@@ -2,7 +2,7 @@
 <weblogic-web-app>
     <!--<container-descriptor>-->
         <!--<filter-dispatched-requests-enabled>true</filter-dispatched-requests-enabled>-->
-        <!--<prefer-web-inf-classes>true</prefer-web-inf-classes>-->
+        <prefer-web-inf-classes>true</prefer-web-inf-classes>
         <!--<show-archived-real-path-enabled>true</show-archived-real-path-enabled>-->
         <!--<prefer-application-packages>-->
             <!--<package-name>org.w3c.dom.*</package-name>-->

@@ -136,7 +136,7 @@
         <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.47619048" vertical-offset="0" max-vertical-offset="357">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -1021,13 +1021,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="8060000" />
-    </task>
-    <task id="LOCAL-00108" summary="correlation">
-      <created>1421585409840</created>
-      <option name="number" value="00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1421585409840</updated>
+      <workItem from="1426816571049" duration="8705000" />
     </task>
     <task id="LOCAL-00109" summary="screener">
       <created>1423755825816</created>
@@ -1317,11 +1311,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426935249383</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="weblogic problems">
+      <created>1426935602252</created>
+      <option name="number" value="00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1426935602252</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1885475000" />
+    <option name="totallyTimeSpent" value="1886120000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1895,7 +1895,7 @@
     <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.47619048" vertical-offset="0" max-vertical-offset="357">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
           <folding />
         </state>
       </provider>
