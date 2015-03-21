@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" />
-      <change type="DELETED" beforePath="D:\DevDesk\Stocks\web-app\META-INF\weblogic.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" afterPath="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
@@ -137,7 +136,7 @@
         <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.23809524" vertical-offset="0" max-vertical-offset="357">
-              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+              <caret line="5" column="46" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -198,7 +197,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_ncfp_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" />
@@ -249,6 +247,7 @@
         <option value="$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/monitor/dataSources.gsp" />
         <option value="$PROJECT_DIR$/web-app/META-INF/weblogic.xml" />
+        <option value="$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml" />
       </list>
     </option>
   </component>
@@ -1022,13 +1021,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="5673000" />
-    </task>
-    <task id="LOCAL-00104" summary="correlation">
-      <created>1421250829638</created>
-      <option name="number" value="00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1421250829638</updated>
+      <workItem from="1426816571049" duration="6714000" />
     </task>
     <task id="LOCAL-00105" summary="correlation">
       <created>1421251419821</created>
@@ -1318,11 +1311,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426931609755</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="weblogic problems">
+      <created>1426933162385</created>
+      <option name="number" value="00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1426933162385</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1883088000" />
+    <option name="totallyTimeSpent" value="1884129000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1896,7 +1895,7 @@
     <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23809524" vertical-offset="0" max-vertical-offset="357">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+          <caret line="5" column="46" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="46" />
           <folding />
         </state>
       </provider>
