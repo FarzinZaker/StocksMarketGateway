@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <weblogic-web-app>
-    <!--<container-descriptor>-->
+    <container-descriptor>
         <!--<filter-dispatched-requests-enabled>true</filter-dispatched-requests-enabled>-->
         <prefer-web-inf-classes>true</prefer-web-inf-classes>
         <!--<show-archived-real-path-enabled>true</show-archived-real-path-enabled>-->
         <!--<prefer-application-packages>-->
             <!--<package-name>org.w3c.dom.*</package-name>-->
         <!--</prefer-application-packages>-->
-    <!--</container-descriptor>-->
+    </container-descriptor>
 </weblogic-web-app>
