@@ -41,8 +41,6 @@ class IndicatorJob {
     //bulk
     def execute() {
 
-        return // disabled
-
 //        grailsApplication.getArtefacts('Service').findAll {
 //            it.fullName.startsWith("stocks.indicators.symbol.")
 //        }.sort { it.fullName }.each { serviceClass ->

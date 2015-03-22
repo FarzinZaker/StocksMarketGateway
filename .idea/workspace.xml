@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolDailyTradeMissingDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolDailyTradeMissingDataService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
@@ -82,26 +82,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="IndustryGroupDataService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndustryGroupDataService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="12" max-vertical-offset="680">
-              <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IndustryGroupStateDataService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndustryGroupStateDataService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="680">
-              <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="IndustrySubgroupDataService.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndustrySubgroupDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
@@ -132,11 +112,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SymbolDailyTradeMissingDataService.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SymbolDailyTradeMissingDataService.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolDailyTradeMissingDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14285715" vertical-offset="68" max-vertical-offset="1224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1224">
               <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="22" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CoinDataService.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinDataService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
+              <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IndicatorJob.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.71428573" vertical-offset="357" max-vertical-offset="1581">
+              <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -203,7 +203,6 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/filters/symbol/oscillator/CCIFilterService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/filters/symbol/value/PriceFilterService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/filters/symbol/value/VolumeFilterService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/PurgeJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/sql/oracle/functions/prc_ncpd_upper_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinFutureDataService.groovy" />
@@ -246,6 +245,7 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndustrySubgroupDataService.groovy" />
         <option value="$PROJECT_DIR$/application.properties" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolDailyTradeMissingDataService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" />
       </list>
     </option>
   </component>
@@ -1019,13 +1019,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="11925000" />
-    </task>
-    <task id="LOCAL-00115" summary="screener">
-      <created>1423925914958</created>
-      <option name="number" value="00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1423925914961</updated>
+      <workItem from="1426816571049" duration="13523000" />
     </task>
     <task id="LOCAL-00116" summary="screener">
       <created>1424609545357</created>
@@ -1315,11 +1309,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426967803220</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="weblogic problems">
+      <created>1426969004294</created>
+      <option name="number" value="00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1426969004294</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1889340000" />
+    <option name="totallyTimeSpent" value="1890938000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1471,13 +1471,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1015" max-vertical-offset="1479">
-          <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar!/oracle/jdbc/OracleTypes.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2004555" vertical-offset="0" max-vertical-offset="1173">
@@ -1538,13 +1531,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="578">
           <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1615">
-          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1894,8 +1880,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolDailyTradeMissingDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14285715" vertical-offset="68" max-vertical-offset="1224">
+        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1224">
           <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="22" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinDataService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.71428573" vertical-offset="357" max-vertical-offset="1581">
+          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
           <folding />
         </state>
       </provider>
