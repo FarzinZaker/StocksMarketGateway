@@ -82,16 +82,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="IndustrySubgroupDataService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndustrySubgroupDataService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="29" max-vertical-offset="680">
-              <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SymbolBestOrderDataService.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/SymbolBestOrderDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
@@ -135,8 +125,18 @@
       <file leaf-file-name="IndicatorJob.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.71428573" vertical-offset="357" max-vertical-offset="1581">
-              <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.6666667" vertical-offset="238" max-vertical-offset="1360">
+              <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SymbolIndicatorService.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/indicators/SymbolIndicatorService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1343">
+              <caret line="60" column="34" selection-start-line="60" selection-start-column="34" selection-end-line="60" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -1019,13 +1019,7 @@
       <workItem from="1426499342854" duration="280000" />
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
-      <workItem from="1426816571049" duration="13523000" />
-    </task>
-    <task id="LOCAL-00116" summary="screener">
-      <created>1424609545357</created>
-      <option name="number" value="00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1424609545367</updated>
+      <workItem from="1426816571049" duration="15060000" />
     </task>
     <task id="LOCAL-00117" summary="screener">
       <created>1424709315975</created>
@@ -1315,11 +1309,17 @@
       <option name="project" value="LOCAL" />
       <updated>1426969004294</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="indicators">
+      <created>1427022222933</created>
+      <option name="number" value="00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1427022222933</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1890938000" />
+    <option name="totallyTimeSpent" value="1892475000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1418,7 +1418,6 @@
     <MESSAGE value="indicator calculation speed up" />
     <MESSAGE value="data readers" />
     <MESSAGE value="back test" />
-    <MESSAGE value="indicators" />
     <MESSAGE value="price adjustment" />
     <MESSAGE value="backTest" />
     <MESSAGE value="oracle" />
@@ -1428,7 +1427,8 @@
     <MESSAGE value="bulk index problem" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="weblogic problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="weblogic problems" />
+    <MESSAGE value="indicators" />
+    <option name="LAST_COMMIT_MESSAGE" value="indicators" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1471,13 +1471,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar!/oracle/jdbc/OracleTypes.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2004555" vertical-offset="0" max-vertical-offset="1173">
-          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/analysis/ScreenerController.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="40.04348" vertical-offset="1822" max-vertical-offset="3179">
@@ -1894,10 +1887,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/indicators/SymbolIndicatorService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1343">
+          <caret line="60" column="34" selection-start-line="60" selection-start-column="34" selection-end-line="60" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71428573" vertical-offset="357" max-vertical-offset="1581">
-          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.6666667" vertical-offset="238" max-vertical-offset="1360">
+          <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
           <folding />
         </state>
       </provider>
