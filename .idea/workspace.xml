@@ -175,8 +175,8 @@
       <file leaf-file-name="weblogic.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47486034" vertical-offset="0" max-vertical-offset="510">
-              <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="12" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.8547486" vertical-offset="0" max-vertical-offset="510">
+              <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -1057,13 +1057,7 @@
       <workItem from="1426499792089" duration="50251000" />
       <workItem from="1426814227281" duration="2163000" />
       <workItem from="1426816571049" duration="16158000" />
-      <workItem from="1427812299345" duration="4422000" />
-    </task>
-    <task id="LOCAL-00122" summary="macd">
-      <created>1425141044879</created>
-      <option name="number" value="00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1425141044879</updated>
+      <workItem from="1427812299345" duration="5034000" />
     </task>
     <task id="LOCAL-00123" summary="update">
       <created>1425188924420</created>
@@ -1353,11 +1347,17 @@
       <option name="project" value="LOCAL" />
       <updated>1427848314314</updated>
     </task>
-    <option name="localTasksCounter" value="171" />
+    <task id="LOCAL-00171" summary="build options">
+      <created>1427848675265</created>
+      <option name="number" value="00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1427848675265</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1897995000" />
+    <option name="totallyTimeSpent" value="1898607000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1917,8 +1917,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-app/WEB-INF/weblogic.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47486034" vertical-offset="0" max-vertical-offset="510">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="12" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.8547486" vertical-offset="0" max-vertical-offset="510">
+          <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
           <folding />
         </state>
       </provider>
