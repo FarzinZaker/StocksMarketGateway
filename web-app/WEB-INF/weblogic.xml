@@ -7,7 +7,7 @@
         <!--<prefer-application-packages>-->
             <!--<package-name>org.w3c.dom.*</package-name>-->
         <!--</prefer-application-packages>-->
-        <!--<prefer-web-inf-classes>false</prefer-web-inf-classes>-->
+        <prefer-web-inf-classes>false</prefer-web-inf-classes>
         <!--<prefer-application-packages>-->
             <!--<package-name>antlr.*</package-name>-->
         <!--</prefer-application-packages>-->
