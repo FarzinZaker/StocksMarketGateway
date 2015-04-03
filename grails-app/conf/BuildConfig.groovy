@@ -41,8 +41,8 @@ grails.project.dependency.resolution = {
 
         compile('com.oracle:ojdbc6:11.2.0.3')
 
-        runtime 'mysql:mysql-connector-java:5.1.29'
-        runtime 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
+//        runtime 'mysql:mysql-connector-java:5.1.29'
+//        runtime 'org.mariadb.jdbc:mariadb-java-client:1.1.7'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
 //        test "org.grails:grails-datastore-test-support:1.0-grails-2.4"
 
@@ -68,6 +68,7 @@ grails.project.dependency.resolution = {
 
         compile 'org.codehaus.gpars:gpars:1.2.1'
 
+        compile 'com.sun.jersey:jersey-bundle:1.1.5.1'
     }
 
     plugins {
