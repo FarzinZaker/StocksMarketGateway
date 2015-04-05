@@ -47,7 +47,7 @@ class ScreenerController {
     }
 
     def values() {
-        render template: filterService.getValueTemplate(params.filter?.toString(), params.operator?.toString()), model: filterService.getValueModel(params.filter?.toString(), params.operator?.toString())
+        render template: filterService.getValueTemplate(params.filter?.toString(), params.operator?.toString()), model: filterService.getValueModel(params.filter?.toString(), params.operator?.toString(), 'screener')
     }
 
     def queryItem() {
@@ -143,13 +143,13 @@ class ScreenerController {
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}", "(${message(code: rule.field)} (${rule.inputType}")
+                indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}".replace('stocks_indicators_symbol_', ''), "(${message(code: rule.field)} (${rule.inputType}")
 
             def value =  JSON.parse(rule.value)?.first()
             if(value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}", "(${message(code: value?.first())} (${value?.last()}")
+                    indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}".replace('stocks_indicators_symbol_', ''), "(${message(code: value?.first())} (${value?.last()}")
             }
         }
         [

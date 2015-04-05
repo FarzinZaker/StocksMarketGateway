@@ -1,7 +1,28 @@
 <h2><g:message code="backTest.signals.title"/></h2>
+
 <div class="k-rtl">
     <div id="signalsGrid"></div>
 </div>
+<script type="text/x-kendo-template" id="signalTemplate">
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-xs-4"><g:message code="backTest.signal.totalTradeCount"/>: <label>#= formatNumber(totalTradeCount) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.totalTradeVolume"/>: <label>#= formatNumber(totalTradeVolume) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.totalTradeValue"/>: <label>#= formatNumber(totalTradeValue) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.closingPrice"/>: <label>#= formatNumber(closingPrice) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.firstTradePrice"/>: <label>#= formatNumber(firstTradePrice) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.lastTradePrice"/>: <label>#= formatNumber(lastTradePrice) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.priceChange"/>: <label>#= formatNumber(priceChange) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.minPrice"/>: <label>#= formatNumber(minPrice) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.maxPrice"/>: <label>#= formatNumber(maxPrice) #</label></div>
+        <div class="col-xs-4"><g:message code="backTest.signal.yesterdayPrice"/>: <label>#= formatNumber(yesterdayPrice) #</label></div>
+        <g:each in="${indicators}" var="indicator">
+            <div class="col-xs-4"><span class="ltr inline-block"><g:message code="${indicator.name}"/><g:if test="${indicator.parameter}"> (${indicator.parameter})</g:if></span>: <label>#= formatNumber(Math.round(${indicator.name.replace('.','_')}_${indicator.parameter})) #</label></div>
+        </g:each>
+    </div>
+</div>
+</script>
 <script>
 
     function formatEffect(model) {
@@ -34,8 +55,20 @@
                             value: {type: "number"},
                             wage: {type: "number"},
                             tax: {type: "number"},
-                            effect: {type: "number"}
-
+                            //details
+                            totalTradeCount: {type: "number"},
+                            totalTradeVolume: {type: "number"},
+                            totalTradeValue: {type: "number"},
+                            closingPrice: {type: "number"},
+                            firstTradePrice: {type: "number"},
+                            lastTradePrice: {type: "number"},
+                            priceChange: {type: "number"},
+                            minPrice: {type: "number"},
+                            maxPrice: {type: "number"},
+                            yesterdayPrice: {type: "number"}
+                            <g:each in="${indicators}" var="indicator">
+                            ,${indicator.name.replace('.','_')}_${indicator.parameter}: {type: "number"}
+                            </g:each>
                         }
                     }
                 },
@@ -49,6 +82,7 @@
             sortable: true,
             filterable: false,
             pageable: true,
+            detailTemplate: kendo.template($("#signalTemplate").html()),
             columns: [
                 {field: "date", title: "${message(code:'backTest.signal.date')}"},
                 {field: "reason", title: "${message(code:'backTest.signal.reason')}"},

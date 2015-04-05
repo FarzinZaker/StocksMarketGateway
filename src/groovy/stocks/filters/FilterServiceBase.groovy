@@ -18,7 +18,7 @@ interface FilterServiceBase {
 
     String getValueTemplate(String operator)
 
-    def getValueModel(User user, String operator)
+    def getValueModel(User user, String operator, String place)
 
     String[] formatQueryValue(value, String operator)
 

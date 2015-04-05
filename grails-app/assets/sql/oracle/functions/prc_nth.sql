@@ -1,25 +1,22 @@
 CREATE OR REPLACE FUNCTION prc_nth
-(
-    symbol_id NUMBER,
-    num NUMBER
+  (
+    sym_id NUMBER,
+    numb NUMBER
 
-)
+  )
 
-RETURN NUMBER
+  RETURN NUMBER
 
 IS
 
-result NUMBER;
+  result NUMBER;
 
-BEGIN
+  BEGIN
     SELECT closing_price INTO result FROM
-        (SELECT t.closing_price, RANK() OVER (ORDER BY daily_snapshot DESC) day_rank FROM tse_symbol_daily_trade t WHERE t.symbol_id = symbol_id)
-        WHERE day_rank = num;
+      (SELECT t.closing_price, RANK() OVER (ORDER BY t.dat DESC) day_rank FROM tse_symbol_daily_trade t WHERE t.symbol_id = sym_id)
+    WHERE day_rank = numb;
 
     RETURN(result);
 
-END prc_nth;
-
-
-
+  END prc_nth;
 /

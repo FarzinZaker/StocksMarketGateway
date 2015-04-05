@@ -44,7 +44,7 @@ $(document).ready(function () {
             }
         });
         dataShowTimer = $('#dataShowTimer').timer({
-            delay: 100,
+            delay: 50,
             repeat: true,
             autostart: true,
             callback: function (index) {
@@ -112,12 +112,12 @@ function stepForward() {
             for (i = 0; i < visiblePortfolioLogs.length; i++) {
                 portfolioTotalValue.push([
                     visiblePortfolioLogs[i][0],
-                    visiblePortfolioLogs[i][1]
+                    i > logIndex ? 0 : visiblePortfolioLogs[i][1]
                 ]);
 
                 portfolioStockValue.push([
                     visiblePortfolioLogs[i][0],
-                    visiblePortfolioLogs[i][2]
+                    i > logIndex ? 0 : visiblePortfolioLogs[i][2]
                 ]);
             }
             backTestChart.series[2].setData(portfolioTotalValue);
@@ -125,9 +125,9 @@ function stepForward() {
 
             while (signals[signalIndex] && signals[signalIndex].time && (signals[signalIndex].time <= visiblePortfolioLogs[logIndex][0])) {
                 dataSource.add(signals[signalIndex]);
-                dataSource.sync();
                 signalIndex++;
             }
+            dataSource.sync();
         }
     }
     $('#dataShowTimer').timer('resume');

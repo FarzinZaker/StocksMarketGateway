@@ -50,7 +50,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     }
 
     @Override
-    def getValueModel(User user, String operator) {
+    def getValueModel(User user, String operator, String place) {
         [
                 baskets: Portfolio.findAllByOwnerAndDeleted(user, false).collect {
                     [

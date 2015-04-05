@@ -59,7 +59,7 @@ class VolumeFilterService implements IncludeFilterService {
     }
 
     @Override
-    def getValueModel(User user, String operator) {
+    def getValueModel(User user, String operator, String place) {
         switch (operator) {
             case Operators.GREATER_THAN:
                 return [value: 100000]

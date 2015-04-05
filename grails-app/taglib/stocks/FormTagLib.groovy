@@ -54,7 +54,9 @@ class FormTagLib {
         out << """
             <input type='hidden' id='${attrs.id ?: attrs.name}' name='${attrs.name}' value='${
             attrs.value ? attrs.value : (attrs.entity?."${attrs.name}" ?: '')
-        }' />
+        }' data-validation="${
+            attrs.validation ?: ''
+        }"/>
 """
     }
 

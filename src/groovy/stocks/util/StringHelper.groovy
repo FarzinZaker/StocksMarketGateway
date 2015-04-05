@@ -6,6 +6,8 @@ package stocks.util
 class StringHelper {
 
     public static String underlineToCamel(String input) {
+        if(input != input.toUpperCase())
+            return input.replace('\'', '')
         def parts = input.split('_');
         def result = parts.first().toLowerCase()
         for (def i = 1; i < parts.size(); i++)

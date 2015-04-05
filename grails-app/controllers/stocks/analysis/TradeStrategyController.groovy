@@ -51,7 +51,7 @@ class TradeStrategyController {
     }
 
     def values() {
-        render template: filterService.getValueTemplate(params.filter?.toString(), params.operator?.toString()), model: filterService.getValueModel(params.filter?.toString(), params.operator?.toString())
+        render template: filterService.getValueTemplate(params.filter?.toString(), params.operator?.toString()), model: filterService.getValueModel(params.filter?.toString(), params.operator?.toString(), 'backTest')
     }
 
     def queryItem() {

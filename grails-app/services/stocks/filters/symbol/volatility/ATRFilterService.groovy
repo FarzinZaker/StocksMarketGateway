@@ -51,7 +51,7 @@ class ATRFilterService implements IncludeFilterService {
     }
 
     @Override
-    def getValueModel(User user, String operator) {
+    def getValueModel(User user, String operator, String place) {
         [:]
     }
 

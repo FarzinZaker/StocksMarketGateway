@@ -1,27 +1,24 @@
 CREATE OR REPLACE FUNCTION ind_nth
-(
-    symbol_id NUMBER,
-    class VARCHAR,
-    parameter VARCHAR,
-    num NUMBER
+  (
+    sym_id NUMBER,
+    cls VARCHAR,
+    para VARCHAR,
+    numb NUMBER
 
-)
+  )
 
-RETURN NUMBER
+  RETURN NUMBER
 
 IS
 
-result NUMBER;
+  result NUMBER;
 
-BEGIN
-    SELECT value INTO result FROM
-        (SELECT i.value FROM indicators i WHERE i.symbol_id = symbol_id and i.parameter = parameter and i.class = class and i.day_number = num)
-        WHERE ROWNUM = 1;
+  BEGIN
+    SELECT ind.value INTO result FROM
+      (SELECT i.value FROM indicators i WHERE i.symbol_id = sym_id and i.parameter = para and i.class = cls and i.day_number = numb) ind
+    WHERE ROWNUM = 1;
 
     RETURN(result);
 
-END ind_nth;
-
-
-
+  END ind_nth;
 /

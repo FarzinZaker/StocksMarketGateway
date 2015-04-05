@@ -52,12 +52,12 @@ class SMAFilterService implements IncludeFilterService {
     }
 
     @Override
-    def getValueModel(User user, String operator) {
+    def getValueModel(User user, String operator, String place) {
         [
                 list: Holders.grailsApplication.getArtefacts('Service').findAll {
                     it.packageName == 'stocks.filters.symbol.movingAverage'
                 }.findAll {
-                    (ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase).enabled
+                    (ClassResolver.loadServiceByName(it.fullName) as FilterServiceBase).enabled."${place}"
                 }.collect {
                     [
                             text : it.name.replace('Filter', ''),

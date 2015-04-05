@@ -165,19 +165,19 @@ class BackTestService {
         signal.backTest = backTest
         signal.symbol = backTest.symbol
         signal.date = backTest.currentDate
-//        signal.closingPrice = dailyTrade.closingPrice
-//        signal.firstTradePrice = dailyTrade.firstTradePrice
-//        signal.lastTradePrice = dailyTrade.lastTradePrice
-//        signal.maxPrice = dailyTrade.maxPrice
-//        signal.minPrice = dailyTrade.minPrice
+        signal.closingPrice = dailyTrade.closingPrice
+        signal.firstTradePrice = dailyTrade.firstTradePrice
+        signal.lastTradePrice = dailyTrade.lastTradePrice
+        signal.maxPrice = dailyTrade.maxPrice
+        signal.minPrice = dailyTrade.minPrice
         signal.price = dailyTrade.closingPrice
-//        signal.priceChange = dailyTrade.priceChange
-//        signal.totalTradeCount = dailyTrade.totalTradeCount
-//        signal.totalTradeValue = dailyTrade.totalTradeValue
-//        signal.totalTradeVolume = dailyTrade.totalTradeVolume
-//        signal.yesterdayPrice = dailyTrade.yesterdayPrice
+        signal.priceChange = dailyTrade.priceChange
+        signal.totalTradeCount = dailyTrade.totalTradeCount
+        signal.totalTradeValue = dailyTrade.totalTradeValue
+        signal.totalTradeVolume = dailyTrade.totalTradeVolume
+        signal.yesterdayPrice = dailyTrade.yesterdayPrice
 
-//        signal.indicators = extractIndicators(backTest)
+        signal.indicators = extractIndicators(backTest)
     }
 
     void updatePortfolioLog(BackTest backTest, PortfolioLog previousLog, SymbolDailyTrade dailyTrade, BackTestSignal signal = null) {
@@ -206,22 +206,27 @@ class BackTestService {
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorList << [name: indicatorName, parameter: rule.inputType]
+                if (!indicatorList.any { it.name == indicatorName && it.parameter == rule.inputType })
+                    indicatorList << [name: indicatorName, parameter: rule.inputType]
 
             def value = JSON.parse(rule.value)?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorList << [name: indicatorName, parameter: value?.last()]
+                    if (!indicatorList.any { it.name == indicatorName && it.parameter == value?.last() })
+                        indicatorList << [name: indicatorName, parameter: value?.last()]
             }
         }
-        indicatorList.each {
-            it.value = ClassResolver.loadDomainClassByName(it.name?.toString()).list {
+        indicatorList.each { indicator ->
+            indicator.value = ClassResolver.loadDomainClassByName(indicator.name?.toString()).createCriteria().list {
                 eq('symbol', backTest.symbol)
-                eq('parameter', it.parameter)
+                eq('parameter', indicator.parameter)
                 lte('calculationDate', backTest.currentDate)
                 order('calculationDate', ORDER_DESCENDING)
                 maxResults(1)
+                projections {
+                    property('value')
+                }
             }?.find()
         }
         indicatorList

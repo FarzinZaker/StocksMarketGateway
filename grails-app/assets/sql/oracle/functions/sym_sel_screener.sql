@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION STOCKS.sym_sel_screener
+CREATE OR REPLACE FUNCTION sym_sel_screener
   (
     idList VARCHAR,
     cols VARCHAR
@@ -15,44 +15,44 @@ IS
 
     quer := '
         INSERT INTO TEMP_TSE_SYMBOL_PRICE
-            SELECT 
+            SELECT
                 symbol_id as id,
-                symbol, 
-                closing_price, 
-                first_trade_price, 
-                last_trade_price, 
-                max_price, 
-                min_price, 
-                price_change, 
-                total_trade_count, 
-                total_trade_value, 
-                total_trade_volume, 
+                symbol,
+                closing_price,
+                first_trade_price,
+                last_trade_price,
+                max_price,
+                min_price,
+                price_change,
+                total_trade_count,
+                total_trade_value,
+                total_trade_volume,
                 yesterday_price
             FROM
-                (SELECT 
+                (SELECT
                     symbol_id,
-                    symbol_persian_name || ''('' || symbol_persian_code || '')'' as symbol, 
-                    closing_price, 
-                    first_trade_price, 
-                    last_trade_price, 
-                    max_price, 
-                    min_price, 
-                    price_change, 
-                    total_trade_count, 
-                    total_trade_value, 
-                    total_trade_volume, 
+                    symbol_persian_name || ''('' || symbol_persian_code || '')'' as symbol,
+                    closing_price,
+                    first_trade_price,
+                    last_trade_price,
+                    max_price,
+                    min_price,
+                    price_change,
+                    total_trade_count,
+                    total_trade_value,
+                    total_trade_volume,
                     yesterday_price,
                     RANK() OVER (PARTITION BY symbol_id ORDER BY dat DESC) rnk
-                FROM tse_symbol_daily_trade 
+                FROM tse_symbol_daily_trade
                 WHERE symbol_id IN (' || idList || '))
            WHERE rnk <= 1
                 ';
     EXECUTE IMMEDIATE quer;
 
-    IF cols <> '' THEN
+    IF cols IS NOT NULL THEN
       quer := '
             INSERT INTO TEMP_SYMBOL_INDICATOR
-                SELECT symbol_id as id, REPLACE(class, ''.'', ''_'') + ''_'' + parameter as indicator, value as indicatorValue FROM indicators WHERE symbol_id IN (' || idList || ') and day_number = 1';
+                SELECT symbol_id as id, REPLACE(REPLACE(class, ''.'', ''_''), ''stocks_indicators_symbol_'') || ''_'' || parameter as indicator_name, value as indicator_value FROM indicators WHERE symbol_id IN (' || idList || ') and day_number = 1';
       EXECUTE IMMEDIATE quer;
 
       quer := q'[

@@ -56,8 +56,8 @@ class FilterService {
         '/' + [path, filterName, (ClassResolver.loadServiceByName(filter) as FilterServiceBase).getValueTemplate(operator)].join('/')
     }
 
-    def getValueModel(String filter, String operator) {
-        (ClassResolver.loadServiceByName(filter) as FilterServiceBase).getValueModel(springSecurityService.currentUser as User, operator)
+    def getValueModel(String filter, String operator, String place) {
+        (ClassResolver.loadServiceByName(filter) as FilterServiceBase).getValueModel(springSecurityService.currentUser as User, operator, place)
     }
 
     String[] getQueryText(String filter, String operator, value) {
@@ -126,7 +126,7 @@ class FilterService {
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorColumns << "[${indicatorName.replace('.', '_')}_${rule.inputType}]"
+                indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType}"
 
             def value =  JSON.parse(rule.value)?.first()
             if(value instanceof JSONArray) {
@@ -135,6 +135,16 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.join(',')])
+        def result = []
+        lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
+//                .each{ LinkedHashMap item ->
+//            def entry = [:]
+//            item.keySet().each{String key ->
+//                entry.put(key.replace('\'',''), item[key])
+//            }
+//            result << entry
+//        }
+//        result
+        //lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
     }
 }

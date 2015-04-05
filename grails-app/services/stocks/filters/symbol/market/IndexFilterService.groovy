@@ -47,7 +47,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     }
 
     @Override
-    def getValueModel(User user, String operator) {
+    def getValueModel(User user, String operator, String place) {
         [
                 indexes: Index.findAll().collect {
                     [

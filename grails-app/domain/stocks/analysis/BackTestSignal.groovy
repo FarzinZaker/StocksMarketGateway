@@ -15,27 +15,27 @@ class BackTestSignal {
     Double effect
     String reason
 
-//    Integer totalTradeCount
-//    Integer totalTradeVolume
-//    Double totalTradeValue
-//    Double closingPrice
-//    Double firstTradePrice
-//    Double lastTradePrice
-//    Double priceChange
-//    Double minPrice
-//    Double maxPrice
-//    Double yesterdayPrice
+    Integer totalTradeCount
+    Integer totalTradeVolume
+    Double totalTradeValue
+    Double closingPrice
+    Double firstTradePrice
+    Double lastTradePrice
+    Double priceChange
+    Double minPrice
+    Double maxPrice
+    Double yesterdayPrice
 
-//    String indicatorsJSON
+    String indicatorsJSON
 
 
-//    transient void setIndicators(value){
-//        indicatorsJSON = value as JSON
-//    }
-//
-//    transient def getIndicators() {
-//        JSON.parse(indicatorsJSON)
-//    }
+    transient void setIndicators(value){
+        indicatorsJSON = value as JSON
+    }
+
+    transient def getIndicators() {
+        JSON.parse(indicatorsJSON)
+    }
 
     static mapping = {
         table 'ana_back_test_signal'

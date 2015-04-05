@@ -141,14 +141,13 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.media/jai-core/jars/jai-core-1.1.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-1.8.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.29.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.tictactec/ta-lib/jars/ta-lib-0.4.0.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-3.3.0-platform.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.mariadb.jdbc/mariadb-java-client/jars/mariadb-java-client-1.1.7.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.codehaus.jsr166-mirror/jsr166y/jars/jsr166y-1.7.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.multiverse/multiverse-core/jars/multiverse-core-0.7.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-1.2.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.ws.rs/jsr311-api/jars/jsr311-api-1.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.jersey/jersey-bundle/jars/jersey-bundle-1.1.5.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>

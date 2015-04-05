@@ -10,6 +10,8 @@
 <head>
     <meta name="layout" content="main"/>
     <title>${screener.title}</title>
+    <asset:javascript src="jquery.plugin.js"/>
+    <asset:javascript src="jquery.timer.js"/>
 </head>
 
 <body>
@@ -18,6 +20,7 @@
         <div class="col-xs-12">
             <h1>${screener.title}</h1>
 
+            <div id="timer"></div>
             <div class="k-rtl">
                 <div id="grid"></div>
             </div>
@@ -169,6 +172,17 @@
                             },
                             </g:each>
                         ]
+                    });
+
+                    $('#timer').timer({
+                        delay: 5000,
+                        repeat: true,
+                        autostart: true,
+                        callback: function (index) {
+                            var grid = $('#grid').data('kendoGrid');
+                            grid.dataSource.read();
+                            grid.refresh();
+                        }
                     });
                 });
 

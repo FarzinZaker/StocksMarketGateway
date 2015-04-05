@@ -27,6 +27,7 @@
         dataUrl = '<g:createLink action="viewJson" id="${backTest.id}"/>';
         summaryUrl = '<g:createLink action="summary" id="${backTest.id}"/>';
     </script>
+
 </head>
 
 <body>
