@@ -21,7 +21,7 @@ class CoinMissingDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 900000l, startDelay: 60000]
+                            parameters: [repeatInterval: 300000l, startDelay: 60000]
                     ]
             ]
     ]
