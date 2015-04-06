@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CoinMissingPersistService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinFutureDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinFutureDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CurrencyDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CurrencyDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CurrencyMissingDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CurrencyMissingDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/MetalDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/MetalDataService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/MetalMissingDataService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/MetalMissingDataService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/TSEEventService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/TSEEventService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
@@ -162,11 +151,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RateEventService.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RateEventService.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1139">
-              <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.83980584" vertical-offset="110" max-vertical-offset="1139">
+              <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -184,11 +173,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MetalMissingPersistService.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MetalMissingPersistService.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8802589" vertical-offset="0" max-vertical-offset="1037">
-              <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1037">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
                 <element signature="e#29#77#0" expanded="true" />
               </folding>
@@ -263,7 +252,6 @@
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CurrencyEvent.groovy" />
         <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/TSEEventService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinFutureDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy" />
@@ -274,6 +262,7 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CoinMissingPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy" />
       </list>
     </option>
   </component>
@@ -1055,13 +1044,7 @@
       <workItem from="1426816571049" duration="16158000" />
       <workItem from="1427812299345" duration="9996000" />
       <workItem from="1428136472411" duration="17962000" />
-      <workItem from="1428224262410" duration="28077000" />
-    </task>
-    <task id="LOCAL-00131" summary="back test">
-      <created>1425980922428</created>
-      <option name="number" value="00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1425980922429</updated>
+      <workItem from="1428224262410" duration="28788000" />
     </task>
     <task id="LOCAL-00132" summary="indicators">
       <created>1425995955145</created>
@@ -1351,11 +1334,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428313967384</updated>
     </task>
-    <option name="localTasksCounter" value="180" />
+    <task id="LOCAL-00180" summary="coin and currency bulk service">
+      <created>1428317427413</created>
+      <option name="number" value="00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1428317427413</updated>
+    </task>
+    <option name="localTasksCounter" value="181" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1949608000" />
+    <option name="totallyTimeSpent" value="1950319000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1917,14 +1906,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1139">
-          <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CoinMissingPersistService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="419" max-vertical-offset="1037">
@@ -1949,11 +1930,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8802589" vertical-offset="0" max-vertical-offset="1037">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1037">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
             <element signature="e#29#77#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/RateEventService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.83980584" vertical-offset="110" max-vertical-offset="1139">
+          <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>

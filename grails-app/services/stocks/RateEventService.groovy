@@ -37,8 +37,8 @@ class RateEventService {
         }
     }
 
-    def send(Object event) {
-        persistEvent(event)
+    def send(Object event, String senderClassName) {
+        persistEvent(event, senderClassName)
         switch (event.class) {
             case CoinEvent.class:
                 handle(event as CoinEvent)
