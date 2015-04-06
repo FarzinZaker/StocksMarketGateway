@@ -71,7 +71,7 @@ class CoinMissingDataService {
                     coinEvent.percent = object.dp.toString().replaceAll(',', '') as Double
                     coinEvent.low = object.l.toString().replaceAll(',', '') as Double
                     coinEvent.high = object.h.toString().replaceAll(',', '') as Double
-                    coinEvent.time = parseTime(object.t.toString())
+                    coinEvent.time = date
 
                     coinEvent.data = find(coinEvent)
                     rateEventGateway.send(coinEvent, this.class.name)

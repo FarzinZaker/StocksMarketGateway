@@ -70,7 +70,7 @@ class CurrencyMissingDataService {
                     currencyEvent.percent = object.dp.toString().replaceAll(',', '') as Double
                     currencyEvent.low = object.l.toString().replaceAll(',', '') as Double
                     currencyEvent.high = object.h.toString().replaceAll(',', '') as Double
-                    currencyEvent.time = parseTime(object.t.toString())
+                    currencyEvent.time = date
 
                     currencyEvent.data = find(currencyEvent)
                     rateEventGateway.send(currencyEvent, this.class.name)

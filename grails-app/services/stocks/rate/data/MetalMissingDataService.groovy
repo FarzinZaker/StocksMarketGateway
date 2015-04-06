@@ -70,7 +70,7 @@ class MetalMissingDataService {
                     metalEvent.percent = object.dp.toString().replaceAll(',', '') as Double
                     metalEvent.low = object.l.toString().replaceAll(',', '') as Double
                     metalEvent.high = object.h.toString().replaceAll(',', '') as Double
-                    metalEvent.time = parseTime(object.t.toString())
+                    metalEvent.time = date
 
                     metalEvent.data = find(metalEvent)
                     rateEventGateway.send(metalEvent, this.class.name)
