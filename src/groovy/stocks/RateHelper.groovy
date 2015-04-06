@@ -73,7 +73,7 @@ public class RateHelper {
                     name: FarsiNormalizationFilter.apply('درهم امارات'),
                     source: 'price_aed'
             ],
-            'lear-urkey': [
+            'lear-turkey': [
                     name: FarsiNormalizationFilter.apply('لیر ترکیه'),
                     source: 'price_try'
             ],
@@ -203,7 +203,7 @@ public class RateHelper {
                     name: FarsiNormalizationFilter.apply('درهم امارات (بانکی)'),
                     source: 'bank_aed'
             ],
-            'lear-urkey-bank': [
+            'lear-turkey-bank': [
                     name: FarsiNormalizationFilter.apply('لیر ترکیه (بانکی)'),
                     source: 'bank_try'
             ],

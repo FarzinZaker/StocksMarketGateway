@@ -5,7 +5,6 @@ import stocks.rate.Currency
 class CurrencyEvent {
 
     String symbol
-    String name
     Double price
     Double change
     Double percent
@@ -30,7 +29,6 @@ class CurrencyEvent {
     static constraints = {
 
         symbol nullable: true
-        name nullable: true
         price nullable: true
         change nullable: true
         percent nullable: true

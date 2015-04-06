@@ -3,7 +3,6 @@ package stocks.rate
 class Currency {
 
     String symbol
-    String name
     Double price
     Double change
     Double percent
@@ -23,7 +22,6 @@ class Currency {
     static constraints = {
 
         symbol nullable: true
-        name nullable: true
         price nullable: true
         change nullable: true
         percent nullable: true
