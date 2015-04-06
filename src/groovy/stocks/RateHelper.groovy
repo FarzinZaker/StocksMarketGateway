@@ -31,131 +31,253 @@ public class RateHelper {
     public static final CURRENCIES = [
             'us-dollar': [
                     name: FarsiNormalizationFilter.apply('دلار امریکا'),
-                    source: 103
+                    source: 'price_dollar'
             ],
             'euro': [
                     name: FarsiNormalizationFilter.apply('یورو'),
-                    source: 105
+                    source: 'price_eur'
             ],
             'gbp': [
                     name: FarsiNormalizationFilter.apply('پوند انگلستان'),
-                    source: 209
+                    source: 'price_gbp'
             ],
             'cad': [
                     name: FarsiNormalizationFilter.apply('دلار کانادا'),
-                    source: 210
+                    source: 'price_cad'
             ],
             'australian-dollar': [
                     name: FarsiNormalizationFilter.apply('دلار استرالیا'),
-                    source: 211
+                    source: 'price_aud'
             ],
             'swiss-franc': [
                     name: FarsiNormalizationFilter.apply('فرانک سوئیس'),
-                    source: 212
+                    source: 'price_chf'
             ],
             'yen': [
                     name: FarsiNormalizationFilter.apply('ین ژاپن'),
-                    source: 213
+                    source: 'price_jpy'
             ],
             'sek': [
                     name: FarsiNormalizationFilter.apply('کرون سوئد'),
-                    source: 214
+                    source: 'price_sek'
             ],
             'danish-krone': [
                     name: FarsiNormalizationFilter.apply('کرون دانمارک'),
-                    source: 215
+                    source: 'price_dkk'
             ],
             'nok': [
                     name: FarsiNormalizationFilter.apply('کرون نروژ'),
-                    source: 216
+                    source: 'price_ nok'
             ],
             'aed': [
                     name: FarsiNormalizationFilter.apply('درهم امارات'),
-                    source: 217
+                    source: 'price_aed'
             ],
             'lear-urkey': [
                     name: FarsiNormalizationFilter.apply('لیر ترکیه'),
-                    source: 218
+                    source: 'price_try'
             ],
             'rm-malaysia': [
                     name: FarsiNormalizationFilter.apply('رینگت مالزی'),
-                    source: 219
+                    source: 'price_myr'
             ],
             'chinese-yuan': [
                     name: FarsiNormalizationFilter.apply('یوان چین'),
-                    source: 220
+                    source: 'price_ncy'
             ],
             'bet-thailand': [
                     name: FarsiNormalizationFilter.apply('بت تایلند'),
-                    source: 221
+                    source: 'price_thb'
             ],
             'indian-rupee'         : [
                     name: FarsiNormalizationFilter.apply('روپیه هند'),
-                    source: 222
+                    source: 'price_inr'
             ],
             'saudi-riyal'         : [
                     name: FarsiNormalizationFilter.apply('ریال عریستان'),
-                    source: 223
+                    source: 'price_sar'
             ],
-            ''         : [
+            'iraq-dinar'         : [
                     name: FarsiNormalizationFilter.apply('دینار عراق'),
-                    source: 224
+                    source: 'price_iqd'
             ],
             'iraqi-dinar'         : [
                     name: FarsiNormalizationFilter.apply('روبل روسیه'),
-                    source: 225
+                    source: 'price_rub'
             ],
             'azerbaijani-manat'         : [
                     name: FarsiNormalizationFilter.apply('منات آذربایجان'),
-                    source: 226
+                    source: 'price_azn'
             ],
             'armenian-dram'         : [
                     name: FarsiNormalizationFilter.apply('درام ارمنستان'),
-                    source: 227
+                    source: 'price_amd'
             ],
             'georgia-lari'         : [
                     name: FarsiNormalizationFilter.apply('لاری گرجستان'),
-                    source: 228
+                    source: 'price_gel'
             ],
             'kuwaiti-dinar'         : [
                     name: FarsiNormalizationFilter.apply('دینار کویت'),
-                    source: 229
+                    source: 'price_kwd'
             ],
             'bahraini-dinar'         : [
                     name: FarsiNormalizationFilter.apply('دینار بحرین'),
-                    source: 230
+                    source: 'price_bhd'
             ],
             'omani-rial'         : [
                     name: FarsiNormalizationFilter.apply('ریال عمان'),
-                    source: 231
+                    source: 'price_omr'
             ],
             'qatari-rial'         : [
                     name: FarsiNormalizationFilter.apply('ریال قطر'),
-                    source: 232
-            ],
-            'lear-russia'         : [
-                    name: FarsiNormalizationFilter.apply('لیر روسیه'),
-                    source: 233
+                    source: 'price_qar'
             ],
             'singapore-dollar'         : [
                     name: FarsiNormalizationFilter.apply('دلار سنگاپور'),
-                    source: 234
+                    source: 'price_sgd'
             ],
             'new-zealand-dollar'         : [
                     name: FarsiNormalizationFilter.apply('دلار نیوزلند'),
-                    source: 235
+                    source: 'price_nzd'
             ],
             'hong-kong-dollar'         : [
                     name: FarsiNormalizationFilter.apply('دلار هنگ کنگ'),
-                    source: 236
+                    source: 'price_hkd'
             ],
             'pakistani-rupee'         : [
                     name: FarsiNormalizationFilter.apply('روپیه پاکستان'),
-                    source: 237
+                    source: 'price_pkr'
             ],
             'afghan'         : [
                     name: FarsiNormalizationFilter.apply('افغانی'),
-                    source: 238
+                    source: 'price_afn'
+            ],
+            'syrian-pound'         : [
+                    name: FarsiNormalizationFilter.apply('پوند سوریه'),
+                    source: 'price_syp'
+            ],
+
+            //bank prices
+            'us-dollar-bank': [
+                    name: FarsiNormalizationFilter.apply('دلار امریکا (بانکی)'),
+                    source: 'bank_dollar'
+            ],
+            'euro-bank': [
+                    name: FarsiNormalizationFilter.apply('یورو (بانکی)'),
+                    source: 'bank_eur'
+            ],
+            'gbp-bank': [
+                    name: FarsiNormalizationFilter.apply('پوند انگلستان (بانکی)'),
+                    source: 'bank_gbp'
+            ],
+            'cad-bank': [
+                    name: FarsiNormalizationFilter.apply('دلار کانادا (بانکی)'),
+                    source: 'bank_cad'
+            ],
+            'australian-dollar-bank': [
+                    name: FarsiNormalizationFilter.apply('دلار استرالیا (بانکی)'),
+                    source: 'bank_aud'
+            ],
+            'swiss-franc-bank': [
+                    name: FarsiNormalizationFilter.apply('فرانک سوئیس (بانکی)'),
+                    source: 'bank_chf'
+            ],
+            'yen-bank': [
+                    name: FarsiNormalizationFilter.apply('ین ژاپن (بانکی)'),
+                    source: 'bank_jpy'
+            ],
+            'sek-bank': [
+                    name: FarsiNormalizationFilter.apply('کرون سوئد (بانکی)'),
+                    source: 'bank_sek'
+            ],
+            'danish-krone-bank': [
+                    name: FarsiNormalizationFilter.apply('کرون دانمارک (بانکی)'),
+                    source: 'bank_dkk'
+            ],
+            'nok-bank': [
+                    name: FarsiNormalizationFilter.apply('کرون نروژ (بانکی)'),
+                    source: 'bank_ nok'
+            ],
+            'aed-bank': [
+                    name: FarsiNormalizationFilter.apply('درهم امارات (بانکی)'),
+                    source: 'bank_aed'
+            ],
+            'lear-urkey-bank': [
+                    name: FarsiNormalizationFilter.apply('لیر ترکیه (بانکی)'),
+                    source: 'bank_try'
+            ],
+            'rm-malaysia-bank': [
+                    name: FarsiNormalizationFilter.apply('رینگت مالزی (بانکی)'),
+                    source: 'bank_myr'
+            ],
+            'chinese-yuan-bank': [
+                    name: FarsiNormalizationFilter.apply('یوان چین (بانکی)'),
+                    source: 'bank_ncy'
+            ],
+            'bet-thailand-bank': [
+                    name: FarsiNormalizationFilter.apply('بت تایلند (بانکی)'),
+                    source: 'bank_thb'
+            ],
+            'indian-rupee-bank'         : [
+                    name: FarsiNormalizationFilter.apply('روپیه هند (بانکی)'),
+                    source: 'bank_inr'
+            ],
+            'saudi-riyal-bank'         : [
+                    name: FarsiNormalizationFilter.apply('ریال عریستان (بانکی)'),
+                    source: 'bank_sar'
+            ],
+            'iraq-dinar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('دینار عراق (بانکی)'),
+                    source: 'bank_iqd'
+            ],
+            'iraqi-dinar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('روبل روسیه (بانکی)'),
+                    source: 'bank_rub'
+            ],
+            'azerbaijani-manat-bank'         : [
+                    name: FarsiNormalizationFilter.apply('منات آذربایجان (بانکی)'),
+                    source: 'bank_azn'
+            ],
+            'armenian-dram-bank'         : [
+                    name: FarsiNormalizationFilter.apply('درام ارمنستان (بانکی)'),
+                    source: 'bank_amd'
+            ],
+            'kuwaiti-dinar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('دینار کویت (بانکی)'),
+                    source: 'bank_kwd'
+            ],
+            'bahraini-dinar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('دینار بحرین (بانکی)'),
+                    source: 'bank_bhd'
+            ],
+            'omani-rial-bank'         : [
+                    name: FarsiNormalizationFilter.apply('ریال عمان (بانکی)'),
+                    source: 'bank_omr'
+            ],
+            'qatari-rial-bank'         : [
+                    name: FarsiNormalizationFilter.apply('ریال قطر (بانکی)'),
+                    source: 'bank_qar'
+            ],
+            'singapore-dollar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('دلار سنگاپور (بانکی)'),
+                    source: 'bank_sgd'
+            ],
+            'hong-kong-dollar-bank'         : [
+                    name: FarsiNormalizationFilter.apply('دلار هنگ کنگ (بانکی)'),
+                    source: 'bank_hkd'
+            ],
+            'pakistani-rupee-bank'         : [
+                    name: FarsiNormalizationFilter.apply('روپیه پاکستان (بانکی)'),
+                    source: 'bank_pkr'
+            ],
+            'afghan-bank'         : [
+                    name: FarsiNormalizationFilter.apply('افغانی (بانکی)'),
+                    source: 'bank_afn'
+            ],
+            'syrian-pound-bank'         : [
+                    name: FarsiNormalizationFilter.apply('پوند سوریه (بانکی)'),
+                    source: 'bank_syp'
             ]
     ]
 

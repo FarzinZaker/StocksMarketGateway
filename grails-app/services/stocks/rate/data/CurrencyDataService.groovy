@@ -25,7 +25,7 @@ class CurrencyDataService {
     ]
 
     void importData() {
-        parseData("http://www.iranjib.ir/isync.json")
+        parseData("http://www.tgju.org/call.php")
     }
 
     private static Currency find(CurrencyEvent object) {
@@ -38,28 +38,26 @@ class CurrencyDataService {
 
         try {
             def str = getList(url)
-            if (!str)
+            if(!str)
                 return
             def list = JSON.parse(str)
 
             RateHelper.CURRENCIES.keySet().each { key ->
 
-                def source = RateHelper.CURRENCIES."${key}".source
-                def name = RateHelper.CURRENCIES."${key}".name
+                def object = list."${RateHelper.CURRENCIES."${key}".source}"
+                if(object) {
+                    def currencyEvent = new CurrencyEvent()
+                    currencyEvent.symbol = key
+                    currencyEvent.price = object.p.toString().replaceAll(',', '') as Double
+                    currencyEvent.change = (object.dt.toString().equals("low") ? -1 : 1) * (object.d.toString().replaceAll(',', '') as Double)
+                    currencyEvent.percent = object.dp.toString().replaceAll(',', '') as Double
+                    currencyEvent.low = object.l.toString().replaceAll(',', '') as Double
+                    currencyEvent.high = object.h.toString().replaceAll(',', '') as Double
+                    currencyEvent.time = parseTime(object.t.toString())
 
-                def currencyEvent = new CurrencyEvent()
-                currencyEvent.price = (list."f_${source}_68_pr".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "") as Double) * 10
-                String cp = list."f_${source}_64".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "")
-                currencyEvent.change = (cp.split("%")[1] as Double) * 10
-                currencyEvent.percent = cp.split("%")[0] as Double
-                currencyEvent.low = (list."f_${source}_65".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "") as Double) * 10
-                currencyEvent.high = (list."f_${source}_66".toString().replaceAll("<[^>].*?>|&lrm;|&rlm;|\\(|\\)|,| ", "") as Double) * 10
-                currencyEvent.name = name
-                currencyEvent.symbol = key
-                currencyEvent.time = new Date()
-
-                currencyEvent.data = find(currencyEvent)
-                rateEventGateway.send(currencyEvent)
+                    currencyEvent.data = find(currencyEvent)
+                    rateEventGateway.send(currencyEvent)
+                }
             }
             logState([status: 'successful'])
         }
@@ -73,14 +71,28 @@ class CurrencyDataService {
         try {
             HttpClient client = new HttpClient()
             client.getParams().setParameter("http.protocol.content-charset", "UTF-8")
-            HttpMethod method = new GetMethod(url)
+            HttpMethod method = new GetMethod("${url}?t=" + new Date().getTime())
             method.setRequestHeader("User-Agent", RandomUserAgent.randomUserAgent)
             method.setRequestHeader("Accept-Language", "en-US,en;q=0.5")
             client.executeMethod(method)
 
             method.getResponseBodyAsString()
-        } catch (ignored) {
+        }catch (ignored){
             null
         }
+    }
+
+
+    private static Date parseTime(String time) {
+        JalaliCalendar jc = new JalaliCalendar()
+        def cal = jc.toJavaUtilGregorianCalendar()
+        try {
+            def timeParts = time.split(":")
+            cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
+            cal.set(Calendar.MINUTE, timeParts[1] as Integer)
+            cal.set(Calendar.SECOND, 0)
+        } catch (ignored) {
+        }
+        cal.time
     }
 }
