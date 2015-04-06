@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Currency.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Currency.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CurrencyEvent.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CurrencyEvent.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/stocks/RateHelper.groovy" afterPath="$PROJECT_DIR$/src/groovy/stocks/RateHelper.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/rate/data/CoinMissingDataServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CurrencyMissingDataService.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/rate/data/CurrencyMissingDataServiceTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/data/MetalMissingDataService.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/rate/data/MetalMissingDataServiceTests.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
@@ -101,8 +103,8 @@
       <file leaf-file-name="CoinMissingDataService.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53741497" vertical-offset="103" max-vertical-offset="2261">
-              <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.57596374" vertical-offset="103" max-vertical-offset="2261">
+              <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
               <folding>
                 <element signature="e#26#74#0" expanded="true" />
               </folding>
@@ -1046,13 +1048,7 @@
       <workItem from="1426816571049" duration="16158000" />
       <workItem from="1427812299345" duration="9996000" />
       <workItem from="1428136472411" duration="17962000" />
-      <workItem from="1428224262410" duration="24731000" />
-    </task>
-    <task id="LOCAL-00128" summary="indicator calculation speed up">
-      <created>1425911542646</created>
-      <option name="number" value="00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1425911542646</updated>
+      <workItem from="1428224262410" duration="24760000" />
     </task>
     <task id="LOCAL-00129" summary="data readers">
       <created>1425912764675</created>
@@ -1342,11 +1338,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428311160827</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="coin and currency bulk service">
+      <created>1428313547607</created>
+      <option name="number" value="00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1428313547607</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1946262000" />
+    <option name="totallyTimeSpent" value="1946291000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1932,8 +1934,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinMissingDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53741497" vertical-offset="103" max-vertical-offset="2261">
-          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.57596374" vertical-offset="103" max-vertical-offset="2261">
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
           <folding>
             <element signature="e#26#74#0" expanded="true" />
           </folding>
