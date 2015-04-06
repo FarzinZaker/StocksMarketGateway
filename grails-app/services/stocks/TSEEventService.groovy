@@ -15,8 +15,8 @@ class TSEEventService {
     private def persistEvent(event, String senderClassName) {
         event.creationDate = new Date()
 
-        def appContext = ServletContextHolder.servletContext
-                .getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
+//        def appContext = ServletContextHolder.servletContext
+//                .getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
 //        def service = appContext."${Introspector.decapitalize(event.domainClass.persistentProperties.find { it.name == 'data' }.type.name.toString().replace('.', "_").split('_').last())}PersistService"
 //        def className
 //        for(def i = 1; i < 100; i++) {

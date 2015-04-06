@@ -56,7 +56,7 @@ class MetalDataService {
                     metalEvent.time = parseTime(object.t.toString())
 
                     metalEvent.data = find(metalEvent)
-                    rateEventGateway.send(metalEvent)
+                    rateEventGateway.send(metalEvent, this.class.name)
                 }
             }
             logState([status: 'successful'])

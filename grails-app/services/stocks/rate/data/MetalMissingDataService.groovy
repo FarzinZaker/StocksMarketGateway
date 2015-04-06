@@ -20,7 +20,7 @@ class MetalMissingDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 300000l, startDelay: 60000]
+                            parameters: [repeatInterval: 300000l, startDelay: 180000]
                     ]
             ]
     ]
@@ -49,6 +49,10 @@ class MetalMissingDataService {
         calendar.setTime(date)
         def jc = new JalaliCalendar(calendar)
 
+        use(TimeCategory) {
+            date = date - 1.days
+        }
+
         try {
             def str = getList(url, date)
             if(!str)
@@ -69,12 +73,8 @@ class MetalMissingDataService {
                     metalEvent.time = parseTime(object.t.toString())
 
                     metalEvent.data = find(metalEvent)
-                    rateEventGateway.send(metalEvent)
+                    rateEventGateway.send(metalEvent, this.class.name)
                 }
-            }
-
-            use(TimeCategory) {
-                date = date - 1.days
             }
             calendar.setTime(date)
             jc = new JalaliCalendar(calendar)

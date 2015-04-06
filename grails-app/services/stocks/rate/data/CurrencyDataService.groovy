@@ -56,7 +56,7 @@ class CurrencyDataService {
                     currencyEvent.time = parseTime(object.t.toString())
 
                     currencyEvent.data = find(currencyEvent)
-                    rateEventGateway.send(currencyEvent)
+                    rateEventGateway.send(currencyEvent, this.class.name)
                 }
             }
             logState([status: 'successful'])

@@ -56,7 +56,7 @@ class CoinDataService {
                     coinEvent.time = parseTime(object.t.toString())
 
                     coinEvent.data = find(coinEvent)
-                    rateEventGateway.send(coinEvent)
+                    rateEventGateway.send(coinEvent, this.class.name)
                 }
             }
             logState([status: 'successful'])

@@ -21,7 +21,7 @@ class CoinMissingDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 300000l, startDelay: 60000]
+                            parameters: [repeatInterval: 300000l, startDelay: 180000]
                     ]
             ]
     ]
@@ -50,6 +50,10 @@ class CoinMissingDataService {
         calendar.setTime(date)
         def jc = new JalaliCalendar(calendar)
 
+        use(TimeCategory) {
+            date = date - 1.days
+        }
+
         try {
             def str = getList(url, date)
             if(!str)
@@ -70,7 +74,7 @@ class CoinMissingDataService {
                     coinEvent.time = parseTime(object.t.toString())
 
                     coinEvent.data = find(coinEvent)
-                    rateEventGateway.send(coinEvent)
+                    rateEventGateway.send(coinEvent, this.class.name)
                 }
             }
 

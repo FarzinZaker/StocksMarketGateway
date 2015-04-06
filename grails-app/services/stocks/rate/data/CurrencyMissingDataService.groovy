@@ -20,7 +20,7 @@ class CurrencyMissingDataService {
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 300000l, startDelay: 60000]
+                            parameters: [repeatInterval: 900000l, startDelay: 180000]
                     ]
             ]
     ]
@@ -49,6 +49,10 @@ class CurrencyMissingDataService {
         calendar.setTime(date)
         def jc = new JalaliCalendar(calendar)
 
+        use(TimeCategory) {
+            date = date - 1.days
+        }
+
         try {
             def str = getList(url, date)
             if(!str)
@@ -69,12 +73,8 @@ class CurrencyMissingDataService {
                     currencyEvent.time = parseTime(object.t.toString())
 
                     currencyEvent.data = find(currencyEvent)
-                    rateEventGateway.send(currencyEvent)
+                    rateEventGateway.send(currencyEvent, this.class.name)
                 }
-            }
-
-            use(TimeCategory) {
-                date = date - 1.days
             }
             calendar.setTime(date)
             jc = new JalaliCalendar(calendar)

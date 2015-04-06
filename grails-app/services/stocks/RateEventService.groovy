@@ -6,6 +6,7 @@ import stocks.rate.event.CoinEvent
 import stocks.rate.event.CurrencyEvent
 import stocks.rate.event.CoinFutureEvent
 import stocks.rate.event.MetalEvent
+import stocks.util.ClassResolver
 
 import java.beans.Introspector
 
@@ -18,12 +19,14 @@ class RateEventService {
     def coinFuturePersistService
     def metalPersistService
 
-    private def persistEvent(event) {
+    private def persistEvent(event, String senderClassName) {
         event.creationDate = new Date()
 
-        def appContext = ServletContextHolder.servletContext
-                .getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
-        def service = appContext."${Introspector.decapitalize(event.domainClass.persistentProperties.find { it.name == 'data' }.type.name.toString().replace('.', "_").split('_').last())}PersistService"
+//        def appContext = ServletContextHolder.servletContext
+//                .getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
+//        def service = appContext."${Introspector.decapitalize(event.domainClass.persistentProperties.find { it.name == 'data' }.type.name.toString().replace('.', "_").split('_').last())}PersistService"
+
+        def service = ClassResolver.loadServiceByName(senderClassName.replace('DataService', 'PersistService'))
 
         if (event.data) {
             if (service.update(event))

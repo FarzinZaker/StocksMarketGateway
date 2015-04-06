@@ -117,7 +117,7 @@ class CoinFutureDataService {
                 coinFutureEvent.expired = contract.expired
 
                 coinFutureEvent.data = find(coinFutureEvent)
-                rateEventGateway.send(coinFutureEvent)
+                rateEventGateway.send(coinFutureEvent, this.class.name)
             }
             logState([status: 'successful'])
         }
