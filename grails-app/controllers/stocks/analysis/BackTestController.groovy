@@ -34,11 +34,11 @@ class BackTestController {
         def result = Symbol.search("*${term}*", max: 1000000)
         result = result.results.findAll { Symbol item ->
             true
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
+//            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
+//                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
+//                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
+//                    ['300', '400', '309', '404'].contains(item.type) &&
+//                    item.marketCode == 'NO'
         }
         result = result.collect { Symbol symbol ->
             [
