@@ -20,17 +20,17 @@ IS
     DELETE FROM rate_' || name || '_ev WHERE id in (
     SELECT id FROM rate_' || name || '_ev e1 WHERE (
         EXISTS
-        (SELECT * FROM rate_' || name || '_ev e2 WHERE 
+        (SELECT * FROM rate_' || name || '_ev e2 WHERE
                 e1.id < e2.id and
-                e1.symbol = e2.symbol and 
-                TRUNC(time) = e2.daily_snapshot) 
+                e1.symbol = e2.symbol and
+                TRUNC(e1.time) = e2.daily_snapshot)
         OR EXISTS
-        (SELECT * FROM rate_' || name || '_ev e2 WHERE 
+        (SELECT * FROM rate_' || name || '_ev e2 WHERE
                 e1.id <> e2.id and
-                e1.symbol = e2.symbol and 
+                e1.symbol = e2.symbol and
                 e1.time < e2.time and
                 e1.daily_snapshot is null)
-        ) 
+        )
     )';
 
     EXECUTE IMMEDIATE quer;

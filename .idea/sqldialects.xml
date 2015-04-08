@@ -17,6 +17,7 @@
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/sym_sel_heat_map.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/sym_sel_screener.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" dialect="Oracle" />
