@@ -36,12 +36,28 @@
             </ul>
         </li>
         <li>
+            <g:message code="menu.reports"/>
+            <ul>
+                <li><a href="${createLink(controller: 'report', action: 'heatMap')}"><g:message
+                        code="menu.reports.heatMap"/></a></li>
+            </ul>
+        </li>
+        <li>
             <g:message code="menu.screener"/>
             <ul>
                 <li><a href="${createLink(controller: 'screener', action: 'list')}"><g:message
                         code="menu.screener.list"/></a></li>
                 <li><a href="${createLink(controller: 'screener', action: 'build')}"><g:message
                         code="menu.screener.new"/></a></li>
+            </ul>
+        </li>
+        <li>
+            <g:message code="menu.strategy"/>
+            <ul>
+                <li><a href="${createLink(controller: 'tradeStrategy', action: 'list')}"><g:message
+                        code="menu.strategy.list"/></a></li>
+                <li><a href="${createLink(controller: 'tradeStrategy', action: 'build')}"><g:message
+                        code="menu.strategy.new"/></a></li>
             </ul>
         </li>
         <g:render template="/layouts/common/menu"/>
