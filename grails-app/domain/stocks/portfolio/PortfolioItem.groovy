@@ -3,8 +3,8 @@ package stocks.portfolio
 import stocks.tse.Symbol
 
 class PortfolioItem {
-    Symbol symbol
     Portfolio portfolio
+
     Long shareCount
     Long cost
 
@@ -16,8 +16,11 @@ class PortfolioItem {
     static belongsTo = [portfolio: Portfolio]
     static transients = ['portfolioName']
 
+    static mapping = {
+        table 'port_item'
+    }
+
     static constraints = {
-        symbol(nullable: false, unique: ["portfolio"])
         portfolio(nullable: false)
         shareCount(nullable: false)
         cost(nullable: false)

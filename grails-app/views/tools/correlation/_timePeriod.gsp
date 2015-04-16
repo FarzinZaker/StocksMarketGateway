@@ -1,3 +1,5 @@
+
+<form:datePickerResources/>
 <form:field fieldName="correlation.timePeriod">
     <span style="width: 510px;display: inline-block">
         <form:datePicker name="startDate" value="${format.jalaliDate(date: new Date() - 30)}"/>

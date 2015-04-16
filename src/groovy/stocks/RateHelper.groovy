@@ -94,7 +94,7 @@ public class RateHelper {
                     source: 'price_inr'
             ],
             'saudi-riyal'         : [
-                    name: FarsiNormalizationFilter.apply('ریال عریستان'),
+                    name: FarsiNormalizationFilter.apply('ریال عربستان'),
                     source: 'price_sar'
             ],
             'iraq-dinar'         : [
@@ -224,7 +224,7 @@ public class RateHelper {
                     source: 'bank_inr'
             ],
             'saudi-riyal-bank'         : [
-                    name: FarsiNormalizationFilter.apply('ریال عریستان (بانکی)'),
+                    name: FarsiNormalizationFilter.apply('ریال عربستان (بانکی)'),
                     source: 'bank_sar'
             ],
             'iraq-dinar-bank'         : [

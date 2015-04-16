@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="Stocks dev" uuid="08d8ede8-473f-41ea-9a85-720e9b261c7b">
       <driver-ref>sqlserver.ms</driver-ref>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO</jdbc-url>
+      <jdbc-url>jdbc:oracle:thin:@192.168.0.3:1521:orcl</jdbc-url>
       <libraries>
         <library>
           <url>file://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar</url>

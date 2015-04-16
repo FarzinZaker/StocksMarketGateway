@@ -1,6 +1,10 @@
 package stocks.rate
 
+import stocks.RateHelper
+
 class Coin {
+
+    static searchable = true
 
     String symbol
     Double price
@@ -12,10 +16,15 @@ class Coin {
     Date creationDate
     Date modificationDate
 
+    transient String getName(){
+        RateHelper.COINS."${symbol}".name as String
+    }
+
     static mapping = {
         table 'rate_coin'
         percent column: 'perc'
         symbol index: 'idx_co_symbol'
+        sort 'name'
     }
 
     static constraints = {

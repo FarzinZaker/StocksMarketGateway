@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat
 
 class PortfolioActionController {
     def springSecurityService
+    def portfolioPropertyManagementService
 
     DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'", Locale.ENGLISH);
 
@@ -164,33 +165,7 @@ class PortfolioActionController {
         render 0
     }
 
-    def symbols() {
-        def symbols
-
-        String query = params["filter[filters][0][value]"]
-        if (params.id) {
-            def currentSymbol = Symbol.get(params.long("id"))
-            if (query) {
-                if (query.contains(currentSymbol.persianCode) || query.contains(currentSymbol.persianName) ||
-                        query.contains(currentSymbol.code) || query.contains(currentSymbol.name))
-                    query = currentSymbol.persianCode
-            } else {
-                query = currentSymbol.companySmallCode
-            }
-        }
-        if (query)
-            symbols = Symbol.search("*${query}*", max: 20).results
-        else
-            symbols = Symbol.list([max: 20])
-        def jsonSymbols = symbols.collect {
-            [symbolId: it.id, symbolTitle: "${it.persianCode} - ${it.persianName}"]
-        } as JSON
-        render jsonSymbols
-//                { Symbol item ->
-//                    !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-//                            (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-//                            ['300', '400', '309', '404'].contains(item.type) &&
-//                            item.marketCode == 'NO'
-//                }
+    def propertyList() {
+        render (portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String) as JSON)
     }
 }

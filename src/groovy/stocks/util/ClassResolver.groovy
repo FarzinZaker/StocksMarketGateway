@@ -23,4 +23,10 @@ public class ClassResolver {
     public static def loadDomainClassByName(String domainName){
         Holders.grailsApplication.getDomainClass(domainName).clazz
     }
+
+    public static def loadDomainClassListByPackage(String pkg){
+        Holders.grailsApplication.getArtefacts('Domain').findAll {
+            it.fullName.startsWith(pkg)
+        }
+    }
 }

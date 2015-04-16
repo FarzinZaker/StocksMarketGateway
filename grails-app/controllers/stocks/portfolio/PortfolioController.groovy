@@ -1,11 +1,19 @@
 package stocks.portfolio
 
 import grails.converters.JSON
+import stocks.Broker
 import stocks.DateHelper
+import stocks.User
+import stocks.util.ClassResolver
 
 class PortfolioController {
     def springSecurityService
     def priceService
+    def portfolioPropertyManagementService
+
+    def index() {
+        redirect(action: 'list')
+    }
 
     def build() {
         [portfolio: params.id ? Portfolio.get(params.id) : null]
@@ -17,9 +25,14 @@ class PortfolioController {
             portfolio = Portfolio.get(params.id)
             portfolio.properties = params
         } else {
+            def user = springSecurityService.currentUser as User
+            if (Portfolio.findByOwnerAndNameAndDeleted(user, params.name, false)) {
+                flash.data = params.name
+                flash.message = message(code: 'portfolio.name.repetitive')
+                redirect(action: 'build')
+            }
             portfolio = new Portfolio(params)
-            portfolio.owner = springSecurityService.currentUser
-            portfolio.creationDate = new Date()
+            portfolio.owner = user
         }
         if (portfolio.save())
             redirect(action: 'list')
@@ -42,7 +55,7 @@ class PortfolioController {
 
         value.data = list.collect {
             [
-                    id: it.id,
+                    id  : it.id,
                     name: it.name
             ]
         }
@@ -62,7 +75,7 @@ class PortfolioController {
         def owner = springSecurityService.currentUser
         def portfolio = Portfolio.get(params.id)
         if (portfolio.ownerId != owner.id)
-            return render ([] as JSON)
+            return render([] as JSON)
         def list = PortfolioItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
         value.total = PortfolioItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
 
@@ -72,12 +85,12 @@ class PortfolioController {
             def shareValue = priceService.lastPrice(it.symbol)
             totalValue += it.shareCount * shareValue
             [
-                    id: it.id,
-                    symbol: "${it.symbol.persianCode} - ${it.symbol.persianName}",
-                    shareCount: it.shareCount,
-                    cost: it.cost,
-                    avgPrice: String.format("%.2f", it.cost / it.shareCount),
-                    shareValue: shareValue,
+                    id          : it.id,
+                    symbol      : "${it.symbol.persianCode} - ${it.symbol.persianName}",
+                    shareCount  : it.shareCount,
+                    cost        : it.cost,
+                    avgPrice    : String.format("%.2f", it.cost / it.shareCount),
+                    shareValue  : shareValue,
                     currentValue: it.shareCount * shareValue
             ]
         }
@@ -105,13 +118,13 @@ class PortfolioController {
         def owner = springSecurityService.currentUser
         def portfolioItem = PortfolioItem.get(params.id)
         if (portfolioItem.portfolio?.ownerId != owner.id)
-            return render ([] as JSON)
+            return render([] as JSON)
         def list = PortfolioAction.findAllByPortfolioItem(portfolioItem, parameters)
         value.total = PortfolioAction.countByPortfolioItem(portfolioItem)
 
         value.data = list.collect {
             [
-                    id: it.id,
+                    id        : it.id,
                     actionType: message(code: "portfolioAction.actionType.${it.actionType}"),
                     actionDate: DateHelper.jalali(it.actionDate, true),
                     sharePrice: it.sharePrice,
@@ -123,7 +136,24 @@ class PortfolioController {
     }
 
     def portfolioManage() {
-
+        [
+                propertyTypes: ClassResolver.loadDomainClassListByPackage('stocks.portfolio.portfolioItems').collect {
+                    [clazz: it.propertyName, title: message(code: it.fullName), modifiable: ![
+                            'portfolioBondsItem',
+                            'portfolioBullionItem',
+                            'portfolioCoinItem',
+                            'portfolioCurrencyItem',
+                            'portfolioSymbolItem',
+                            'portfolioSymbolPriorityItem'
+                    ].contains(it.propertyName)]
+                }.sort { it.title },
+                brokers: Broker.findAllByDeleted(false).collect{
+                    [
+                            brokerId: it.id,
+                            brokerName: it.name
+                    ]
+                }
+        ]
     }
 
     def jsonPortfolioActions() {
@@ -132,7 +162,7 @@ class PortfolioController {
         def owner = springSecurityService.currentUser
         def _portfolio = Portfolio.get(params.id)
         if (_portfolio.ownerId != owner.id)
-            return render ([] as JSON)
+            return render([] as JSON)
 
         def id = params.long("id")
         def list = PortfolioAction.createCriteria().list {
@@ -141,8 +171,8 @@ class PortfolioController {
                     idEq(id)
                 }
             }
-            firstResult(params.int("skip")?: 0)
-            maxResults(params.int("pageSize")?: 20)
+            firstResult(params.int("skip") ?: 0)
+            maxResults(params.int("pageSize") ?: 20)
             order(params["sort[0][field]"] ?: "actionDate", params["sort[0][dir]"] ?: "desc")
         }
 
@@ -159,8 +189,8 @@ class PortfolioController {
 
         value.data = list.collect {
             [
-                    id: it.id,
-                    symbol: "${it.portfolioItem.symbol.persianCode} - ${it.portfolioItem.symbol.persianName}",
+                    id        : it.id,
+                    symbol    : "${it.portfolioItem.symbol.persianCode} - ${it.portfolioItem.symbol.persianName}",
                     actionType: message(code: "portfolioAction.actionType.${it.actionType}"),
                     actionDate: DateHelper.jalali(it.actionDate, true),
                     sharePrice: it.sharePrice,
@@ -176,5 +206,25 @@ class PortfolioController {
         def portfolio = Portfolio.get(params.id)
         portfolio.deleted = true
         render(portfolio.save() ? '1' : '0')
+    }
+
+    def propertyForm() {
+        [
+                clazz: params.clazz,
+                id   : params.id ?: '',
+                item : portfolioPropertyManagementService.getProperty(params.clazz as String, params.id == "" ? null : params.id as Long)
+        ]
+    }
+
+    def saveProperty() {
+        if (portfolioPropertyManagementService.saveProperty(params.clazz as String, params.id == "" ? null : params.id as Long, params))
+            render 1
+        else
+            redirect(action: 'propertyForm', params: [clazz: params.clazz, id: params.id])
+    }
+
+    def deleteProperty() {
+        if (portfolioPropertyManagementService.deleteProperty(params.clazz as String, params.id == "" ? null : params.id as Long))
+            render 1
     }
 }

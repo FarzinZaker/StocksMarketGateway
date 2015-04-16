@@ -71,7 +71,7 @@ class FormTagLib {
             attrs.validation ?: ''
         }"
             ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''}
-            ${attrs."ng-keyup" ? "ng-keyup=${attrs."ng-keyup"}" : ''} />
+            ${attrs."ng-keyup" ? "ng-keyup=${attrs."ng-keyup"}" : ''} ${attrs.readonly == 'true' ? 'readonly' : ''} />
 """
     }
 
@@ -128,7 +128,9 @@ class FormTagLib {
             <textarea class='k-textbox ${attrs.class ?: ''}' ${
             attrs.style ? "style='${attrs.style}'" : ''
         } name='${attrs.name}' id='${attrs.id ?: attrs.name}'
-                data-validation="${attrs.validation ?: ''}" >${attrs.entity?."${attrs.name}" ?: ''}</textarea>
+                data-validation="${attrs.validation ?: ''}" >${
+            attrs.value ? attrs.value : attrs.entity?."${attrs.name}" ?: ''
+        }</textarea>
 """
     }
 
@@ -168,6 +170,10 @@ class FormTagLib {
         if (!attrs.preSelect || attrs.preSelect == 'true')
             out << """
                         index: 0,
+"""
+        if (attrs.placeholder)
+            out << """
+                        placeholder: '${attrs.placeholder}',
 """
         out << """
                         suggest:${attrs.suggest ?: 'false'},
@@ -469,10 +475,13 @@ class FormTagLib {
 """
     }
 
-    def datePicker = { attrs, body ->
+    def datePickerResources = { attrs, body ->
         out << "<link rel='stylesheet' type='text/css' href='${resource(dir: "css/bootstrap/datepicker", file: "bootstrap-datepicker.css")}'/>"
         out << "<script language='javascript' type='text/javascript' src='${resource(dir: "js/bootstrap/datepicker", file: "bootstrap-datepicker.js")}'></script>"
         out << "<script language='javascript' type='text/javascript' src='${resource(dir: "js/bootstrap/datepicker", file: "bootstrap-datepicker.fa.js")}'></script>"
+    }
+
+    def datePicker = { attrs, body ->
 
         out << textBox(attrs, body)
 
@@ -580,17 +589,17 @@ class FormTagLib {
 
     def button = { attrs, body ->
         out << """
-            <span name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}"
-                 ${attrs."ng-click" ? "ng-click='${attrs."ng-click"}'" : ''}
+            <span name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class ?: ''}"
+                 ${attrs."ng-click" ? "ng-click='${attrs."ng-click"}'" : ''} style="${attrs.style ?: ''}"
                 ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}>${attrs.text}</span>
 """
     }
 
     def linkButton = { attrs, body ->
         out << """
-            <a name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class}" ${
+            <a name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${attrs.class ?: ''}" ${
             attrs.href ? "href='${attrs.href}'" : ''
-        }>${attrs.text}</a>
+        } style="${attrs.style ?: ''}">${attrs.text}</a>
             <script language="javascript" type="text/javscript">
                 \$(document).ready(function(){
                     \$('#${attrs.id ?: attrs.name}').kendoButton();
@@ -602,8 +611,8 @@ class FormTagLib {
     def submitButton = { attrs, body ->
         out << """
             <input type="submit" name="${attrs.name}" id="${attrs.id ?: attrs.name}" class="k-button ${
-            attrs.class
-        }" value="${
+            attrs.class ?: ''
+        }" style="${attrs.style ?: ''}" value="${
             attrs.text
         }"
                 ${attrs.onclick ? "onclick='${attrs.onclick}'" : ''}></input>

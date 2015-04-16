@@ -11,6 +11,7 @@
     <meta name="layout" content="main"/>
     <title><g:message code="${'backTest.build.title'}"
                       args="${[tradeStrategy?.name]}"/></title>
+    <form:datePickerResources/>
 </head>
 
 <body>
