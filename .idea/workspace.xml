@@ -2,88 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c58fd03-c4df-46db-9be8-b43db72641da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/BankAccount.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/BankAccountTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/BankTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/BusinessPartner.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/basic/BusinessPartnerTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomBonds.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/basic/CustomBondsTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbol.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbolPriority.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/CustomSymbolPriorityTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/CustomSymbolTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/basic/ImmovablePropertyTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/basic/MovablePropertyTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioBankItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/portfolioItems/PortfolioBondsItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBullionItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioBullionItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioCoinItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioCurrencyItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/portfolioItems/PortfolioCustomBondsItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioCustomSymbolItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolPriorityItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioCustomSymbolPriorityItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioImmovableItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioItemManagementService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioItemManagementServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioMovableItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioPropertyManagementServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioSymbolItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolPriorityItem.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioSymbolPriorityItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortolioCustomSymbolItemTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioBankItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioBusinessPartnerItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomBondsItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolPriorityItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/js/portfolio.management.editors.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/portfolioManagement.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/propertyForm.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/stocks/util/ClassResolver.groovy" afterPath="$PROJECT_DIR$/src/groovy/stocks/util/ClassResolver.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Coin.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Coin.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Currency.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Currency.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/taglib/stocks/FormTagLib.groovy" afterPath="$PROJECT_DIR$/grails-app/taglib/stocks/FormTagLib.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Metal.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/Metal.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/Portfolio.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/Portfolio.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBrokerItem.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/portfolioItems/PortfolioBrokerItemTests.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/view/_chart.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/manage/_detailsGrid.gsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/manage/_grid.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBullionItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBullionItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolPriorityItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolPriorityItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/stocks/RateHelper.groovy" afterPath="$PROJECT_DIR$/src/groovy/stocks/RateHelper.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/tools/correlation/_timePeriod.gsp" afterPath="$PROJECT_DIR$/grails-app/views/tools/correlation/_timePeriod.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/backTest/build.gsp" afterPath="$PROJECT_DIR$/grails-app/views/backTest/build.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/build.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/build.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolPriorityItem.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolPriorityItem.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/common/_confirm.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/common/_confirm.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/farzin.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/farzin.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql" afterPath="$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioView.gsp" afterPath="$PROJECT_DIR$/grails-app/views/portfolio/portfolioView.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\DevDesk\Stocks\grails-app\services\stocks\portfolio\PortfolioItemManagementService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioActionManagementService.groovy" />
+      <change type="MOVED" beforePath="D:\DevDesk\Stocks\test\unit\stocks\portfolio\PortfolioItemManagementServiceTests.groovy" afterPath="$PROJECT_DIR$/test/unit/stocks/portfolio/PortfolioActionManagementServiceTests.groovy" />
     </list>
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
     <list id="a8bb0c64-c824-42a0-811e-d60b322356b6" name="uncommitable" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/BackTestJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/BackTestJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/IndicatorJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/MessageJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/MessageJob.groovy" />
@@ -168,71 +127,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="_editors.gsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp">
+      <file leaf-file-name="_chart.gsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/view/_chart.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4615386" vertical-offset="1158" max-vertical-offset="2584">
-              <caret line="323" column="25" selection-start-line="323" selection-start-column="25" selection-end-line="323" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.5681445" vertical-offset="402" max-vertical-offset="1207">
+              <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
               <folding>
-                <element signature="e#290#1247#0#HTML" expanded="false" />
-                <element signature="e#1305#4674#0#HTML" expanded="false" />
-                <element signature="e#4734#6686#0#HTML" expanded="false" />
-                <element signature="e#6732#7752#0#HTML" expanded="false" />
-                <element signature="e#7799#8750#0#HTML" expanded="false" />
-                <element signature="e#8797#9709#0#HTML" expanded="false" />
-                <element signature="e#9763#11282#0#HTML" expanded="false" />
+                <marker date="1429437069494" expanded="true" signature="811:825" placeholder="..." />
+                <marker date="1429437069494" expanded="true" signature="1336:1350" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PortfolioActionController.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy">
+      <file leaf-file-name="portfolioView.gsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioView.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5043732" vertical-offset="2139" max-vertical-offset="2941">
-              <caret line="140" column="58" selection-start-line="140" selection-start-column="58" selection-end-line="140" selection-end-column="58" />
+            <state vertical-scroll-proportion="-3.8163266" vertical-offset="425" max-vertical-offset="3094">
+              <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PortfolioItemManagementService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioItemManagementService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.068966" vertical-offset="552" max-vertical-offset="1377">
-              <caret line="65" column="44" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="44" />
-              <folding>
-                <element signature="e#26#86#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PortfolioItem.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.4905663" vertical-offset="0" max-vertical-offset="578">
-              <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PortfolioAction.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.35849" vertical-offset="151" max-vertical-offset="1683">
-              <caret line="63" column="42" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-              <folding>
-                <element signature="e#26#46#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
           </provider>
         </entry>
       </file>
@@ -249,57 +163,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/Portfolio.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/assets/javascripts/form-validator/unique.js" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/build.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/stocks/util/ClassResolver.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/BankAccount.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/BusinessPartner.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbol.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/views/layouts/common/_alert.gsp" />
-        <option value="$PROJECT_DIR$/web-app/js/portfolio.management.js" />
-        <option value="$PROJECT_DIR$/grails-app/assets/stylesheets/portfolioManagement.less" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/propertyForm.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioBankItem.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioBusinessPartnerItem.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/rate/Coin.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/rate/Currency.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/rate/Metal.groovy" />
-        <option value="$PROJECT_DIR$/src/groovy/stocks/RateHelper.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomBonds.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/backTest/build.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/tools/correlation/_timePeriod.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_nth.sql" />
         <option value="$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql" />
         <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomBondsItem.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolItem.gsp" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbolPriority.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolPriorityItem.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp" />
         <option value="$PROJECT_DIR$/grails-app/taglib/stocks/FormTagLib.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/site/_menu.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/brokerUser/_menu.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/site/_flatMenu.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/brokerUser/_flatMenu.gsp" />
         <option value="$PROJECT_DIR$/web-app/js/portfolio.management.editors.js" />
-        <option value="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioManagementService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioItemManagementService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" />
+        <option value="$PROJECT_DIR$/grails-app/views/layouts/common/_confirm.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBrokerItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/BackTestJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolPriorityItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolPriorityItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBullionItem.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/manage/_grid.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/manage/_detailsGrid.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioActionManagementService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/portfolioView.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/portfolio/view/_chart.gsp" />
       </list>
     </option>
   </component>
@@ -423,11 +337,11 @@
       <recent name="D:\DevDesk\Stocks\grails-app\assets\images\texture" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\DevDesk\Stocks\grails-app\views\portfolio\manage" />
       <recent name="D:\DevDesk\Stocks\web-app\WEB-INF" />
       <recent name="D:\DevDesk\Stocks\grails-app\assets" />
       <recent name="D:\DevDesk\Stocks\grails-app\conf\sql" />
       <recent name="D:\DevDesk\Stocks\grails-app\views\filters\symbol\volatility" />
-      <recent name="D:\DevDesk\Stocks\grails-app\views\filters\symbol\trend" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="stocks.indicators.symbol" />
@@ -1087,13 +1001,8 @@
       <workItem from="1428753826152" duration="27378000" />
       <workItem from="1428842322634" duration="4250000" />
       <workItem from="1428847238810" duration="46142000" />
-      <workItem from="1429093871869" duration="11296000" />
-    </task>
-    <task id="LOCAL-00137" summary="oracle">
-      <created>1426753123176</created>
-      <option name="number" value="00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1426753123176</updated>
+      <workItem from="1429093871869" duration="42974000" />
+      <workItem from="1429343287740" duration="29652000" />
     </task>
     <task id="LOCAL-00138" summary="oracle">
       <created>1426753161572</created>
@@ -1383,11 +1292,17 @@
       <option name="project" value="LOCAL" />
       <updated>1429012214013</updated>
     </task>
-    <option name="localTasksCounter" value="186" />
+    <task id="LOCAL-00186" summary="portfolio">
+      <created>1429167463490</created>
+      <option name="number" value="00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1429167463508</updated>
+    </task>
+    <option name="localTasksCounter" value="187" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2095357000" />
+    <option name="totallyTimeSpent" value="2156687000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1416,20 +1331,19 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35038933" sideWeight="0.07782516" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3888889" sideWeight="0.07849462" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38435373" sideWeight="0.56929636" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20483871" sideWeight="0.54324734" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3888889" sideWeight="0.9221748" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.52040815" sideWeight="0.4989339" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3888889" sideWeight="0.9215054" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22222222" sideWeight="0.4989339" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -1443,13 +1357,14 @@
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2913832" sideWeight="0.6902985" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39455783" sideWeight="0.6902985" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22257721" sideWeight="0.45675266" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38435373" sideWeight="0.56929636" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1471,7 +1386,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="purge data" />
     <MESSAGE value="macd" />
     <MESSAGE value="update" />
     <MESSAGE value="start building indicators" />
@@ -1496,7 +1410,8 @@
     <MESSAGE value="coin and currency bulk service" />
     <MESSAGE value="heat map" />
     <MESSAGE value="menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="menu" />
+    <MESSAGE value="portfolio" />
+    <option name="LAST_COMMIT_MESSAGE" value="portfolio" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1525,20 +1440,8 @@
           <properties />
           <option name="timeStamp" value="1339" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy</url>
-          <line>74</line>
-          <properties />
-          <option name="timeStamp" value="1675" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy</url>
-          <line>72</line>
-          <properties />
-          <option name="timeStamp" value="1676" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1678" />
+      <option name="time" value="1735" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1547,190 +1450,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/ind_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <caret line="13" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_lower_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="13" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_ncfp_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="12" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_ncpd_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <caret line="11" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_nth.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-          <caret line="14" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcfp_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <caret line="13" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_pcpd_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <caret line="11" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/prc_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="15" column="35" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/sym_sel_heat_map.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
-          <caret line="16" column="18" selection-start-line="0" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/sym_sel_screener.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1360">
-          <caret line="15" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_lower_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_nca_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="32" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_pca_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="32" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_upper_than_val_filter.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.66536206" vertical-offset="0" max-vertical-offset="527">
-          <caret line="20" column="30" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbol.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.528302" vertical-offset="0" max-vertical-offset="595">
-          <caret line="11" column="22" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbolPriority.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33406115" vertical-offset="0" max-vertical-offset="527">
-          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomBondsItem.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5584416" vertical-offset="65" max-vertical-offset="629">
-          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="22" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolPriorityItem.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.454343" vertical-offset="0" max-vertical-offset="449">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40829694" vertical-offset="0" max-vertical-offset="527">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0816326" vertical-offset="0" max-vertical-offset="204">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14718615" vertical-offset="0" max-vertical-offset="462">
-          <caret line="4" column="60" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioCustomSymbolItem.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.075723834" vertical-offset="0" max-vertical-offset="449">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14847161" vertical-offset="0" max-vertical-offset="459">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/backTest/list.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5306125" vertical-offset="2657" max-vertical-offset="3230">
-          <caret line="178" column="17" selection-start-line="147" selection-start-column="16" selection-end-line="178" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/tradeStrategy/_limits.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3877552" vertical-offset="0" max-vertical-offset="561">
@@ -1750,6 +1469,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3831967" vertical-offset="0" max-vertical-offset="1377">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1764,6 +1484,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4742268" vertical-offset="382" max-vertical-offset="1292">
           <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1786,6 +1507,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-67.34615" vertical-offset="0" max-vertical-offset="2839">
           <caret line="103" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="161" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1793,6 +1515,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.46153846" vertical-offset="2011" max-vertical-offset="2839">
           <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1807,56 +1530,346 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5869159" vertical-offset="4072" max-vertical-offset="4607">
           <caret line="258" column="5" selection-start-line="258" selection-start-column="5" selection-end-line="264" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/assets/stylesheets/common.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5384617" vertical-offset="14349" max-vertical-offset="15164">
-          <caret line="851" column="1" selection-start-line="851" selection-start-column="1" selection-end-line="851" selection-end-column="1" />
+        <state vertical-scroll-proportion="-3.1153846" vertical-offset="14488" max-vertical-offset="15164">
+          <caret line="857" column="22" selection-start-line="857" selection-start-column="22" selection-end-line="857" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/CodalEventService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34075344" vertical-offset="56" max-vertical-offset="748">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="61" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/common/_confirm.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3485114" vertical-offset="311" max-vertical-offset="1020">
-          <caret line="30" column="25" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.29385966" vertical-offset="138" max-vertical-offset="1054">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39921722" vertical-offset="51" max-vertical-offset="1887">
+          <caret line="15" column="56" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/BackTestJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46575344" vertical-offset="0" max-vertical-offset="578">
+          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp">
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/Portfolio.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.2307692" vertical-offset="1220" max-vertical-offset="5389">
-          <caret line="82" column="67" selection-start-line="82" selection-start-column="55" selection-end-line="82" selection-end-column="67" />
+        <state vertical-scroll-proportion="-1.2439024" vertical-offset="0" max-vertical-offset="527">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3336" max-vertical-offset="21607">
-          <caret line="205" column="27" selection-start-line="205" selection-start-column="27" selection-end-line="205" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1173" max-vertical-offset="2941">
+          <caret line="82" column="31" selection-start-line="82" selection-start-column="31" selection-end-line="82" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.3913045" vertical-offset="408" max-vertical-offset="3944">
-          <caret line="18" column="55" selection-start-line="18" selection-start-column="55" selection-end-line="18" selection-end-column="55" />
+        <state vertical-scroll-proportion="-1.5849056" vertical-offset="205" max-vertical-offset="816">
+          <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
+          <folding>
+            <element signature="e#26#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5121951" vertical-offset="675" max-vertical-offset="1190">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.2075472" vertical-offset="0" max-vertical-offset="425">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBrokerItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.4905663" vertical-offset="0" max-vertical-offset="442">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="e#41#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBusinessPartnerItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9245284" vertical-offset="0" max-vertical-offset="425">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="15" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.1698112" vertical-offset="0" max-vertical-offset="425">
+          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.1698112" vertical-offset="0" max-vertical-offset="425">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9245284" vertical-offset="0" max-vertical-offset="425">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioImmovableItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.5660377" vertical-offset="0" max-vertical-offset="425">
+          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioMovableItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.52538633" vertical-offset="0" max-vertical-offset="453">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="425">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomSymbolPriorityItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="425">
+          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.869565" vertical-offset="0" max-vertical-offset="425">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="14" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioSymbolPriorityItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.869565" vertical-offset="0" max-vertical-offset="425">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="14" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.528302" vertical-offset="0" max-vertical-offset="425">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBullionItem.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.528302" vertical-offset="0" max-vertical-offset="442">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/CustomSymbolPriority.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1320753" vertical-offset="0" max-vertical-offset="527">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="20" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/ImmovableProperty.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2264152" vertical-offset="86" max-vertical-offset="595">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/basic/MovableProperty.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1320753" vertical-offset="0" max-vertical-offset="527">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioImmovableItem.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4285715" vertical-offset="0" max-vertical-offset="306">
+          <caret line="7" column="69" selection-start-line="7" selection-start-column="69" selection-end-line="7" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioItems/_portfolioMovableItem.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0816326" vertical-offset="0" max-vertical-offset="204">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <marker date="1429350027867" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1429350027867" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1429350027867" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Java/jdk1.6.0_31/src.zip!/java/text/SimpleDateFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33268103" vertical-offset="20094" max-vertical-offset="36516">
+          <caret line="1233" column="0" selection-start-line="1233" selection-start-column="0" selection-end-line="1233" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2820513" vertical-offset="1352" max-vertical-offset="5984">
+          <caret line="90" column="84" selection-start-line="90" selection-start-column="84" selection-end-line="90" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/manage/_detailsGrid.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.3469388" vertical-offset="102" max-vertical-offset="2227">
+          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioActionManagementService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="5185">
+          <caret line="97" column="40" selection-start-line="97" selection-start-column="40" selection-end-line="97" selection-end-column="40" />
+          <folding>
+            <element signature="e#26#46#0" expanded="true" />
+            <element signature="n#!!block;n#getBondsPortfolioItem#0;n#!!block;n#PortfolioActionManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getBullionPortfolioItem#0;n#!!block;n#PortfolioActionManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCoinPortfolioItem#0;n#!!block;n#PortfolioActionManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrencyPortfolioItem#0;n#!!block;n#PortfolioActionManagementService#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1156">
-          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="53" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.24944812" vertical-offset="1876" max-vertical-offset="2329">
+          <caret line="466" column="0" selection-start-line="466" selection-start-column="0" selection-end-line="466" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#findProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#findBank#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#findBonds#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#findBroker#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#findBullion#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#findBusinessPartner#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#findCoin#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
@@ -1878,121 +1891,100 @@
             <element signature="n#!!block;n#saveMovableProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#getProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#deleteProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBank#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBank#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBonds#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBonds#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBroker#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBroker#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBullion#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBullion#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBusinessPartner#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfBusinessPartner#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCoin#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCoin#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCurrency#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCurrency#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomBonds#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomBonds#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomSymbol#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomSymbol#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomSymbolPriority#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfCustomSymbolPriority#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfImmovableProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfImmovableProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfMovableProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfMovableProperty#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfSymbolPriority#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
+            <element signature="n#!!block;n#getCurrentValueOfSymbolPriority#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
             <element signature="n#!!block;n#parseDate#0;n#!!block;n#PortfolioPropertyManagementService#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/manage/_editors.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4615386" vertical-offset="1158" max-vertical-offset="2584">
-          <caret line="323" column="25" selection-start-line="323" selection-start-column="25" selection-end-line="323" selection-end-column="25" />
-          <folding>
-            <element signature="e#290#1247#0#HTML" expanded="false" />
-            <element signature="e#1305#4674#0#HTML" expanded="false" />
-            <element signature="e#4734#6686#0#HTML" expanded="false" />
-            <element signature="e#6732#7752#0#HTML" expanded="false" />
-            <element signature="e#7799#8750#0#HTML" expanded="false" />
-            <element signature="e#8797#9709#0#HTML" expanded="false" />
-            <element signature="e#9763#11282#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4905663" vertical-offset="0" max-vertical-offset="578">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBankItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5660377" vertical-offset="0" max-vertical-offset="289">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioBondsItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2830188" vertical-offset="0" max-vertical-offset="289">
-          <caret line="5" column="24" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCustomBondsItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2830188" vertical-offset="0" max-vertical-offset="289">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCoinItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5660377" vertical-offset="0" max-vertical-offset="289">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/PortfolioAction.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.35849" vertical-offset="151" max-vertical-offset="1683">
-          <caret line="63" column="42" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-          <folding>
-            <element signature="e#26#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/portfolio/portfolioItems/PortfolioCurrencyItem.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08489388" vertical-offset="0" max-vertical-offset="801">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioItemManagementService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.068966" vertical-offset="552" max-vertical-offset="1377">
-          <caret line="65" column="44" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="44" />
-          <folding>
-            <element signature="e#26#86#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioActionController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5043732" vertical-offset="2139" max-vertical-offset="2941">
-          <caret line="140" column="58" selection-start-line="140" selection-start-column="58" selection-end-line="140" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.40778688" vertical-offset="770" max-vertical-offset="2023">
+          <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="92" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4698795" vertical-offset="3098" max-vertical-offset="21556">
+          <caret line="196" column="48" selection-start-line="196" selection-start-column="48" selection-end-line="196" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/manage/_grid.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4848485" vertical-offset="4332" max-vertical-offset="4794">
+          <caret line="268" column="5" selection-start-line="268" selection-start-column="5" selection-end-line="274" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioManage.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.073593" vertical-offset="133" max-vertical-offset="1190">
+          <caret line="37" column="35" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/portfolio/PortfolioController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.9423077" vertical-offset="1683" max-vertical-offset="2839">
+          <caret line="118" column="9" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!block;n#portfolioManage#0;n#!!block;n#PortfolioController#0" expanded="false" />
+            <element signature="n#!!block;n#jsonPortfolioActions#0;n#!!block;n#PortfolioController#0" expanded="false" />
+            <element signature="n#!!block;n#delete#0;n#!!block;n#PortfolioController#0" expanded="false" />
+            <element signature="n#!!block;n#propertyForm#0;n#!!block;n#PortfolioController#0" expanded="false" />
+            <element signature="n#!!block;n#saveProperty#0;n#!!block;n#PortfolioController#0" expanded="false" />
+            <element signature="n#!!block;n#deleteProperty#0;n#!!block;n#PortfolioController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/portfolioView.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8163266" vertical-offset="425" max-vertical-offset="3094">
+          <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/portfolio/view/_chart.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5681445" vertical-offset="402" max-vertical-offset="1207">
+          <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
+          <folding>
+            <marker date="1429437069494" expanded="true" signature="811:825" placeholder="..." />
+            <marker date="1429437069494" expanded="true" signature="1336:1350" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,6 +1,7 @@
 package stocks.portfolio
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import stocks.Broker
 import stocks.FarsiNormalizationFilter
 import stocks.RateHelper
 import stocks.User
@@ -20,6 +21,7 @@ import stocks.util.ClassResolver
 class PortfolioPropertyManagementService {
 
     def springSecurityService
+    def priceService
 
     def findProperty(String clazz, Long id, String query) {
         switch (clazz) {
@@ -27,6 +29,8 @@ class PortfolioPropertyManagementService {
                 return findBank(id, query)
             case 'portfolioBondsItem':
                 return findBonds(id, query)
+            case 'portfolioBrokerItem':
+                return findBroker(id, query)
             case 'portfolioBullionItem':
                 return findBullion(id, query)
             case 'portfolioBusinessPartnerItem':
@@ -85,6 +89,13 @@ class PortfolioPropertyManagementService {
         }
     }
 
+    def findBroker(Long id, String query) {
+        def brokers = Broker.findAllByDeleted(false)
+        brokers.sort { it.name }.collect {
+            [propertyId: it.id, propertyTitle: it.name]
+        }
+    }
+
     def findBullion(Long id, String query) {
         PortfolioBullionItem.constraints.carat.inList.collect {
             [propertyId: it, propertyTitle: "شمش طلای ${it} عیار"]
@@ -92,8 +103,8 @@ class PortfolioPropertyManagementService {
     }
 
     def findBusinessPartner(Long id, String query) {
-        def banks = BusinessPartner.findAllByOwnerAndDeleted(springSecurityService.currentUser as User, false)
-        banks.sort { -it.lastUpdated.time }.collect {
+        def partners = BusinessPartner.findAllByOwnerAndDeleted(springSecurityService.currentUser as User, false)
+        partners.sort { -it.lastUpdated.time }.collect {
             [propertyId: it.id, propertyTitle: it.name]
         }
     }
@@ -376,6 +387,98 @@ class PortfolioPropertyManagementService {
         }
         item.deleted = true
         item.save(flush: true)
+    }
+
+    //get currentValue
+
+    def getCurrentValueOfProperty(String clazz, Long id) {
+        switch (clazz) {
+            case 'portfolioBankItem':
+                return getCurrentValueOfBank(id)
+            case 'portfolioBondsItem':
+                return getCurrentValueOfBonds(id)
+            case 'portfolioBrokerItem':
+                return getCurrentValueOfBroker(id)
+            case 'portfolioBullionItem':
+                return getCurrentValueOfBullion(id)
+            case 'portfolioBusinessPartnerItem':
+                return getCurrentValueOfBusinessPartner(id)
+            case 'portfolioCoinItem':
+                return getCurrentValueOfCoin(id)
+            case 'portfolioCurrencyItem':
+                return getCurrentValueOfCurrency(id)
+            case 'portfolioCustomBondsItem':
+                return getCurrentValueOfCustomBonds(id)
+            case 'portfolioCustomSymbolItem':
+                return getCurrentValueOfCustomSymbol(id)
+            case 'portfolioCustomSymbolPriorityItem':
+                return getCurrentValueOfCustomSymbolPriority(id)
+            case 'portfolioImmovableItem':
+                return getCurrentValueOfImmovableProperty(id)
+            case 'portfolioMovableItem':
+                return getCurrentValueOfMovableProperty(id)
+            case 'portfolioSymbolItem':
+                return getCurrentValueOfSymbol(id)
+            case 'portfolioSymbolPriorityItem':
+                return getCurrentValueOfSymbolPriority(id)
+        }
+        []
+    }
+
+    def getCurrentValueOfBank(Long id) {
+        null
+    }
+
+    def getCurrentValueOfBonds(Long id) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+
+    def getCurrentValueOfBroker(Long id) {
+        null
+    }
+
+    def getCurrentValueOfBullion(Long id) {
+        null
+    }
+
+    def getCurrentValueOfBusinessPartner(Long id) {
+        null
+    }
+
+    def getCurrentValueOfCoin(Long id) {
+        Coin.get(id).price
+    }
+
+    def getCurrentValueOfCurrency(Long id) {
+        Currency.get(id).price
+    }
+
+    def getCurrentValueOfCustomBonds(Long id) {
+        CustomBonds.get(id).value
+    }
+
+    def getCurrentValueOfCustomSymbol(Long id) {
+        null
+    }
+
+    def getCurrentValueOfCustomSymbolPriority(Long id) {
+        null
+    }
+
+    def getCurrentValueOfImmovableProperty(Long id) {
+        ImmovableProperty.get(id).price
+    }
+
+    def getCurrentValueOfMovableProperty(Long id) {
+        MovableProperty.get(id).price
+    }
+
+    def getCurrentValueOfSymbol(Long id) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+
+    def getCurrentValueOfSymbolPriority(Long id) {
+        priceService.lastPrice(Symbol.get(id))
     }
 
     //utils

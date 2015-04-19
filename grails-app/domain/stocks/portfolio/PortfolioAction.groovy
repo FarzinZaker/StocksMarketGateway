@@ -1,8 +1,6 @@
 package stocks.portfolio
 
 import stocks.Broker
-import stocks.portfolio.basic.BankAccount
-import stocks.portfolio.basic.BusinessPartner
 
 class PortfolioAction {
     String actionType
@@ -11,16 +9,13 @@ class PortfolioAction {
     Date updateDate
     Long sharePrice
     Long shareCount
+    Broker broker
     Float discount
     Float wage
-    Broker broker
-    Long brokerPortion
-    BankAccount bankAccount
-    Long bankPortion
-    BusinessPartner businessPartner
-    Long businessPartnerPortion
     String actionDescription
     PortfolioItem portfolioItem
+    PortfolioAction parentAction
+    Portfolio portfolio
 
     byte getSign() {
         if (actionType == 'b')
@@ -43,28 +38,7 @@ class PortfolioAction {
             return -shareCount * sharePrice
     }
 
-    Long getSignedBrokerPortion() {
-        if (['s', 't'].contains(actionType))
-            return brokerPortion
-        else
-            return -brokerPortion
-    }
-
-    Long getSignedBankPortion() {
-        if (['s', 't'].contains(actionType))
-            return bankPortion
-        else
-            return -bankPortion
-    }
-
-    Long getSignedBusinessPartnerPortion() {
-        if (['s', 't'].contains(actionType))
-            return businessPartnerPortion
-        else
-            return -businessPartnerPortion
-    }
-
-    static transients = ['sign', 'signedShareCount', 'signedCost', 'signedBrokerPortion', 'signedBankPortion', 'signedBusinessPartnerPortion']
+    static transients = ['sign', 'signedShareCount', 'signedCost']
 
     static belongsTo = [portfolioItem: PortfolioItem]
 
@@ -73,21 +47,18 @@ class PortfolioAction {
     }
 
     static constraints = {
-        actionType(nullable: false, inList: ['b', 's', 'd', 'w', 't']) // in future additional actions could be added, like going short or long
+        actionType(nullable: false, inList: ['b', 's', 'd', 'w'])
+        // in future additional actions could be added, like going short or long
         actionDate(nullable: false)
         creationDate(nullable: true)
         updateDate(nullable: true)
         sharePrice(nullable: false)
         shareCount(nullable: false)
+        broker(nullable: true)
         discount(nullable: true)
         wage(nullable: true)
-        broker(nullable: true)
-        brokerPortion(nullable: true)
-        bankAccount(nullable: true)
-        bankPortion(nullable: true)
-        businessPartner(nullable: true)
-        businessPartnerPortion(nullable: true)
         actionDescription()
-        portfolioItem(nullable: false)
+        portfolioItem(nullable: true)
+        parentAction(nullable: true)
     }
 }

@@ -18,6 +18,10 @@ class ImmovableProperty {
     Date dateCreated
     Date lastUpdated
 
+    static mapping = {
+        table 'port_base_immovable_property'
+    }
+
     static constraints = {
         area nullable: true
         address nullable: true

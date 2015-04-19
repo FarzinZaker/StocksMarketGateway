@@ -4,7 +4,13 @@ import grails.converters.JSON
 import stocks.Broker
 import stocks.DateHelper
 import stocks.User
+import stocks.portfolio.portfolioItems.PortfolioBankItem
+import stocks.portfolio.portfolioItems.PortfolioBrokerItem
+import stocks.portfolio.portfolioItems.PortfolioBusinessPartnerItem
 import stocks.util.ClassResolver
+import stocks.util.StringHelper
+
+import java.beans.Introspector
 
 class PortfolioController {
     def springSecurityService
@@ -82,11 +88,14 @@ class PortfolioController {
         def totalValue = 0
 
         value.data = list.collect {
-            def shareValue = priceService.lastPrice(it.symbol)
+            def clazz = Introspector.decapitalize(it.itemType.split('\\.').last())
+            def shareValue = portfolioPropertyManagementService.getCurrentValueOfProperty(clazz, it.propertyId) ?: it.cost / it.shareCount
             totalValue += it.shareCount * shareValue
             [
                     id          : it.id,
-                    symbol      : "${it.symbol.persianCode} - ${it.symbol.persianName}",
+                    clazz       : clazz,
+                    clazzTitle  : message(code: it.itemType),
+                    symbol      : it.propertyTitle,
                     shareCount  : it.shareCount,
                     cost        : it.cost,
                     avgPrice    : String.format("%.2f", it.cost / it.shareCount),
@@ -94,10 +103,23 @@ class PortfolioController {
                     currentValue: it.shareCount * shareValue
             ]
         }
+        def shareChartData = [:]
+        shareChartData.categories = value.data.collect { [name: it.clazzTitle, drilldown: it.clazz] }.unique()
+        shareChartData.drilldown = shareChartData.categories.collect { category ->
+            [
+                    id  : category.drilldown,
+                    name: category.name,
+                    data: value.data.findAll { it.clazz == category.drilldown }.collect { item ->
+                        [
+                                item.symbol,
+                                Math.round(item.currentValue / totalValue * 1000) / 10
+                        ]
+                    }
+            ]
+        }
 
-        def shareChartData = []
-        for (item in value.data) {
-            shareChartData << [item.symbol, Math.round(item.currentValue / totalValue * 1000) / 10]
+        shareChartData.categories.each { category ->
+            category.y = shareChartData.drilldown.findAll { it.id == category.drilldown }.collect{it.data}.first().sum{it[1]}
         }
 
         def model = [:]
@@ -147,9 +169,16 @@ class PortfolioController {
                             'portfolioSymbolPriorityItem'
                     ].contains(it.propertyName)]
                 }.sort { it.title },
-                brokers: Broker.findAllByDeleted(false).collect{
+                accountTypes : [
+                        PortfolioBankItem.class,
+                        PortfolioBusinessPartnerItem.class,
+                        PortfolioBrokerItem.class
+                ].collect {
+                    [clazz: Introspector.decapitalize(it.name.split('\\.').last()), title: message(code: it.name), modifiable: it.name.split('\\.').last() == 'PortfolioBrokerItem']
+                }.sort { it.title },
+                brokers      : Broker.findAllByDeleted(false).collect {
                     [
-                            brokerId: it.id,
+                            brokerId  : it.id,
                             brokerName: it.name
                     ]
                 }

@@ -4,15 +4,16 @@
     var prevProperty = {propertyId: "", propertyTitle: ""};
 
     var propertyTypes = <format:html value="${propertyTypes as JSON}"/>;
+    var accountTypes = <format:html value="${accountTypes as JSON}"/>;
 
     function itemTypeDropDownEditor(container, options) {
         var editContainer = $("<div/>")
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
 
-        $("<label/>")
-                .html("${message(code:'select')} ${message(code:'portfolioItem.type.label')}")
-                .appendTo(editContainer);
+        %{--$("<label/>")--}%
+                %{--.html("${message(code:'select')} ${message(code:'portfolioItem.type.label')}")--}%
+                %{--.appendTo(editContainer);--}%
 
         $('<div><input required class="itemTypeComboBox" data-text-field="title" data-value-field="clazz" data-bind = "value:' + options.field + '" / ></div>')
                 .appendTo(editContainer)
@@ -28,6 +29,22 @@
                     }
                 });
     }
+    function accountTypeDropDownEditor(container, options) {
+        var editContainer = $("<div/>")
+                .addClass('portfolioFieldEditorContainer')
+                .appendTo(container);
+
+        $('<div><input required class="itemTypeComboBox" data-text-field="title" data-value-field="clazz" data-bind = "value:' + options.field + '" / ></div>')
+                .appendTo(editContainer)
+                .find('input')
+                .width('100%')
+                .kendoComboBox({
+                    dataTextField: "title",
+                    dataValueField: "clazz",
+                    dataSource: accountTypes,
+                    placeholder: '${message(code: 'portfolioItem.child.type.select')}'
+                });
+    }
 
     function propertyDropDownEditor(container, options) {
         var currentPropertyId = options.model.property.propertyId;
@@ -40,9 +57,9 @@
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
 
-        $("<label/>")
-                .html("${message(code:'select')} " + options.model.itemType.title)
-                .appendTo(editContainer);
+        %{--$("<label/>")--}%
+                %{--.html("${message(code:'select')} " + options.model.itemType.title)--}%
+                %{--.appendTo(editContainer);--}%
 
         var editor = $('<div><input required class="propertyComboBox" data-text-field="propertyTitle" data-value-field = "propertyId" data-bind = "value:' + options.field + '" / ></div>')
                 .appendTo(editContainer)
@@ -71,11 +88,11 @@
                     }
                 });
         if (options.model.itemType.modifiable) {
-            $('#propertyContextMenu').kendoContextMenu({
-                target: '#grid_active_cell',
+            $('#propertyContextMenu').clone().appendTo($('body')).kendoContextMenu({
+                target: container,
                 alignToAnchor: true,
                 open: function (e) {
-                    var combo = $('#grid_active_cell').find('input[type!=text].propertyComboBox').data('kendoComboBox');
+                    var combo = $(container).find('input[type!=text].propertyComboBox').data('kendoComboBox');
                     if (!combo) {
                         e.preventDefault();
                         return false;
@@ -107,7 +124,7 @@
 
     function actionTypeDropDownEditor(container, options) {
         var actionList = [];
-        if ($.inArray(options.model.itemType.clazz, ['portfolioBankItem', 'portfolioBusinessPartnerItem'])) {
+        if ($.inArray(options.model.itemType.clazz, ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem']) < 0) {
             actionList[actionList.length] = {
                 actionTypeTitle: "<g:message code="portfolioAction.actionType.b"/>",
                 actionTypeId: "b"
@@ -126,19 +143,15 @@
                 actionTypeTitle: "<g:message code="portfolioAction.actionType.w"/>",
                 actionTypeId: "w"
             };
-            actionList[actionList.length] = {
-                actionTypeTitle: "<g:message code="portfolioAction.actionType.t"/>",
-                actionTypeId: "t"
-            };
         }
 
         var editContainer = $("<div/>")
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
 
-        $("<label/>")
-                .html("${message(code:'select')} ${message(code:'portfolioAction.actionType.label')}")
-                .appendTo(editContainer);
+        %{--$("<label/>")--}%
+                %{--.html("${message(code:'select')} ${message(code:'portfolioAction.actionType.label')}")--}%
+                %{--.appendTo(editContainer);--}%
 
         $('<div><input required data-text-field="actionTypeTitle" data-value-field="actionTypeId" data-bind = "value:' + options.field + '" / ></div>')
                 .appendTo(editContainer)
@@ -158,9 +171,9 @@
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
 
-        $("<label/>")
-                .html("${message(code:'portfolioAction.actionDate.label')} " + options.model.actionType.actionTypeTitle)
-                .appendTo(editContainer);
+        %{--$("<label/>")--}%
+                %{--.html("${message(code:'portfolioAction.actionDate.label')} " + options.model.actionType.actionTypeTitle)--}%
+                %{--.appendTo(editContainer);--}%
 
         var grid = $("#grid").data("kendoGrid");
         $('<div><input class="datePicker" required/></div>')
@@ -182,14 +195,14 @@
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
 
-        if (['b', 's'].indexOf(options.model.actionType.actionTypeId) >= 0)
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.sharePrice.tradeLabel')} " + options.model.actionType.actionTypeTitle)
-                    .appendTo(editContainer);
-        else
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.sharePrice.transferLabel')} " + options.model.actionType.actionTypeTitle)
-                    .appendTo(editContainer);
+        %{--if (['b', 's'].indexOf(options.model.actionType.actionTypeId) >= 0)--}%
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.sharePrice.tradeLabel')} " + options.model.actionType.actionTypeTitle)--}%
+                    %{--.appendTo(editContainer);--}%
+        %{--else--}%
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.sharePrice.transferLabel')} " + options.model.actionType.actionTypeTitle)--}%
+                    %{--.appendTo(editContainer);--}%
 
         $('<div><input required data-bind="value:' + options.field + '"/></div>')
                 .appendTo(editContainer)
@@ -205,10 +218,10 @@
         var editContainer = $("<div/>")
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
-        $("<label/>")
-                .html("${message(code:'portfolioAction.shareCount.label')} " + options.model.actionType.actionTypeTitle)
-                .appendTo(editContainer);
-        if (['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioimmovableItem'].indexOf(options.model.itemType.clazz) == -1)
+        %{--$("<label/>")--}%
+                %{--.html("${message(code:'portfolioAction.shareCount.label')} " + options.model.actionType.actionTypeTitle)--}%
+                %{--.appendTo(editContainer);--}%
+        if (['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioImmovableItem', 'portfolioBrokerItem'].indexOf(options.model.itemType.clazz) == -1)
             $('<div><input required data-bind="value:' + options.field + '"/></div>')
                     .appendTo(editContainer)
                     .find('input')
@@ -222,15 +235,15 @@
             $('#grid').data('kendoGrid').closeCell(container);
     }
 
-    function discountWageEditor(container, options) {
+    function discountEditor(container, options) {
         var editContainer = $("<div/>")
                 .addClass('portfolioFieldEditorContainer')
                 .appendTo(container);
         if (['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem'].indexOf(options.model.itemType.clazz) >= 0) {
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.discountWage.discountLabel')}")
-                    .appendTo(editContainer);
-            $('<div><input required data-bind="value:' + options.field + '.discountValue"/></div>')
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.discountWage.discountLabel')}")--}%
+                    %{--.appendTo(editContainer);--}%
+            $('<div><input required data-bind="value:' + options.field + '"/></div>')
                     .appendTo(editContainer)
                     .find('input')
                     .width('100%')
@@ -240,10 +253,33 @@
                         max: 1,
                         step: 0.1
                     });
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.discountWage.wageLabel')}")
-                    .appendTo(editContainer);
-            $('<div><input required data-bind="value:' + options.field + '.wageValue"/></div>')
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.discountWage.wageLabel')}")--}%
+                    %{--.appendTo(editContainer);--}%
+            %{--$('<div><input required data-bind="value:' + options.field + '.wageValue"/></div>')--}%
+                    %{--.appendTo(editContainer)--}%
+                    %{--.find('input')--}%
+                    %{--.width('100%')--}%
+                    %{--.kendoNumericTextBox({--}%
+                        %{--format: 'n2',--}%
+                        %{--min: 0,--}%
+                        %{--max: 1,--}%
+                        %{--step: 0.1--}%
+                    %{--});--}%
+        }
+        else
+            $('#grid').data('kendoGrid').closeCell(container);
+    }
+
+    function wageEditor(container, options) {
+        var editContainer = $("<div/>")
+                .addClass('portfolioFieldEditorContainer')
+                .appendTo(container);
+        if (['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem'].indexOf(options.model.itemType.clazz) >= 0) {
+            %{--$("<label/>")--}%
+            %{--.html("${message(code:'portfolioAction.discountWage.discountLabel')}")--}%
+            %{--.appendTo(editContainer);--}%
+            $('<div><input required data-bind="value:' + options.field + '"/></div>')
                     .appendTo(editContainer)
                     .find('input')
                     .width('100%')
@@ -253,6 +289,19 @@
                         max: 1,
                         step: 0.1
                     });
+            %{--$("<label/>")--}%
+            %{--.html("${message(code:'portfolioAction.discountWage.wageLabel')}")--}%
+            %{--.appendTo(editContainer);--}%
+            %{--$('<div><input required data-bind="value:' + options.field + '.wageValue"/></div>')--}%
+            %{--.appendTo(editContainer)--}%
+            %{--.find('input')--}%
+            %{--.width('100%')--}%
+            %{--.kendoNumericTextBox({--}%
+            %{--format: 'n2',--}%
+            %{--min: 0,--}%
+            %{--max: 1,--}%
+            %{--step: 0.1--}%
+            %{--});--}%
         }
         else
             $('#grid').data('kendoGrid').closeCell(container);
@@ -260,14 +309,14 @@
 
     var brokers = <format:html value="${brokers as JSON}"/>;
 
-    function brokerPortionEditor(container, options) {
+    function brokerEditor(container, options) {
         if (['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem'].indexOf(options.model.itemType.clazz) >= 0) {
             var editContainer = $("<div/>")
                     .addClass('portfolioFieldEditorContainer')
                     .appendTo(container);
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.brokerPortion.name')}")
-                    .appendTo(editContainer);
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.broker.name')}")--}%
+                    %{--.appendTo(editContainer);--}%
             $('<div><input required data-text-field="brokerName" data-value-field="brokerId" data-bind = "value:' + options.field + '" / ></div>')
                     .appendTo(editContainer)
                     .find('input')
@@ -279,106 +328,18 @@
                         placeholder: "${message(code:'please-select')}",
                         dataSource: brokers
                     });
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.brokerPortion.value')}")
-                    .appendTo(editContainer);
-            $('<div><input data-bind="value:' + options.field + '.brokerValue"/></div>')
-                    .appendTo(editContainer)
-                    .find('input')
-                    .width('100%')
-                    .kendoNumericTextBox({
-                        format: 'n0',
-                        min: 0,
-                        step: 10000
-                    });
-        }
-        else
-            $('#grid').data('kendoGrid').closeCell(container);
-    }
-
-    function bankPortionEditor(container, options) {
-        if (['d', 'w'].indexOf(options.model.actionType.actionTypeId) == -1) {
-            var editContainer = $("<div/>")
-                    .addClass('portfolioFieldEditorContainer')
-                    .appendTo(container);
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.bankPortion.name')}")
-                    .appendTo(editContainer);
-            $('<div><input required data-text-field="propertyTitle" data-value-field="propertyId" data-bind = "value:' + options.field + '" / ></div>')
-                    .appendTo(editContainer)
-                    .find('input')
-                    .width('100%')
-                    .kendoComboBox({
-                        autoBind: false,
-                        dataTextField: "propertyTitle",
-                        dataValueField: "propertyId",
-                        placeholder: "${message(code:'please-select')}",
-                        dataSource: {
-                            type: "json",
-                            serverFiltering: true,
-                            transport: {
-                                read: {
-                                    url: "${createLink(controller: 'portfolioAction', action: 'propertyList')}?clazz=portfolioBankItem"
-                                }
-                            }
-                        }
-                    });
-            $("<label/>")
-                    .html(options.model.actionType.actionTypeId == 'b' ? "${message(code:'portfolioAction.bankPortion.withdrawValue')}" : "${message(code:'portfolioAction.bankPortion.depositValue')}")
-                    .appendTo(editContainer);
-            $('<div><input data-bind="value:' + options.field + '.propertyValue"/></div>')
-                    .appendTo(editContainer)
-                    .find('input')
-                    .width('100%')
-                    .kendoNumericTextBox({
-                        format: 'n0',
-                        min: 0,
-                        step: 10000
-                    });
-        }
-        else
-            $('#grid').data('kendoGrid').closeCell(container);
-    }
-
-    function businessPartnerPortionEditor(container, options) {
-        if (['d', 'w'].indexOf(options.model.actionType.actionTypeId) == -1) {
-            var editContainer = $("<div/>")
-                    .addClass('portfolioFieldEditorContainer')
-                    .appendTo(container);
-            $("<label/>")
-                    .html("${message(code:'portfolioAction.businessPartnerPortion.name')}")
-                    .appendTo(editContainer);
-            $('<div><input required data-text-field="propertyTitle" data-value-field="propertyId" data-bind = "value:' + options.field + '" / ></div>')
-                    .appendTo(editContainer)
-                    .find('input')
-                    .width('100%')
-                    .kendoComboBox({
-                        autoBind: false,
-                        dataTextField: "propertyTitle",
-                        dataValueField: "propertyId",
-                        placeholder: "${message(code:'please-select')}",
-                        dataSource: {
-                            type: "json",
-                            serverFiltering: true,
-                            transport: {
-                                read: {
-                                    url: "${createLink(controller: 'portfolioAction', action: 'propertyList')}?clazz=portfolioBusinessPartnerItem"
-                                }
-                            }
-                        }
-                    });
-            $("<label/>")
-                    .html(options.model.actionType.actionTypeId == 'b' ? "${message(code:'portfolioAction.businessPartnerPortion.withdrawValue')}" : "${message(code:'portfolioAction.businessPartnerPortion.depositValue')}")
-                    .appendTo(editContainer);
-            $('<div><input data-bind="value:' + options.field + '.propertyValue"/></div>')
-                    .appendTo(editContainer)
-                    .find('input')
-                    .width('100%')
-                    .kendoNumericTextBox({
-                        format: 'n0',
-                        min: 0,
-                        step: 10000
-                    });
+            %{--$("<label/>")--}%
+                    %{--.html("${message(code:'portfolioAction.brokerPortion.value')}")--}%
+                    %{--.appendTo(editContainer);--}%
+            %{--$('<div><input data-bind="value:' + options.field + '.brokerValue"/></div>')--}%
+                    %{--.appendTo(editContainer)--}%
+                    %{--.find('input')--}%
+                    %{--.width('100%')--}%
+                    %{--.kendoNumericTextBox({--}%
+                        %{--format: 'n0',--}%
+                        %{--min: 0,--}%
+                        %{--step: 10000--}%
+                    %{--});--}%
         }
         else
             $('#grid').data('kendoGrid').closeCell(container);

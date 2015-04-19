@@ -5,7 +5,15 @@ import stocks.portfolio.basic.CustomBonds
 
 class PortfolioCustomBondsItem extends PortfolioItem {
 
-    CustomBonds bonds
+    CustomBonds customBonds
+
+    transient Long getPropertyId() {
+        customBonds.id
+    }
+
+    transient String getPropertyTitle() {
+        customBonds.name
+    }
 
     static constraints = {
     }

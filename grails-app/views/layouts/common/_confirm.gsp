@@ -9,10 +9,12 @@
 </div>
 
 <script>
+    var oldConfirm = window.confirm;
     var confirmDialog = $("#confirmDialog");
     var useOldConfirm;
 
     function resetConfirm(){
+        useOldConfirm = true;
         window.confirm = oldConfirm;
     }
     $(document).ready(function () {

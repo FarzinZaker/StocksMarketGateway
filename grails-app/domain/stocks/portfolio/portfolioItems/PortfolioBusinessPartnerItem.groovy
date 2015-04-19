@@ -7,6 +7,14 @@ class PortfolioBusinessPartnerItem extends PortfolioItem {
 
     BusinessPartner partner
 
+    transient Long getPropertyId() {
+        partner.id
+    }
+
+    transient String getPropertyTitle() {
+        partner.name
+    }
+
     static constraints = {
     }
 }

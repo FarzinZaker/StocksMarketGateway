@@ -1,18 +1,18 @@
 package stocks.portfolio.portfolioItems
 
+import stocks.Broker
 import stocks.portfolio.PortfolioItem
-import stocks.tse.Symbol
 
-class PortfolioSymbolItem extends PortfolioItem {
+class PortfolioBrokerItem extends PortfolioItem {
 
-    Symbol symbol
+    Broker broker
 
     transient Long getPropertyId() {
-        symbol.id
+        broker.id
     }
 
     transient String getPropertyTitle() {
-        "${symbol.persianCode} - ${symbol.persianName}"
+        broker.name
     }
 
     static constraints = {

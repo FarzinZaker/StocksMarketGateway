@@ -5,7 +5,15 @@ import stocks.portfolio.basic.CustomSymbolPriority
 
 class PortfolioCustomSymbolPriorityItem extends PortfolioItem {
 
-    CustomSymbolPriority symbol
+    CustomSymbolPriority customSymbolPriority
+
+    transient Long getPropertyId() {
+        customSymbolPriority.id
+    }
+
+    transient String getPropertyTitle() {
+        customSymbolPriority.name
+    }
 
     static constraints = {
     }

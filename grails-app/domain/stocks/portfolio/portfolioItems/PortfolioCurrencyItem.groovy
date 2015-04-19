@@ -7,6 +7,14 @@ class PortfolioCurrencyItem extends PortfolioItem {
 
     Currency currency
 
+    transient Long getPropertyId() {
+        currency.id
+    }
+
+    transient String getPropertyTitle() {
+        currency.name
+    }
+
     static constraints = {
     }
 }

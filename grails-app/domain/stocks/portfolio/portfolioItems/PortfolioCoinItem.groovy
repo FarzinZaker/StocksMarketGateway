@@ -7,6 +7,14 @@ class PortfolioCoinItem extends PortfolioItem {
 
     Coin coin
 
+    transient Long getPropertyId() {
+        coin.id
+    }
+
+    transient String getPropertyTitle() {
+        coin.name
+    }
+
     static constraints = {
     }
 }

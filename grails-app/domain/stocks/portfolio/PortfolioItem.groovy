@@ -2,6 +2,8 @@ package stocks.portfolio
 
 import stocks.tse.Symbol
 
+import java.beans.Introspector
+
 class PortfolioItem {
     Portfolio portfolio
 
@@ -12,9 +14,21 @@ class PortfolioItem {
         portfolio?.name
     }
 
-    static hasMany = [actions: PortfolioAction]
+//    static hasMany = [actions: PortfolioAction]
     static belongsTo = [portfolio: Portfolio]
     static transients = ['portfolioName']
+
+    transient String getItemType() {
+        this.class.name
+    }
+
+    transient Long getPropertyId() {
+        0
+    }
+
+    transient String getPropertyTitle() {
+        ''
+    }
 
     static mapping = {
         table 'port_item'

@@ -5,7 +5,15 @@ import stocks.portfolio.basic.ImmovableProperty
 
 class PortfolioImmovableItem extends PortfolioItem {
 
-    ImmovableProperty property
+    ImmovableProperty immovableProperty
+
+    transient Long getPropertyId() {
+        immovableProperty.id
+    }
+
+    transient String getPropertyTitle() {
+        immovableProperty.name
+    }
 
     static constraints = {
     }

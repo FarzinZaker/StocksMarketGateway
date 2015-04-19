@@ -16,6 +16,10 @@ class MovableProperty {
     Date dateCreated
     Date lastUpdated
 
+    static mapping = {
+        table 'port_base_movable_property'
+    }
+
     static constraints = {
     }
 }

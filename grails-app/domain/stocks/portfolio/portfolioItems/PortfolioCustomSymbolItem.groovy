@@ -5,7 +5,15 @@ import stocks.portfolio.basic.CustomSymbol
 
 class PortfolioCustomSymbolItem extends PortfolioItem {
 
-    CustomSymbol symbol
+    CustomSymbol customSymbol
+
+    transient Long getPropertyId() {
+        customSymbol.id
+    }
+
+    transient String getPropertyTitle() {
+        customSymbol.name
+    }
 
     static constraints = {
     }
