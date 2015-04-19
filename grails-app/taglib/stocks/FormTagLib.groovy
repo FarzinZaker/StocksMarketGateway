@@ -62,7 +62,7 @@ class FormTagLib {
 
     def textBox = { attrs, body ->
         out << """
-            <input type='${attrs.type ?: 'text'}' class='k-textbox ${attrs.class ?: ''}' ${
+            <input autocomplete='off' type='${attrs.type ?: 'text'}' class='k-textbox ${attrs.class ?: ''}' ${
             attrs.style ? "style='${attrs.style}'" : ''
         } name='${attrs.name}' id='${attrs.id ?: attrs.name}' value='${
             attrs.value ?: attrs.entity?."${attrs.name}" ?: ''

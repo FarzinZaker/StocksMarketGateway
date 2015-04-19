@@ -18,11 +18,13 @@ class QueryCategoryController {
         def category
         if (params.id) {
             category = QueryCategory.get(params.id)
-            category.properties = params
         } else {
-            category = new QueryCategory(params)
+            category = new QueryCategory()
             category.owner = springSecurityService.currentUser as User ?: User.findByUsername('admin')
         }
+        category.name = params.name
+        category.description = params.description
+        category.image = stocks.Image.get(params.image?.id)
         if (params.parent != '0')
             category.parent = QueryCategory.get(params.parent)
         else

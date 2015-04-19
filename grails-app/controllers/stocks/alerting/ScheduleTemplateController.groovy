@@ -87,8 +87,6 @@ class ScheduleTemplateController {
         }
         value.total = ScheduleTemplate.count().toString()
         render value as JSON
-
-        render value as JSON
     }
 
     def delete() {

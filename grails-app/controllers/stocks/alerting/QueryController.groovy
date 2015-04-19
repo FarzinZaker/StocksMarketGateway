@@ -199,6 +199,8 @@ class QueryController {
 
         query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
         query.category = QueryCategory.get(params.category)
+        if(!query.description || query.description == '')
+            query.description = ' '
         if (!query.save()) {
             query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
             query.category = QueryCategory.get(params.category)
@@ -224,6 +226,7 @@ class QueryController {
             sortingRule.save()
         }
 
+        query.save(flush:true)
         redirect(action: 'list')
     }
 
