@@ -73,7 +73,7 @@ class TEMAFilterService implements IncludeFilterService {
         if (parameter && parameter != '')
             ["${value.first()[0].split('\\.').last().replace('FilterService', '')} (${parameter})"]
         else
-            [messageSource.getMessage(value.first()[0].split('\\.').last().replace('FilterService', ''), null, value.first()[0].split('\\.').last().replace('FilterService', ''), Locale.ENGLISH)]
+            ["قیمت"]
     }
 
     @Override
