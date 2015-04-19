@@ -14,7 +14,6 @@ class WMAFilterService implements IncludeFilterService {
     def tradesDataService
     def lowLevelDataService
     def messageSource
-    SessionLocaleResolver localeResolver
     def indicatorCompareService
 
     @Override
@@ -73,7 +72,7 @@ class WMAFilterService implements IncludeFilterService {
         if (parameter && parameter != '')
             ["${value.first()[0].split('\\.').last().replace('FilterService', '')} (${parameter})"]
         else
-            [messageSource.getMessage(value.first()[0].split('\\.').last().replace('FilterService', ''), null, localeResolver.defaultLocale)]
+            [messageSource.getMessage(value.first()[0].split('\\.').last().replace('FilterService', ''), null, Locale.ENGLISH)]
     }
 
     @Override

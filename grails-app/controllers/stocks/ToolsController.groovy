@@ -21,7 +21,7 @@ class ToolsController {
         [
                 dollarPrice: Currency.findBySymbol('us-dollar')?.price,
                 onsPrice   : Metal.findBySymbol('ons')?.price,
-                coinPrice  : Coin.findBySymbol('n-coin')?.price,
+                coinPrice  : Coin.findBySymbol('o-coin')?.price,
                 contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).collect { future ->
                     def remainingDays = 0
                     use(TimeCategory) {
@@ -59,7 +59,7 @@ class ToolsController {
         render([
                 dollarPrice: Currency.findBySymbol('us-dollar')?.price,
                 onsPrice   : Metal.findBySymbol('ons')?.price,
-                coinPrice  : Coin.findBySymbol('n-coin')?.price,
+                coinPrice  : Coin.findBySymbol('o-coin')?.price,
                 contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).collect { future ->
                     def remainingDays = 0
                     use(TimeCategory) {

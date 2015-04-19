@@ -10,7 +10,6 @@ import java.text.NumberFormat
 class CorrelationService {
 
     def grailsApplication
-    SessionLocaleResolver localeResolver
     def messageSource
 
     def calculateSeries(String sourceGroup, String source, String targetGroup, String target, Date startDate, Date endDate, String period) {
@@ -66,7 +65,7 @@ class CorrelationService {
                     result <<
                             [
                                     targetGroup    : targetService.class.name,
-                                    targetGroupName: messageSource.getMessage(targetService.class.name, null, localeResolver.defaultLocale),
+                                    targetGroupName: messageSource.getMessage(targetService.class.name, null, Locale.ENGLISH),
                                     targetItem     : targetItem,
                                     targetItemName : targetService.getItemName(targetItem),
                                     correlation    : Math.round(res[0] * 100) / 100D

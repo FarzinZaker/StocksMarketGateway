@@ -1,7 +1,7 @@
 <table cellpadding="5">
     <tr>
         <td rowspan="2" class="calculator-button">
-            <g:message code="tools.calculator.button"/>
+            <i class="fa fa-icon fa-refresh"></i> <g:message code="tools.calculator.button"/>
         </td>
         <td colspan="{{contracts.length}}" class="center resultTitle"><g:message
                 code="tools.calculator.grid.title"/></td>

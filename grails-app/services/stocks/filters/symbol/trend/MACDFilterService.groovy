@@ -17,7 +17,6 @@ class MACDFilterService implements IncludeFilterService {
 
     def lowLevelDataService
     def messageSource
-    SessionLocaleResolver localeResolver
     def indicatorCompareService
 
     @Override
@@ -64,7 +63,7 @@ class MACDFilterService implements IncludeFilterService {
         if (value.last() == 'constant_switch')
             [NumberFormat.instance.format(value.first() as Double)]
         else
-            [messageSource.getMessage('macd.signal', null, localeResolver.defaultLocale)]
+            [messageSource.getMessage('macd.signal', null, Locale.ENGLISH)]
     }
 
     @Override
