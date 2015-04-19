@@ -65,7 +65,7 @@ class CorrelationService {
                     result <<
                             [
                                     targetGroup    : targetService.class.name,
-                                    targetGroupName: messageSource.getMessage(targetService.class.name, null, Locale.ENGLISH),
+                                    targetGroupName: messageSource.getMessage(targetService.class.name, null, targetService.class.name, Locale.ENGLISH),
                                     targetItem     : targetItem,
                                     targetItemName : targetService.getItemName(targetItem),
                                     correlation    : Math.round(res[0] * 100) / 100D
