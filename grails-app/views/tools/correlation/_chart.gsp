@@ -44,6 +44,7 @@
                     {
                         group: '${params.sourceGroup}',
                         item: '${params.sourceItem}'
+
                     },
                     {
                         group: '${params.targetGroup}',
@@ -55,20 +56,45 @@
 
                     $('#container').highcharts('StockChart', {
 
+                                chart: {
+//                                    width: $('#container').width() - 200
+                                },
+
                                 rangeSelector: false,
 
-                                yAxis: {
-                                    labels: {
-//                                formatter: function () {
-//                                    return (this.value > 0 ? ' + ' : '') + this.value + '%';
-//                                }
+                                yAxis: [{ // Primary yAxis
+                                    title: {
+                                        text: seriesOptions[0].name,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[0]
+                                        }
                                     },
-                                    plotLines: [{
-                                        value: 0,
-                                        width: 2,
-                                        color: 'silver'
-                                    }]
-                                },
+                                    labels: {
+                                        x: -10,
+                                        y:-5,
+                                        useHTML: true,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[0]
+                                        }
+                                    }
+                                }, { // Secondary yAxis
+                                    title: {
+                                        x:-5,
+                                        text: seriesOptions[1].name,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[1]
+                                        }
+                                    },
+                                    labels: {
+                                        x:30,
+                                        y:-5,
+                                        useHTML: true,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[1]
+                                        }
+                                    },
+                                    opposite: false
+                                }],
                                 xAxis: {
                                     dateTimeLabelFormats: {
                                         second: '%H:%M:%S',
@@ -117,7 +143,7 @@
 
                                         $.each(this.points, function () {
                                             if (this.series.name != 'navigator_series')
-                                                s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + this.y + '</b><br/>';
+                                                s += '<span style="color:' + this.series.color + ';direction:rtl;text-align:right;">' + this.series.name + '</span>: <b>' + Math.round(this.y) + '</b><br/>';
                                         });
 
                                         return s;
@@ -135,7 +161,7 @@
                                     data: dataList[1],
                                     isInternal: true,
                                     xAxis: 1,
-                                    yAxis: 1,
+                                    yAxis: 2,
                                     showInLegend: false
                                 });
                             });
@@ -150,7 +176,8 @@
                 dataList[dataList.length] = response.data;
                 seriesOptions[i] = {
                     name: response.name,
-                    data: response.data
+                    data: response.data,
+                    yAxis: i
                 };
 
                 // As we're loading the data asynchronously, we don't know what order it will arrive. So

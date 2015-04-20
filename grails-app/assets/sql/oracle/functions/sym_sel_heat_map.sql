@@ -28,7 +28,7 @@ IS
               trade.total_trade_value total_trade_value,
               trade.price_change price_change,
               RANK() OVER (PARTITION BY symbol.industry_group_id, symbol.id ORDER BY trade.dat DESC) AS rnk
-       FROM tse_symbol_daily_trade trade
+       FROM (SELECT * FROM tse_symbol_daily_trade WHERE dat > TRUNC(SYSDATE)) trade
          INNER JOIN
          (SELECT *
           FROM tse_symbol sym

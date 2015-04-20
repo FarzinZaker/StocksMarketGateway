@@ -9,7 +9,7 @@ class SnapshotService {
 
     def grailsApplication
 
-    def applyPreviousSnapshots(String domain, def daysCount = 100) {
+    def applyPreviousSnapshots(String domain, def type = ['daily', 'weekly', 'monthly'], def daysCount = 10) {
 
         def indexer = 0
         def currentDate = new Date()
@@ -17,11 +17,12 @@ class SnapshotService {
             def cal = Calendar.getInstance()
             cal.setTime(currentDate)
             def jc = new JalaliCalendar(cal as GregorianCalendar)
-            if (jc.getDayOfWeek() == 5)
+            if (type.contains('weekly') && jc.getDayOfWeek() == Calendar.FRIDAY)
                 applyWeeklySnapshot(domain, currentDate)
-            if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
+            if (type.contains('monthly') && jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                 applyMonthlySnapshot(domain, currentDate)
-            applyDailySnapshot(domain, currentDate)
+            if (type.contains('daily'))
+                applyDailySnapshot(domain, currentDate)
 
             use(TimeCategory) {
                 currentDate = currentDate - 1.day
@@ -71,7 +72,7 @@ class SnapshotService {
     }
 
     ArrayList findLatestEventRecords(DefaultGrailsDomainClass domainClass, def maxDate = null) {
-        domainClass.clazz.findAllByIdInList(domainClass.clazz.createCriteria().list {
+        def idList = domainClass.clazz.createCriteria().list {
             if (maxDate)
                 lte('creationDate', maxDate)
             projections {
@@ -79,6 +80,17 @@ class SnapshotService {
                     groupProperty(domainClass.clazz.snapshotGroupProperty)
                 max('id')
             }
-        }.collect { it.last() })
+        }.collect { it.last() }
+        if (idList.size() <= 1000)
+            return domainClass.clazz.findAllByIdInList(idList)
+        else {
+            def result = []
+            def index = 0
+            while (index * 1000 < idList.size()) {
+                def slittedIdList = idList[((index++) * 1000)..((index * 1000 >= idList.size() ? idList.size() : index * 1000) - 1)]
+                result.addAll domainClass.clazz.findAllByIdInList(slittedIdList)
+            }
+            return result
+        }
     }
 }

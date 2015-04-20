@@ -9,9 +9,10 @@ class SnapshotJob {
     def snapshotService
 
     def execute() {
+
         snapshotService.applyDailySnapshot()
         def jc = new JalaliCalendar(Calendar.getInstance() as GregorianCalendar)
-        if (jc.getDayOfWeek() == 5)
+        if (jc.getDayOfWeek() == Calendar.FRIDAY)
             snapshotService.applyWeeklySnapshot()
         if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
             snapshotService.applyMonthlySnapshot()

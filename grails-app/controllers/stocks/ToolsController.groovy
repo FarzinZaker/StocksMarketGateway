@@ -60,7 +60,9 @@ class ToolsController {
                 dollarPrice: Currency.findBySymbol('us-dollar')?.price,
                 onsPrice   : Metal.findBySymbol('ons')?.price,
                 coinPrice  : Coin.findBySymbol('o-coin')?.price,
-                contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).collect { future ->
+                contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).sort {
+                    it.lastTradingDate
+                }.collect { future ->
                     def remainingDays = 0
                     use(TimeCategory) {
                         def duration = future.lastTradingDate - new Date()
@@ -87,7 +89,7 @@ class ToolsController {
     }
 
     def correctSnapshots() {
-        snapshotService.applyPreviousSnapshots(params.domain ?: '.')
+        snapshotService.applyPreviousSnapshots(params.domain ?: '.', params.type ? [params.type] : ['daily', 'weekly', 'monthly'], params.days ? params.days as Integer : 10)
     }
 
     def correlationAutoComplete() {
