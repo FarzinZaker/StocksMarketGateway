@@ -78,7 +78,10 @@ class SnapshotService {
     ArrayList findLatestEventRecords(DefaultGrailsDomainClass domainClass, def maxDate = null) {
         def idList = domainClass.clazz.createCriteria().list {
             if (maxDate)
-                lte('creationDate', maxDate)
+                if (domainClass.clazz.snapshotDateProperty)
+                    lte(domainClass.clazz.snapshotDateProperty, maxDate)
+                else
+                    lte('creationDate', maxDate)
             projections {
                 if (domainClass.clazz.snapshotGroupProperty)
                     groupProperty(domainClass.clazz.snapshotGroupProperty)
