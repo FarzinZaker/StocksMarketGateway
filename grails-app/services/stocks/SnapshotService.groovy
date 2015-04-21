@@ -11,14 +11,17 @@ class SnapshotService {
 
     def applyPreviousSnapshots(String domain, def type = ['daily', 'weekly', 'monthly'], def daysCount = 10) {
 
+        def counter = 0
         def indexer = 0
         def currentDate = new Date()
         while (indexer++ < daysCount) {
             def cal = Calendar.getInstance()
             cal.setTime(currentDate)
             def jc = new JalaliCalendar(cal as GregorianCalendar)
-            if (type.contains('weekly') && jc.getDayOfWeek() == Calendar.FRIDAY)
+            if (type.contains('weekly') && jc.getDayOfWeek() == Calendar.FRIDAY) {
+                println(++counter)
                 applyWeeklySnapshot(domain, currentDate)
+            }
             if (type.contains('monthly') && jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                 applyMonthlySnapshot(domain, currentDate)
             if (type.contains('daily'))
@@ -30,6 +33,7 @@ class SnapshotService {
         }
 
         println('finished!')
+        println(counter)
     }
 
     def applyDailySnapshot(String domain = '.', def maxDate = null) {
