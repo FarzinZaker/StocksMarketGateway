@@ -54,7 +54,7 @@ class FutureContractExcelService {
                 def calendar = Calendar.getInstance() as GregorianCalendar
                 calendar.setTime(date)
                 def jc = new JalaliCalendar(calendar)
-                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
                     coinFutureEvent.weeklySnapshot = date
                 if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                     coinFutureEvent.monthlySnapshot = date

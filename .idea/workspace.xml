@@ -2,40 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="33cc6416-ccd1-42d3-a323-75b088068d0f" name="back test" comment="" />
-    <list default="true" id="a8bb0c64-c824-42a0-811e-d60b322356b6" name="uncommitable" comment="uncommitable">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/WEB-INF/excel/future-contracts.xls" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/DataCorrectionController.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/DataCorrectionControllerTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/excel/FutureContractExcelServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/IndexHistory.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndexHistoryDataService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/data/IndexHistoryDataServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/event/IndexHistoryEvent.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/event/IndexHistoryEventTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/IndexHistoryPersistService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/persist/IndexHistoryPersistServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/tse/IndexHistoryTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/MissingSnapshotJob.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/MissingSnapshotJobTests.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CoinFutureEvent.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CoinFutureEvent.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CoinMissingPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CoinMissingPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/IndexCorrelationService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/IndexCorrelationService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/indicators/symbol/trend/MACDService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/indicators/symbol/trend/MACDService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/indicators/symbol/trend/MACDSignalService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/indicators/symbol/trend/MACDSignalService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/MessageJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/MessageJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceAdjustmentJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceAdjustmentJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/PurgeJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/PurgeJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/SnapshotJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/SnapshotJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/SnapshotService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" afterPath="$PROJECT_DIR$/Stocks-grailsPlugins.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks.iml" afterPath="$PROJECT_DIR$/Stocks.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolDailyTradeMissingPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolDailyTradeMissingPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/ToolsController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/ToolsController.groovy" />
+    <list default="true" id="a8bb0c64-c824-42a0-811e-d60b322356b6" name="uncommitable" comment="bug fix">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Analio.iws" />
@@ -146,21 +114,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SnapshotJob.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SnapshotJob.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/SnapshotJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7183099" vertical-offset="51" max-vertical-offset="459">
+            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="459">
               <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BuildConfig.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1016" max-vertical-offset="1921">
-              <caret line="100" column="31" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -182,6 +140,18 @@
             <state vertical-scroll-proportion="0.0" vertical-offset="65" max-vertical-offset="561">
               <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FutureContractExcelService.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6315789" vertical-offset="736" max-vertical-offset="2023">
+              <caret line="56" column="76" selection-start-line="56" selection-start-column="76" selection-end-line="56" selection-end-column="76" />
+              <folding>
+                <element signature="e#22#70#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -275,11 +245,11 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/MetalMissingPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolDailyTradeMissingPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/rate/event/CoinFutureEvent.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/BackTestJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/MessageJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/PurgeJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy" />
       </list>
     </option>
   </component>
@@ -1073,13 +1043,7 @@
       <workItem from="1429620246880" duration="4307000" />
       <workItem from="1429690058088" duration="2705000" />
       <workItem from="1429695063102" duration="15063000" />
-      <workItem from="1429711161643" duration="14002000" />
-    </task>
-    <task id="LOCAL-00148" summary="jobs">
-      <created>1426816912435</created>
-      <option name="number" value="00148" />
-      <option name="project" value="LOCAL" />
-      <updated>1426816912437</updated>
+      <workItem from="1429711161643" duration="15117000" />
     </task>
     <task id="LOCAL-00149" summary="bulk index problem">
       <created>1426817322177</created>
@@ -1369,11 +1333,17 @@
       <option name="project" value="LOCAL" />
       <updated>1429622518140</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="bug fix">
+      <created>1429787279174</created>
+      <option name="number" value="00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1429787279187</updated>
+    </task>
+    <option name="localTasksCounter" value="198" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2231643000" />
+    <option name="totallyTimeSpent" value="2232758000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1416,6 +1386,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38662133" sideWeight="0.9215054" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.56575966" sideWeight="0.4989339" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32539684" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1436,7 +1407,6 @@
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38435373" sideWeight="0.56929636" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1466,7 +1436,6 @@
     <MESSAGE value="clob" />
     <MESSAGE value="jobs" />
     <MESSAGE value="bulk index problem" />
-    <MESSAGE value="bug fix" />
     <MESSAGE value="weblogic problems" />
     <MESSAGE value="indicators" />
     <MESSAGE value="indicators slow process" />
@@ -1482,7 +1451,8 @@
     <MESSAGE value="snapshots problem" />
     <MESSAGE value="correct snapshot" />
     <MESSAGE value="snapshots" />
-    <option name="LAST_COMMIT_MESSAGE" value="snapshots" />
+    <MESSAGE value="bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1875,16 +1845,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.137931" vertical-offset="736" max-vertical-offset="2023">
-          <caret line="64" column="21" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
-          <folding>
-            <element signature="e#22#70#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/rate/persist/CurrencyMissingPersistService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="132" max-vertical-offset="986">
@@ -1969,9 +1929,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/SnapshotJob.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7183099" vertical-offset="51" max-vertical-offset="459">
+        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="459">
           <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6315789" vertical-offset="736" max-vertical-offset="2023">
+          <caret line="56" column="76" selection-start-line="56" selection-start-column="76" selection-end-line="56" selection-end-column="76" />
+          <folding>
+            <element signature="e#22#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
