@@ -44,7 +44,7 @@ class CurrencyMissingPersistService {
         def calendar = Calendar.getInstance() as GregorianCalendar
         calendar.setTime(date)
         def jc = new JalaliCalendar(calendar)
-        if (jc.getDayOfWeek() == 5)
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
             event.weeklySnapshot = date
         if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
             event.monthlySnapshot = date

@@ -88,10 +88,6 @@ class ToolsController {
         [groups: groups]
     }
 
-    def correctSnapshots() {
-        snapshotService.applyPreviousSnapshots(params.domain ?: '.', params.type ? [params.type] : ['daily', 'weekly', 'monthly'], params.days ? params.days as Integer : 10)
-    }
-
     def correlationAutoComplete() {
         def term = params."filter[filters][0][value]"?.toString() ?: ''
         def serviceClass = grailsApplication.serviceClasses.find { service ->

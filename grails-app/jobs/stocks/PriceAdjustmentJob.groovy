@@ -11,6 +11,7 @@ class PriceAdjustmentJob {
     static concurrent = false
 
     def execute() {
+
         def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
             eq('applied', false)
             order('date', ORDER_ASCENDING)

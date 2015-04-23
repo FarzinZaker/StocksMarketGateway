@@ -37,7 +37,7 @@ class BootStrap {
         dataStateService.initializeStateLogging()
         dataService.initializeJobs()
 
-        snapshotService.applyPreviousSnapshots('.', ['daily', 'weekly', 'monthly'], 6000)
+//        snapshotService.applyPreviousSnapshots('.', ['daily', 'weekly', 'monthly'], 6000)
 
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')

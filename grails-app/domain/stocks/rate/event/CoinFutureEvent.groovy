@@ -68,7 +68,7 @@ class CoinFutureEvent {
     Boolean expired
 
     static snapshotGroupProperty = 'data'
-    static snapshotDateProperty = 'creationDate'
+    static snapshotDateProperty = 'lastTradedPriceTime'
 
     Date dailySnapshot
     Date weeklySnapshot

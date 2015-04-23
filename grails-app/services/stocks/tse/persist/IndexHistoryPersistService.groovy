@@ -1,23 +1,23 @@
 package stocks.tse.persist
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
-import stocks.tse.SymbolDailyTrade
+import stocks.tse.IndexHistory
 import stocks.tse.TSEPersistService
-import stocks.tse.event.SymbolDailyTradeEvent
+import stocks.tse.event.IndexHistoryEvent
 
-class SymbolDailyTradeMissingPersistService extends TSEPersistService<SymbolDailyTrade, SymbolDailyTradeEvent> {
+class IndexHistoryPersistService extends TSEPersistService<IndexHistory, IndexHistoryEvent> {
 
     @Override
     protected getSampleObject() {
-        return new SymbolDailyTrade()
+        return new IndexHistory()
     }
 
     @Override
-    protected void beforeCreate(SymbolDailyTradeEvent event) {
+    protected void beforeCreate(IndexHistoryEvent event) {
     }
 
     @Override
-    protected void afterCreate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
+    protected void afterCreate(IndexHistoryEvent event, IndexHistory data) {
         def date = data.date
         date = date.clearTime()
         data.dailySnapshot = date
@@ -28,18 +28,20 @@ class SymbolDailyTradeMissingPersistService extends TSEPersistService<SymbolDail
             data.weeklySnapshot = date
         if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
             data.monthlySnapshot = date
-        SymbolDailyTrade.withTransaction {
+        IndexHistory.withTransaction {
             data.save(flush: true)
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
+            println data.weeklySnapshot
         }
     }
 
     @Override
-    protected void beforeUpdate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
+    protected void beforeUpdate(IndexHistoryEvent event, IndexHistory data) {
         false
     }
 
     @Override
-    protected void afterUpdate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
+    protected void afterUpdate(IndexHistoryEvent event, IndexHistory data) {
 
     }
 }

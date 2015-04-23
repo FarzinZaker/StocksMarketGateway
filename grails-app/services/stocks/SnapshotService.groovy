@@ -18,7 +18,7 @@ class SnapshotService {
             def cal = Calendar.getInstance()
             cal.setTime(currentDate)
             def jc = new JalaliCalendar(cal as GregorianCalendar)
-            if (type.contains('weekly') && jc.getDayOfWeek() == Calendar.FRIDAY)
+            if (type.contains('weekly') && cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
                 applyWeeklySnapshot(domain, currentDate)
             if (type.contains('monthly') && jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                 applyMonthlySnapshot(domain, currentDate)

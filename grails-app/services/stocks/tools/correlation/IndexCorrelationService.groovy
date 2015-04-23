@@ -3,6 +3,7 @@ package stocks.tools.correlation
 import org.apache.lucene.search.BooleanQuery
 import stocks.tools.CorrelationServiceBase
 import stocks.tse.Index
+import stocks.tse.IndexHistory
 import stocks.tse.event.IndexEvent
 
 class IndexCorrelationService extends CorrelationServiceBase {
@@ -32,13 +33,13 @@ class IndexCorrelationService extends CorrelationServiceBase {
     @Override
     Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
         List<Index> dataList = Index.findAllByIdInList(items.collect { it as Long })
-        def itemList = IndexEvent.createCriteria().list {
-            'in'('data', dataList)
+        def itemList = IndexHistory.createCriteria().list {
+            'in'('index', dataList)
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
             projections {
-                data {
+                'index' {
                     property('id')
                 }
                 property("${period}Snapshot")
@@ -65,8 +66,8 @@ class IndexCorrelationService extends CorrelationServiceBase {
     @Override
     List getItemValues(String item, Date startDate, Date endDate, String period) {
         Index data = Index.get(item as Long)
-        IndexEvent.createCriteria().list {
-            eq('data', data)
+        IndexHistory.createCriteria().list {
+            eq('index', data)
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
@@ -85,8 +86,8 @@ class IndexCorrelationService extends CorrelationServiceBase {
     @Override
     Double getBaseValue(String item, Date startDate) {
         Index data = Index.get(item as Long)
-        IndexEvent.get(IndexEvent.createCriteria().get {
-            eq('data', data)
+        IndexEvent.get(IndexHistory.createCriteria().get {
+            eq('index', data)
             lt('creationDate', startDate)
             projections {
                 max('id')
@@ -97,15 +98,15 @@ class IndexCorrelationService extends CorrelationServiceBase {
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
         def indexes = Index.findAllByIdInList(items.collect { it as Long })
-        def list = IndexEvent.createCriteria().list {
-            'in'('data', indexes)
+        def list = IndexHistory.createCriteria().list {
+            'in'('index', indexes)
             lt('creationDate', startDate)
             projections {
-                groupProperty('data')
+                groupProperty('index')
                 max('id')
             }
         }
-        def indexEvents = IndexEvent.findAllByIdInList(list.collect { it[1] })
+        def indexEvents = IndexHistory.findAllByIdInList(list.collect { it[1] })
         def result = [:]
         list.each { item ->
             def futureId = (item[0] as Index).id?.toString()

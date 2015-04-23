@@ -13,6 +13,7 @@ class MessageJob {
     static concurrent = false
 
     def execute() {
+
         def session = SessionFactoryUtils.getSession(sessionFactory, true)
         def message = QueuedMessage.listOrderByLastUpdated([order: 'asc', max: 1])?.find()
         if (message)

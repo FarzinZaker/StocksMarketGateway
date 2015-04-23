@@ -32,7 +32,9 @@ class MACDService implements IndicatorServiceBase<Symbol, List<Integer>> {
         def result = new double[closeSeries.size()]
         def histogram = new double[closeSeries.size()]
         def signal = new double[closeSeries.size()]
-        core.macd(0, parameter.max() + 7, TypeCast.toDoubleArray(closeSeries), parameter[0], parameter[1], parameter[2], beginIndex, endIndex, result, signal, histogram)
+        core.macd(0, parameter.max() + 7, TypeCast.toDoubleArray(closeSeries.collect {
+            it.closingPrice
+        }), parameter[0], parameter[1], parameter[2], beginIndex, endIndex, result, signal, histogram)
         result?.toList()?.first()
     }
 
