@@ -12,7 +12,9 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
     List searchItems(String term) {
 
         BooleanQuery.setMaxClauseCount(1000000)
-        CoinFuture.search("*${term}*", max: 10000).results.findAll{it.contractCode.contains('GC')}.collect {
+        CoinFuture.search("*${term}*", max: 10000).results.findAll { it.contractCode.contains('GC') }.sort {
+            it.lastTradingDate
+        }.collect {
             [
                     text : it.contractDescription,
                     value: it.id
@@ -27,7 +29,7 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
 
     @Override
     def all() {
-        CoinFuture.list()*.id
+        CoinFuture.list().sort { it.lastTradingDate }*.id
     }
 
     @Override
@@ -38,6 +40,7 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
+            gt("lastTradedPrice", 0D)
             projections {
                 data {
                     property('id')
@@ -71,6 +74,7 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
+            gt("lastTradedPrice", 0D)
             projections {
                 property("${period}Snapshot")
                 property('closingPrice')

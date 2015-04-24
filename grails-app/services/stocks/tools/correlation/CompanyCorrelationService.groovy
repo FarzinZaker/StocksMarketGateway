@@ -43,7 +43,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
-        List<Symbol> symList = Symbol.findAllByIdInList(items.collect { it as Long })
+        List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
+            it as Long
+        })
         def itemList = SymbolDailyTrade.createCriteria().list {
             'in'('symbol', symList)
             isNotNull("${period}Snapshot")
@@ -108,7 +110,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
-        List<Symbol> symList = Symbol.findAllByIdInList(items.collect { it as Long })
+        List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
+            it as Long
+        })
         def list = SymbolDailyTrade.createCriteria().list {
             'in'('symbol', symList)
             lt('creationDate', startDate)

@@ -15,7 +15,6 @@ class MissingSnapshotJob {
 
     def execute() {
 
-        return
         def currentDate = getLastState()
         def cal = Calendar.getInstance()
         cal.setTime(currentDate)

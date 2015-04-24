@@ -20,7 +20,7 @@ class FutureContractExcelService {
         for (def i = 1; i < sheet.rows; i++) {
             try {
                 def coinFutureEvent = new CoinFutureEvent()
-                coinFutureEvent.contractCode = sheet.getCell(1, i).contents
+                coinFutureEvent.contractCode = sheet.getCell(1, i).contents?.trim()?.toUpperCase()
                 coinFutureEvent.lastTradingDate = parseDate(sheet.getCell(18, i).contents)
                 coinFutureEvent.contractDescription = sheet.getCell(2, i).contents
                 coinFutureEvent.contractCurrencyPersianDescription = 'ریال'

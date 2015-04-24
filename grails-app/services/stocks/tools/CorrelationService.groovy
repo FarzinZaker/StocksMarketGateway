@@ -48,6 +48,7 @@ class CorrelationService {
                     if (targetDataList.size() == 0)
                         continue
 
+                    end = [end, targetDataList.size() - 1].min()
                     double[] targetD = TypeCast.toDoubleArray(targetDataList)
                     beginIndex = new MInteger()
                     endIndex = new MInteger()
