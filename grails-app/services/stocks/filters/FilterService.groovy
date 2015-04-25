@@ -136,8 +136,8 @@ class FilterService {
             }
         }
         def result = []
-        if(items.size() > 1000)
-            items = items[0..999]
+        if(items.size() > 500)
+            items = items[0..499]
         lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
 //                .each{ LinkedHashMap item ->
 //            def entry = [:]
