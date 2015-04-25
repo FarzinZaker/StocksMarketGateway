@@ -77,8 +77,8 @@ environments {
 
 //Oracle
             dbCreate = "update"
-            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
-//            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
+//            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
+            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
             username = "stocks"
             password = "stocks"
             hibernate.default_schema = "stocks"
