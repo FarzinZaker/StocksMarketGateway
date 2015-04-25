@@ -106,10 +106,16 @@ class FilterService {
         } ?: []
 
         def criteria = new Query.Conjunction()
-        if (includeList && includeList.size())
+        if (includeList && includeList.size()) {
+            if(includeList.size() > 1000)
+                includeList = includeList.toList()[0..999]
             criteria.add(Restrictions.in('id', includeList))
-        if (excludeList && excludeList.size())
+        }
+        if (excludeList && excludeList.size()) {
+            if (excludeList.size() > 1000)
+                excludeList = excludeList.toList()[0..999]
             criteria.add(new Query.Negation().add(Restrictions.in('id', excludeList)))
+        }
         queryList.each {
             criteria.add(it)
         }
@@ -120,7 +126,6 @@ class FilterService {
                 property('id')
             }
         })
-
 
         def indicatorColumns = []
         rules.each { rule ->
@@ -135,9 +140,6 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        def result = []
-        if(items.size() > 500)
-            items = items[0..499]
         lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
 //                .each{ LinkedHashMap item ->
 //            def entry = [:]
