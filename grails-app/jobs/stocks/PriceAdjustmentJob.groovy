@@ -12,12 +12,24 @@ class PriceAdjustmentJob {
 
     def execute() {
 
-        def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
-            eq('applied', false)
-            order('date', ORDER_ASCENDING)
-            maxResults(1)
-        }?.find()
-        if(priceAdjustment)
-            priceAdjustmentService.apply(priceAdjustment)
+        def undo = true
+
+        if (undo) {
+            def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
+                eq('applied', true)
+                order('date', ORDER_ASCENDING)
+                maxResults(1)
+            }?.find()
+            if (priceAdjustment)
+                priceAdjustmentService.undo(priceAdjustment)
+        } else {
+            def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
+                eq('applied', false)
+                order('date', ORDER_ASCENDING)
+                maxResults(1)
+            }?.find()
+            if (priceAdjustment)
+                priceAdjustmentService.apply(priceAdjustment)
+        }
     }
 }
