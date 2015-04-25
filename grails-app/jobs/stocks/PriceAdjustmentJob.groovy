@@ -25,7 +25,7 @@ class PriceAdjustmentJob {
         } else {
             def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
                 eq('applied', false)
-                order('date', ORDER_ASCENDING)
+                order('date', ORDER_DESCENDING)
                 maxResults(1)
             }?.find()
             if (priceAdjustment)
