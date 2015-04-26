@@ -78,7 +78,14 @@ class FilterService {
         }
 
         def includeFilters = filters.findAll { it.service instanceof IncludeFilterService }
-        def includeList = [] as Set<Long>
+        def includeList = SymbolDailyTrade.createCriteria().list{
+            gte('date', new Date().clearTime())
+            projections {
+                symbol {
+                    property('id')
+                }
+            }
+        }
         def noResult = false
         includeList = noResult ? [] : SetHelper.getConjunction(
                 includeFilters.collect{
@@ -117,14 +124,6 @@ class FilterService {
         def dc = new DetachedCriteria(targetClass)
         dc.add(criteria)
         def items = dc.list([max: 500], {
-            'in'('id', SymbolDailyTrade.createCriteria().list{
-                gte('date', new Date().clearTime())
-                projections {
-                    symbol {
-                        property('id')
-                    }
-                }
-            })
             projections {
                 property('id')
             }
