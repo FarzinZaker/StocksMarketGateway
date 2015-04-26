@@ -13,7 +13,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     @Override
     protected List<String> getPropertyExcludeList(){
-        ['oldClosingPrice']
+        ['oldClosingPrice', 'indicatorsCalculated']
     }
 
     @Override

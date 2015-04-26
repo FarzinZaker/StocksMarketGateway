@@ -64,7 +64,7 @@ public abstract class TSEDataService<T, K> {
             obj.children()[0].children().each { item ->
                 def object = domainClass.newInstance()
 
-                domainClass.constrainedProperties.each { property ->
+                domainClass.constrainedProperties.findAll{!it.key?.toString()?.contains('Snapshot')}.each { property ->
                     def value
                     def xmlNodeName = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.xmlNodeName
                     if (xmlNodeName) {

@@ -40,7 +40,7 @@ public abstract class TSEPersistService<T, K> {
         def domainClass = new DefaultGrailsDomainClass(object.class)
         if(beforeUpdate(event, object) != false) {
             result = domainClass.persistantProperties.findAll {
-                !(it.name in (['creationDate', 'modificationDate'] + propertyExcludeList)) &&
+                !(it.name in (['creationDate', 'modificationDate', 'dailySnapshot', 'weeklySnapshot', 'monthlySnapshot'] + propertyExcludeList)) &&
                         (it.type in [Integer, Long, Double, Boolean, Date, String])
             }.any { property ->
                 event.data."${property.name}" != event."${property.name}"
