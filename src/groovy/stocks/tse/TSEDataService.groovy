@@ -145,7 +145,7 @@ public abstract class TSEDataService<T, K> {
         if (locale == 'en')
             if (time) {
                 time = String.format("%06d", time as Integer);
-                new SimpleDateFormat('yyyyMMdd-hhmmss').parse("${value}-${time}")
+                new SimpleDateFormat('yyyyMMdd-HHmmss').parse("${value}-${time}")
             } else
                 new SimpleDateFormat('yyyyMMdd').parse(value)
         else if (locale == 'fa')
