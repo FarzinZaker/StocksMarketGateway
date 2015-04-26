@@ -1,5 +1,6 @@
 package stocks.filters.symbol.market
 
+import net.sf.json.JSONArray
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
@@ -10,6 +11,7 @@ import stocks.filters.QueryFilterService
 import stocks.tse.Index
 import stocks.tse.IndexSymbol
 import stocks.tse.Symbol
+import stocks.util.SetHelper
 
 import javax.naming.OperationNotSupportedException
 
@@ -52,7 +54,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
                 indexes: Index.findAll().collect {
                     [
                             id  : it.id,
-                            name: it.toString()
+                            name: it.persianName
                     ]
                 }.sort { it.name }
         ]
@@ -71,18 +73,37 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     @Override
     List<Long> getExcludeList(String parameter, String operator, Object value) {
         if (operator == Operators.NOT_IN_LISt)
-            return IndexSymbol.findAllByIndex(Index.get(value.find() as Long)).collect {
-                it.symbol?.id
-            }
+            return SetHelper.getConjunction((value as JSONArray).toList().collect{ val ->
+                IndexSymbol.createCriteria().list{
+                    index{
+                        idEq(val as Long)
+                    }
+                    projections{
+                        symbol {
+                            property('id')
+                        }
+                    }
+                }
+            } as ArrayList<ArrayList>)
         null
     }
 
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value) {
         if (operator == Operators.IN_LIST)
-            return IndexSymbol.findAllByIndex(Index.get(value.find() as Long)).collect {
-                it.symbol?.id
-            }
+
+            return SetHelper.getConjunction((value as JSONArray).toList().collect{ val ->
+                IndexSymbol.createCriteria().list{
+                    index{
+                        idEq(val as Long)
+                    }
+                    projections{
+                        symbol {
+                            property('id')
+                        }
+                    }
+                }
+            } as ArrayList<ArrayList>)
         null
     }
 }

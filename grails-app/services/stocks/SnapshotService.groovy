@@ -40,7 +40,7 @@ class SnapshotService {
                 def today = record."${domainClass.clazz.snapshotDateProperty}"
                 today = today.clearTime()
                 record.dailySnapshot = today
-                println "daily: ${record.save(flush: true)}"
+//                println "daily: ${record.save(flush: true)}"
             }
         }
     }
@@ -51,7 +51,7 @@ class SnapshotService {
                 def today = record."${domainClass.clazz.snapshotDateProperty}"
                 today = today.clearTime()
                 record.weeklySnapshot = today
-                println "weekly: ${record.save(flush: true)}"
+//                println "weekly: ${record.save(flush: true)}"
             }
         }
     }
@@ -62,7 +62,7 @@ class SnapshotService {
                 def today = record."${domainClass.clazz.snapshotDateProperty}"
                 today = today.clearTime()
                 record.monthlySnapshot = today
-                println "monthly: ${record.save(flush: true)}"
+//                println "monthly: ${record.save(flush: true)}"
             }
         }
     }

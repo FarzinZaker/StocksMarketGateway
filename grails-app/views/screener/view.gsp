@@ -85,7 +85,7 @@
                                         totalTradeVolume: {type: "number"},
                                         yesterdayPrice: {type: "number"},
                                         <g:each in="${indicatorColumns.keySet()}" var="indicatorColumn">
-                                        '${indicatorColumn}': {type: "number"},
+                                        '${indicatorColumn.replace(',','_')}': {type: "number"},
                                         </g:each>
                                     }
                                 },
@@ -166,7 +166,7 @@
 
                             <g:each in="${indicatorColumns}" var="indicatorColumn">
                             {
-                                field: "${indicatorColumn.key}",
+                                field: "${indicatorColumn.key.replace(',', '_')}",
                                 title: "${indicatorColumn.value}",
                                 format: '{0:n0}'
                             },

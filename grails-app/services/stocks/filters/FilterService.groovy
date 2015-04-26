@@ -7,7 +7,10 @@ import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
 import stocks.alerting.Rule
+import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
+import stocks.util.SetHelper
+
 import java.beans.Introspector;
 
 
@@ -77,21 +80,13 @@ class FilterService {
         def includeFilters = filters.findAll { it.service instanceof IncludeFilterService }
         def includeList = [] as Set<Long>
         def noResult = false
-        includeFilters.each {
-            if (!noResult) {
-                def newCollection = (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
-                if (newCollection)
-                    if (newCollection.size()) {
-                        if (includeList.size() == 0)
-                            includeList.addAll(newCollection)
-                        else
-                            includeList = includeList.intersect(newCollection)
-                    } else
-                        noResult = true
-            }
-        }
+        includeList = noResult ? [] : SetHelper.getConjunction(
+                includeFilters.collect{
+                    (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
+                } as ArrayList<ArrayList>
+        )
 
-        if (noResult)
+        if (noResult || !includeList?.size())
             return []
 
         def excludeFilters = filters.findAll { it.service instanceof ExcludeFilterService }
@@ -122,6 +117,14 @@ class FilterService {
         def dc = new DetachedCriteria(targetClass)
         dc.add(criteria)
         def items = dc.list([max: 500], {
+            'in'('id', SymbolDailyTrade.createCriteria().list{
+                gte('date', new Date().clearTime())
+                projections {
+                    symbol {
+                        property('id')
+                    }
+                }
+            })
             projections {
                 property('id')
             }
@@ -140,15 +143,16 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
-//                .each{ LinkedHashMap item ->
-//            def entry = [:]
-//            item.keySet().each{String key ->
-//                entry.put(key.replace('\'',''), item[key])
-//            }
-//            result << entry
-//        }
-//        result
-        //lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
+        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
+        for(def i = 0; i < result.size(); i++) {
+            def row = result[i] as LinkedHashMap
+            def keys = row.keySet().toList()
+            for (def j = 0; j < keys.size(); j++) {
+                def currentKey = keys[j] as String
+                if (currentKey.contains(','))
+                    row."${currentKey.replace(',', '_')}" = row."${currentKey}"
+            }
+        }
+        result
     }
 }
