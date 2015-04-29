@@ -1,19 +1,14 @@
 package stocks.filters.symbol.market
 
 import net.sf.json.JSONArray
-import org.grails.datastore.mapping.query.Query
-import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
 import stocks.filters.ExcludeFilterService
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
-import stocks.filters.QueryFilterService
 import stocks.tse.Index
 import stocks.tse.IndexSymbol
 import stocks.tse.Symbol
-import stocks.util.SetHelper
-
-import javax.naming.OperationNotSupportedException
+import stocks.util.CollectionHelper
 
 class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
 
@@ -73,7 +68,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     @Override
     List<Long> getExcludeList(String parameter, String operator, Object value) {
         if (operator == Operators.NOT_IN_LISt)
-            return SetHelper.getConjunction((value as JSONArray).toList().collect{ val ->
+            return CollectionHelper.getConjunction((value as JSONArray).toList().collect{ val ->
                 IndexSymbol.createCriteria().list{
                     index{
                         idEq(val as Long)
@@ -92,7 +87,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     List<Long> getIncludeList(String parameter, String operator, Object value) {
         if (operator == Operators.IN_LIST)
 
-            return SetHelper.getConjunction((value as JSONArray).toList().collect{ val ->
+            return CollectionHelper.getConjunction((value as JSONArray).toList().collect{ val ->
                 IndexSymbol.createCriteria().list{
                     index{
                         idEq(val as Long)

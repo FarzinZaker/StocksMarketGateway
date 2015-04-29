@@ -3,7 +3,7 @@ package stocks.util
 /**
  * Created by farzin on 25/04/2015.
  */
-public class SetHelper {
+public class CollectionHelper {
 
     public static ArrayList getConjunction(ArrayList<ArrayList> list) {
         if (list.size() < 1)
@@ -16,5 +16,16 @@ public class SetHelper {
                 !lst.contains(item)
             }
         }
+    }
+
+    public static List moveZeroesToFirst(List list) {
+        if (!list.any { it != 0 })
+            return list
+        while (list[list.size() - 1] == 0) {
+            for (def i = list.size() - 1; i > 0; i--)
+                list[i] = list[i - 1]
+            list[0] = 0
+        }
+        list
     }
 }

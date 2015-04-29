@@ -7,6 +7,7 @@ import eu.verdelhan.ta4j.indicators.simple.ClosePriceIndicator
 import eu.verdelhan.ta4j.indicators.trackers.SMAIndicator
 import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
+import stocks.util.CollectionHelper
 import stocks.util.TypeCast
 
 class SMAService implements IndicatorServiceBase<Symbol, Integer> {
@@ -52,7 +53,7 @@ class SMAService implements IndicatorServiceBase<Symbol, Integer> {
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,
-                indicators: result
+                indicators: result.toList()
         ]
     }
 }

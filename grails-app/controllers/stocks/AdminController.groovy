@@ -45,6 +45,8 @@ class AdminController {
 
     def ratePurgeService
 
+    def SMAService
+
     def index() {
     }
 
@@ -84,7 +86,10 @@ class AdminController {
 
 //        symbolDailyTradeMissingDataService.importData()
 
-        println ratePurgeService.purgeMetal()
+//        println ratePurgeService.purgeMetal()
+
+        render SMAService.bulkCalculate(Symbol.get(17853), 7)
+
         println 'finished'
     }
 

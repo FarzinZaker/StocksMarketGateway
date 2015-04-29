@@ -5,33 +5,44 @@ import grails.util.Environment
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
+import stocks.util.CollectionHelper
 
 class SymbolIndicatorService {
 
     def grailsApplication
     def lowLevelDataService
 
-    def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
+    def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter, Boolean online = false) {
         def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
         def value = symbol ? serviceClass.calculate(symbol, parameter, dailyTrade.date) : 0
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
-        def indicator = clazz.newInstance()
-        indicator.dailyTrade = dailyTrade
-        indicator.parameter = parameterString
+        def indicator = null
+        if (online) {
+            indicator = clazz.findByDailyTradeAndParameterAndOnline(dailyTrade, parameterString, true)
+        }
+        if(!indicator){
+            indicator = clazz.newInstance()
+            indicator.dailyTrade = dailyTrade
+            indicator.parameter = parameterString
+            indicator.online = online
+            indicator.dayNumber = online ? 0 : 1
+        }
         indicator.value = value
         indicator.symbol = dailyTrade.symbol ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
-        indicator.dayNumber = 1
         indicator.calculationDate = dailyTrade.date
         indicator.save(flush: true)
-        if (symbol)
+        if (symbol && !online)
             clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${indicator.id}")
 
     }
 
     def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
         def value = symbol ? serviceClass.bulkCalculate(symbol, parameter) : [series: [], indicators: []]
+
+        if (value.indicators?.size())
+            value.indicators = CollectionHelper.moveZeroesToFirst(value.indicators as List)
 
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
@@ -50,6 +61,7 @@ class SymbolIndicatorService {
             indicator.symbol = symbol
             indicator.dayNumber = i + 1
             indicator.calculationDate = dailyTrades[i].dailySnapshot
+            indicator.online = false
             indicator.save(flush: i == loopCount - 1)
 
         }

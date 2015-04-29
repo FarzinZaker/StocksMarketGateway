@@ -9,7 +9,7 @@ import stocks.User
 import stocks.alerting.Rule
 import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
-import stocks.util.SetHelper
+import stocks.util.CollectionHelper
 
 import java.beans.Introspector;
 
@@ -87,7 +87,7 @@ class FilterService {
             }
         }
         def noResult = false
-        includeList = noResult ? [] : SetHelper.getConjunction(
+        includeList = noResult ? [] : CollectionHelper.getConjunction(
                 includeFilters.collect{
                     (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
                 } as ArrayList<ArrayList>
