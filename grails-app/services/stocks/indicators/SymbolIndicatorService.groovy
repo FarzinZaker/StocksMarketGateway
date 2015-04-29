@@ -20,17 +20,17 @@ class SymbolIndicatorService {
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
         def indicator = null
         if (online) {
-            indicator = clazz.findByDailyTradeAndParameterAndOnline(dailyTrade, parameterString, true)
+            indicator = clazz.findBySymbolAndParameterAndOnline(symbol, parameterString, true)
         }
         if(!indicator){
             indicator = clazz.newInstance()
-            indicator.dailyTrade = dailyTrade
             indicator.parameter = parameterString
+            indicator.symbol = symbol
             indicator.online = online
             indicator.dayNumber = online ? 0 : 1
         }
         indicator.value = value
-        indicator.symbol = dailyTrade.symbol ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
+        indicator.dailyTrade = dailyTrade
         indicator.calculationDate = dailyTrade.date
         indicator.save(flush: true)
         if (symbol && !online)
