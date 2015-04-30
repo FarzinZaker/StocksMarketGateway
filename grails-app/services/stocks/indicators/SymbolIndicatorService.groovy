@@ -29,7 +29,7 @@ class SymbolIndicatorService {
             indicator.online = online
             indicator.dayNumber = online ? 0 : 1
         }
-        indicator.value = value
+        indicator.value = value == 0 ? null : value
         indicator.dailyTrade = dailyTrade
         indicator.calculationDate = dailyTrade.date
         indicator.save(flush: true)
@@ -52,15 +52,15 @@ class SymbolIndicatorService {
         def indicatorValues = value.indicators
 
         def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
-        for (def i = 0; i < loopCount; i++) {
+        for (def i = 1; i < loopCount; i++) {
 
             def indicator = clazz.newInstance()
-            indicator.dailyTrade = dailyTrades[i]
+            indicator.dailyTrade = dailyTrades[loopCount - i]
             indicator.parameter = parameterString
-            indicator.value = indicatorValues[i]
+            indicator.value = indicatorValues[loopCount - i] == 0 ? null : indicatorValues[loopCount - i]
             indicator.symbol = symbol
-            indicator.dayNumber = i + 1
-            indicator.calculationDate = dailyTrades[i].dailySnapshot
+            indicator.dayNumber = 1
+            indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot
             indicator.online = false
             indicator.save(flush: i == loopCount - 1)
 
