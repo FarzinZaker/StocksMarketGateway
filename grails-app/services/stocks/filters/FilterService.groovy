@@ -78,8 +78,13 @@ class FilterService {
         }
 
         def includeFilters = filters.findAll { it.service instanceof IncludeFilterService }
+        def lastTradingDate = SymbolDailyTrade.createCriteria().list() {
+            projections {
+                max('date')
+            }
+        }.find()
         def includeList = SymbolDailyTrade.createCriteria().list{
-            gte('date', new Date().clearTime())
+            gte('date', lastTradingDate.clearTime())
             projections {
                 symbol {
                     property('id')
@@ -88,7 +93,7 @@ class FilterService {
         }
         def noResult = false
         includeList = noResult ? [] : CollectionHelper.getConjunction(
-//                includeList +
+                [includeList] +
                 includeFilters.collect{
                     (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
                 } as ArrayList<ArrayList>
