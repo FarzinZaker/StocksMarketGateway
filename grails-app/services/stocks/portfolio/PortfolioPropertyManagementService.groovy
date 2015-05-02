@@ -193,7 +193,7 @@ class PortfolioPropertyManagementService {
                     (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
                     (item.persianName.charAt(0) != 'ح' || item.persianName.charAt(1) != ' ') &&
                     ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
+                    item.marketCode == 'MCNO'
         }
         .collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
@@ -227,7 +227,7 @@ class PortfolioPropertyManagementService {
                     (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
                     (item.persianName.charAt(0) != 'ح' || item.persianName.charAt(1) != ' ') &&
                     ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
+                    item.marketCode == 'MCNO'
         }
         .collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]

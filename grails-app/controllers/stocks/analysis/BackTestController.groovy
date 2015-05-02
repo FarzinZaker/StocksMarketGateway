@@ -29,23 +29,15 @@ class BackTestController {
 
 
     def symbolAutoComplete() {
-        def term = params."filter[filters][0][value]"?.toString() ?: ''
+        def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
-        def result = Symbol.search("*${term}*", max: 1000000)
-        result = result.results.findAll { Symbol item ->
-            true
-//            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-//                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-//                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-//                    ['300', '400', '309', '404'].contains(item.type) &&
-//                    item.marketCode == 'NO'
-        }
-        result = result.collect { Symbol symbol ->
+
+        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)").results.unique { a, b -> a?.id <=> b?.id }.collect {
             [
-                    name : "${symbol.persianCode} - ${symbol.persianName}",
-                    value: symbol.id
+                    name : "${it.persianCode} - ${it.persianName}",
+                    value: it.id
             ]
-        }.sort { it.name }
+        }
         render([data: result] as JSON)
     }
 

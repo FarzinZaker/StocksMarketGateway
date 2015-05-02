@@ -80,12 +80,24 @@ class Symbol {
         maxAllowedValue nullable: true
         minAllowedValue nullable: true
         baseVolume nullable: true
-        type nullable: true//, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
+        type nullable: true
+//, inList: ['263', '300', '301', '302', '303', '304', '306', '248', '068', '400', '403', '500']
         minTradableValueUnit nullable: true
         minTradableStockCount nullable: true
         marketIdentifier nullable: true//, inList: [0, 1, 2, 3, 4, 5]
         minOrderVolume nullable: true
         maxOrderVolume nullable: true
         date nullable: true
+    }
+
+    public String getMarketCode() {
+        this.marketCode
+    }
+
+    public void setMarketCode(String marketCode) {
+        if (!marketCode.startsWith('MC'))
+            this.marketCode = 'MC' + marketCode
+        else
+            this.marketCode = marketCode
     }
 }

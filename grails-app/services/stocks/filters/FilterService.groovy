@@ -7,6 +7,7 @@ import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
 import stocks.alerting.Rule
+import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
 import stocks.util.CollectionHelper
@@ -83,7 +84,26 @@ class FilterService {
                 max('date')
             }
         }.find()
-        def includeList = SymbolDailyTrade.createCriteria().list{
+
+        def allowedSymbols =
+                Symbol.createCriteria().list {
+                    or {
+                        and {
+                            eq('marketCode', 'MCNO')
+                            'in'('type', ['300', '303', '309'])
+                            notEqual('boardCode', '4')
+                        }
+                        and {
+                            eq('marketCode', 'MCNO')
+                            eq('type', '305')
+                        }
+                    }
+                    projections {
+                        property('id')
+                    }
+                }
+
+        def recentlyTradedSymbols = SymbolDailyTrade.createCriteria().list {
             gte('date', lastTradingDate.clearTime())
             projections {
                 symbol {
@@ -92,11 +112,12 @@ class FilterService {
             }
         }
         def noResult = false
-        includeList = noResult ? [] : CollectionHelper.getConjunction(
-                [includeList] +
-                includeFilters.collect{
-                    (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
-                } as ArrayList<ArrayList>
+        def includeList = noResult ? [] : CollectionHelper.getConjunction(
+                [recentlyTradedSymbols] +
+                        [allowedSymbols] +
+                        includeFilters.collect {
+                            (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
+                        } as ArrayList<ArrayList>
         )
 
         if (noResult || !includeList?.size())
@@ -115,7 +136,7 @@ class FilterService {
 
         def criteria = new Query.Conjunction()
         if (includeList && includeList.size()) {
-            if(includeList.size() > 1000)
+            if (includeList.size() > 1000)
                 includeList = includeList.toList()[0..999]
             criteria.add(Restrictions.in('id', includeList))
         }
@@ -141,15 +162,17 @@ class FilterService {
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType}"
 
-            def value =  JSON.parse(rule.value)?.first()
-            if(value instanceof JSONArray) {
+            def value = JSON.parse(rule.value)?.first()
+            if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect{"'" + it.replace('stocks_indicators_symbol_', '') + "'"}.join(',')])
-        for(def i = 0; i < result.size(); i++) {
+        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect {
+            "'" + it.replace('stocks_indicators_symbol_', '') + "'"
+        }.join(',')])
+        for (def i = 0; i < result.size(); i++) {
             def row = result[i] as LinkedHashMap
             def keys = row.keySet().toList()
             for (def j = 0; j < keys.size(); j++) {

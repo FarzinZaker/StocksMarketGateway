@@ -9,16 +9,10 @@ import stocks.tse.SymbolDailyTrade
 class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
-    List searchItems(String term) {
+    List searchItems(String queryStr) {
 
         BooleanQuery.setMaxClauseCount(1000000)
-        Symbol.search("*${term}*", max: 10000).results.findAll { Symbol item ->
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'NO'
-        }.unique { a, b -> a?.id <=> b?.id }.collect {
+        Symbol.search("*${queryStr}* AND ((marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4) OR status:I)").results.unique { a, b -> a?.id <=> b?.id }.collect {
             [
                     text : "${it.persianCode} - ${it.persianName}",
                     value: it.id
@@ -35,6 +29,14 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     @Override
     def all() {
         Symbol.createCriteria().list {
+            or {
+                and {
+                    eq('marketCode', 'MCNO')
+                    'in'('type', ['300', '303', '309'])
+                    notEqual('boardCode', '4')
+                }
+                eq('status', 'I')
+            }
             projections {
                 property('id')
             }

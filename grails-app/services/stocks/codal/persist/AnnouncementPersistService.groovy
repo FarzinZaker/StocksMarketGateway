@@ -77,7 +77,10 @@ class AnnouncementPersistService {
 
     protected void afterCreate(AnnouncementEvent event, Announcement data) {
         Thread.start { grabFiles(data) }
-        queryService.applyEventBasedQueries(data)
+        if (data?.symbol?.marketCode == 'MCNO'
+                && ((['300', '303', '309'].contains(data?.symbol?.type) && data?.symbol?.boardCode != '4')
+                || data?.symbol?.type == '305'))
+            queryService.applyEventBasedQueries(data)
     }
 
     protected void beforeUpdate(AnnouncementEvent event, Announcement data) {
