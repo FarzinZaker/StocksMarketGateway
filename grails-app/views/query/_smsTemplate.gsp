@@ -6,7 +6,7 @@
 <div class="token-bar">
     <g:each in="${TemplateHelper.SYSTEM_TOKENS}" var="token">
         <span class="k-button"
-              onclick="addTokenToHeaderTemplate('[${message(code:"systemTokens.${token}.label")}]');"><g:message
+              onclick="addTokenToHeaderTemplate('[${token}]');"><g:message
                 code="systemTokens.${token}.label"/></span>
     </g:each>
 </div>
@@ -27,7 +27,7 @@
 <div class="token-bar">
     <g:each in="${TemplateHelper.SYSTEM_TOKENS}" var="token">
         <span class="k-button"
-              onclick="addTokenToFooterTemplate('[${message(code:"systemTokens.${token}.label")}]');"><g:message
+              onclick="addTokenToFooterTemplate('[${token}]');"><g:message
                 code="systemTokens.${token}.label"/></span>
     </g:each>
 </div>

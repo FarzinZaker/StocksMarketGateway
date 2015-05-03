@@ -44,11 +44,7 @@ class Announcement {
                         value          : 'persianCode',//{ Symbol item -> "${item.persianCode}" },
                         display        : { Symbol item -> "${item.persianCode} - ${item.persianName}" },
                         filter         : { Symbol item ->
-                            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                                    (item.persianName.charAt(0) != 'ح' || (item.persianName.charAt(1) != ' ' && item.persianName.charAt(1) != '.')) &&
-                                    ['300', '400', '309', '404'].contains(item.type) &&
-                                    item.marketCode == 'MCNO'
+                            item.marketCode == 'MCNO' && ((['300','303','309'].contains(item.type) && item.boardCode != '4') || item.type == '305')
                         },
                         deliveryMethods: [
                                 [

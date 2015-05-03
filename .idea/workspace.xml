@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="indicators">
+    <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CompanyCorrelationService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CompanyCorrelationService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/filters/FilterService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/filters/FilterService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/alerting/QueryController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/alerting/QueryController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/query/_smsTemplate.gsp" afterPath="$PROJECT_DIR$/grails-app/views/query/_smsTemplate.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
@@ -92,41 +89,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FilterService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/filters/FilterService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1216" max-vertical-offset="3060">
-              <caret line="100" column="33" selection-start-line="100" selection-start-column="33" selection-end-line="100" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BackTestController.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.9615386" vertical-offset="356" max-vertical-offset="4828">
-              <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+            <state vertical-scroll-proportion="-7.304348" vertical-offset="274" max-vertical-offset="4828">
+              <caret line="34" column="66" selection-start-line="34" selection-start-column="66" selection-end-line="34" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnnouncementPersistService.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.99455535" vertical-offset="761" max-vertical-offset="1615">
-              <caret line="80" column="100" selection-start-line="80" selection-start-column="100" selection-end-line="80" selection-end-column="100" />
-              <folding />
-            </state>
+      <file leaf-file-name="Announcement.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy">
+          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+            <state />
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CompanyCorrelationService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CompanyCorrelationService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="2346">
-              <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="19" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.28313252" vertical-offset="590" max-vertical-offset="1785">
+              <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -145,10 +125,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/indicators/symbol/trend/MACDService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/stocks/rate/data/CoinFutureDataService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/ToolsController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/DataCorrectionController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/data/IndexHistoryDataService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/IndexCorrelationService.groovy" />
@@ -190,12 +166,16 @@
         <option value="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/stocks/tse/Symbol.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CompanyCorrelationService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/filters/FilterService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/query/_smsTemplate.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/services/stocks/alerting/SmsService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/alerting/QueryController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy" />
       </list>
     </option>
   </component>
@@ -991,13 +971,7 @@
       <workItem from="1429695063102" duration="15063000" />
       <workItem from="1429711161643" duration="26179000" />
       <workItem from="1429950604582" duration="80469000" />
-      <workItem from="1430388864910" duration="23886000" />
-    </task>
-    <task id="LOCAL-00167" summary="servlet 3.0">
-      <created>1427813028575</created>
-      <option name="number" value="00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1427813028576</updated>
+      <workItem from="1430388864910" duration="30421000" />
     </task>
     <task id="LOCAL-00168" summary="build options">
       <created>1427836289474</created>
@@ -1287,11 +1261,17 @@
       <option name="project" value="LOCAL" />
       <updated>1430566224861</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="symbol filters">
+      <created>1430582137544</created>
+      <option name="number" value="00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1430582137544</updated>
+    </task>
+    <option name="localTasksCounter" value="217" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2348175000" />
+    <option name="totallyTimeSpent" value="2354710000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1375,7 +1355,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="oracle" />
     <MESSAGE value="weblogic" />
     <MESSAGE value="clob" />
     <MESSAGE value="jobs" />
@@ -1400,7 +1379,8 @@
     <MESSAGE value="screener" />
     <MESSAGE value="adjustment" />
     <MESSAGE value="indicators" />
-    <option name="LAST_COMMIT_MESSAGE" value="indicators" />
+    <MESSAGE value="symbol filters" />
+    <option name="LAST_COMMIT_MESSAGE" value="symbol filters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1430,7 +1410,7 @@
           <option name="timeStamp" value="1339" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1902" />
+      <option name="time" value="1916" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1439,47 +1419,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/PurgeJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CoinFutureCorrelationService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="560" max-vertical-offset="2210">
-          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/excel/FutureContractExcelService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.578" vertical-offset="0" max-vertical-offset="2023">
-          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-          <folding>
-            <element signature="e#22#70#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tools/CorrelationService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="421" max-vertical-offset="1751">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.827586" vertical-offset="574" max-vertical-offset="1921">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/filters/symbol/value/VolumeFilterService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.123411976" vertical-offset="0" max-vertical-offset="2261">
@@ -1845,17 +1784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8490567" vertical-offset="597" max-vertical-offset="1853">
-          <caret line="50" column="58" selection-start-line="50" selection-start-column="58" selection-end-line="50" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioPropertyManagementService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3453" max-vertical-offset="8177">
@@ -1885,24 +1813,75 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tools/correlation/CompanyCorrelationService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="2346">
+        <state vertical-scroll-proportion="0.21061946" vertical-offset="51" max-vertical-offset="2346">
           <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="19" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.9615386" vertical-offset="356" max-vertical-offset="4828">
-          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/persist/AnnouncementPersistService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.99455535" vertical-offset="761" max-vertical-offset="1615">
-          <caret line="80" column="100" selection-start-line="80" selection-start-column="100" selection-end-line="80" selection-end-column="100" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1615">
+          <caret line="26" column="52" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/query/_smsTemplate.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19767442" vertical-offset="0" max-vertical-offset="1360">
+          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/TemplateHelper.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="87" max-vertical-offset="867">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/alerting/SmsService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26725665" vertical-offset="801" max-vertical-offset="2499">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36106196" vertical-offset="0" max-vertical-offset="565">
+          <caret line="13" column="50" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/alerting/QueryController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.726" vertical-offset="2911" max-vertical-offset="11747">
+          <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/analysis/BackTestController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.304348" vertical-offset="274" max-vertical-offset="4828">
+          <caret line="34" column="66" selection-start-line="34" selection-start-column="66" selection-end-line="34" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/codal/Announcement.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28313252" vertical-offset="590" max-vertical-offset="1785">
+          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
           <folding />
         </state>
       </provider>

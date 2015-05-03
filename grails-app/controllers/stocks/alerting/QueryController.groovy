@@ -29,11 +29,11 @@ class QueryController {
             }.each {
                 queryInstance.smsTemplate = queryInstance.smsTemplate.replace("[${it.name}]", "[${FarsiNormalizationFilter.apply(message(code: "${queryInstance.domainClazz}.${it.name}.label"))}]")
             }
-            stocks.TemplateHelper.SYSTEM_TOKENS.each {
-                queryInstance.smsHeaderTemplate = queryInstance.smsHeaderTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
-                queryInstance.smsTemplate = queryInstance.smsTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
-                queryInstance.smsFooterTemplate = queryInstance.smsFooterTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
-            }
+//            stocks.TemplateHelper.SYSTEM_TOKENS.each {
+//                queryInstance.smsHeaderTemplate = queryInstance.smsHeaderTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+//                queryInstance.smsTemplate = queryInstance.smsTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+//                queryInstance.smsFooterTemplate = queryInstance.smsFooterTemplate?.replace("[${it}]", "[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]")
+//            }
             def fields = domainClass.persistentProperties.findAll {
                 it.domainClass.constrainedProperties."${it.name}".metaConstraints.query
             }.collect { it.name }
@@ -104,6 +104,9 @@ class QueryController {
     def save() {
         def query
 
+        if(params.category == '0')
+            params.remove('category')
+
         //prepare parameters
         if (params.parameterNames instanceof String) {
             params.parameterNames = [params.parameterNames]
@@ -132,17 +135,33 @@ class QueryController {
             query = Query.get(params.id)
             query.properties = params
 
-            (parameters && parameters.size() ? Parameter.findAllByQueryAndNameNotInList(query, parameters?.collect {
-                it?.name
-            }) : Parameter.findAllByQuery(query)).each { parameter ->
-                ParameterValue.findAllByParameter(parameter).each { it.delete() }
+            (parameters && parameters.size() ? Parameter.findAllByQuery(query).findAll {
+                !parameters?.collect {
+                    FarsiNormalizationFilter.apply(it?.name)
+                }?.contains(FarsiNormalizationFilter.apply(it.name))
+            } : Parameter.findAllByQuery(query)).each { parameter ->
+                ParameterValue.findAllByParameter(parameter).each {
+                    it.delete()
+                }
+
+                ParameterSuggestedValue.findAllByParameter(parameter).each {
+                    ParameterSuggestedValueVariation.findAllBySuggestedValue(it).each {
+                        it.delete()
+                    }
+                    it.delete()
+                }
+
                 parameter.delete()
             }
 
             if (parameters && parameters.size())
-                Parameter.findAllByQueryAndNameInList(query, parameters.collect { it.name })?.each { parameter ->
-                    def newParameter = parameters.find { it.name == parameter.name }
-                    parameter.name = newParameter.name
+                Parameter.findAllByQuery(query).findAll {
+                    parameters?.collect {
+                        FarsiNormalizationFilter.apply(it?.name)
+                    }?.contains(FarsiNormalizationFilter.apply(it.name))
+                }?.each { parameter ->
+                    def newParameter = parameters.find { FarsiNormalizationFilter.apply(it.name) == FarsiNormalizationFilter.apply(parameter.name) }
+                    parameter.name = FarsiNormalizationFilter.apply(newParameter.name)
                     parameter.type = newParameter.type
                     parameter.defaultValue = newParameter.defaultValue
                     parameter.multiSelect = newParameter.multiSelect
@@ -188,18 +207,18 @@ class QueryController {
         }.each {
             query.smsTemplate = query.smsTemplate.replace("[${FarsiNormalizationFilter.apply(message(code: "${query.domainClazz}.${it.name}.label"))}]", "[${it.name}]")
         }
-        stocks.TemplateHelper.SYSTEM_TOKENS.each {
-            query.smsHeaderTemplate = query.smsHeaderTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
-            query.smsTemplate = query.smsTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
-            query.smsFooterTemplate = query.smsFooterTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
-        }
+//        stocks.TemplateHelper.SYSTEM_TOKENS.each {
+//            query.smsHeaderTemplate = query.smsHeaderTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+//            query.smsTemplate = query.smsTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+//            query.smsFooterTemplate = query.smsFooterTemplate?.replace("[${FarsiNormalizationFilter.apply(message(code: "systemTokens.${it}.label"))}]", "[${it}]")
+//        }
 
 
         query.rule = parseRule(domainClass, JSON.parse(params.query), null)
 
         query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
         query.category = QueryCategory.get(params.category)
-        if(!query.description || query.description == '')
+        if (!query.description || query.description == '')
             query.description = ' '
         if (!query.save()) {
             query.scheduleTemplate = ScheduleTemplate.get(params.scheduleTemplate) as ScheduleTemplate
@@ -208,7 +227,11 @@ class QueryController {
 
         }
 
-        parameters.findAll { !Parameter.findByQueryAndName(query, it.name) }.each { param ->
+        parameters.findAll { param ->
+            !Parameter.findAllByQuery(query).any {
+                FarsiNormalizationFilter.apply(it.name) == FarsiNormalizationFilter.apply(param.name)
+            }
+        }.each { param ->
             def parameter = new Parameter(query: query)
             parameter.name = param.name
             parameter.type = param.type
@@ -226,7 +249,7 @@ class QueryController {
             sortingRule.save()
         }
 
-        query.save(flush:true)
+        query.save(flush: true)
         redirect(action: 'list')
     }
 
@@ -267,7 +290,7 @@ class QueryController {
 
             rule.value = fieldsMap[rule.value] ?: rule.value
 
-            rule.save(flush: true)
+            rule.save()
         }
         if (rule.aggregationType || rule.field)
             rule
