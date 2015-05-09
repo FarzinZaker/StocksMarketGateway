@@ -6,10 +6,10 @@ class PriceAdjustmentService {
 
     def apply(Long symbolId) {
 
+        def symbol = Symbol.get(symbolId)
+
         def priceList = SymbolDailyTrade.createCriteria().list {
-            symbol {
-                idEq(symbolId)
-            }
+            eq('symbol', symbol)
             isNotNull('dailySnapshot')
             order('dailySnapshot', ORDER_DESCENDING)
         }
@@ -23,7 +23,7 @@ class PriceAdjustmentService {
                 i += list.size() - 1
             }
 
-            symbolIndicatorService.recalculateIndicators(priceAdjustment.symbol)
+            symbolIndicatorService.recalculateIndicators(symbol)
         }
     }
 
