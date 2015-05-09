@@ -56,20 +56,23 @@ class MissingSnapshotJob {
 //            return new Date()
 //    }
 
-    def execute(){
+    def execute() {
         def result = lowLevelDataService.executeFunction('DT_SEL_MISSING_SNAPSHOT', [:])
-
+        def maxDate = date
+        use(TimeCategory) {
+            maxDate = date + 1.day
+        }
         if (result?.size() && result[0].symbolId) {
             def date = new Date(result[0].dat.time as Long)
             def dailyTrade = SymbolDailyTrade.createCriteria().list {
-                symbol{
+                symbol {
                     idEq(result[0].symbolId as Long)
                 }
-                lte('date', date)
+                lte('date', maxDate)
                 order('date', ORDER_DESCENDING)
                 maxResults(1)
             }.find()
-            if(dailyTrade){
+            if (dailyTrade) {
                 dailyTrade.dailySnapshot = date
 
 
@@ -80,7 +83,7 @@ class MissingSnapshotJob {
                     dailyTrade.weeklySnapshot = date
                 if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                     dailyTrade.monthlySnapshot = date
-                println "Missing Snapshot: " + dailyTrade.save(flush:true)
+                println "Missing Snapshot: " + dailyTrade.save(flush: true)
             }
         }
     }
