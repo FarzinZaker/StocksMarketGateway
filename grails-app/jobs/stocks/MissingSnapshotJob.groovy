@@ -58,12 +58,12 @@ class MissingSnapshotJob {
 
     def execute() {
         def result = lowLevelDataService.executeFunction('DT_SEL_MISSING_SNAPSHOT', [:])
-        def maxDate = date
-        use(TimeCategory) {
-            maxDate = date + 1.day
-        }
         if (result?.size() && result[0].symbolId) {
             def date = new Date(result[0].dat.time as Long)
+            def maxDate = date
+            use(TimeCategory) {
+                maxDate = date + 1.day
+            }
             def dailyTrade = SymbolDailyTrade.createCriteria().list {
                 symbol {
                     idEq(result[0].symbolId as Long)
@@ -73,16 +73,15 @@ class MissingSnapshotJob {
                 maxResults(1)
             }.find()
             if (dailyTrade) {
-                dailyTrade.dailySnapshot = date
-
+                dailyTrade.dailySnapshot = dailyTrade.date.clearTime()
 
                 def cal = Calendar.getInstance()
-                cal.setTime(date)
+                cal.setTime(dailyTrade.date)
                 def jc = new JalaliCalendar(cal as GregorianCalendar)
                 if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
-                    dailyTrade.weeklySnapshot = date
+                    dailyTrade.weeklySnapshot = dailyTrade.date.clearTime()
                 if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-                    dailyTrade.monthlySnapshot = date
+                    dailyTrade.monthlySnapshot = dailyTrade.date.clearTime()
                 println "Missing Snapshot: " + dailyTrade.save(flush: true)
             }
         }
