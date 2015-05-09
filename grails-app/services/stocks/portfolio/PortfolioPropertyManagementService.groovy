@@ -79,12 +79,17 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search {
-                queryString(FarsiNormalizationFilter.apply('مشارکت') + " *${query}*")
-            }.results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND ((type:301 AND boardCode:9) OR type:306)").results
         else
-            symbols = Symbol.findAllByPersianNameLike("%${FarsiNormalizationFilter.apply('مشارکت')}%")
-        symbols.sort { it.persianCode }.collect {
+            symbols = Symbol.createCriteria().list {
+                eq('marketCode', 'MCNO')
+                'in'('type', ['400', '403', '404'])
+                notEqual('boardCode', '4')
+                projections {
+                    property('id')
+                }
+            }
+        symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
         }
     }
@@ -183,19 +188,17 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search("*${query}*", max: 100).results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4").results
         else
-            symbols = Symbol.list([max: 20])
-        symbols
-                .findAll
-        { Symbol item ->
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || item.persianName.charAt(1) != ' ') &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'MCNO'
-        }
-        .collect {
+            symbols = Symbol.createCriteria().list {
+                eq('marketCode', 'MCNO')
+                'in'('type', ['300', '303', '309'])
+                notEqual('boardCode', '4')
+                projections {
+                    property('id')
+                }
+            }
+        symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
         }
     }
@@ -214,22 +217,19 @@ class PortfolioPropertyManagementService {
                     query = currentSymbol.companySmallCode
                 }
         }
+
         if (query)
-            symbols = Symbol.search([
-                    "*${query}*"
-            ].join(' '), max: 100).results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:400 OR type:403 OR type:404) AND -boardCode:4").results
         else
-            symbols = Symbol.list([max: 20])
-        symbols
-                .findAll
-        { Symbol item ->
-            !(0..9).contains(item.persianCode.charAt(item.persianCode.size() - 1)) &&
-                    (item.persianCode.charAt(0) != 'ج' || item.persianCode.charAt(1) != ' ') &&
-                    (item.persianName.charAt(0) != 'ح' || item.persianName.charAt(1) != ' ') &&
-                    ['300', '400', '309', '404'].contains(item.type) &&
-                    item.marketCode == 'MCNO'
-        }
-        .collect {
+            symbols = Symbol.createCriteria().list {
+                eq('marketCode', 'MCNO')
+                'in'('type', ['400', '403', '404'])
+                notEqual('boardCode', '4')
+                projections {
+                    property('id')
+                }
+            }
+        symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
         }
     }

@@ -117,6 +117,13 @@ class FormTagLib {
 """
         out << """
                     });
+                    var ntb_${attrs.id ?: attrs.name} = \$('#${attrs.id ?: attrs.name}').data("kendoNumericTextBox");
+"""
+        if (attrs.readonly)
+            out << """
+                   ntb_${attrs.id ?: attrs.name}.readonly();
+"""
+        out << """
                 });
             </script>
 """

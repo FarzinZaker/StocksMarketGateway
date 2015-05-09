@@ -23,7 +23,7 @@ class PriceAdjustmentService {
                 i += list.size() - 1
             }
 
-            //symbolIndicatorService.recalculateIndicators(priceAdjustment.symbol)
+            symbolIndicatorService.recalculateIndicators(priceAdjustment.symbol)
         }
     }
 
@@ -55,7 +55,7 @@ class PriceAdjustmentService {
             for (def i = 0; i < priceList.size(); i++)
                 undoDailyTrade(priceList[i], adjustmentRate)
 
-//            symbolIndicatorService.recalculateIndicators(priceAdjustment.symbol)
+            symbolIndicatorService.recalculateIndicators(priceAdjustment.symbol)
         }
 
         priceAdjustment.applied = false

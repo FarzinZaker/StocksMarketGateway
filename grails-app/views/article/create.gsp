@@ -16,7 +16,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="article.create.title"/></h1>
+            <h1 class="orange"><g:message code="article.create.title"/></h1>
             <g:form action="save">
                 <g:render template="../document/form" model="${[document: article]}"/>
                 <div class="toolbar">

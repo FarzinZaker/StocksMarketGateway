@@ -16,7 +16,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="article.list.title"/></h1>
+            <h1 class="orange"><g:message code="article.list.title"/></h1>
             <g:render template="../document/list"
                       model="[entityName: 'article', dataServiceUrl: createLink(controller: 'article', action: 'jsonList')]"/>
         </div>

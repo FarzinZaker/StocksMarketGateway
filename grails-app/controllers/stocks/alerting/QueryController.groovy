@@ -144,11 +144,13 @@ class QueryController {
                     it.delete()
                 }
 
-                ParameterSuggestedValue.findAllByParameter(parameter).each {
-                    ParameterSuggestedValueVariation.findAllBySuggestedValue(it).each {
+                ParameterSuggestedValue.findAllByParameter(parameter).each { suggestedValue ->
+                    ParameterSuggestedValueVariation.createCriteria().list{
+                        eq('suggestedValue', suggestedValue)
+                    }.each {
                         it.delete()
                     }
-                    it.delete()
+                    suggestedValue.delete()
                 }
 
                 parameter.delete()
@@ -451,7 +453,7 @@ class QueryController {
         [categoryTree: root]
     }
 
-    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
+//    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def register() {
         def queryInstance = params.id ? QueryInstance.get(params.id) : new QueryInstance(query: Query.get(params.query))
         def scheduleTypes = []

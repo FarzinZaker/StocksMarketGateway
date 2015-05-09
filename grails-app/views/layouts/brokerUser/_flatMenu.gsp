@@ -3,7 +3,7 @@
     <li data-tile-type="s,6m">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-lime tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'create')}">
+            <a class="tilt tilt-tile tilt-tile-orange tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'create')}">
                 <i class="fa fa-file"></i><span><g:message code="menu.articles.add"/></span>
             </a>
 
@@ -15,7 +15,7 @@
     <li data-tile-type="s,5m,8_l">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-lime tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'list')}">
+            <a class="tilt tilt-tile tilt-tile-orange tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'list')}">
                 <i class="fa fa-file"></i><span><g:message code="menu.articles.list"/></span>
             </a>
 
@@ -101,7 +101,7 @@
     <li data-tile-type="s,5_s,8m">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-mauve tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'build')}">
+            <a class="tilt tilt-tile tilt-tile-pink tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'build')}">
                 <i class="fa fa-filter"></i><span><g:message code="menu.screener.new"/></span>
             </a>
 
@@ -110,7 +110,7 @@
     <li data-tile-type="s,5m,8_l">
         <div>
 
-            <a class="tilt tilt-tile tilt-tile-mauve tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'list')}">
+            <a class="tilt tilt-tile tilt-tile-pink tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'screener', action:'list')}">
                 <i class="fa fa-filter"></i><span><g:message code="menu.screener.list"/></span>
             </a>
 

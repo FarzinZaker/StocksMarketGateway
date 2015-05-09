@@ -19,22 +19,22 @@ h1, h2, h3, h4, h5, h6, dd, dt, input, textarea, select, div, span {
 }
 
 h1 {
-  font-size: 24px;
-  border-right: 10px solid @main-color;
-  padding: 5px 10px 5px 5px;
+  font-size: 20px;
+//  border-right: 10px solid @main-color;
+  padding: 7px 15px 8px 15px;
   margin-bottom: 10px !important;
 }
 
 h2 {
   font-size: 20px;
-  border-right: 7px solid @main-color;
+  //  border-right: 7px solid @main-color;
   padding: 5px 10px 5px 5px;
   margin-bottom: 10px !important;
 }
 
 h3 {
   font-size: 18px;
-  border-right: 5px solid @main-color;
+  //  border-right: 5px solid @main-color;
   padding: 5px 10px 5px 5px;
   margin-bottom: 10px !important;
 }
@@ -851,7 +851,7 @@ span.has-error {
   display: inline-block;
 }
 
-.addToListButton{
+.addToListButton {
   height: 29px;
   min-width: 0 !important;
   width: 39px;
@@ -859,9 +859,9 @@ span.has-error {
   padding-top: 8px;
 }
 
-input[readonly]{
+input[readonly] {
   background-color: #f4f4f4 !important;
-  border-color:#dadada !important;
+  border-color: #dadada !important;
 }
 
 //.k-edit-cell, #grid_active_cell:not(.k-header){
@@ -885,3 +885,31 @@ input[readonly]{
 //.k-rtl .k-dirty{
 //  top:7px;
 //}
+
+h1, h2, h3, h4 {
+  color: white;
+  &.orange {
+    background-color: #fa6800;
+  }
+  &.green {
+    background-color: #60a917;
+  }
+  &.darkBlue {
+    background-color: #3b5998;
+  }
+  &.cyan {
+    background-color: #1ba1e2;
+  }
+  &.crimson {
+    background-color: #a20025;
+  }
+  &.pink {
+    background-color: #f472d0;
+  }
+  &.magenta {
+    background-color: #d80073;
+  }
+  &.steel {
+    background-color: #647687;
+  }
+}
