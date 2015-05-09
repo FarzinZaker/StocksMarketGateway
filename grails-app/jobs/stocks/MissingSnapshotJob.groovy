@@ -68,7 +68,7 @@ class MissingSnapshotJob {
                 symbol {
                     idEq(result[0].symbolId as Long)
                 }
-                lte('date', maxDate)
+                lt('date', maxDate)
                 order('date', ORDER_DESCENDING)
                 maxResults(1)
             }.find()
