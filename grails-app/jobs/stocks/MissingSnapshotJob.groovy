@@ -57,6 +57,8 @@ class MissingSnapshotJob {
 //    }
 
     def execute() {
+
+        return
         def result = lowLevelDataService.executeFunction('DT_SEL_MISSING_SNAPSHOT', [:])
         if (result?.size() && result[0].symbolId) {
             def date = new Date(result[0].dat.time as Long)
