@@ -28,7 +28,21 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingRegisterController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="query.register.title" args="${[queryInstance.query?.title]}"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
+                    [text: message(code: 'menu.newsletter.register.list'), url: createLink(controller: 'query', action: 'select')],
+                    [text: queryInstance.query?.title, url: createLink(controller: 'query', action: 'register', params: params)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="crimson">
+                <i class="fa fa-paper-plane-o"></i>
+                <g:message code="query.register.title" args="${[queryInstance.query?.title]}"/>
+            </h1>
 
             <div class="query-register-description"><format:html value="${queryInstance.query?.description}"/></div>
             <form:form name="registerForm" action="saveRegistration">

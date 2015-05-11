@@ -96,9 +96,9 @@ class StocksTagLib {
                 groupProperty('id')
                 rates {
                     avg('value', 'rateAverage')
-                    document{
-                        property('id')
-                    }
+//                    document{
+//                        property('id')
+//                    }
                 }
             }
 

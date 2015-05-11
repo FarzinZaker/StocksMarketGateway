@@ -207,7 +207,20 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="report.heatmap.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.reports'), url: createLink(controller: 'report')],
+                    [text: message(code: 'menu.reports.heatMap'), url: createLink(controller: 'report', action: 'heatMap')]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="crimson">
+                <i class="fa fa-desktop"></i>
+                <g:message code="report.heatmap.title"/>
+            </h1>
 
             <p><g:message code="report.heatmap.description"/></p>
         </div>
@@ -343,7 +356,7 @@
                             else
                                 return headerColor
                         })
-                        .style('display', function(d){
+                        .style('display', function (d) {
                             d.parent ? '' : 'none';
                         });
                 parentEnterTransition.append('foreignObject')
@@ -373,7 +386,7 @@
                             else
                                 return headerColor
                         })
-                        .style('display', function(d){
+                        .style('display', function (d) {
                             return d.parent ? '' : 'none';
                         });
                 parentUpdateTransition.select(".foreignObject")
@@ -439,8 +452,6 @@
                                 return d.dx < 40 || d.dy < 20;
                             }).style('display', 'none');
                 }
-
-
 
 
                 // update transition
@@ -643,7 +654,7 @@
                     else
                         return headerColor
                 })
-                .style('display', function(d){
+                .style('display', function (d) {
                     return d.parent ? '' : 'none';
                 });
 

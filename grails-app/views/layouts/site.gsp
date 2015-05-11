@@ -3,7 +3,8 @@
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7" ng-app='stocks' xmlns:ng="http://angularjs.org" id="ng-app"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8" ng-app='stocks' xmlns:ng="http://angularjs.org" id="ng-app"> <![endif]-->
 <!--[if IE 9 ]>    <html lang="en" class="no-js ie9" ng-app='stocks' xmlns:ng="http://angularjs.org" id="ng-app"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js" ng-app='stocks' xmlns:ng="http://angularjs.org" id="ng-app"><!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js" ng-app='stocks' xmlns:ng="http://angularjs.org"
+                                     id="ng-app"><!--<![endif]-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,13 +24,14 @@
 
 <body>
 <div class="page-wrap">
-    <div id="header" role="banner">
-        <a href="${createLink(uri: '/')}">
+    <g:render template="/layouts/common/topBar"/>
+    <div id="header" role="banner" class="k-rtl">
+        <a href="${createLink(uri: '/')}" id="logo">
             <asset:image src="logo.png" alt="stocks"/>
         </a>
-        <g:render template="/layouts/common/userPanel"/>
         <g:render template="/layouts/site/menu"/>
         <asset:image src="watermark.png" class="watermark"/>
+        <div class="clear-fix"></div>
     </div>
     <g:layoutBody/>
 
@@ -43,7 +45,8 @@
 <div class="footer">
     <g:message code="copyright"/>
 </div>
-<script language="javascript" type="text/javascript" src="${resource(dir:'js/bootstrap', file: 'bootstrap.js')}"></script>
+<script language="javascript" type="text/javascript"
+        src="${resource(dir: 'js/bootstrap', file: 'bootstrap.js')}"></script>
 <script language="javascript" type="text/javascript">
     var likeUrl = '${createLink(controller: 'like')}';
 </script>

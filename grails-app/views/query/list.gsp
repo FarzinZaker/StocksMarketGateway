@@ -15,8 +15,20 @@
 <body>
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
+        <div class="col-xs-12">
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.newsletters'), url:createLink(controller: 'query')],
+                    [text: message(code:'menu.newsletters.list'), url:createLink(controller: 'query', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
         <div class="col-xs-3" style="padding-top:100px;">
-            <h2><g:message code="query.category.select"/></h2>
+            <h2 class="green">
+                <i class="fa fa-folder-open"></i>
+                <g:message code="query.category.select"/>
+            </h2>
             <div class="k-rtl">
                 <script id="categoryTree-template" type="text/kendo-ui-template">
                 <span class='treeNode-text'>#:item.text#</span><span class='treeNode-value'>#:item.id#</span>
@@ -42,7 +54,10 @@
             </script>
         </div>
         <div class="col-xs-9">
-            <h1><g:message code="query.list.title"/></h1>
+            <h1 class="crimson">
+                <i class="fa fa-paper-plane-o"></i>
+                <g:message code="query.list.title"/>
+            </h1>
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

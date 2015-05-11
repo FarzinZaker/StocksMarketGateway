@@ -17,8 +17,18 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-
-            <h1><g:message code="password.change.success.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'changePassword.title'), url: createLink(controller: 'user', action: 'changePassword')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="steel">
+                <i class="fa fa-key"></i>
+                <g:message code="password.change.success.title"/>
+            </h1>
             <form:info message="${flash.message}"/>
         </div>
     </div>

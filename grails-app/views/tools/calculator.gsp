@@ -25,13 +25,32 @@
     </script>
     <script language="javascript" type="text/javascript"
             src="${resource(dir: 'js', file: 'tools.calculator.controller.js')}"></script>
+    <style>
+    .highlight {
+        background-color: #10c4b2 !important;
+        transition: background 200ms !important;
+    }
+    </style>
 </head>
 
 <body>
 <div class="container-fluid k-rtl calculator" id="ngController" ng-controller="toolsCalculatorController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="tools.calculator.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.tools'), url:createLink(controller: 'tools')],
+                    [text: message(code:'menu.tools.calculator'), url:createLink(controller: 'tools', action: 'calculator')]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="cyan">
+                <i class="fa fa-calculator"></i>
+                <g:message code="tools.calculator.title"/>
+            </h1>
 
             <p><g:message code="tools.calculator.description"/></p>
         </div>
@@ -53,7 +72,7 @@
     %{--</div>--}%
 
     <div class="row-fluid">
-        <div class="col-sm-8">
+        <div class="col-sm-8 whitePanel smallPadding">
             <g:render template="calculator/grid"/>
         </div>
 

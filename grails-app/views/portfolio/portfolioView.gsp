@@ -13,7 +13,21 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="portfolio.view.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.portfolios'), url: createLink(controller: 'portfolio')],
+                    [text: portfolio.name, url: createLink(controller: 'portfolio', action: 'build', id: portfolio.id)],
+                    [text: message(code: 'portfolio.view.title'), url: createLink(controller: 'portfolio', action: 'portfolioView', id: params.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="darkBlue">
+                <i class="fa fa-shopping-cart"></i>
+                <g:message code="portfolio.view.title"/>
+            </h1>
 
             <div class="k-rtl k-header">
                 <div id="toolbar"></div>
@@ -39,11 +53,11 @@
 
 <g:render template="view/chart"/>
 <script>
-//    Highcharts.theme = {
-//        colors: ['#10c4b2', '#ff7663', '#ffb74f', '#a2df53', '#1c9ec4', '#ff63a5'] // flat
-//        colors: ['#8ebc00', '#309b46', '#25a0da', '#ff6900', '#e61e26', '#d8e404'] // metro
-//    };
-//    Highcharts.setOptions(Highcharts.theme);
+    //    Highcharts.theme = {
+    //        colors: ['#10c4b2', '#ff7663', '#ffb74f', '#a2df53', '#1c9ec4', '#ff63a5'] // flat
+    //        colors: ['#8ebc00', '#309b46', '#25a0da', '#ff6900', '#e61e26', '#d8e404'] // metro
+    //    };
+    //    Highcharts.setOptions(Highcharts.theme);
 
     $(document).ready(function () {
         $("#toolbar").kendoToolBar({

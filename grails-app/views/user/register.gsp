@@ -17,8 +17,18 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-
-            <h1><g:message code="register.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'register.title'), url: createLink(controller: 'user', action: 'register')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="cyan">
+                <i class="fa fa-user"></i>
+                <g:message code="register.title"/>
+            </h1>
             <form:error message="${flash.validationError}"/>
             <form:form action="saveRegistration" name="registerForm">
                 <form:field fieldName="user.firstName">

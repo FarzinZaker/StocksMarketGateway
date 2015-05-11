@@ -18,6 +18,14 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'register.title'), url: createLink(controller: 'user', action: 'register')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
             <div class="info">
                 <g:message code="register.checkForActivationMail.body"/>
             </div>

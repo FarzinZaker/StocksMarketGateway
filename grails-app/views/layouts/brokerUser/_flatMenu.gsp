@@ -90,7 +90,7 @@
         <div>
 
             <a class="tilt tilt-tile tilt-tile-crimson tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'report', action: 'heatMap')}">
-                <i class="fa fa-link"></i><span><g:message code="menu.reports.heatMap"/></span>
+                <i class="fa fa-desktop"></i><span><g:message code="menu.reports.heatMap"/></span>
             </a>
 
         </div>

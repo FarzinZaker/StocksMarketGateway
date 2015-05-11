@@ -16,7 +16,19 @@
 <div class="container-fluid k-rtl correlation">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="tools.correlation.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.tools'), url:createLink(controller: 'tools')],
+                    [text: message(code:'menu.tools.correlation'), url:createLink(controller: 'tools', action: 'correlation')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="cyan">
+                <i class="fa fa-link"></i>
+                <g:message code="tools.correlation.title"/>
+            </h1>
 
             <p><g:message code="tools.correlation.description"/></p>
         </div>

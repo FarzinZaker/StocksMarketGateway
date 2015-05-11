@@ -10,7 +10,21 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="portfolio.manage"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.portfolios'), url: createLink(controller: 'portfolio')],
+                    [text: portfolio.name, url: createLink(controller: 'portfolio', action: 'build', id: portfolio.id)],
+                    [text: message(code: 'portfolio.manage'), url: createLink(controller: 'portfolio', action: 'portfolioManage', id: params.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="darkBlue">
+                <i class="fa fa-shopping-cart"></i>
+                <g:message code="portfolio.manage"/>
+            </h1>
 
             <div class="k-rtl k-header">
                 <div id="toolbar"></div>

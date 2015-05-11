@@ -16,7 +16,20 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="tradeStrategy.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.strategy'), url:createLink(controller: 'tradeStrategy')],
+                    [text: message(code:'menu.strategy.list'), url:createLink(controller: 'tradeStrategy', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1>
+                <h1 class="magenta">
+                    <i class="fa fa-magic"></i>
+                    <g:message code="tradeStrategy.list.title"/>
+                </h1>
             <div class="tradeStrategyGridContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

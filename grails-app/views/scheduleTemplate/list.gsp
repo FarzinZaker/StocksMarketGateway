@@ -16,7 +16,19 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="scheduleTemplate.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
+                    [text: message(code: 'scheduleTemplate.list.title'), url: createLink(controller: 'scheduleTemplate', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="pink">
+                <i class="fa fa-clock-o"></i>
+                <g:message code="scheduleTemplate.list.title"/>
+            </h1>
 
             <div class="k-rtl">
                 <div id="grid"></div>

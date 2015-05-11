@@ -41,4 +41,20 @@ class LayoutTagLib {
             </div>
 """
     }
+
+    def breadcrumb = { attrs, body ->
+        out << """
+            <ul class="breadcrumb">
+            """
+        attrs.items.eachWithIndex { def item, int index ->
+            out << """
+                <li class="${index == attrs.items.size() - 1 ? 'current' : ''}">
+                    <a href="${item.url}" ><i class="${index == 0 ? 'fa fa-home' : ''}"></i>${item.text}</a>
+                </li>
+"""
+        }
+        out << """
+            </ul>
+"""
+    }
 }

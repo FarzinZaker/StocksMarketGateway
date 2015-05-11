@@ -9,14 +9,29 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title><g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}" args="${[screener?.title]}"/></title>
+    <title><g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}"
+                      args="${[screener?.title]}"/></title>
 </head>
 
 <body>
 <div class="container-fluid" id="ngController" ng-controller="alertingRegisterController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}" args="${[screener?.title]}"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.screener'), url: createLink(controller: 'screener')],
+                    [text: message(code: "${params.id ? 'screener.title.edit' : 'screener.title.new'}", args: [screener?.title]), url: createLink(controller: 'screener', action: 'build', id: params.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="pink">
+                <i class="fa fa-filter"></i>
+                <g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}"
+                           args="${[screener?.title]}"/>
+            </h1>
 
             <p><g:message code="screener.description"/></p>
         </div>

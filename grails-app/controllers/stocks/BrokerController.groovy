@@ -98,6 +98,7 @@ class BrokerController {
         def user = User.get(params.id)
 
         [
+                broker: Broker.get(params.brokerId) ?: user?.broker,
                 user          : user ?: new User(),
                 roles         : user ? UserRole.findAllByUser(user).collect {
                     it.role.authority
@@ -120,7 +121,7 @@ class BrokerController {
             if(User.findByEmail(params.email))
             {
                 flash.validationError = message(code:'user.save.error.repetitiveEmail')
-                redirect(action: 'user')
+                redirect(action: 'user', params: params)
                 return
             }
 

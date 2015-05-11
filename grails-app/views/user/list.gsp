@@ -16,7 +16,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="user.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.users'), url:createLink(controller: 'user')],
+                    [text: message(code:'user.list.title'), url:createLink(controller: 'user', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="cyan">
+                <i class="fa fa-user"></i>
+                <g:message code="user.list.title"/>
+            </h1>
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

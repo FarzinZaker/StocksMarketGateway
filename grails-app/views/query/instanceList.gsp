@@ -16,7 +16,19 @@ Time: 2:53 PM
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="queryInstance.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.newsletter.register'), url:createLink(controller: 'query')],
+                    [text: message(code:'menu.newsletter.register.my'), url:createLink(controller: 'query', action: 'instanceList')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="green">
+                <i class="fa fa-paper-plane-o"></i>
+                <g:message code="queryInstance.list.title"/>
+            </h1>
 
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>

@@ -17,15 +17,29 @@
 <body>
 
 <div class="container-fluid">
-    <form:form name="backTestForm" controller="backTest" action="save">
-        <div class="row-fluid">
-            <div class="col-xs-12">
-                <h1><g:message code="${'backTest.build.title'}"
-                               args="${[tradeStrategy?.name]}"/></h1>
-
-                <p><g:message code="backTest.description"/></p>
-            </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.strategy'), url: createLink(controller: 'tradeStrategy')],
+                    [text: tradeStrategy?.name, url: createLink(controller: 'tradeStrategy', action: 'build', id: tradeStrategy?.id)],
+                    [text: message(code: "${'backTest.build.title'}", args: ['']), url: createLink(controller: 'backTest', action: 'build', id: tradeStrategy?.id)]
+            ]}"/>
         </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="magenta">
+                <i class="fa fa-magic"></i>
+                <g:message code="${'backTest.build.title'}"
+                           args="${[tradeStrategy?.name]}"/>
+            </h1>
+
+            <p><g:message code="backTest.description"/></p>
+        </div>
+    </div>
+    <form:form name="backTestForm" controller="backTest" action="save">
 
         <div class="row-fluid">
             <div class="col-xs-12">
@@ -121,7 +135,8 @@
         <div class="row-fluid">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyWage">
-                    <form:numericTextBox name="buyWage" style="width:450px;" value="0.00486" format="p3" decimals="5" step="0.001" min="0" readonly="true"/>
+                    <form:numericTextBox name="buyWage" style="width:450px;" value="0.00486" format="p3" decimals="5"
+                                         step="0.001" min="0" readonly="true"/>
                 </form:field>
             </div>
         </div>
@@ -129,7 +144,8 @@
         <div class="row-fluid">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellWage">
-                    <form:numericTextBox name="sellWage" style="width:450px;" value="0.00526" format="p3" decimals="5" step="0.001" min="0" readonly="true"/>
+                    <form:numericTextBox name="sellWage" style="width:450px;" value="0.00526" format="p3" decimals="5"
+                                         step="0.001" min="0" readonly="true"/>
                 </form:field>
             </div>
         </div>
@@ -137,7 +153,8 @@
         <div class="row-fluid">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyTax">
-                    <form:numericTextBox name="buyTax" style="width:450px;" value="0.005" format="p1" decimals="3" step="0.001" min="0" readonly="true"/>
+                    <form:numericTextBox name="buyTax" style="width:450px;" value="0.005" format="p1" decimals="3"
+                                         step="0.001" min="0" readonly="true"/>
                 </form:field>
             </div>
         </div>
@@ -145,7 +162,8 @@
         <div class="row-fluid">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellTax">
-                    <form:numericTextBox name="sellTax" style="width:450px;" value="0.005" format="p1" decimals="3" step="0.001" min="0" readonly="true"/>
+                    <form:numericTextBox name="sellTax" style="width:450px;" value="0.005" format="p1" decimals="3"
+                                         step="0.001" min="0" readonly="true"/>
                 </form:field>
             </div>
         </div>

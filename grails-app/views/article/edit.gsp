@@ -16,7 +16,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange"><g:message code="article.edit.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.articles'), url:createLink(controller: 'article')],
+                    [text: message(code:'article.edit.title'), url:createLink(controller: 'article', action: 'edit')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="orange">
+                <i class="fa fa-file"></i>
+                <g:message code="article.edit.title"/>
+            </h1>
             <g:form action="save">
                 <g:render template="../document/form" model="${[document: article]}"/>
                 <div class="toolbar">

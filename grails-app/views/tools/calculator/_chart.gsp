@@ -9,7 +9,7 @@
 
     var chartConfig = {
         chart: {
-            backgroundColor: '#f5f5f5'
+            backgroundColor: 'transparent'
         },
         plotOptions: {
             series: {

@@ -1,5 +1,6 @@
 <%@ page import="stocks.User" %>
-<div id="header" class="brokerHeader" role="banner">
+<g:render template="/layouts/common/topBar"/>
+<div id="header" class="brokerHeader k-rtl" role="banner">
     <a href="${createLink(uri: '/')}">
         <broker:logo/>
         <h1>
@@ -7,7 +8,7 @@
             <span><g:message code="subtitle"/></span>
         </h1>
     </a>
-    <g:render template="/layouts/common/userPanel"/>
     <g:render template="/layouts/main/menu"/>
-    <asset:image src="watermark.png" class="watermark"/>
+    %{--<asset:image src="watermark.png" class="watermark"/>--}%
+    <div class="clear-fix"></div>
 </div>

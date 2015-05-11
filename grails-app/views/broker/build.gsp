@@ -16,7 +16,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="broker.build.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.broker'), url:createLink(controller: 'broker')],
+                    [text: message(code:'broker.build.title'), url:createLink(controller: 'broker', action: 'build')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="darkBlue">
+                <i class="fa fa-institution"></i>
+                <g:message code="broker.build.title"/>
+            </h1>
             <form:form action="save" name="brokerForm">
                 <form:hidden name="id" entity="${brokerInstance}"/>
 
@@ -29,7 +41,7 @@
                 </form:field>
 
                 <form:field fieldName="broker.logo">
-                    <form:imageUpload name="logo" style="width:500px;" entity="${brokerInstance}"
+                    <form:imageUpload name="logo" id="logoUpload" style="width:500px;" entity="${brokerInstance}"
                                       saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
                 </form:field>
 

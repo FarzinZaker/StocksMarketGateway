@@ -16,7 +16,19 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="queryCategory.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.newsletter.register'), url:createLink(controller: 'query')],
+                    [text: message(code:'queryCategory.list.title'), url:createLink(controller: 'queryCategory', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="green">
+                <i class="fa fa-folder-open"></i>
+                <g:message code="queryCategory.list.title"/>
+            </h1>
 
             <div class="k-rtl">
                 <div>

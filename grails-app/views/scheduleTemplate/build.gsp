@@ -10,19 +10,33 @@
 <head>
     <meta name="layout" content="main"/>
     <title><g:message code="scheduleTemplate.build.title"/></title>
-    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'angular.min.js')}"></script>
+    <script language="javascript" type="text/javascript" src="${resource(dir: 'js', file: 'angular.min.js')}"></script>
     <script language="JavaScript">
         var intervalSteps =
         <format:html value="${scheduleTemplateInstance.intervalSteps.collect {[value: it]} as JSON}"/>
     </script>
-    <script language="javascript" type="text/javascript" src="${resource(dir:'js', file:'alerting.scheduleTemplate.controller.js')}"></script>
+    <script language="javascript" type="text/javascript"
+            src="${resource(dir: 'js', file: 'alerting.scheduleTemplate.controller.js')}"></script>
 </head>
 
 <body>
 <div class="container-fluid" id="ngController" ng-controller="alertingScheduleTemplateController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="scheduleTemplate.build.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
+                    [text: message(code: 'scheduleTemplate.build.title'), url: createLink(controller: 'scheduleTemplate', action: 'build', id: params.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="pink">
+                <i class="fa fa-clock-o"></i>
+                <g:message code="scheduleTemplate.build.title"/>
+            </h1>
 
             <form:form name="scheduleForm" action="save">
                 <form:hidden name="id" entity="${scheduleTemplateInstance}"/>
@@ -88,7 +102,7 @@
                                     <g:render template="day"
                                               model="${[scheduleDayTemplateInstance: scheduleTemplateInstance.dayTemplates.find {
                                                   it.day == day
-                                              }, day : day]}"/>
+                                              }, day                               : day]}"/>
                                 </div>
                             </g:each>
                         </div>
@@ -104,7 +118,7 @@
 </div>
 <script language="javascript">
 
-    function toggle_periodicSchedule(item){
+    function toggle_periodicSchedule(item) {
         if ($(item).is(':checked'))
             $('#periodicScheduleForm').stop().slideDown();
         else

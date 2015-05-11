@@ -16,7 +16,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="portfolio.build.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.portfolios'), url: createLink(controller: 'portfolio')],
+                    [text: message(code: 'menu.portfolios.list'), url: createLink(controller: 'portfolio', action: 'list', id:params.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="darkBlue">
+                <i class="fa fa-shopping-cart"></i>
+                <g:message code="portfolio.build.title"/></h1>
             <g:if test="${flash.message}">
                 <div class="errorMessage">
                     ${flash.message}

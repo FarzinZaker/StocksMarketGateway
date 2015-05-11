@@ -70,7 +70,7 @@ class PortfolioController {
     }
 
     def portfolioView() {
-
+        [portfolio: Portfolio.get(params.id)]
     }
 
     def jsonPortfolioView() {
@@ -159,6 +159,7 @@ class PortfolioController {
 
     def portfolioManage() {
         [
+                portfolio: Portfolio.get(params.id),
                 propertyTypes: ClassResolver.loadDomainClassListByPackage('stocks.portfolio.portfolioItems').collect {
                     [clazz: it.propertyName, title: message(code: it.fullName), modifiable: ![
                             'portfolioBondsItem',

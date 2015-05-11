@@ -16,7 +16,21 @@
 <div class="container-fluid" id="ngController" ng-controller="alertingRegisterController">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="query.parameter.allowedValues.title"/> ${query.title}</h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.newsletters'), url: createLink(controller: 'query')],
+                    [text: query?.title, url: createLink(controller: 'query', action: 'build', id: query?.id)],
+                    [text: message(code: 'query.parameter.allowedValues.breadcrumbTitle'), url: createLink(controller: 'query', action: 'parameterValues', id: query?.id)]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1 class="crimson">
+                <i class="fa fa-paper-plane-o"></i>
+                <g:message code="query.parameter.allowedValues.title"/> ${query.title}
+            </h1>
 
             <div class="k-rtl">
                 <div id="tabstrip">
@@ -45,24 +59,24 @@
 
     useOldConfirm = true;
     %{--<g:each in="${parameters}" var="parameter">--}%
-        %{--function onChange_${parameter.id}(arg) {--}%
-        %{--var selected = $.map(this.select(), function(item) {--}%
-            %{--var selectedItem = $("#grid_${parameter.id}").data("kendoGrid").dataItem(item);--}%
-            %{--return selectedItem.id;--}%
-        %{--});--}%
+    %{--function onChange_${parameter.id}(arg) {--}%
+    %{--var selected = $.map(this.select(), function(item) {--}%
+    %{--var selectedItem = $("#grid_${parameter.id}").data("kendoGrid").dataItem(item);--}%
+    %{--return selectedItem.id;--}%
+    %{--});--}%
 
-        %{--console.log(selected[0]);--}%
+    %{--console.log(selected[0]);--}%
 
-            %{--$.ajax({--}%
-                %{--type: "POST",--}%
-                %{--url: '${createLink(controller: 'parameter', action: 'parameterValueVariations')}',--}%
-                %{--data: { id: selected[0] }--}%
-            %{--}).done(function (response) {--}%
-                %{--$('#variationsGrid_${parameter.id}').html(response);--}%
-                %{--$('html, body').animate({--}%
-                    %{--scrollTop: $("#variationsGrid_${parameter.id}").offset().top--}%
-                %{--}, 1000);--}%
-            %{--});--}%
+    %{--$.ajax({--}%
+    %{--type: "POST",--}%
+    %{--url: '${createLink(controller: 'parameter', action: 'parameterValueVariations')}',--}%
+    %{--data: { id: selected[0] }--}%
+    %{--}).done(function (response) {--}%
+    %{--$('#variationsGrid_${parameter.id}').html(response);--}%
+    %{--$('html, body').animate({--}%
+    %{--scrollTop: $("#variationsGrid_${parameter.id}").offset().top--}%
+    %{--}, 1000);--}%
+    %{--});--}%
     %{--}--}%
     %{--</g:each>--}%
 
@@ -111,8 +125,8 @@
                 model: {
                     id: "id",
                     fields: {
-                        id: { editable: false, nullable: true },
-                        title: { validation: { required: true } }
+                        id: {editable: false, nullable: true},
+                        title: {validation: {required: true}}
                     }
                 },
                 data: "data",
@@ -130,9 +144,9 @@
 //            selectable: true,
             %{--change: onChange_${parameter.id},--}%
             columns: [
-                { field: "title", title: "${message(code:'parameterSuggestedValue.title')}" },
+                {field: "title", title: "${message(code:'parameterSuggestedValue.title')}"},
                 %{--{ command: { text: "${message(code:'parameterSuggestedValueVariation.button')}", click: showVariations_${parameter.id} }, title: " ", width: "110px" },--}%
-                { command: ["edit", "destroy"], title: "&nbsp;", width: "175px" }
+                {command: ["edit", "destroy"], title: "&nbsp;", width: "175px"}
             ],
             editable: "inline",
             detailInit: detailInit
@@ -174,8 +188,8 @@
                         model: {
                             id: "id",
                             fields: {
-                                id: { editable: false, nullable: true },
-                                title: { validation: { required: true } }
+                                id: {editable: false, nullable: true},
+                                title: {validation: {required: true}}
                             }
                         },
                         data: "data",
@@ -186,8 +200,8 @@
 //                height: 550,
                 toolbar: ["create"],
                 columns: [
-                    { field: "title", title: "${message(code:'parameterSuggestedValueVariation.title')}" },
-                    { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }
+                    {field: "title", title: "${message(code:'parameterSuggestedValueVariation.title')}"},
+                    {command: ["edit", "destroy"], title: "&nbsp;", width: "200px"}
                 ],
                 editable: "inline",
                 scrollable: false,
@@ -203,7 +217,7 @@
             $.ajax({
                 type: "POST",
                 url: '${createLink(controller: 'parameter', action: 'parameterValueVariations')}',
-                data: { id: dataItem.id }
+                data: {id: dataItem.id}
             }).done(function (response) {
                 $('#variationsGrid_${parameter.id}').html(response);
                 $('html, body').animate({
@@ -211,6 +225,7 @@
                 }, 1000);
             });
         }
+
         </g:each>
 
     });
