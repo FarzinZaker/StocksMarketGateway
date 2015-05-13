@@ -42,18 +42,18 @@ class IndicatorJob {
 //    bulk
     def execute() {
 
-//        def symbol = findNextSymbol(getLastState())
-//        if(symbol) {
-//            symbolIndicatorService.bulkCalculateIndicator(symbol)
-//            logState(symbol?.id)
-//        }
-//        else{
-//            println()
-//            println "-----------------------------------------"
-//            println "---- calculating indicators finished ----"
-//            println "-----------------------------------------"
-//            println()
-//        }
+        def symbol = findNextSymbol(getLastState())
+        if(symbol) {
+            symbolIndicatorService.bulkCalculateIndicator(symbol)
+            logState(symbol?.id)
+        }
+        else{
+            println()
+            println "-----------------------------------------"
+            println "---- calculating indicators finished ----"
+            println "-----------------------------------------"
+            println()
+        }
     }
 
     def findNextSymbol(Long minId) {
