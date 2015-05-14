@@ -9,6 +9,9 @@ class SupervisorMessage {
     Date creationDate
     Date modificationDate
 
+
+    static notify = true
+
     static mapping = {
         table 'tse_supervisor_message'
         description type: 'text'
@@ -16,8 +19,8 @@ class SupervisorMessage {
     }
 
     static constraints = {
-        date xmlNodeName: 'DEven'
-        title nullable: true
-        description nullable: true
+        date xmlNodeName: 'DEven', token: true
+        title nullable: true, query: true, token: true
+        description nullable: true, query: true, token: true
     }
 }

@@ -975,12 +975,16 @@ h1, h2, h3, h4 {
   box-shadow: none;
   margin-top: 10px;
   margin-bottom: 0;
+  height:37px;
   li {
     background-image: url("../images/breadcrumb_arrow.png");
     background-position: left center;
     background-repeat: no-repeat;
     margin-left: -10px;
     padding-left: 25px;
+    height: 20px;
+    float: right;
+    display: block;
     &.current {
       background-image: none;
     }
@@ -989,6 +993,13 @@ h1, h2, h3, h4 {
     }
     a {
       color: @header-color;
+      white-space: nowrap;
+      display: block;
+      float: right;
+      margin-right: 20px;
+      &.home{
+        margin-right: 0;
+      }
       &:hover {
         color: @main-color;
       }

@@ -12,6 +12,7 @@
     <title>${screener.title}</title>
     <asset:javascript src="jquery.plugin.js"/>
     <asset:javascript src="jquery.timer.js"/>
+    <asset:javascript src="jquery.color.js"/>
 </head>
 
 <body>
@@ -21,6 +22,7 @@
             <h1>${screener.title}</h1>
 
             <div id="timer"></div>
+
             <div class="k-rtl">
                 <div id="grid"></div>
             </div>
@@ -55,6 +57,37 @@
                         return "-";
                     }
                 }
+
+                function getChangeColor(value) {
+                    if (value < 0)
+                        return 'flashRedCell';
+                    if (value > 0)
+                        return 'flashGreenCell';
+                    return '';
+                }
+
+                function formatNumericField(model, fieldName) {
+                    return "<div class='" + getChangeColor(eval('model.' + fieldName + 'Change')) + "'>" + formatNumber(eval('model.' + fieldName)) + "</div>";
+                }
+
+                var changableColumns = [
+                    'closingPrice',
+                    'firstTradePrice',
+                    'lastTradePrice',
+                    'maxPrice',
+                    'minPrice',
+                    'priceChange',
+                    'totalTradeCount',
+                    'totalTradeValue',
+                    'totalTradeVolume',
+                    'yesterdayPrice',
+                    <g:each in="${indicatorColumns.keySet()}" var="indicatorColumn">
+                    '${indicatorColumn.replace(',','_')}',
+                    </g:each>
+
+                ];
+
+                var oldData = [];
 
                 $(document).ready(function () {
                     $("#grid").kendoGrid({
@@ -91,21 +124,21 @@
                                 },
                                 data: "data", // records are returned in the "data" field of the response
                                 total: "total"
-                            },
-                            pageSize: 10
+                            }
+//                            pageSize: 10
                         },
 //                        height: 450,
                         filterable: false,
                         sortable: true,
-                        pageable: true,
+//                        pageable: true,
                         columns: [
                             <g:if test="${Environment.developmentMode}">
                             {
                                 field: "id",
                                 title: "#",
                                 width: "70px",
-                                attributes: { style: "text-align: center"},
-                                headerAttributes: { style: "text-align: center"}
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"}
                             },
                             </g:if>
                             {
@@ -115,27 +148,32 @@
                             {
                                 field: "closingPrice",
                                 title: "${message(code:'symbol.closingPrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'closingPrice')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "firstTradePrice",
                                 title: "${message(code:'symbol.firstTradePrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'firstTradePrice')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "lastTradePrice",
                                 title: "${message(code:'symbol.lastTradePrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'lastTradePrice')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "maxPrice",
                                 title: "${message(code:'symbol.maxPrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'maxPrice')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "minPrice",
                                 title: "${message(code:'symbol.minPrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'minPrice')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "priceChange",
@@ -146,29 +184,34 @@
                             {
                                 field: "totalTradeCount",
                                 title: "${message(code:'symbol.totalTradeCount.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'totalTradeCount')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "totalTradeValue",
                                 title: "${message(code:'symbol.totalTradeValue.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'totalTradeValue')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "totalTradeVolume",
                                 title: "${message(code:'symbol.totalTradeVolume.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'totalTradeVolume')#"
+//                                format: '{0:n0}'
                             },
                             {
                                 field: "yesterdayPrice",
                                 title: "${message(code:'symbol.yesterdayPrice.label')}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, 'yesterdayPrice')#"
+//                                format: '{0:n0}'
                             },
 
                             <g:each in="${indicatorColumns}" var="indicatorColumn">
                             {
                                 field: "${indicatorColumn.key.replace(',', '_')}",
                                 title: "${indicatorColumn.value}",
-                                format: '{0:n0}'
+                                template: "#=formatNumericField(data, '${indicatorColumn.key.replace(',', '_')}')#"
+//                                format: '{0:n0}'
                             },
                             </g:each>
                         ]
@@ -180,12 +223,45 @@
                         autostart: true,
                         callback: function (index) {
                             var grid = $('#grid').data('kendoGrid');
+                            oldData = grid.dataSource._data;
                             grid.dataSource.read();
+                            for (var i = 0; i < grid.dataSource._data.length; i++) {
+                                var oldRecord = false;
+                                for (var j = 0; j < oldData.length; j++)
+                                    if (grid.dataSource._data[i].id == oldData[j].id)
+                                        oldRecord = oldData[j];
+
+                                if (oldRecord) {
+                                    for (j = 0; j < changableColumns.length; j++) {
+                                        if (eval('grid.dataSource._data[i].' + changableColumns[j] + ' < oldRecord.' + changableColumns[j]))
+                                            eval('grid.dataSource._data[i].' + changableColumns[j] + 'Change = -1');
+                                        else if (eval('grid.dataSource._data[i].' + changableColumns[j] + ' > oldRecord.' + changableColumns[j]))
+                                            eval('grid.dataSource._data[i].' + changableColumns[j] + 'Change = +1');
+                                        else
+                                            eval('grid.dataSource._data[i].' + changableColumns[j] + 'Change = 0');
+                                    }
+                                }
+                            }
                             grid.refresh();
+                            $('.flashGreenCell').each(function(){
+                                var item = $(this).parent();
+                                item.css('background-color', '#a4c400');
+                                item.animate({backgroundColor: jQuery.Color("#a4c400").transition("transparent", 1)}, 4000);
+                            });
+                            $('.flashRedCell').each(function(){
+                                var item = $(this).parent();
+                                item.css('background-color', '#fa6800');
+                                item.animate({backgroundColor: jQuery.Color("#fa6800").transition("transparent", 1)}, 4000);
+                            });
                         }
                     });
                 });
 
+                function formatNumber(data) {
+                    return Math.abs(Math.round(data)).toString().replace(/./g, function (c, i, a) {
+                        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                    });
+                }
             </script>
         </div>
     </div>

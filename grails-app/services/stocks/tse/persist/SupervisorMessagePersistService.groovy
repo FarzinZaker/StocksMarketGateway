@@ -5,7 +5,11 @@ import stocks.tse.TSEPersistService
 import stocks.tse.event.SupervisorMessageEvent
 
 class SupervisorMessagePersistService extends TSEPersistService<SupervisorMessage, SupervisorMessageEvent> {
+
+    def queryService
+
     static transactional = false
+
     @Override
     protected getSampleObject() {
         new SupervisorMessage()
@@ -18,7 +22,7 @@ class SupervisorMessagePersistService extends TSEPersistService<SupervisorMessag
 
     @Override
     protected void afterCreate(SupervisorMessageEvent event, SupervisorMessage data) {
-
+        queryService.applyEventBasedQueries(data)
     }
 
     @Override

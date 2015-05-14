@@ -49,7 +49,9 @@ class LayoutTagLib {
         attrs.items.eachWithIndex { def item, int index ->
             out << """
                 <li class="${index == attrs.items.size() - 1 ? 'current' : ''}">
-                    <a href="${item.url}" ><i class="${index == 0 ? 'fa fa-home' : ''}"></i>${item.text}</a>
+                    <a class="${index == 0 ? 'home' : ''}" href="${item.url}" ><i class="${
+                index == 0 ? 'fa fa-home' : ''
+            }"></i>${item.text}</a>
                 </li>
 """
         }

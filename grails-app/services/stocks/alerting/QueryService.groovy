@@ -165,7 +165,7 @@ class QueryService {
                                 eq('id', parameterValue.value as Long)
                             }
                         }.each {
-                            list.add(it.title)
+                            list.add(FarsiNormalizationFilter.apply(it.title))
                         }
                         break;
                     default:
