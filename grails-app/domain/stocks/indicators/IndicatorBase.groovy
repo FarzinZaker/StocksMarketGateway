@@ -1,6 +1,7 @@
 package stocks.indicators
 
 import stocks.tse.Symbol
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 
 class IndicatorBase {
@@ -9,7 +10,8 @@ class IndicatorBase {
     Double value
     String parameter
     Integer dayNumber
-    SymbolDailyTrade dailyTrade
+    SymbolAdjustedDailyTrade dailyTrade
+    String adjustmentType
     Boolean online = true
 
     Date calculationDate

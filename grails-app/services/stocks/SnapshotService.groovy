@@ -81,8 +81,14 @@ class SnapshotService {
                 else
                     lte('creationDate', maxDate)
             projections {
-                if (domainClass.clazz.snapshotGroupProperty)
-                    groupProperty(domainClass.clazz.snapshotGroupProperty)
+                if (domainClass.clazz.snapshotGroupProperty) {
+                    if (domainClass.clazz.snapshotGroupProperty instanceof String)
+                        groupProperty(domainClass.clazz.snapshotGroupProperty)
+                    else
+                        domainClass.clazz.snapshotGroupProperty.each { groupProperty ->
+                            groupProperty(groupProperty)
+                        }
+                }
                 max('id')
             }
         }.collect { it.last() }

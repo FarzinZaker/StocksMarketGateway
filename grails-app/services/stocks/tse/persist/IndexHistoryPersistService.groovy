@@ -30,8 +30,8 @@ class IndexHistoryPersistService extends TSEPersistService<IndexHistory, IndexHi
             data.monthlySnapshot = date
         IndexHistory.withTransaction {
             data.save(flush: true)
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-            println data.weeklySnapshot
+//            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
+//            println data.weeklySnapshot
         }
     }
 

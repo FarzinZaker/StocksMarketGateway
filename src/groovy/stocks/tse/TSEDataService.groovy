@@ -43,13 +43,14 @@ public abstract class TSEDataService<T, K> {
 
     protected abstract K getSampleEventObject();
 
-    protected void importData(String serviceName, List<List> parameters) {
+    protected def importData(String serviceName, List<List> parameters) {
         tseEventGateway.open(sampleEventObject, serviceName, parameters)
         def list = []
         parameters.each { parameter ->
             list.addAll(parseData(serviceName, parameter))
         }
         tseEventGateway.close(sampleEventObject, serviceName, parameters, list)
+        list
     }
 
     private def parseData(String serviceName, List parameter) {

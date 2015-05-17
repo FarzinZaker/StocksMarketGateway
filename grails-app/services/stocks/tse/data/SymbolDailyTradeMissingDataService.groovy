@@ -12,15 +12,15 @@ import stocks.tse.event.SymbolDailyTradeEvent
 class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade, SymbolDailyTradeEvent> {
 
     static transactional = false
-//    static schedules = [
-//            [
-//                    method : 'importData',
-//                    trigger: [
-//                            type      : 'Simple',
-//                            parameters: [repeatInterval: 10000l, startDelay: 60000]
-//                    ]
-//            ]
-//    ]
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 10000l, startDelay: 60000]
+                    ]
+            ]
+    ]
 
     @Override
     protected Boolean getAutoLogStateEnabled() {
@@ -34,14 +34,18 @@ class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade
 
     @Override
     protected SymbolDailyTrade find(SymbolDailyTradeEvent object) {
-        SymbolDailyTrade.findBySymbolInternalCodeAndDailySnapshot(object.symbolInternalCode, object.date)
+        SymbolDailyTrade.findBySymbolInternalCodeAndDate(object.symbolInternalCode, object.date)
     }
 
     public void importData() {
         def state = getLastState()
         if (!state) {
+            def yesterday = new Date()
+            use(TimeCategory) {
+                yesterday = yesterday - 1.days
+            }
             state = [
-                    time  : new Date().time
+                    time  : yesterday.time
             ]
         }
         def date = new Date(state.time as Long)

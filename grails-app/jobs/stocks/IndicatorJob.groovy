@@ -20,7 +20,7 @@ class IndicatorJob {
 
     //slow
     def execute() {
-
+return
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.indicators.symbol.")
         }.each { serviceClass ->

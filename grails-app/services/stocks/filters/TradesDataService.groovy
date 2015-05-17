@@ -11,14 +11,16 @@ import org.joda.time.Period
 import stocks.indicators.IndicatorBase
 import stocks.indicators.symbol.movingAverage.SMA
 import stocks.tse.Symbol
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 
 class TradesDataService {
-    List<SymbolDailyTrade> getPriceSeries(Symbol symbol, Integer daysCount = null, Date maxDate = null) {
+    List<SymbolDailyTrade> getPriceSeries(Symbol symbol, String adjustmentType, Integer daysCount = null, Date maxDate = null) {
 
         maxDate = maxDate?.clearTime()
-        SymbolDailyTrade.createCriteria().list {
+        SymbolAdjustedDailyTrade.createCriteria().list{
             eq('symbol', symbol)
+            eq('adjustmentType', adjustmentType)
             isNotNull('dailySnapshot')
             if (maxDate) {
                 lte('dailySnapshot', maxDate)

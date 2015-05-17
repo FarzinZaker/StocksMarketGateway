@@ -1,7 +1,6 @@
 package stocks.indicators
 
-import eu.verdelhan.ta4j.TADecimal
-import grails.util.Environment
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
@@ -14,56 +13,61 @@ class SymbolIndicatorService {
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter, Boolean online = false) {
         def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
-        def value = symbol ? serviceClass.calculate(symbol, parameter, dailyTrade.date) : 0
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
-        def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
-        def indicator = null
-        if (online) {
-            indicator = clazz.findBySymbolAndParameterAndOnline(symbol, parameterString, true)
+        def clazz = ClassResolver.loadDomainClassByName(className)
+        AdjustmentHelper.TYPES.each { adjustmentType ->
+            def value = symbol ? serviceClass.calculate(symbol, parameter, adjustmentType, dailyTrade.date) : 0
+            def indicator = null
+            if (online) {
+                indicator = clazz.findBySymbolAndParameterAndAdjustmentTypeAndOnline(symbol, parameterString, adjustmentType, true)
+            }
+            if (!indicator) {
+                indicator = clazz.newInstance()
+                indicator.parameter = parameterString
+                indicator.symbol = symbol
+                indicator.online = online
+                indicator.dayNumber = online ? 0 : 1
+                indicator.adjustmentType = adjustmentType
+            }
+            indicator.value = value == 0 ? null : value
+            indicator.dailyTrade = dailyTrade
+            indicator.calculationDate = dailyTrade.date
+            indicator.save(flush: true)
+            if (symbol && !online)
+                clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.adjustmentType = '${adjustmentType}' and i.id != ${indicator.id}")
         }
-        if(!indicator){
-            indicator = clazz.newInstance()
-            indicator.parameter = parameterString
-            indicator.symbol = symbol
-            indicator.online = online
-            indicator.dayNumber = online ? 0 : 1
-        }
-        indicator.value = value == 0 ? null : value
-        indicator.dailyTrade = dailyTrade
-        indicator.calculationDate = dailyTrade.date
-        indicator.save(flush: true)
-        if (symbol && !online)
-            clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.id != ${indicator.id}")
 
     }
 
     def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
-        def value = symbol ? serviceClass.bulkCalculate(symbol, parameter) : [series: [], indicators: []]
-
-        if (value.indicators?.size())
-            value.indicators = CollectionHelper.moveZeroesToFirst(value.indicators as List)
 
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
+        AdjustmentHelper.TYPES.each { adjustmentType ->
+            def value = symbol ? serviceClass.bulkCalculate(symbol, parameter, adjustmentType) : [series: [], indicators: []]
 
-        def dailyTrades = value.series.reverse()
-        def indicatorValues = value.indicators
+            if (value.indicators?.size())
+                value.indicators = CollectionHelper.moveZeroesToFirst(value.indicators as List)
 
-        def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
-        for (def i = 1; i < loopCount; i++) {
+            def dailyTrades = value.series.reverse()
+            def indicatorValues = value.indicators
 
-            def indicator = clazz.newInstance()
-            indicator.dailyTrade = dailyTrades[loopCount - i]
-            indicator.parameter = parameterString
-            indicator.value = indicatorValues[loopCount - i] == 0 ? null : indicatorValues[loopCount - i]
-            indicator.symbol = symbol
-            indicator.dayNumber = 1
-            indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot
-            indicator.online = false
-            indicator.save(flush: i == loopCount - 1)
+            def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
+            for (def i = 1; i < loopCount; i++) {
 
+                def indicator = clazz.newInstance()
+                indicator.dailyTrade = dailyTrades[loopCount - i]
+                indicator.parameter = parameterString
+                indicator.value = indicatorValues[loopCount - i] == 0 ? null : indicatorValues[loopCount - i]
+                indicator.symbol = symbol
+                indicator.dayNumber = 1
+                indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot
+                indicator.online = false
+                indicator.save(flush: i == loopCount - 1)
+
+            }
         }
 
     }

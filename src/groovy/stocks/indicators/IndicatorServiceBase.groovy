@@ -11,7 +11,7 @@ interface IndicatorServiceBase<T, K> {
 
     List<K> getCommonParameters()
 
-    Double calculate(T item, K parameter, Date date)
+    Double calculate(T item, K parameter, String adjustmentType, Date date)
 
-    Map bulkCalculate(T item, K parameter)
+    Map bulkCalculate(T item, K parameter, String adjustmentType)
 }

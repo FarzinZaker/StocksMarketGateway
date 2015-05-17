@@ -1,6 +1,8 @@
 package stocks.tse.persist
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import stocks.tse.AdjustmentHelper
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolDailyTradeEvent
@@ -25,16 +27,40 @@ class SymbolDailyTradeMissingPersistService extends TSEPersistService<SymbolDail
     protected void afterCreate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
         def date = data.date
         date = date.clearTime()
-        data.dailySnapshot = date
-        def calendar = Calendar.getInstance() as GregorianCalendar
-        calendar.setTime(date)
-        def jc = new JalaliCalendar(calendar)
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-            data.weeklySnapshot = date
-        if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-            data.monthlySnapshot = date
-        SymbolDailyTrade.withTransaction {
-            data.save(flush: true)
+
+        AdjustmentHelper.TYPES.each {type ->
+            def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
+            if(!adjustedDailyTrade) {
+                adjustedDailyTrade = new SymbolAdjustedDailyTrade()
+                adjustedDailyTrade.symbol = data.symbol
+                adjustedDailyTrade.adjustmentType = type
+                adjustedDailyTrade.date = data.date.clearTime()
+            }
+            adjustedDailyTrade.closingPrice = data.closingPrice
+            adjustedDailyTrade.creationDate = new Date()
+            adjustedDailyTrade.dailyTrade = data
+            adjustedDailyTrade.firstTradePrice = data.firstTradePrice
+            adjustedDailyTrade.lastTradePrice = data.lastTradePrice
+            adjustedDailyTrade.maxPrice = data.maxPrice
+            adjustedDailyTrade.minPrice = data.minPrice
+            adjustedDailyTrade.modificationDate = new Date()
+            adjustedDailyTrade.priceChange = data.priceChange
+            adjustedDailyTrade.totalTradeCount = data.totalTradeCount
+            adjustedDailyTrade.totalTradeValue = data.totalTradeValue
+            adjustedDailyTrade.totalTradeVolume = data.totalTradeVolume
+            adjustedDailyTrade.yesterdayPrice = data.yesterdayPrice
+
+            adjustedDailyTrade.dailySnapshot = date
+            def calendar = Calendar.getInstance() as GregorianCalendar
+            calendar.setTime(date)
+            def jc = new JalaliCalendar(calendar)
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
+                adjustedDailyTrade.weeklySnapshot = date
+            if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
+                adjustedDailyTrade.monthlySnapshot = date
+            SymbolDailyTrade.withTransaction {
+                adjustedDailyTrade.save(flush: true)
+            }
         }
     }
 

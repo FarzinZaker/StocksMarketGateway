@@ -21,9 +21,9 @@ class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
     }
 
     @Override
-    Double calculate(Symbol item, List<Integer> parameter, Date date) {
+    Double calculate(Symbol item, List<Integer> parameter, String adjustmentType, Date date) {
 
-        def series = tradesDataService.getPriceSeries(item, parameter.max(), date)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter.max(), date)
         if (series.size() < parameter.max())
             return 0
         def core = new Core()
@@ -39,9 +39,9 @@ class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
     }
 
     @Override
-    Map bulkCalculate(Symbol item, List<Integer> parameter) {
+    Map bulkCalculate(Symbol item, List<Integer> parameter, String adjustmentType) {
 
-        def series = tradesDataService.getPriceSeries(item)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

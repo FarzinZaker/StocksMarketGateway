@@ -1,6 +1,9 @@
 package stocks.tse.persist
 
+import fi.joensuu.joyds1.calendar.JalaliCalendar
 import stocks.indicators.IndicatorServiceBase
+import stocks.tse.AdjustmentHelper
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolDailyTradeEvent
@@ -29,6 +32,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     @Override
     protected void afterCreate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
+        saveAdjustedDailyTrades(data)
         calculateOnlineIndicators(data)
     }
 
@@ -38,10 +42,54 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     @Override
     protected void afterUpdate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
+        saveAdjustedDailyTrades(data)
         calculateOnlineIndicators(data)
     }
 
+    def saveAdjustedDailyTrades(SymbolDailyTrade data){
+
+        def date = data.date
+        date = date.clearTime()
+
+        AdjustmentHelper.TYPES.each {type ->
+            def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
+            if(!adjustedDailyTrade) {
+                adjustedDailyTrade = new SymbolAdjustedDailyTrade()
+                adjustedDailyTrade.symbol = data.symbol
+                adjustedDailyTrade.adjustmentType = type
+                adjustedDailyTrade.date = data.date.clearTime()
+            }
+            adjustedDailyTrade.closingPrice = data.closingPrice
+            adjustedDailyTrade.creationDate = new Date()
+            adjustedDailyTrade.dailyTrade = data
+            adjustedDailyTrade.firstTradePrice = data.firstTradePrice
+            adjustedDailyTrade.lastTradePrice = data.lastTradePrice
+            adjustedDailyTrade.maxPrice = data.maxPrice
+            adjustedDailyTrade.minPrice = data.minPrice
+            adjustedDailyTrade.modificationDate = new Date()
+            adjustedDailyTrade.priceChange = data.priceChange
+            adjustedDailyTrade.totalTradeCount = data.totalTradeCount
+            adjustedDailyTrade.totalTradeValue = data.totalTradeValue
+            adjustedDailyTrade.totalTradeVolume = data.totalTradeVolume
+            adjustedDailyTrade.yesterdayPrice = data.yesterdayPrice
+
+            adjustedDailyTrade.dailySnapshot = date
+            def calendar = Calendar.getInstance() as GregorianCalendar
+            calendar.setTime(date)
+            def jc = new JalaliCalendar(calendar)
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
+                adjustedDailyTrade.weeklySnapshot = date
+            if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
+                adjustedDailyTrade.monthlySnapshot = date
+            SymbolDailyTrade.withTransaction {
+                adjustedDailyTrade.save(flush: true)
+            }
+        }
+    }
+
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade){
+
+        return
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.indicators.symbol.")
         }.each { serviceClass ->

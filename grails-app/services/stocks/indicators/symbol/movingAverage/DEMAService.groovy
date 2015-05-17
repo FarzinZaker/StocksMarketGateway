@@ -24,9 +24,9 @@ class DEMAService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Double calculate(Symbol item, Integer parameter, Date date = new Date()) {
+    Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
 
-        def series = tradesDataService.getPriceSeries(item, parameter * 2 - 1, date)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter * 2 - 1, date)
         if (series.size() < parameter * 2 - 1)
             return 0
         def core = new Core()
@@ -40,9 +40,9 @@ class DEMAService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Map bulkCalculate(Symbol item, Integer parameter) {
+    Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType) {
 
-        def series = tradesDataService.getPriceSeries(item)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

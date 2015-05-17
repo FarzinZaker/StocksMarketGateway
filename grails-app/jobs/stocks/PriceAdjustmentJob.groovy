@@ -33,7 +33,7 @@ class PriceAdjustmentJob {
 //            if (priceAdjustment)
 //                priceAdjustmentService.apply(priceAdjustment)
 //        }
-
+return
         def result = lowLevelDataService.executeFunction('SYM_SEL_ADJUSTMENT', [:])
         if (result?.size()) {
             priceAdjustmentService.apply(result[0].symbolId as Long)
