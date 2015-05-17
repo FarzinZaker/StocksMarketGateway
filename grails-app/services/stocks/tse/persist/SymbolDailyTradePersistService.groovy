@@ -56,6 +56,9 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
             if(!adjustedDailyTrade) {
                 adjustedDailyTrade = new SymbolAdjustedDailyTrade()
                 adjustedDailyTrade.symbol = data.symbol
+                adjustedDailyTrade.symbolInternalCode = data.symbolInternalCode
+                adjustedDailyTrade.symbolPersianCode = data.symbolPersianCode
+                adjustedDailyTrade.symbolPersianName = data.symbolPersianName
                 adjustedDailyTrade.adjustmentType = type
                 adjustedDailyTrade.date = data.date.clearTime()
             }

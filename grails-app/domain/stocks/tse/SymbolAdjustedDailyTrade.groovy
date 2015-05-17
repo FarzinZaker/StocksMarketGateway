@@ -3,6 +3,9 @@ package stocks.tse
 class SymbolAdjustedDailyTrade {
 
     Symbol symbol
+    Long symbolInternalCode
+    String symbolPersianCode
+    String symbolPersianName
     SymbolDailyTrade dailyTrade
     Date date
     Integer totalTradeCount
