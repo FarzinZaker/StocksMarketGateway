@@ -18,8 +18,7 @@ class PriceAdjustmentService {
         def priceList = SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
             eq('adjustmentType', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-            isNotNull('dailySnapshot')
-            order('dailySnapshot', ORDER_DESCENDING)
+            order('date', ORDER_DESCENDING)
         }
 
         if (priceList && priceList.size()) {
@@ -31,7 +30,7 @@ class PriceAdjustmentService {
                 i += list.size() - 1
             }
 
-            symbolIndicatorBulkService.recalculateIndicators(symbol)
+//            symbolIndicatorBulkService.recalculateIndicators(symbol)
         }
     }
 
