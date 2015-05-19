@@ -1,5 +1,10 @@
 package stocks.tse
 
+import grails.util.Holders
+import org.codehaus.groovy.grails.web.util.WebUtils
+
+import javax.lang.model.util.Types
+
 /**
  * Created by farzin on 17/05/2015.
  */
@@ -14,8 +19,32 @@ class AdjustmentHelper {
 
     public
     static TYPES = [TYPE_NONE, TYPE_CAPITAL_INCREASE, TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, TYPE_CAPITAL_INCREASE_PLUS_DIVIDENDS, TYPE_CAPITAL_INCREASE_PLUS_DIVIDENDS_PLUS_BROUGHT, TYPE_PERFORMANCE]
+    public
+    static ENABLED_TYPES = [TYPE_NONE, TYPE_CAPITAL_INCREASE_PLUS_BROUGHT]
 
-    public static String getDefaultType() {
+    private static String globalAdjustmentTypeSession = 'globalAdjustmentType'
+
+    private static String getDefaultType() {
         TYPE_CAPITAL_INCREASE_PLUS_BROUGHT
+    }
+
+    private static Boolean isGlobalAdjustmentTypeSet() {
+        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] ? true : false
+    }
+
+    public static void initGlobalAdjustmentType() {
+        if (!isGlobalAdjustmentTypeSet())
+            setGlobalAdjustmentType(defaultType)
+    }
+
+    public static String getGlobalAdjustmentType() {
+        def result = WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession]
+        if (!result)
+            result = defaultType
+        result
+    }
+
+    public static void setGlobalAdjustmentType(String value) {
+        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] = value
     }
 }

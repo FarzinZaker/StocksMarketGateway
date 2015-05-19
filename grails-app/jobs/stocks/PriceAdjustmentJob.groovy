@@ -1,5 +1,6 @@
 package stocks
 
+import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolPriceAdjustment
 
 
@@ -13,30 +14,9 @@ class PriceAdjustmentJob {
     static concurrent = false
 
     def execute() {
-
-//        def undo = true
-//
-//        if (undo) {
-//            def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
-//                eq('applied', true)
-//                order('date', ORDER_ASCENDING)
-//                maxResults(1)
-//            }?.find()
-//            if (priceAdjustment)
-//                priceAdjustmentService.undo(priceAdjustment)
-//        } else {
-//            def priceAdjustment = SymbolPriceAdjustment.createCriteria().list {
-//                eq('applied', false)
-//                order('date', ORDER_DESCENDING)
-//                maxResults(1)
-//            }?.find()
-//            if (priceAdjustment)
-//                priceAdjustmentService.apply(priceAdjustment)
-//        }
-return
-        def result = lowLevelDataService.executeFunction('SYM_SEL_ADJUSTMENT', [:])
+        def result = lowLevelDataService.executeFunction('SYM_SEL_ADJUSTMENT_CI_B', [:])
         if (result?.size()) {
-            priceAdjustmentService.apply(result[0].symbolId as Long)
+            priceAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [result[0].symbolId as Long])
         }
 
     }
