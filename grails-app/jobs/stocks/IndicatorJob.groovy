@@ -40,15 +40,20 @@ class IndicatorJob {
 
 //    bulk
     def execute() {
-//        return
+        println()
+        println "-----------------------------------------"
+        println "---- calculating indicators started ----"
+//        println "-----------------------------------------"
+        println()
         def symbol = findNextSymbol(getLastState())
+        println "--------- ${symbol.persianName} ---------"
         if(symbol) {
             symbolIndicatorBulkService.bulkCalculateIndicator(symbol)
             logState(symbol?.id)
         }
         else{
             println()
-            println "-----------------------------------------"
+//            println "-----------------------------------------"
             println "---- calculating indicators finished ----"
             println "-----------------------------------------"
             println()
