@@ -15,6 +15,8 @@ class BackTestJob {
     static concurrent = false
 
     def execute() {
+
+        return
         // execute task
         BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
             it.status = BackTestHelper.STATUS_IN_PROGRESS
