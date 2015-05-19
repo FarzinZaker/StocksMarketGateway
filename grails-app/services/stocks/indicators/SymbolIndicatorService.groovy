@@ -12,7 +12,7 @@ class SymbolIndicatorService {
     def lowLevelDataService
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter, Boolean online = false) {
-        return
+
         def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter

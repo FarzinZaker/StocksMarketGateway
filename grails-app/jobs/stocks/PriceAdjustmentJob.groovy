@@ -15,8 +15,8 @@ class PriceAdjustmentJob {
 
     def execute() {
         def result = lowLevelDataService.executeFunction('SYM_SEL_ADJUSTMENT_CI_B', [:])
-        println "adjustment: ${result}"
         if (result?.size()) {
+            println "adjustment: ${result}"
             priceAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [result[0].symbolId as Long])
         }
 
