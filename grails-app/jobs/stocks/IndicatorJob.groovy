@@ -40,7 +40,7 @@ class IndicatorJob {
 
 //    bulk
     def execute() {
-        return
+//        return
         def symbol = findNextSymbol(getLastState())
         if(symbol) {
             symbolIndicatorBulkService.bulkCalculateIndicator(symbol)

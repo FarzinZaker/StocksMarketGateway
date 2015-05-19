@@ -9,6 +9,7 @@ import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.trend.MACD
 import stocks.indicators.symbol.trend.MACDSignal
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 
 import java.text.NumberFormat
@@ -105,28 +106,32 @@ class MACDFilterService implements IncludeFilterService {
                     idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
-                            targetValue    : targetValue as Double
+                            targetValue    : targetValue as Double,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.LOWER_THAN:
                     idList = lowLevelDataService.executeFunction('IND_LOWER_THAN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
-                            targetValue    : targetValue as Double
+                            targetValue    : targetValue as Double,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
                     idList = lowLevelDataService.executeFunction('IND_CROSS_UP_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
-                            targetValue    : targetValue as Double
+                            targetValue    : targetValue as Double,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
                     idList = lowLevelDataService.executeFunction('IND_CROSS_DOWN_VAL_FILTER', [
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
-                            targetValue    : targetValue as Double
+                            targetValue    : targetValue as Double,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
             }
@@ -137,7 +142,8 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
-                            targetParameter: parameter
+                            targetParameter: parameter,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.LOWER_THAN:
@@ -145,7 +151,8 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
-                            targetParameter: parameter
+                            targetParameter: parameter,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
@@ -153,7 +160,8 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.class.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
-                            targetParameter: parameter
+                            targetParameter: parameter,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
@@ -161,7 +169,8 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.class.canonicalName,
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
-                            targetParameter: parameter
+                            targetParameter: parameter,
+                            adjustmentType : AdjustmentHelper.globalAdjustmentType
                     ])
                     break
             }

@@ -4,6 +4,7 @@ import grails.converters.JSON
 import stocks.User
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 
 import java.text.NumberFormat
@@ -120,32 +121,38 @@ class PriceFilterService implements IncludeFilterService {
         switch (operator) {
             case Operators.GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_UPPER_THAN_VAL_FILTER', [
-                        value: parsedValue as double
+                        value: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.LESS_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_LOWER_THAN_VAL_FILTER', [
-                        value: parsedValue as double
+                        value: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_PCPD_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue as double
+                        percent: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_NCPD_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue as double
+                        percent: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_PCFP_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue as double
+                        percent: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_NCFP_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue as double
+                        percent: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
         }

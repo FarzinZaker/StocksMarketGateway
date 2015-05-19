@@ -6,6 +6,7 @@ import stocks.filters.FilterServiceBase
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
 import stocks.indicators.symbol.movingAverage.SMA
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 import stocks.util.ClassResolver
 
@@ -118,7 +119,8 @@ class SMAFilterService implements IncludeFilterService {
                         sourceClass    : SMA.canonicalName,
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
-                        targetParameter: targetParameter
+                        targetParameter: targetParameter,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.LOWER_THAN:
@@ -126,7 +128,8 @@ class SMAFilterService implements IncludeFilterService {
                         sourceClass    : SMA.canonicalName,
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
-                        targetParameter: targetParameter
+                        targetParameter: targetParameter,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_UP:
@@ -134,7 +137,8 @@ class SMAFilterService implements IncludeFilterService {
                         sourceClass    : SMA.class.canonicalName,
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
-                        targetParameter: targetParameter
+                        targetParameter: targetParameter,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
@@ -142,7 +146,8 @@ class SMAFilterService implements IncludeFilterService {
                         sourceClass    : SMA.class.canonicalName,
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
-                        targetParameter: targetParameter
+                        targetParameter: targetParameter,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
         }

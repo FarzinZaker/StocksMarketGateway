@@ -7,6 +7,7 @@ import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.query.Restrictions
 import stocks.User
 import stocks.alerting.Rule
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
 import stocks.util.ClassResolver
@@ -169,7 +170,7 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), cols: indicatorColumns.collect {
+        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: AdjustmentHelper.globalAdjustmentType, cols: indicatorColumns.collect {
             "'" + it.replace('stocks_indicators_symbol_', '') + "'"
         }.join(',')])
         for (def i = 0; i < result.size(); i++) {

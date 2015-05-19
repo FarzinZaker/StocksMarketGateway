@@ -5,6 +5,7 @@ import groovy.time.TimeCategory
 import stocks.User
 import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 
 import java.text.NumberFormat
@@ -105,24 +106,28 @@ class VolumeFilterService implements IncludeFilterService {
         switch (operator) {
             case Operators.GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_UPPER_THAN_VAL_FILTER', [
-                        value: parsedValue as double
+                        value: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.LESS_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_LOWER_THAN_VAL_FILTER', [
-                        value: parsedValue as double
+                        value: parsedValue as double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_PCA_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue.first() as double,
-                        days   : parsedValue.last() as Integer
+                        days   : parsedValue.last() as Integer,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_NCA_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue.first() as double,
-                        days   : parsedValue.last() as Integer
+                        days   : parsedValue.last() as Integer,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
         }

@@ -7,6 +7,7 @@ import stocks.filters.IncludeFilterService
 import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.indicators.symbol.volatility.NATR
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 
 import java.text.NumberFormat
@@ -87,28 +88,32 @@ class NATRFilterService implements IncludeFilterService {
                 idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [
                         sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
-                        targetValue    : targetValue as Double
+                        targetValue    : targetValue as Double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.LOWER_THAN:
                 idList = lowLevelDataService.executeFunction('IND_LOWER_THAN_VAL_FILTER', [
                         sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
-                        targetValue    : targetValue as Double
+                        targetValue    : targetValue as Double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_UP:
                 idList = lowLevelDataService.executeFunction('IND_CROSS_UP_VAL_FILTER', [
                         sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
-                        targetValue    : targetValue as Double
+                        targetValue    : targetValue as Double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
                 idList = lowLevelDataService.executeFunction('IND_CROSS_DOWN_VAL_FILTER', [
                         sourceClass    : NATR.canonicalName,
                         sourceParameter: parameter,
-                        targetValue    : targetValue as Double
+                        targetValue    : targetValue as Double,
+                        adjustmentType : AdjustmentHelper.globalAdjustmentType
                 ])
                 break
         }
