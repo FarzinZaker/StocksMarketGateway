@@ -2,8 +2,10 @@ package stocks.tools.correlation
 
 import org.apache.lucene.search.BooleanQuery
 import stocks.tools.CorrelationServiceBase
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Company
 import stocks.tse.Symbol
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 
 class CompanyCorrelationService extends CorrelationServiceBase {
@@ -48,8 +50,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
         List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
             it as Long
         })
-        def itemList = SymbolDailyTrade.createCriteria().list {
+        def itemList = SymbolAdjustedDailyTrade.createCriteria().list {
             'in'('symbol', symList)
+            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
@@ -81,8 +84,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     @Override
     List getItemValues(String item, Date startDate, Date endDate, String period) {
         Symbol symbol = Symbol.get(item as Long)
-        SymbolDailyTrade.createCriteria().list {
+        SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
             isNotNull("${period}Snapshot")
             gte("${period}Snapshot", startDate)
             lte("${period}Snapshot", endDate)
@@ -101,8 +105,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     @Override
     Double getBaseValue(String item, Date startDate) {
         Symbol symbol = Symbol.get(item as Long)
-        SymbolDailyTrade.get(SymbolDailyTrade.createCriteria().get {
+        SymbolAdjustedDailyTrade.get(SymbolAdjustedDailyTrade.createCriteria().get {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
             lt('creationDate', startDate)
             projections {
                 max('id')
@@ -115,15 +120,16 @@ class CompanyCorrelationService extends CorrelationServiceBase {
         List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
             it as Long
         })
-        def list = SymbolDailyTrade.createCriteria().list {
+        def list = SymbolAdjustedDailyTrade.createCriteria().list {
             'in'('symbol', symList)
+            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
             lt('creationDate', startDate)
             projections {
                 groupProperty('symbol')
                 max('id')
             }
         }
-        def dailyTrades = SymbolDailyTrade.findAllByIdInList(list.collect { it[1] })
+        def dailyTrades = SymbolAdjustedDailyTrade.findAllByIdInList(list.collect { it[1] })
         def result = [:]
         list.each { item ->
             def symbolId = (item[0] as Symbol).id?.toString()
