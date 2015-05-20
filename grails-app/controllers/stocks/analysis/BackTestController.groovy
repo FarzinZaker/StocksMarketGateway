@@ -6,8 +6,9 @@ import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.User
+import stocks.tse.AdjustmentHelper
 import stocks.tse.event.IndexEvent
-import stocks.tse.SymbolDailyTrade
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.Symbol
 
 class BackTestController {
@@ -190,13 +191,13 @@ class BackTestController {
             }
         } else {
             def logs = PortfolioLog.findAllByBackTest(backTest)
-            def dailyTrades = SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(backTest.symbol, backTest.startDate, backTest.endDate)
+            def dailyTrades = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
             dailyTrades.sort {
                 it.dailySnapshot.time
-            }.each { SymbolDailyTrade dailyTrade ->
-                def log = logs.find { it.date.clearTime() == dailyTrade.dailySnapshot.clearTime() }
+            }.each { SymbolAdjustedDailyTrade dailyTrade ->
+                def log = logs.find { it.date.clearTime() == dailyTrade.date.clearTime() }
                 list << [
-                        dailyTrade.dailySnapshot.clearTime().time,
+                        dailyTrade.date.clearTime().time,
                         log ? Math.round(log.remainingOutlay + log.price * log.stockCount) : 0,
                         log ? Math.round(log.price * log.stockCount) : 0
                 ]
@@ -213,7 +214,7 @@ class BackTestController {
     }
 
     private static def calculateSummary(BackTest backTest, List logs, List signals) {
-        def openDays = SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(backTest.symbol, backTest.startDate, backTest.endDate)
+        def openDays = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
         def maxDrawDown = 0
         def sortedLogs = logs.sort { it[0] }
         for (def i = 1; i < sortedLogs.size(); i++) {

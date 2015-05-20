@@ -5,7 +5,8 @@ import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.alerting.Rule
 import stocks.filters.FilterServiceBase
-import stocks.tse.SymbolDailyTrade
+import stocks.tse.AdjustmentHelper
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.util.ClassResolver
 
 class BackTestService {
@@ -29,7 +30,7 @@ class BackTestService {
         if (backTest.currentDate > backTest.endDate) {
             backTest.status = BackTestHelper.STATUS_FINISHED
         } else {
-            def dailyTrade = priceService.dailyTrade(backTest?.symbol, backTest?.currentDate)
+            def dailyTrade = priceService.dailyTrade(backTest?.symbol, backTest?.currentDate, AdjustmentHelper.defaultType)
             if (dailyTrade) {
                 def portfolioLog = getLastPortfolioLog(backTest, dailyTrade.closingPrice)
                 def lastSignal = BackTestSignal.createCriteria().list {
@@ -63,7 +64,7 @@ class BackTestService {
         checkRules(backTest, Rule.findAllByParent(backTest.buyRule))
     }
 
-    BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade) {
+    BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, SymbolAdjustedDailyTrade dailyTrade) {
         def signal = new BuySignal()
         fillSignalCommonFields(signal, backTest, dailyTrade)
         signal.stockCount = Math.floor(portfolioLog.remainingOutlay / (dailyTrade.closingPrice * (1 + backTest.buyWage + backTest.buyTax)))
@@ -81,7 +82,7 @@ class BackTestService {
         checkRules(backTest, Rule.findAllByParent(backTest.sellRule))
     }
 
-    String shouldSellDueToLimits(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade, BuySignal lastSignal) {
+    String shouldSellDueToLimits(BackTest backTest, PortfolioLog portfolioLog, SymbolAdjustedDailyTrade dailyTrade, BuySignal lastSignal) {
         if (!lastSignal)
             return null
 
@@ -106,7 +107,7 @@ class BackTestService {
         null
     }
 
-    BackTestSignal sell(BackTest backTest, PortfolioLog portfolioLog, SymbolDailyTrade dailyTrade, String reason) {
+    BackTestSignal sell(BackTest backTest, PortfolioLog portfolioLog, SymbolAdjustedDailyTrade dailyTrade, String reason) {
         def signal = new SellSignal()
         fillSignalCommonFields(signal, backTest, dailyTrade)
         signal.stockCount = portfolioLog.stockCount
@@ -161,7 +162,7 @@ class BackTestService {
         true
     }
 
-    void fillSignalCommonFields(BackTestSignal signal, BackTest backTest, SymbolDailyTrade dailyTrade) {
+    void fillSignalCommonFields(BackTestSignal signal, BackTest backTest, SymbolAdjustedDailyTrade dailyTrade) {
         signal.backTest = backTest
         signal.symbol = backTest.symbol
         signal.date = backTest.currentDate
@@ -180,7 +181,7 @@ class BackTestService {
         signal.indicators = extractIndicators(backTest)
     }
 
-    void updatePortfolioLog(BackTest backTest, PortfolioLog previousLog, SymbolDailyTrade dailyTrade, BackTestSignal signal = null) {
+    void updatePortfolioLog(BackTest backTest, PortfolioLog previousLog, SymbolAdjustedDailyTrade dailyTrade, BackTestSignal signal = null) {
         def portfolioLog = new PortfolioLog()
         portfolioLog.backTest = backTest
         portfolioLog.date = backTest.currentDate

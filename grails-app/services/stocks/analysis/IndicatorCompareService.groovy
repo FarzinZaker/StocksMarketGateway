@@ -3,7 +3,9 @@ package stocks.analysis
 import groovy.time.TimeCategory
 import stocks.indicators.IndicatorBase
 import stocks.indicators.symbol.movingAverage.SMA
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 
 class IndicatorCompareService {
@@ -115,6 +117,7 @@ class IndicatorCompareService {
     Double getIndicatorValue(Symbol symbol, Class<IndicatorBase> indicator, String parameter, Date date, Integer index) {
         def list = indicator.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.defaultType)
             eq('parameter', parameter)
             lte('calculationDate', date)
             order('calculationDate', ORDER_DESCENDING)
@@ -124,8 +127,9 @@ class IndicatorCompareService {
     }
 
     Double getPrice(Symbol symbol, Date date, Integer index) {
-        def list = SymbolDailyTrade.createCriteria().list {
+        def list = SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.defaultType)
             lte('date', date)
             order('date', ORDER_DESCENDING)
             maxResults(index)
@@ -134,8 +138,9 @@ class IndicatorCompareService {
     }
 
     Double getVolume(Symbol symbol, Date date, Integer index) {
-        def list = SymbolDailyTrade.createCriteria().list {
+        def list = SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.defaultType)
             lte('date', date)
             order('date', ORDER_DESCENDING)
             maxResults(index)
@@ -149,8 +154,9 @@ class IndicatorCompareService {
             date = date - 1.days
             startDay = date - dayCount.days
         }
-        def list = SymbolDailyTrade.createCriteria().list {
+        SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.defaultType)
             lte('date', date)
             projections {
                 avg('totalTradeVolume')
@@ -158,9 +164,10 @@ class IndicatorCompareService {
         }?.find() ?: 0
     }
 
-    SymbolDailyTrade getDailyTrade(Symbol symbol, Date date, Integer index) {
-        def list = SymbolDailyTrade.createCriteria().list {
+    SymbolAdjustedDailyTrade getDailyTrade(Symbol symbol, Date date, Integer index) {
+        def list = SymbolAdjustedDailyTrade.createCriteria().list {
             eq('symbol', symbol)
+            eq('adjustmentType', AdjustmentHelper.defaultType)
             lte('date', date)
             order('date', ORDER_DESCENDING)
             maxResults(index)

@@ -16,7 +16,7 @@ class BackTestJob {
 
     def execute() {
 
-        return
+//        return
         // execute task
         BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
             it.status = BackTestHelper.STATUS_IN_PROGRESS

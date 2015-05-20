@@ -24,7 +24,7 @@ class AdjustmentHelper {
 
     private static String globalAdjustmentTypeSession = 'globalAdjustmentType'
 
-    private static String getDefaultType() {
+    public static String getDefaultType() {
         TYPE_CAPITAL_INCREASE_PLUS_BROUGHT
     }
 

@@ -3,7 +3,7 @@ package stocks
 import grails.converters.JSON
 import groovy.time.TimeCategory
 import stocks.tse.Symbol
-import stocks.tse.SymbolDailyTrade
+import stocks.tse.SymbolAdjustedDailyTrade
 
 class DataController {
 
@@ -17,7 +17,7 @@ class DataController {
             }
 
         render(
-                SymbolDailyTrade.findAllBySymbolAndDailySnapshotBetween(symbol, startDate, endDate).sort {
+                SymbolAdjustedDailyTrade.findAllBySymbolAndDateBetween(symbol, startDate, endDate).sort {
                     it.dailySnapshot.time
                 }.collect {
                     [
