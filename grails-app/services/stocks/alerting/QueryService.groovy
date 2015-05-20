@@ -150,9 +150,9 @@ class QueryService {
         def list = [rule.value]
 
         //parametric
-        def parameter = parameters.keySet().find { it.name == rule.value }
-        if (parameter) {
-            list = []
+        def parameterList = parameters.keySet().findAll { it.name == rule.value }
+        list = []
+        parameterList?.each { parameter ->
             def values = parameters[parameter]
             values.each { ParameterValue parameterValue ->
                 switch (parameterValue.type) {
