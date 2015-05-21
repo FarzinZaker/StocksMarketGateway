@@ -18,7 +18,7 @@ class SymbolIndicatorBulkService {
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
-        AdjustmentHelper.TYPES.each { adjustmentType ->
+        AdjustmentHelper.ENABLED_TYPES.each { adjustmentType ->
             def value = symbol ? serviceClass.bulkCalculate(symbol, parameter, adjustmentType) : [series: [], indicators: []]
 
             if (value.indicators?.size())

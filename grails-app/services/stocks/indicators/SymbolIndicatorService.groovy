@@ -17,7 +17,7 @@ class SymbolIndicatorService {
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
         def clazz = ClassResolver.loadDomainClassByName(className)
-        AdjustmentHelper.TYPES.each { adjustmentType ->
+        AdjustmentHelper.ENABLED_TYPES.each { adjustmentType ->
             def value = symbol ? serviceClass.calculate(symbol, parameter, adjustmentType, dailyTrade.date) : 0
             def indicator = null
             if (online) {
