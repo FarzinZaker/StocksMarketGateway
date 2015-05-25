@@ -10,7 +10,7 @@ class PriceAdjustmentJob {
     def priceAdjustmentService
 
     static startDelay = 60000
-    static timeout = 5000l
+    static timeout = 3600000l
     static concurrent = false
 
     def execute() {
