@@ -13,6 +13,7 @@
     <asset:javascript src="d3/modernizr.js"/>
     <asset:javascript src="d3/d3.js"/>
     <asset:javascript src="d3/d3.tip.js"/>
+    <asset:javascript src="FarsiNormalizer.js"/>
     <script language="javascript" type="text/javascript">
 
 
@@ -273,7 +274,7 @@
 </div>
 <script type="text/javascript">
 
-    $('#txtSymbolFilter').val('');
+    //    $('#txtSymbolFilter').val('');
     $(document).ready(function () {
         $('#txtSymbolFilter').keyup(function () {
             searchSymbol();
@@ -287,32 +288,37 @@
         else
             for (var i = 0; i < root.children.length; i++)
                 if (intValue == root.children[i].id)
-                    node = root.children[i]
+                    node = root.children[i];
         zoom(node);
     }
 
+    function colorizeSymbols(d) {
+        if (normalizeFarsi(d.name).contains(normalizeFarsi($('#txtSymbolFilter').val().trim())))
+            return pickColor(d.priceChange);
+        else
+            return shadeRGBColor(pickColorArray(d.priceChange), 0.5);
+    }
+    function colorizeIndustryGroups(d) {
+        var matched = false;
+        var sum = 0;
+        if (d.children.length > 0) {
+            for (var i = 0; i < d.children.length; i++)
+                if (normalizeFarsi(d.children[i].name).contains(normalizeFarsi($('#txtSymbolFilter').val().trim()))) {
+                    matched = true;
+                    sum += d.children[i].priceChange;
+                }
+        }
+        else
+            return headerColor
+        if (matched)
+            return pickColor(sum / d.children.length);
+        else
+            return shadeRGBColor(pickColorArray(sum / d.children.length), 0.5);
+    }
+
     function searchSymbol() {
-        chart.selectAll("g.cell.child rect").style("fill", function (d) {
-            if (d.name.contains($('#txtSymbolFilter').val().trim()))
-                return pickColor(d.priceChange);
-            else
-                return shadeRGBColor(pickColorArray(d.priceChange), 0.5);
-        });
-        chart.selectAll("g.cell.parent rect").style("fill", function (d) {
-            var matched = false;
-            var sum = 0;
-            if (d.children.length > 0) {
-                for (var i = 0; i < d.children.length; i++)
-                    if (d.children[i].name.contains($('#txtSymbolFilter').val().trim())) {
-                        matched = true;
-                        sum += d.children[i].priceChange;
-                    }
-            }
-            if (matched)
-                return pickColor(sum / d.children.length);
-            else
-                return shadeRGBColor(pickColorArray(sum / d.children.length), 0.5);
-        });
+        chart.selectAll("g.cell.child rect").style("fill", colorizeSymbols);
+        chart.selectAll("g.cell.parent rect").style("fill", colorizeIndustryGroups);
     }
 
     function shadeRGBColor(colorArray, percent) {
@@ -428,16 +434,7 @@
                             return Math.max(0.01, d.dx);
                         })
                         .attr("height", headerHeight)
-                        .style("fill", function (d) {
-                            if (d.children.length > 0) {
-                                var sum = 0;
-                                for (var i = 0; i < d.children.length; i++)
-                                    sum += d.children[i].priceChange;
-                                return pickColor(sum / d.children.length);
-                            }
-                            else
-                                return headerColor
-                        })
+                        .style("fill", colorizeIndustryGroups)
                         .style('display', function (d) {
                             d.parent ? '' : 'none';
                         });
@@ -458,16 +455,7 @@
                             return Math.max(0.01, d.dx);
                         })
                         .attr("height", headerHeight)
-                        .style("fill", function (d) {
-                            if (d.children.length > 0) {
-                                var sum = 0;
-                                for (var i = 0; i < d.children.length; i++)
-                                    sum += d.children[i].priceChange;
-                                return pickColor(sum / d.children.length);
-                            }
-                            else
-                                return headerColor
-                        })
+                        .style("fill", colorizeIndustryGroups)
                         .style('display', function (d) {
                             return d.parent ? '' : 'none';
                         });
@@ -502,9 +490,7 @@
 
                 childEnterTransition.append("rect")
                         .classed("background", true)
-                        .style("fill", function (d) {
-                            return pickColor(d.priceChange);
-                        });
+                        .style("fill", colorizeSymbols);
                 childEnterTransition.append('foreignObject')
                         .attr("class", "foreignObject")
                         .attr("width", function (d) {
@@ -549,9 +535,7 @@
                         .attr("height", function (d) {
                             return d.dy;
                         })
-                        .style("fill", function (d) {
-                            return pickColor(d.priceChange);
-                        });
+                        .style("fill", colorizeSymbols);
                 childUpdateTransition.select(".foreignObject")
                         .attr("width", function (d) {
                             return Math.max(0.01, d.dx);
@@ -646,6 +630,11 @@
 
 
     function zoom(d) {
+
+        $('#industry').data('kendoComboBox').select(function(dataItem) {
+            return parseInt(dataItem.value) == parseInt(d.id);
+        });
+
         this.treemap
                 .padding([headerHeight / (chartHeight / d.dy), 0, 0, 0])
                 .nodes(d);
@@ -735,12 +724,9 @@
                 })
                 .style("fill", function (d) {
                     if (!d.children)
-                        return pickColor(d.priceChange);
+                        return colorizeSymbols(d);
                     else if (d.children.length > 0) {
-                        var sum = 0;
-                        for (var i = 0; i < d.children.length; i++)
-                            sum += d.children[i].priceChange;
-                        return pickColor(sum / d.children.length);
+                        return colorizeIndustryGroups(d)
                     }
                     else
                         return headerColor
