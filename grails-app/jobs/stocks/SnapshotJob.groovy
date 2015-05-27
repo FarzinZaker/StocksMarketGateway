@@ -7,8 +7,11 @@ class SnapshotJob {
     def cronExpression = "0 0 1 * * ?"
 
     def snapshotService
+    def grailsApplication
 
     def execute() {
+        if (grailsApplication.config.jobsDisabled)
+            return
 
         snapshotService.applyDailySnapshot()
         def calendar = Calendar.getInstance() as GregorianCalendar

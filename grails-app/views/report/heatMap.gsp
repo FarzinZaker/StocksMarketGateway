@@ -42,7 +42,7 @@
             };
         }
 
-        function pickColor(value) {
+        function pickColorArray(value) {
             if (value > 4)
                 value = 4;
             else if (value < -4)
@@ -66,8 +66,12 @@
             var r = Interpolate(startColors.r, endColors.r, 50, val);
             var g = Interpolate(startColors.g, endColors.g, 50, val);
             var b = Interpolate(startColors.b, endColors.b, 50, val);
+            return [r, g, b]
+        }
 
-            return "rgb(" + r + "," + g + "," + b + ")";
+        function pickColor(value) {
+            var colorArray = pickColorArray(value);
+            return "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
         }
     </script>
     <style>
@@ -227,6 +231,33 @@
     </div>
 
     <div class="row-fluid">
+        <div class="col-xs-12">
+            <div class="whitePanel">
+                <div>
+                    <g:message code="report.heatmap.display.desc"/>
+                    <input type="radio" id="rbtn_size" name="mode" class="css-checkbox" value="size" checked> <label
+                        for="rbtn_size" class="css-label" style="margin-right:20px;margin-left:20px;"><g:message
+                            code="report.heatmap.display.value"/></label>
+                    <input type="radio" id="rbtn_count" name="mode" class="css-checkbox" value="count"> <label
+                        for="rbtn_count" class="css-label"><g:message code="report.heatmap.display.volume"/></label>
+                </div>
+
+                <div style="margin-top:10px;">
+                    <span style="margin-left:20px;display:inline-block;"><g:message
+                            code="report.heatmap.industryGroup.desc"/></span>
+                    <form:select name="industry" onchange="industryChanged"
+                                 items="${[[text: message(code: 'report.heatmap.industryGroup.all'), value: 0]] + industryGroups}"
+                                 allowUserInput="false"
+                                 style="width:300px;"/>
+                    <span style="margin-right:40px;margin-left:20px;display:inline-block;"><g:message
+                            code="report.heatmap.symbol.desc"/></span>
+                    <input type="text" class="k-input k-textbox" id="txtSymbolFilter"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
         <div class="col-xs-12 k-rtl">
             <div id="body"></div>
 
@@ -241,6 +272,54 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    $('#txtSymbolFilter').val('');
+    $(document).ready(function () {
+        $('#txtSymbolFilter').keyup(function () {
+            searchSymbol();
+        });
+    });
+
+    function industryChanged(e, value) {
+        var intValue = parseInt(value);
+        if (intValue == 0)
+            node = root;
+        else
+            for (var i = 0; i < root.children.length; i++)
+                if (intValue == root.children[i].id)
+                    node = root.children[i]
+        zoom(node);
+    }
+
+    function searchSymbol() {
+        chart.selectAll("g.cell.child rect").style("fill", function (d) {
+            if (d.name.contains($('#txtSymbolFilter').val().trim()))
+                return pickColor(d.priceChange);
+            else
+                return shadeRGBColor(pickColorArray(d.priceChange), 0.5);
+        });
+        chart.selectAll("g.cell.parent rect").style("fill", function (d) {
+            var matched = false;
+            var sum = 0;
+            if (d.children.length > 0) {
+                for (var i = 0; i < d.children.length; i++)
+                    if (d.children[i].name.contains($('#txtSymbolFilter').val().trim())) {
+                        matched = true;
+                        sum += d.children[i].priceChange;
+                    }
+            }
+            if (matched)
+                return pickColor(sum / d.children.length);
+            else
+                return shadeRGBColor(pickColorArray(sum / d.children.length), 0.5);
+        });
+    }
+
+    function shadeRGBColor(colorArray, percent) {
+        var t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = colorArray[0], G = colorArray[1], B = colorArray[2];
+        return "rgb(" + (Math.round((t - R) * p) + R) + "," + (Math.round((t - G) * p) + G) + "," + (Math.round((t - B) * p) + B) + ")";
+    }
+
     var supportsForeignObject = Modernizr.svgforeignobject;
     var chartWidth = $('#body').width();
     var chartHeight = 500;
@@ -288,9 +367,12 @@
             .round(false)
             .size([chartWidth, chartHeight])
             .sticky(true)
-            .value(function (d) {
-                return d.size;
-            });
+            .value(
+            $('input[name=mode]:checked').val() == "size" ? size : count
+//    function (d) {
+//                return d.size;
+//            }
+    );
 
     var chart = d3.select("#body")
             .append("svg:svg")
@@ -304,14 +386,14 @@
         var x = coordinates[0];
         var y = coordinates[1];
         if (y > 250)
-            y -= 40;
+            y -= 0;
         else
             y += 370;
         if (x < 200)
             x = 200;
         if (x > chartWidth - 200)
             x = chartWidth - 200;
-        $('.d3-tip').css('top', y - 100).css('left', x - 125);
+        $('.d3-tip').css('top', y).css('left', x - 125);
     });
 
     var vis = chart.append('g')
@@ -485,7 +567,16 @@
                 childrenCells.exit()
                         .remove();
 
-//                d3.select("select").on("change", function () {
+                $("input[type=radio]").change(function () {
+                    if ($(this).is(':checked')) {
+                        treemap.value(this.value == "size" ? size : count)
+                                .nodes(root);
+                        zoom(node);
+                    }
+                });
+
+
+//                d3.select("input[type=radio]").on("change", function () {
 //                    console.log("select zoom(node)");
 //                    treemap.value(this.value == "size" ? size : count)
 //                            .nodes(root);
@@ -494,24 +585,24 @@
 
                 zoom(node);
 
-                // create the zoom listener
-                var zoomListener = d3.behavior.zoom()
-                        .scaleExtent([0.1, 3])
-                        .on("zoom", zoomHandler);
-
-// function for handling zoom event
-                function zoomHandler() {
-                    vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                }
-
-// create the svg
-//                rootSvg = d3.select("#tree-body").append("svg:svg");
-                /*
-                 creating your svg image here
-                 */
-
-// apply the zoom behavior to the svg image
-                zoomListener(chart);
+//                // create the zoom listener
+//                var zoomListener = d3.behavior.zoom()
+//                        .scaleExtent([0.1, 3])
+//                        .on("zoom", zoomHandler);
+//
+//// function for handling zoom event
+//                function zoomHandler() {
+//                    vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+//                }
+//
+//// create the svg
+////                rootSvg = d3.select("#tree-body").append("svg:svg");
+//                /*
+//                 creating your svg image here
+//                 */
+//
+//// apply the zoom behavior to the svg image
+//                zoomListener(chart);
             }
     );
 
@@ -522,7 +613,7 @@
 
 
     function count(d) {
-        return 1;
+        return d.count;
     }
 
 

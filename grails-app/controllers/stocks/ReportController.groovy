@@ -12,6 +12,19 @@ class ReportController {
     def lowLevelDataService
 
     def heatMap() {
+        [
+                industryGroups: SymbolDailyTrade.createCriteria().list {
+                    gte('date', new Date().clearTime())
+                    projections {
+                        symbol{
+                            industryGroup{
+                                distinct('id')
+                                property('name')
+                            }
+                        }
+                    }
+                }.collect{[text:it[1],value:it[0]]}.sort{it.text}
+        ]
     }
 
     def heatMapJson() {
@@ -26,12 +39,13 @@ class ReportController {
                     name    : keyItems.last(),
                     children: it.value.collect {
                         [
-                                id         : it.symbolId,
-                                name       : it.symbolCode,
-                                size       : it.totalTradeValue,
-                                fullName   : it.symbolName,
-                                price      : Math.round(it.closingPrice),
-                                priceChange: Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F,
+                                id              : it.symbolId,
+                                name            : it.symbolCode,
+                                size            : it.totalTradeValue,
+                                count          : it.totalTradeVolume,
+                                fullName        : it.symbolName,
+                                price           : Math.round(it.closingPrice),
+                                priceChange     : Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F,
                                 priceChangeValue: it.priceChange
                         ]
                     }

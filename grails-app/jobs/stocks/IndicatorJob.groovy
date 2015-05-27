@@ -20,6 +20,9 @@ class IndicatorJob {
 
     //slow
 //    def execute() {
+
+//      if (grailsApplication.config.jobsDisabled)
+//          return
 //        grailsApplication.getArtefacts('Service').findAll {
 //            it.fullName.startsWith("stocks.indicators.symbol.")
 //        }.each { serviceClass ->
@@ -40,6 +43,9 @@ class IndicatorJob {
 
 //    bulk
     def execute() {
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         println()
         println "-----------------------------------------"
         println "---- calculating indicators started ----"

@@ -8,8 +8,12 @@ class PurgeJob {
     static concurrent = false
 
     def ratePurgeService
+    def grailsApplication
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
 
         ratePurgeService.purgeCoin()
         ratePurgeService.purgeCurrency()

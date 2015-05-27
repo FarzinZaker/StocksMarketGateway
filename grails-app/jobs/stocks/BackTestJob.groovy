@@ -9,14 +9,16 @@ import static groovyx.gpars.GParsPool.withPool
 class BackTestJob {
 
     def backTestService
+    def grailsApplication
 
     static startDelay = 60000
     static timeout = 1000l
     static concurrent = false
 
     def execute() {
+        if (grailsApplication.config.jobsDisabled)
+            return
 
-//        return
         // execute task
         BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
             it.status = BackTestHelper.STATUS_IN_PROGRESS

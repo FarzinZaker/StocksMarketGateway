@@ -4,9 +4,7 @@ class BootStrap {
 
     def dataService
     def dataStateService
-    def grailsCacheManager
-
-    def snapshotService
+    def grailsApplication
 
     def init = { servletContext ->
 
@@ -35,9 +33,8 @@ class BootStrap {
         }
 
         dataStateService.initializeStateLogging()
-        dataService.initializeJobs()
-
-//        snapshotService.applyPreviousSnapshots('.', ['daily', 'weekly', 'monthly'], 6000)
+        if (!grailsApplication.config.jobsDisabled)
+            dataService.initializeJobs()
 
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')
