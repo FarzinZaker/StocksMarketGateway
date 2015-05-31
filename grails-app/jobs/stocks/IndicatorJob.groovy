@@ -43,6 +43,9 @@ class IndicatorJob {
 
 //    bulk
     def execute() {
+
+        return
+
         if (grailsApplication.config.jobsDisabled)
             return
 
@@ -67,7 +70,7 @@ class IndicatorJob {
     }
 
     def findNextSymbol(Long minId) {
-        Symbol.executeQuery("from Symbol s where exists (from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (from IndicatorBase i where i.symbol.id = s.id and i.online = false) and s.id > :id", [id: minId, max: 1]).find()
+        Symbol.executeQuery("from Symbol s where exists (from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (from IndicatorBase i where i.symbol.id = s.id) and s.id > :id", [id: minId, max: 1]).find()
     }
 
     def logState(Long symbolId) {
