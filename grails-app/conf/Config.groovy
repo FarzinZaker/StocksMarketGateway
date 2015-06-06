@@ -202,6 +202,11 @@ grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
 jobsDisabled = false
 
+
+grails.gorm.default.mapping = {
+    autoTimestamp true //or false based on your need
+}
+
 //grails.gorm.default.mapping = {
 //    autoTimestamp true //or false based on your need
 //}
