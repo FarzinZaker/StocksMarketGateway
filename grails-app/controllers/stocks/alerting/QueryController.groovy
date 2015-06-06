@@ -487,7 +487,7 @@ class QueryController {
         queryInstance.schedule?.save()
 
         queryInstance.lastExecutionTime = new Date()
-        queryInstance.save()
+        queryInstance.save(flush: true)
 
         ScheduleDay.findAllBySchedule(queryInstance.schedule).each { it.delete() }
         ScheduleTime.findAllBySchedule(queryInstance.schedule).each { it.delete() }
@@ -596,7 +596,7 @@ class QueryController {
     def instanceDelete() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.deleted = true
-        if (queryInstance.save())
+        if (queryInstance.save(flush: true))
             render '1'
         else
             render '0'
@@ -606,7 +606,7 @@ class QueryController {
     def instanceEnable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = true
-        if (queryInstance.save())
+        if (queryInstance.save(flush:true))
             render '1'
         else
             render '0'
@@ -616,7 +616,7 @@ class QueryController {
     def instanceDisable() {
         def queryInstance = QueryInstance.get(params.id)
         queryInstance.enabled = false
-        if (queryInstance.save())
+        if (queryInstance.save(flush:true))
             render '1'
         else
             render '0'
