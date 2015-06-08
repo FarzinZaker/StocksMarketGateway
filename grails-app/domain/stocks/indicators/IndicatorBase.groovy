@@ -12,13 +12,11 @@ class IndicatorBase {
     Integer dayNumber
     SymbolAdjustedDailyTrade dailyTrade
     String adjustmentType
-    Boolean online = true
 
     Date calculationDate
 
     static mapping = {
         table 'indicators'
-        online column: 'onlin'
 //        dayNumber index: 'idx_indicator_symbol_parameter_index'
 //        parameter index: 'idx_indicator_symbol_parameter_index, idx_indicator_parameter_trade'
 //        symbol index: 'idx_indicator_symbol_parameter_index'

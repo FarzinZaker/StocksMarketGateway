@@ -1,10 +1,12 @@
 import stocks.*
+import stocks.tse.SymbolDailyTrade
 
 class BootStrap {
 
     def dataService
     def dataStateService
     def grailsApplication
+    def adjustedPriceSeriesService
 
     def init = { servletContext ->
 
@@ -38,6 +40,7 @@ class BootStrap {
 
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')
+
 
     }
     def destroy = {

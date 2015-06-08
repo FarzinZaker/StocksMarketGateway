@@ -16,74 +16,30 @@ hibernate {
 // environment specific settings
 environments {
     development {
+
+        timeSeries {
+
+            dataSource {
+                host = '192.168.0.3'
+//                host = '91.98.102.76'
+                port = 8086
+                username = 'root'
+                password = 'root'
+                db = 'stocks'
+            }
+        }
+
         dataSource {
-// mysql
-//            dbCreate = "update"
-//            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
-//            username = "root"
-//            password = ""
-//            pooled = true
-//            logSql = false
-//            driverClassName = "com.mysql.jdbc.Driver"
-//            dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis = 1800000
-//                timeBetweenEvictionRunsMillis = 1800000
-//                numTestsPerEvictionRun = 3
-//                testOnBorrow = true
-//                testWhileIdle = true
-//                testOnReturn = true
-//                validationQuery = "SELECT 1"
-//            }
-
-// mariadb
-//            dbCreate = "update"
-//            url = "jdbc:mariadb://localhost:3306/Stocks"
-//            driverClassName = "org.mariadb.jdbc.Driver"
-//            username = "root"
-//            password = "Salam123"
-//            pooled = true
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis=1800000
-//                timeBetweenEvictionRunsMillis=1800000
-//                numTestsPerEvictionRun=3
-//                testOnBorrow=true
-//                testWhileIdle=true
-//                testOnReturn=true
-//                validationQuery="SELECT 1"
-//            }
-
-// SQL Server
-//            dbCreate = "update"
-//            username = "sa"
-//            password = "Cube1234"
-//            logSql = false
-//            url = "jdbc:sqlserver://192.168.0.30:1433;databaseName=Stocks"
-//
-//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-//            dialect = "org.hibernate.dialect.SQLServerDialect"
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis = 1800000
-//                timeBetweenEvictionRunsMillis = 1800000
-//                numTestsPerEvictionRun = 3
-//                testOnBorrow = true
-//                testWhileIdle = true
-//                testOnReturn = true
-//                validationQuery = "SELECT 1"
-//            }
-
 //Oracle
             dbCreate = "update"
-//            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
-            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
+            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
+//            url = "jdbc:oracle:thin:@91.98.102.76:1521:CHAHARTABLO"
+//            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
             username = "stocks"
             password = "stocks"
             hibernate.default_schema = "stocks"
             pooled = true
-            logSql=false
+            logSql = false
             driverClassName = "oracle.jdbc.OracleDriver"
             dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {
@@ -105,41 +61,19 @@ environments {
         }
     }
     production {
+
+        timeSeries {
+
+            dataSource {
+                host = '192.168.64.3'
+                port = 8086
+                username = 'root'
+                password = 'root'
+                db = 'stocks'
+            }
+        }
+
         dataSource {
-//            dbCreate = "update"
-//            url = "jdbc:mysql://localhost/stocks?useUnicode=true&characterEncoding=UTF-8"
-//            username = "root"
-//            password = ""
-//            pooled = true
-//            logSql = false
-//            driverClassName = "com.mysql.jdbc.Driver"
-//            dialect = "org.hibernate.dialect.MySQLMyISAMDialect"
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis = 1800000
-//                timeBetweenEvictionRunsMillis = 1800000
-//                numTestsPerEvictionRun = 3
-//                testOnBorrow = true
-//                testWhileIdle = true
-//                testOnReturn = true
-//                validationQuery = "SELECT 1"
-//            }
-//            username = "sa"
-//            password = "Salam123"
-//            url = "jdbc:sqlserver://192.168.52.42:1433;databaseName=Stocks"
-//
-//            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-//            dialect = "org.hibernate.dialect.SQLServerDialect"
-//            properties {
-//                maxActive = -1
-//                minEvictableIdleTimeMillis = 1800000
-//                timeBetweenEvictionRunsMillis = 1800000
-//                numTestsPerEvictionRun = 3
-//                testOnBorrow = true
-//                testWhileIdle = true
-//                testOnReturn = true
-//                validationQuery = "SELECT 1"
-//            }
 
             //Oracle
             dbCreate = "update"
@@ -148,7 +82,7 @@ environments {
             password = "stocks"
             hibernate.default_schema = "stocks"
             pooled = true
-            logSql=false
+            logSql = false
             driverClassName = "oracle.jdbc.OracleDriver"
             dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {

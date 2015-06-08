@@ -98,7 +98,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
             def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
             if (service.enabled) {
                 service.commonParameters.each { parameter ->
-                    symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter, true)
+                    symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
                 }
             }
         }

@@ -3,8 +3,10 @@ package stocks
 import grails.plugins.springsecurity.Secured
 import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
+import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
+import static groovyx.gpars.GParsPool.withPool
 
 @Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -47,6 +49,9 @@ class AdminController {
 
     def SMAService
 
+    def timeSeriesDBService
+    def adjustedPriceSeriesService
+
     def index() {
     }
 
@@ -88,9 +93,16 @@ class AdminController {
 
 //        println ratePurgeService.purgeMetal()
 
-        render SMAService.bulkCalculate(Symbol.get(17853), 7)
+//        render SMAService.bulkCalculate(Symbol.get(17853), 7)
 
-        println 'finished'
+//        timeSeriesDBService.query('')
+
+        def list = SymbolDailyTrade.list(max: 1)
+        adjustedPriceSeriesService.write(list)
+
+//        render timeSeriesDBService.query('select * from /.*/')
+
+//        println 'finished'
     }
 
     def throwException() {
@@ -101,7 +113,7 @@ class AdminController {
         scheduleService.calculateQueryInstanceNextExecutionTime(QueryInstance.get(params.id))
     }
 
-    def reindex(){
+    def reindex() {
         searchableService.reindexAll()
         render 'done'
     }

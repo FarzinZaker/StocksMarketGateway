@@ -69,6 +69,9 @@ grails.project.dependency.resolution = {
         compile 'org.codehaus.gpars:gpars:1.2.1'
 
         compile 'com.sun.jersey:jersey-bundle:1.1.5.1'
+
+//        compile 'com.squareup.okhttp:okhttp:2.0.0'
+        compile 'org.influxdb:influxdb-java:1.5'
     }
 
     plugins {

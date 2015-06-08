@@ -37,7 +37,6 @@ class SymbolIndicatorBulkService {
                 indicator.symbol = symbol
                 indicator.dayNumber = 1
                 indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot
-                indicator.online = false
                 indicator.adjustmentType = adjustmentType
                 bulkDataService.save(indicator)
 //                indicator.save(flush: i == loopCount - 1)
