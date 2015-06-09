@@ -624,6 +624,7 @@ class QueryController {
 
     def autoComplete() {
         def term = params."filter[filters][0][value]"?.toString() ?: ''
+        println("search for ${term} with code ${term.toCharArray().collect{it as Integer}.join(',')}")
         def domainClass = grailsApplication.getDomainClass("${params.domain}")
         def property = domainClass.persistentProperties.find { it.name == params.field }
         def sourceDomainClass = domainClass.constrainedProperties."${property.name}".metaConstraints.query?.domain

@@ -1,5 +1,9 @@
 package stocks
 
+import org.apache.lucene.analysis.Token
+import org.apache.lucene.analysis.TokenFilter
+import org.apache.lucene.analysis.TokenStream
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,7 +12,23 @@ package stocks
  * Time: 6:22 PM
  * To change this template use File | Settings | File Templates.
  */
-public final class FarsiNormalizationFilter {
+public final class FarsiNormalizationFilter extends TokenFilter {
+
+    public FarsiNormalizationFilter(TokenStream input) {
+        super(input)
+    }
+
+    public final Token next(Token reusableToken) {
+
+        assert reusableToken
+
+        Token nextToken = input.next(reusableToken)
+        if (nextToken) {
+            nextToken.setTermBuffer(normalize(nextToken.termBuffer(), nextToken.termLength()))
+            return nextToken
+        }
+        return null
+    }
 
     public final static String apply(String input) {
 
