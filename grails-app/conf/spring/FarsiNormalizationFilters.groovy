@@ -7,14 +7,21 @@ class FarsiNormalizationFilters {
         all(controller: '*', action: '*') {
             before = {
                 params.each { param ->
+                    println('farsi noralization filter')
                     if (params."${param.key}" instanceof String[]) {
                         def list = params."${param.key}".collect {
-                            FarsiNormalizationFilter.apply(it.value as String)
+                            println("normalizing ${it} with code ${it.toCharArray().collect { it as Integer }.join(',')}")
+                            def result = FarsiNormalizationFilter.apply(it.value as String)
+                            println("normalized ${result} with code ${result.toCharArray().collect { it as Integer }.join(',')}")
+                            result
                         }
                         def array = new String[list.size()]
                         params."${param.key}" = list.toArray(array)
-                    } else if (params."${param.key}" instanceof String)
+                    } else if (params."${param.key}" instanceof String) {
+                        println("normalizing ${params."${param.key}"} with code ${params."${param.key}".toCharArray().collect { it as Integer }.join(',')}")
                         params."${param.key}" = FarsiNormalizationFilter.apply(param.value as String)
+                        println("normalized ${params."${param.key}"} with code ${params."${param.key}".toCharArray().collect { it as Integer }.join(',')}")
+                    }
                 }
             }
             after = { Map model ->

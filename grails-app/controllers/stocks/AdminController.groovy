@@ -113,8 +113,13 @@ class AdminController {
         scheduleService.calculateQueryInstanceNextExecutionTime(QueryInstance.get(params.id))
     }
 
-    def reindex() {
+    def reindexAll() {
         searchableService.reindexAll()
+        render 'done'
+    }
+
+    def indexAll() {
+        searchableService.indexAll()
         render 'done'
     }
 }
