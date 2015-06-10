@@ -7,6 +7,8 @@
         <!--<prefer-application-packages>-->
             <!--<package-name>org.w3c.dom.*</package-name>-->
         <!--</prefer-application-packages>-->
+        <filter-dispatched-requests-enabled>true</filter-dispatched-requests-enabled>
+        <show-archived-real-path-enabled>true</show-archived-real-path-enabled>
         <prefer-web-inf-classes>false</prefer-web-inf-classes>
         <prefer-application-packages>
             <package-name>antlr.*</package-name>
