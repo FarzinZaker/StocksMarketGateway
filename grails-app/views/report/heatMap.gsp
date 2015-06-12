@@ -241,9 +241,13 @@
                             code="report.heatmap.display.value"/></label>
                     <input type="radio" id="rbtn_count" name="mode" class="css-checkbox" value="count"> <label
                         for="rbtn_count" class="css-label"><g:message code="report.heatmap.display.volume"/></label>
+
+                    <span style="margin-right:40px;margin-left:20px;display:inline-block;"><g:message
+                            code="report.heatmap.symbol.count"/></span>
+                    <form:numericTextBox name="symbolCount" value="10" min="1" max="100"/>
                 </div>
 
-                <div style="margin-top:10px;">
+                <div style="margin-top:10px;margin-bottom:10px;">
                     <span style="margin-left:20px;display:inline-block;"><g:message
                             code="report.heatmap.industryGroup.desc"/></span>
                     <form:select name="industry" onchange="industryChanged"
@@ -260,7 +264,7 @@
 
     <div class="row-fluid">
         <div class="col-xs-12 k-rtl">
-            <div id="body"></div>
+            <div id="body" style="margin-top:20px;"></div>
 
             <script language="javascript" type="text/javascript">
                 for (var i = 4; i >= -4; i--) {
@@ -293,23 +297,25 @@
     }
 
     function colorizeSymbols(d) {
-        if (normalizeFarsi(d.name).contains(normalizeFarsi($('#txtSymbolFilter').val().trim())))
+        if (normalizeFarsi(d.name).toString().indexOf(normalizeFarsi($('#txtSymbolFilter').val().trim())) > -1)
             return pickColor(d.priceChange);
         else
             return shadeRGBColor(pickColorArray(d.priceChange), 0.5);
     }
     function colorizeIndustryGroups(d) {
+        if (!d.parent)
+            return headerColor;
         var matched = false;
         var sum = 0;
         if (d.children.length > 0) {
             for (var i = 0; i < d.children.length; i++)
-                if (normalizeFarsi(d.children[i].name).contains(normalizeFarsi($('#txtSymbolFilter').val().trim()))) {
+                if (normalizeFarsi(d.children[i].name).toString().indexOf(normalizeFarsi($('#txtSymbolFilter').val().trim())) > -1) {
                     matched = true;
                     sum += d.children[i].priceChange;
                 }
         }
         else
-            return headerColor
+            return headerColor;
         if (matched)
             return pickColor(sum / d.children.length);
         else
@@ -338,7 +344,7 @@
     var root;
     var node;
 
-
+    var currentTipSymbolsCount = 0;
     var tip = d3.tip()
             .attr('class', 'd3-tip')
             .html(function (d) {
@@ -354,8 +360,9 @@
                         '<div class="hm-tip-selected-fullName">' + d.fullName + '</div>' +
                         '</div>';
                 var count = d.parent.children.length;
-                if (count > 10)
-                    count = 10;
+                var selectedCount = parseInt($('#symbolCount').val());
+                if (count > selectedCount)
+                    count = selectedCount;
                 for (var i = 0; i < count; i++) {
                     var c = d.parent.children[i];
                     result += '<div class="hm-tip-other">';
@@ -366,7 +373,9 @@
                     result += '</div>'
                 }
                 result += '</div>';
+                currentTipSymbolsCount = count;
                 return result;
+
             });
 
     var treemap = d3.layout.treemap()
@@ -374,7 +383,7 @@
             .size([chartWidth, chartHeight])
             .sticky(true)
             .value(
-            $('input[name=mode]:checked').val() == "size" ? size : count
+                    $('input[name=mode]:checked').val() == "size" ? size : count
 //    function (d) {
 //                return d.size;
 //            }
@@ -387,19 +396,21 @@
             .append("svg:g");
 
     chart.on('mousemove', function () {
-        var coordinates = [0, 0];
+        if (currentTipSymbolsCount > 0)
+            var coordinates = [0, 0];
         coordinates = d3.mouse(this);
         var x = coordinates[0];
         var y = coordinates[1];
         if (y > 250)
-            y -= 0;
+            y -= $('.d3-tip').height() - 370;
         else
-            y += 370;
+            y += 440;
         if (x < 200)
             x = 200;
         if (x > chartWidth - 200)
             x = chartWidth - 200;
         $('.d3-tip').css('top', y).css('left', x - 125);
+
     });
 
     var vis = chart.append('g')
@@ -431,13 +442,13 @@
 
                 parentEnterTransition.append("rect")
                         .attr("width", function (d) {
-                            return Math.max(0.01, d.dx);
+                            return Math.max(0.01, d.dx - 2);
                         })
                         .attr("height", headerHeight)
-                        .style("fill", colorizeIndustryGroups)
-                        .style('display', function (d) {
-                            d.parent ? '' : 'none';
-                        });
+                        .style("fill", colorizeIndustryGroups);
+//                        .style('display', function (d) {
+//                            d.parent ? '' : 'none';
+//                        });
                 parentEnterTransition.append('foreignObject')
                         .attr("class", "foreignObject")
                         .append("xhtml:body")
@@ -455,10 +466,10 @@
                             return Math.max(0.01, d.dx);
                         })
                         .attr("height", headerHeight)
-                        .style("fill", colorizeIndustryGroups)
-                        .style('display', function (d) {
-                            return d.parent ? '' : 'none';
-                        });
+                        .style("fill", colorizeIndustryGroups);
+//                        .style('display', function (d) {
+//                            return d.parent ? '' : 'none';
+//                        });
                 parentUpdateTransition.select(".foreignObject")
                         .attr("width", function (d) {
                             return Math.max(0.01, d.dx);
@@ -631,12 +642,12 @@
 
     function zoom(d) {
 
-        $('#industry').data('kendoComboBox').select(function(dataItem) {
+        $('#industry').data('kendoComboBox').select(function (dataItem) {
             return parseInt(dataItem.value) == parseInt(d.id);
         });
 
         this.treemap
-                .padding([headerHeight / (chartHeight / d.dy), 0, 0, 0])
+                .padding([headerHeight / (chartHeight / d.dy) + 1, 3, 6, 3])
                 .nodes(d);
 
         // moving the next two lines above treemap layout messes up padding of zoom result
@@ -717,23 +728,26 @@
         // update the width/height of the rects
         zoomTransition.select("rect")
                 .attr("width", function (d) {
-                    return Math.max(0.01, kx * d.dx);
+                    return d.children ? Math.max(0.01, kx * d.dx - 5) : Math.max(0.01, kx * d.dx);
                 })
                 .attr("height", function (d) {
                     return d.children ? headerHeight : Math.max(0.01, ky * d.dy);
+                })
+                .attr('x', function (d) {
+                    return d.children ? 2 : '';
                 })
                 .style("fill", function (d) {
                     if (!d.children)
                         return colorizeSymbols(d);
                     else if (d.children.length > 0) {
-                        return colorizeIndustryGroups(d)
+                        return colorizeIndustryGroups(d);
                     }
                     else
                         return headerColor
-                })
-                .style('display', function (d) {
-                    return d.parent ? '' : 'none';
                 });
+//                .style('display', function (d) {
+//                    return d.parent ? '' : 'none';
+//                });
 
         node = d;
 

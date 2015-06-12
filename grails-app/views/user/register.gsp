@@ -41,7 +41,7 @@
                     <form:select name="sex" entity="${user}" items="${[[text:message(code:'user.sex.male'),value:'male'],[text:message(code:'user.sex.female'),value:'female']]}" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="user.mobile">
-                    <form:textBox name="mobile" entity="${user}" validation="required" style="width:500px;"/>
+                    <form:maskedTextBox name="mobile" mask="09000000000" entity="${user}" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="user.nationalCode">
                     <form:textBox name="nationalCode" entity="${user}" validation="national-code" style="width:500px;"/>

@@ -75,6 +75,20 @@ class FormTagLib {
 """
     }
 
+    def maskedTextBox = { attrs, body ->
+        out << textBox(attrs, body)
+
+        out << """
+            <script language='javascript' type='text/javascript'>
+                \$(document).ready(function(){
+                    \$('#${attrs.id ?: attrs.name}').kendoMaskedTextBox({
+                        mask: "${attrs.mask}"
+                    });
+                });
+            </script>
+"""
+    }
+
     def numericTextBox = { attrs, body ->
         out << """
             <span class='k-rtl'>

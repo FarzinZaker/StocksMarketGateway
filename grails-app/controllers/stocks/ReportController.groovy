@@ -53,7 +53,7 @@ class ReportController {
         }
         result = [
                 id      : 0L,
-                name    : '',
+                name    : message(code: 'report.heatmap.industryGroup.all'),
                 children: result
         ]
         render(result as JSON)
