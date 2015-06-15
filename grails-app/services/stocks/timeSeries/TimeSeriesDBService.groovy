@@ -71,7 +71,7 @@ class TimeSeriesDBService {
                 successfulPosts++
             }
             catch (ex) {
-                println "post command failed with message: ${ex.message}"
+//                println "post command failed with message: ${ex.message}"
                 failedPosts++
                 Thread.sleep(100)
             }
