@@ -15,7 +15,7 @@ public class HttpHelper {
 //        println(data)
         try {
             def http = new HTTPBuilder(baseUrl + path)
-            http.request(Method.POST, ContentType.JSON) { req ->
+            http.request(Method.POST, ContentType.TEXT) { req ->
                 body = data
 
                 response.success = { resp, json ->
@@ -25,11 +25,11 @@ public class HttpHelper {
             }
 //
         } catch (HttpResponseException ex) {
-            ex.printStackTrace()
-            return null
+//            ex.printStackTrace()
+            throw ex
         } catch (ConnectException ex) {
-            ex.printStackTrace()
-            return null
+//            ex.printStackTrace()
+            throw ex
         }
     }
 

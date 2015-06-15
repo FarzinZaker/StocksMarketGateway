@@ -59,18 +59,22 @@ public class Point {
     public Map toJSON() {
         def json = [:]
         json.name = name
-        if(hasTags()){
+        if (hasTags()) {
             json.tags = tagsMap
         }
-        if(hasTime()) {
+        if (hasTime()) {
             json.time = timeLong
             json.precision = 'n'
         }
-        json.fields = [value: this.value]
+        json.fields = [value: this.value as Double]
         json
     }
 
     public String toJSONString() {
         toJSON()
+    }
+
+    public String toCSV() {
+        "${name}${tags.isEmpty() ? ' ' : ', '}${tags.collect { "${it.key}=${it.value}" }.join(', ')}${tags.isEmpty() ? '' : ' '}value=${value as Double} ${timeLong}"
     }
 }

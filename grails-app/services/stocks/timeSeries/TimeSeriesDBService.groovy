@@ -46,7 +46,9 @@ class TimeSeriesDBService {
         def path = "/write"
         serie.databaseName(DBName)
         serie.retentionPolicy('default')
-        postCommand(path, serie.toJSON())
+        serie.toPagedCSV(1000).each {
+            postCommand(path, it)
+        }
     }
 
     def query(String query) {
@@ -54,17 +56,34 @@ class TimeSeriesDBService {
         getCommand(path, [db: DBName, q: query])?.results
     }
 
+    private static successfulPosts = 0;
+    private static failedPosts = 0;
+
     private def postCommand(String path, data) {
-        HttpHelper.postText(
-                serverUrl,
-                "${path}?${authenticationString}&time_precision=u",
-                data)
+        def succeed = false
+        while (!succeed) {
+            try {
+                HttpHelper.postText(
+                        serverUrl,
+                        "${path}?db=${DBName}",
+                        data)
+                succeed = true
+                successfulPosts++
+            }
+            catch (ex) {
+                println "post command failed with message: ${ex.message}"
+                failedPosts++
+                Thread.sleep(100)
+            }
+        }
+
+        println "${successfulPosts} succeed, ${failedPosts} failed"
     }
 
     private def getCommand(String path, data) {
         HttpHelper.getText(
                 serverUrl,
-                "${path}?${authenticationString}&time_precision=u",
+                "${path}?db=${DBName}",
                 data)
     }
 }

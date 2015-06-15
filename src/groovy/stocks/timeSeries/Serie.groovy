@@ -94,4 +94,26 @@ public class Serie {
         toJSON()
     }
 
+    public List<String> toPagedCSV(Integer pageSize) {
+        if (pointList.size() <= pageSize)
+            return [toCSV()]
+
+        def result = []
+        def startIndex = 0
+        while(startIndex * pageSize < pointList.size()) {
+            result << toCSV(startIndex++, pageSize)
+        }
+        result
+    }
+
+    public String toCSV(Integer page = 1, Integer pageSize = Integer.MAX_VALUE) {
+        try {
+            def resultList = pointList[(page - 1) * pageSize..[page * pageSize, pointList.size()].min() - 1]
+            resultList.collect { it.toCSV() }.join('\n')
+        }
+        catch(ex){
+            throw ex
+        }
+    }
+
 }

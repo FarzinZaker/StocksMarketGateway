@@ -302,6 +302,7 @@
         else
             return shadeRGBColor(pickColorArray(d.priceChange), 0.5);
     }
+
     function colorizeIndustryGroups(d) {
         if (!d.parent)
             return headerColor;
