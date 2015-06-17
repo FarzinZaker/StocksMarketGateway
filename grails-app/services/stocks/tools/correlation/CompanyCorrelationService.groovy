@@ -10,6 +10,8 @@ import stocks.tse.SymbolDailyTrade
 
 class CompanyCorrelationService extends CorrelationServiceBase {
 
+    def adjustedPriceSeriesService
+
     @Override
     List searchItems(String queryStr) {
 
@@ -47,95 +49,62 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
     @Override
     Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
-        List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
-            it as Long
-        })
-        def itemList = SymbolAdjustedDailyTrade.createCriteria().list {
-            'in'('symbol', symList)
-            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
-            isNotNull("${period}Snapshot")
-            gte("${period}Snapshot", startDate)
-            lte("${period}Snapshot", endDate)
-            projections {
-                symbol {
-                    property('id')
-                }
-                property("${period}Snapshot")
-                property('closingPrice')
-            }
-        }.collect {
-            [
-                    item : it[0].toString(),
-                    date : it[1],
-                    value: it[2]
-            ]
+
+        def groupingMode = '1d'
+        switch (period){
+            case 'daily':
+                groupingMode = '1d'
+                break
+            case 'weekly':
+                groupingMode = '1w'
+                break
+            case 'monthly':
+                groupingMode = '30d'
+                break
         }
 
         def result = [:]
-        itemList.each {
-            if (!result.keySet().contains(it.item))
-                result.put(it.item, [[date: it.date, value: it.value]])
-            else
-                result[it.item].add([date: it.date, value: it.value])
+        items.each { symbolId ->
+            result.put(symbolId, adjustedPriceSeriesService.closingPriceList(symbolId as Long, startDate, endDate, groupingMode).collect {
+                [
+                        date : it.date,
+                        value: it.value
+                ]
+
+            })
         }
         result
     }
 
     @Override
     List getItemValues(String item, Date startDate, Date endDate, String period) {
-        Symbol symbol = Symbol.get(item as Long)
-        SymbolAdjustedDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
-            isNotNull("${period}Snapshot")
-            gte("${period}Snapshot", startDate)
-            lte("${period}Snapshot", endDate)
-            projections {
-                property("${period}Snapshot")
-                property('closingPrice')
-            }
-        }.collect {
-            [
-                    date : it[0],
-                    value: it[1]
-            ]
+
+        def groupingMode = '1d'
+        switch (period){
+            case 'daily':
+                groupingMode = '1d'
+                break
+            case 'weekly':
+                groupingMode = '1w'
+                break
+            case 'monthly':
+                groupingMode = '30d'
+                break
         }
+
+        adjustedPriceSeriesService.closingPriceList(item as Long, startDate, endDate, groupingMode)
     }
 
     @Override
     Double getBaseValue(String item, Date startDate) {
-        Symbol symbol = Symbol.get(item as Long)
-        SymbolAdjustedDailyTrade.get(SymbolAdjustedDailyTrade.createCriteria().get {
-            eq('symbol', symbol)
-            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
-            lt('creationDate', startDate)
-            projections {
-                max('id')
-            }
-        })?.closingPrice ?: 0
+        adjustedPriceSeriesService.lastClosingPrice(item as Long, startDate) ?: 0
     }
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
-        List<Symbol> symList = Symbol.findAllByIdInList((items?.size() > 1000 ? items[0..999] : items).collect {
-            it as Long
-        })
-        def list = SymbolAdjustedDailyTrade.createCriteria().list {
-            'in'('symbol', symList)
-            eq('adjustmentType', AdjustmentHelper.globalAdjustmentType)
-            lt('creationDate', startDate)
-            projections {
-                groupProperty('symbol')
-                max('id')
-            }
-        }
-        def dailyTrades = SymbolAdjustedDailyTrade.findAllByIdInList(list.collect { it[1] })
         def result = [:]
-        list.each { item ->
-            def symbolId = (item[0] as Symbol).id?.toString()
-            def value = dailyTrades.find { it.id == (item[1] as Double) }?.closingPrice ?: 0
-            if (!result.containsKey(symbolId))
-                result.put(symbolId, value)
+        items.each {symbolId ->
+            result.put(symbolId, adjustedPriceSeriesService.lastClosingPrice(symbolId as Long, startDate))
         }
         result
     }

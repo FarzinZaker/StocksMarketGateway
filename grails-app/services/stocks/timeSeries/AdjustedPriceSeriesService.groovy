@@ -1,5 +1,6 @@
 package stocks.timeSeries
 
+import groovy.time.TimeCategory
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
@@ -39,61 +40,109 @@ class AdjustedPriceSeriesService {
         timeSeriesDBService.write(serie)
     }
 
-    def firstTradePriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'firstTradePrice')
+    def firstTradePriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'firstTradePrice', startDate, endDate, groupingMode, adjustmentType)
     }
 
-    def closingPriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'closingPrice')
+    def lastFirstTradePrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'firstTradePrice', endDate, adjustmentType)
     }
 
-    def minPriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'minPrice')
+    def closingPriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'closingPrice', startDate, endDate, groupingMode, adjustmentType)
     }
 
-    def maxPriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'maxPrice')
+    def lastClosingPrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'closingPrice', endDate, adjustmentType)
     }
 
-    def totalTradeCountList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'totalTradeCount')
+    def minPriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'minPrice', startDate, endDate, groupingMode, adjustmentType)
     }
 
-    def totalTradeValueList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'totalTradeValue')
+    def lastMinPrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'minPrice', endDate, adjustmentType)
     }
 
-    def totalTradeVolumeList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'totalTradeVolume')
+    def maxPriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'maxPrice', startDate, endDate, groupingMode, adjustmentType)
     }
 
-    def yesterdayPriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'yesterdayPrice')
+    def lastMaxPrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'maxPrice', endDate, adjustmentType)
     }
 
-    def priceChangeList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'priceChange')
+    def totalTradeCountList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'totalTradeCount', startDate, endDate, groupingMode, adjustmentType)
     }
 
-    def lastTradePriceList(Long symbolId, String adjustmentType) {
-        priceList(symbolId, adjustmentType, 'lastTradePrice')
+    def lastTotalTradeCount(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'totalTradeCount', endDate, adjustmentType)
     }
 
-    def dailyTradeList(Long symbolId, String adjustmentType) {
-        def series = timeSeriesDBService.query("""SELECT * FROM ${
-            [
-                    'firstTradePrice',
-                    'lastTradePrice',
-                    'closingPrice',
-                    'minPrice',
-                    'maxPrice',
-                    'totalTradeCount',
-                    'totalTradeValue',
-                    'totalTradeVolume',
-                    'yesterdayPrice',
-                    'priceChange'
-            ].collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')
-        } """)[0]?.series
+    def totalTradeValueList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'totalTradeValue', startDate, endDate, groupingMode, adjustmentType)
+    }
+
+    def lastTotalTradeValue(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'totalTradeValue', endDate, adjustmentType)
+    }
+
+    def totalTradeVolumeList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'totalTradeVolume', startDate, endDate, groupingMode, adjustmentType)
+    }
+
+    def lastTotalTradeVolume(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'totalTradeVolume', endDate, adjustmentType)
+    }
+
+    def yesterdayPriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'yesterdayPrice', startDate, endDate, groupingMode, adjustmentType)
+    }
+
+    def lastYesterdayPrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'yesterdayPrice', endDate, adjustmentType)
+    }
+
+    def priceChangeList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'priceChange', startDate, endDate, groupingMode, adjustmentType)
+    }
+
+    def lastPriceChange(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'priceChange', endDate, adjustmentType)
+    }
+
+    def lastTradePriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        priceList(symbolId, 'lastTradePrice', startDate, endDate, groupingMode, adjustmentType)
+    }
+
+    def lastLastTradePrice(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        lastPrice(symbolId, 'lastTradePrice', endDate, adjustmentType)
+    }
+
+    def dailyTradeList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        if (!startDate)
+            use(TimeCategory) {
+                startDate = firstTradeDate(symbolId)
+            }
+        if (!endDate)
+            endDate = new Date()
+
+        if (!adjustmentType)
+            adjustmentType = AdjustmentHelper.globalAdjustmentType
+        def propertyList = [
+                'firstTradePrice',
+                'lastTradePrice',
+                'closingPrice',
+                'minPrice',
+                'maxPrice',
+                'totalTradeCount',
+                'totalTradeValue',
+                'totalTradeVolume',
+                'yesterdayPrice',
+                'priceChange'
+        ]
+        def series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
             def item = [:]
@@ -102,16 +151,47 @@ class AdjustedPriceSeriesService {
             series.each { serie ->
                 item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
             }
-            list << item
+            if (item.closingPrice)
+                list << item
         }
         list.sort { it.date }
 
     }
 
-    def priceList(Long symbolId, String adjustmentType, String property) {
-        def values = timeSeriesDBService.query("SELECT * FROM \"dailyTrade_${adjustmentType}_${symbolId}_${property}\"")[0]?.series?.values
-        values ? values[0].collect {
+    def priceList(Long symbolId, String property, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        if (!startDate)
+            use(TimeCategory) {
+                startDate = new Date() - 20.years
+            }
+        if (!endDate)
+            endDate = new Date()
+        if (!adjustmentType)
+            adjustmentType = AdjustmentHelper.globalAdjustmentType
+        def values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+        values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         } : []
+    }
+
+    Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null){
+        if (!endDate)
+            endDate = new Date()
+        if (!adjustmentType)
+            adjustmentType = AdjustmentHelper.globalAdjustmentType
+        def values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time <= ${endDate.time * 1000}u")[0]?.series?.values
+        values ? values[0].find()[1] as Double : null
+    }
+
+    Date firstTradeDate(Long symbolId) {
+        SymbolDailyTrade.createCriteria().list {
+            symbol {
+                eq('id', symbolId)
+            }
+            projections {
+                property('date')
+            }
+            order('date', ORDER_ASCENDING)
+            maxResults(1)
+        }[0]
     }
 }

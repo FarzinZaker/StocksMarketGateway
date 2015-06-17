@@ -48,10 +48,10 @@ public class HttpHelper {
 //
         } catch (HttpResponseException ex) {
             ex.printStackTrace()
-            return null
+            throw ex
         } catch (ConnectException ex) {
             ex.printStackTrace()
-            return null
+            throw ex
         }
     }
 }

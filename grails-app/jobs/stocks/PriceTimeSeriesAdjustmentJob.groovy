@@ -8,7 +8,10 @@ class PriceTimeSeriesAdjustmentJob {
 
     def priceSeriesAdjustmentService
 
-    def cronExpression = "0 0 2 * * ?"
+    static startDelay = 60000
+    static timeout = 100l
+//    def cronExpression = "0 0 22 * * ?"
+    static concurrent = false
 
     def execute() {
         def idList = SymbolDailyTrade.createCriteria().list{

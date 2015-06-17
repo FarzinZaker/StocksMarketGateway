@@ -26,7 +26,7 @@ class PriceSeriesAdjustmentService {
 //        def minPriceList = adjustedPriceSeriesService.minPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
 //        def yesterdayPriceList = adjustedPriceSeriesService.yesterdayPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
 
-        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
+        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '1d', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
 
         if (dailyTrades && dailyTrades.size()) {
 
