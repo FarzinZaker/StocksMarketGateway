@@ -46,7 +46,7 @@ class TimeSeriesDBService {
         def path = "/write"
         serie.databaseName(DBName)
         serie.retentionPolicy('default')
-        serie.toPagedCSV(1000).each {
+        serie.toPagedCSV(50).each {
             postCommand(path, it)
         }
     }
