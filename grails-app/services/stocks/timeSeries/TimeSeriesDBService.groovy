@@ -77,7 +77,7 @@ class TimeSeriesDBService {
             }
         }
 
-//        println "${successfulPosts} succeed, ${failedPosts} failed"
+        println "${successfulPosts} succeed, ${failedPosts} failed"
     }
 
     private def getCommand(String path, data) {
