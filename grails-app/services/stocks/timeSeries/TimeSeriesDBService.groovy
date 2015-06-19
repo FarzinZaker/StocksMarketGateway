@@ -42,12 +42,32 @@ class TimeSeriesDBService {
         connection.deleteDatabase(DBName)
     }
 
+    private static windowSize = 50
+    private static successfulPosts = 0
+    private static failedPosts = 0
+
     void write(Serie serie) {
         def path = "/write"
         serie.databaseName(DBName)
         serie.retentionPolicy('default')
-        serie.toPagedCSV(50).each {
-            postCommand(path, it)
+        def succeed = false
+        while (!succeed) {
+            try {
+                serie.toPagedCSV(windowSize).each {
+                    postCommand(path, it)
+                    successfulPosts++
+                }
+                succeed = true
+                windowSize += 5
+            }
+            catch (ex) {
+//                println "post command failed with message: ${ex.message}"
+                windowSize = [1, Math.round(windowSize / 2)].max()
+                failedPosts++
+                Thread.sleep(100)
+            }
+            println "window size: ${windowSize}"
+//            println "${successfulPosts} succeed, ${failedPosts} failed"
         }
     }
 
@@ -56,28 +76,12 @@ class TimeSeriesDBService {
         getCommand(path, [db: DBName, q: query])?.results
     }
 
-    private static successfulPosts = 0;
-    private static failedPosts = 0;
-
     private def postCommand(String path, data) {
-        def succeed = false
-        while (!succeed) {
-            try {
-                HttpHelper.postText(
-                        serverUrl,
-                        "${path}?db=${DBName}",
-                        data)
-                succeed = true
-                successfulPosts++
-            }
-            catch (ex) {
-//                println "post command failed with message: ${ex.message}"
-                failedPosts++
-                Thread.sleep(100)
-            }
-        }
-
-        println "${successfulPosts} succeed, ${failedPosts} failed"
+        HttpHelper.postText(
+                serverUrl,
+                "${path}?db=${DBName}",
+                data)
+//        println "written ${windowSize} records"
     }
 
     private def getCommand(String path, data) {
