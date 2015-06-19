@@ -13,6 +13,7 @@ class DailyTradesToTimeSeriesJob {
     def adjustedPriceSeriesService
 
     def execute() {
+        return
         def lastState = getLastState()
         println """remaining items: ${
             SymbolDailyTrade.createCriteria().count {
