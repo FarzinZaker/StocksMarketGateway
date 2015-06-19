@@ -55,10 +55,12 @@ class TimeSeriesDBService {
             try {
                 serie.toPagedCSV(windowSize).each {
                     postCommand(path, it)
+
                     successfulPosts++
+                    println "written ${windowSize} records"
                 }
                 succeed = true
-                windowSize += 5
+                windowSize = [windowSize + 5, 100].min()
             }
             catch (ex) {
 //                println "post command failed with message: ${ex.message}"
@@ -81,7 +83,6 @@ class TimeSeriesDBService {
                 serverUrl,
                 "${path}?db=${DBName}",
                 data)
-//        println "written ${windowSize} records"
     }
 
     private def getCommand(String path, data) {
