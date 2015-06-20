@@ -1,7 +1,7 @@
 <form:field fieldName="correlation.target">
     <span style="width: 510px;display: inline-block">
         <select id="targetGroup" name="targetGroup" style="width:200px;">
-            <option value="all"><g:message code="tools.correlation.allGroups"/></option>
+            %{--<option value="all"><g:message code="tools.correlation.allGroups"/></option>--}%
             <g:each in="${groups}" var="group">
                 <option value="${group.value}"><g:message code="${group.text}"/></option>
             </g:each>

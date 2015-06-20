@@ -95,7 +95,7 @@ class ToolsController {
         }
         def service = grailsApplication.mainContext[serviceClass.propertyName] as CorrelationServiceBase
         def result = service.searchItems(term)
-        if (params.role == "target")
+        if (params.role == "target" && params.group != 'stocks.tools.correlation.CompanyCorrelationService')
             result = [[value: 'all', text: message(code: "${serviceClass.propertyName}.all")]] + result
         render([data: result] as JSON)
     }

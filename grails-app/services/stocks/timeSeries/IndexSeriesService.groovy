@@ -125,7 +125,7 @@ class IndexSeriesService {
     def indexHistoryList(Long indexId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
         if (!startDate)
             use(TimeCategory) {
-                startDate = firstTradeDate(indexId)
+                startDate = firstIndexDate(indexId)
             }
         if (!endDate)
             endDate = new Date()
@@ -142,7 +142,7 @@ class IndexSeriesService {
                 "baseInvestmentAdjustmentFactor",
                 "netCashReturnIndex"
         ]
-        def series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${indexId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+        def series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "index_${indexId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
             def item = [:]
