@@ -7,14 +7,14 @@ import stocks.tse.SymbolDailyTrade
 
 class DailyTradesToTimeSeriesJob {
 
-    static startDelay = 60000
-    static timeout = 100l
-    static concurrent = false
+//    static startDelay = 60000
+//    static timeout = 100l
+//    static concurrent = false
 
     def adjustedPriceSeriesService
 
     def execute() {
-
+        return
         def lastState = getLastState()
         println """remaining items: ${
             SymbolDailyTrade.createCriteria().count {

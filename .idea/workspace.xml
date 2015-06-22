@@ -2,85 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/balloon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/bar-loader.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/images/bartype-icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/button-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/linetool-properties/colorpicker-icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_closed_hand.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_closed_hand_move.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_cross.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_dot.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_pointinghand.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_size_horizontal.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/cursor_size_vertical.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/fonts/fontawesome-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/fonts/fontawesome-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/linetool-properties/icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/sidetoolbar/instruments.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/legend-icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/dialogs/linewidth-slider.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/loading-small.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/logo-widget-copyright-faded.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/logo-widget-copyright.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/dialogs/objects-tree.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/dialogs/opacity-slider.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/prediction-clock-black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/prediction-clock-white.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/prediction-failure-white.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/prediction-success-white.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/save-load-separator-inv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/select-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/dialogs/spread-actions.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/ticker-icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/tvcolorpicker-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/tvcolorpicker-check.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/tvcolorpicker-sprite.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/light/zoom.cur" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/ChartOldController.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/ChartOldControllerTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/stocks/SymbolControllerTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/chart-client/css/chartclient_full.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/charting_library.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/de_DE.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/en.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/es.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fa_IR.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/fonts/fontawesome-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fr.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/it.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ja.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ko.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/nl_NL.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/pt.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ru.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th_TH.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/tr.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/vi.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh_TW.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/AdjustedPriceSeriesService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/AdjustedPriceSeriesService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/AdminController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/spring/GlobalParameterFilters.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/spring/GlobalParameterFilters.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/PriceSeriesAdjustmentService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/PriceSeriesAdjustmentService.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Stocks.iml" afterPath="$PROJECT_DIR$/Stocks.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/report/heatMap.gsp" afterPath="$PROJECT_DIR$/grails-app/views/report/heatMap.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/de_DE.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/de_DE.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/en.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/en.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/es.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/es.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fa_IR.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fa_IR.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fr.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/it.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/it.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ja.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ja.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ko.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ko.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/nl_NL.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/nl_NL.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/pt.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/pt.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ru.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ru.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th_TH.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th_TH.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/tr.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/tr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/vi.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/vi.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh_TW.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh_TW.json" />
     </list>
     <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
@@ -223,12 +167,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DailyTradesToTimeSeriesJob.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DailyTradesToTimeSeriesJob.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59075344">
-              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PriceTimeSeriesAdjustmentJob.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.41095892">
+              <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+              <folding>
+                <element signature="e#16#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -238,16 +194,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1282" column="37" selection-start-line="1282" selection-start-column="37" selection-end-line="1282" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -314,7 +260,6 @@
         <option value="$PROJECT_DIR$/grails-app/services/stocks/tse/PriceTimeSeriesService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/TimeSeriesDBService.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/timeSeries/Serie.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/stocks/util/HttpHelper.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/report/heatMap.gsp" />
         <option value="$PROJECT_DIR$/grails-app/conf/spring/FarsiNormalizationFilters.groovy" />
@@ -334,6 +279,7 @@
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/PriceSeriesAdjustmentService.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" />
       </list>
     </option>
   </component>
@@ -1111,13 +1057,7 @@
       <workItem from="1433753566779" duration="7917000" />
       <workItem from="1434887309879" duration="4134000" />
       <workItem from="1434891993975" duration="13679000" />
-      <workItem from="1434976742623" duration="9675000" />
-    </task>
-    <task id="LOCAL-00199" summary="bug fix">
-      <created>1429890499654</created>
-      <option name="number" value="00199" />
-      <option name="project" value="LOCAL" />
-      <updated>1429890499655</updated>
+      <workItem from="1434976742623" duration="10156000" />
     </task>
     <task id="LOCAL-00200" summary="adjustment undo">
       <created>1429953428233</created>
@@ -1407,11 +1347,17 @@
       <option name="project" value="LOCAL" />
       <updated>1433589042145</updated>
     </task>
-    <option name="localTasksCounter" value="248" />
+    <task id="LOCAL-00248" summary="time series correction">
+      <created>1434986729679</created>
+      <option name="number" value="00248" />
+      <option name="project" value="LOCAL" />
+      <updated>1434986729680</updated>
+    </task>
+    <option name="localTasksCounter" value="249" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2710910000" />
+    <option name="totallyTimeSpent" value="2711391000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1459,6 +1405,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36343613" sideWeight="0.9215054" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22257721" sideWeight="0.45675266" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21260683" sideWeight="0.54324734" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1471,7 +1418,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1533,7 +1479,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="snapshots" />
     <MESSAGE value="adjustment undo" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="daily trades" />
@@ -1558,7 +1503,8 @@
     <MESSAGE value="twitter" />
     <MESSAGE value="indicators disabled" />
     <MESSAGE value="autotimestamp problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="autotimestamp problem" />
+    <MESSAGE value="time series correction" />
+    <option name="LAST_COMMIT_MESSAGE" value="time series correction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1748,13 +1694,6 @@
           <folding>
             <element signature="e#21#56#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -2024,9 +1963,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59075344">
-          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41095892">
+          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+          <folding>
+            <element signature="e#16#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
