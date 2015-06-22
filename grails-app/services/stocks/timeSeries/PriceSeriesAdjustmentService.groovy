@@ -19,13 +19,6 @@ class PriceSeriesAdjustmentService {
 
     def applyCapitalIncreasePlusBrought(Long symbolId) {
 
-//        def closingPriceList = adjustedPriceSeriesService.closingPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-//        def firstTradePriceList = adjustedPriceSeriesService.firstTradePriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-//        def lastTradePriceList = adjustedPriceSeriesService.lastTradePriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-//        def maxPriceList = adjustedPriceSeriesService.maxPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-//        def minPriceList = adjustedPriceSeriesService.minPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-//        def yesterdayPriceList = adjustedPriceSeriesService.yesterdayPriceList(symbolId, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
-
         def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '1d', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
 
         if (dailyTrades && dailyTrades.size()) {
@@ -46,7 +39,7 @@ class PriceSeriesAdjustmentService {
             }
 
             if (finalList?.size())
-                adjustedPriceSeriesService.write(finalList)
+                adjustedPriceSeriesService.write(finalList, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
 //            symbolIndicatorBulkService.recalculateIndicators(symbol)
         }

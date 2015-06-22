@@ -6,7 +6,7 @@ class FarsiNormalizationFilters {
     def filters = {
         all(controller: '*', action: '*') {
             before = {
-                println('farsi noralization filter')
+//                println('farsi noralization filter')
                 params.each { param ->
                     if (params."${param.key}" instanceof String[]) {
                         def list = params."${param.key}".collect {

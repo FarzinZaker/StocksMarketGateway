@@ -3,6 +3,7 @@ package stocks
 import grails.plugins.springsecurity.Secured
 import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
+import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
@@ -98,7 +99,7 @@ class AdminController {
 //        timeSeriesDBService.query('')
 
         def list = SymbolDailyTrade.list(max: 1)
-        adjustedPriceSeriesService.write(list)
+        adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
 
 //        render timeSeriesDBService.query('select * from /.*/')
 

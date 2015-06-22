@@ -8,11 +8,11 @@ class AdjustedPriceSeriesService {
 
     def timeSeriesDBService
 
-    def write(List dailyTrades) {
+    def write(List dailyTrades, List<String> adjustmentTypes) {
 
         def serie = new Serie()
 
-        AdjustmentHelper.TYPES.each { adjustmentType ->
+        adjustmentTypes.each { adjustmentType ->
 
             dailyTrades.each { dailyTrade ->
                 [

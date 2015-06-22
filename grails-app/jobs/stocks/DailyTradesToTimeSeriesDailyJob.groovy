@@ -1,5 +1,6 @@
 package stocks
 
+import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 
@@ -17,7 +18,7 @@ class DailyTradesToTimeSeriesDailyJob {
             gte('date', new Date().clearTime())
         }
         if (list.size()) {
-            adjustedPriceSeriesService.write(list)
+            adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
         }
     }
 }

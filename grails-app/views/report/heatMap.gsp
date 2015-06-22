@@ -648,7 +648,7 @@
         });
 
         this.treemap
-                .padding([headerHeight / (chartHeight / d.dy) + 1, 3, 6, 3])
+                .padding([headerHeight / (chartHeight / d.dy) + 1, 0.75, 1.5, 0.75])
                 .nodes(d);
 
         // moving the next two lines above treemap layout messes up padding of zoom result
@@ -729,13 +729,13 @@
         // update the width/height of the rects
         zoomTransition.select("rect")
                 .attr("width", function (d) {
-                    return d.children ? Math.max(0.01, kx * d.dx - 5) : Math.max(0.01, kx * d.dx);
+                    return d.children ? Math.max(0.01, kx * d.dx - 2) : Math.max(0.01, kx * d.dx);
                 })
                 .attr("height", function (d) {
                     return d.children ? headerHeight : Math.max(0.01, ky * d.dy);
                 })
                 .attr('x', function (d) {
-                    return d.children ? 2 : '';
+                    return d.children ? 1 : '';
                 })
                 .style("fill", function (d) {
                     if (!d.children)

@@ -1,19 +1,19 @@
 package stocks
 
 import grails.converters.JSON
+import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
 
 class DailyTradesToTimeSeriesJob {
 
-//    static startDelay = 60000
-//    static timeout = 100l
-//    static concurrent = false
+    static startDelay = 60000
+    static timeout = 100l
+    static concurrent = false
 
     def adjustedPriceSeriesService
 
     def execute() {
-        return
 
         def lastState = getLastState()
         println """remaining items: ${
@@ -29,7 +29,7 @@ class DailyTradesToTimeSeriesJob {
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeriesService.write(list)
+            adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
         } else
             println "no daily trade to import to time series"
