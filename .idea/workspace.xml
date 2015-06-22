@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/PriceTimeSeriesAdjustmentJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
@@ -1057,13 +1055,7 @@
       <workItem from="1433753566779" duration="7917000" />
       <workItem from="1434887309879" duration="4134000" />
       <workItem from="1434891993975" duration="13679000" />
-      <workItem from="1434976742623" duration="10156000" />
-    </task>
-    <task id="LOCAL-00200" summary="adjustment undo">
-      <created>1429953428233</created>
-      <option name="number" value="00200" />
-      <option name="project" value="LOCAL" />
-      <updated>1429953428235</updated>
+      <workItem from="1434976742623" duration="10233000" />
     </task>
     <task id="LOCAL-00201" summary="bug fix">
       <created>1429966188116</created>
@@ -1353,11 +1345,17 @@
       <option name="project" value="LOCAL" />
       <updated>1434986729680</updated>
     </task>
-    <option name="localTasksCounter" value="249" />
+    <task id="LOCAL-00249" summary="time series correction">
+      <created>1434987174204</created>
+      <option name="number" value="00249" />
+      <option name="project" value="LOCAL" />
+      <updated>1434987174205</updated>
+    </task>
+    <option name="localTasksCounter" value="250" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2711391000" />
+    <option name="totallyTimeSpent" value="2711468000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
