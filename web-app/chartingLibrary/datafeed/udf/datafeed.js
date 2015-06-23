@@ -190,7 +190,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype.searchSymbolsByName = function(ticker,
 				exchange: exchange
 			})
 			.done(function (response) {
-				var data = JSON.parse(response);
+				var data = response;
 
 				for (var i = 0; i < data.length; ++i) {
 					if (!data[i].params) {
