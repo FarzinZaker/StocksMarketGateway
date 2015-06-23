@@ -46,6 +46,11 @@ class TimeSeriesDBService {
     private static successfulPosts = 0
     private static failedPosts = 0
 
+    void dropSerie(String serieName){
+
+        query("DROP MEASUREMENT ${serieName}")
+    }
+
     void write(Serie serie) {
         def path = "/write"
         serie.databaseName(DBName)

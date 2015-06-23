@@ -2,60 +2,42 @@ package stocks
 
 import grails.converters.JSON
 import stocks.tse.Symbol
+import stocks.tse.Index
 
 class ChartController {
 
     def adjustedPriceSeriesService
 
     def config() {
+
+        def markets = []
+        markets << [value: "",
+                    name : message(code: 'market.all'),
+                    desc : ""
+        ]
+        5.times {
+            markets << [
+                    value: it - 1,
+                    name : message(code: "market.${it}"),
+                    desc : ''
+            ]
+        }
+
         render([
                 supports_search       : true,
                 supports_group_request: false,
-                supports_marks        : true,
-                exchanges             : [
-                        [value: "",
-                         name : "All Exchanges",
-                         desc : ""
-                        ],
-                        [
-                                value: "XETRA",
-                                name : "XETRA",
-                                desc : "XETRA"
-                        ],
-                        [
-                                value: "NSE",
-                                name : "NSE",
-                                desc : "NSE"
-                        ], [
-                                value: "NasdaqNM",
-                                name : "NasdaqNM",
-                                desc : "NasdaqNM"
-                        ],
-                        [
-                                value: "NYSE",
-                                name : "NYSE",
-                                desc : "NYSE"
-                        ],
-                        [
-                                value: "CDNX",
-                                name : "CDNX", desc: "CDNX"
-                        ],
-                        [
-                                value: "Stuttgart",
-                                name : "Stuttgart",
-                                desc : "Stuttgart"
-                        ]
-                ],
+                supports_marks        : false,
+                exchanges             : markets,
                 symbolsTypes          : [
                         [
-                                name : "All types",
+                                name : message(code: 'all'),
                                 value: ""
                         ], [
-                                name : "Stock",
+                                name : message(code: 'stock'),
                                 value: "stock"
                         ],
                         [
-                                name : "Index",
+                                name : message(code: 'index'),
                                 value: "index"
                         ]
                 ],
@@ -69,10 +51,10 @@ class ChartController {
                 name                 : symbol.persianCode,
                 "exchange-traded"    : message(code: "market.${symbol.marketIdentifier}"),
                 "exchange-listed"    : message(code: "market.${symbol.marketIdentifier}"),
-                timezone             : "America/New_York",
+                timezone             : "Asia/Tehran",
                 minmov               : 1,
                 minmov2              : 0,
-                pricescale           : 10,
+                pricescale           : 1,
                 pointvalue           : 1,
                 session              : "0930-1630",
                 has_intraday         : false,
@@ -110,7 +92,7 @@ class ChartController {
         def trades = adjustedPriceSeriesService.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode)
 
         render([
-                t: trades.collect { it.date.time },
+                t: trades.collect { it.date.time / 1000 },
                 c: trades.collect { it.closingPrice },
                 o: trades.collect { it.firstTradePrice },
                 h: trades.collect { it.maxPrice },
@@ -118,5 +100,37 @@ class ChartController {
                 v: trades.collect { it.totalTradeVolume },
                 s: 'ok'
         ] as JSON)
+    }
+
+    def search() {
+        def limit = (params.limit ?: 0) as Integer
+        def phrase = FarsiNormalizationFilter.apply((params.query ? params.query.toString().split(':').last(): '') as String)
+        def market = (params.exchange && params.exchange != '' ? params.exchange?.toString()?.toInteger() : null)
+
+        def symbols = []
+        if (!params.type || params.type == '' || params.type == 'stock')
+            symbols = Symbol.search("*${phrase}* ${market? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
+                [
+                        symbol     : it.persianCode,
+                        full_name  : it.persianCode,
+                        description: '',
+                        exchange   : it.marketIdentifier,
+                        type       : 'stock'
+                ]
+            }
+
+        def indexes = []
+        if (!params.type || params.type == '' || params.type == 'index')
+            indexes = Index.search("*${phrase}* ${market? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
+                [
+                        symbol     : it.persianName,
+                        full_name  : it.persianName,
+                        description: '',
+                        exchange   : it.marketIdentifier,
+                        type       : 'index'
+                ]
+            }
+
+        render((symbols + indexes) as JSON)
     }
 }

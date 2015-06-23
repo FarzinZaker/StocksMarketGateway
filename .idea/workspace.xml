@@ -12,37 +12,35 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/TimeSeriesDBService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/stocks/timeSeries/TimeSeriesDBService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/charting_library.min.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/charting_library.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" afterPath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.html" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.html" />
-    </list>
-    <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
-    </list>
-    <list id="217c0bc1-7ce5-4868-bd52-97e46245df36" name="ignore it" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/de_DE.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/de_DE.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/en.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/en.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/es.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/es.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fa_IR.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fa_IR.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fr.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/fr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" afterPath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/it.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/it.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ja.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ja.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ko.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ko.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/nl_NL.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/nl_NL.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/pt.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/pt.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ru.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/ru.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th_TH.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/th_TH.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/tr.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/tr.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.html" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/vi.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/vi.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh_TW.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/zh_TW.json" />
+    </list>
+    <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
     </list>
     <ignored path="Analio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,9 +59,6 @@
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <file path="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
-    <file path="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" ignored="false" />
     <file path="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -184,8 +179,8 @@
       <file leaf-file-name="DataSource.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4586331">
-              <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.83633095">
+              <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -817,7 +812,7 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="" />
       <changelist id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="" />
-      <changelist id="217c0bc1-7ce5-4868-bd52-97e46245df36" name="ignore it" comment="" />
+      <changelist id="" name="ignore it" comment="" />
       <created>1403081416497</created>
       <option name="number" value="Default" />
       <updated>1403081416497</updated>
@@ -1071,13 +1066,7 @@
       <workItem from="1434976742623" duration="66774000" />
       <workItem from="1435044726791" duration="1328000" />
       <workItem from="1435046212542" duration="812000" />
-      <workItem from="1435047065264" duration="22649000" />
-    </task>
-    <task id="LOCAL-00203" summary="bug fix">
-      <created>1429968520486</created>
-      <option name="number" value="00203" />
-      <option name="project" value="LOCAL" />
-      <updated>1429968520486</updated>
+      <workItem from="1435047065264" duration="22669000" />
     </task>
     <task id="LOCAL-00204" summary="bug fix">
       <created>1429970642090</created>
@@ -1367,11 +1356,17 @@
       <option name="project" value="LOCAL" />
       <updated>1434987510562</updated>
     </task>
-    <option name="localTasksCounter" value="252" />
+    <task id="LOCAL-00252" summary="ignore it">
+      <created>1435074205962</created>
+      <option name="number" value="00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1435074205962</updated>
+    </task>
+    <option name="localTasksCounter" value="253" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2792798000" />
+    <option name="totallyTimeSpent" value="2792818000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1418,6 +1413,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36343613" sideWeight="0.9215054" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22257721" sideWeight="0.45675266" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21260683" sideWeight="0.54324734" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1431,7 +1427,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1493,7 +1488,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="adjustment undo" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="daily trades" />
     <MESSAGE value="indicators" />
@@ -1518,7 +1512,8 @@
     <MESSAGE value="indicators disabled" />
     <MESSAGE value="autotimestamp problem" />
     <MESSAGE value="time series correction" />
-    <option name="LAST_COMMIT_MESSAGE" value="time series correction" />
+    <MESSAGE value="ignore it" />
+    <option name="LAST_COMMIT_MESSAGE" value="ignore it" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1983,8 +1978,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4586331">
-          <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.83633095">
+          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
           <folding />
         </state>
       </provider>

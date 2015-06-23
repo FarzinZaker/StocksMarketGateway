@@ -8,6 +8,28 @@ class AdjustedPriceSeriesService {
 
     def timeSeriesDBService
 
+    def clear(Long symbolId, List<String> adjustmentTypes) {
+
+        adjustmentTypes.each { adjustmentType ->
+
+            [
+                    'firstTradePrice',
+                    'lastTradePrice',
+                    'closingPrice',
+                    'minPrice',
+                    'maxPrice',
+                    'totalTradeCount',
+                    'totalTradeValue',
+                    'totalTradeVolume',
+                    'yesterdayPrice',
+                    'priceChange'
+            ].each { property ->
+                timeSeriesDBService.dropSerie("dailyTrade_${adjustmentType}_${symbolId}_${property}")
+            }
+
+        }
+    }
+
     def write(List dailyTrades, List<String> adjustmentTypes) {
 
         def serie = new Serie()
@@ -173,7 +195,7 @@ class AdjustedPriceSeriesService {
         } : []
     }
 
-    Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null){
+    Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null) {
         if (!endDate)
             endDate = new Date()
         if (!adjustmentType)

@@ -5,7 +5,11 @@
       <driver-ref>sqlserver.ms</driver-ref>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@91.98.102.76:1521:CHAHARTABLO</jdbc-url>
-      <libraries />
+      <libraries>
+        <library>
+          <url>file://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
