@@ -29,8 +29,9 @@ class IndexesToTimeSeriesJob {
         if (list.size()) {
             indexSeriesService.write(list)
             logState(list.collect { it.id }.max())
-        } else
-            println "no index to import to time series"
+        }
+//        else
+//            println "no index to import to time series"
     }
 
     def logState(Long lastId) {

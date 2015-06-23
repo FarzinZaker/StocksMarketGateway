@@ -30,8 +30,9 @@ class DailyTradesToTimeSeriesJob {
         if (list.size()) {
             adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
-        } else
-            println "no daily trade to import to time series"
+        }
+//        else
+//            println "no daily trade to import to time series"
     }
 
     def logState(Long lastId) {

@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy" afterPath="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/localization/translations/cs_CZ.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/customization.txt" />
@@ -32,7 +29,6 @@
     </list>
     <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/Config.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
     </list>
     <ignored path="Analio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,7 +47,6 @@
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <file path="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +128,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-1.875">
               <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-              <folding />
+              <folding>
+                <marker date="1435072377940" expanded="true" signature="20:475" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,11 +145,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DailyTradesToTimeSeriesJob.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DailyTradesToTimeSeriesJob.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="11" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.82191783">
+              <caret line="34" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -172,17 +169,17 @@
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IndexesToTimeSeriesDailyJob.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IndexesToTimeSeriesDailyJob.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17979452">
-              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -192,7 +189,7 @@
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+              <caret line="36" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -202,7 +199,7 @@
         <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="10" selection-end-column="26" />
+              <caret line="33" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -271,12 +268,12 @@
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/symbol/_news.gsp" />
         <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesDailyJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy" />
         <option value="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy" />
       </list>
     </option>
   </component>
@@ -1058,19 +1055,7 @@
       <workItem from="1434976742623" duration="66774000" />
       <workItem from="1435044726791" duration="1328000" />
       <workItem from="1435046212542" duration="812000" />
-      <workItem from="1435047065264" duration="22947000" />
-    </task>
-    <task id="LOCAL-00206" summary="daily trades">
-      <created>1430046924858</created>
-      <option name="number" value="00206" />
-      <option name="project" value="LOCAL" />
-      <updated>1430046924858</updated>
-    </task>
-    <task id="LOCAL-00207" summary="daily trades">
-      <created>1430048939086</created>
-      <option name="number" value="00207" />
-      <option name="project" value="LOCAL" />
-      <updated>1430048939086</updated>
+      <workItem from="1435047065264" duration="24483000" />
     </task>
     <task id="LOCAL-00208" summary="screener">
       <created>1430051073402</created>
@@ -1354,11 +1339,23 @@
       <option name="project" value="LOCAL" />
       <updated>1435074363496</updated>
     </task>
-    <option name="localTasksCounter" value="255" />
+    <task id="LOCAL-00255" summary="ignore it">
+      <created>1435074503020</created>
+      <option name="number" value="00255" />
+      <option name="project" value="LOCAL" />
+      <updated>1435074503020</updated>
+    </task>
+    <task id="LOCAL-00256" summary="uncommitable">
+      <created>1435075877470</created>
+      <option name="number" value="00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1435075877470</updated>
+    </task>
+    <option name="localTasksCounter" value="257" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2793096000" />
+    <option name="totallyTimeSpent" value="2794632000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1480,7 +1477,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="bug fix" />
     <MESSAGE value="daily trades" />
     <MESSAGE value="indicators" />
     <MESSAGE value="symbol filters" />
@@ -1505,7 +1501,8 @@
     <MESSAGE value="autotimestamp problem" />
     <MESSAGE value="time series correction" />
     <MESSAGE value="ignore it" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignore it" />
+    <MESSAGE value="uncommitable" />
+    <option name="LAST_COMMIT_MESSAGE" value="uncommitable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1922,7 +1919,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.875">
           <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-          <folding />
+          <folding>
+            <marker date="1435072377940" expanded="true" signature="20:475" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1930,30 +1929,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.607143">
           <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="10" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="11" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1966,18 +1941,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesDailyJob.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesDailyJob.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17979452">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/FutureToTimeSeriesJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/IndexesToTimeSeriesJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/jobs/stocks/DailyTradesToTimeSeriesJob.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.82191783">
+          <caret line="34" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
           <folding />
         </state>
       </provider>

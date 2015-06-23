@@ -8,13 +8,14 @@ import stocks.tse.IndexHistory
 
 class FutureToTimeSeriesJob {
 
-    static startDelay = 60000
-    static timeout = 100l
-    static concurrent = false
+//    static startDelay = 60000
+//    static timeout = 100l
+//    static concurrent = false
 
     def futureSeriesService
 
     def execute() {
+        return
         def lastState = getLastState()
         println """remaining items: ${
             CoinFutureEvent.createCriteria().count {
@@ -31,8 +32,9 @@ class FutureToTimeSeriesJob {
         if (list.size()) {
             futureSeriesService.write(list)
             logState(list.collect { it.id }.max())
-        } else
-            println "no future to import to time series"
+        }
+//        else
+//            println "no future to import to time series"
     }
 
     def logState(Long lastId) {
