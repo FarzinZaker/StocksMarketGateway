@@ -13,7 +13,6 @@ class IndexesToTimeSeriesJob {
     def indexSeriesService
 
     def execute() {
-           return
         def lastState = getLastState()
         println """remaining items: ${
             IndexHistory.createCriteria().count {

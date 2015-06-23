@@ -15,7 +15,6 @@ class FutureToTimeSeriesJob {
     def futureSeriesService
 
     def execute() {
-               return
         def lastState = getLastState()
         println """remaining items: ${
             CoinFutureEvent.createCriteria().count {
@@ -38,7 +37,7 @@ class FutureToTimeSeriesJob {
 
     def logState(Long lastId) {
         def data = [lastId: lastId]
-        def serviceName = 'futureToTimeSeries'
+        def serviceName = 'FutureToTimeSeries'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -48,7 +47,7 @@ class FutureToTimeSeriesJob {
     }
 
     Long getLastState() {
-        def serviceName = 'futureToTimeSeries'
+        def serviceName = 'FutureToTimeSeries'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
