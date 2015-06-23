@@ -20,12 +20,12 @@ environments {
         timeSeries {
 
             dataSource {
-                host = '192.168.0.3'
-//                host = '91.98.102.76'
+//                host = '192.168.0.3'
+                host = '91.98.102.76'
                 port = 8086
                 username = 'root'
                 password = 'root'
-                db = 'stocks'
+                db = 'stock'
             }
         }
 
@@ -69,7 +69,7 @@ environments {
                 port = 8086
                 username = 'root'
                 password = 'root'
-                db = 'stocks'
+                db = 'stock'
             }
         }
 
