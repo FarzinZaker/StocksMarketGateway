@@ -7,7 +7,7 @@ import stocks.tse.SymbolDailyTrade
 
 class DailyTradesToTimeSeriesDailyJob {
 
-    def cronExpression = "0 0 20 * * ?"
+    def cronExpression = "0 0 23 * * ?"
 
     def adjustedPriceSeriesService
 

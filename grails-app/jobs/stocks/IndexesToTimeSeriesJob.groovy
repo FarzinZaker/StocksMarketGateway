@@ -6,9 +6,9 @@ import stocks.tse.IndexHistory
 
 class IndexesToTimeSeriesJob {
 
-//    static startDelay = 60000
-//    static timeout = 100l
-//    static concurrent = false
+    static startDelay = 60000
+    static timeout = 100l
+    static concurrent = false
 
     def indexSeriesService
 

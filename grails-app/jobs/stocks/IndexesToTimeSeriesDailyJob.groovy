@@ -5,7 +5,7 @@ import stocks.tse.IndexHistory
 
 class IndexesToTimeSeriesDailyJob {
 
-    def cronExpression = "0 0 20 * * ?"
+    def cronExpression = "0 0 23 * * ?"
 
     def indexSeriesService
 
