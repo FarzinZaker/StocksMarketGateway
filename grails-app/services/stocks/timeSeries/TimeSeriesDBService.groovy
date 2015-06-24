@@ -48,7 +48,7 @@ class TimeSeriesDBService {
 
     void dropSerie(String serieName){
 
-        query("DROP MEASUREMENT ${serieName}")
+        query("DROP SERIES FROM ${serieName}")
     }
 
     void write(Serie serie) {

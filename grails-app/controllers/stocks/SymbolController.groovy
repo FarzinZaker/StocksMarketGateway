@@ -10,6 +10,7 @@ class SymbolController {
 
     def priceService
     def adjustedPriceSeriesService
+    def priceSeriesAdjustmentService
 
     def info() {
         def symbol = Symbol.get(params.id as Long)
@@ -40,6 +41,7 @@ class SymbolController {
 
     def clearTimeSeries() {
         adjustedPriceSeriesService.clear(params.id as Long, AdjustmentHelper.TYPES)
+        render 'done'
     }
 
     def loadTimeSeries(){
@@ -49,6 +51,16 @@ class SymbolController {
             }
             order('date', ORDER_ASCENDING)
         }, AdjustmentHelper.TYPES)
+        render 'done'
+    }
+
+    def adjust(){
+        priceSeriesAdjustmentService.apply(params.type?.toString(), [params.id])
+        render 'done'
+    }
+
+    def undoAdjustment(){
+        priceSeriesAdjustmentService.undo(params.type?.toString(), [params.id])
         render 'done'
     }
 }

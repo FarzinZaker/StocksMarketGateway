@@ -12,8 +12,13 @@ class DailyTradesToTimeSeriesJob {
     static concurrent = false
 
     def adjustedPriceSeriesService
+    def grailsApplication
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         def lastState = getLastState()
         println """remaining items: ${
             SymbolDailyTrade.createCriteria().count {

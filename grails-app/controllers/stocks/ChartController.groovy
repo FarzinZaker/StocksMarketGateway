@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import org.apache.lucene.search.BooleanQuery
 import stocks.tse.Symbol
 import stocks.tse.Index
 
@@ -103,6 +104,8 @@ class ChartController {
     }
 
     def search() {
+
+        BooleanQuery.setMaxClauseCount(1000000)
         def limit = (params.limit ?: 0) as Integer
         def phrase = FarsiNormalizationFilter.apply((params.query ? params.query.toString().split(':').last(): '') as String)
         def market = (params.exchange && params.exchange != '' ? params.exchange?.toString()?.toInteger() : null)

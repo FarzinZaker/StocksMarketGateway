@@ -8,14 +8,18 @@ import stocks.tse.IndexHistory
 
 class FutureToTimeSeriesJob {
 
-//    static startDelay = 60000
-//    static timeout = 100l
-//    static concurrent = false
+    static startDelay = 60000
+    static timeout = 100l
+    static concurrent = false
 
     def futureSeriesService
+    def grailsApplication
 
     def execute() {
-        return
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         def lastState = getLastState()
         println """remaining items: ${
             CoinFutureEvent.createCriteria().count {

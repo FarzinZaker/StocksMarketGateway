@@ -11,8 +11,13 @@ class IndexesToTimeSeriesJob {
     static concurrent = false
 
     def indexSeriesService
+    def grailsApplication
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         def lastState = getLastState()
         println """remaining items: ${
             IndexHistory.createCriteria().count {
