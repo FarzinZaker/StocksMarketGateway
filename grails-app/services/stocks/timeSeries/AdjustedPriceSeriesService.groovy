@@ -37,22 +37,24 @@ class AdjustedPriceSeriesService {
         adjustmentTypes.each { adjustmentType ->
 
             dailyTrades.each { dailyTrade ->
-                [
-                        'firstTradePrice',
-                        'lastTradePrice',
-                        'closingPrice',
-                        'minPrice',
-                        'maxPrice',
-                        'totalTradeCount',
-                        'totalTradeValue',
-                        'totalTradeVolume',
-                        'yesterdayPrice',
-                        'priceChange'
-                ].each { property ->
-                    serie.addPoint(new Point("dailyTrade_${adjustmentType}_${dailyTrade.symbolId}_${property}")
+                if(dailyTrade.symbolId) {
+                    [
+                            'firstTradePrice',
+                            'lastTradePrice',
+                            'closingPrice',
+                            'minPrice',
+                            'maxPrice',
+                            'totalTradeCount',
+                            'totalTradeValue',
+                            'totalTradeVolume',
+                            'yesterdayPrice',
+                            'priceChange'
+                    ].each { property ->
+                        serie.addPoint(new Point("dailyTrade_${adjustmentType}_${dailyTrade.symbolId}_${property}")
 //                            .tags([symbolId: dailyTrade.symbolId?.toString()])
-                            .time(dailyTrade.date)
-                            .value(dailyTrade."${property}"))
+                                .time(dailyTrade.date)
+                                .value(dailyTrade."${property}"))
+                    }
                 }
 
 //                serie.addPoint(new Point("dailyTrade.${adjustmentType}.adjustable").tags([symbolId: dailyTrade.symbolId?.toString()]).time(dailyTrade.date).value(dailyTrade.symbolPersianCode.startsWith("تسه") ? 0 : 1))

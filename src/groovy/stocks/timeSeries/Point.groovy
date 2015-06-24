@@ -33,7 +33,7 @@ public class Point {
     private Long timeLong = 0
 
     public Point time(Date date) {
-        timeLong = date.time * 1000000
+        timeLong = (date.clearTime()).time * 1000000
         this
     }
 

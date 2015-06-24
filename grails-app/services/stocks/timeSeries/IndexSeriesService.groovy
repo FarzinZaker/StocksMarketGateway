@@ -11,22 +11,24 @@ class IndexSeriesService {
 
         def serie = new Serie()
         indexHistories.each { indexHistory ->
-            [
-                   "finalIndexValue",
-                   "firstIndexValue",
-                   "highestIndexValue",
-                   "lowestIndexValue",
-                   "changePercentOfHighestValueTowardYesterday",
-                   "changePercentOfLowestValueTowardYesterday",
-                   "decreasedSymbolsChangePercent",
-                   "netPaidBenefit",
-                   "yesterdayInvestment",
-                   "baseInvestmentAdjustmentFactor",
-                   "netCashReturnIndex"
-            ] .each { property ->
-                serie.addPoint(new Point("index_${indexHistory.indexId}_${property}")
-                        .time(indexHistory.date)
-                        .value(indexHistory."${property}"))
+            if(indexHistory.indexId) {
+                [
+                        "finalIndexValue",
+                        "firstIndexValue",
+                        "highestIndexValue",
+                        "lowestIndexValue",
+                        "changePercentOfHighestValueTowardYesterday",
+                        "changePercentOfLowestValueTowardYesterday",
+                        "decreasedSymbolsChangePercent",
+                        "netPaidBenefit",
+                        "yesterdayInvestment",
+                        "baseInvestmentAdjustmentFactor",
+                        "netCashReturnIndex"
+                ].each { property ->
+                    serie.addPoint(new Point("index_${indexHistory.indexId}_${property}")
+                            .time(indexHistory.date)
+                            .value(indexHistory."${property}"))
+                }
             }
 
         }

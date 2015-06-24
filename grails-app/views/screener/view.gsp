@@ -143,7 +143,8 @@
                             </g:if>
                             {
                                 field: "symbol",
-                                title: "${message(code:'symbol.title.label')}"
+                                title: "${message(code:'symbol.title.label')}",
+                                template: "<a target='_blank' href='${createLink(controller: 'symbol', action: 'info')}/#=data.id#'>#=data.symbol#</a>"
                             },
                             {
                                 field: "closingPrice",
