@@ -25,7 +25,7 @@ environments {
                 port = 8086
                 username = 'root'
                 password = 'root'
-                db = 'stocks'
+                db = 'stock'
             }
         }
 

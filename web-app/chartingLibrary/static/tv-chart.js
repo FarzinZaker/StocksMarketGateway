@@ -18320,7 +18320,7 @@ function TimeAxisViewRenderer(a) {
     this._data = a
 }
 TimeAxisViewRenderer.prototype.draw = function (a, b, c) {
-    if (!1 !== this._data.visible && (b = a.measureText(this._data.text).width, !(0 >= b))) {
+    if (!1 !== this._data.visible && (b = a.measureText(gregorianToJalali(this._data.text)).width, !(0 >= b))) {
         c = b + 6;
         b = Math.round(this._data.coordinate - 0.5 * c - 1.5) + 1.5;
         c = b + c + 3;
@@ -18341,7 +18341,7 @@ TimeAxisViewRenderer.prototype.draw = function (a, b, c) {
         a.textBaseline = "middle";
         a.textAlign = "left";
         a.fillStyle = this._data.color;
-        $.browser.webkit ? a.fillText(this._data.text, b + 3 + 1, 0.5 * (0.5 + e) + 1) : a.fillText(this._data.text, b + 3 + 1, 0.5 * (0.5 + e) + 2)
+        $.browser.webkit ? a.fillText(gregorianToJalali(this._data.text), b + 3 + 1, 0.5 * (0.5 + e) + 1) : a.fillText(gregorianToJalali(this._data.text), b + 3 + 1, 0.5 * (0.5 + e) + 2)
     }
 };
 function CrossHair(a, b) {
@@ -24406,7 +24406,7 @@ TimePoint.prototype.setDate = function (a) {
 };
 var MONTH_NAMES = void 0, MINUTE_SPAN = 20, HOUR_SPAN = 30, DAY_SPAN = 40, WEEK_SPAN = 50, MONTH_SPAN = 60, YEAR_SPAN = 70, DEFAULT_BAR_SPACING = 6, MAX_BAR_SPACING = 50, MIN_BAR_SPACING = 0.5, DEFAULT_RIGHT_OFFSET = 5;
 function _createMonthNames() {
-    return [$.t("Jan"), $.t("Feb"), $.t("Mar"), $.t("Apr"), $.t("May"), $.t("Jun"), $.t("Jul"), $.t("Aug"), $.t("Sep"), $.t("Oct"), $.t("Nov"), $.t("Dec")]
+    return[$.t("دی"), $.t("بهمن"), $.t("اسفند"), $.t("فروردین"), $.t("اردیبهشت"), $.t("خرداد"), $.t("تیر"), $.t("مرداد"), $.t("شهریور"), $.t("مهر"), $.t("آبان"), $.t("آذر")]
 }
 function D48(a, b) {
     this.D99 = a;
@@ -34660,6 +34660,17 @@ D95.prototype.getVisibleTickmarksRange = function () {
     };
     return {start: a.start ? a.start.getTime() / 1E3 : void 0, end: a.end ? a.end.getTime() / 1E3 : void 0}
 };
+function gregorianToJalali(n) {
+    for (var t, c, f, l = n.substring(0, 4), a = n.substring(5, 7), v = n.substring(8, 10), e = parseInt(l), o = parseInt(a), s = parseInt(v), r = e - 1600, h = o - 1, y = s - 2, u = 365 * r + parseInt((r + 3) / 4) - parseInt((r + 99) / 100) + parseInt((r + 399) / 400), i = 0; i < h; ++i)u += g_days[i];
+    for (h > 1 && (r % 4 == 0 && r % 100 != 0 || r % 400 == 0) && ++u, u += y, t = u - 79, c = parseInt(t / 12053), t %= 12053, f = 979 + 33 * c + 4 * parseInt(t / 1461), t %= 1461, t >= 366 && (f += parseInt((t - 1) / 365), t = (t - 1) % 365), i = 0; i < 11 && t >= j_days[i]; ++i)t -= j_days[i];
+    var p = i + 1, w = t + 1, b = new Date(e, o - 1, s), k = ["شنبه", "یک شنبه", "دو شنبه", "سه شنبه", "چهار شنبه", "پنج شنبه", "جمعه"][b.getDay()];
+    return[k + "  " + f + "/" + p + "/" + w + "  " + n.substring(11, n.length)]
+}
+function getPersianDate(n, t, i) {
+    for (var r, h, o, c, l, f = n - 1600, s = t - 1, a = i - 1, e = 365 * f + parseInt((f + 3) / 4) - parseInt((f + 99) / 100) + parseInt((f + 399) / 400), u = 0; u < s; ++u)e += g_days[u];
+    for (s > 1 && (f % 4 == 0 && f % 100 != 0 || f % 400 == 0) && ++e, e += a, r = e - 79, h = parseInt(r / 12053), r %= 12053, o = 979 + 33 * h + 4 * parseInt(r / 1461), r %= 1461, r >= 366 && (o += parseInt((r - 1) / 365), r = (r - 1) % 365), u = 0; u < 11 && r >= j_days[u]; ++u)r -= j_days[u];
+    return c = u + 1, l = r + 1, [o, c, l]
+}
 D95.prototype.getVisibleRangePlates = function () {
     var a = [], b = this.getVisibleTickmarksRange(), c = this.getIntervalInTicks();
     $.each(this._marks, function (d, e) {
@@ -62333,3 +62344,30 @@ TradingView.AlertLabel = function () {
 TradingView.getDataVendorString = function () {
 };
 Modernizr.canvas && Modernizr.canvastext || !window.location.pathname.match(/^\/e\//) || (window.location = "/badbrowser/");
+
+g_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+j_days = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+JalaliDate = {g_days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], j_days_in_month: [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]};
+JalaliDate.jalaliToGregorian = function (n, t, i) {
+    var r, f, e, u, h, c;
+    n = parseInt(n);
+    t = parseInt(t);
+    i = parseInt(i);
+    var o = n - 979, l = t - 1, a = i - 1, s = 365 * o + parseInt(o / 33) * 8 + parseInt((o % 33 + 3) / 4);
+    for (u = 0; u < l; ++u)s += JalaliDate.j_days_in_month[u];
+    for (s += a, r = s + 79, f = 1600 + 400 * parseInt(r / 146097), r = r % 146097, e = !0, r >= 36525 && (r--, f += 100 * parseInt(r / 36524), r = r % 36524, r >= 365 ? r++ : e = !1), f += 4 * parseInt(r / 1461), r %= 1461, r >= 366 && (e = !1, r--, f += parseInt(r / 365), r = r % 365), u = 0; r >= JalaliDate.g_days_in_month[u] + (u == 1 && e); u++)r -= JalaliDate.g_days_in_month[u] + (u == 1 && e);
+    return h = u + 1, c = r + 1, [f, h, c]
+};
+JalaliDate.checkDate = function (n, t, i) {
+    return!(n < 0 || n > 32767 || t < 1 || t > 12 || i < 1 || i > JalaliDate.j_days_in_month[t - 1] + (t == 12 && !((n - 979) % 33 % 4)))
+};
+JalaliDate.gregorianToJalali = function (n, t, i) {
+    var r, h, o, u, c, l;
+    n = parseInt(n);
+    t = parseInt(t);
+    i = parseInt(i);
+    var f = n - 1600, s = t - 1, a = i - 1, e = 365 * f + parseInt((f + 3) / 4) - parseInt((f + 99) / 100) + parseInt((f + 399) / 400);
+    for (u = 0; u < s; ++u)e += JalaliDate.g_days_in_month[u];
+    for (s > 1 && (f % 4 == 0 && f % 100 != 0 || f % 400 == 0) && ++e, e += a, r = e - 79, h = parseInt(r / 12053), r %= 12053, o = 979 + 33 * h + 4 * parseInt(r / 1461), r %= 1461, r >= 366 && (o += parseInt((r - 1) / 365), r = (r - 1) % 365), u = 0; u < 11 && r >= JalaliDate.j_days_in_month[u]; ++u)r -= JalaliDate.j_days_in_month[u];
+    return c = u + 1, l = r + 1, [o, c, l]
+};
