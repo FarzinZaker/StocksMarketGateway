@@ -21,11 +21,12 @@ class FutureToTimeSeriesJob {
             return
 
         def lastState = getLastState()
-        println """remaining items: ${
-            CoinFutureEvent.createCriteria().count {
-                gt('id', lastState)
-            }
-        }"""
+        def count =
+                CoinFutureEvent.createCriteria().count {
+                    gt('id', lastState)
+                }
+        if (count > 0)
+            println "remaining items: ${count}"
 
 
         def list = CoinFutureEvent.createCriteria().list {

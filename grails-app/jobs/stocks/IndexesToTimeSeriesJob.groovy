@@ -19,11 +19,11 @@ class IndexesToTimeSeriesJob {
             return
 
         def lastState = getLastState()
-        println """remaining items: ${
-            IndexHistory.createCriteria().count {
-                gt('id', lastState)
-            }
-        }"""
+        def count = IndexHistory.createCriteria().count {
+            gt('id', lastState)
+        }
+        if (count > 0)
+            println "remaining items: ${count}"
 
 
         def list = IndexHistory.createCriteria().list {

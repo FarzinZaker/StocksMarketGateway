@@ -20,11 +20,11 @@ class DailyTradesToTimeSeriesJob {
             return
 
         def lastState = getLastState()
-        println """remaining items: ${
-            SymbolDailyTrade.createCriteria().count {
-                gt('id', lastState)
-            }
-        }"""
+        def count = SymbolDailyTrade.createCriteria().count {
+            gt('id', lastState)
+        }
+        if (count > 1)
+            println "remaining items: ${count}"
 
 
         def list = SymbolDailyTrade.createCriteria().list {
