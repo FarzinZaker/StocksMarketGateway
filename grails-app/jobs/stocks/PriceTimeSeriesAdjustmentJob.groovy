@@ -7,14 +7,19 @@ import stocks.tse.SymbolDailyTrade
 class PriceTimeSeriesAdjustmentJob {
 
     def priceSeriesAdjustmentService
+    def grailsApplication
 
 //    static startDelay = 60000
 //    static timeout = 100l
-//    def cronExpression = "0 0 22 * * ?"
+    def cronExpression = "0 0 3 * * ?"
 //    static concurrent = false
 
+
     def execute() {
-        return
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         def idList = SymbolDailyTrade.createCriteria().list{
             not {
                 like('symbolPersianCode', '%تسه')

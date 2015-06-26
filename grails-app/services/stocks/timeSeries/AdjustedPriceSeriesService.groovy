@@ -183,6 +183,8 @@ class AdjustedPriceSeriesService {
 //                list << item
 //        }
         def closingPriceSerie = series.find{it.name.endsWith('closingPrice')}
+        if(!closingPriceSerie)
+            return []
         for(def i = 0; i < closingPriceSerie.values.size(); i++){
             def item = [:]
             item.symbolId = symbolId
