@@ -62,7 +62,7 @@ class TimeSeriesDBService {
                     postCommand(path, it)
 
                     successfulPosts++
-                    println "written ${windowSize} records"
+//                    println "written ${windowSize} records"
                 }
                 succeed = true
                 windowSize = [windowSize + 5, 100].min()

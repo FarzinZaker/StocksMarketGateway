@@ -23,7 +23,7 @@ class IndexesToTimeSeriesJob {
             gt('id', lastState)
         }
         if (count > 0)
-            println "remaining items: ${count}"
+            println "remaining indexes: ${count}"
 
 
         def list = IndexHistory.createCriteria().list {

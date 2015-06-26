@@ -26,7 +26,7 @@ class FutureToTimeSeriesJob {
                     gt('id', lastState)
                 }
         if (count > 0)
-            println "remaining items: ${count}"
+            println "remaining futures: ${count}"
 
 
         def list = CoinFutureEvent.createCriteria().list {

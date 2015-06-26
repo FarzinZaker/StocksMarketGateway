@@ -24,7 +24,7 @@ class DailyTradesToTimeSeriesJob {
             gt('id', lastState)
         }
         if (count > 1)
-            println "remaining items: ${count}"
+            println "remaining daily trades: ${count}"
 
 
         def list = SymbolDailyTrade.createCriteria().list {
