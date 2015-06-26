@@ -17,7 +17,7 @@ class PriceTimeSeriesAdjustmentJob {
 
     def execute() {
 
-        if (grailsApplication.config.jobsDisabled)
+//        if (grailsApplication.config.jobsDisabled)
             return
 
         def idList = SymbolDailyTrade.createCriteria().list{
