@@ -19,7 +19,9 @@ class PriceSeriesAdjustmentService {
 
     def applyCapitalIncreasePlusBrought(Long symbolId) {
 
-        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT).reverse()
+        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT).sort {
+            -it.date.time
+        }
 
         if (dailyTrades && dailyTrades.size()) {
 
@@ -34,12 +36,12 @@ class PriceSeriesAdjustmentService {
                     dailyTrades[i].minPrice = Math.round((dailyTrades[i].minPrice * adjustmentRate) as Double)
                     dailyTrades[i].yesterdayPrice = Math.round((dailyTrades[i].yesterdayPrice * adjustmentRate) as Double)
 
-                    finalList << dailyTrades[i]
+//                    finalList << dailyTrades[i]
                 }
             }
 
-            if (finalList?.size())
-                adjustedPriceSeriesService.write(finalList, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
+//            if (finalList?.size())
+            adjustedPriceSeriesService.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
 //            symbolIndicatorBulkService.recalculateIndicators(symbol)
         }

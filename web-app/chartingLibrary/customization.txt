@@ -99,7 +99,7 @@
 	//	Line styles
 	mainSeriesProperties.lineStyle.color: "#0303F7"
 	mainSeriesProperties.lineStyle.linestyle: CanvasEx.LINESTYLE_SOLID
-	mainSeriesProperties.lineStyle.linewidth: 1
+	mainSeriesProperties.lineStyle.linewidth: 5
 	mainSeriesProperties.lineStyle.priceSource: "close"
 
 	//	Area styles

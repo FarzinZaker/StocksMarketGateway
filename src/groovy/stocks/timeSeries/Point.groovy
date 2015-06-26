@@ -1,5 +1,9 @@
 package stocks.timeSeries
 
+import groovy.time.TimeCategory
+
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by farzin on 01/06/2015.
  */
@@ -33,12 +37,17 @@ public class Point {
     private Long timeLong = 0
 
     public Point time(Date date) {
-        timeLong = (date.clearTime()).time * 1000000
+
+        def utc = date.clearTime()
+        use(TimeCategory){
+             utc = utc + 1.day
+        }
+        timeLong = utc.time
         this
     }
 
     public Date getTime() {
-        new Date((timeLong / 1000000l) as Long)
+        new Date((timeLong) as Long)
     }
 
     public Boolean hasTime() {
@@ -64,7 +73,7 @@ public class Point {
         }
         if (hasTime()) {
             json.time = timeLong
-            json.precision = 'n'
+            json.precision = 'm'
         }
         json.fields = [value: this.value as Long]
         json
@@ -75,6 +84,6 @@ public class Point {
     }
 
     public String toCSV() {
-        "${name}${tags.isEmpty() ? ' ' : ', '}${tags.collect { "${it.key}=${it.value}" }.join(', ')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${timeLong}"
+        "${name}${tags.isEmpty() ? ' ' : ', '}${tags.collect { "${it.key}=${it.value}" }.join(', ')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
     }
 }

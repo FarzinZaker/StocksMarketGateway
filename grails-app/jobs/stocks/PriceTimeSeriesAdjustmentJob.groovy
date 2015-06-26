@@ -14,7 +14,7 @@ class PriceTimeSeriesAdjustmentJob {
 //    static concurrent = false
 
     def execute() {
-return
+        return
         def idList = SymbolDailyTrade.createCriteria().list{
             not {
                 like('symbolPersianCode', '%تسه')

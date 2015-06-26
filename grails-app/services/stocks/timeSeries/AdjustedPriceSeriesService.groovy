@@ -147,7 +147,7 @@ class AdjustedPriceSeriesService {
     def dailyTradeList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
         if (!startDate)
             use(TimeCategory) {
-                startDate = firstTradeDate(symbolId)
+                startDate = firstTradeDate(symbolId) ?: new Date() - 10.years
             }
         if (!endDate)
             endDate = new Date()
@@ -172,15 +172,25 @@ class AdjustedPriceSeriesService {
         else
             series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
-        for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
+//        for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
+//            def item = [:]
+//            item.symbolId = symbolId
+//            item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", series[0].values[i][0])
+//            series.each { serie ->
+//                item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
+//            }
+//            if (item.closingPrice)
+//                list << item
+//        }
+        def closingPriceSerie = series.find{it.name.endsWith('closingPrice')}
+        for(def i = 0; i < closingPriceSerie.values.size(); i++){
             def item = [:]
             item.symbolId = symbolId
-            item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", series[0].values[i][0])
+            item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
-                item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
+                item."${serie.name.split('_').last()}" = serie.values.find{it[0] == closingPriceSerie.values[i][0]}[1] as Double
             }
-            if (item.closingPrice)
-                list << item
+            list << item
         }
         list.sort { it.date }
 
