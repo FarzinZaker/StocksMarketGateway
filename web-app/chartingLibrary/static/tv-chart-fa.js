@@ -42029,7 +42029,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
     }, t.prototype.compareTo = function (n) {
         var t = this.weight(), i = t + this._length;
         return n = n.weight(), t <= n && n < i ? 0 : t > n ? 1 : -1
-    }, st = [n.MONDAY, n.TUESDAY, n.WEDNESDAY, n.THURSDAY, n.FRIDAY], d = [n.SUNDAY, n.MONDAY, n.TUESDAY, n.WEDNESDAY, n.THURSDAY, n.FRIDAY, n.SATURDAY], r.prototype.addSessionEntry = function (i, r, u) {
+    }, st = [n.SATURDAY, n.SUNDAY, n.MONDAY, n.TUESDAY, n.WEDNESDAY], d = [n.SUNDAY, n.MONDAY, n.TUESDAY, n.WEDNESDAY, n.THURSDAY, n.FRIDAY, n.SATURDAY], r.prototype.addSessionEntry = function (i, r, u) {
         u <= r && 0 != r && (r -= n.minutesPerDay);
         this.entries.push(new t(i, r, u == r ? n.minutesPerDay : u - r))
     }, r.prototype.isWeekEnd = function (n) {

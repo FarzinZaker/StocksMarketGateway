@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import stocks.tse.Symbol
 import stocks.tse.Index
@@ -42,7 +43,8 @@ class ChartController {
                                 value: "index"
                         ]
                 ],
-                supportedResolutions  : ["D", "2D", "3D", "W", "3W", "M", "6M"]
+                supportedResolutions  : ["D", "2D", "3D", "W", "3W", "M", "6M"],
+                header_symbol_search  : false
         ] as JSON)
     }
 
@@ -92,12 +94,20 @@ class ChartController {
 
         def trades = adjustedPriceSeriesService.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode)
 
-        render([
-                t: trades.collect { it.date.time / 1000 },
+        render(
+                [
+                t: trades.collect {
+
+                    def date = it.date
+                    use(TimeCategory){
+                        date = date + 2.days
+                    }
+                    date.time / 1000
+                },
                 c: trades.collect { it.closingPrice },
                 o: trades.collect { it.firstTradePrice },
                 h: trades.collect { it.maxPrice },
-                l: trades.collect { it.lastTradePrice },
+                l: trades.collect { it.minPrice },
                 v: trades.collect { it.totalTradeVolume },
                 s: 'ok'
         ] as JSON)
@@ -107,12 +117,12 @@ class ChartController {
 
         BooleanQuery.setMaxClauseCount(1000000)
         def limit = (params.limit ?: 0) as Integer
-        def phrase = FarsiNormalizationFilter.apply((params.query ? params.query.toString().split(':').last(): '') as String)
+        def phrase = FarsiNormalizationFilter.apply((params.query ? params.query.toString().split(':').last() : '') as String)
         def market = (params.exchange && params.exchange != '' ? params.exchange?.toString()?.toInteger() : null)
 
         def symbols = []
         if (!params.type || params.type == '' || params.type == 'stock')
-            symbols = Symbol.search("*${phrase}* ${market? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
+            symbols = Symbol.search("*${phrase}* ${market ? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
                 [
                         symbol     : it.persianCode,
                         full_name  : it.persianCode,
@@ -124,7 +134,7 @@ class ChartController {
 
         def indexes = []
         if (!params.type || params.type == '' || params.type == 'index')
-            indexes = Index.search("*${phrase}* ${market? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
+            indexes = Index.search("*${phrase}* ${market ? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
                 [
                         symbol     : it.persianName,
                         full_name  : it.persianName,

@@ -182,18 +182,21 @@ class AdjustedPriceSeriesService {
 //            if (item.closingPrice)
 //                list << item
 //        }
-        def closingPriceSerie = series.find{it.name.endsWith('closingPrice')}
-        if(!closingPriceSerie)
+        def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
+        if (!closingPriceSerie)
             return []
-        for(def i = 0; i < closingPriceSerie.values.size(); i++){
+        for (def i = 0; i < closingPriceSerie.values.size(); i++) {
             def item = [:]
             item.symbolId = symbolId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
-                item."${serie.name.split('_').last()}" = serie.values.find{it[0] == closingPriceSerie.values[i][0]}[1] as Double
+                item."${serie.name.split('_').last()}" = serie.values.find {
+                    it[0] == closingPriceSerie.values[i][0]
+                }[1] as Double
             }
             list << item
         }
+        list = list.findAll { it.closingPrice }
         list.sort { it.date }
 
     }
@@ -210,7 +213,7 @@ class AdjustedPriceSeriesService {
         def values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
-        } : []
+        }.findAll { it.value } : []
     }
 
     Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null) {

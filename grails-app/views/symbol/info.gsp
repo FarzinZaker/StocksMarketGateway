@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title></title>
+    <title>${symbol.persianCode} - ${symbol.persianName}</title>
 
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'charting_library.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary/datafeed/udf', file: 'datafeed.js')}"></script>
@@ -18,6 +18,7 @@
     <script type="text/javascript">
 
         TradingView.onready(function () {
+
             var widget = new TradingView.widget({
                 fullscreen: true,
                 symbol: '${symbol.persianCode}',
@@ -29,12 +30,20 @@
                 locale: "fa_IR",
                 //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
                 drawings_access: {type: 'black', tools: [{name: "Regression Trend"}]},
-                disabled_features: ["use_localstorage_for_settings"],
+                disabled_features: ["use_localstorage_for_settings", "header_symbol_search", "header_screenshot", "header_saveload"],
                 charts_storage_url: 'http://saveload.tradingview.com',
                 client_id: 'tradingview.com',
-                user_id: 'public_user_id'
+                user_id: 'public_user_id',
             });
-        })
+            %{--$(frames[0]).load(function(){--}%
+
+                %{--var cssLink = document.createElement("link");--}%
+                %{--cssLink.href = "${resource(dir: 'chartingLibrary/static', file: 'tv-chart-readonly.css')}";--}%
+                %{--cssLink .rel = "stylesheet";--}%
+                %{--cssLink .type = "text/css";--}%
+                %{--frames[0].document.body.appendChild(cssLink);--}%
+            %{--})--}%
+        });
 
     </script>
 
@@ -45,15 +54,16 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
-                    [text: '', url:createLink(uri:'/')],
-                    [text: message(code:'symbol.info'), url:createLink(controller: 'symbol')],
-                    [text: "${symbol.persianCode} (${symbol.persianName})", url:createLink(controller: 'symbol', action: 'info', id: params.id)]
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'symbol.info'), url: createLink(controller: 'symbol')],
+                    [text: "${symbol.persianCode} (${symbol.persianName})", url: createLink(controller: 'symbol', action: 'info', id: params.id)]
             ]}"/>
         </div>
     </div>
+
     <div class="row-fluid">
         <div class="col-xs-3">
-            <h2>${symbol.persianCode} (${symbol.persianName})</h2>
+            <h1>${symbol.persianCode} (${symbol.persianName})</h1>
 
             <div style="line-height: 30px;">
                 <span><g:message code="symbol.info.lastPrice"/>:</span>
@@ -130,12 +140,12 @@
     </div>
 </div>
 <script language="javascript" type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         $.ajax({
             type: "POST",
             url: '${createLink(action: 'news')}',
-            data: { id: ${params.id} }
+            data: {id: ${params.id}}
         }).done(function (response) {
             $('#news').html(response);
         });

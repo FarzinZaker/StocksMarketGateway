@@ -10278,7 +10278,7 @@ jQuery.fn.timeUpdate = function () {
                     N += T + "</tr></thead><tbody>";
                     T = this._getDaysInMonth(B, n);
                     B == b.selectedYear && n == b.selectedMonth && (b.selectedDay = Math.min(b.selectedDay, T));
-                    for (var J = (this._getFirstDayOfMonth(B, n) - m + 7) % 7, T = u ? 6 : Math.ceil((J + T) / 7), O = this._daylightSavingAdjust(new Date(B, n, 1 - J)), W = 0; W < T; W++) {
+                    for (var J = (this._getFirstDayOfMonth(B, n, b.selectedDay) - m + 7) % 7, T = u ? 6 : Math.ceil((J + T) / 7), O = this._daylightSavingAdjust(new Date(B, n, 1 - J)), W = 0; W < T; W++) {
                         for (var N = N + "<tr>", Z = t ? '<td class="ui-datepicker-week-col">' + this._get(b, "calculateWeek")(O) + "</td>" : "", J = 0; 7 > J; J++) {
                             var X =
                                 E ? E.apply(b.input ? b.input[0] : null, [O]) : [!0, ""], aa = O.getMonth() != n, U = aa && !D || !X[0] || s && O < s || A && O > A, Z = Z + ('<td class="' + (5 <= (J + m + 6) % 7 ? " ui-datepicker-week-end" : "") + (aa ? " ui-datepicker-other-month" : "") + (O.getTime() == L.getTime() && n == b.selectedMonth && b._keyEvent || F.getTime() == O.getTime() && F.getTime() == L.getTime() ? " " + this._dayOverClass : "") + (U ? " " + this._unselectableClass + " ui-state-disabled" : "") + (aa && !K ? "" : " " + X[1] + (O.getTime() == z.getTime() ? " " + this._currentClass : "") + (O.getTime() == c.getTime() ? " ui-datepicker-today" :
@@ -10361,8 +10361,9 @@ jQuery.fn.timeUpdate = function () {
         _getDaysInMonth: function (a, b) {
             return 32 - this._daylightSavingAdjust(new Date(a, b, 32)).getDate()
         },
-        _getFirstDayOfMonth: function (a, b) {
-            return (new Date(a, b, 1)).getDay()
+        _getFirstDayOfMonth: function (n, t, i) {
+            var r = getPersianDate(n, t, i);
+            return jalaliToGregorian(r[0], r[1], 1).getDay()
         },
         _canAdjustMonth: function (a, b, c, d) {
             var e = this._getNumberOfMonths(a);
@@ -24649,10 +24650,19 @@ D48.prototype.addTail = function (a, b, c) {
     this.m_rightOffset -= a.changes.length
 };
 D48.prototype.formatLabel = function (a, b) {
-    if (!(a && a instanceof Date))return "incorrect time";
+    if (!(a && a instanceof Date))
+        return "incorrect time";
     var c = this.D99.mainSeries().isDWM();
-    return b < MINUTE_SPAN && !c ? numberToStringWithLeadingZero(a.getUTCHours(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCMinutes(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCSeconds(), 2) : b < DAY_SPAN && !c ? numberToStringWithLeadingZero(a.getUTCHours(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCMinutes(), 2) : b < WEEK_SPAN || b < MONTH_SPAN ? a.getUTCDate() : b < YEAR_SPAN ? (MONTH_NAMES ||
-    (MONTH_NAMES = _createMonthNames()), MONTH_NAMES[a.getUTCMonth()]) : a.getUTCFullYear()
+    var result = b < MINUTE_SPAN && !c ? numberToStringWithLeadingZero(a.getUTCHours(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCMinutes(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCSeconds(), 2) : b < DAY_SPAN && !c ? numberToStringWithLeadingZero(a.getUTCHours(), 2) + ":" + numberToStringWithLeadingZero(a.getUTCMinutes(), 2) : b < WEEK_SPAN || b < MONTH_SPAN ? getPersianDate(a.getUTCFullYear(), a.getUTCMonth() + 1, a.getDate() - 1)[2] : b < YEAR_SPAN ? (MONTH_NAMES ||
+    (MONTH_NAMES = _createMonthNames()), MONTH_NAMES[a.getUTCMonth()]) : getPersianDate(a.getUTCFullYear(), a.getUTCMonth(), a.getDate() - 1)[0];
+
+    MONTH_NAMES = _createMonthNames();
+    if(result == getPersianDate(a.getUTCFullYear(), a.getUTCMonth(), a.getDate() - 1)[0])
+        result = MONTH_NAMES[0];
+    else if(result == MONTH_NAMES[3])
+        result = getPersianDate(a.getUTCFullYear(), a.getUTCMonth(), a.getDate() - 1)[0]
+    return result;
+
 };
 D48.prototype.normalizeBarIndex = function (a) {
     var b = 0, c = 0;
@@ -44525,6 +44535,7 @@ Q53.prototype.drawGrid = function (a) {
     }
 };
 Q53.prototype.drawWatermark = function (a) {
+    return
     for (var b = this._chart.model().watermarkSource().paneViews(this._state), c = 0; c < b.size(); c++) {
         a.save();
         var d = b.item(c).renderer();
@@ -57071,7 +57082,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
     function f(a, b, c, d) {
         c = c || "front";
         var e = F.get_day_of_week(b), f = F.get_minutes_from_midnight(b), g = a.findSession(e, f), h = g.start(), k = g.dayOfWeek(), l = g.isOvernight(), m = 0;
-        "front" == c ? m = (k - e + 7) % 7 - (l ? 1 : 0) : (!a.isTradedOnWeekEnds && h > f && (m--, e = F.shift_day(e, -1)), m -= l ? 1 : 0, a.isTradedOnWeekEnds || (e == F.SUNDAY ? m -= 2 : e == F.SATURDAY && (m -= 1)));
+        "front" == c ? m = (k - e + 7) % 7 - (l ? 1 : 0) : (!a.isTradedOnWeekEnds && h > f && (m--, e = F.shift_day(e, -1)), m -= l ? 1 : 0, a.isTradedOnWeekEnds || (e == F.FRIDAY ? m -= 2 : e == F.THURSDAY && (m -= 1)));
         0 !== m && F.add_date(b, m);
         F.set_hms(b, h / 60 | 0, h % 60, 0, 0);
         a = g.length();
@@ -57101,7 +57112,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
 
     function l(a, b) {
         var c = b + a.firstDayOfWeek;
-        return c > F.SATURDAY ? c - F.SATURDAY : c
+        return c > F.SATURDAY ? c - F.SUNDAY : c
     }
 
     function m(a, b) {
@@ -57167,7 +57178,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
             if (1 == d.length)return a;
             var e = 1, f = parseInt(d[0]);
             isNaN(f) && (e = 0, f = parseInt(d[1]));
-            if (f < F.SUNDAY || f > F.SATURDAY)return console.error("bad session spec: " + a), a;
+            if (f < F.FRIDAY || f > F.THURSDAY)return console.error("bad session spec: " + a), a;
             c.firstDayOfWeek = f;
             return d[e]
         }
@@ -57175,7 +57186,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
         var c = this;
         a = a || "0000-0000";
         this.entries = [];
-        this.firstDayOfWeek = F.MONDAY;
+        this.firstDayOfWeek = F.SATURDAY;
         if ("24x7" === a.toLowerCase())r.forEach(function (a) {
             this.addSessionEntry(a, 0, 0)
         }, this); else {
@@ -57276,7 +57287,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
         a = this.builder.startOfPeriod(e, d, a);
         this.periodEnd = h(e, b, a);
         F.add_date(a, -1);
-        this.moveToPrevWorkDay(this.sessionTgt.spec, a);
+        //this.moveToPrevWorkDay(this.sessionTgt.spec, a);
         this.periodLastBarStart = h(e, b, a);
         if (this.periodLastBarStart < this.periodStart || this.periodLastBarStart === this.periodEnd)this.periodLastBarStart = this.periodStart
     };
@@ -57384,7 +57395,7 @@ this.PineJsBarBuilder = PineJsBarBuilder = function () {
         a = a.weight();
         return b <= a && a < c ? 0 : b > a ? 1 : -1
     };
-    var P = [F.MONDAY, F.TUESDAY, F.WEDNESDAY, F.THURSDAY, F.FRIDAY], r = [F.SUNDAY, F.MONDAY, F.TUESDAY, F.WEDNESDAY, F.THURSDAY, F.FRIDAY, F.SATURDAY];
+    var P = [F.MONDAY, F.THURSDAY, F.FRIDAY, F.SATURDAY,F.SUNDAY, F.TUESDAY, F.WEDNESDAY], r = [F.SUNDAY, F.MONDAY, F.TUESDAY, F.WEDNESDAY, F.THURSDAY, F.FRIDAY, F.SATURDAY];
     C.prototype.addSessionEntry = function (a, b, c) {
         c <= b && 0 !=
         b && (b -= F.minutesPerDay);
