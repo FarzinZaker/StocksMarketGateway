@@ -11,13 +11,13 @@ class PriceTimeSeriesAdjustmentJob {
 
 //    static startDelay = 60000
 //    static timeout = 100l
-    def cronExpression = "0 0 3 * * ?"
+    def cronExpression = "0 0 20 * * ?"
 //    static concurrent = false
 
 
     def execute() {
 
-//        if (grailsApplication.config.jobsDisabled)
+        if (grailsApplication.config.jobsDisabled)
             return
 
         def idList = SymbolDailyTrade.createCriteria().list{
