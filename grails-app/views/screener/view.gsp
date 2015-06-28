@@ -19,10 +19,17 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="pink">
+            <h1 class="pink" style="float:right;">
                 <i class="fa fa-filter"></i>
                 ${screener.title}
             </h1>
+            <div style="float:left;padding-top:45px;">
+                <form:select name="adjustmentType" style="width:300px;" value="${stocks.tse.AdjustmentHelper.defaultType}"
+                             items="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect {
+                                 [text: message(code: "priceAdjustment.types.${it}"), value: it]
+                             }}"/>
+            </div>
+            <div class="clear-fix"></div>
 
             <div id="timer"></div>
 
