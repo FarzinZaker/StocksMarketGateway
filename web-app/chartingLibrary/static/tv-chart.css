@@ -19291,3 +19291,13 @@ body {
     padding: 8px 7px 7px;
     margin-left: 5px
 }
+
+option{
+    padding:5px !important;
+}
+
+select:focus {
+    border: 0;
+    outline: none;
+}
+

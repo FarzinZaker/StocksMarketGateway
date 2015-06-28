@@ -92,7 +92,7 @@ class ChartController {
 
         }
 
-        def trades = adjustedPriceSeriesService.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode)
+        def trades = adjustedPriceSeriesService.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode, params.adjustmentType?.toString())
 
         render(
                 [

@@ -5,7 +5,7 @@
   Time: 5:10 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -13,9 +13,14 @@
 
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'charting_library.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary/datafeed/udf', file: 'datafeed.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'addons.js')}"></script>
 
 
     <script type="text/javascript">
+
+        var adjustmentTypes = <format:html value="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect{[text:message(code:"priceAdjustment.types.${it}"), value: it]} as JSON}"/>;
+        var defaultAdjustmentType = "${stocks.tse.AdjustmentHelper.defaultType}";
+        var symbolName = '${symbol.persianCode}';
 
         TradingView.onready(function () {
 
@@ -33,7 +38,11 @@
                 disabled_features: ["use_localstorage_for_settings", "header_symbol_search", "header_screenshot", "header_saveload"],
                 charts_storage_url: 'http://saveload.tradingview.com',
                 client_id: 'tradingview.com',
-                user_id: 'public_user_id',
+                user_id: 'public_user_id'
+            });
+
+            widget.onChartReady(function(){
+                setupAdjustmentButton(this);
             });
             %{--$(frames[0]).load(function(){--}%
 
@@ -63,7 +72,10 @@
 
     <div class="row-fluid">
         <div class="col-xs-3">
-            <h1>${symbol.persianCode} (${symbol.persianName})</h1>
+            <h1 class="pink">
+                <i class="fa fa-line-chart"></i>
+                ${symbol.persianCode} (${symbol.persianName})
+            </h1>
 
             <div style="line-height: 30px;">
                 <span><g:message code="symbol.info.lastPrice"/>:</span>

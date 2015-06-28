@@ -19,7 +19,10 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1>${screener.title}</h1>
+            <h1 class="pink">
+                <i class="fa fa-filter"></i>
+                ${screener.title}
+            </h1>
 
             <div id="timer"></div>
 
