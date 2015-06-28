@@ -15,6 +15,7 @@
     $(document).ready(function () {
         $("#targetGroup").kendoComboBox({
             change: function (e) {
+                toggleAdjustmentType();
                 initTargetItemSelector();
             }
         });

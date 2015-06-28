@@ -90,6 +90,7 @@
         params += '&startDate=' + $('#startDate').val();
         params += '&endDate=' + $('#endDate').val();
         params += '&period=' + $('#period').val();
+        params += '&adjustmentType=' + $('#adjustmentType').val();
         wnd.content('<iframe src="${createLink(action: 'correlationChart')}' + params + '" frameborder="0" style="width:700px;height:400px;"/>');
         wnd.title('${message(code:'tools.correlation.compare.title.part1')} ' + $('#sourceItem').data('kendoComboBox').text() + ' ${message(code:'tools.correlation.compare.title.part2')} ' + dataItem.targetItemName);
         wnd.center().open();

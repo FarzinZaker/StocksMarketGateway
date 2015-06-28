@@ -101,7 +101,7 @@ class ToolsController {
     }
 
     def correlationGrid() {
-        def data = correlationService.calculateSeries(params.sourceGroup, params.sourceItem, params.targetGroup, params.targetItem, parseDate(params.startDate), parseDate(params.endDate), params.period)
+        def data = correlationService.calculateSeries(params.sourceGroup, params.sourceItem, params.targetGroup, params.targetItem, parseDate(params.startDate), parseDate(params.endDate), params.period, params.adjustmentType)
         render(template: "/tools/correlation/grid", model: [data: data])
     }
 
@@ -114,7 +114,7 @@ class ToolsController {
             service.fullName == params.group
         }
         def service = grailsApplication.mainContext[serviceClass.propertyName] as CorrelationServiceBase
-        def data = service.getItemValues(params.item?.toString(), parseDate(params.startDate?.toString()), parseDate(params.endDate?.toString()), params.period?.toString())
+        def data = service.getItemValues(params.item?.toString(), parseDate(params.startDate?.toString()), parseDate(params.endDate?.toString()), params.period?.toString(), params.adjustmentType?.toString())
         def name = service.getItemName(params.item?.toString())
         render([
                 name: name,

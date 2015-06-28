@@ -33,7 +33,7 @@ class IndexCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
+    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period, String adjustmentType) {
 
         def groupingMode = '1d'
         switch (period){
@@ -62,7 +62,7 @@ class IndexCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    List getItemValues(String item, Date startDate, Date endDate, String period) {
+    List getItemValues(String item, Date startDate, Date endDate, String period, String adjustmentType) {
 
         def groupingMode = '1d'
         switch (period){
@@ -81,12 +81,12 @@ class IndexCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Double getBaseValue(String item, Date startDate) {
+    Double getBaseValue(String item, Date startDate, String adjustmentType) {
         indexSeriesService.lastFinalIndexValue(item as Long, startDate) ?: 0
     }
 
     @Override
-    Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
+    Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each {indexId ->
             result.put(indexId, indexSeriesService.lastFinalIndexValue(indexId as Long, startDate))

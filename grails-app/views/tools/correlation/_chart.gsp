@@ -62,39 +62,42 @@
 
                                 rangeSelector: false,
 
-                                yAxis: [{ // Primary yAxis
-                                    title: {
-                                        text: seriesOptions[0].name,
-                                        style: {
-                                            color: Highcharts.getOptions().colors[0]
+                                yAxis: [
+                                    { // Primary yAxis
+                                        title: {
+                                            text: seriesOptions[0].name,
+                                            style: {
+                                                color: Highcharts.getOptions().colors[0]
+                                            }
+                                        },
+                                        labels: {
+                                            x: -10,
+                                            y: -5,
+                                            useHTML: true,
+                                            style: {
+                                                color: Highcharts.getOptions().colors[0]
+                                            }
                                         }
                                     },
-                                    labels: {
-                                        x: -10,
-                                        y:-5,
-                                        useHTML: true,
-                                        style: {
-                                            color: Highcharts.getOptions().colors[0]
-                                        }
+                                    { // Secondary yAxis
+                                        title: {
+                                            x: -5,
+                                            text: seriesOptions[1].name,
+                                            style: {
+                                                color: Highcharts.getOptions().colors[1]
+                                            }
+                                        },
+                                        labels: {
+                                            x: 30,
+                                            y: -5,
+                                            useHTML: true,
+                                            style: {
+                                                color: Highcharts.getOptions().colors[1]
+                                            }
+                                        },
+                                        opposite: false
                                     }
-                                }, { // Secondary yAxis
-                                    title: {
-                                        x:-5,
-                                        text: seriesOptions[1].name,
-                                        style: {
-                                            color: Highcharts.getOptions().colors[1]
-                                        }
-                                    },
-                                    labels: {
-                                        x:30,
-                                        y:-5,
-                                        useHTML: true,
-                                        style: {
-                                            color: Highcharts.getOptions().colors[1]
-                                        }
-                                    },
-                                    opposite: false
-                                }],
+                                ],
                                 xAxis: {
                                     dateTimeLabelFormats: {
                                         second: '%H:%M:%S',
@@ -171,7 +174,7 @@
         $.each(names, function (i, name) {
             $.ajax({
                 type: "POST",
-                url: '<format:html value="${createLink(action: 'correlationChartData', params: [startDate:params.startDate, endDate:params.endDate, period:params.period,])}"/>&group=' + name.group + '&item=' + name.item
+                url: '<format:html value="${createLink(action: 'correlationChartData', params: [startDate:params.startDate, endDate:params.endDate, period:params.period,adjustmentType:params.adjustmentType])}"/>&group=' + name.group + '&item=' + name.item
             }).done(function (response) {
                 dataList[dataList.length] = response.data;
                 seriesOptions[i] = {

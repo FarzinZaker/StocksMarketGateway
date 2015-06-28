@@ -14,13 +14,13 @@ public abstract class CorrelationServiceBase {
 
     abstract def all()
 
-    abstract Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period)
+    abstract Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period, String adjustmentType)
 
-    abstract List getItemValues(String item, Date startDate, Date endDate, String period)
+    abstract List getItemValues(String item, Date startDate, Date endDate, String period, String adjustmentType)
 
-    abstract Double getBaseValue(String item, Date startDate)
+    abstract Double getBaseValue(String item, Date startDate, String adjustmentType)
 
-    abstract Map<String, Double> getBaseValueCache(List<String> items, Date startDate)
+    abstract Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType)
 
     static List normalizeItemValues(List itemValues, Double baseValue, String period, Date minDate = null, Date maxDate = null) {
 
@@ -82,8 +82,8 @@ public abstract class CorrelationServiceBase {
         ]
     }
 
-    def getItemChangeValues(String item, Date startDate, Date endDate, String period) {
-        def itemValues = normalizeItemValues(getItemValues(item, startDate, endDate, period), getBaseValue(item, startDate), period).sort {
+    def getItemChangeValues(String item, Date startDate, Date endDate, String period, String adjustmentType) {
+        def itemValues = normalizeItemValues(getItemValues(item, startDate, endDate, period, adjustmentType), getBaseValue(item, startDate, adjustmentType), period).sort {
             it.date
         }
         def itemChangeValues = []

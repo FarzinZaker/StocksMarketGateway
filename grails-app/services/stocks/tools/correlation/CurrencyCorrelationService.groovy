@@ -30,7 +30,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
+    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period, String adjustmentType) {
         def itemList = CurrencyEvent.createCriteria().list {
             'in'('symbol', items)
             isNotNull("${period}Snapshot")
@@ -60,7 +60,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    List getItemValues(String item, Date startDate, Date endDate, String period) {
+    List getItemValues(String item, Date startDate, Date endDate, String period, String adjustmentType) {
 
         CurrencyEvent.createCriteria().list {
             eq('symbol', item)
@@ -80,7 +80,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Double getBaseValue(String item, Date startDate) {
+    Double getBaseValue(String item, Date startDate, String adjustmentType) {
         CurrencyEvent.get(CurrencyEvent.createCriteria().get {
             eq('symbol', item)
             lt('creationDate', startDate)
@@ -91,7 +91,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
+    Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def list = CurrencyEvent.createCriteria().list {
             'in'('symbol', items)
             lt('creationDate', startDate)

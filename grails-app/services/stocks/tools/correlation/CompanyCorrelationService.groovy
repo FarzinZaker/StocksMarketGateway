@@ -48,7 +48,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period) {
+    Map<String, List> getItemValuesCache(List<String> items, Date startDate, Date endDate, String period, String adjustmentType) {
 
         def groupingMode = '1d'
         switch (period){
@@ -65,7 +65,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
         def result = [:]
         items.each { symbolId ->
-            result.put(symbolId, adjustedPriceSeriesService.closingPriceList(symbolId as Long, startDate, endDate, groupingMode).collect {
+            result.put(symbolId, adjustedPriceSeriesService.closingPriceList(symbolId as Long, startDate, endDate, groupingMode, adjustmentType).collect {
                 [
                         date : it.date,
                         value: it.value
@@ -77,7 +77,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     }
 
     @Override
-    List getItemValues(String item, Date startDate, Date endDate, String period) {
+    List getItemValues(String item, Date startDate, Date endDate, String period, String adjustmentType) {
 
         def groupingMode = '1d'
         switch (period){
@@ -92,19 +92,19 @@ class CompanyCorrelationService extends CorrelationServiceBase {
                 break
         }
 
-        adjustedPriceSeriesService.closingPriceList(item as Long, startDate, endDate, groupingMode)
+        adjustedPriceSeriesService.closingPriceList(item as Long, startDate, endDate, groupingMode, adjustmentType)
     }
 
     @Override
-    Double getBaseValue(String item, Date startDate) {
-        adjustedPriceSeriesService.lastClosingPrice(item as Long, startDate) ?: 0
+    Double getBaseValue(String item, Date startDate, String adjustmentType) {
+        adjustedPriceSeriesService.lastClosingPrice(item as Long, startDate, adjustmentType) ?: 0
     }
 
     @Override
-    Map<String, Double> getBaseValueCache(List<String> items, Date startDate) {
+    Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each {symbolId ->
-            result.put(symbolId, adjustedPriceSeriesService.lastClosingPrice(symbolId as Long, startDate))
+            result.put(symbolId, adjustedPriceSeriesService.lastClosingPrice(symbolId as Long, startDate, adjustmentType))
         }
         result
     }

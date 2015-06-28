@@ -14,6 +14,7 @@
     $(document).ready(function () {
         $("#sourceGroup").kendoComboBox({
             change: function (e) {
+                toggleAdjustmentType();
                 initSourceItemSelector();
             }
         });

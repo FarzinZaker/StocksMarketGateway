@@ -40,6 +40,7 @@
                 <g:render template="correlation/sourceGroupSelect"/>
                 <g:render template="correlation/targetGroupSelect"/>
                 <g:render template="correlation/timePeriod"/>
+                <g:render template="correlation/adjustmentType"/>
             </form>
 
             <div class="toolbar">

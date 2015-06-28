@@ -12,7 +12,7 @@ class CorrelationService {
     def grailsApplication
     def messageSource
 
-    def calculateSeries(String sourceGroup, String source, String targetGroup, String target, Date startDate, Date endDate, String period) {
+    def calculateSeries(String sourceGroup, String source, String targetGroup, String target, Date startDate, Date endDate, String period, String adjustmentType) {
 
         NumberFormat format = NumberFormat.getNumberInstance()
         format.maximumFractionDigits = 2
@@ -21,7 +21,7 @@ class CorrelationService {
         def sourceServices = getServiceClasses(sourceGroup)
         for (def i = 0; i < sourceServices.size(); i++) {
             def sourceService = sourceServices[i]
-            def sourceData = sourceService.getItemChangeValues(source, startDate, endDate, period)
+            def sourceData = sourceService.getItemChangeValues(source, startDate, endDate, period, adjustmentType)
             def sourceDataList = sourceData.itemChangeValues as ArrayList
             if (sourceDataList.size() == 0)
                 continue
@@ -40,8 +40,8 @@ class CorrelationService {
             for (def j = 0; j < targetServices.size(); j++) {
                 def targetService = targetServices[j]
                 def targetItems = getTargetItems(targetService, target)
-                def cache = targetService.getItemValuesCache(targetItems, startDate, endDate, period)
-                def baseValueCache = targetService.getBaseValueCache(targetItems, startDate)
+                def cache = targetService.getItemValuesCache(targetItems, startDate, endDate, period, adjustmentType)
+                def baseValueCache = targetService.getBaseValueCache(targetItems, startDate, adjustmentType)
                 for (def k = 0; k < targetItems.size(); k++) {
                     def targetItem = targetItems[k].toString()
                     def targetDataList = targetService.getItemChangeValues(targetItem, period, cache, baseValueCache, minDate, maxDate).itemChangeValues
