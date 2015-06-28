@@ -5,6 +5,7 @@ import stocks.codal.Announcement
 import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
+import stocks.tse.SymbolPriceAdjustment
 
 class SymbolController {
 
@@ -28,15 +29,41 @@ class SymbolController {
                 eq('id', params.id as Long)
             }
             order('publishDate', ORDER_DESCENDING)
-            maxResults(10)
+//            maxResults(5)
         }.collect{
             [
                     title: it.title,
-                    date: format.jalaliDate(date: it.publishDate, hm: true.toString()),
-                    type: message(code:'codal.announcement')
+                    date: it.publishDate,
+                    link: it.detailsUrl,
+                    type: message(code:'codal.announcement'),
+                    color: 'coral'
             ]
         }
-        render template: 'news', model: [news:announcements]
+
+        def adjustments = SymbolPriceAdjustment.createCriteria().list {
+            symbol{
+                eq('id', params.id as Long)
+            }
+            order('date', ORDER_DESCENDING)
+//            maxResults(5)
+        } .collect{
+            [
+                    title: message(code:'tse.symbolPriceAdjustment.title', args: [it.oldPrice, it.adjustedPrice]),
+                    date: it.date,
+                    link: null,
+                    type: message(code:'tse.symbolPriceAdjustment'),
+                    color: 'royalblue'
+            ]
+        }
+
+        def list = (announcements + adjustments).sort{-it.date.time}
+//        if(list.size() > 10)
+//            list = list[0..9]
+        list.each {
+            it.date = format.jalaliDate(date: it.date, hm: 'false')
+        }
+
+        render (list as JSON)
     }
 
     def clearTimeSeries() {

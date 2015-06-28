@@ -122,7 +122,7 @@
                     </div>
 
                     <div>
-                        <div id="news"></div>
+                        <g:render template="news"/>
                     </div>
 
                     <div>
@@ -151,17 +151,5 @@
         </div>
     </div>
 </div>
-<script language="javascript" type="text/javascript">
-    $(document).ready(function () {
-
-        $.ajax({
-            type: "POST",
-            url: '${createLink(action: 'news')}',
-            data: {id: ${params.id}}
-        }).done(function (response) {
-            $('#news').html(response);
-        });
-    })
-</script>
 </body>
 </html>

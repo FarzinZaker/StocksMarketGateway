@@ -219,12 +219,11 @@ ul.linkList {
     }
   }
 
-
-  .user-badge{
+  .user-badge {
     height: 60px;
     line-height: 32px;
     width: 60px;
-    span{
+    span {
       line-height: 20px;
     }
   }
@@ -270,7 +269,7 @@ ul.linkList {
   .followingItem {
     border-bottom: 1px dashed @border-color;
     padding-bottom: 10px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     .meta {
       display: inline-block;
       float: right;
@@ -296,11 +295,9 @@ ul.linkList {
   }
 }
 
-#document-list{
+#document-list {
   padding: 0;
 }
-
-
 
 .queryListContainer {
 }
@@ -311,15 +308,15 @@ ul.linkList {
   .query {
     margin: 5px;
     padding: 5px 10px;
-    border-bottom:1px dashed @editor-border-color;
-    &:last-of-type{
+    border-bottom: 1px dashed @editor-border-color;
+    &:last-of-type {
       border-width: 0;
     }
-    &.k-state-selected{
+    &.k-state-selected {
       background: transparent !important;
     }
     span.image {
-      float:right;
+      float: right;
       display: table-cell;
       height: 128px;
       vertical-align: top;
@@ -331,7 +328,7 @@ ul.linkList {
       }
     }
     .text {
-      float:right;
+      float: right;
       h3 {
         border-width: 0;
         color: black;
@@ -351,12 +348,12 @@ ul.linkList {
         color: @summary-color;
       }
 
-      .parameters{
+      .parameters {
         float: right;
-        padding-top:10px;
+        padding-top: 10px;
         color: @summary-color;
-        padding-bottom:15px;
-        span{
+        padding-bottom: 15px;
+        span {
           background: @summary-back-color;
           color: @header-color;
           display: inline-block;
@@ -373,15 +370,15 @@ ul.linkList {
   .query {
     margin: 5px;
     padding: 5px 10px;
-    border-bottom:1px dashed @editor-border-color;
-    &:last-of-type{
+    border-bottom: 1px dashed @editor-border-color;
+    &:last-of-type {
       border-width: 0;
     }
-    &.k-state-selected{
+    &.k-state-selected {
       background: transparent !important;
     }
     span.image {
-      float:right;
+      float: right;
       display: table-cell;
       height: 128px;
       vertical-align: top;
@@ -393,7 +390,7 @@ ul.linkList {
       }
     }
     .text {
-      float:right;
+      float: right;
       h3 {
         border-width: 0;
         color: black;
@@ -413,11 +410,11 @@ ul.linkList {
         color: @summary-color;
       }
 
-      .parameters{
-        padding-top:10px;
+      .parameters {
+        padding-top: 10px;
         color: @summary-color;
-        padding-bottom:15px;
-        span{
+        padding-bottom: 15px;
+        span {
           background: @summary-back-color;
           color: @header-color;
           display: inline-block;
@@ -428,12 +425,12 @@ ul.linkList {
   }
 }
 
-.query-register-description{
+.query-register-description {
   margin-bottom: 20px;
   margin-top: 20px;
 }
 
-.user-badge{
+.user-badge {
   background-color: @body-color;
 
   display: inline-block;
@@ -445,7 +442,7 @@ ul.linkList {
   padding-top: 8px;
   text-align: center;
   width: 80px;
-  span{
+  span {
     background: none repeat scroll 0 0 @main-color;
     color: white;
     display: block;
@@ -455,11 +452,11 @@ ul.linkList {
   }
 }
 
-.multiSelectValues{
-//  background: white;
-//  border:1px solid #dadada;
-  padding:10px;
-  margin-top:3px;
+.multiSelectValues {
+  //  background: white;
+  //  border:1px solid #dadada;
+  padding: 10px;
+  margin-top: 3px;
   ul {
     padding: 0;
     li {
@@ -484,37 +481,71 @@ ul.linkList {
       }
     }
   }
-  div{
-    clear:both;
+  div {
+    clear: both;
   }
 }
 
-.pushButtonRadioGroup{
-  input[type=radio]{
+.pushButtonRadioGroup {
+  input[type=radio] {
     display: none;
-    &:checked+label{
+    &:checked + label {
       background: @main-color;
       color: white;
     }
   }
-  label{
-    padding-top:3px;
-    padding-bottom:3px;
-    padding-right:10px;
-    padding-left:10px;
-    margin-left:10px;
+  label {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 10px;
     display: inline-block !important;
     cursor: pointer;
     background: white;
   }
 }
 
-.deliveryMethodPage{
+.deliveryMethodPage {
   display: none;
 
-  &.underConstruction{
-    & + .k-button{
+  &.underConstruction {
+    & + .k-button {
       display: none;
+    }
+  }
+}
+
+#newsList {
+  border-width: 0;
+  .symbolNewsItem {
+    border-top: 1px dashed #d9dadb;
+    padding-top: 10px;
+    &:first-of-type {
+      border-width: 0;
+      padding: 0;
+    }
+    div {
+      line-height: 20px;
+      span {
+        font-size: 10px;
+        display: inline-block;
+        border-radius: 2px;
+        padding: 2px 5px;
+        color: white;
+        margin-left: 7px;
+        line-height: 12px;
+        &.coral {
+          background-color: coral;
+        }
+        &.royalblue {
+          background-color: royalblue;
+        }
+      }
+    }
+
+    .itemDate {
+      float: left;
     }
   }
 }

@@ -5,21 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5c85994f-f0f4-4459-bf2f-04ed5e25d462" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/images/caret.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/addons.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/addons-sample.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/images/favicon.ico" afterPath="$PROJECT_DIR$/grails-app/assets/images/favicon.ico" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/images/favicon.ico" afterPath="$PROJECT_DIR$/web-app/images/favicon.ico" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/images/logo.png" afterPath="$PROJECT_DIR$/grails-app/assets/images/logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/common/_adjustmentMenu.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/common/_adjustmentMenu.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/addons.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/addons.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/symbol/_news.gsp" afterPath="$PROJECT_DIR$/grails-app/views/symbol/_news.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" afterPath="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.css" afterPath="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/screener/view.gsp" afterPath="$PROJECT_DIR$/grails-app/views/screener/view.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/stylesheets/site.less" afterPath="$PROJECT_DIR$/grails-app/assets/stylesheets/site.less" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="a19fe5fa-6e89-4d73-b46c-c9961987a749" name="uncommitable" comment="">
@@ -100,67 +90,52 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="common.less" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/assets/stylesheets/common.less">
+      <file leaf-file-name="_news.gsp" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/symbol/_news.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.217392" vertical-offset="16573" max-vertical-offset="17120">
-              <caret line="1062" column="1" selection-start-line="1062" selection-start-column="1" selection-end-line="1062" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.031128405" vertical-offset="0" max-vertical-offset="896">
+              <caret line="1" column="46" selection-start-line="0" selection-start-column="0" selection-end-line="50" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChartController.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy">
+      <file leaf-file-name="_list.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/document/_list.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.608696" vertical-offset="1196" max-vertical-offset="2416">
-              <caret line="94" column="232" selection-start-line="94" selection-start-column="218" selection-end-line="94" selection-end-column="232" />
+            <state vertical-scroll-proportion="15.586957" vertical-offset="1165" max-vertical-offset="2352">
+              <caret line="28" column="44" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addons-sample.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/chartingLibrary/addons-sample.js">
+      <file leaf-file-name="SymbolController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.538462" vertical-offset="124702" max-vertical-offset="126032">
-              <caret line="7811" column="8" selection-start-line="7811" selection-start-column="8" selection-end-line="7827" selection-end-column="9" />
-              <folding>
-                <marker date="1435492910000" expanded="true" signature="29813:29844" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="32636:32646" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="32738:32769" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="148257:148350" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="148385:148478" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="441170:441189" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="442038:442056" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="448226:448384" placeholder="..." />
-                <marker date="1435492910000" expanded="true" signature="448426:448614" placeholder="..." />
-              </folding>
+            <state vertical-scroll-proportion="-27.47826" vertical-offset="312" max-vertical-offset="1504">
+              <caret line="64" column="23" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addons.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/chartingLibrary/addons.js">
+      <file leaf-file-name="site.less" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/assets/stylesheets/site.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.0" vertical-offset="0" max-vertical-offset="448">
-              <caret line="13" column="31" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="31" />
-              <folding>
-                <marker date="1435495118000" expanded="true" signature="389:552" placeholder="..." />
-                <marker date="1435495118000" expanded="true" signature="594:782" placeholder="..." />
-              </folding>
+            <state vertical-scroll-proportion="-14.347826" vertical-offset="7974" max-vertical-offset="8896">
+              <caret line="519" column="17" selection-start-line="519" selection-start-column="17" selection-end-line="519" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datafeed.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js">
+      <file leaf-file-name="messages.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.615385" vertical-offset="4870" max-vertical-offset="13168">
-              <caret line="320" column="64" selection-start-line="320" selection-start-column="40" selection-end-line="320" selection-end-column="40" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="20380" max-vertical-offset="20992">
+              <caret line="1298" column="31" selection-start-line="1298" selection-start-column="31" selection-end-line="1298" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,31 +143,9 @@
       <file leaf-file-name="info.gsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/views/symbol/info.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="2752">
-              <caret line="21" column="33" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="33" />
+            <state vertical-scroll-proportion="-27.608696" vertical-offset="714" max-vertical-offset="2560">
+              <caret line="124" column="51" selection-start-line="124" selection-start-column="51" selection-end-line="124" selection-end-column="51" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_adjustmentMenu.gsp" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/common/_adjustmentMenu.gsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="592">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="4" selection-end-line="31" selection-end-column="13" />
-              <folding>
-                <marker date="1435498080000" expanded="true" signature="111:620" placeholder="..." />
-                <marker date="1435498080000" expanded="true" signature="312:605" placeholder="..." />
-                <marker date="1435498080000" expanded="true" signature="376:583" placeholder="..." />
-                <marker date="1435498080000" expanded="true" signature="682:1627" placeholder="..." />
-                <marker date="1435498080000" expanded="true" signature="726:1608" placeholder="{...}" />
-                <marker date="1435498080000" expanded="true" signature="786:1592" placeholder="{...}" />
-                <marker date="1435498080000" expanded="true" signature="829:1574" placeholder="{...}" />
-                <marker date="1435498080000" expanded="true" signature="901:1110" placeholder="{...}" />
-                <marker date="1435498080000" expanded="true" signature="1143:1366" placeholder="{&quot;type&quot;: &quot;POST&quot;...}" />
-                <marker date="1435498080000" expanded="true" signature="1393:1550" placeholder="{...}" />
-                <marker date="1435498080000" expanded="true" signature="1442:1524" placeholder="{...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -212,13 +165,17 @@
       <list>
         <option value="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/screener/view.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
         <option value="$PROJECT_DIR$/web-app/chartingLibrary/addons.js" />
         <option value="$PROJECT_DIR$/grails-app/assets/stylesheets/common.less" />
         <option value="$PROJECT_DIR$/web-app/chartingLibrary/static/tv-chart.css" />
         <option value="$PROJECT_DIR$/grails-app/controllers/stocks/ChartController.groovy" />
         <option value="$PROJECT_DIR$/web-app/chartingLibrary/datafeed/udf/datafeed.js" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/common/_adjustmentMenu.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/symbol/info.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/assets/stylesheets/site.less" />
+        <option value="$PROJECT_DIR$/grails-app/views/symbol/_news.gsp" />
       </list>
     </option>
   </component>
@@ -1014,7 +971,7 @@
       <workItem from="1435262224158" duration="16128000" />
       <workItem from="1435392800330" duration="2259000" />
       <workItem from="1435396019200" duration="18648000" />
-      <workItem from="1435435314645" duration="6871000" />
+      <workItem from="1435435314645" duration="9822000" />
     </task>
     <task id="LOCAL-00204" summary="bug fix">
       <created>1429970642090</created>
@@ -1212,11 +1169,15 @@
       <created>1435393798959</created>
       <updated>1435393798960</updated>
     </task>
-    <option name="localTasksCounter" value="253" />
+    <task id="LOCAL-00253" summary="symbol page">
+      <created>1435498129148</created>
+      <updated>1435498129148</updated>
+    </task>
+    <option name="localTasksCounter" value="254" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2732827000" />
+    <option name="totallyTimeSpent" value="2735778000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1251,7 +1212,7 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3888889" sideWeight="0.07849462" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3826474" sideWeight="0.56929636" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38247013" sideWeight="0.56929636" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32370517" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1266,19 +1227,19 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39741036" sideWeight="0.9215054" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22257721" sideWeight="0.45675266" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1512247" sideWeight="0.54324734" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1341,7 +1302,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="snapshots" />
     <MESSAGE value="adjustment undo" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="daily trades" />
@@ -1366,7 +1326,8 @@
     <MESSAGE value="twitter" />
     <MESSAGE value="indicators disabled" />
     <MESSAGE value="autotimestamp problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="autotimestamp problem" />
+    <MESSAGE value="symbol page" />
+    <option name="LAST_COMMIT_MESSAGE" value="symbol page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1408,7 +1369,7 @@
           <option name="timeStamp" value="2198" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2219" />
+      <option name="time" value="2220" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1416,51 +1377,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/groovy/stocks/indicators/IndicatorServiceBase.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3603083" vertical-offset="0" max-vertical-offset="0">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/indicators/SymbolIndicatorBulkService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5895954" vertical-offset="0" max-vertical-offset="0">
-          <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/indicators/IndicatorBase.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36480686" vertical-offset="0" max-vertical-offset="0">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/timeSeries/console.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.8163266" vertical-offset="0" max-vertical-offset="0">
-          <caret line="39" column="29" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/tse/persist/SymbolDailyTradePersistService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45857418" vertical-offset="0" max-vertical-offset="0">
-          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/indicators/SymbolIndicatorService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="27" column="38" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/stocks/codal/data/AnnouncementDataService.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5626204" vertical-offset="0" max-vertical-offset="0">
@@ -1746,15 +1662,15 @@
         <state vertical-scroll-proportion="-10.538462" vertical-offset="124702" max-vertical-offset="126032">
           <caret line="7811" column="8" selection-start-line="7811" selection-start-column="8" selection-end-line="7827" selection-end-column="9" />
           <folding>
-            <marker date="1435492910000" expanded="true" signature="29813:29844" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="32636:32646" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="32738:32769" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="148257:148350" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="148385:148478" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="441170:441189" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="442038:442056" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="448226:448384" placeholder="..." />
-            <marker date="1435492910000" expanded="true" signature="448426:448614" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435492910000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1780,17 +1696,9 @@
         <state vertical-scroll-proportion="-8.0" vertical-offset="0" max-vertical-offset="448">
           <caret line="13" column="31" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="31" />
           <folding>
-            <marker date="1435495118000" expanded="true" signature="389:552" placeholder="..." />
-            <marker date="1435495118000" expanded="true" signature="594:782" placeholder="..." />
+            <marker date="1435495118000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435495118000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/symbol/info.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="2752">
-          <caret line="21" column="33" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1807,28 +1715,87 @@
         <state vertical-scroll-proportion="-9.615385" vertical-offset="4870" max-vertical-offset="13168">
           <caret line="320" column="64" selection-start-line="320" selection-start-column="40" selection-end-line="320" selection-end-column="40" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/common/_adjustmentMenu.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="592">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="4" selection-end-line="31" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.45470694" vertical-offset="0" max-vertical-offset="592">
+          <caret line="16" column="85" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
           <folding>
-            <marker date="1435498080000" expanded="true" signature="111:620" placeholder="..." />
-            <marker date="1435498080000" expanded="true" signature="312:605" placeholder="..." />
-            <marker date="1435498080000" expanded="true" signature="376:583" placeholder="..." />
-            <marker date="1435498080000" expanded="true" signature="682:1627" placeholder="..." />
-            <marker date="1435498080000" expanded="true" signature="726:1608" placeholder="{...}" />
-            <marker date="1435498080000" expanded="true" signature="786:1592" placeholder="{...}" />
-            <marker date="1435498080000" expanded="true" signature="829:1574" placeholder="{...}" />
-            <marker date="1435498080000" expanded="true" signature="901:1110" placeholder="{...}" />
-            <marker date="1435498080000" expanded="true" signature="1143:1366" placeholder="{&quot;type&quot;: &quot;POST&quot;...}" />
-            <marker date="1435498080000" expanded="true" signature="1393:1550" placeholder="{...}" />
-            <marker date="1435498080000" expanded="true" signature="1442:1524" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{&quot;type&quot;: &quot;POST&quot;...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1435498080000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/stocks/tse/SymbolPriceAdjustment.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1821632" vertical-offset="0" max-vertical-offset="528">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="20380" max-vertical-offset="20992">
+          <caret line="1298" column="31" selection-start-line="1298" selection-start-column="31" selection-end-line="1298" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/assets/stylesheets/site.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.347826" vertical-offset="7974" max-vertical-offset="8896">
+          <caret line="519" column="17" selection-start-line="519" selection-start-column="17" selection-end-line="519" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/stocks/SymbolController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.47826" vertical-offset="312" max-vertical-offset="1504">
+          <caret line="64" column="23" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/symbol/info.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.608696" vertical-offset="714" max-vertical-offset="2560">
+          <caret line="124" column="51" selection-start-line="124" selection-start-column="51" selection-end-line="124" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/document/_list.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.586957" vertical-offset="1165" max-vertical-offset="2352">
+          <caret line="28" column="44" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/symbol/_news.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.031128405" vertical-offset="0" max-vertical-offset="896">
+          <caret line="1" column="46" selection-start-line="0" selection-start-column="0" selection-end-line="50" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
