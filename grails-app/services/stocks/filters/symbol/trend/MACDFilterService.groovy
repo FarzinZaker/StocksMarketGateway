@@ -97,7 +97,7 @@ class MACDFilterService implements IncludeFilterService {
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
         if (value.last() == 'constant_switch') {
             def targetValue = value.first()
@@ -107,7 +107,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.LOWER_THAN:
@@ -115,7 +115,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
@@ -123,7 +123,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
@@ -131,7 +131,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceClass    : MACD.canonicalName,
                             sourceParameter: parameter,
                             targetValue    : targetValue as Double,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
             }
@@ -143,7 +143,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.LOWER_THAN:
@@ -152,7 +152,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_UP:
@@ -161,7 +161,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
                 case Operators.CROSSING_TO_DOWN:
@@ -170,7 +170,7 @@ class MACDFilterService implements IncludeFilterService {
                             sourceParameter: parameter,
                             targetClass    : MACDSignal.class.canonicalName,
                             targetParameter: parameter,
-                            adjustmentType : AdjustmentHelper.globalAdjustmentType
+                            adjustmentType : adjustmentType
                     ])
                     break
             }

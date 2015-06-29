@@ -5,5 +5,5 @@ package stocks.filters
  */
 interface ExcludeFilterService extends FilterServiceBase {
 
-    List<Long> getExcludeList(String parameter, String operator, value)
+    List<Long> getExcludeList(String parameter, String operator, value, String adjustmentType)
 }

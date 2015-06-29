@@ -79,7 +79,7 @@ class AroonDownFilterService implements IncludeFilterService {
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
         def targetValue = value.first()
 
@@ -89,7 +89,7 @@ class AroonDownFilterService implements IncludeFilterService {
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.LOWER_THAN:
@@ -97,7 +97,7 @@ class AroonDownFilterService implements IncludeFilterService {
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_UP:
@@ -105,7 +105,7 @@ class AroonDownFilterService implements IncludeFilterService {
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
@@ -113,7 +113,7 @@ class AroonDownFilterService implements IncludeFilterService {
                         sourceClass    : AroonDown.canonicalName,
                         sourceParameter: parameter,
                         targetValue    : targetValue as Double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
         }

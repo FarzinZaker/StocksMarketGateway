@@ -69,7 +69,7 @@ class FilterService {
         (ClassResolver.loadServiceByName(filter) as FilterServiceBase).formatQueryValue(value, operator)
     }
 
-    def applyFilters(Class targetClass, List<Rule> rules) {
+    def applyFilters(Class targetClass, List<Rule> rules, String adjustmentType) {
         def filters = rules.collect { rule ->
             [
                     service  : ClassResolver.loadServiceByName(rule.field),
@@ -117,7 +117,7 @@ class FilterService {
                 [recentlyTradedSymbols] +
                         [allowedSymbols] +
                         includeFilters.collect {
-                            (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value)
+                            (it.service as IncludeFilterService).getIncludeList(it.parameter, it.operator, it.value, adjustmentType)
                         } as ArrayList<ArrayList>
         )
 
@@ -127,12 +127,12 @@ class FilterService {
         def excludeFilters = filters.findAll { it.service instanceof ExcludeFilterService }
         def excludeList = [] as Set<Long>
         excludeFilters.each {
-            excludeList.addAll((it.service as ExcludeFilterService).getExcludeList(it.parameter, it.operator, it.value) ?: [])
+            excludeList.addAll((it.service as ExcludeFilterService).getExcludeList(it.parameter, it.operator, it.value, adjustmentType) ?: [])
         }
 
         def queryFilters = filters.findAll { it.service instanceof QueryFilterService }
         def queryList = queryFilters.collect {
-            (it.service as QueryFilterService).getCriteria(it.parameter, it.operator, it.value)
+            (it.service as QueryFilterService).getCriteria(it.parameter, it.operator, it.value, adjustmentType)
         } ?: []
 
         def criteria = new Query.Conjunction()
@@ -170,7 +170,7 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
             }
         }
-        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: AdjustmentHelper.globalAdjustmentType, cols: indicatorColumns.collect {
+        def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: adjustmentType, cols: indicatorColumns.collect {
             "'" + it.replace('stocks_indicators_symbol_', '') + "'"
         }.join(',')])
         for (def i = 0; i < result.size(); i++) {

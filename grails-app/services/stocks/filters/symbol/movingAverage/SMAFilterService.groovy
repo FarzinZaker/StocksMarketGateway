@@ -108,7 +108,7 @@ class SMAFilterService implements IncludeFilterService {
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
         def targetIndicator = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
         def targetParameter = value.first()[1]
@@ -120,7 +120,7 @@ class SMAFilterService implements IncludeFilterService {
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
                         targetParameter: targetParameter,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.LOWER_THAN:
@@ -129,7 +129,7 @@ class SMAFilterService implements IncludeFilterService {
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
                         targetParameter: targetParameter,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_UP:
@@ -138,7 +138,7 @@ class SMAFilterService implements IncludeFilterService {
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
                         targetParameter: targetParameter,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.CROSSING_TO_DOWN:
@@ -147,7 +147,7 @@ class SMAFilterService implements IncludeFilterService {
                         sourceParameter: parameter,
                         targetClass    : targetIndicator,
                         targetParameter: targetParameter,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
         }

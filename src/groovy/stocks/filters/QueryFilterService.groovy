@@ -7,6 +7,6 @@ import org.grails.datastore.mapping.query.Query.Criterion
  */
 interface QueryFilterService extends FilterServiceBase {
 
-    public abstract Criterion getCriteria(String parameter, String operator, value)
+    public abstract Criterion getCriteria(String parameter, String operator, value, String adjustmentType)
 
 }

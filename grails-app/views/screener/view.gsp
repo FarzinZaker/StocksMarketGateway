@@ -27,7 +27,7 @@
                 <form:select name="adjustmentType" style="width:300px;" value="${stocks.tse.AdjustmentHelper.defaultType}"
                              items="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect {
                                  [text: message(code: "priceAdjustment.types.${it}"), value: it]
-                             }}"/>
+                             }}" onchange="reloadGrid"/>
             </div>
             <div class="clear-fix"></div>
 
@@ -53,6 +53,13 @@
             </div>
 
             <script>
+
+                function reloadGrid(){
+
+                    var documentListView = $('#grid').data('kendoGrid');
+                    documentListView.dataSource.read();   // added line
+                    documentListView.refresh();
+                }
 
                 function formatPriceChange(model) {
                     if (model.priceChange > 0) {
@@ -110,6 +117,14 @@
                                     dataType: "json",
                                     type: "POST"
 
+                                },
+                                parameterMap: function (data, action) {
+                                    if (action === "read") {
+                                        data.adjustmentType = $('#adjustmentType').val();
+                                        return data;
+                                    } else {
+                                        return data;
+                                    }
                                 }
                             },
                             schema: {
