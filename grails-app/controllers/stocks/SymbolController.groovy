@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import org.apache.lucene.search.BooleanQuery
 import stocks.codal.Announcement
 import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
@@ -89,5 +90,18 @@ class SymbolController {
     def undoAdjustment(){
         priceSeriesAdjustmentService.undo(params.type?.toString(), [params.id])
         render 'done'
+    }
+
+    def search(){
+        def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)").results.unique { a, b -> a?.id <=> b?.id }.collect {
+            [
+                    name : "${it.persianCode} - ${it.persianName}",
+                    value: it.id
+            ]
+        }
+        render([data: result] as JSON)
     }
 }
