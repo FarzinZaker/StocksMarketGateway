@@ -9,6 +9,7 @@
         </h1>
     </a>
     <g:render template="/layouts/main/menu"/>
+    <g:render template="/layouts/common/symbolSearch"/>
     %{--<asset:image src="watermark.png" class="watermark"/>--}%
     <div class="clear-fix"></div>
 </div>

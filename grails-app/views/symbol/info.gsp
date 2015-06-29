@@ -41,16 +41,16 @@
                 user_id: 'public_user_id'
             });
 
-            widget.onChartReady(function(){
+            widget.onChartReady(function () {
                 setupAdjustmentButton(this);
             });
             %{--$(frames[0]).load(function(){--}%
 
-                %{--var cssLink = document.createElement("link");--}%
-                %{--cssLink.href = "${resource(dir: 'chartingLibrary/static', file: 'tv-chart-readonly.css')}";--}%
-                %{--cssLink .rel = "stylesheet";--}%
-                %{--cssLink .type = "text/css";--}%
-                %{--frames[0].document.body.appendChild(cssLink);--}%
+            %{--var cssLink = document.createElement("link");--}%
+            %{--cssLink.href = "${resource(dir: 'chartingLibrary/static', file: 'tv-chart-readonly.css')}";--}%
+            %{--cssLink .rel = "stylesheet";--}%
+            %{--cssLink .type = "text/css";--}%
+            %{--frames[0].document.body.appendChild(cssLink);--}%
             %{--})--}%
         });
 
@@ -77,39 +77,43 @@
                 ${symbol.persianCode} (${symbol.persianName})
             </h1>
 
-            <div style="line-height: 30px;">
-                <span><g:message code="symbol.info.lastPrice"/>:</span>
-                <span style="margin-right:30px;font-size:20px;font-weight: bold"><g:formatNumber
-                        number="${lastDailyTrade.lastTradePrice}" type="number"/></span>
-                <g:set var="lastTradePriceChangePercent"
-                       value="${Math.round(lastDailyTrade.priceChange * 10000 / (lastDailyTrade.lastTradePrice - lastDailyTrade.priceChange)) / 100}"/>
-                <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                        number="${lastDailyTrade.priceChange}" type="number"/></span>
-                <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                        number="${lastTradePriceChangePercent}" type="number"/></span>
-            </div>
+            <g:if test="${lastDailyTrade}">
+                <div style="line-height: 30px;">
+                    <span><g:message code="symbol.info.lastPrice"/>:</span>
+                    <span style="margin-right:30px;font-size:20px;font-weight: bold"><g:formatNumber
+                            number="${lastDailyTrade.lastTradePrice}" type="number"/></span>
+                    <g:set var="lastTradePriceChangePercent"
+                           value="${Math.round(lastDailyTrade.priceChange * 10000 / (lastDailyTrade.lastTradePrice - lastDailyTrade.priceChange)) / 100}"/>
+                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
+                            number="${lastDailyTrade.priceChange}" type="number"/></span>
+                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
+                            number="${lastTradePriceChangePercent}" type="number"/></span>
+                </div>
 
-            <div style="line-height: 30px;">
-                <span><g:message code="symbol.info.closingPrice"/>:</span>
-                <span style="margin-right:30px;"><g:formatNumber number="${lastDailyTrade.closingPrice}"
-                                                                 type="number"/></span>
-                <g:set var="closingPriceChangePercent"
-                       value="${Math.round((lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice) * 10000 / (lastDailyTrade.closingPrice - (lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice))) / 100}"/>
-                <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                        number="${lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice}"
-                        type="number"/></span>
-                <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                        number="${closingPriceChangePercent}" type="number"/></span>
-            </div>
+                <div style="line-height: 30px;">
+                    <span><g:message code="symbol.info.closingPrice"/>:</span>
+                    <span style="margin-right:30px;"><g:formatNumber number="${lastDailyTrade.closingPrice}"
+                                                                     type="number"/></span>
+                    <g:set var="closingPriceChangePercent"
+                           value="${Math.round((lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice) * 10000 / (lastDailyTrade.closingPrice - (lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice))) / 100}"/>
+                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
+                            number="${lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice}"
+                            type="number"/></span>
+                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
+                            number="${closingPriceChangePercent}" type="number"/></span>
+                </div>
+            </g:if>
 
 
             <div class="k-rtl" style="margin-top:20px;">
                 <div id="tabstrip">
                     <ul>
-                        <li class="k-state-active">
-                            <g:message code="symbol.into.status.title"/>
-                        </li>
-                        <li>
+                        <g:if test="${lastDailyTrade}">
+                            <li class="k-state-active">
+                                <g:message code="symbol.into.status.title"/>
+                            </li>
+                        </g:if>
+                        <li class="${!lastDailyTrade? 'k-state-active' : ''}">
                             <g:message code="symbol.into.news.title"/>
                         </li>
                         <li>
@@ -117,9 +121,11 @@
                         </li>
                     </ul>
 
-                    <div>
-                        <g:render template="status" model="${[lastDailyTrade: lastDailyTrade]}"/>
-                    </div>
+                    <g:if test="${lastDailyTrade}">
+                        <div>
+                            <g:render template="status" model="${[lastDailyTrade: lastDailyTrade]}"/>
+                        </div>
+                    </g:if>
 
                     <div>
                         <g:render template="news"/>

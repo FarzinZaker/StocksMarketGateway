@@ -178,7 +178,7 @@ class ScreenerController {
         if (screener.ownerId != owner?.id && Environment.current != Environment.DEVELOPMENT)
             render ([] as JSON)
 
-        def list = filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule))
+        def list = filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule), params.adjustmentType?.toString())
         value.total = list.size()
 
         value.data = list

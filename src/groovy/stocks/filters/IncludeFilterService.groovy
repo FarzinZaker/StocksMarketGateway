@@ -7,5 +7,5 @@ import org.grails.datastore.mapping.query.Query
  */
 interface IncludeFilterService extends FilterServiceBase {
 
-    List<Long> getIncludeList(String parameter, String operator, value)
+    List<Long> getIncludeList(String parameter, String operator, value, String adjustmentType)
 }

@@ -22,29 +22,29 @@ class AdjustmentHelper {
     public
     static ENABLED_TYPES = [TYPE_NONE, TYPE_CAPITAL_INCREASE_PLUS_BROUGHT]
 
-    private static String globalAdjustmentTypeSession = 'globalAdjustmentType'
+//    private static String globalAdjustmentTypeSession = 'globalAdjustmentType'
 
     public static String getDefaultType() {
         TYPE_CAPITAL_INCREASE_PLUS_BROUGHT
     }
 
-    private static Boolean isGlobalAdjustmentTypeSet() {
-        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] ? true : false
-    }
+//    private static Boolean isGlobalAdjustmentTypeSet() {
+//        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] ? true : false
+//    }
 
-    public static void initGlobalAdjustmentType() {
-        if (!isGlobalAdjustmentTypeSet())
-            setGlobalAdjustmentType(defaultType)
-    }
+//    public static void initGlobalAdjustmentType() {
+//        if (!isGlobalAdjustmentTypeSet())
+//            setGlobalAdjustmentType(defaultType)
+//    }
+//
+//    public static String getGlobalAdjustmentType() {
+//        def result = WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession]
+//        if (!result)
+//            result = defaultType
+//        result
+//    }
 
-    public static String getGlobalAdjustmentType() {
-        def result = WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession]
-        if (!result)
-            result = defaultType
-        result
-    }
-
-    public static void setGlobalAdjustmentType(String value) {
-        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] = value
-    }
+//    public static void setGlobalAdjustmentType(String value) {
+//        WebUtils.retrieveGrailsWebRequest().session[globalAdjustmentTypeSession] = value
+//    }
 }

@@ -66,7 +66,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     }
 
     @Override
-    List<Long> getExcludeList(String parameter, String operator, Object value) {
+    List<Long> getExcludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.NOT_IN_LISt)
             return CollectionHelper.getConjunction((value as JSONArray).toList().collect{ val ->
                 IndexSymbol.createCriteria().list{
@@ -84,7 +84,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.IN_LIST)
 
             return CollectionHelper.getConjunction((value as JSONArray).toList().collect{ val ->

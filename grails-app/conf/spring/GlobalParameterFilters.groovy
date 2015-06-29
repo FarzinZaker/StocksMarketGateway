@@ -6,7 +6,7 @@ class GlobalParameterFilters {
         all(controller: '*', action: '*') {
             before = {
 //                println('global parameters filter')
-                AdjustmentHelper.initGlobalAdjustmentType()
+//                AdjustmentHelper.initGlobalAdjustmentType()
             }
             after = { Map model ->
 

@@ -114,7 +114,7 @@ class PriceFilterService implements IncludeFilterService {
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
         def parsedValue = JSON.parse(value?.toString()).find()
 
@@ -122,37 +122,37 @@ class PriceFilterService implements IncludeFilterService {
             case Operators.GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_UPPER_THAN_VAL_FILTER', [
                         value: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.LESS_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_LOWER_THAN_VAL_FILTER', [
                         value: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_PCPD_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_NCPD_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_PCFP_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('PRC_NCFP_UPPER_THAN_VAL_FILTER', [
                         percent: parsedValue as double,
-                        adjustmentType : AdjustmentHelper.globalAdjustmentType
+                        adjustmentType : adjustmentType
                 ])
                 break
         }

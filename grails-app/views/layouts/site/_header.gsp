@@ -5,5 +5,6 @@
     </a>
     <g:render template="/layouts/main/menu"/>
     %{--<asset:image src="watermark.png" class="watermark"/>--}%
+    <g:render template="/layouts/common/symbolSearch"/>
     <div class="clear-fix"></div>
 </div>
