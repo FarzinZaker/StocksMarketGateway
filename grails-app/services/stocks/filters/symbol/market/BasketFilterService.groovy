@@ -72,7 +72,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     }
 
     @Override
-    List<Long> getExcludeList(String parameter, String operator, Object value) {
+    List<Long> getExcludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.NOT_MEMBER_OF)
             return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
                 it.symbol?.id
@@ -81,7 +81,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     }
 
     @Override
-    List<Long> getIncludeList(String parameter, String operator, Object value) {
+    List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.MEMBER_OF)
             return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
                 it.symbol?.id
