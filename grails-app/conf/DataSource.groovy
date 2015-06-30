@@ -77,13 +77,14 @@ environments {
 
             //Oracle
             dbCreate = "update"
-            url = "jdbc:oracle:thin:@192.168.64.3:1521:CHAHARTABLO"
-            username = "stocks"
-            password = "stocks"
+//            url = "jdbc:oracle:thin:@192.168.64.3:1521:CHAHARTABLO"
+//            username = "stocks"
+//            password = "stocks"
             hibernate.default_schema = "stocks"
-            pooled = true
-            logSql = false
-            driverClassName = "oracle.jdbc.OracleDriver"
+//            pooled = true
+//            logSql = false
+//            driverClassName = "oracle.jdbc.OracleDriver"
+            jndiName = "Oracle"
             dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {
                 maxActive = -1
