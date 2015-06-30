@@ -10,6 +10,6 @@ class UrlMappings {
 
         "/"( controller: "/landing")
         "500"(view:'/error')
-        "/index.gsp"(view:"/index")
+        "/index.gsp"( controller: "/landing")
 	}
 }
