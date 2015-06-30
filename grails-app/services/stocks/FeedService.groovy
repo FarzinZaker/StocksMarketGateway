@@ -7,7 +7,7 @@ import stocks.util.EncodingHelper
 
 class FeedService {
 
-    @Cacheable('message')
+    @Cacheable('newsCache')
     def news() {
         def categories = [
                 [
