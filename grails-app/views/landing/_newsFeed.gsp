@@ -39,7 +39,7 @@
 
     function parseRSS(setupMixItUp) {
         $.ajax({
-            url: '${createLink(action: 'news')}',
+            url: '${createLink(action: 'news')}?t=' + new Date().getTime(),
             success: function (response) {
 
                 var filtersContainer = $('#newsFeedFilters');
