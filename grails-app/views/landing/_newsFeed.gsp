@@ -103,6 +103,9 @@
                     });
 
                 }
+                else{
+                    $('#newsFeedContainer').mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                }
 
                 $('#newsFeedTimer').timer('start');
             }
