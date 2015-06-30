@@ -112,6 +112,25 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.influxdb/influxdb-java/jars/influxdb-java-1.5.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.squareup.okio/okio/jars/okio-1.0.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.squareup.okhttp/okhttp/jars/okhttp-2.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/ws-client/zips/ws-client-1.0.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/jquery/zips/jquery-1.11.1.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/hibernate/zips/hibernate-2.2.3.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/cache/zips/cache-1.0.0.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/cache-ehcache/zips/cache-ehcache-1.0.0.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/jxl/zips/jxl-0.54.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/audit-logging/zips/audit-logging-1.0.3.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/quartz/zips/quartz-0.4.1.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/mail/zips/mail-1.0.6.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/cache-headers/zips/cache-headers-1.1.5.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/simple-captcha/zips/simple-captcha-0.9.9.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/searchable/zips/searchable-0.6.8.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/rest/zips/rest-0.8.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/spring-security-core/zips/spring-security-core-1.2.7.3.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/coffee-asset-pipeline/zips/coffee-asset-pipeline-1.7.0.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/less-asset-pipeline/zips/less-asset-pipeline-1.7.0.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/webxml/zips/webxml-1.4.1.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/asset-pipeline/zips/asset-pipeline-1.8.11.zip!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.grails.plugins/tomcat/zips/tomcat-2.2.3.zip!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -127,4 +146,3 @@
     <orderEntry type="library" name="grails-2.2.3" level="application" />
   </component>
 </module>
-

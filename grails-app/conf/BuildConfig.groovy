@@ -106,5 +106,7 @@ grails.project.dependency.resolution = {
         compile ":audit-logging:1.0.3"
 
         compile ":jxl:0.54"
+
+        compile ":cache-ehcache:1.0.0"
     }
 }

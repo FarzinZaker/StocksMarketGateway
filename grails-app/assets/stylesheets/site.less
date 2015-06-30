@@ -549,3 +549,60 @@ ul.linkList {
     }
   }
 }
+
+#newsFeedContainer {
+
+  margin-top:20px;
+
+  #newsFeedSort {
+    display: none;
+    margin-bottom:5px;
+    float:left;
+    .sort {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  #newsFeedFilters {
+    display: none;
+    .filter {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  #newsFeedItems {
+    .mix {
+      margin-top: 10px;
+      .newsFeedItemTitle {
+        display: inline-block;
+        margin-left: 10px;
+      }
+      .newsFeedItemSource {
+        font-size: 12px;
+        display: inline-block;
+        margin-left:5px;
+      }
+      .newsFeedItemDate {
+        font-size: 10px;
+        color: dimgrey;
+        display: inline-block;
+      }
+    }
+  }
+}

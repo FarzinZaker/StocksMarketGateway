@@ -210,3 +210,18 @@ grails.gorm.default.mapping = {
 //grails.gorm.default.mapping = {
 //    autoTimestamp true //or false based on your need
 //}
+
+grails.cache.config = {
+    cache {
+        name 'newsCache'
+        maxElementsInMemory 10000
+        eternal false
+        timeToIdleSeconds 60
+        timeToLiveSeconds 60
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
+}
