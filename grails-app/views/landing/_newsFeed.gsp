@@ -74,7 +74,7 @@
                             feedContainer.append(itemContainer);
                         }
                         else {
-                            $('#newsFeedContainer').mixItUp('prepend', itemContainer, {});
+                            $('#newsFeedContainer').mixItUp('prepend', itemContainer, {}).mixItUp('sort', $('.sort.active').attr('data-sort'), true);
                         }
                     }
 
@@ -102,9 +102,6 @@
                         }
                     });
 
-                }
-                else{
-                    $('#newsFeedContainer').mixItUp('sort', $('.sort.active').attr('data-sort'), true);
                 }
 
                 $('#newsFeedTimer').timer('start');
