@@ -13,20 +13,21 @@
 <asset:javascript src="jquery.plugin.js"/>
 <asset:javascript src="jquery.timer.js"/>
 
-<h2 class="orange" style="float:right"><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
 
 <div id="newsFeedTimer"></div>
 
-<div id="newsFeedContainer">
+<div id="newsFeedContainer" class="dashLet orange">
+    <h2 style="float:right"><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
 
     <div id="newsFeedSort">
 
-        <span><g:message code="newsFeed.sortText"/></span>
+        <span style="font-size:12px;color: dimgrey"><g:message code="newsFeed.sortText"/></span>
 
         <div class="sort active" data-sort="time:desc"><g:message code="newsFeed.newest"/></div>
 
         <div class="sort" data-sort="random"><g:message code="newsFeed.random"/></div>
     </div>
+
     <div class="clear-fix"></div>
 
     <div id="newsFeedFilters"></div>
@@ -63,10 +64,10 @@
                     }
                     else {
                         var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.id).attr('data-time', this.time);
-                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.source + ':');
-                        itemContainer.append(source);
                         var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
                         itemContainer.append(title);
+                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.source);
+                        itemContainer.append(source);
                         var date = $('<div/>').addClass('newsFeedItemDate').html(this.dateString);
                         itemContainer.append(date);
 
