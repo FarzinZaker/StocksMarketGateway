@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import org.ocpsoft.prettytime.PrettyTime
 
 class LandingController {
 
@@ -10,14 +11,26 @@ class LandingController {
 
     }
 
-    def news(){
+    def news() {
         def result = feedService.news()
-        result.categories = result.categoryList.collect {
-            [
-                    value: it,
-                    text : message(code: "newsCategory.${it}")
-            ]
-        }
-        render (result as JSON)
+        render([
+                data      : result.data.collect {
+                    [
+                            id        : it.id,
+                            title     : it.title,
+                            time      : it.date.time,
+                            dateString: new PrettyTime(new Locale('fa')).format(it.date),
+                            link      : it.link,
+                            category  : it.category,
+                            source    : message(code: "newsSource.${it.source}")
+                    ]
+                },
+                categories: result.categoryList.collect {
+                    [
+                            value: it,
+                            text : message(code: "newsCategory.${it}")
+                    ]
+                }
+        ] as JSON)
     }
 }

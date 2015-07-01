@@ -108,5 +108,6 @@ grails.project.dependency.resolution = {
         compile ":jxl:0.54"
 
         compile ":cache-ehcache:1.0.0"
+        compile ":pretty-time:2.1.3.Final-1.0.1"
     }
 }
