@@ -94,7 +94,7 @@
                             display: 'block'
                         },
                         load: {
-                            filter: '.economic',
+//                            filter: '.economic',
                             sort: 'time:desc'
                         },
                         controls: {

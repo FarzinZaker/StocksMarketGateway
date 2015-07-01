@@ -18,38 +18,38 @@ class FeedService {
                         name: 'political',
                         id  : 3
                 ],
-                [
-                        name: 'athletic',
-                        id  : 8
-                ],
-                [
-                        name: 'accident',
-                        id  : 5
-                ],
-                [
-                        name: 'technology',
-                        id  : 6
-                ],
-                [
-                        name: 'art',
-                        id  : 7
-                ],
-                [
-                        name: 'world',
-                        id  : 2
-                ],
-                [
-                        name: 'medicine',
-                        id  : 10
-                ],
-                [
-                        name: 'tourism',
-                        id  : 12
-                ],
-                [
-                        name: 'various',
-                        id  : 9
-                ]
+//                [
+//                        name: 'athletic',
+//                        id  : 8
+//                ],
+//                [
+//                        name: 'accident',
+//                        id  : 5
+//                ],
+//                [
+//                        name: 'technology',
+//                        id  : 6
+//                ],
+//                [
+//                        name: 'art',
+//                        id  : 7
+//                ],
+//                [
+//                        name: 'world',
+//                        id  : 2
+//                ],
+//                [
+//                        name: 'medicine',
+//                        id  : 10
+//                ],
+//                [
+//                        name: 'tourism',
+//                        id  : 12
+//                ],
+//                [
+//                        name: 'various',
+//                        id  : 9
+//                ]
         ]
         def list = []
         categories.each { category ->
