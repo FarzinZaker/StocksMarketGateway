@@ -27,6 +27,22 @@ class ReportController {
         ]
     }
 
+    def heatMapForImage() {
+        [
+                industryGroups: SymbolDailyTrade.createCriteria().list {
+                    gte('date', new Date().clearTime())
+                    projections {
+                        symbol{
+                            industryGroup{
+                                distinct('id')
+                                property('name')
+                            }
+                        }
+                    }
+                }.collect{[text:it[1],value:it[0]]}.sort{it.text}
+        ]
+    }
+
     def heatMapJson() {
 
         def result = lowLevelDataService.executeFunction('sym_sel_heat_map', [:])
