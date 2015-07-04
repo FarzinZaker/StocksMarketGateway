@@ -17,6 +17,7 @@
         </div>
 
         <div class="col-xs-3">
+            <g:render template="heatMap" />
         </div>
     </div>
 </div>
