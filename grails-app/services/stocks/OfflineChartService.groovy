@@ -5,18 +5,18 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 class OfflineChartService {
 
     def heatMap() {
-        def processBuilder = new ProcessBuilder("/usr/local/bin/node heatMap.js")
-        processBuilder.redirectErrorStream(true)
-        processBuilder.directory(new File("/var/node/"))
-        def process = processBuilder.start()
-        process.inputStream.eachLine {println(it)}
-        process.waitFor()
+//        def processBuilder = new ProcessBuilder("/usr/local/bin/node heatMap.js")
+//        processBuilder.redirectErrorStream(true)
+//        processBuilder.directory(new File("/var/node/"))
+//        def process = processBuilder.start()
+//        process.inputStream.eachLine {println(it)}
+//        process.waitFor()
 
         println('starting copy svg file')
 
-        processBuilder = new ProcessBuilder("cp /var/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
+        def processBuilder = new ProcessBuilder("cp /home/deploy/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
         processBuilder.redirectErrorStream(true)
-        process = processBuilder.start()
+        def process = processBuilder.start()
         process.inputStream.eachLine {println(it)}
         process.waitFor()
 
