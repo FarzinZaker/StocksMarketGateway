@@ -74,6 +74,7 @@ grails.project.dependency.resolution = {
         compile 'org.influxdb:influxdb-java:1.5'
 
         compile 'org.apache.xmlgraphics:batik-rasterizer:1.7'
+        compile 'org.apache.xmlgraphics:batik-transcoder:1.7'
     }
 
     plugins {
