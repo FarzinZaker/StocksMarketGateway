@@ -2,13 +2,24 @@ package stocks
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
-class OfflineChartService{
+class OfflineChartService {
 
-    def heatMap(){
-        def command = "node ${ServletContextHolder.servletContext.getRealPath('/')}heat-map/heatMap.js"
-        def proc = command.execute()
-        proc.waitFor()
+    def heatMap() {
+        def processBuilder = new ProcessBuilder("node heatMap.js")
+        processBuilder.redirectErrorStream(true)
+        processBuilder.directory(new File("/home/deploy/node/"))
+        def process = processBuilder.start()
+        process.inputStream.eachLine {println(it)}
+        process.waitFor()
 
-        println "heatMap created in ${ServletContextHolder.servletContext.getRealPath('/')}heat-map/heatMap.svg"
+        println('starting copy svg file')
+
+        processBuilder = new ProcessBuilder("cp /home/deploy/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
+        processBuilder.redirectErrorStream(true)
+        process = processBuilder.start()
+        process.inputStream.eachLine {println(it)}
+        process.waitFor()
+
+        println('finished copy svg file')
     }
 }
