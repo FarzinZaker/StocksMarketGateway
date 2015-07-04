@@ -194,7 +194,6 @@ rect {
 }
 </style>
 
-<div id="body" style="margin-top:20px;"></div>
 
 <script language="javascript" type="text/javascript">
     for (var i = 4; i >= -4; i--) {
@@ -507,6 +506,9 @@ rect {
 //                });
 
                 zoom(node);
+
+                $('#loadcompleted').remove();
+                $('body').append(('<div id="loadCompleted"/>'));
 
 //                // create the zoom listener
 //                var zoomListener = d3.behavior.zoom()

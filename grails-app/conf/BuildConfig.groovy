@@ -72,6 +72,8 @@ grails.project.dependency.resolution = {
 
 //        compile 'com.squareup.okhttp:okhttp:2.0.0'
         compile 'org.influxdb:influxdb-java:1.5'
+
+        compile 'org.apache.xmlgraphics:batik-rasterizer:1.7'
     }
 
     plugins {

@@ -8,8 +8,8 @@ class UrlMappings {
         }
 
 
-        "/"( controller: "/landing")
+        "/"( controller: "/dashboard")
         "500"(view:'/error')
-        "/index.gsp"( controller: "/landing")
+        "/index.gsp"( controller: "/dashboard")
 	}
 }

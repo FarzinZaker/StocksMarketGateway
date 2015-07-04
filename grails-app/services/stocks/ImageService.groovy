@@ -1,5 +1,7 @@
 package stocks
 
+import org.watij.webspec.dsl.WebSpec
+
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 

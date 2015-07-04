@@ -69,6 +69,7 @@ class SmsService {
 
     def sendMessage(User user, String body) {
         try {
+
             QueuedMessage.withTransaction {
                 def message = new QueuedMessage()
                 message.body = body
