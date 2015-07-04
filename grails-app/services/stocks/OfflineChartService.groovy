@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 class OfflineChartService {
 
     def heatMap() {
-        def processBuilder = new ProcessBuilder("node heatMap.js")
+        def processBuilder = new ProcessBuilder("/usr/local/bin/node heatMap.js")
         processBuilder.redirectErrorStream(true)
         processBuilder.directory(new File("/var/node/"))
         def process = processBuilder.start()
