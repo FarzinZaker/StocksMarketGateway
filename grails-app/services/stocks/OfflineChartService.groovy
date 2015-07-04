@@ -7,14 +7,14 @@ class OfflineChartService {
     def heatMap() {
         def processBuilder = new ProcessBuilder("node heatMap.js")
         processBuilder.redirectErrorStream(true)
-        processBuilder.directory(new File("/home/deploy/node/"))
+        processBuilder.directory(new File("/var/node/"))
         def process = processBuilder.start()
         process.inputStream.eachLine {println(it)}
         process.waitFor()
 
         println('starting copy svg file')
 
-        processBuilder = new ProcessBuilder("cp /home/deploy/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
+        processBuilder = new ProcessBuilder("cp /var/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
         processBuilder.redirectErrorStream(true)
         process = processBuilder.start()
         process.inputStream.eachLine {println(it)}
