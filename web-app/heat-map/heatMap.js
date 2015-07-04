@@ -109,10 +109,10 @@ function idealTextColor(bgColor) {
     return ((255 - bgDelta) < nThreshold) ? "#000000" : "#ffffff";
 }
 
-function toUnicode(value){
+function toUnicode(value) {
     return value;
     var result = "";
-    for(var i = 0; i < value.length; i++){
+    for (var i = 0; i < value.length; i++) {
         result += "\\u" + ("000" + value[i].charCodeAt(0).toString(16)).substr(-4);
     }
     return result;
@@ -120,7 +120,7 @@ function toUnicode(value){
 
 var d3 = require('d3')
     , jsdom = require('jsdom')
-    , htmlStub = '<html><head></head><body><div id="body"></div><script src="js/d3.v3.min.js"></script></body></html>'; // html file skull with a container div for the d3 dataviz
+    , htmlStub = '<html><head></head><body><div id="body"><?xml version="1.0" encoding="utf-8" standalone="yes"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"></div><script src="js/d3.v3.min.js"></script></body></html>'; // html file skull with a container div for the d3 dataviz
 
 var supportsForeignObject = false;
 var chartWidth = 500;
@@ -267,6 +267,8 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
     // append the svg to the container selector
     chart = d3.select(el)
         .append("svg:svg")
+        .attr('xmlns', 'http://www.w3.org/2000/svg')
+        .attr('version', '1.1')
         .attr("width", chartWidth)
         .attr("height", chartHeight)
         .append("svg:g");
@@ -317,39 +319,23 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
                     })
                     .attr("height", headerHeight)
                     .style("fill", colorizeIndustryGroups);
-                parentEnterTransition.append('foreignObject')
-                    .attr("class", "foreignObject")
-                    .append("xhtml:body")
-                    .attr("class", "labelbody")
-                    .style('background', 'transparent')
-                    .style('direction', 'rtl')
-                    .style('margin', '0')
-                    .style('padding-right', '5px')
-                    .style('text-align', 'right')
-                    .append("div")
-                    .attr("class", "label")
+                parentEnterTransition.append('text')
+                    .style('fill', '#ffffff')
                     .style('font-family', 'tahoma')
                     .style('font-size', '11px')
-                    .style('margin', '2px')
-                    .style('white-space', 'pre')
-                    .style('overflow', 'hidden')
-                    .style('text-overflow', 'ellipsis')
-                    .style('color', '#ffffff');
-
-
-                if (supportsForeignObject) {
-
-                    parentEnterTransition.selectAll(".foreignObject")
-                        .filter(function (d) {
-                            return d.dx < 40 || d.dy < 20;
-                        }).style('display', 'none');
-                } else {
-
-                    parentEnterTransition.selectAll(".foreignObject .labelbody .label")
-                        .filter(function (d) {
-                            return d.dx < 40 || d.dy < 20;
-                        }).style('display', 'none');
-                }
+                    .style('text-anchor', 'end')
+                    .style('writing-mode', 'rl')
+                    .attr('x', function (d) {
+                        return d.dx - 10
+                    })
+                    .attr('y', 12)
+//                    .append('textPath')
+                    .text(function (d) {
+                        if (d.dx > 100 && d.dy > 30)
+                            return toUnicode(d.name);
+                        else
+                            return '';
+                    });
 
                 // remove transition
                 parentCells.exit()
@@ -370,46 +356,22 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
                     .style('stroke', '#ffffff')
                     .classed("background", true)
                     .style("fill", colorizeSymbols);
-                childEnterTransition.append('foreignObject')
-                    .attr("class", "foreignObject")
-                    .attr("width", function (d) {
-                        return Math.max(0.01, d.dx);
-                    })
-                    .attr("height", function (d) {
-                        return Math.max(0.01, d.dy);
-                    })
-                    .append("xhtml:body")
-                    .attr("class", "labelbody")
-                    .style('background', 'transparent')
-                    .style('direction', 'rtl')
-                    .style('margin', '0')
-                    .style('padding-right', '5px')
-                    .style('text-align', 'right')
-                    .append("div")
-                    .attr("class", "label")
+                childEnterTransition.append('text')
+                    .style('fill', '#ffffff')
                     .style('font-family', 'tahoma')
                     .style('font-size', '11px')
-                    .style('margin', '2px')
-                    .style('white-space', 'pre')
-                    .style('overflow', 'hidden')
-                    .style('text-overflow', 'ellipsis')
+                    .style('text-anchor', 'end')
+                    .style('writing-mode', 'rl')
+                    .attr('x', function (d) {
+                        return d.dx - 10
+                    })
+                    .attr('y', 12)
                     .text(function (d) {
-                        return toUnicode(d.name);
+                        if (d.dx > 40 && d.dy > 30)
+                            return toUnicode(d.name);
+                        else
+                            return '';
                     });
-
-                if (supportsForeignObject) {
-
-                    childEnterTransition.selectAll(".foreignObject")
-                        .filter(function (d) {
-                            return d.dx < 40 || d.dy < 20;
-                        }).style('display', 'none');
-                } else {
-
-                    childEnterTransition.selectAll(".foreignObject .labelbody .label")
-                        .filter(function (d) {
-                            return d.dx < 40 || d.dy < 20;
-                        }).style('display', 'none');
-                }
 
                 zoom(node);
                 // save result in an html file
@@ -419,7 +381,7 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
                     if (err) {
                         console.log('error saving document', err)
                     } else {
-                        console.log('The file was saved, open heatMap.html to see the result')
+                        console.log('The file was saved, open heatMap.svg to see the result')
                     }
                 });
 
