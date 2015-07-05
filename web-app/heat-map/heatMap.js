@@ -62,14 +62,9 @@ function colorizeSymbols(d) {
 function colorizeIndustryGroups(d) {
     if (!d.parent)
         return headerColor;
-    var sum = 0;
-    if (d.children.length > 0) {
-        for (var i = 0; i < d.children.length; i++)
-            sum += d.children[i].priceChange;
-    }
-    else
+    if (d.children.length == 0)
         return headerColor;
-    return pickColor(sum / d.children.length);
+    return pickColor(d.priceChangeOnSize);
 }
 
 function size(d) {
@@ -140,7 +135,7 @@ var chart;
 function zoom(d) {
 
     treemap
-        .padding([headerHeight / (chartHeight / d.dy) + 1, 0.75, 1.5, 0.75])
+        .padding([headerHeight / (chartHeight / d.dy) + 0, 1.75, 2.5, 1.75])
         .nodes(d);
 
     // moving the next two lines above treemap layout messes up padding of zoom result
@@ -213,7 +208,7 @@ function zoom(d) {
             return Math.max(0.01, kx * d.dx);
         })
         .attr("height", function (d) {
-            return d.children ? headerHeight : Math.max(0.01, ky * d.dy);
+            return d.id == 0 ? 0 : d.children ? headerHeight : Math.max(0.01, ky * d.dy);
         })
         .select(".labelbody .label")
         .text(function (d) {
@@ -226,7 +221,7 @@ function zoom(d) {
             return d.children ? Math.max(0.01, kx * d.dx - 2) : Math.max(0.01, kx * d.dx);
         })
         .attr("height", function (d) {
-            return d.children ? headerHeight : Math.max(0.01, ky * d.dy);
+            return d.id == 0 ? 0 : d.children ? headerHeight : Math.max(0.01, ky * d.dy);
         })
         .attr('x', function (d) {
             return d.children ? 1 : '';
@@ -278,7 +273,7 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
 
     var http = require('http');
 
-    http.get('http://www.4tablo.ir/report/heatMapJson', function (res) {
+    http.get('http://127.0.0.1/report/heatMapJson?thumbnail', function (res) {
 
             var result = '';
             res.on('data', function (chunk) {
@@ -310,14 +305,16 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
                     });
                 var parentEnterTransition = parentCells.enter()
                     .append("g")
-                    .attr("class", "cell parent")
+                    .attr("class", "cell parent");
 
                 parentEnterTransition.append("rect")
-                    .style('stroke', '#ffffff')
+//                    .style('stroke', '#ffffff')
                     .attr("width", function (d) {
                         return Math.max(0.01, d.dx - 2);
                     })
-                    .attr("height", headerHeight)
+                    .attr("height", function(d){
+                        return d.id > 0 ? headerHeight : 0;
+                    })
                     .style("fill", colorizeIndustryGroups);
                 parentEnterTransition.append('text')
                     .style('fill', '#ffffff')
@@ -331,8 +328,8 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
                     .attr('y', 12)
 //                    .append('textPath')
                     .text(function (d) {
-                        if (d.dx > 100 && d.dy > 30)
-                            return toUnicode(d.name);
+                        if (d.id > 0 && d.dx > 100 && d.dy > 30)
+                            return d.name;
                         else
                             return '';
                     });
@@ -353,7 +350,7 @@ jsdom.env({ features: { QuerySelector: true }, html: htmlStub, done: function (e
 
 
                 childEnterTransition.append("rect")
-                    .style('stroke', '#ffffff')
+                    .style('stroke', '#262931')
                     .classed("background", true)
                     .style("fill", colorizeSymbols);
                 childEnterTransition.append('text')

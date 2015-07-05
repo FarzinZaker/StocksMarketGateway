@@ -8,203 +8,206 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="main"/>
-    <title><g:message code="report.heatmap.title"/></title>
-    <asset:javascript src="d3/modernizr.js"/>
-    <asset:javascript src="d3/d3.js"/>
-    <asset:javascript src="d3/d3.tip.js"/>
-    <asset:javascript src="FarsiNormalizer.js"/>
-    <script language="javascript" type="text/javascript">
+<meta name="layout" content="main"/>
+<title><g:message code="report.heatmap.title"/></title>
+<asset:javascript src="d3/modernizr.js"/>
+<asset:javascript src="d3/d3.js"/>
+<asset:javascript src="d3/d3.tip.js"/>
+<asset:javascript src="FarsiNormalizer.js"/>
+<script language="javascript" type="text/javascript">
 
 
-        function Interpolate(start, end, steps, count) {
-            var s = start,
-                    e = end,
-                    final = s + (((e - s) / steps) * count);
-            return Math.floor(final);
-        }
+    function Interpolate(start, end, steps, count) {
+        var s = start,
+                e = end,
+                final = s + (((e - s) / steps) * count);
+        return Math.floor(final);
+    }
 
-        function Color(_r, _g, _b) {
-            var r, g, b;
-            var setColors = function (_r, _g, _b) {
-                r = _r;
-                g = _g;
-                b = _b;
+    function Color(_r, _g, _b) {
+        var r, g, b;
+        var setColors = function (_r, _g, _b) {
+            r = _r;
+            g = _g;
+            b = _b;
+        };
+
+        setColors(_r, _g, _b);
+        this.getColors = function () {
+            var colors = {
+                r: r,
+                g: g,
+                b: b
             };
+            return colors;
+        };
+    }
 
-            setColors(_r, _g, _b);
-            this.getColors = function () {
-                var colors = {
-                    r: r,
-                    g: g,
-                    b: b
-                };
-                return colors;
-            };
+    function pickColorArray(value) {
+        if (value > 5)
+            value = 5;
+        else if (value < -5)
+            value = -5;
+        var self = this,
+                span = $(self).parent("span"),
+                val = (-value + 5) * 100 / 10,
+                red = new Color(246, 53, 56),
+                white = new Color(65, 69, 84),
+                green = new Color(48, 204, 90),
+                start = green,
+                end = white;
+
+        if (val > 50) {
+            start = white,
+                    end = red;
+            val = val % 51;
         }
-
-        function pickColorArray(value) {
-            if (value > 5)
-                value = 5;
-            else if (value < -5)
-                value = -5;
-            var self = this,
-                    span = $(self).parent("span"),
-                    val = (-value + 5) * 100 / 10,
-                    red = new Color(246, 53, 56),
-                    white = new Color(65, 69, 84),
-                    green = new Color(48, 204, 90),
-                    start = green,
-                    end = white;
-
-            if (val > 50) {
-                start = white,
-                        end = red;
-                val = val % 51;
-            }
-            var startColors = start.getColors(),
-                    endColors = end.getColors();
-            var r = Interpolate(startColors.r, endColors.r, 50, val);
-            var g = Interpolate(startColors.g, endColors.g, 50, val);
-            var b = Interpolate(startColors.b, endColors.b, 50, val);
-            return [r, g, b]
-        }
-
-        function pickColor(value) {
-            var colorArray = pickColorArray(value);
-            return "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
-        }
-    </script>
-    <style>
-    svg {
-        overflow: hidden;
+        var startColors = start.getColors(),
+                endColors = end.getColors();
+        var r = Interpolate(startColors.r, endColors.r, 50, val);
+        var g = Interpolate(startColors.g, endColors.g, 50, val);
+        var b = Interpolate(startColors.b, endColors.b, 50, val);
+        return [r, g, b]
     }
 
-    svg * {
-        font-family: tahoma !important;
-        font-weight: normal !important;
-        font-size: 11px !important;
+    function pickColor(value) {
+        var colorArray = pickColorArray(value);
+        return "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
     }
+</script>
+<style>
+svg {
+    overflow: hidden;
+}
 
-    rect {
-        pointer-events: all;
-        cursor: pointer;
-        stroke: #EEEEEE;
-    }
+svg * {
+    font-family: tahoma !important;
+    font-weight: normal !important;
+    font-size: 11px !important;
+}
 
-    .chart {
-        display: block;
-        margin: auto;
-    }
+rect {
+    pointer-events: all;
+    cursor: pointer;
+}
 
-    .parent .label {
-        color: #FFFFFF;
-    }
+.cell.child rect {
+    stroke: #262931;
+}
 
-    .labelbody {
-        background: transparent;
-    }
+.chart {
+    display: block;
+    margin: auto;
+}
 
-    .label {
-        margin: 2px;
-        white-space: pre;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.parent .label {
+    color: #FFFFFF;
+}
 
-    .child .label {
-        white-space: pre-wrap;
-        text-align: center;
-        text-overflow: ellipsis;
-    }
+.labelbody {
+    background: transparent;
+}
 
-    .cell {
-        font-size: 10px;
-        cursor: pointer
-    }
+.label {
+    margin: 2px;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-    .hm-tip {
-        background-color: white;
-        border: 3px solid black;
-        min-width: 300px;
-    }
+.child .label {
+    white-space: pre-wrap;
+    text-align: center;
+    text-overflow: ellipsis;
+}
 
-    .hm-tip-header {
-        padding: 3px;
-    }
+.cell {
+    font-size: 10px;
+    cursor: pointer
+}
 
-    .hm-tip-selected {
-        padding: 3px 10px;
-        color: white;
-    }
+.hm-tip {
+    background-color: white;
+    border: 3px solid black;
+    min-width: 300px;
+}
 
-    .hm-tip-selected-name {
-        float: right;
-        font-size: 24px !important;
-        /*margin-left: 30px;*/
-    }
+.hm-tip-header {
+    padding: 3px;
+}
 
-    .hm-tip-selected-price {
-        float: left;
-        /*margin-left: 10px;*/
-        font-size: 24px !important;
-        width: 100px;
-        text-align: left;
-    }
+.hm-tip-selected {
+    padding: 3px 10px;
+    color: white;
+}
 
-    .hm-tip-selected-priceChange {
-        float: left;
-        font-size: 24px !important;
-        direction: ltr;
-        width: 100px;
-        text-align: left;
-    }
+.hm-tip-selected-name {
+    float: right;
+    font-size: 24px !important;
+    /*margin-left: 30px;*/
+}
 
-    .hm-tip-selected-fullName {
-        clear: both;
-    }
+.hm-tip-selected-price {
+    float: left;
+    /*margin-left: 10px;*/
+    font-size: 24px !important;
+    width: 100px;
+    text-align: left;
+}
 
-    .hm-tip-other {
-        padding: 2px 10px;
-        clear: both;
-        border-bottom: 1px solid #EEEEEE;
-    }
+.hm-tip-selected-priceChange {
+    float: left;
+    font-size: 24px !important;
+    direction: ltr;
+    width: 100px;
+    text-align: left;
+}
 
-    .hm-tip-other-name {
-        float: right;
-        font-size: 14px !important;
-    }
+.hm-tip-selected-fullName {
+    clear: both;
+}
 
-    .hm-tip-other-price {
-        float: left;
-        margin-left: 10px;
-        font-size: 14px !important;
-        width: 100px;
-        text-align: left;
-    }
+.hm-tip-other {
+    padding: 2px 10px;
+    clear: both;
+    border-bottom: 1px solid #EEEEEE;
+}
 
-    .hm-tip-other-priceChange {
-        float: left;
-        font-size: 14px !important;
-        direction: ltr;
-        width: 100px;
-        text-align: left;
-    }
+.hm-tip-other-name {
+    float: right;
+    font-size: 14px !important;
+}
 
-    .clear {
-        clear: both;
-    }
+.hm-tip-other-price {
+    float: left;
+    margin-left: 10px;
+    font-size: 14px !important;
+    width: 100px;
+    text-align: left;
+}
 
-    .step {
-        float: left;
-        direction: ltr;
-        text-align: center;
-        color: white;
-        width: 50px;
-        padding-left: 6px;
-        padding-right: 6px;
-    }
-    </style>
+.hm-tip-other-priceChange {
+    float: left;
+    font-size: 14px !important;
+    direction: ltr;
+    width: 100px;
+    text-align: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.step {
+    float: left;
+    direction: ltr;
+    text-align: center;
+    color: white;
+    width: 50px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+</style>
 
 </head>
 
@@ -307,20 +310,21 @@
         if (!d.parent)
             return headerColor;
         var matched = false;
-        var sum = 0;
         if (d.children.length > 0) {
             for (var i = 0; i < d.children.length; i++)
                 if (normalizeFarsi(d.children[i].name).toString().indexOf(normalizeFarsi($('#txtSymbolFilter').val().trim())) > -1) {
                     matched = true;
-                    sum += d.children[i].priceChange;
                 }
         }
         else
             return headerColor;
+        var value = d.priceChangeOnSize;
+        if ($('input[name=mode]:checked').val() == "count")
+            value = d.priceChangeOnCount;
         if (matched)
-            return pickColor(sum / d.children.length);
+            return pickColor(value);
         else
-            return shadeRGBColor(pickColorArray(sum / d.children.length), 0.5);
+            return shadeRGBColor(pickColorArray(value), 0.5);
     }
 
     function searchSymbol() {
@@ -354,6 +358,7 @@
                         '<div class="hm-tip-selected" style="background-color:' + pickColor(d.priceChange) + ';">' +
                         '<div>' +
                         '<div class="hm-tip-selected-name">' + d.name + '</div>' +
+                        '<div class="hm-tip-selected-sparkLine" data-id="' + d.id + '"></div>' +
                         '<div class="hm-tip-selected-priceChange">' + d.priceChange + '%</div>' +
                         '<div class="hm-tip-selected-price">' + d.price + '</div>' +
                         '<div class="clear"></div>' +
@@ -375,6 +380,7 @@
                 }
                 result += '</div>';
                 currentTipSymbolsCount = count;
+
                 return result;
 
             });
@@ -478,7 +484,7 @@
                         .attr("height", headerHeight)
                         .select(".labelbody .label")
                         .text(function (d) {
-                            return d.name;
+                            return d.priceChangeOnSize;
                         });
                 // remove transition
                 parentCells.exit()
@@ -497,7 +503,7 @@
                             zoom(node === d.parent ? root : d.parent);
                         });
                 childEnterTransition
-                        .on('mouseover', tip.show)
+                        .on('mouseover', tip.show);
                         .on('mouseout', tip.hide);
 
                 childEnterTransition.append("rect")
@@ -648,7 +654,7 @@
         });
 
         this.treemap
-                .padding([headerHeight / (chartHeight / d.dy) + 1, 0.75, 1.5, 0.75])
+                .padding([headerHeight / (chartHeight / d.dy) + 0, 1.75, 2.5, 1.75])
                 .nodes(d);
 
         // moving the next two lines above treemap layout messes up padding of zoom result

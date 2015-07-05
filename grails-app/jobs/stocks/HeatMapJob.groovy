@@ -4,6 +4,7 @@ package stocks
 class HeatMapJob {
 
     def offlineChartService
+    def grailsApplication
 
     static startDelay = 60000
     static timeout = 60000l
@@ -11,6 +12,10 @@ class HeatMapJob {
 
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         offlineChartService.heatMap()
     }
 }
