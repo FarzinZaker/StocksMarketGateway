@@ -503,7 +503,7 @@ rect {
                             zoom(node === d.parent ? root : d.parent);
                         });
                 childEnterTransition
-                        .on('mouseover', tip.show);
+                        .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
 
                 childEnterTransition.append("rect")
