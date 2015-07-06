@@ -149,7 +149,7 @@ class ChartController {
         render((symbols + indexes) as JSON)
     }
     def sparkLine(Long id){
-        def list = adjustedPriceSeriesService.sparkLIine(id, 50)
+        def list = adjustedPriceSeriesService.sparkLIine(id, 30)
         render ([id: id, value: list] as JSON)
     }
 }

@@ -227,13 +227,13 @@
 
     .hm-tip-selected-sparkLine svg g g path {
         stroke: #ffffff !important;
-        stroke-width: 1 !important;
+        stroke-width: 1.5 !important;
 
     }
 
     .hm-tip-other-sparkLine svg g g path {
         stroke: rgb(65, 69, 84) !important;
-        stroke-width: 1 !important;
+        stroke-width: 1.25 !important;
 
     }
 
