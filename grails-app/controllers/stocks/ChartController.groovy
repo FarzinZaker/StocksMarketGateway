@@ -1,6 +1,8 @@
 package stocks
 
 import grails.converters.JSON
+import grails.plugin.cache.CachePut
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import stocks.tse.Symbol
@@ -145,5 +147,9 @@ class ChartController {
             }
 
         render((symbols + indexes) as JSON)
+    }
+    def sparkLine(Long id){
+        def list = adjustedPriceSeriesService.sparkLIine(id, 50)
+        render ([id: id, value: list] as JSON)
     }
 }

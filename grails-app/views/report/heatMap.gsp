@@ -8,206 +8,249 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-<meta name="layout" content="main"/>
-<title><g:message code="report.heatmap.title"/></title>
-<asset:javascript src="d3/modernizr.js"/>
-<asset:javascript src="d3/d3.js"/>
-<asset:javascript src="d3/d3.tip.js"/>
-<asset:javascript src="FarsiNormalizer.js"/>
-<script language="javascript" type="text/javascript">
+    <meta name="layout" content="main"/>
+    <title><g:message code="report.heatmap.title"/></title>
+    <asset:javascript src="d3/modernizr.js"/>
+    <asset:javascript src="d3/d3.js"/>
+    <asset:javascript src="d3/d3.tip.js"/>
+    <asset:javascript src="FarsiNormalizer.js"/>
+    <script language="javascript" type="text/javascript">
 
 
-    function Interpolate(start, end, steps, count) {
-        var s = start,
-                e = end,
-                final = s + (((e - s) / steps) * count);
-        return Math.floor(final);
-    }
-
-    function Color(_r, _g, _b) {
-        var r, g, b;
-        var setColors = function (_r, _g, _b) {
-            r = _r;
-            g = _g;
-            b = _b;
-        };
-
-        setColors(_r, _g, _b);
-        this.getColors = function () {
-            var colors = {
-                r: r,
-                g: g,
-                b: b
-            };
-            return colors;
-        };
-    }
-
-    function pickColorArray(value) {
-        if (value > 5)
-            value = 5;
-        else if (value < -5)
-            value = -5;
-        var self = this,
-                span = $(self).parent("span"),
-                val = (-value + 5) * 100 / 10,
-                red = new Color(246, 53, 56),
-                white = new Color(65, 69, 84),
-                green = new Color(48, 204, 90),
-                start = green,
-                end = white;
-
-        if (val > 50) {
-            start = white,
-                    end = red;
-            val = val % 51;
+        function Interpolate(start, end, steps, count) {
+            var s = start,
+                    e = end,
+                    final = s + (((e - s) / steps) * count);
+            return Math.floor(final);
         }
-        var startColors = start.getColors(),
-                endColors = end.getColors();
-        var r = Interpolate(startColors.r, endColors.r, 50, val);
-        var g = Interpolate(startColors.g, endColors.g, 50, val);
-        var b = Interpolate(startColors.b, endColors.b, 50, val);
-        return [r, g, b]
+
+        function Color(_r, _g, _b) {
+            var r, g, b;
+            var setColors = function (_r, _g, _b) {
+                r = _r;
+                g = _g;
+                b = _b;
+            };
+
+            setColors(_r, _g, _b);
+            this.getColors = function () {
+                var colors = {
+                    r: r,
+                    g: g,
+                    b: b
+                };
+                return colors;
+            };
+        }
+
+        function pickColorArray(value) {
+            if (value > 5)
+                value = 5;
+            else if (value < -5)
+                value = -5;
+            var self = this,
+                    span = $(self).parent("span"),
+                    val = (-value + 5) * 100 / 10,
+                    red = new Color(246, 53, 56),
+                    white = new Color(65, 69, 84),
+                    green = new Color(48, 204, 90),
+                    start = green,
+                    end = white;
+
+            if (val > 50) {
+                start = white,
+                        end = red;
+                val = val % 51;
+            }
+            var startColors = start.getColors(),
+                    endColors = end.getColors();
+            var r = Interpolate(startColors.r, endColors.r, 50, val);
+            var g = Interpolate(startColors.g, endColors.g, 50, val);
+            var b = Interpolate(startColors.b, endColors.b, 50, val);
+            return [r, g, b]
+        }
+
+        function pickColor(value) {
+            var colorArray = pickColorArray(value);
+            return "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
+        }
+    </script>
+    <style>
+    svg {
+        overflow: hidden;
     }
 
-    function pickColor(value) {
-        var colorArray = pickColorArray(value);
-        return "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
+    svg * {
+        font-family: tahoma !important;
+        font-weight: normal !important;
+        font-size: 11px !important;
     }
-</script>
-<style>
-svg {
-    overflow: hidden;
-}
 
-svg * {
-    font-family: tahoma !important;
-    font-weight: normal !important;
-    font-size: 11px !important;
-}
+    rect {
+        pointer-events: all;
+        cursor: pointer;
+    }
 
-rect {
-    pointer-events: all;
-    cursor: pointer;
-}
+    .cell.child rect {
+        stroke: #262931;
+    }
 
-.cell.child rect {
-    stroke: #262931;
-}
+    .chart {
+        display: block;
+        margin: auto;
+    }
 
-.chart {
-    display: block;
-    margin: auto;
-}
+    .parent .label {
+        color: #FFFFFF;
+    }
 
-.parent .label {
-    color: #FFFFFF;
-}
+    .labelbody {
+        background: transparent;
+    }
 
-.labelbody {
-    background: transparent;
-}
+    .label {
+        margin: 2px;
+        white-space: pre;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-.label {
-    margin: 2px;
-    white-space: pre;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    .child .label {
+        white-space: pre-wrap;
+        text-align: center;
+        text-overflow: ellipsis;
+    }
 
-.child .label {
-    white-space: pre-wrap;
-    text-align: center;
-    text-overflow: ellipsis;
-}
+    .cell {
+        font-size: 10px;
+        cursor: pointer
+    }
 
-.cell {
-    font-size: 10px;
-    cursor: pointer
-}
+    .hm-tip {
+        background-color: white;
+        border: 3px solid black;
+        min-width: 300px;
+    }
 
-.hm-tip {
-    background-color: white;
-    border: 3px solid black;
-    min-width: 300px;
-}
+    .hm-tip-header {
+        padding: 3px;
+    }
 
-.hm-tip-header {
-    padding: 3px;
-}
+    .hm-tip-selected {
+        padding: 3px 10px;
+        color: white;
+    }
 
-.hm-tip-selected {
-    padding: 3px 10px;
-    color: white;
-}
+    .hm-tip-selected-name {
+        float: right;
+        font-size: 24px !important;
+        width: 100px;
 
-.hm-tip-selected-name {
-    float: right;
-    font-size: 24px !important;
-    /*margin-left: 30px;*/
-}
+        /*margin-left: 30px;*/
+    }
 
-.hm-tip-selected-price {
-    float: left;
-    /*margin-left: 10px;*/
-    font-size: 24px !important;
-    width: 100px;
-    text-align: left;
-}
+    .hm-tip-selected-price {
+        float: left;
+        font-size: 24px !important;
+        width: 80px;
+        text-align: left;
+    }
 
-.hm-tip-selected-priceChange {
-    float: left;
-    font-size: 24px !important;
-    direction: ltr;
-    width: 100px;
-    text-align: left;
-}
+    .hm-tip-selected-sparkLine {
+        float: right;
+        font-size: 24px !important;
+        width: 80px;
+        text-align: right;
+        margin-right: 5px;
+    }
 
-.hm-tip-selected-fullName {
-    clear: both;
-}
+    .hm-tip-selected-priceChange {
+        float: left;
+        font-size: 24px !important;
+        direction: ltr;
+        width: 80px;
+        text-align: left;
+    }
 
-.hm-tip-other {
-    padding: 2px 10px;
-    clear: both;
-    border-bottom: 1px solid #EEEEEE;
-}
+    .hm-tip-selected-fullName {
+        clear: both;
+    }
 
-.hm-tip-other-name {
-    float: right;
-    font-size: 14px !important;
-}
+    .hm-tip-other {
+        padding: 2px 10px;
+        clear: both;
+        border-bottom: 1px solid #EEEEEE;
+        height: 25px;
+        overflow: hidden;
+    }
 
-.hm-tip-other-price {
-    float: left;
-    margin-left: 10px;
-    font-size: 14px !important;
-    width: 100px;
-    text-align: left;
-}
+    .hm-tip-other-name {
+        float: right;
+        font-size: 14px !important;
+        width: 100px;
+    }
 
-.hm-tip-other-priceChange {
-    float: left;
-    font-size: 14px !important;
-    direction: ltr;
-    width: 100px;
-    text-align: left;
-}
+    .hm-tip-other-sparkLine {
+        float: right;
+        margin-right: 5px;
+        font-size: 14px !important;
+        width: 80px;
+        text-align: right;
+    }
 
-.clear {
-    clear: both;
-}
+    .hm-tip-other-price {
+        float: left;
+        font-size: 14px !important;
+        width: 80px;
+        text-align: left;
+    }
 
-.step {
-    float: left;
-    direction: ltr;
-    text-align: center;
-    color: white;
-    width: 50px;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-</style>
+    .hm-tip-other-priceChange {
+        float: left;
+        font-size: 14px !important;
+        direction: ltr;
+        width: 80px;
+        text-align: left;
+    }
+
+    .hm-tip-other-sparkLine path, .hm-tip-selected-sparkLine path {
+        fill: transparent;
+    }
+
+    .hm-tip-other-sparkLine span, .hm-tip-selected-sparkLine span {
+        height: 20px !important;
+    }
+
+    .hm-tip-other-sparkLine svg, .hm-tip-selected-sparkLine svg {
+        height: 25px !important;
+    }
+
+    .hm-tip-selected-sparkLine svg g g path {
+        stroke: #ffffff !important;
+        stroke-width: 1 !important;
+
+    }
+
+    .hm-tip-other-sparkLine svg g g path {
+        stroke: rgb(65, 69, 84) !important;
+        stroke-width: 1 !important;
+
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .step {
+        float: left;
+        direction: ltr;
+        text-align: center;
+        color: white;
+        width: 50px;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+    </style>
 
 </head>
 
@@ -358,13 +401,22 @@ rect {
                         '<div class="hm-tip-selected" style="background-color:' + pickColor(d.priceChange) + ';">' +
                         '<div>' +
                         '<div class="hm-tip-selected-name">' + d.name + '</div>' +
-                        '<div class="hm-tip-selected-sparkLine" data-id="' + d.id + '"></div>' +
+                        '<div class="hm-tip-selected-sparkLine" style="line-height: 25px" id="sparkLine_selected_' + d.id + '"></div>' +
                         '<div class="hm-tip-selected-priceChange">' + d.priceChange + '%</div>' +
                         '<div class="hm-tip-selected-price">' + d.price + '</div>' +
                         '<div class="clear"></div>' +
                         '</div>' +
                         '<div class="hm-tip-selected-fullName">' + d.fullName + '</div>' +
                         '</div>';
+
+                $.ajax({
+                    type: "POST",
+                    url: '${createLink(controller: 'chart', action: 'sparkLine')}',
+                    data: {id: d.id}
+                }).done(function (response) {
+                    renderSparkLine(response, 'selected');
+                });
+
                 var count = d.parent.children.length;
                 var selectedCount = parseInt($('#symbolCount').val());
                 if (count > selectedCount)
@@ -373,10 +425,18 @@ rect {
                     var c = d.parent.children[i];
                     result += '<div class="hm-tip-other">';
                     result += '<div class="hm-tip-other-name">' + c.name + '</div>';
+                    result += '<div class="hm-tip-other-sparkLine" style="line-height: 20px" id="sparkLine_other_' + c.id + '"></div>';
                     result += '<div class="hm-tip-other-priceChange">' + c.priceChange + '%</div>';
                     result += '<div class="hm-tip-other-price">' + c.price + '</div>';
                     result += '<div class="clear"></div>';
-                    result += '</div>'
+                    result += '</div>';
+                    $.ajax({
+                        type: "POST",
+                        url: '${createLink(controller: 'chart', action: 'sparkLine')}',
+                        data: {id: c.id}
+                    }).done(function (response) {
+                        renderSparkLine(response, 'other');
+                    });
                 }
                 result += '</div>';
                 currentTipSymbolsCount = count;
@@ -385,15 +445,28 @@ rect {
 
             });
 
+    function renderSparkLine(data, type) {
+        $('#sparkLine_' + type + '_' + data.id).kendoSparkline({
+            series: [{
+                type: "line",
+                data: data.value,
+                valueAxis: {
+                    plotBands: [{
+                        from: 0,
+                        to: 20000000,
+                        color: "#000"
+                    }]
+                }
+            }]
+        });
+    }
+
     var treemap = d3.layout.treemap()
             .round(false)
             .size([chartWidth, chartHeight])
             .sticky(true)
             .value(
-                    $('input[name=mode]:checked').val() == "size" ? size : count
-//    function (d) {
-//                return d.size;
-//            }
+            $('input[name=mode]:checked').val() == "size" ? size : count
     );
 
     var chart = d3.select("#body")
@@ -412,10 +485,10 @@ rect {
             y -= $('.d3-tip').height() - 370;
         else
             y += 440;
-        if (x < 200)
+        if (x < 300)
             x = 200;
-        if (x > chartWidth - 200)
-            x = chartWidth - 200;
+        if (x > chartWidth - 300)
+            x = chartWidth - 300;
         $('.d3-tip').css('top', y).css('left', x - 125);
 
     });
@@ -453,9 +526,6 @@ rect {
                         })
                         .attr("height", headerHeight)
                         .style("fill", colorizeIndustryGroups);
-//                        .style('display', function (d) {
-//                            d.parent ? '' : 'none';
-//                        });
                 parentEnterTransition.append('foreignObject')
                         .attr("class", "foreignObject")
                         .append("xhtml:body")
@@ -474,9 +544,6 @@ rect {
                         })
                         .attr("height", headerHeight)
                         .style("fill", colorizeIndustryGroups);
-//                        .style('display', function (d) {
-//                            return d.parent ? '' : 'none';
-//                        });
                 parentUpdateTransition.select(".foreignObject")
                         .attr("width", function (d) {
                             return Math.max(0.01, d.dx);
@@ -577,34 +644,7 @@ rect {
                     }
                 });
 
-
-//                d3.select("input[type=radio]").on("change", function () {
-//                    console.log("select zoom(node)");
-//                    treemap.value(this.value == "size" ? size : count)
-//                            .nodes(root);
-//                    zoom(node);
-//                });
-
                 zoom(node);
-
-//                // create the zoom listener
-//                var zoomListener = d3.behavior.zoom()
-//                        .scaleExtent([0.1, 3])
-//                        .on("zoom", zoomHandler);
-//
-//// function for handling zoom event
-//                function zoomHandler() {
-//                    vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-//                }
-//
-//// create the svg
-////                rootSvg = d3.select("#tree-body").append("svg:svg");
-//                /*
-//                 creating your svg image here
-//                 */
-//
-//// apply the zoom behavior to the svg image
-//                zoomListener(chart);
             }
     );
 

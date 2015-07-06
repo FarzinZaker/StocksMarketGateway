@@ -1,5 +1,7 @@
 package stocks.timeSeries
 
+import grails.plugin.cache.CachePut
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
@@ -62,6 +64,11 @@ class AdjustedPriceSeriesService {
         }
 
         timeSeriesDBService.write(serie)
+    }
+
+    @Cacheable(value='sparkLine', key='#symbolId.toString().concat("-").concat(#daysCount.toString())')
+    def sparkLIine(Long symbolId, Integer daysCount) {
+        priceList(symbolId, 'closingPrice', new Date() - daysCount, new Date(), '1d')?.collect{it.value} ?: []
     }
 
     def firstTradePriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
