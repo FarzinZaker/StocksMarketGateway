@@ -20,8 +20,8 @@ environments {
         timeSeries {
 
             dataSource {
-//                host = '192.168.0.3'
-                host = '91.98.102.76'
+                host = '192.168.0.3'
+//                host = '91.98.102.76'
                 port = 8086
                 username = 'root'
                 password = 'root'
@@ -32,8 +32,8 @@ environments {
         dataSource {
 //Oracle
             dbCreate = "update"
-//            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
-            url = "jdbc:oracle:thin:@91.98.102.76:1521:CHAHARTABLO"
+            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
+//            url = "jdbc:oracle:thin:@91.98.102.76:1521:CHAHARTABLO"
 //            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
             username = "stocks"
             password = "stocks"

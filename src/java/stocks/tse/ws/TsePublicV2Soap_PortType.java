@@ -8,6 +8,7 @@
 package stocks.tse.ws;
 
 public interface TsePublicV2Soap_PortType extends java.rmi.Remote {
+    public stocks.tse.ws.ClientTypeResponseClientTypeResult clientType(java.lang.String userName, java.lang.String password) throws java.rmi.RemoteException;
     public stocks.tse.ws.AuctionResponseAuctionResult auction(java.lang.String userName, java.lang.String password, long from) throws java.rmi.RemoteException;
     public stocks.tse.ws.BoardResponseBoardResult board(java.lang.String userName, java.lang.String password) throws java.rmi.RemoteException;
     public stocks.tse.ws.SectorResponseSectorResult sector(java.lang.String userName, java.lang.String password) throws java.rmi.RemoteException;

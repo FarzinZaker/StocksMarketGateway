@@ -5,6 +5,9 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.io.support.GrailsResourceUtils
 import org.ocpsoft.prettytime.PrettyTime
 import org.watij.webspec.dsl.WebSpec
+import stocks.tse.Index
+import stocks.tse.IndexHistory
+import stocks.tse.SymbolClientType
 import sun.misc.GC
 
 class DashboardController {
@@ -13,7 +16,42 @@ class DashboardController {
     def offlineChartService
 
     def index() {
+    }
 
+    def marketView() {
+        def totalIndex = Index.findByInternalCode(32097828799138957)
+        def priceIndex = Index.findByInternalCode(8384385859414435)
+        def otcTotalIndex = Index.findByInternalCode(43685683301327984)
+        def clientTypes = SymbolClientType.createCriteria().list {
+            gte('date', new Date().clearTime())
+            projections {
+                sum('individualBuyVolume')
+                sum('individualSellVolume')
+                sum('legalBuyVolume')
+                sum('legalSellVolume')
+            }
+        }?.first()
+        render([
+                totalIndex   : [
+                        value        : totalIndex.finalIndexValue,
+                        change       : totalIndex.finalIndexValue - (100 - totalIndex.todayIndexChangePercentTowardYesterday) * totalIndex.finalIndexValue / 100,
+                        changePercent: totalIndex.todayIndexChangePercentTowardYesterday
+                ],
+                priceIndex   : [
+                        value        : priceIndex.finalIndexValue,
+                        change       : priceIndex.finalIndexValue - (100 - priceIndex.todayIndexChangePercentTowardYesterday) * priceIndex.finalIndexValue / 100,
+                        changePercent: priceIndex.todayIndexChangePercentTowardYesterday
+                ],
+                otcTotalIndex: [
+                        value: otcTotalIndex.finalIndexValue
+                ],
+                clientTypes  : [
+                        totalIndividualBuyVolume: clientTypes[0],
+                        totalIndividualSellVolume: clientTypes[1],
+                        totalLegalBuyVolume: clientTypes[2],
+                        totalLegalSellVolume: clientTypes[3],
+                ]
+        ] as JSON)
     }
 
     def news() {
@@ -37,36 +75,5 @@ class DashboardController {
                     ]
                 }
         ] as JSON)
-    }
-
-//    static WebSpec spec
-
-    def heatMap(){
-
-//        def scriptEngine = new RhinoScriptEngineFactory().scriptEngine
-//        println scriptEngine.eval("Math.cos(Math.PI)")
-
-
-//        if(!spec)
-//            spec = Class.forName('org.watij.webspec.dsl.WebSpec').newInstance().mozilla()
-//
-//        try {
-//            spec.open("http://localhost:8080/Stocks/report/heatMapForImage")
-////        spec.hide()
-//            def counter = 0
-//            while (!spec.findWithId('loadCompleted').exists()) {
-//                Thread.sleep(1000)
-//                if (++counter > 60) {
-//                    spec = null
-//                    GC.collect()
-//                    return
-//                }
-//            }
-//            spec.snapAll(GrailsResourceUtils.WEB_APP_DIR + "heatMap.png")
-//        }
-//        catch(ignored){
-//            spec = null
-//            GC.collect()
-//        }
     }
 }

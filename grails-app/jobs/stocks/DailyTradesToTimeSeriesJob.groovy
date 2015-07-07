@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import grails.util.Environment
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
@@ -17,6 +18,9 @@ class DailyTradesToTimeSeriesJob {
     def execute() {
 
         if (grailsApplication.config.jobsDisabled)
+            return
+
+        if (Environment.current == Environment.DEVELOPMENT)
             return
 
         def lastState = getLastState()

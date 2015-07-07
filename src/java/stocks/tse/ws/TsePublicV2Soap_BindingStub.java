@@ -16,7 +16,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[34];
+        _operations = new org.apache.axis.description.OperationDesc[35];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -26,6 +26,21 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
     private static void _initOperationDesc1(){
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("ClientType");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "Password"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://tsetmc.com/", ">>ClientTypeResponse>ClientTypeResult"));
+        oper.setReturnClass(stocks.tse.ws.ClientTypeResponseClientTypeResult.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "ClientTypeResult"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[0] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Auction");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -41,7 +56,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "AuctionResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[0] = oper;
+        _operations[1] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Board");
@@ -56,7 +71,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "BoardResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[1] = oper;
+        _operations[2] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Sector");
@@ -71,7 +86,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "SectorResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[2] = oper;
+        _operations[3] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("SubSector");
@@ -86,7 +101,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "SubSectorResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[3] = oper;
+        _operations[4] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("TradeLastDay");
@@ -103,7 +118,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "TradeLastDayResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[4] = oper;
+        _operations[5] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("TradeOneDay");
@@ -122,7 +137,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "TradeOneDayResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[5] = oper;
+        _operations[6] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("TradeOneDayAll");
@@ -141,7 +156,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "TradeOneDayAllResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[6] = oper;
+        _operations[7] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("InstTrade");
@@ -162,7 +177,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstTradeResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[7] = oper;
+        _operations[8] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("MarketActivityDaily");
@@ -181,8 +196,13 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "MarketActivityDailyResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[8] = oper;
+        _operations[9] = oper;
 
+    }
+
+    private static void _initOperationDesc2(){
+        org.apache.axis.description.OperationDesc oper;
+        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("BestLimitsAllIns");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -198,13 +218,8 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "BestLimitsAllInsResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[9] = oper;
+        _operations[10] = oper;
 
-    }
-
-    private static void _initOperationDesc2(){
-        org.apache.axis.description.OperationDesc oper;
-        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("BestLimitOneIns");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -220,7 +235,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "BestLimitOneInsResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[10] = oper;
+        _operations[11] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("InstWithBestLimit");
@@ -237,7 +252,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstWithBestLimitResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[11] = oper;
+        _operations[12] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Instrument");
@@ -254,7 +269,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstrumentResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[12] = oper;
+        _operations[13] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("InstrumentFilterByDate");
@@ -273,7 +288,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstrumentFilterByDateResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[13] = oper;
+        _operations[14] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Company");
@@ -290,7 +305,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "CompanyResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[14] = oper;
+        _operations[15] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("InstrumentsState");
@@ -307,7 +322,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstrumentsStateResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[15] = oper;
+        _operations[16] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("IndexB1LastDayLastData");
@@ -324,7 +339,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "IndexB1LastDayLastDataResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[16] = oper;
+        _operations[17] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("IndexB1LastDayOneInst");
@@ -343,7 +358,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "IndexB1LastDayOneInstResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[17] = oper;
+        _operations[18] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("IndexB2");
@@ -360,8 +375,13 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "IndexB2Result"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[18] = oper;
+        _operations[19] = oper;
 
+    }
+
+    private static void _initOperationDesc3(){
+        org.apache.axis.description.OperationDesc oper;
+        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("IndexInstrument");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -379,13 +399,8 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "IndexInstrumentResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[19] = oper;
+        _operations[20] = oper;
 
-    }
-
-    private static void _initOperationDesc3(){
-        org.apache.axis.description.OperationDesc oper;
-        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("InstAffect");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -399,7 +414,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "InstAffectResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[20] = oper;
+        _operations[21] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("TOP");
@@ -416,7 +431,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "TOPResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[21] = oper;
+        _operations[22] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Msg");
@@ -431,7 +446,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "MsgResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[22] = oper;
+        _operations[23] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("StaticThresholds");
@@ -448,7 +463,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "StaticThresholdsResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[23] = oper;
+        _operations[24] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("MarketValue");
@@ -463,7 +478,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "MarketValueResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[24] = oper;
+        _operations[25] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("MarketValueByDate");
@@ -480,7 +495,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "MarketValueByDateResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[25] = oper;
+        _operations[26] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("FutureInformation");
@@ -497,7 +512,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "FutureInformationResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[26] = oper;
+        _operations[27] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("AdjPrice");
@@ -514,7 +529,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "AdjPriceResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[27] = oper;
+        _operations[28] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("ShareChange");
@@ -531,8 +546,13 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "ShareChangeResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[28] = oper;
+        _operations[29] = oper;
 
+    }
+
+    private static void _initOperationDesc4(){
+        org.apache.axis.description.OperationDesc oper;
+        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("MarketActivityLast");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -548,13 +568,8 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "MarketActivityLastResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[29] = oper;
+        _operations[30] = oper;
 
-    }
-
-    private static void _initOperationDesc4(){
-        org.apache.axis.description.OperationDesc oper;
-        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("SectorState");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tsetmc.com/", "UserName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -570,7 +585,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "SectorStateResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[30] = oper;
+        _operations[31] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("NSCStart");
@@ -585,7 +600,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "NSCStartResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[31] = oper;
+        _operations[32] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("PowerInstrument");
@@ -600,7 +615,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "PowerInstrumentResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[32] = oper;
+        _operations[33] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("PowerInstrumentHistory");
@@ -617,7 +632,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         oper.setReturnQName(new javax.xml.namespace.QName("http://tsetmc.com/", "PowerInstrumentHistoryResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[33] = oper;
+        _operations[34] = oper;
 
     }
 
@@ -637,6 +652,24 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             super.service = service;
         }
         ((org.apache.axis.client.Service)super.service).setTypeMappingVersion("1.2");
+            java.lang.Class cls;
+            javax.xml.namespace.QName qName;
+            javax.xml.namespace.QName qName2;
+            java.lang.Class beansf = org.apache.axis.encoding.ser.BeanSerializerFactory.class;
+            java.lang.Class beandf = org.apache.axis.encoding.ser.BeanDeserializerFactory.class;
+            java.lang.Class enumsf = org.apache.axis.encoding.ser.EnumSerializerFactory.class;
+            java.lang.Class enumdf = org.apache.axis.encoding.ser.EnumDeserializerFactory.class;
+            java.lang.Class arraysf = org.apache.axis.encoding.ser.ArraySerializerFactory.class;
+            java.lang.Class arraydf = org.apache.axis.encoding.ser.ArrayDeserializerFactory.class;
+            java.lang.Class simplesf = org.apache.axis.encoding.ser.SimpleSerializerFactory.class;
+            java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
+            java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
+            java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
+        addBindings0();
+        addBindings1();
+    }
+
+    private void addBindings0() {
             java.lang.Class cls;
             javax.xml.namespace.QName qName;
             javax.xml.namespace.QName qName2;
@@ -681,6 +714,13 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">>BoardResponse>BoardResult");
             cachedSerQNames.add(qName);
             cls = stocks.tse.ws.BoardResponseBoardResult.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">>ClientTypeResponse>ClientTypeResult");
+            cachedSerQNames.add(qName);
+            cls = stocks.tse.ws.ClientTypeResponseClientTypeResult.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -884,6 +924,20 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">AdjPriceResponse");
             cachedSerQNames.add(qName);
             cls = stocks.tse.ws.AdjPriceResponse.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">Auction");
+            cachedSerQNames.add(qName);
+            cls = stocks.tse.ws.Auction.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">AuctionResponse");
+            cachedSerQNames.add(qName);
+            cls = stocks.tse.ws.AuctionResponse.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -1329,6 +1383,21 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+    }
+    private void addBindings1() {
+            java.lang.Class cls;
+            javax.xml.namespace.QName qName;
+            javax.xml.namespace.QName qName2;
+            java.lang.Class beansf = org.apache.axis.encoding.ser.BeanSerializerFactory.class;
+            java.lang.Class beandf = org.apache.axis.encoding.ser.BeanDeserializerFactory.class;
+            java.lang.Class enumsf = org.apache.axis.encoding.ser.EnumSerializerFactory.class;
+            java.lang.Class enumdf = org.apache.axis.encoding.ser.EnumDeserializerFactory.class;
+            java.lang.Class arraysf = org.apache.axis.encoding.ser.ArraySerializerFactory.class;
+            java.lang.Class arraydf = org.apache.axis.encoding.ser.ArrayDeserializerFactory.class;
+            java.lang.Class simplesf = org.apache.axis.encoding.ser.SimpleSerializerFactory.class;
+            java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
+            java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
+            java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
             qName = new javax.xml.namespace.QName("http://tsetmc.com/", ">TradeOneDayResponse");
             cachedSerQNames.add(qName);
             cls = stocks.tse.ws.TradeOneDayResponse.class;
@@ -1402,12 +1471,46 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
         }
     }
 
-    public stocks.tse.ws.AuctionResponseAuctionResult auction(java.lang.String userName, java.lang.String password, long from) throws java.rmi.RemoteException {
+    public stocks.tse.ws.ClientTypeResponseClientTypeResult clientType(java.lang.String userName, java.lang.String password) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tsetmc.com/ClientType");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tsetmc.com/", "ClientType"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {userName, password});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (stocks.tse.ws.ClientTypeResponseClientTypeResult) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (stocks.tse.ws.ClientTypeResponseClientTypeResult) org.apache.axis.utils.JavaUtils.convert(_resp, stocks.tse.ws.ClientTypeResponseClientTypeResult.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public stocks.tse.ws.AuctionResponseAuctionResult auction(java.lang.String userName, java.lang.String password, long from) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[1]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Auction");
         _call.setEncodingStyle(null);
@@ -1441,7 +1544,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[1]);
+        _call.setOperation(_operations[2]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Board");
         _call.setEncodingStyle(null);
@@ -1475,7 +1578,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[2]);
+        _call.setOperation(_operations[3]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Sector");
         _call.setEncodingStyle(null);
@@ -1509,7 +1612,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[3]);
+        _call.setOperation(_operations[4]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/SubSector");
         _call.setEncodingStyle(null);
@@ -1543,7 +1646,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[4]);
+        _call.setOperation(_operations[5]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/TradeLastDay");
         _call.setEncodingStyle(null);
@@ -1577,7 +1680,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[5]);
+        _call.setOperation(_operations[6]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/TradeOneDay");
         _call.setEncodingStyle(null);
@@ -1611,7 +1714,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[6]);
+        _call.setOperation(_operations[7]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/TradeOneDayAll");
         _call.setEncodingStyle(null);
@@ -1645,7 +1748,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[7]);
+        _call.setOperation(_operations[8]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/InstTrade");
         _call.setEncodingStyle(null);
@@ -1679,7 +1782,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[8]);
+        _call.setOperation(_operations[9]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/MarketActivityDaily");
         _call.setEncodingStyle(null);
@@ -1713,7 +1816,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[9]);
+        _call.setOperation(_operations[10]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/BestLimitsAllIns");
         _call.setEncodingStyle(null);
@@ -1747,7 +1850,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[10]);
+        _call.setOperation(_operations[11]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/BestLimitOneIns");
         _call.setEncodingStyle(null);
@@ -1781,7 +1884,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[11]);
+        _call.setOperation(_operations[12]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/InstWithBestLimit");
         _call.setEncodingStyle(null);
@@ -1815,7 +1918,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[12]);
+        _call.setOperation(_operations[13]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Instrument");
         _call.setEncodingStyle(null);
@@ -1849,7 +1952,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[13]);
+        _call.setOperation(_operations[14]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/InstrumentFilterByDate");
         _call.setEncodingStyle(null);
@@ -1883,7 +1986,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[14]);
+        _call.setOperation(_operations[15]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Company");
         _call.setEncodingStyle(null);
@@ -1917,7 +2020,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[15]);
+        _call.setOperation(_operations[16]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/InstrumentsState");
         _call.setEncodingStyle(null);
@@ -1951,7 +2054,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[16]);
+        _call.setOperation(_operations[17]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/IndexB1LastDayLastData");
         _call.setEncodingStyle(null);
@@ -1985,7 +2088,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[17]);
+        _call.setOperation(_operations[18]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/IndexB1LastDayOneInst");
         _call.setEncodingStyle(null);
@@ -2019,7 +2122,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[18]);
+        _call.setOperation(_operations[19]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/IndexB2");
         _call.setEncodingStyle(null);
@@ -2053,7 +2156,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[19]);
+        _call.setOperation(_operations[20]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/IndexInstrument");
         _call.setEncodingStyle(null);
@@ -2087,7 +2190,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[20]);
+        _call.setOperation(_operations[21]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/InstAffect");
         _call.setEncodingStyle(null);
@@ -2121,7 +2224,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[21]);
+        _call.setOperation(_operations[22]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/TOP");
         _call.setEncodingStyle(null);
@@ -2155,7 +2258,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[22]);
+        _call.setOperation(_operations[23]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/Msg");
         _call.setEncodingStyle(null);
@@ -2189,7 +2292,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[23]);
+        _call.setOperation(_operations[24]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/StaticThresholds");
         _call.setEncodingStyle(null);
@@ -2223,7 +2326,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[24]);
+        _call.setOperation(_operations[25]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/MarketValue");
         _call.setEncodingStyle(null);
@@ -2257,7 +2360,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[25]);
+        _call.setOperation(_operations[26]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/MarketValueByDate");
         _call.setEncodingStyle(null);
@@ -2291,7 +2394,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[26]);
+        _call.setOperation(_operations[27]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/FutureInformation");
         _call.setEncodingStyle(null);
@@ -2325,7 +2428,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[27]);
+        _call.setOperation(_operations[28]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/AdjPrice");
         _call.setEncodingStyle(null);
@@ -2359,7 +2462,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[28]);
+        _call.setOperation(_operations[29]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/ShareChange");
         _call.setEncodingStyle(null);
@@ -2393,7 +2496,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[29]);
+        _call.setOperation(_operations[30]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/MarketActivityLast");
         _call.setEncodingStyle(null);
@@ -2427,7 +2530,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[30]);
+        _call.setOperation(_operations[31]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/SectorState");
         _call.setEncodingStyle(null);
@@ -2461,7 +2564,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[31]);
+        _call.setOperation(_operations[32]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/NSCStart");
         _call.setEncodingStyle(null);
@@ -2495,7 +2598,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[32]);
+        _call.setOperation(_operations[33]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/PowerInstrument");
         _call.setEncodingStyle(null);
@@ -2529,7 +2632,7 @@ public class TsePublicV2Soap_BindingStub extends org.apache.axis.client.Stub imp
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[33]);
+        _call.setOperation(_operations[34]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tsetmc.com/PowerInstrumentHistory");
         _call.setEncodingStyle(null);

@@ -56,7 +56,8 @@ public abstract class TSEDataService<T, K> {
     private def parseData(String serviceName, List parameter) {
         try {
 //            getService()."${serviceName}"(*(authenticationParameters + parameter))
-            def xml = getService()."${serviceName}"(authenticationParameters + parameter)
+            def parameters = authenticationParameters + parameter
+            def xml = getService()."${serviceName}"(parameters)
             def obj = new XmlSlurper().parseText(xml._any[1].toString())
 
             def domainClass = new DefaultGrailsDomainClass(getSampleEventObject().class)
