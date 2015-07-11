@@ -23,9 +23,11 @@
             </div>
 
             <div>
+                <g:render template="dashLets/marketView/commodity"/>
             </div>
 
             <div>
+                <g:render template="dashLets/marketView/future"/>
             </div>
 
             <div>
@@ -36,6 +38,38 @@
 
 <script language="javascript" type="text/javascript">
 
+
+    $.fn.addChangeClass = function (value) {
+        if (value > 0)
+            $(this).removeClass('negative').addClass('positive');
+        else
+            $(this).removeClass('positive').addClass('negative');
+    };
+
+    function formatNumber(data) {
+        var flag = '';
+        if(Math.abs(data) > 1000000){
+            data /= 1000000;
+            flag = 'M';
+            if(Math.abs(data) > 1000){
+                data /= 1000;
+                flag = 'B';
+            }
+        }
+        if (data.toString().indexOf(".") == -1)
+            return formatInteger(data) + flag;
+        else {
+            var parts = data.toString().split(".");
+            return formatInteger(parseInt(parts[0])) + "." + (parts[1].length > 2 ? parts[1].substring(0, 2) : parts[1]) + flag;
+        }
+    }
+
+    function formatInteger(data) {
+        return (Math.round(data * 100) / 100).toString().replace(/./g, function (c, i, a) {
+            return i && c !== "\." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+        });
+    }
+
     $(document).ready(function () {
         $("#tabstrip").kendoTabStrip({
             animation: {
@@ -43,6 +77,15 @@
                     effects: "fadeIn"
                 }
             }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '${createLink(action: 'marketView')}'
+        }).done(function (data) {
+            fillBourseData(data);
+            fillCommodityData(data);
+            fillFutureData(data);
         });
     });
 </script>

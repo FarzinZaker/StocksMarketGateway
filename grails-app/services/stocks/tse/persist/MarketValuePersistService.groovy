@@ -6,8 +6,6 @@ import stocks.tse.event.MarketValueEvent
 class MarketValuePersistService {
     static transactional = false
     def bulkDataGateway
-    def grailsApplication
-    def queryService
 
     Boolean update(MarketValueEvent event) {
         def marketValue = MarketValue.get(event.data.id)
@@ -30,6 +28,7 @@ class MarketValuePersistService {
 
     private void updateValueChange(MarketValueEvent marketValueEvent) {
         def previousMarketValue = MarketValue.createCriteria().list {
+            eq('marketIdentifier', marketValueEvent.marketIdentifier)
             lt('date', marketValueEvent.date)
             order('date', ORDER_DESCENDING)
             maxResults(1)

@@ -10,7 +10,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-3">
-            %{--<g:render template="dashLets/marketView"/>--}%
+            <g:render template="dashLets/marketView"/>
         </div>
 
         <div class="col-xs-6">
@@ -19,9 +19,9 @@
 
         <div class="col-xs-3">
             <g:render template="dashLets/heatMap"/>
-            %{--<g:render template="dashLets/screener"/>--}%
-            %{--<g:render template="dashLets/backTest"/>--}%
-            %{--<g:render template="dashLets/calculator"/>--}%
+            <g:render template="dashLets/screener"/>
+            <g:render template="dashLets/backTest"/>
+            <g:render template="dashLets/calculator"/>
         </div>
     </div>
 </div>

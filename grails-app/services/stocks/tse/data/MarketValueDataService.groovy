@@ -30,7 +30,6 @@ class MarketValueDataService {
 
 
     void importData() {
-//        def html = new XmlSlurper().parse("http://www.tsetmc.com/Loader.aspx?ParTree=15")
         def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15")
         def html = http.get([:])
         def marketValueEvent = new MarketValueEvent()

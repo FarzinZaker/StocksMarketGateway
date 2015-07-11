@@ -52,6 +52,8 @@ class AdminController {
 
     def timeSeriesDBService
     def adjustedPriceSeriesService
+    def commodityMarketActivityDataService
+    def energyMarketValueDataService
 
     def index() {
     }
@@ -101,29 +103,33 @@ class AdminController {
 //        def list = SymbolDailyTrade.list(max: 1)
 //        adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
 
-        def dt1 = [:]
-        dt1.firstTradePrice = 1000
-        dt1.lastTradePrice = 1000
-        dt1.closingPrice = 5000
-        dt1.minPrice = 1000
-        dt1.maxPrice = 1000
-        dt1.totalTradeCount = 1000
-        dt1.totalTradeValue = 1000
-        dt1.totalTradeVolume = 1000
-        dt1.yesterdayPrice = 1000
-        dt1.priceChange = 1000
-        dt1.date = new Date()
-        dt1.symbolId = 66
-        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
+//        def dt1 = [:]
+//        dt1.firstTradePrice = 1000
+//        dt1.lastTradePrice = 1000
+//        dt1.closingPrice = 5000
+//        dt1.minPrice = 1000
+//        dt1.maxPrice = 1000
+//        dt1.totalTradeCount = 1000
+//        dt1.totalTradeValue = 1000
+//        dt1.totalTradeVolume = 1000
+//        dt1.yesterdayPrice = 1000
+//        dt1.priceChange = 1000
+//        dt1.date = new Date()
+//        dt1.symbolId = 66
+//        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
 
 //        def lst1 = adjustedPriceSeriesService.dailyTradeList(35, null, null, '', AdjustmentHelper.TYPE_NONE)
-        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
+//        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
 
 //        def lst2 = adjustedPriceSeriesService.dailyTradeList(35, null, null, '', AdjustmentHelper.TYPE_NONE)
 
 //        render timeSeriesDBService.query('select * from /.*/')
 
 //        println 'finished'
+
+//        commodityMarketActivityDataService.importData()
+
+        energyMarketValueDataService.importData()
     }
 
     def throwException() {
