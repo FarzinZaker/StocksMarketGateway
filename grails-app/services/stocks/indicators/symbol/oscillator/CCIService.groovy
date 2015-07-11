@@ -23,7 +23,6 @@ class CCIService implements IndicatorServiceBase<Symbol, Integer> {
 
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
-
         def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
         if (series.size() < parameter)
             return 0
@@ -34,7 +33,7 @@ class CCIService implements IndicatorServiceBase<Symbol, Integer> {
         core.cci(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
             it.maxPrice
         }), TypeCast.toDoubleArray(series.collect { it.minPrice }), TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
@@ -50,7 +49,7 @@ class CCIService implements IndicatorServiceBase<Symbol, Integer> {
         core.cci(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
             it.maxPrice
         }), TypeCast.toDoubleArray(series.collect { it.minPrice }), TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,

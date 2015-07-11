@@ -31,8 +31,10 @@ class MOMService implements IndicatorServiceBase<Symbol, Integer> {
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.mom(0, parameter, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+        //based on https://www.mql5.com/en/code/7880
+        //MOMENTUM = CLOSE(i)/CLOSE(i-N)*100
+        core.rocR100(0, parameter, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
@@ -45,8 +47,8 @@ class MOMService implements IndicatorServiceBase<Symbol, Integer> {
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[series.size()]
-        core.mom(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+        core.rocR100(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,

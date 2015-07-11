@@ -23,18 +23,17 @@ class ROCService implements IndicatorServiceBase<Symbol, Integer> {
 
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
-
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter+1, date)
         if (series.size() < parameter)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.roc(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+        core.rocR(0, parameter, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
-        result?.toList()?.first()
+        (1-(1/result.find()))*100
     }
 
     @Override
@@ -45,12 +44,12 @@ class ROCService implements IndicatorServiceBase<Symbol, Integer> {
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[series.size()]
-        core.roc(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+        core.rocR(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,
-                indicators: result
+                indicators: result.collect { it?(1-(1/it))*100:0}
         ]
     }
 }

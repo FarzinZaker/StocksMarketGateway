@@ -32,7 +32,7 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
         def endIndex = new MInteger()
         def result = new double[parameter]
         core.rsi(0, parameter, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
@@ -46,7 +46,7 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
         def endIndex = new MInteger()
         def result = new double[series.size()]
         core.rsi(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         [
                 series: series,
