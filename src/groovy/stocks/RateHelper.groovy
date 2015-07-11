@@ -25,6 +25,22 @@ public class RateHelper {
             'g-coin': [
                     name: FarsiNormalizationFilter.apply('سکه گرمی'),
                     source: 'gerami'
+            ],
+            'mesghal'  : [
+                    name: FarsiNormalizationFilter.apply('مثقال طلا'),
+                    source: 'mesghal'
+            ],
+            'ons'  : [
+                    name: FarsiNormalizationFilter.apply('انس طلا'),
+                    source: 'ons'
+            ],
+            'geram18'  : [
+                    name: FarsiNormalizationFilter.apply('گرم طلای 18'),
+                    source: 'geram18'
+            ],
+            'geram24'  : [
+                    name: FarsiNormalizationFilter.apply('گرم طلای 24'),
+                    source: 'geram24'
             ]
     ]
 
@@ -282,22 +298,6 @@ public class RateHelper {
     ]
 
     public static final METALS = [
-            'mesghal'  : [
-                    name: FarsiNormalizationFilter.apply('مثقال طلا'),
-                    source: 'mesghal'
-            ],
-            'ons'  : [
-                    name: FarsiNormalizationFilter.apply('انس طلا'),
-                    source: 'ons'
-            ],
-            'geram18'  : [
-                    name: FarsiNormalizationFilter.apply('گرم طلای 18'),
-                    source: 'geram18'
-            ],
-            'geram24'  : [
-                    name: FarsiNormalizationFilter.apply('گرم طلای 24'),
-                    source: 'geram24'
-            ],
             'silver'   : [
                     name: FarsiNormalizationFilter.apply('انس نقره'),
                     source: 'silver'
@@ -309,6 +309,26 @@ public class RateHelper {
             'palladium': [
                     name: FarsiNormalizationFilter.apply('انس پالادیوم'),
                     source: 'palladium'
+            ],
+            'copper':[
+                    name: FarsiNormalizationFilter.apply('مس'),
+                    source: 'copper'
+            ],
+            'aluminium':[
+                    name: FarsiNormalizationFilter.apply('آلومینیوم'),
+                    source: 'aluminium'
+            ],
+            'nickel':[
+                    name: FarsiNormalizationFilter.apply('نیکل'),
+                    source: 'nickel'
+            ],
+            'tin':[
+                    name: FarsiNormalizationFilter.apply('قلع'),
+                    source: 'nickel'
+            ],
+            'zinc':[
+                    name: FarsiNormalizationFilter.apply('روی'),
+                    source: 'zinc'
             ]
     ]
 }

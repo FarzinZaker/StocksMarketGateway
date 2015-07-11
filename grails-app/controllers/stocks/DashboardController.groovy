@@ -10,6 +10,9 @@ import stocks.codal.Announcement
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.rate.CoinFuture
+import stocks.rate.Currency
+import stocks.rate.Coin
+import stocks.rate.Metal
 import stocks.tse.Index
 import stocks.tse.IndexHistory
 import stocks.tse.MarketActivity
@@ -188,7 +191,7 @@ class DashboardController {
                     maxResults(10)
                 }.collect {
                     def date = it.publishDate
-                    use(TimeCategory){
+                    use(TimeCategory) {
                         date = date - 1.minute
                     }
                     [
@@ -211,6 +214,26 @@ class DashboardController {
                             dateString: new PrettyTime(new Locale('fa')).format(it.date)
                     ]
                 }
+        ] as JSON)
+    }
+
+    def rates() {
+        def currency = [:]
+        ['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
+            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: message(code: 'rial')])
+        }
+        def gold = [:]
+        ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18'].each {
+            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: message(code: 'rial')])
+        }
+        def metal = [:]
+        ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
+            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: message(code: 'rial')])
+        }
+        render([
+                currency: currency,
+                gold    : gold,
+                metal   : metal
         ] as JSON)
     }
 }

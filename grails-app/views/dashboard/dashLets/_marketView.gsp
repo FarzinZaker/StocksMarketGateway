@@ -51,13 +51,13 @@
 
     function formatNumber(data) {
         var flag = '';
-        if (Math.abs(data) > 1000000) {
-            data /= 1000000;
-            flag = 'M';
-            if (Math.abs(data) > 1000) {
-                data /= 1000;
+        if (Math.abs(data) > 1000000000) {
+//            data /= 1000000;
+//            flag = 'M';
+//            if (Math.abs(data) > 1000) {
+                data /= 1000000000;
                 flag = 'B';
-            }
+//            }
         }
         if (data.toString().indexOf(".") == -1)
             return formatInteger(data) + flag;
