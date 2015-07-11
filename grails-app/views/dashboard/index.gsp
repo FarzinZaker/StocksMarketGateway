@@ -11,6 +11,7 @@
     <div class="row-fluid">
         <div class="col-xs-3">
             <g:render template="dashLets/marketView"/>
+            <g:render template="dashLets/announcements"/>
         </div>
 
         <div class="col-xs-6">

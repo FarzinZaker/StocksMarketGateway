@@ -2,9 +2,11 @@ package stocks
 
 import com.sun.script.javascript.RhinoScriptEngineFactory
 import grails.converters.JSON
+import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.io.support.GrailsResourceUtils
 import org.ocpsoft.prettytime.PrettyTime
 import org.watij.webspec.dsl.WebSpec
+import stocks.codal.Announcement
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.rate.CoinFuture
@@ -15,6 +17,7 @@ import stocks.tse.MarketValue
 import stocks.tse.SymbolClientType
 import sun.misc.GC
 import stocks.tse.EnergyMarketValue
+import stocks.tse.SupervisorMessage
 
 class DashboardController {
 
@@ -173,6 +176,39 @@ class DashboardController {
                     [
                             value: it,
                             text : message(code: "newsCategory.${it}")
+                    ]
+                }
+        ] as JSON)
+    }
+
+    def announcements() {
+        render([
+                codal             : Announcement.createCriteria().list {
+                    order('publishDate', ORDER_DESCENDING)
+                    maxResults(10)
+                }.collect {
+                    def date = it.publishDate
+                    use(TimeCategory){
+                        date = date - 1.minute
+                    }
+                    [
+                            id        : "announcement${it.id}",
+                            title     : it.title,
+                            time      : it.publishDate.time,
+                            dateString: new PrettyTime(new Locale('fa')).format(date),
+                            source    : it.symbol ? "${it.symbol?.persianName} (${it.symbol?.persianCode})" : '',
+                            link      : it.detailsUrl
+                    ]
+                },
+                supervisorMessages: SupervisorMessage.createCriteria().list {
+                    order('date', ORDER_DESCENDING)
+                    maxResults(10)
+                }.collect {
+                    [
+                            id        : "announcement${it.id}",
+                            title     : it.title,
+                            time      : it.date.time,
+                            dateString: new PrettyTime(new Locale('fa')).format(it.date)
                     ]
                 }
         ] as JSON)
