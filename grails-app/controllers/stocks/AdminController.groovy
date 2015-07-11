@@ -127,9 +127,9 @@ class AdminController {
 
 //        println 'finished'
 
-//        commodityMarketActivityDataService.importData()
+        commodityMarketActivityDataService.importData()
 
-        energyMarketValueDataService.importData()
+//        energyMarketValueDataService.importData()
     }
 
     def throwException() {

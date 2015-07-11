@@ -104,8 +104,8 @@
                     });
 
                 }
-
                 $('#newsFeedTimer').timer('start');
+
             }
         });
     }

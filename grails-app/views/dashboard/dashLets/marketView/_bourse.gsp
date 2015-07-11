@@ -1,94 +1,100 @@
-<div class="marketViewItem" id="marketView_totalIndex">
+<div class="marketViewItem odd" id="marketView_totalIndex">
     <span class="marketViewItem_label"><g:message code="marketView.totalIndex"/></span>
     <span class="marketViewItem_value">-</span>
     <span class="marketViewItem_change"></span>
     <span class="marketViewItem_changePercent"></span>
 </div>
 
-<div class="marketViewItem" id="marketView_priceIndex">
+<div class="marketViewItem even" id="marketView_priceIndex">
     <span class="marketViewItem_label"><g:message code="marketView.priceIndex"/></span>
     <span class="marketViewItem_value">-</span>
     <span class="marketViewItem_change"></span>
     <span class="marketViewItem_changePercent"></span>
 </div>
 
-<div class="marketViewItem" id="marketView_otcTotalIndex">
+<div class="marketViewItem odd" id="marketView_otcTotalIndex">
     <span class="marketViewItem_label"><g:message code="marketView.otcTotalIndex"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_tradeValue">
+<div class="marketViewItem even" id="marketView_tradeValue">
     <span class="marketViewItem_label"><g:message code="marketView.tradeValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_otcTradeValue">
+<div class="marketViewItem odd" id="marketView_otcTradeValue">
     <span class="marketViewItem_label"><g:message code="marketView.otcTradeValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_totalTradeValue">
+<div class="marketViewItem even" id="marketView_totalTradeValue">
     <span class="marketViewItem_label"><g:message code="marketView.totalTradeValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_marketValue">
+<div class="marketViewItem odd" id="marketView_marketValue">
     <span class="marketViewItem_label"><g:message code="marketView.marketValue"/></span>
     <span class="marketViewItem_value">-</span>
     <span class="marketViewItem_change"></span>
     <span class="marketViewItem_changePercent"></span>
 </div>
 
-<div class="marketViewItem" id="marketView_otcMarketValue">
+<div class="marketViewItem even" id="marketView_otcMarketValue">
     <span class="marketViewItem_label"><g:message code="marketView.otcMarketValue"/></span>
     <span class="marketViewItem_value">-</span>
     <span class="marketViewItem_change"></span>
     <span class="marketViewItem_changePercent"></span>
 </div>
 
-<div class="marketViewItem" id="marketView_totalBuyVolume">
-    <span class="marketViewItem_label"><g:message code="marketView.totalBuyVolume"/></span>
-    <span class="marketViewItem_value">-</span>
+<div class="marketViewItem odd clear-fix">
+    <div class="marketViewItem" id="marketView_totalBuyVolume">
+        <span class="marketViewItem_label"><g:message code="marketView.totalBuyVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
+
+    <div style="height:10px;background-color:#3b5998;margin-top:2px;">
+        <div style="height:10px;background-color:#d80073;width:0" id="buyIndicator"></div>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalLegalBuyVolume" style="float:right;font-size:11px;">
+        <span class="marketViewItem_label" style="margin-left:5px;"><g:message
+                code="marketView.totalLegalBuyVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalIndividualBuyVolume" style="float:left;font-size:11px;">
+        <span class="marketViewItem_value" style="margin-left:5px">-</span>
+        <span class="marketViewItem_label" style="margin-left:0;"><g:message
+                code="marketView.totalIndividualBuyVolume"/></span>
+    </div>
+
+    <div class="clear-fix"></div>
 </div>
 
-<div style="height:10px;background-color:#3b5998;margin-top:2px;">
-    <div style="height:10px;background-color:#d80073;width:0" id="buyIndicator"></div>
-</div>
+<div class="marketViewItem even clear-fix">
+    <div class="marketViewItem clear-fix" id="marketView_totalSellVolume">
+        <span class="marketViewItem_label"><g:message code="marketView.totalSellVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
 
-<div class="marketViewItem" id="marketView_totalLegalBuyVolume" style="float:right;font-size:11px;">
-    <span class="marketViewItem_label" style="margin-left:5px;"><g:message
-            code="marketView.totalLegalBuyVolume"/></span>
-    <span class="marketViewItem_value">-</span>
-</div>
+    <div style="height:10px;background-color:#3b5998;margin-top:2px;">
+        <div style="height:10px;background-color:#d80073;width:0" id="sellIndicator"></div>
+    </div>
 
-<div class="marketViewItem" id="marketView_totalIndividualBuyVolume" style="float:left;font-size:11px;">
-    <span class="marketViewItem_value" style="margin-left:5px">-</span>
-    <span class="marketViewItem_label" style="margin-left:0;"><g:message
-            code="marketView.totalIndividualBuyVolume"/></span>
-</div>
+    <div class="marketViewItem" id="marketView_totalLegalSellVolume" style="float:right;font-size:11px;">
+        <span class="marketViewItem_label" style="margin-left:5px"><g:message
+                code="marketView.totalLegalSellVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
 
-<div class="marketViewItem clear-fix" id="marketView_totalSellVolume">
-    <span class="marketViewItem_label"><g:message code="marketView.totalSellVolume"/></span>
-    <span class="marketViewItem_value">-</span>
-</div>
+    <div class="marketViewItem" id="marketView_totalIndividualSellVolume" style="float:left;font-size:11px;">
+        <span class="marketViewItem_value" style="margin-left:5px;">-</span>
+        <span class="marketViewItem_label" style="margin-left:0"><g:message
+                code="marketView.totalIndividualSellVolume"/></span>
+    </div>
 
-<div style="height:10px;background-color:#3b5998;margin-top:2px;">
-    <div style="height:10px;background-color:#d80073;width:0" id="sellIndicator"></div>
+    <div class="clear-fix"></div>
 </div>
-
-<div class="marketViewItem" id="marketView_totalLegalSellVolume" style="float:right;font-size:11px;">
-    <span class="marketViewItem_label" style="margin-left:5px"><g:message
-            code="marketView.totalLegalSellVolume"/></span>
-    <span class="marketViewItem_value">-</span>
-</div>
-
-<div class="marketViewItem" id="marketView_totalIndividualSellVolume" style="float:left;font-size:11px;">
-    <span class="marketViewItem_value" style="margin-left:5px;">-</span>
-    <span class="marketViewItem_label" style="margin-left:0"><g:message
-            code="marketView.totalIndividualSellVolume"/></span>
-</div>
-
-<div class="clear-fix"></div>
 
 <script language="javascript" type="text/javascript">
 

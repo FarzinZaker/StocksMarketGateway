@@ -1,21 +1,21 @@
 
 
-<div class="marketViewItem" id="marketView_future_tradeVolume">
+<div class="marketViewItem odd" id="marketView_future_tradeVolume">
     <span class="marketViewItem_label"><g:message code="marketView.future.tradeVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_future_tradeValue">
+<div class="marketViewItem even" id="marketView_future_tradeValue">
     <span class="marketViewItem_label"><g:message code="marketView.future.tradeValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_future_openInterests">
+<div class="marketViewItem odd" id="marketView_future_openInterests">
     <span class="marketViewItem_label"><g:message code="marketView.future.openInterests"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_future_tradeCount">
+<div class="marketViewItem even" id="marketView_future_tradeCount">
     <span class="marketViewItem_label"><g:message code="marketView.future.tradeCount"/></span>
     <span class="marketViewItem_value">-</span>
 </div>

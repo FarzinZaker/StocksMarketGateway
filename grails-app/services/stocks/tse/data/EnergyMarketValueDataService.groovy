@@ -20,11 +20,11 @@ class EnergyMarketValueDataService {
 
 
     void importData() {
-        def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15")
+        def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15131R")
         def html = http.get([:])
         def energyMarketValueEvent = new EnergyMarketValueEvent()
         energyMarketValueEvent.marketIdentifier = 1
-        def rows = html?.'**'?.find { it?.@id == 'GlobalTab3Elm' }?.'**'?.findAll { it?.name() == 'TR' }
+        def rows = html?.'**'?.find { it?.@id == 'PureData1' }?.'**'?.findAll { it?.name() == 'TR' }
         rows?.each { row ->
             if (energyMarketValueEvent.tradeCount == null && row.text().toString().startsWith('تعداد معاملات'))
                 energyMarketValueEvent.tradeCount = parseInteger(row.children()[1].text())
@@ -41,7 +41,7 @@ class EnergyMarketValueDataService {
 
         energyMarketValueEvent = new EnergyMarketValueEvent()
         energyMarketValueEvent.marketIdentifier = 2
-        rows = html?.'**'?.find { it?.@id == 'EngTab2Elm' }?.'**'?.findAll { it?.name() == 'TR' }
+        rows = html?.'**'?.find { it?.@id == 'PureData2' }?.'**'?.findAll { it?.name() == 'TR' }
         rows?.each { row ->
             if (energyMarketValueEvent.tradeCount == null && row.text().toString().startsWith('تعداد معاملات'))
                 energyMarketValueEvent.tradeCount = parseInteger(row.children()[1].text())

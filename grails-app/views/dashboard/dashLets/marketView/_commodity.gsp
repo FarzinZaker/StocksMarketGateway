@@ -1,71 +1,71 @@
 
 
-<div class="marketViewItem" id="marketView_commodity_totalValue">
+<div class="marketViewItem odd" id="marketView_commodity_totalValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.totalValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_totalVolume">
+<div class="marketViewItem even" id="marketView_commodity_totalVolume">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.totalVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_petroValue">
+<div class="marketViewItem odd" id="marketView_commodity_petroValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.petroValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_petroVolume">
+<div class="marketViewItem even" id="marketView_commodity_petroVolume">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.petroVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_petroCount">
+<div class="marketViewItem odd" id="marketView_commodity_petroCount">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.petroCount"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_industryValue">
+<div class="marketViewItem even" id="marketView_commodity_industryValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.industryValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_industryVolume">
+<div class="marketViewItem odd" id="marketView_commodity_industryVolume">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.industryVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_industryCount">
+<div class="marketViewItem even" id="marketView_commodity_industryCount">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.industryCount"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_agricultureValue">
+<div class="marketViewItem odd" id="marketView_commodity_agricultureValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.agricultureValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_agricultureVolume">
+<div class="marketViewItem even" id="marketView_commodity_agricultureVolume">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.agricultureVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_agricultureCount">
+<div class="marketViewItem odd" id="marketView_commodity_agricultureCount">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.agricultureCount"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_secondaryValue">
+<div class="marketViewItem even" id="marketView_commodity_secondaryValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.secondaryValue"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_secondaryVolume">
+<div class="marketViewItem odd" id="marketView_commodity_secondaryVolume">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.secondaryVolume"/></span>
     <span class="marketViewItem_value">-</span>
 </div>
 
-<div class="marketViewItem" id="marketView_commodity_secondaryCount">
+<div class="marketViewItem even" id="marketView_commodity_secondaryCount">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.secondaryCount"/></span>
     <span class="marketViewItem_value">-</span>
 </div>

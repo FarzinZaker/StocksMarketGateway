@@ -1,6 +1,8 @@
 <div class="dashLet orange">
     <h2 style="float:right"><i class="fa fa-line-chart"></i> <g:message code="marketView.title"/></h2>
 
+    <div id="marketViewTimer"></div>
+
     <div class="k-rtl clear-fix">
         <div id="tabstrip">
             <ul>
@@ -31,6 +33,7 @@
             </div>
 
             <div>
+                <g:render template="dashLets/marketView/energy"/>
             </div>
         </div>
     </div>
@@ -48,10 +51,10 @@
 
     function formatNumber(data) {
         var flag = '';
-        if(Math.abs(data) > 1000000){
+        if (Math.abs(data) > 1000000) {
             data /= 1000000;
             flag = 'M';
-            if(Math.abs(data) > 1000){
+            if (Math.abs(data) > 1000) {
                 data /= 1000;
                 flag = 'B';
             }
@@ -70,6 +73,20 @@
         });
     }
 
+    function loadMarketView(){
+
+        $.ajax({
+            type: "POST",
+            url: '${createLink(action: 'marketView')}?t=' + new Date().getTime()
+        }).done(function (data) {
+            fillBourseData(data);
+            fillCommodityData(data);
+            fillFutureData(data);
+            fillEnergyData(data);
+            $('#marketViewTimer').timer('start');
+        });
+    }
+
     $(document).ready(function () {
         $("#tabstrip").kendoTabStrip({
             animation: {
@@ -78,14 +95,14 @@
                 }
             }
         });
-
-        $.ajax({
-            type: "POST",
-            url: '${createLink(action: 'marketView')}'
-        }).done(function (data) {
-            fillBourseData(data);
-            fillCommodityData(data);
-            fillFutureData(data);
+        $('#marketViewTimer').timer({
+            delay: 10000,
+            repeat: true,
+            autostart: false,
+            callback: function (index) {
+                $('#marketViewTimer').timer('stop');
+            }
         });
+        loadMarketView();
     });
 </script>

@@ -14,6 +14,7 @@ import stocks.tse.MarketActivity
 import stocks.tse.MarketValue
 import stocks.tse.SymbolClientType
 import sun.misc.GC
+import stocks.tse.EnergyMarketValue
 
 class DashboardController {
 
@@ -50,6 +51,16 @@ class DashboardController {
             projections {
                 max('date')
             }
+        }?.find()
+        def powerMarketValue = EnergyMarketValue.createCriteria().list {
+            eq('marketIdentifier', 1)
+            lte('date', new Date())
+            order('date', ORDER_DESCENDING)
+        }?.find()
+        def physicalMarketValue = EnergyMarketValue.createCriteria().list {
+            eq('marketIdentifier', 2)
+            lte('date', new Date())
+            order('date', ORDER_DESCENDING)
         }?.find()
         def commodityMarketActivities = CommodityMarketActivity.findAllByDate(lastCommodityDate)
         def futureContracts = CoinFuture.findAllByLastTradingDateGreaterThanEquals(new Date())
@@ -129,6 +140,17 @@ class DashboardController {
                         tradeValue   : futureContracts.sum { CoinFuture contract -> contract.tradesValue },
                         openInterests: futureContracts.sum { CoinFuture contract -> contract.openInterests },
                         tradeCount   : futureContracts.sum { CoinFuture contract -> contract.tradesCount }
+                ],
+                energy   : [
+                        power   : [
+                                tradeValue : powerMarketValue.tradeValue,
+                                tradeVolume: powerMarketValue.tradeVolume,
+                                tradeCount : powerMarketValue.tradeCount
+                        ],
+                        physical: [
+                                tradeValue: physicalMarketValue.tradeValue,
+                                tradeCount: physicalMarketValue.tradeCount
+                        ]
                 ]
         ] as JSON)
     }
