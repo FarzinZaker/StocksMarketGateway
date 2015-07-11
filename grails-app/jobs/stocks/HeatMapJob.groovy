@@ -1,5 +1,7 @@
 package stocks
 
+import grails.util.Environment
+
 
 class HeatMapJob {
 
@@ -16,6 +18,8 @@ class HeatMapJob {
         if (grailsApplication.config.jobsDisabled)
             return
 
+        if (Environment.current == Environment.DEVELOPMENT)
+            return
         offlineChartService.heatMap()
     }
 }

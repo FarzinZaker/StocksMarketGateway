@@ -16,7 +16,7 @@
 
 <div id="newsFeedTimer"></div>
 
-<div id="newsFeedContainer" class="dashLet orange">
+<div id="newsFeedContainer" class="dashLet darkBlue">
     <h2 style="float:right"><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
 
     <div id="newsFeedSort">
@@ -104,8 +104,8 @@
                     });
 
                 }
-
                 $('#newsFeedTimer').timer('start');
+
             }
         });
     }

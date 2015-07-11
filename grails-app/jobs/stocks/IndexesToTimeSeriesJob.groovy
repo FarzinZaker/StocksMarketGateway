@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import grails.util.Environment
 import stocks.tse.IndexHistory
 
 
@@ -16,6 +17,9 @@ class IndexesToTimeSeriesJob {
     def execute() {
 
         if (grailsApplication.config.jobsDisabled)
+            return
+
+        if (Environment.current == Environment.DEVELOPMENT)
             return
 
         def lastState = getLastState()
