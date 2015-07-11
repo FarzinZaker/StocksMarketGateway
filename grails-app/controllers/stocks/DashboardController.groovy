@@ -21,6 +21,7 @@ import stocks.tse.SymbolClientType
 import sun.misc.GC
 import stocks.tse.EnergyMarketValue
 import stocks.tse.SupervisorMessage
+import stocks.rate.Oil
 
 class DashboardController {
 
@@ -230,10 +231,16 @@ class DashboardController {
         ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
             metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: message(code: 'rial')])
         }
+        def oil = [:]
+        ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex'].each {
+            def item = Oil.findBySymbol(it)
+            oil.put(it.replace('-', '_'), [price: item?.price, unit: item.unit])
+        }
         render([
                 currency: currency,
                 gold    : gold,
-                metal   : metal
+                metal   : metal,
+                oil     : oil
         ] as JSON)
     }
 }

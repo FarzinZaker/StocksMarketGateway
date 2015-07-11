@@ -51,6 +51,7 @@
             fillCurrencyData(data.currency);
             fillGoldData(data.gold);
             fillMetalData(data.metal);
+            fillOilData(data.oil);
         });
     }
 
