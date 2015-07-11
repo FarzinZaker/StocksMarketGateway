@@ -54,6 +54,21 @@ class DashboardController {
                 sum('legalSellVolume')
             }
         }?.first()
+        if (!clientTypes.any { it != null }) {
+            def date = new Date()
+            use(TimeCategory) {
+                date = date - 1.day
+            }
+            clientTypes = SymbolClientType.createCriteria().list {
+                gte('date', date.clearTime())
+                projections {
+                    sum('individualBuyVolume')
+                    sum('individualSellVolume')
+                    sum('legalBuyVolume')
+                    sum('legalSellVolume')
+                }
+            }?.first()
+        }
         def lastCommodityDate = CommodityMarketActivity.createCriteria().list {
             projections {
                 max('date')
@@ -87,10 +102,10 @@ class DashboardController {
                                 value: otcTotalIndex.finalIndexValue
                         ],
                         clientTypes  : [
-                                totalIndividualBuyVolume : clientTypes[0],
-                                totalIndividualSellVolume: clientTypes[1],
-                                totalLegalBuyVolume      : clientTypes[2],
-                                totalLegalSellVolume     : clientTypes[3],
+                                totalIndividualBuyVolume : clientTypes[0] ?: 0,
+                                totalIndividualSellVolume: clientTypes[1] ?: 0,
+                                totalLegalBuyVolume      : clientTypes[2] ?: 0,
+                                totalLegalSellVolume     : clientTypes[3] ?: 0,
                         ],
                         market       : [
                                 value        : marketValue.value,
