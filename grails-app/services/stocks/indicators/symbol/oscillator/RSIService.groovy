@@ -24,23 +24,23 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter + 1, date)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, date)
         if (series.size() < parameter + 1)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
-        def result = new double[parameter]
-        core.rsi(0, parameter, TypeCast.toDoubleArray(series.collect {
+        def result = new double[series.size()]
+        core.rsi(0, series.size()-1, TypeCast.toDoubleArray(series.collect {
             it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
-        result?.toList()?.first()
+        result[series.size()-parameter-1]
     }
 
     @Override
     Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

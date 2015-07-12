@@ -34,7 +34,7 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
         def endIndex = new MInteger()
         def result = new double[parameter]
         core.ema(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()
     }
@@ -48,7 +48,7 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
         def endIndex = new MInteger()
         def result = new double[series.size()]
         core.ema(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         [
                 series    : series,

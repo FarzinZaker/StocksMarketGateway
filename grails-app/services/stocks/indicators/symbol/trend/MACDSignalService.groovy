@@ -23,7 +23,7 @@ class MACDSignalService implements IndicatorServiceBase<Symbol, List<Integer>> {
     @Override
     Double calculate(Symbol item, List<Integer> parameter, String adjustmentType, Date date) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter.max() * 2, date)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, date)
         if (series.size() < parameter.max() * 2)
             return 0
         def core = new Core()
@@ -32,16 +32,16 @@ class MACDSignalService implements IndicatorServiceBase<Symbol, List<Integer>> {
         def result = new double[series.size()]
         def histogram = new double[series.size()]
         def signal = new double[series.size()]
-        core.macd(0, parameter.max() + 7, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+        core.macd(0, series.size()-1, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
         }), parameter[0], parameter[1], parameter[2], beginIndex, endIndex, result, signal, histogram)
-        signal?.toList()?.first()
+        signal[endIndex.value-1]
     }
 
     @Override
     Map bulkCalculate(Symbol item, List<Integer> parameter, String adjustmentType) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
@@ -49,7 +49,7 @@ class MACDSignalService implements IndicatorServiceBase<Symbol, List<Integer>> {
         def histogram = new double[series.size()]
         def signal = new double[series.size()]
         core.macd(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
-            it.closingPrice
+            it.lastTradePrice
         }), parameter[0], parameter[1], parameter[2], beginIndex, endIndex, result, signal, histogram)
         [
                 series    : series,

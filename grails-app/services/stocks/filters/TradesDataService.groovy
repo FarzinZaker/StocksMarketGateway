@@ -30,4 +30,26 @@ class TradesDataService {
             maxResults(daysCount)
         }.sort { it.dailySnapshot }
     }
+    List getAllPriceSeries(Symbol symbol, String adjustmentType,Date maxDate = null) {
+
+        if(!maxDate)
+            maxDate = new Date()
+        def startDate = maxDate
+        use(TimeCategory){
+            startDate = startDate - 1000
+        }
+        adjustedPriceSeriesService.dailyTradeList(symbol.id, startDate, maxDate, '1d', adjustmentType)
+
+//        maxDate = maxDate?.clearTime()
+//        SymbolAdjustedDailyTrade.createCriteria().list {
+//            eq('symbol', symbol)
+//            eq('adjustmentType', adjustmentType)
+//            isNotNull('dailySnapshot')
+//            if (maxDate) {
+//                lte('dailySnapshot', maxDate)
+//            }
+//            order('dailySnapshot', ORDER_DESCENDING)
+//            maxResults(daysCount)
+//        }.sort { it.dailySnapshot }
+    }
 }
