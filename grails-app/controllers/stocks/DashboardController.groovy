@@ -21,6 +21,7 @@ import stocks.tse.SymbolClientType
 import sun.misc.GC
 import stocks.tse.EnergyMarketValue
 import stocks.tse.SupervisorMessage
+import stocks.rate.Oil
 
 class DashboardController {
 
@@ -53,6 +54,21 @@ class DashboardController {
                 sum('legalSellVolume')
             }
         }?.first()
+        if (!clientTypes.any { it != null }) {
+            def date = new Date()
+            use(TimeCategory) {
+                date = date - 1.day
+            }
+            clientTypes = SymbolClientType.createCriteria().list {
+                gte('date', date.clearTime())
+                projections {
+                    sum('individualBuyVolume')
+                    sum('individualSellVolume')
+                    sum('legalBuyVolume')
+                    sum('legalSellVolume')
+                }
+            }?.first()
+        }
         def lastCommodityDate = CommodityMarketActivity.createCriteria().list {
             projections {
                 max('date')
@@ -86,10 +102,10 @@ class DashboardController {
                                 value: otcTotalIndex.finalIndexValue
                         ],
                         clientTypes  : [
-                                totalIndividualBuyVolume : clientTypes[0],
-                                totalIndividualSellVolume: clientTypes[1],
-                                totalLegalBuyVolume      : clientTypes[2],
-                                totalLegalSellVolume     : clientTypes[3],
+                                totalIndividualBuyVolume : clientTypes[0] ?: 0,
+                                totalIndividualSellVolume: clientTypes[1] ?: 0,
+                                totalLegalBuyVolume      : clientTypes[2] ?: 0,
+                                totalLegalSellVolume     : clientTypes[3] ?: 0,
                         ],
                         market       : [
                                 value        : marketValue.value,
@@ -230,10 +246,16 @@ class DashboardController {
         ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
             metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: message(code: 'rial')])
         }
+        def oil = [:]
+        ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex'].each {
+            def item = Oil.findBySymbol(it)
+            oil.put(it.replace('-', '_'), [price: item?.price, unit: item.unit])
+        }
         render([
                 currency: currency,
                 gold    : gold,
-                metal   : metal
+                metal   : metal,
+                oil     : oil
         ] as JSON)
     }
 }

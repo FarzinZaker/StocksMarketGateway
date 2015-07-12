@@ -111,7 +111,7 @@
         var otcTotalIndex = $('#marketView_otcTotalIndex');
         otcTotalIndex.find('.marketViewItem_value').html(formatNumber(data.bourse.otcTotalIndex.value));
         $('#marketView_totalBuyVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualBuyVolume + data.bourse.clientTypes.totalLegalBuyVolume));
-        $('#marketView_totalSellVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualSellVolume + data.bourse.clientTypes.totalIndividualSellVolume));
+        $('#marketView_totalSellVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualSellVolume + data.bourse.clientTypes.totalLegalSellVolume));
         $('#marketView_totalIndividualBuyVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualBuyVolume));
         $('#marketView_totalIndividualSellVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualSellVolume));
         $('#marketView_totalLegalBuyVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalLegalBuyVolume));

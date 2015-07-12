@@ -9,21 +9,26 @@
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-xs-3">
+        <div class="col-sm-3">
             <g:render template="dashLets/marketView"/>
             <g:render template="dashLets/rates"/>
             <g:render template="dashLets/announcements"/>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-sm-6">
             <g:render template="dashLets/newsFeed"/>
+            <g:render template="dashLets/analysis"/>
+            <g:render template="dashLets/twits"/>
         </div>
 
-        <div class="col-xs-3">
+        <div class="col-sm-3">
             <g:render template="dashLets/heatMap"/>
-            <g:render template="dashLets/screener"/>
-            <g:render template="dashLets/backTest"/>
-            <g:render template="dashLets/calculator"/>
+            <g:render template="dashLets/buttons/screener"/>
+            <g:render template="dashLets/buttons/backTest"/>
+            <g:render template="dashLets/buttons/alerting"/>
+            <g:render template="dashLets/buttons/portfolio"/>
+            <g:render template="dashLets/buttons/calculator"/>
+            <g:render template="dashLets/buttons/correlation"/>
         </div>
     </div>
 </div>
