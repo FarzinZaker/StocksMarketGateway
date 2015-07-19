@@ -2,10 +2,14 @@ package stocks.alerting
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.util.Environment
+import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import sms1000.SmsLocator
+import stocks.MessageJob
 import stocks.TemplateHelper
 import stocks.User
+import stocks.codal.Announcement
+import stocks.tse.SupervisorMessage
 
 class SmsService {
     static transactional = false
@@ -23,14 +27,29 @@ class SmsService {
         if (!record)
             return
 
-        sendMessage(User.get(queryInstance.ownerId), prepareMessage(queryInstance, [record]))
+        sendMessage(User.get(queryInstance.ownerId), queryInstance.domainClazz, prepareTitle(queryInstance, [record]), prepareMessage(queryInstance, [record]))
     }
 
     def sendScheduledMessage(QueryInstance queryInstance, recordList) {
         if (!recordList?.size())
             return
 
-        sendMessage(User.get(queryInstance.ownerId), prepareMessage(queryInstance, recordList))
+        sendMessage(User.get(queryInstance.ownerId), queryInstance.domainClazz, prepareTitle(queryInstance, recordList), prepareMessage(queryInstance, recordList))
+    }
+
+    String prepareTitle(QueryInstance queryInstance, recordList) {
+        switch (queryInstance?.domainClazz) {
+            case SupervisorMessage.class.canonicalName:
+                return recordList.collect{SupervisorMessage item ->
+                    item.title
+                }.join(', ')
+            case Announcement.class.canonicalName:
+                return recordList.collect{Announcement item ->
+                    item.title
+                }.join(', ')
+            default:
+                return ''
+        }
     }
 
     String prepareMessage(QueryInstance queryInstance, recordList) {
@@ -67,14 +86,19 @@ class SmsService {
         message
     }
 
-    def sendMessage(User user, String body) {
+    def sendMessage(User user, String type, String title, String body) {
         try {
 
             QueuedMessage.withTransaction {
                 def message = new QueuedMessage()
+                message.type = type
+                message.title = title
                 message.body = body
                 message.receiverNumber = user.mobile
+                message.receiverId = user.id
                 message.user = user
+                message.deliveryMethod = user.useMobilePushNotification ? MessageHelper.DELIVERY_METHOD_PUSH : MessageHelper.DELIVERY_METHOD_SMS
+                message.status = MessageHelper.STATUS_WAITING
                 message.save()
             }
         } catch (ignored) {
@@ -84,6 +108,32 @@ class SmsService {
     }
 
     def sendMessage(QueuedMessage message) {
+        if(message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH){
+            if(message.status == MessageHelper.STATUS_WAITING)
+                sendMessageViaMobilePush(message)
+            if(message.status == MessageHelper.STATUS_SENT){
+                def expireTime = message.lastUpdated
+                use(TimeCategory){
+                    expireTime = message.lastUpdated + 30.seconds
+                }
+                if(expireTime > new Date()){
+                    message.deliveryMethod = MessageHelper.DELIVERY_METHOD_SMS
+                    message.save(flush:true)
+                    sendMessageViaSMS(message)
+                }
+            }
+        }
+        else if(message.deliveryMethod == MessageHelper.DELIVERY_METHOD_SMS){
+            sendMessageViaSMS(message)
+        }
+    }
+
+    def sendMessageViaMobilePush(QueuedMessage message) {
+
+    }
+
+
+    def sendMessageViaSMS(QueuedMessage message) {
         def messageService = new SmsLocator().getsmsSoap()
 
         message.retryCount++
@@ -109,6 +159,7 @@ class SmsService {
         if (result.toLowerCase().contains('ok')) {
             SentMessage.withTransaction {
                 def sentMessage = new SentMessage(message.properties)
+                sentMessage.status = MessageHelper.STATUS_SUCCEED
                 sentMessage.dateCreated = new Date()
                 sentMessage.save()
             }
@@ -117,6 +168,7 @@ class SmsService {
             }
         } else {
             if (message.retryCount < 5) {
+                message.status = MessageHelper.STATUS_FAILED
                 message.save()
             } else {
                 FailedMessage.withTransaction {

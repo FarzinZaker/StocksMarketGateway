@@ -4,9 +4,14 @@ import stocks.User
 
 class QueuedMessage {
 
+    String title
+    String type
     String body
     String receiverNumber
+    Long receiverId
     User user
+    String deliveryMethod
+    String status
     Integer retryCount = 0
     String lastExecutionMessage = ''
 
@@ -21,6 +26,9 @@ class QueuedMessage {
     }
 
     static constraints = {
+
+        deliveryMethod inList: MessageHelper.DELIVERY_METHOD_LIST
+        status inList: MessageHelper.STATUS_LIST
         lastExecutionMessage nullable: true
     }
 }

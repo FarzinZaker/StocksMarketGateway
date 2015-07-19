@@ -22,6 +22,7 @@ class User {
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
+    Boolean useMobilePushNotification = false
     Image image
 
     static hasMany = [followList: User]
@@ -33,6 +34,7 @@ class User {
         password blank: false
         sex inList: ['male', 'female']
         broker nullable: true
+        useMobilePushNotification nullable: true
         image nullable: true
         city nullable: true
     }

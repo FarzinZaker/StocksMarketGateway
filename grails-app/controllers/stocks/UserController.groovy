@@ -29,7 +29,7 @@ class UserController {
         }
 
         user.city = City.get(params.cityId)
-        user.username = user.email
+        user.username = user.email?.toLowerCase()
         user.enabled = false
 
         if (user.validate() && user.save()) {
