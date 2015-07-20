@@ -96,13 +96,16 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
 
-        grailsApplication.getArtefacts('Service').findAll {
-            it.fullName.startsWith("stocks.indicators.symbol.")
-        }.each { serviceClass ->
-            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-            if (service.enabled) {
-                service.commonParameters.each { parameter ->
-                    symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
+
+        Thread.startDaemon {
+            grailsApplication.getArtefacts('Service').findAll {
+                it.fullName.startsWith("stocks.indicators.symbol.")
+            }.each { serviceClass ->
+                def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+                if (service.enabled) {
+                    service.commonParameters.each { parameter ->
+                        symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
+                    }
                 }
             }
         }
