@@ -27,17 +27,20 @@ class MarketValuePersistService {
     }
 
     private void updateValueChange(MarketValueEvent marketValueEvent) {
-        def previousMarketValue = MarketValue.createCriteria().list {
-            eq('marketIdentifier', marketValueEvent.marketIdentifier)
-            lt('date', marketValueEvent.date)
-            order('date', ORDER_DESCENDING)
-            maxResults(1)
-            projections {
-                property('value')
-            }
-        }?.find()
+        MarketValue.withTransaction {
+            def previousMarketValue = MarketValue.createCriteria().list {
+                eq('marketIdentifier', marketValueEvent.marketIdentifier)
+                lt('date', marketValueEvent.date)
+                order('date', ORDER_DESCENDING)
+                maxResults(1)
+                projections {
+                    property('value')
+                }
+            }?.find()
 
-        marketValueEvent.valueChange = marketValueEvent.value - (previousMarketValue ?: 0)
+            marketValueEvent.valueChange = marketValueEvent.value - (previousMarketValue ?: 0)
+        }
+
     }
 
     protected void beforeCreate(MarketValueEvent event) {

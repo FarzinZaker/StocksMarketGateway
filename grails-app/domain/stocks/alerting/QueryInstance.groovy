@@ -41,7 +41,7 @@ class QueryInstance {
     }
 
     String getDomainClazz() {
-        query?.description ?: ''
+        query?.domainClazz ?: ''
     }
 
     String getSmsHeaderTemplate() {

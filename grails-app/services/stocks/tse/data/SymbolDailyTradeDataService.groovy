@@ -12,7 +12,7 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
                     method : 'importData',
                     trigger: [
                             type      : 'Simple',
-                            parameters: [repeatInterval: 5000l, startDelay: 60000]
+                            parameters: [repeatInterval: 30000l, startDelay: 60000]
                     ]
             ]
     ]

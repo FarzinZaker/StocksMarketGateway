@@ -26,8 +26,6 @@ class OilEvent {
     static mapping = {
         table 'rate_oil_ev'
         percent column: 'perc'
-        symbol index: 'idx_oil_symbol'
-        sort 'name'
     }
 
     static constraints = {

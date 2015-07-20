@@ -59,7 +59,7 @@ class SmsService {
                     def msg = queryInstance.smsTemplate
 
                     DefaultGrailsDomainClass domainClass = grailsApplication.getDomainClass(queryInstance.query.domainClazz) as DefaultGrailsDomainClass
-                    def tokens = domainClass.persistentProperties.findAll {
+                    domainClass.persistentProperties.findAll {
                         it.domainClass.constrainedProperties."${it.name}".metaConstraints.token
                     }.each { property ->
                         def value = record."${property.name}"
@@ -99,7 +99,7 @@ class SmsService {
                 message.user = user
                 message.deliveryMethod = user.useMobilePushNotification ? MessageHelper.DELIVERY_METHOD_PUSH : MessageHelper.DELIVERY_METHOD_SMS
                 message.status = MessageHelper.STATUS_WAITING
-                message.save()
+                message.save(flush: true)
             }
         } catch (ignored) {
             if (Environment.current != Environment.DEVELOPMENT)
