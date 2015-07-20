@@ -32,7 +32,6 @@ class SymbolIndicatorService {
                 } else
                     clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.adjustmentType = '${adjustmentType}'")
                 indicator.value = value == 0 ? null : value
-                indicator.dailyTrade = SymbolAdjustedDailyTrade.findByDailyTradeAndAdjustmentType(dailyTrade, adjustmentType)
                 indicator.calculationDate = dailyTrade.date
                 indicator.save(flush: true)
             }

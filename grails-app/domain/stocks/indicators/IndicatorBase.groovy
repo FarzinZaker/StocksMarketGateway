@@ -10,7 +10,7 @@ class IndicatorBase {
     Double value
     String parameter
     Integer dayNumber
-    SymbolAdjustedDailyTrade dailyTrade
+//    SymbolAdjustedDailyTrade dailyTrade
     String adjustmentType
 
     Date calculationDate

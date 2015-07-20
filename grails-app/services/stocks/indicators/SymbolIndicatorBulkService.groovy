@@ -15,7 +15,6 @@ class SymbolIndicatorBulkService {
 
     def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
 
-        return
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
@@ -32,12 +31,11 @@ class SymbolIndicatorBulkService {
             for (def i = 1; i < loopCount; i++) {
 
                 def indicator = clazz.newInstance()
-                indicator.dailyTrade = dailyTrades[loopCount - i]
                 indicator.parameter = parameterString
                 indicator.value = indicatorValues[loopCount - i] == 0 ? null : indicatorValues[loopCount - i]
                 indicator.symbol = symbol
                 indicator.dayNumber = 1
-                indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot
+                indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot ?: dailyTrades[loopCount - i].date
                 indicator.adjustmentType = adjustmentType
                 bulkDataService.save(indicator)
 //                indicator.save(flush: i == loopCount - 1)
