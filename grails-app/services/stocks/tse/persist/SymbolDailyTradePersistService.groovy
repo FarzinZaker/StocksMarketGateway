@@ -48,12 +48,12 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     def saveAdjustedDailyTrades(SymbolDailyTrade data) {
 
-        Thread.startDaemon {
+//        Thread.startDaemon {
             def date = data.date
             date = date.clearTime()
 
             AdjustmentHelper.TYPES.each { type ->
-                SymbolAdjustedDailyTrade.withTransaction {
+//                SymbolAdjustedDailyTrade.withTransaction {
                     def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
                     if (!adjustedDailyTrade) {
                         adjustedDailyTrade = new SymbolAdjustedDailyTrade()
@@ -89,25 +89,25 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                     SymbolDailyTrade.withTransaction {
                         adjustedDailyTrade.save(flush: true)
                     }
-                }
+//                }
             }
-        }
+//        }
     }
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
 
+        dailyTrade.indicatorsCalculated = false
+        dailyTrade.save(flush:true)
 
-        Thread.startDaemon {
-            grailsApplication.getArtefacts('Service').findAll {
-                it.fullName.startsWith("stocks.indicators.symbol.")
-            }.each { serviceClass ->
-                def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-                if (service.enabled) {
-                    service.commonParameters.each { parameter ->
-                        symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
-                    }
-                }
-            }
-        }
+//        grailsApplication.getArtefacts('Service').findAll {
+//            it.fullName.startsWith("stocks.indicators.symbol.")
+//        }.each { serviceClass ->
+//            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+//            if (service.enabled) {
+//                service.commonParameters.each { parameter ->
+//                    symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
+//                }
+//            }
+//        }
     }
 }

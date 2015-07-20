@@ -18,9 +18,26 @@ class IndicatorJob {
     def grailsApplication
     def lowLevelDataService
 
+
+    def execute(){
+        def dailyTrade = SymbolDailyTrade.findByIndicatorsCalculated(false)
+        if(dailyTrade) {
+            grailsApplication.getArtefacts('Service').findAll {
+                it.fullName.startsWith("stocks.indicators.symbol.")
+            }.each { serviceClass ->
+                def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+                if (service.enabled) {
+                    service.commonParameters.each { parameter ->
+                        symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
+                    }
+                }
+            }
+        }
+    }
+
     //slow
 //    def execute() {
-
+//
 //      if (grailsApplication.config.jobsDisabled)
 //          return
 //        grailsApplication.getArtefacts('Service').findAll {
@@ -42,32 +59,32 @@ class IndicatorJob {
 //    }
 
 //    bulk
-    def execute() {
-
-        return
-
-        if (grailsApplication.config.jobsDisabled)
-            return
-
-        println()
-        println "-----------------------------------------"
-        println "---- calculating indicators started ----"
+//    def execute() {
+//
+//        return
+//
+//        if (grailsApplication.config.jobsDisabled)
+//            return
+//
+//        println()
 //        println "-----------------------------------------"
-        println()
-        def symbol = findNextSymbol(getLastState())
-        println "--------- ${symbol.persianName} ---------"
-        if(symbol) {
-            symbolIndicatorBulkService.bulkCalculateIndicator(symbol)
-            logState(symbol?.id)
-        }
-        else{
-            println()
+//        println "---- calculating indicators started ----"
+////        println "-----------------------------------------"
+//        println()
+//        def symbol = findNextSymbol(getLastState())
+//        println "--------- ${symbol.persianName} ---------"
+//        if(symbol) {
+//            symbolIndicatorBulkService.bulkCalculateIndicator(symbol)
+//            logState(symbol?.id)
+//        }
+//        else{
+//            println()
+////            println "-----------------------------------------"
+//            println "---- calculating indicators finished ----"
 //            println "-----------------------------------------"
-            println "---- calculating indicators finished ----"
-            println "-----------------------------------------"
-            println()
-        }
-    }
+//            println()
+//        }
+//    }
 
     def findNextSymbol(Long minId) {
         Symbol.executeQuery("from Symbol s where exists (from SymbolDailyTrade t where t.symbol.id = s.id) and not exists (from IndicatorBase i where i.symbol.id = s.id) and s.id > :id", [id: minId, max: 1]).find()
