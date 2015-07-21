@@ -91,8 +91,9 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
         SymbolDailyTrade.withTransaction {
-            dailyTrade.indicatorsCalculated = false
-            dailyTrade.save(flush: true)
+            def dt = SymbolDailyTrade.get(dailyTrade.id)
+            dt.indicatorsCalculated = false
+            dt.save(flush: true)
         }
     }
 }
