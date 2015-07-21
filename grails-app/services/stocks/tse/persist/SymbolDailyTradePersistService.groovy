@@ -47,13 +47,13 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     }
 
     def saveAdjustedDailyTrades(SymbolDailyTrade data) {
-
+//                                                     return
 //        Thread.startDaemon {
             def date = data.date
             date = date.clearTime()
 
             AdjustmentHelper.TYPES.each { type ->
-//                SymbolAdjustedDailyTrade.withTransaction {
+                SymbolAdjustedDailyTrade.withTransaction {
                     def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
                     if (!adjustedDailyTrade) {
                         adjustedDailyTrade = new SymbolAdjustedDailyTrade()
@@ -86,7 +86,6 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                         adjustedDailyTrade.weeklySnapshot = date
                     if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                         adjustedDailyTrade.monthlySnapshot = date
-                    SymbolDailyTrade.withTransaction {
                         adjustedDailyTrade.save(flush: true)
                     }
 //                }
