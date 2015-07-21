@@ -47,66 +47,52 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     }
 
     def saveAdjustedDailyTrades(SymbolDailyTrade data) {
-//                                                     return
-//        Thread.startDaemon {
-            def date = data.date
-            date = date.clearTime()
+        def date = data.date
+        date = date.clearTime()
 
-            AdjustmentHelper.TYPES.each { type ->
-                SymbolAdjustedDailyTrade.withTransaction {
-                    def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
-                    if (!adjustedDailyTrade) {
-                        adjustedDailyTrade = new SymbolAdjustedDailyTrade()
-                        adjustedDailyTrade.symbol = data.symbol
-                        adjustedDailyTrade.symbolInternalCode = data.symbolInternalCode
-                        adjustedDailyTrade.symbolPersianCode = data.symbolPersianCode
-                        adjustedDailyTrade.symbolPersianName = data.symbolPersianName
-                        adjustedDailyTrade.adjustmentType = type
-                        adjustedDailyTrade.date = data.date.clearTime()
-                    }
-                    adjustedDailyTrade.closingPrice = data.closingPrice
-                    adjustedDailyTrade.creationDate = new Date()
-                    adjustedDailyTrade.dailyTrade = data
-                    adjustedDailyTrade.firstTradePrice = data.firstTradePrice
-                    adjustedDailyTrade.lastTradePrice = data.lastTradePrice
-                    adjustedDailyTrade.maxPrice = data.maxPrice
-                    adjustedDailyTrade.minPrice = data.minPrice
-                    adjustedDailyTrade.modificationDate = new Date()
-                    adjustedDailyTrade.priceChange = data.priceChange
-                    adjustedDailyTrade.totalTradeCount = data.totalTradeCount
-                    adjustedDailyTrade.totalTradeValue = data.totalTradeValue
-                    adjustedDailyTrade.totalTradeVolume = data.totalTradeVolume
-                    adjustedDailyTrade.yesterdayPrice = data.yesterdayPrice
-
-                    adjustedDailyTrade.dailySnapshot = date
-                    def calendar = Calendar.getInstance() as GregorianCalendar
-                    calendar.setTime(date)
-                    def jc = new JalaliCalendar(calendar)
-                    if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-                        adjustedDailyTrade.weeklySnapshot = date
-                    if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-                        adjustedDailyTrade.monthlySnapshot = date
-                        adjustedDailyTrade.save(flush: true)
-                    }
-//                }
+        AdjustmentHelper.TYPES.each { type ->
+            def adjustedDailyTrade = SymbolAdjustedDailyTrade.findBySymbolAndAdjustmentTypeAndDate(data.symbol, type, data.date.clearTime())
+            if (!adjustedDailyTrade) {
+                adjustedDailyTrade = new SymbolAdjustedDailyTrade()
+                adjustedDailyTrade.symbol = data.symbol
+                adjustedDailyTrade.symbolInternalCode = data.symbolInternalCode
+                adjustedDailyTrade.symbolPersianCode = data.symbolPersianCode
+                adjustedDailyTrade.symbolPersianName = data.symbolPersianName
+                adjustedDailyTrade.adjustmentType = type
+                adjustedDailyTrade.date = data.date.clearTime()
             }
-//        }
+            adjustedDailyTrade.closingPrice = data.closingPrice
+            adjustedDailyTrade.creationDate = new Date()
+            adjustedDailyTrade.dailyTrade = data
+            adjustedDailyTrade.firstTradePrice = data.firstTradePrice
+            adjustedDailyTrade.lastTradePrice = data.lastTradePrice
+            adjustedDailyTrade.maxPrice = data.maxPrice
+            adjustedDailyTrade.minPrice = data.minPrice
+            adjustedDailyTrade.modificationDate = new Date()
+            adjustedDailyTrade.priceChange = data.priceChange
+            adjustedDailyTrade.totalTradeCount = data.totalTradeCount
+            adjustedDailyTrade.totalTradeValue = data.totalTradeValue
+            adjustedDailyTrade.totalTradeVolume = data.totalTradeVolume
+            adjustedDailyTrade.yesterdayPrice = data.yesterdayPrice
+
+            adjustedDailyTrade.dailySnapshot = date
+            def calendar = Calendar.getInstance() as GregorianCalendar
+            calendar.setTime(date)
+            def jc = new JalaliCalendar(calendar)
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
+                adjustedDailyTrade.weeklySnapshot = date
+            if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
+                adjustedDailyTrade.monthlySnapshot = date
+            SymbolDailyTrade.withTransaction {
+                adjustedDailyTrade.save(flush: true)
+            }
+        }
     }
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
-
-        dailyTrade.indicatorsCalculated = false
-        dailyTrade.save(flush:true)
-
-//        grailsApplication.getArtefacts('Service').findAll {
-//            it.fullName.startsWith("stocks.indicators.symbol.")
-//        }.each { serviceClass ->
-//            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-//            if (service.enabled) {
-//                service.commonParameters.each { parameter ->
-//                    symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
-//                }
-//            }
-//        }
+        SymbolDailyTrade.withTransaction {
+            dailyTrade.indicatorsCalculated = false
+            dailyTrade.save(flush: true)
+        }
     }
 }
