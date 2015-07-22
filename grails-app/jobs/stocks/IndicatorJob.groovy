@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import groovy.time.TimeCategory
 import stocks.indicators.IndicatorServiceBase
 import stocks.tse.Symbol
 import stocks.tse.SymbolDailyTrade
@@ -20,7 +21,16 @@ class IndicatorJob {
 
 
     def execute(){
-        def dailyTrade = SymbolDailyTrade.findByIndicatorsCalculated(false)
+        def startDate = new Date()
+        use(TimeCategory){
+            startDate = startDate - 5.days
+        }
+        def dailyTrade = SymbolDailyTrade.createCriteria().list {
+            eq('indicatorsCalculated', false)
+            gt('date', startDate)
+            order('date', ORDER_ASCENDING)
+            maxResults(1)
+        }?.find()
         if(dailyTrade) {
             grailsApplication.getArtefacts('Service').findAll {
                 it.fullName.startsWith("stocks.indicators.symbol.")
@@ -32,6 +42,8 @@ class IndicatorJob {
                     }
                 }
             }
+            dailyTrade.indicatorsCalculated = true
+            dailyTrade.save(flush: true)
         }
     }
 
