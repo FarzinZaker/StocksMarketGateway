@@ -20,9 +20,9 @@ class IndicatorJob {
     def lowLevelDataService
 
 
-    def execute(){
+    def execute() {
         def startDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - 5.days
         }
         def dailyTrade = SymbolDailyTrade.createCriteria().list {
@@ -31,7 +31,7 @@ class IndicatorJob {
             order('date', ORDER_ASCENDING)
             maxResults(1)
         }?.find()
-        if(dailyTrade) {
+        if (dailyTrade) {
             grailsApplication.getArtefacts('Service').findAll {
                 it.fullName.startsWith("stocks.indicators.symbol.")
             }.each { serviceClass ->
@@ -42,6 +42,7 @@ class IndicatorJob {
                     }
                 }
             }
+            dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
             dailyTrade.indicatorsCalculated = true
             dailyTrade.save(flush: true)
         }
