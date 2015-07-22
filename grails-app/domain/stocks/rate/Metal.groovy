@@ -18,7 +18,7 @@ class Metal {
     Date modificationDate
 
     transient String getName(){
-        RateHelper.METALS."${symbol}".name as String
+        RateHelper.METALS."${symbol}"?.name as String
     }
 
     static mapping = {

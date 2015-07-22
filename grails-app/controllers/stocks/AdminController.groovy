@@ -55,6 +55,7 @@ class AdminController {
     def commodityMarketActivityDataService
     def energyMarketValueDataService
     def oilDataService
+    def symbolClientTypeDataService
 
     def index() {
     }
@@ -133,7 +134,7 @@ class AdminController {
 //        energyMarketValueDataService.importData()
 
 //        metalDataService.importData()
-        oilDataService.importData()
+        symbolClientTypeDataService.importData()
     }
 
     def throwException() {

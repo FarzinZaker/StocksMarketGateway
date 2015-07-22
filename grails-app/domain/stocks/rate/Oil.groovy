@@ -19,7 +19,7 @@ class Oil {
     Date modificationDate
 
     transient String getName(){
-        RateHelper.OILS."${symbol}".name as String
+        RateHelper.OILS."${symbol}"?.name as String
     }
 
     static mapping = {

@@ -13,7 +13,7 @@ import stocks.tse.Symbol
 import java.util.concurrent.ArrayBlockingQueue
 
 class BulkDataService {
-//    static transactional = false
+    static transactional = false
 //    SessionFactory sessionFactory
 
     private static ArrayBlockingQueue dataQueue

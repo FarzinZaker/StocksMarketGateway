@@ -17,7 +17,7 @@ class Coin {
     Date modificationDate
 
     transient String getName(){
-        RateHelper.COINS."${symbol}".name as String
+        RateHelper.COINS."${symbol}"?.name as String
     }
 
     static mapping = {
