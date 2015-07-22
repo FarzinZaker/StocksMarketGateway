@@ -237,3 +237,12 @@ grails.cache.config = {
         memoryStoreEvictionPolicy 'LRU'
     }
 }
+quartz {
+    waitForJobsToCompleteOnShutdown = false
+    props {
+
+        scheduler.makeSchedulerThreadDaemon = true
+        org.quartz.scheduler.makeSchedulerThreadDaemon=true
+
+    }
+}
