@@ -10,7 +10,7 @@ import stocks.util.ClassResolver
 
 class IndicatorJob {
 //
-    static startDelay = 60000
+    static startDelay = 50000
     static timeout = 100l
     static concurrent = false
 
@@ -28,7 +28,7 @@ class IndicatorJob {
         def dailyTrade = SymbolDailyTrade.createCriteria().list {
             eq('indicatorsCalculated', false)
             gt('date', startDate)
-            order('date', ORDER_ASCENDING)
+            order('modificationDate', ORDER_ASCENDING)
             maxResults(1)
         }?.find()
         if (dailyTrade) {
