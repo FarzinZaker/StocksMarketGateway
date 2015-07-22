@@ -11,8 +11,8 @@ import stocks.util.ClassResolver
 
 class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade, SymbolDailyTradeEvent> {
     static transactional = false
+    def tseEventGateway
 
-    def symbolIndicatorService
     def grailsApplication
 
     @Override
@@ -83,9 +83,10 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                 adjustedDailyTrade.weeklySnapshot = date
             if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                 adjustedDailyTrade.monthlySnapshot = date
-            SymbolDailyTrade.withTransaction {
-                adjustedDailyTrade.save(flush: true)
-            }
+            tseEventGateway.save(adjustedDailyTrade)
+//            SymbolDailyTrade.withTransaction {
+//                adjustedDailyTrade.save(flush: true)
+//            }
         }
     }
 

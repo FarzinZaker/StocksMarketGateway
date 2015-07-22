@@ -19,63 +19,106 @@ class BulkDataService {
     private static ArrayBlockingQueue dataQueue
 
     private void init() {
-        dataQueue = new ArrayBlockingQueue(1)
+        dataQueue = new ArrayBlockingQueue(10)
     }
 
     @Synchronized
     def save(object) {
-        if (object.id)
-            object.domainClass.clazz.withTransaction {
-                object.save(flush: true)
-            }
+        object.domainClass.clazz.withTransaction{
+            object.save(flush:true)
+        }
 
-        Thread.startDaemon {
-            if (!dataQueue)
-                init()
+        return
 
-            DefaultGrailsDomainClass domainClass = object.domainClass
-            dataQueue.put([class: domainClass, object: object])
-            while (dataQueue.remainingCapacity() == 0) {
-                try {
-                    domainClass.clazz.withTransaction {
-                        push()
-                    }
-                } catch (x) {
-                    x.properties
-                }
-            }
-        }.join()
+
+        //ignored bulk update
+        if (!dataQueue)
+            init()
+
+        DefaultGrailsDomainClass domainClass = object.domainClass
+        dataQueue.put([class: domainClass, object: object])
+
+//        if (object.id) {
+//            object.domainClass.clazz.withTransaction {
+//                object.save(flush: true)
+//            }
+//        } else {
+//            Thread.startDaemon {
+//                if (!dataQueue)
+//                    init()
+//
+//                DefaultGrailsDomainClass domainClass = object.domainClass
+//                dataQueue.put([class: domainClass, object: object])
+//                while (dataQueue.remainingCapacity() == 0) {
+//                    try {
+//                        domainClass.clazz.withTransaction {
+//                            push()
+//                        }
+//                    } catch (x) {
+//                        x.properties
+//                    }
+//                }
+//            }.join()
+//        }
     }
 
 //    @Transactional
 
-    def push() {
-        if (!dataQueue || dataQueue.isEmpty())
-            return
-        int retry = 0
-        while (!dataQueue.isEmpty() && retry < 10) {
-            def item = dataQueue.take()
+//    def push() {
+//        if (!dataQueue || dataQueue.isEmpty())
+//            return
+//        int retry = 0
+//        while (!dataQueue.isEmpty() && retry < 10) {
+//            def item = dataQueue.take()
+//
+//            boolean res = false
+//            try {
+//                if (item.object.id)
+//                    item.object = item.object.attach()
+//                if (item.object.save(flush: true))
+//                    res = true
+//                if (item.object.errors.allErrors)
+//                    println 'after save ' + item.object + '   ' + item.object.errors.allErrors
+//            } catch (x) {
+//                x.printStackTrace()
+//                Thread.sleep(10)
+//            }
+//            if (!res)
+//                dataQueue.put(item)
+//            retry++
+//        }
+//    }
 
+//    @Synchronized
+    def release() {
+
+        return
+
+        //ignored bulk update
+        while (dataQueue && !dataQueue.isEmpty()) {
+            def item = dataQueue.take()
             boolean res = false
             try {
-                if (item.object.id)
-                    item.object = item.object.attach()
-                if (item.object.save(flush: true))
-                    res = true
+                if (item.object.id) {
+//                    item.object = item.object.merge()
+                    if (item.object.merge(flush: true))
+                        res = true
+                } else {
+                    if (item.object.save(flush: true))
+                        res = true
+                }
+
                 if (item.object.errors.allErrors)
                     println 'after save ' + item.object + '   ' + item.object.errors.allErrors
+
             } catch (x) {
                 x.printStackTrace()
                 Thread.sleep(10)
             }
-            if (!res)
+            if (!res) {
                 dataQueue.put(item)
-            retry++
+            }
         }
     }
-
-//    @Synchronized
-    def release() {
-        push()
-    }
 }
+
