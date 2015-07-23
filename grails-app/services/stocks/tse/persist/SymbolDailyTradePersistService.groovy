@@ -11,7 +11,7 @@ import stocks.util.ClassResolver
 
 class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade, SymbolDailyTradeEvent> {
     static transactional = false
-    def tseEventGateway
+    def bulkDataService
 
     def grailsApplication
 
@@ -83,18 +83,40 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                 adjustedDailyTrade.weeklySnapshot = date
             if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
                 adjustedDailyTrade.monthlySnapshot = date
-            tseEventGateway.save(adjustedDailyTrade)
+            bulkDataService.save(adjustedDailyTrade)
 //            SymbolDailyTrade.withTransaction {
 //                adjustedDailyTrade.save(flush: true)
 //            }
+            println('adjusted daily trade saved')
         }
     }
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
-        SymbolDailyTrade.withTransaction {
-            def dt = SymbolDailyTrade.get(dailyTrade.id)
-            dt.indicatorsCalculated = false
-            dt.save(flush: true)
+        def events
+        SymbolDailyTradeEvent.withTransaction {
+            events = SymbolDailyTradeEvent.createCriteria().list {
+                eq('data', dailyTrade)
+                order('creationDate', ORDER_DESCENDING)
+                maxResults(2)
+            }?.toArray()
         }
+        if (!events || events.size() < 2 || !eventsAreEqual(events[0] as SymbolDailyTradeEvent, events[1] as SymbolDailyTradeEvent)) {
+            SymbolDailyTrade.withTransaction {
+                def dt = SymbolDailyTrade.get(dailyTrade.id)
+                dt.indicatorsCalculated = false
+                dt.save(flush: true)
+            }
+            println('new daily trade scheduled for indicators')
+        }
+    }
+
+    def eventsAreEqual(SymbolDailyTradeEvent ev1, SymbolDailyTradeEvent ev2) {
+        if (ev1.closingPrice != ev2.closingPrice
+                || ev1.lastTradePrice != ev2.lastTradePrice
+                || ev1.firstTradePrice != ev2.firstTradePrice
+                || ev1.minPrice != ev2.minPrice
+                || ev1.maxPrice != ev2.maxPrice)
+            return false
+        return true
     }
 }
