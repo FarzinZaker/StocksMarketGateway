@@ -31,6 +31,12 @@ class IndicatorJob {
             order('modificationDate', ORDER_ASCENDING)
             maxResults(1)
         }?.find()
+
+        println "remaining indicators:" + (SymbolDailyTrade.createCriteria().count {
+            eq('indicatorsCalculated', false)
+            gt('date', startDate)
+        })
+
         if (dailyTrade) {
             grailsApplication.getArtefacts('Service').findAll {
                 it.fullName.startsWith("stocks.indicators.symbol.")
