@@ -87,7 +87,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
 //            SymbolDailyTrade.withTransaction {
 //                adjustedDailyTrade.save(flush: true)
 //            }
-            println('adjusted daily trade saved')
+//            println('adjusted daily trade saved')
         }
     }
 
@@ -107,6 +107,9 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                 dt.save(flush: true)
             }
             println('new daily trade scheduled for indicators')
+        }
+        else{
+            println('daily trade skipped')
         }
     }
 

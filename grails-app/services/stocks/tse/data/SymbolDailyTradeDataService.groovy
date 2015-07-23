@@ -25,7 +25,7 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
 
     @Override
     protected SymbolDailyTrade find(SymbolDailyTradeEvent object) {
-        SymbolDailyTrade.findBySymbolInternalCodeAndDate(object.symbolInternalCode, object.date)
+        SymbolDailyTrade.findByDateGreaterThanEqualsAndSymbolInternalCode(object.date?.clearTime(), object.symbolInternalCode)
     }
 
     public void importData(){
