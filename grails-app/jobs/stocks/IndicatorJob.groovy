@@ -43,6 +43,7 @@ class IndicatorJob {
                 }
             }
             dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
+            dailyTrade.modificationDate = new Date()
             dailyTrade.indicatorsCalculated = true
             dailyTrade.save(flush: true)
         }
