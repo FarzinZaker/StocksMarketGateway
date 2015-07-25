@@ -5,7 +5,7 @@
   Time: 4:48 PM
 --%>
 
-<%@ page import="grails.util.Environment" contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.tse.AdjustmentHelper; grails.util.Environment" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -24,8 +24,8 @@
                 ${screener.title}
             </h1>
             <div style="float:left;padding-top:45px;">
-                <form:select name="adjustmentType" style="width:300px;" value="${stocks.tse.AdjustmentHelper.defaultType}"
-                             items="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect {
+                <form:select name="adjustmentType" style="width:300px;" value="${AdjustmentHelper.defaultType}"
+                             items="${AdjustmentHelper.ENABLED_TYPES.collect {
                                  [text: message(code: "priceAdjustment.types.${it}"), value: it]
                              }}" onchange="reloadGrid"/>
             </div>

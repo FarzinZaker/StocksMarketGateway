@@ -33,7 +33,7 @@
 
         $.ajax({
             dataType: "json",
-            url: '<format:html value="${createLink(controller: 'data', action: 'ohlcv', params: [id: backTest.symbolId, start: backTest.startDate.time, end: backTest.endDate.time])}"/>',
+            url: '<format:html value="${createLink(controller: 'data', action: 'ohlcv', params: [id: backTest.symbolId, start: backTest.startDate.time, end: backTest.endDate.time, adjustmentType: backTest.adjustmentType])}"/>',
 
             success: function (data) {
                 // split the data set into ohlc and volume

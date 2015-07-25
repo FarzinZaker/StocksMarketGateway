@@ -16,6 +16,8 @@ class BackTestJob {
     static concurrent = false
 
     def execute() {
+
+        return
         if (grailsApplication.config.jobsDisabled)
             return
 

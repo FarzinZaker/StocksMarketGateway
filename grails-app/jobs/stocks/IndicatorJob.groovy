@@ -21,6 +21,10 @@ class IndicatorJob {
 
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         def startDate = new Date()
         use(TimeCategory) {
             startDate = startDate - 5.days

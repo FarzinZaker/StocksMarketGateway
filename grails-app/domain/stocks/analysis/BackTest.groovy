@@ -24,6 +24,7 @@ class BackTest {
     Float sellWage
     Float buyTax
     Float sellTax
+    String adjustmentType
     Date currentDate
     String status
     User owner
@@ -38,6 +39,7 @@ class BackTest {
     }
 
     static constraints = {
+        adjustmentType nullable: true
         status inlist:BackTestHelper.STATUS_LIST
     }
 

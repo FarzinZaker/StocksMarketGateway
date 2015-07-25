@@ -106,7 +106,7 @@ class ChartController {
                     }
                     date.time / 1000
                 },
-                c: trades.collect { it.closingPrice },
+                c: trades.collect { it.lastTradePrice },
                 o: trades.collect { it.firstTradePrice },
                 h: trades.collect { it.maxPrice },
                 l: trades.collect { it.minPrice },

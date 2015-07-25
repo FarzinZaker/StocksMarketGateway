@@ -5,7 +5,7 @@
   Time: 19:49
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.tse.AdjustmentHelper" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -164,6 +164,17 @@
                 <form:field fieldName="backTest.sellTax">
                     <form:numericTextBox name="sellTax" style="width:450px;" value="0.005" format="p1" decimals="3"
                                          step="0.001" min="0" readonly="true"/>
+                </form:field>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="col-xs-12">
+                <form:field fieldName="backTest.adjustmentType">
+                    <form:select name="adjustmentType" style="width:450px;" value="${AdjustmentHelper.defaultType}"
+                                 items="${AdjustmentHelper.ENABLED_TYPES.collect {
+                                     [text: message(code: "priceAdjustment.types.${it}"), value: it]
+                                 }}"/>
                 </form:field>
             </div>
         </div>

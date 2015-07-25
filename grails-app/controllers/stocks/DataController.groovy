@@ -7,8 +7,11 @@ import stocks.tse.SymbolAdjustedDailyTrade
 
 class DataController {
 
+    def adjustedPriceSeriesService
+
     def ohlcv() {
-        def symbol = Symbol.get(params.id as Long)
+        def symbolId = params.id as Long
+        def adjustmentType = params.adjustmentType as String
         def startDate = params.start ? new Date(params.start as Long) : null
         def endDate = params.start ? new Date(params.end as Long) : new Date()
         if (!startDate)
@@ -17,15 +20,14 @@ class DataController {
             }
 
         render(
-                SymbolAdjustedDailyTrade.findAllBySymbolAndDateBetween(symbol, startDate, endDate).sort {
-                    it.dailySnapshot.time
-                }.collect {
+                adjustedPriceSeriesService.dailyTradeList(symbolId, startDate, endDate, '', adjustmentType)
+                        .collect {
                     [
-                            it.dailySnapshot.time,
+                            it.date.time,
                             it.firstTradePrice,
                             it.maxPrice,
                             it.minPrice,
-                            it.closingPrice,
+                            it.lastTradePrice,
                             it.totalTradeVolume
                     ]
                 } as JSON)
