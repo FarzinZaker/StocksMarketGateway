@@ -161,13 +161,13 @@ class FilterService {
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType}"
+                indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',','_')}"
 
             def value = JSON.parse(rule.value)?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()}"
+                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()?.toString()?.replace(',','_')}"
             }
         }
         def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: adjustmentType, cols: indicatorColumns.collect {
