@@ -106,10 +106,10 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                 dt.indicatorsCalculated = false
                 dt.save(flush: true)
             }
-            println('new daily trade scheduled for indicators')
+//            println('new daily trade scheduled for indicators')
         }
         else{
-            println('daily trade skipped')
+//            println('daily trade skipped')
         }
     }
 

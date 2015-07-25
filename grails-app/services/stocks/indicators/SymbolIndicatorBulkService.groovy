@@ -12,6 +12,7 @@ class SymbolIndicatorBulkService {
     def grailsApplication
     def lowLevelDataService
     def bulkDataService
+    def indicatorSeriesService
 
     def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
 
@@ -28,6 +29,7 @@ class SymbolIndicatorBulkService {
             def indicatorValues = value.indicators
 
             def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
+            def indicatorList = []
             for (def i = 1; i < loopCount; i++) {
 
                 def indicator = clazz.newInstance()
@@ -38,9 +40,12 @@ class SymbolIndicatorBulkService {
                 indicator.calculationDate = dailyTrades[loopCount - i].dailySnapshot ?: dailyTrades[loopCount - i].date
                 indicator.adjustmentType = adjustmentType
                 bulkDataService.save(indicator)
-//                indicator.save(flush: i == loopCount - 1)
+                indicatorList << indicator
 
             }
+            if (indicatorList.size())
+                indicatorSeriesService.write(indicatorList)
+
         }
 
     }

@@ -12,6 +12,7 @@ class SymbolIndicatorService {
 
     def grailsApplication
     def lowLevelDataService
+    def indicatorSeriesService
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
 
@@ -34,6 +35,8 @@ class SymbolIndicatorService {
                 indicator.value = value == 0 ? null : value
                 indicator.calculationDate = dailyTrade.date
                 indicator.save(flush: true)
+
+                indicatorSeriesService.write(indicator as IndicatorBase)
             }
         }
 
