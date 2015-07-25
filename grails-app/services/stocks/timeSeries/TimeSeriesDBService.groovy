@@ -71,9 +71,9 @@ class TimeSeriesDBService {
 //                println "post command failed with message: ${ex.message}"
                 windowSize = [1, Math.round(windowSize / 2)].max()
                 failedPosts++
+                println "window size: ${windowSize}"
                 Thread.sleep(100)
             }
-            println "window size: ${windowSize}"
 //            println "${successfulPosts} succeed, ${failedPosts} failed"
         }
     }

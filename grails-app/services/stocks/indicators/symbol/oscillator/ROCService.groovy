@@ -24,7 +24,7 @@ class ROCService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
         def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter+1, date)
-        if (series.size() < parameter)
+        if (series.size() < parameter + 1)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
