@@ -84,13 +84,13 @@ class MACDFilterService implements IncludeFilterService {
         } else
             switch (operator) {
                 case Operators.UPPER_THAN:
-                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.LOWER_THAN:
-                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.CROSSING_TO_UP:
-                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.CROSSING_TO_DOWN:
-                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
             }
 
         false
