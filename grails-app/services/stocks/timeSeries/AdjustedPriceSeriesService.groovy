@@ -66,9 +66,9 @@ class AdjustedPriceSeriesService {
         timeSeriesDBService.write(serie)
     }
 
-    @Cacheable(value='sparkLine', key='#symbolId.toString().concat("-").concat(#daysCount.toString())')
+    @Cacheable(value = 'sparkLine', key = '#symbolId.toString().concat("-").concat(#daysCount.toString())')
     def sparkLIine(Long symbolId, Integer daysCount) {
-        priceList(symbolId, 'closingPrice', new Date() - daysCount, new Date(), '1d')?.collect{it.value} ?: []
+        priceList(symbolId, 'closingPrice', new Date() - daysCount, new Date(), '1d')?.collect { it.value } ?: []
     }
 
     def firstTradePriceList(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
@@ -179,16 +179,6 @@ class AdjustedPriceSeriesService {
         else
             series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
-//        for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
-//            def item = [:]
-//            item.symbolId = symbolId
-//            item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", series[0].values[i][0])
-//            series.each { serie ->
-//                item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
-//            }
-//            if (item.closingPrice)
-//                list << item
-//        }
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
             return []
@@ -217,10 +207,47 @@ class AdjustedPriceSeriesService {
             endDate = new Date()
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
-        def values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+        def values
+        if (groupingMode == '')
+            values = timeSeriesDBService.query("SELECT value FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
+        else
+            values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         }.findAll { it.value } : []
+    }
+
+    def lastDailyTrade(Long symbolId, Date endDate = null, String adjustmentType = null) {
+        if (!endDate)
+            endDate = new Date()
+
+        if (!adjustmentType)
+            adjustmentType = AdjustmentHelper.defaultType
+        def propertyList = [
+                'firstTradePrice',
+                'lastTradePrice',
+                'closingPrice',
+                'minPrice',
+                'maxPrice',
+                'totalTradeCount',
+                'totalTradeValue',
+                'totalTradeVolume',
+                'yesterdayPrice',
+                'priceChange'
+        ]
+        def series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time <= ${endDate.time * 1000}u")[0]?.series
+        def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
+        if (!closingPriceSerie)
+            return null
+        def item = [:]
+        item.symbolId = symbolId
+        item.date = endDate
+        series.each { serie ->
+            item."${serie.name.split('_').last()}" = serie.values.find {
+                it[0] == closingPriceSerie.values[0][0]
+            }[1] as Double
+        }
+        return item
     }
 
     Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null) {
@@ -244,4 +271,5 @@ class AdjustedPriceSeriesService {
             maxResults(1)
         }[0]
     }
+
 }

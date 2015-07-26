@@ -16,6 +16,7 @@ var summaryUrl;
 
 var dataLoadTimer;
 var dataShowTimer;
+var summaryTimer;
 
 var signalIndex = 0;
 var logIndex = 0;
@@ -51,54 +52,72 @@ $(document).ready(function () {
                 stepForward();
             }
         });
+        summaryTimer = $('#summaryTimer').timer({
+            delay: 50,
+            repeat: true,
+            autostart: true,
+            callback: function (index) {
+                showSummary();
+            }
+        });
+
     }
 
 });
 
 function loadTestData() {
-    $('#dataLoadTimer').timer('pause');
+    $('#dataLoadTimer').timer('stop');
     for (var i = 0; i < portfolioLogs.length; i++)
         if (portfolioLogs[i][1] > 0)
-            backTestStartTime = portfolioLogs[i][0]
+            backTestStartTime = portfolioLogs[i][0];
     $.ajax({
             dataType: "json",
             url: dataUrl + "?startDate=" + backTestStartTime,
             success: function (data) {
+                $('#currentDate').html(data.currentDate);
                 appendToArray(signals, data.signalList);
                 modifyArray(portfolioLogs, data.logs);
                 if (data.status == 'status_finished') {
                     dataLoadStatus = 'finished';
                 }
-                else
-                    $('#dataLoadTimer').timer('resume');
+                else {
+                    $('#dataLoadTimer').timer('start');
+                }
             }
         }
     );
 }
 
+function showSummary() {
+    $('#summaryTimer').timer('stop');
+    if (dataLoadStatus == 'finished') {
+        $.ajax({
+            type: "POST",
+            url: summaryUrl
+        }).done(function (response) {
+
+            $('html, body').animate({
+                scrollTop: $('#pageHeader').offset().top
+            }, 500, function () {
+                $('#pnlSummary').css('display', 'block').html(response).slideDown();
+                $('#currentDate').parent().fadeOut();
+            });
+        });
+    }
+    else
+        $('#summaryTimer').timer('start');
+}
+
 function stepForward() {
-    $('#dataShowTimer').timer('pause');
+    $('#dataShowTimer').timer('stop');
     if (backTestChart) {
         var dataSource = $("#signalsGrid").data('kendoGrid').dataSource;
-        if (logIndex >= portfolioLogs.length && dataLoadStatus == 'finished') {
+        if (dataLoadStatus == 'finished' && logIndex >= portfolioLogs.length) {
             dataSource.data = signals;
             dataSource.sync();
 
-            $.ajax({
-                type: "POST",
-                url: summaryUrl
-            }).done(function (response) {
-
-                $('html, body').animate({
-                    scrollTop: $('#pageHeader').offset().top
-                }, 500, function(){
-                    $('#pnlSummary').hide().html(response).slideDown();
-                });
-            });
-
             return;
         }
-
         var currentPortfolioLog = portfolioLogs[logIndex];
         if (currentPortfolioLog && (logIndex == 0 || currentPortfolioLog[1] != 0)) {
             logIndex++;
@@ -129,8 +148,10 @@ function stepForward() {
             }
             dataSource.sync();
         }
+
     }
-    $('#dataShowTimer').timer('resume');
+
+    $('#dataShowTimer').timer('start');
 }
 
 function modifyArray(to, from) {
@@ -142,7 +163,7 @@ function modifyArray(to, from) {
 
 function appendToArray(to, from) {
     for (var i = 0; i < from.length; i++)
-        if (to.length == 0 || to[to.length - 1].time != from[i].time)
+        if (to.length == 0 || to[to.length - 1].id < from[i].id)
             to.push(from[i])
 }
 

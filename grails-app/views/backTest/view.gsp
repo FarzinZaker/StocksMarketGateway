@@ -39,13 +39,23 @@
     <form:form name="backTestForm" controller="backTest" action="save">
         <div class="row-fluid">
             <div class="col-xs-12" id="pageHeader">
-                <h1><g:message code="${'backTest.view.title'}"
-                               args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/></h1>
+                <h1 style="float:right" class="magenta">
+                    <i class="fa fa-magic"></i>
+                    <g:message code="${'backTest.view.title'}"
+                               args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/>
+                </h1>
+
+                <div style="float:left;margin-top:40px;font-size:12px;">
+                    <g:message code="backTest.currentDate"/>: <span id="currentDate"><format:jalaliDate
+                        date="${backTest.currentDate}"/></span>
+                </div>
+
+                <div class="clear-fix"></div>
             </div>
         </div>
 
         <div class="row-fluid">
-            <div class="col-xs-12" id="pnlSummary">
+            <div class="col-xs-12" id="pnlSummary" style="margin-bottom:20px;display:${summary ? 'block' : 'none'}">
                 <g:render template="summary" model="[summary: summery]"/>
             </div>
         </div>

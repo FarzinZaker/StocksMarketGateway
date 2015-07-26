@@ -84,7 +84,7 @@
                 // create the chart
                 $('#chartContainer').highcharts('StockChart', {
                     chart: {
-                        backgroundColor: '#f5f5f5'
+                        backgroundColor: '#ffffff'
                     },
 
                     rangeSelector: false,

@@ -93,22 +93,22 @@ class PriceFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
         def parsedValue = JSON.parse(value?.toString()).find() as Double
 
         switch (operator) {
             case Operators.GREATER_THAN:
-                return indicatorCompareService.priceUpperThanValue(symbol, parsedValue, date)
+                return indicatorCompareService.priceUpperThanValue(symbol, parsedValue, date, adjustmentType)
             case Operators.LESS_THAN:
-                return indicatorCompareService.priceLowerThanValue(symbol, parsedValue, date)
+                return indicatorCompareService.priceLowerThanValue(symbol, parsedValue, date, adjustmentType)
             case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                return indicatorCompareService.pricePositiveChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date)
+                return indicatorCompareService.pricePositiveChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date, adjustmentType)
             case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                return indicatorCompareService.priceNegativeChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date)
+                return indicatorCompareService.priceNegativeChangeCompareToPreviousDayGreaterThan(symbol, parsedValue, date, adjustmentType)
             case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                return indicatorCompareService.pricePositiveChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date)
+                return indicatorCompareService.pricePositiveChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date, adjustmentType)
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                return indicatorCompareService.priceNegativeChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date)
+                return indicatorCompareService.priceNegativeChangeCompareToFirstPriceGreaterThan(symbol, parsedValue, date, adjustmentType)
         }
         false
     }

@@ -14,6 +14,7 @@ import stocks.tse.Symbol
 class BackTestController {
 
     def springSecurityService
+    def adjustedPriceSeriesService
 
     def index() {}
 
@@ -95,9 +96,10 @@ class BackTestController {
         def backTest = BackTest.get(params.id as Long)
         def date = new Date(params.startDate as Long)
         render([
-                status    : backTest.status,
-                signalList: decorateBackTestSignals(backTest, date),
-                logs      : decoratePortfolioLogs(backTest, date)
+                currentDate: format.jalaliDate(date: backTest.currentDate),
+                status     : backTest.status,
+                signalList : decorateBackTestSignals(backTest, date),
+                logs       : decoratePortfolioLogs(backTest, date)
         ] as JSON)
     }
 
@@ -177,7 +179,7 @@ class BackTestController {
         }
     }
 
-    private static def decoratePortfolioLogs(BackTest backTest, Date startDate) {
+    private def decoratePortfolioLogs(BackTest backTest, Date startDate) {
         def list = []
         if (startDate) {
             list = PortfolioLog.findAllByBackTestAndDateGreaterThan(backTest, startDate).sort {
@@ -191,10 +193,11 @@ class BackTestController {
             }
         } else {
             def logs = PortfolioLog.findAllByBackTest(backTest)
-            def dailyTrades = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
+//            def dailyTrades = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
+            def dailyTrades = adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
             dailyTrades.sort {
-                it.dailySnapshot.time
-            }.each { SymbolAdjustedDailyTrade dailyTrade ->
+                it.date.time
+            }.each { dailyTrade ->
                 def log = logs.find { it.date.clearTime() == dailyTrade.date.clearTime() }
                 list << [
                         dailyTrade.date.clearTime().time,
@@ -213,8 +216,9 @@ class BackTestController {
         render template: 'summary', model: [summary: calculateSummary(backTest, logs, signals)]
     }
 
-    private static def calculateSummary(BackTest backTest, List logs, List signals) {
-        def openDays = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
+    private def calculateSummary(BackTest backTest, List logs, List signals) {
+//        def openDays = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
+        def openDays = adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
         def maxDrawDown = 0
         def sortedLogs = logs.sort { it[0] }
         for (def i = 1; i < sortedLogs.size(); i++) {

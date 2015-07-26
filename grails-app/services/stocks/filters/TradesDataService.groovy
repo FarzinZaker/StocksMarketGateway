@@ -38,7 +38,7 @@ class TradesDataService {
         use(TimeCategory){
             startDate = startDate - 1000
         }
-        adjustedPriceSeriesService.dailyTradeList(symbol.id, startDate, maxDate, '1d', adjustmentType)
+        adjustedPriceSeriesService.dailyTradeList(symbol.id, startDate, maxDate, '', adjustmentType)
 
 //        maxDate = maxDate?.clearTime()
 //        SymbolAdjustedDailyTrade.createCriteria().list {

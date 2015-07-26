@@ -62,18 +62,18 @@ class TRangeFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
         def targetValue = value.first() as Double
 
         switch (operator) {
             case Operators.UPPER_THAN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date)
+                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date, adjustmentType)
             case Operators.LOWER_THAN:
-                return indicatorCompareService.indicatorLowerThanValue(symbol, TRange, parameter, targetValue, date)
+                return indicatorCompareService.indicatorLowerThanValue(symbol, TRange, parameter, targetValue, date, adjustmentType)
             case Operators.CROSSING_TO_UP:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date)
+                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date, adjustmentType)
             case Operators.CROSSING_TO_DOWN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date)
+                return indicatorCompareService.indicatorUpperThanValue(symbol, TRange, parameter, targetValue, date, adjustmentType)
         }
         false
     }
