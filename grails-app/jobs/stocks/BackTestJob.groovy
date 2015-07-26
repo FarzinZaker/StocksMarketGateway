@@ -26,10 +26,10 @@ class BackTestJob {
             it.save(flush: true)
         }
         def waitingBackTests = BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
-//        withPool {
+        withPool {
             waitingBackTests.each { BackTest backTest ->
                 backTestService.runBackTest(backTest)
-//            }
+            }
         }
     }
 }

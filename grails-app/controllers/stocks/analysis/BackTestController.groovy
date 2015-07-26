@@ -173,7 +173,7 @@ class BackTestController {
             ]
             //indicators
             it.indicators.each { indicator ->
-                item.put("${indicator.name.replace('.', '_')}_${indicator.parameter}", indicator.value)
+                item.put("${indicator.name.replace('.', '_')}_${indicator.parameter.replace(',','_')}", indicator.value)
             }
             item
         }

@@ -115,7 +115,7 @@ class IndicatorCompareService {
 
     Double getIndicatorValue(Symbol symbol, Class<IndicatorBase> indicator, String parameter, Date date, Integer index, String adjustmentType) {
         def startDate = date
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - (10 * index).days
         }
         def list = indicatorSeriesService.indicatorList(symbol.id, indicator, parameter, startDate, date, '', adjustmentType)
@@ -126,7 +126,7 @@ class IndicatorCompareService {
 
     Double getPrice(Symbol symbol, Date date, Integer index, String adjustmentType) {
         def startDate = date
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - (10 * index).days
         }
         def list = adjustedPriceSeriesService.closingPriceList(symbol.id, startDate, date, '', adjustmentType)
@@ -137,7 +137,7 @@ class IndicatorCompareService {
 
     Double getVolume(Symbol symbol, Date date, Integer index, String adjustmentType) {
         def startDate = date
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - (10 * index).days
         }
         def list = adjustedPriceSeriesService.totalTradeVolumeList(symbol.id, startDate, date, '', adjustmentType)
@@ -148,7 +148,7 @@ class IndicatorCompareService {
 
     Double getAverageVolume(Symbol symbol, Integer dayCount, Date date, String adjustmentType) {
         def startDate = date
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - (10 * dayCount).days
         }
         def list = adjustedPriceSeriesService.totalTradeVolumeList(symbol.id, startDate, date, '', adjustmentType)
@@ -160,13 +160,24 @@ class IndicatorCompareService {
 
     def getDailyTrade(Symbol symbol, Date date, Integer index, String adjustmentType) {
         def startDate = date
-        use(TimeCategory){
+        use(TimeCategory) {
             startDate = startDate - (10 * index).days
         }
         def list = adjustedPriceSeriesService.dailyTradeList(symbol.id, startDate, date, '', adjustmentType)
 
         if (list.size() < index)
-            return 0
+            return [
+                    'firstTradePrice' : 0,
+                    'lastTradePrice'  : 0,
+                    'closingPrice'    : 0,
+                    'minPrice'        : 0,
+                    'maxPrice'        : 0,
+                    'totalTradeCount' : 0,
+                    'totalTradeValue' : 0,
+                    'totalTradeVolume': 0,
+                    'yesterdayPrice'  : 0,
+                    'priceChange'     : 0
+            ]
         list.sort { -it.date.time }[index - 1]
     }
 }

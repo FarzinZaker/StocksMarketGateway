@@ -43,7 +43,7 @@
                 code="backTest.signal.yesterdayPrice"/>: <label>#= formatNumber(yesterdayPrice) #</label></div>
         <g:each in="${indicators}" var="indicator">
             <div class="col-xs-4"><span class="ltr inline-block"><g:message code="${indicator.name}"/><g:if
-                    test="${indicator.parameter}">(${indicator.parameter})</g:if></span>: <label>#= formatNumber(Math.round(${indicator.name.replace('.', '_')}_${indicator.parameter})) #</label>
+                    test="${indicator.parameter}">(${indicator.parameter})</g:if></span>: <label>#= formatNumber(Math.round(${indicator.name.replace('.', '_')}_${indicator.parameter.replace(',', '_')})) #</label>
             </div>
         </g:each>
     </div>
@@ -93,7 +93,7 @@
                             maxPrice: {type: "number"},
                             yesterdayPrice: {type: "number"}
                             <g:each in="${indicators}" var="indicator">
-                            , ${indicator.name.replace('.','_')}_${indicator.parameter}: {type: "number"}
+                            , ${indicator.name.replace('.','_')}_${indicator.parameter.replace(',', '_')}: {type: "number"}
                             </g:each>
                         }
                     }
