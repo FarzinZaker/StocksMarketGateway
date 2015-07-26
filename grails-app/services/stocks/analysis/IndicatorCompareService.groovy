@@ -167,16 +167,16 @@ class IndicatorCompareService {
 
         if (list.size() < index)
             return [
-                    'firstTradePrice' : 0,
-                    'lastTradePrice'  : 0,
-                    'closingPrice'    : 0,
-                    'minPrice'        : 0,
-                    'maxPrice'        : 0,
-                    'totalTradeCount' : 0,
-                    'totalTradeValue' : 0,
-                    'totalTradeVolume': 0,
-                    'yesterdayPrice'  : 0,
-                    'priceChange'     : 0
+                    'firstTradePrice' : 1,
+                    'lastTradePrice'  : 1,
+                    'closingPrice'    : 1,
+                    'minPrice'        : 1,
+                    'maxPrice'        : 1,
+                    'totalTradeCount' : 1,
+                    'totalTradeValue' : 1,
+                    'totalTradeVolume': 1,
+                    'yesterdayPrice'  : 1,
+                    'priceChange'     : 1
             ]
         list.sort { -it.date.time }[index - 1]
     }
