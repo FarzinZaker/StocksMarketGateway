@@ -134,7 +134,7 @@ class SmsService {
     }
 
     def sendMessageViaMobilePush(QueuedMessage message) {
-//        PushUtil.push(message.receiverId, message)
+        PushUtil.push(message.receiverId?.toString(), message?.body)
 
         message.status = MessageHelper.STATUS_SENT
         message.save(flush: true)
