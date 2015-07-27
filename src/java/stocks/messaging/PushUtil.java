@@ -36,7 +36,7 @@ public class PushUtil {
 
     public static void push(String alias, String message) {
         final PushSender sender =
-                DefaultPushSender.withRootServerURL("https://127.0.0.1:8080/ag-push/")
+                DefaultPushSender.withRootServerURL("http://127.0.0.1:8080/ag-push/")
                         .pushApplicationId("38f38440-7a0f-4984-ae80-7a11bc5b43e0")
                         .masterSecret("27e2145a-be3b-4b5a-a50d-a0e5510805d0")
                         .build();
