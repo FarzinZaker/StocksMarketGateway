@@ -79,7 +79,6 @@ class SMAFilterService implements IncludeFilterService {
     @Override
     Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
         def targetIndicatorName = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
-        println('checking sma, target indicator: ' + targetIndicatorName)
         def targetIndicator = targetIndicatorName != 'Price' ? ClassResolver.loadDomainClassByName(targetIndicatorName) : null
         def targetParameter = value.first()[1] as String
 

@@ -1,7 +1,5 @@
 package stocks.messaging;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.jboss.aerogear.unifiedpush.DefaultPushSender;
 import org.jboss.aerogear.unifiedpush.PushSender;
 import org.jboss.aerogear.unifiedpush.message.MessageResponseCallback;
@@ -9,13 +7,7 @@ import org.jboss.aerogear.unifiedpush.message.UnifiedMessage;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyStore;
 
 
 /**
@@ -35,6 +27,8 @@ public class PushUtil {
     }
 
     public static void push(String alias, String message) {
+        if(grails.util.Environment.isDevelopmentMode())
+            return;
         final PushSender sender =
                 DefaultPushSender.withRootServerURL("http://127.0.0.1:8080/ag-push/")
                         .pushApplicationId("38f38440-7a0f-4984-ae80-7a11bc5b43e0")

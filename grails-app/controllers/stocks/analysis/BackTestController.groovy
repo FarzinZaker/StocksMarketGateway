@@ -24,7 +24,7 @@ class BackTestController {
         def startDate = new Date()
         def endDate = new Date()
         use(TimeCategory) {
-            startDate = endDate - 1.year
+            startDate = endDate - 6.months
         }
         [tradeStrategy: tradeStrategy, startDate: startDate, endDate: endDate]
     }
