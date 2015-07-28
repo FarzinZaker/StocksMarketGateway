@@ -57,7 +57,7 @@ class TradeStrategyController {
     def queryItem() {
         def value = params.findAll { it.key.toString().contains('value') }.collect {
             it.value == 'on' ? it.key.toString().replace('value_', '') : it.value
-        }
+        }?.sort{it[0]}
         render template: 'queryItem', model: [text: filterService.getQueryText(params.filter?.toString(), params.operator, value), filter: params.filter, parameter: params.parameter, operator: params.operator, value: value as JSON]
     }
 
