@@ -17,8 +17,6 @@ class BackTestJob {
 
     def execute() {
 
-        return
-
         if (grailsApplication.config.jobsDisabled)
             return
 
