@@ -22,6 +22,7 @@ class PortfolioPropertyManagementService {
 
     def springSecurityService
     def priceService
+    def messageSource
 
     def findProperty(String clazz, Long id, String query) {
         switch (clazz) {
@@ -56,6 +57,26 @@ class PortfolioPropertyManagementService {
         }
         []
     }
+    private def modifiableList = [
+            'portfolioBondsItem',
+            'portfolioBullionItem',
+            'portfolioCoinItem',
+            'portfolioCurrencyItem',
+            'portfolioSymbolItem',
+            'portfolioSymbolPriorityItem'
+    ]
+    private def defaultItems = ['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem']
+
+    def portfolioItemTypes() {
+        ClassResolver.loadDomainClassListByPackage('stocks.portfolio.portfolioItems').collect {
+            [
+                    clazz     : it.propertyName,
+                    title     : messageSource.getMessage(it.fullName, null, it.fullName, null),
+                    modifiable: !modifiableList.contains(it.propertyName),
+                    default   : defaultItems.contains(it.propertyName)
+            ]
+        }.sort { it.title }
+    }
 
     def findBank(Long id, String query) {
         def banks = BankAccount.findAllByOwnerAndDeleted(springSecurityService.currentUser as User, false)
@@ -85,9 +106,7 @@ class PortfolioPropertyManagementService {
                 eq('marketCode', 'MCNO')
                 'in'('type', ['400', '403', '404'])
                 notEqual('boardCode', '4')
-                projections {
-                    property('id')
-                }
+                order('persianCode')
             }
         symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
@@ -194,9 +213,7 @@ class PortfolioPropertyManagementService {
                 eq('marketCode', 'MCNO')
                 'in'('type', ['300', '303', '309'])
                 notEqual('boardCode', '4')
-                projections {
-                    property('id')
-                }
+                order('persianCode')
             }
         symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
