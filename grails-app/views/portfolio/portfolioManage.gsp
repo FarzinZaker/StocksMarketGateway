@@ -70,6 +70,7 @@
             </script>
 
             <g:render template="manage/editors"/>
+            <g:render template="manage/dialog"/>
             <g:render template="manage/detailsGrid"/>
             <g:render template="manage/grid"/>
         </div>

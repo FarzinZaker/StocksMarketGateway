@@ -7,6 +7,7 @@ import stocks.User
 import stocks.portfolio.portfolioItems.PortfolioBankItem
 import stocks.portfolio.portfolioItems.PortfolioBrokerItem
 import stocks.portfolio.portfolioItems.PortfolioBusinessPartnerItem
+import stocks.portfolio.meta.*
 import stocks.util.ClassResolver
 import stocks.util.StringHelper
 
@@ -22,7 +23,19 @@ class PortfolioController {
     }
 
     def build() {
-        [portfolio: params.id ? Portfolio.get(params.id) : null]
+        def portfolio
+        def portfolioAvailItems = []
+        def portfolioAvailBrokers = []
+        if (params.id) {
+            portfolio = Portfolio.get(params.id)
+            portfolioAvailItems = PortfolioAvailItem.findAllByPortfolio(portfolio)
+            portfolioAvailBrokers = PortfolioAvailBroker.findAllByPortfolio(portfolio)
+        }
+        [portfolio: portfolio, portfolioAvailItems: portfolioAvailItems, portfolioAvailBrokers: portfolioAvailBrokers, items: portfolioPropertyManagementService.portfolioItemTypes()]
+    }
+
+    def jsonSearchBroker() {
+        render "[${Broker.findAllByNameLike("%${params.term ?: ''}%").collect { "{\"name\":\"${it.name}\", \"id\":\"${it.id}\"}" }.join(',')}]"
     }
 
     def save() {
@@ -30,6 +43,15 @@ class PortfolioController {
         if (params.id) {
             portfolio = Portfolio.get(params.id)
             portfolio.properties = params
+            PortfolioAvailItem.findAllByPortfolio(portfolio).each {
+                if (!params.containsKey(it.item) || portfolio.defaultItems)
+                    it.delete()
+            }
+            PortfolioAvailBroker.findAllByPortfolio(portfolio).each {
+                if (!params.broker?.contains(it.broker.name) || !portfolio.useBroker) {
+                    it.delete()
+                }
+            }
         } else {
             def user = springSecurityService.currentUser as User
             if (Portfolio.findByOwnerAndNameAndDeleted(user, params.name, false)) {
@@ -40,9 +62,25 @@ class PortfolioController {
             portfolio = new Portfolio(params)
             portfolio.owner = user
         }
-        if (portfolio.save())
+
+        if (portfolio.save()) {
+            if (!portfolio.defaultItems) {
+                def items = portfolioPropertyManagementService.portfolioItemTypes()
+                items.each {
+                    if (params[it.clazz])
+                        PortfolioAvailItem.findByItemAndPortfolio(it.clazz, portfolio) ?: new PortfolioAvailItem(item: it.clazz, portfolio: portfolio).save()
+                }
+            }
+            if (portfolio.useBroker) {
+                if(params.broker) {
+                    params.broker.split(',').each {
+                        def broker = Broker.findByName(it)
+                        PortfolioAvailBroker.findByBrokerAndPortfolio(broker, portfolio) ?: new PortfolioAvailBroker(broker: broker, portfolio: portfolio).save()
+                    }
+                }
+            }
             redirect(action: 'list')
-        else if (portfolio.save())  //retry
+        } else if (portfolio.save())  //retry
             redirect(action: 'list')
     }
 
@@ -119,7 +157,9 @@ class PortfolioController {
         }
 
         shareChartData.categories.each { category ->
-            category.y = shareChartData.drilldown.findAll { it.id == category.drilldown }.collect{it.data}.first().sum{it[1]}
+            category.y = shareChartData.drilldown.findAll { it.id == category.drilldown }.collect {
+                it.data
+            }.first().sum { it[1] }
         }
 
         def model = [:]
@@ -158,18 +198,29 @@ class PortfolioController {
     }
 
     def portfolioManage() {
+        def portfolio = Portfolio.get(params.id)
+        def brokers = []
+        if (portfolio.useBroker) {
+            def avalBrokers = PortfolioAvailBroker.findAllByPortfolio(portfolio)
+            brokers = (avalBrokers?.broker ?: Broker.findAllByDeleted(false)).collect {
+                [
+                        brokerId  : it.id,
+                        brokerName: it.name
+                ]
+            }
+        }
+        def availItems=[]
+        if(portfolio.defaultItems){
+            availItems=portfolioPropertyManagementService.portfolioItemTypes().findAll {it.default}
+        }
+        else{
+            def avails=PortfolioAvailItem.findAllByPortfolio(portfolio)
+            availItems=portfolioPropertyManagementService.portfolioItemTypes().findAll {avails.find {av->it.clazz==av.item}}
+        }
+
         [
-                portfolio: Portfolio.get(params.id),
-                propertyTypes: ClassResolver.loadDomainClassListByPackage('stocks.portfolio.portfolioItems').collect {
-                    [clazz: it.propertyName, title: message(code: it.fullName), modifiable: ![
-                            'portfolioBondsItem',
-                            'portfolioBullionItem',
-                            'portfolioCoinItem',
-                            'portfolioCurrencyItem',
-                            'portfolioSymbolItem',
-                            'portfolioSymbolPriorityItem'
-                    ].contains(it.propertyName)]
-                }.sort { it.title },
+                portfolio    : portfolio,
+                propertyTypes: availItems,
                 accountTypes : [
                         PortfolioBankItem.class,
                         PortfolioBusinessPartnerItem.class,
@@ -177,12 +228,7 @@ class PortfolioController {
                 ].collect {
                     [clazz: Introspector.decapitalize(it.name.split('\\.').last()), title: message(code: it.name), modifiable: it.name.split('\\.').last() == 'PortfolioBrokerItem']
                 }.sort { it.title },
-                brokers      : Broker.findAllByDeleted(false).collect {
-                    [
-                            brokerId  : it.id,
-                            brokerName: it.name
-                    ]
-                }
+                brokers      : brokers
         ]
     }
 

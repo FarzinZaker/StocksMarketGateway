@@ -1,40 +1,4 @@
 <%@ page import="java.text.SimpleDateFormat" %>
-<script id="toolbartemplate" type="text/x-kendo-template">
-<ul id="gridtoolbar">
-    <g:if test="${propertyTypes.find{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-        <li><g:message code="portfolioAction.actionType.d" />
-            <ul>
-                <g:each in="${propertyTypes.findAll{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','d',${it.modifiable})">${it.title}</li>
-                </g:each>
-            </ul>
-        </li>
-        <li><g:message code="portfolioAction.actionType.w" />
-        <ul>
-            <g:each in="${propertyTypes.findAll{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                <li onclick="addNewItem('${it.clazz}','w',${it.modifiable})">${it.title}</li>
-            </g:each>
-        </ul>
-        </li>
-    </g:if>
-    <g:if test="${propertyTypes.find{ !['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-        <li><g:message code="portfolioAction.actionType.b" />
-            <ul>
-                <g:each in="${propertyTypes.findAll{! ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','b',${it.modifiable})">${it.title}</li>
-                </g:each>
-            </ul>
-        </li>
-        <li><g:message code="portfolioAction.actionType.s" />
-            <ul>
-                <g:each in="${propertyTypes.findAll{! ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','s',${it.modifiable})">${it.title}</li>
-                </g:each>
-            </ul>
-        </li>
-    </g:if>
-</ul>
-</script>
 <script language="javascript" type="text/javascript">
 
     var idSequence = -1;
@@ -129,11 +93,9 @@
             pageable: true,
 //            height: 550,
             toolbar: [
-                { template: kendo.template($("#toolbartemplate").html()) }
-
-                %{--{name: "create", text: "<g:message code="create"/>"},--}%
-                %{--{name: "save", text: "<g:message code="save"/>"},--}%
-                %{--{name: "cancel", text: "<g:message code="cancel"/>"}--}%
+                {name: "create", text: "<g:message code="create"/>"},
+                {name: "save", text: "<g:message code="save"/>"},
+                {name: "cancel", text: "<g:message code="cancel"/>"}
             ],
             columns: [
                 {
@@ -201,10 +163,8 @@
                     width: "95px"
                 }
             ],
-            <g:if test="${portfolio.fullAccounting}">
-                detailInit: detailInit,
-            </g:if>
-//            editable: "incell",
+            detailInit: detailInit,
+            editable: "incell",
             save: function (e) {
                 var combobox = e.container.find('.propertyComboBox[data-role=combobox]');
                 if (combobox.length > 0) {
@@ -221,7 +181,6 @@
                 }
             }
         });
-        $('#gridtoolbar').kendoMenu();
     });
 
     function createProperty(container, options) {

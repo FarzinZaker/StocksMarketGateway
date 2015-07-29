@@ -28,7 +28,7 @@ class FormTagLib {
     def field = { attrs, body ->
         out << """
 
-            <div class='form-field ${attrs.border == '0' ? 'borderless' : ''}'>
+            <div ${attrs.id?"id='${attrs.id}'":''} class='form-field ${attrs.border == '0' ? 'borderless' : ''}'>
                 <div class='main'>
                     ${
             (attrs.fieldName || attrs.label) && attrs.showLabel != '0' ? "<label>${attrs.label ?: message(code: "${attrs.fieldName}.label")}</label>" : ''
@@ -160,9 +160,9 @@ class FormTagLib {
     }
 
     def checkbox = { attrs, body ->
+
         out << """
-                <input type="checkbox" class="css-checkbox" id="${attrs.id ?: attrs.name}" name="${attrs.name}"
-                    ${attrs.checked ? "checked='checked'" : ''} ${attrs.onchange ? "onchange='${attrs.onchange}'" : ''} />
+                ${g.checkBox(class: 'css-checkbox',id:attrs.id ?: attrs.name,name:attrs.name,value: attrs.checked,onchange: attrs.onchange)}
                 <label class="css-label" for="${attrs.id ?: attrs.name}" style="${attrs.style}">
                     ${attrs.text}
                 </label>
