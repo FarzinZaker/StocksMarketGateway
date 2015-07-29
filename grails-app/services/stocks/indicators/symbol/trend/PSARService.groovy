@@ -41,7 +41,7 @@ class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
     @Override
     Map bulkCalculate(Symbol item, List<Integer> parameter, String adjustmentType) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType)
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

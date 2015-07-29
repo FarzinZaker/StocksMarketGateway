@@ -6,7 +6,7 @@ import stocks.tse.Symbol
 
 class BackTest {
 
-    static auditable = true
+//    static auditable = true
 
     static searchable = true
 

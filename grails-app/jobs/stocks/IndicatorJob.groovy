@@ -52,10 +52,15 @@ class IndicatorJob {
                     }
                 }
             }
-            dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
-            dailyTrade.modificationDate = new Date()
-            dailyTrade.indicatorsCalculated = true
-            dailyTrade.save(flush: true)
+            try {
+                dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
+                dailyTrade.modificationDate = new Date()
+                dailyTrade.indicatorsCalculated = true
+                dailyTrade.save(flush: true)
+            }
+            catch (ignored){
+                println("indicator job: [exception] ${ignored.message}")
+            }
         }
     }
 

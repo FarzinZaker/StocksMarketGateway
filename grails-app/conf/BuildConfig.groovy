@@ -73,7 +73,7 @@ grails.project.dependency.resolution = {
 //        compile 'com.squareup.okhttp:okhttp:2.0.0'
         compile 'org.influxdb:influxdb-java:1.5'
 
-//        compile 'org.jboss.aerogear:unifiedpush-java-client:1.1.0-beta.1'
+        compile 'org.jboss.aerogear:unifiedpush-java-client:1.1.0-beta.1'
     }
 
     plugins {

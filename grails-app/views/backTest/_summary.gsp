@@ -1,3 +1,4 @@
+<div id="summaryTimer"></div>
 <g:if test="${summary}">
 
     <div class="row-fluid">

@@ -4,13 +4,15 @@ import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.util.Environment
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
-//import org.jboss.aerogear.unifiedpush.message.MessageResponseCallback
-//import org.jboss.aerogear.unifiedpush.message.UnifiedMessage
+import org.jboss.aerogear.unifiedpush.message.MessageResponseCallback
+import org.jboss.aerogear.unifiedpush.message.UnifiedMessage
 import sms1000.SmsLocator
 import stocks.MessageJob
 import stocks.TemplateHelper
 import stocks.User
 import stocks.codal.Announcement
+import stocks.messaging.PushUtil
+
 //import stocks.messaging.PushUtil
 import stocks.tse.SupervisorMessage
 
@@ -132,7 +134,7 @@ class SmsService {
     }
 
     def sendMessageViaMobilePush(QueuedMessage message) {
-//        PushUtil.push(message.receiverId, message)
+        PushUtil.push(message.receiverId?.toString(), message?.title)
 
         message.status = MessageHelper.STATUS_SENT
         message.save(flush: true)

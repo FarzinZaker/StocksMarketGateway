@@ -68,29 +68,29 @@ class MACDFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date) {
+    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
         if (value.last() == 'constant_switch') {
             def targetValue = value.first() as Double
             switch (operator) {
                 case Operators.UPPER_THAN:
-                    return indicatorCompareService.indicatorUpperThanValue(symbol, MACD, parameter, targetValue, date)
+                    return indicatorCompareService.indicatorUpperThanValue(symbol, MACD, parameter, targetValue, date, adjustmentType)
                 case Operators.LOWER_THAN:
-                    return indicatorCompareService.indicatorLowerThanValue(symbol, MACD, parameter, targetValue, date)
+                    return indicatorCompareService.indicatorLowerThanValue(symbol, MACD, parameter, targetValue, date, adjustmentType)
                 case Operators.CROSSING_TO_UP:
-                    return indicatorCompareService.indicatorCrossUpValue(symbol, MACD, parameter, targetValue, date)
+                    return indicatorCompareService.indicatorCrossUpValue(symbol, MACD, parameter, targetValue, date, adjustmentType)
                 case Operators.CROSSING_TO_DOWN:
-                    return indicatorCompareService.indicatorCrossDownValue(symbol, MACD, parameter, targetValue, date)
+                    return indicatorCompareService.indicatorCrossDownValue(symbol, MACD, parameter, targetValue, date, adjustmentType)
             }
         } else
             switch (operator) {
                 case Operators.UPPER_THAN:
-                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.LOWER_THAN:
-                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.CROSSING_TO_UP:
-                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
                 case Operators.CROSSING_TO_DOWN:
-                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, MACD, parameter, MACDSignal, parameter, date)
+                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, MACD, parameter, MACDSignal, parameter, date, adjustmentType)
             }
 
         false

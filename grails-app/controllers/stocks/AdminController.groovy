@@ -3,7 +3,7 @@ package stocks
 import grails.plugins.springsecurity.Secured
 import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
-import stocks.indicators.symbol.oscillator.RSIService
+import stocks.messaging.PushUtil
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
@@ -57,7 +57,6 @@ class AdminController {
     def energyMarketValueDataService
     def oilDataService
     def symbolClientTypeDataService
-    def RSIService
 
     def index() {
     }
@@ -137,9 +136,7 @@ class AdminController {
 
 //        metalDataService.importData()
 //        symbolClientTypeDataService.importData()
-        def s=Symbol.get(14245)
-
-        println RSIService.calculate(s,14,'none',new Date())
+        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
     }
 
     def throwException() {

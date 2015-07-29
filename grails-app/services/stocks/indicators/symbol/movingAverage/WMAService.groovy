@@ -26,7 +26,7 @@ class WMAService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, parameter, date)
         if (series.size() < parameter)
             return 0
         def core = new Core()

@@ -92,33 +92,33 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     }
 
     def calculateOnlineIndicators(SymbolDailyTrade dailyTrade) {
-        def events
+        SymbolDailyTradeEvent event
         SymbolDailyTradeEvent.withTransaction {
-            events = SymbolDailyTradeEvent.createCriteria().list {
+            event = SymbolDailyTradeEvent.createCriteria().list {
                 eq('data', dailyTrade)
                 order('creationDate', ORDER_DESCENDING)
-                maxResults(2)
-            }?.toArray()
+                maxResults(1)
+            }?.find()
         }
-        if (!events || events.size() < 2 || !eventsAreEqual(events[0] as SymbolDailyTradeEvent, events[1] as SymbolDailyTradeEvent)) {
+        if (!event || !dataIsChanged(dailyTrade, event)) {
             SymbolDailyTrade.withTransaction {
                 def dt = SymbolDailyTrade.get(dailyTrade.id)
                 dt.indicatorsCalculated = false
                 dt.save(flush: true)
             }
-//            println('new daily trade scheduled for indicators')
+            println('new daily trade scheduled for indicators: ' + dailyTrade?.id)
         }
         else{
 //            println('daily trade skipped')
         }
     }
 
-    def eventsAreEqual(SymbolDailyTradeEvent ev1, SymbolDailyTradeEvent ev2) {
-        if (ev1.closingPrice != ev2.closingPrice
-                || ev1.lastTradePrice != ev2.lastTradePrice
-                || ev1.firstTradePrice != ev2.firstTradePrice
-                || ev1.minPrice != ev2.minPrice
-                || ev1.maxPrice != ev2.maxPrice)
+    def dataIsChanged(SymbolDailyTrade data, SymbolDailyTradeEvent event) {
+        if (data.closingPrice != event.closingPrice
+                || data.lastTradePrice != event.lastTradePrice
+                || data.firstTradePrice != event.firstTradePrice
+                || data.minPrice != event.minPrice
+                || data.maxPrice != event.maxPrice)
             return false
         return true
     }

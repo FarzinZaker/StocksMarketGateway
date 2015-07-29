@@ -30,7 +30,7 @@ public abstract class TSEPersistService<T, K> {
 
     protected abstract void afterCreate(K event, T data)
 
-    protected List<String> getPropertyExcludeList(){
+    protected List<String> getPropertyExcludeList() {
         []
     }
 
@@ -38,7 +38,7 @@ public abstract class TSEPersistService<T, K> {
         def result
         def object = event.data
         def domainClass = new DefaultGrailsDomainClass(object.class)
-        if(beforeUpdate(event, object) != false) {
+        if (beforeUpdate(event, object) != false) {
             result = domainClass.persistantProperties.findAll {
                 !(it.name in (['creationDate', 'modificationDate', 'dailySnapshot', 'weeklySnapshot', 'monthlySnapshot'] + propertyExcludeList)) &&
                         (it.type in [Integer, Long, Double, Boolean, Date, String])
@@ -49,9 +49,9 @@ public abstract class TSEPersistService<T, K> {
                 !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
             }
             bulkDataGateway.save(object)
-            afterUpdate(event, object)
-        }
-        else
+            if (result)
+                afterUpdate(event, object)
+        } else
             result = false
         result
     }

@@ -5,7 +5,7 @@
   Time: 16:21
 --%>
 
-<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.analysis.BackTestHelper; grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -38,14 +38,34 @@
     <div id="dataShowTimer"></div>
     <form:form name="backTestForm" controller="backTest" action="save">
         <div class="row-fluid">
+            <div class="row-fluid">
+                <div class="col-xs-12">
+                    <layout:breadcrumb items="${[
+                            [text: '', url: createLink(uri: '/')],
+                            [text: message(code: 'menu.strategy'), url: createLink(controller: 'tradeStrategy')],
+                            [text: backTest?.tradeStrategy?.name, url: createLink(controller: 'tradeStrategy', action: 'build', id: backTest?.tradeStrategy?.id)],
+                            [text: message(code:'backTest.view.title',args:[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]), url: createLink(controller: 'backTest', action: 'view', id: backTest?.id)]
+                    ]}"/>
+                </div>
+            </div>
             <div class="col-xs-12" id="pageHeader">
-                <h1><g:message code="${'backTest.view.title'}"
-                               args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/></h1>
+                <h1 style="float:right" class="magenta">
+                    <i class="fa fa-magic"></i>
+                    <g:message code="${'backTest.view.title'}"
+                               args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/>
+                </h1>
+
+                <div style="float:left;margin-top:40px;font-size:12px;display: ${backTest.status == BackTestHelper.STATUS_FINISHED ? 'none': 'block'}">
+                    <g:message code="backTest.currentDate"/>: <span id="currentDate"><format:jalaliDate
+                        date="${backTest.currentDate}"/></span>
+                </div>
+
+                <div class="clear-fix"></div>
             </div>
         </div>
 
         <div class="row-fluid">
-            <div class="col-xs-12" id="pnlSummary">
+            <div class="col-xs-12" id="pnlSummary" style="margin-bottom:20px;display:${summery ? 'block' : 'none'}">
                 <g:render template="summary" model="[summary: summery]"/>
             </div>
         </div>
