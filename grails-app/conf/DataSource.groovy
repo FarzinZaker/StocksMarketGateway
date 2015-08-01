@@ -29,6 +29,15 @@ environments {
             }
         }
 
+        graph {
+            dataSource {
+                host = 'localhost'
+                username = 'stocks'
+                password = 'agah!#($'
+                db = 'stocks'
+            }
+        }
+
         dataSource {
 //Oracle
             dbCreate = "update"
@@ -70,6 +79,15 @@ environments {
                 username = 'root'
                 password = 'root'
                 db = 'stock'
+            }
+        }
+
+        graph {
+            dataSource {
+                host = 'localhost'
+                username = 'stocks'
+                password = 'agah!#($'
+                db = 'stocks'
             }
         }
 

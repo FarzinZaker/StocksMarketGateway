@@ -74,6 +74,19 @@ grails.project.dependency.resolution = {
         compile 'org.influxdb:influxdb-java:1.5'
 
         compile 'org.jboss.aerogear:unifiedpush-java-client:1.1.0-beta.1'
+
+        compile 'com.orientechnologies:orientdb-core:2.0.13'
+        compile 'com.tinkerpop.blueprints:blueprints-core:2.6.0'
+        compile 'com.orientechnologies:orientdb-graphdb:2.0.13'
+        compile 'net.java.dev.jna:jna:4.1.0'
+        compile 'net.java.dev.jna:platform:3.5.2'
+        compile 'com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2'
+        compile 'com.orientechnologies:orientdb-client:2.0.13'
+        compile 'com.orientechnologies:orientdb-enterprise:2.0.13'
+        compile 'com.tinkerpop:pipes:2.6.0'
+        compile 'com.tinkerpop.gremlin:gremlin-java:2.6.0'
+        compile 'com.tinkerpop.gremlin:gremlin-groovy:2.6.0'
+//        compile 'org.codehaus.groovy:groovy:2.4.4'
     }
 
     plugins {
