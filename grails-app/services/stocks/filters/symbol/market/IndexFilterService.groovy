@@ -57,7 +57,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
-        [value.collect { Index.get(it as Long) }*.persianName.join('، ')]
+        [value.findAll().collect { Index.get(it as Long) }*.persianName.join('، ')]
     }
 
     @Override
