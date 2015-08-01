@@ -62,7 +62,7 @@
                     <form:field fieldName="portfolio.items">
                         <div style="width: 500px">
                             <g:each in="${items}" var="itm">
-                                <form:checkbox text="${itm.title}" checked="${portfolio.defaultItems?itm.default:portfolioAvailItems.find{it.item==itm.clazz}}" name="${itm.clazz}"
+                                <form:checkbox text="${itm.title}" checked="${portfolio?.defaultItems?itm.default:portfolioAvailItems.find{it.item==itm.clazz}}" name="${itm.clazz}"
                                                style="width:180px"/>
                             </g:each>
                         </div>
