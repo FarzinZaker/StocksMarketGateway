@@ -18,7 +18,9 @@ import stocks.tse.SymbolClientType
 
 class DashboardService {
 
-    @Cacheable('dashboardCache')
+    def messageSource
+
+    @Cacheable('marketViewCache')
     def marketView() {
 
         def totalIndex = Index.findByInternalCode(32097828799138957)
@@ -166,7 +168,7 @@ class DashboardService {
         ]
     }
 
-    @Cacheable('dashboardCache')
+    @Cacheable('announcementsCache')
     def announcements() {
         [
                 codal             : Announcement.createCriteria().list {
@@ -200,19 +202,19 @@ class DashboardService {
         ]
     }
 
-    @Cacheable('dashboardCache')
+    @Cacheable('ratesCache')
     def rates() {
         def currency = [:]
         ['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
-            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: message(code: 'rial')])
+            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
         }
         def gold = [:]
         ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18'].each {
-            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: message(code: 'rial')])
+            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
         }
         def metal = [:]
         ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
-            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: message(code: 'rial')])
+            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
         }
         def oil = [:]
         ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex'].each {
