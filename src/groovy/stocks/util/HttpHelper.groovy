@@ -1,5 +1,6 @@
 package stocks.util
 
+import grails.converters.JSON
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.HttpResponseException
@@ -32,26 +33,36 @@ public class HttpHelper {
             throw ex
         }
     }
+//
+//    static def getText(String baseUrl, String path, Map query) {
+//
+//        try {
+//            def http = new HTTPBuilder(baseUrl + path)
+//            http.request(Method.GET, ContentType.JSON) { req ->
+//                uri.query = query
+//                response.success = { resp, json ->
+////                    println(json)
+////                    println(resp)
+//                    return json
+//                }
+//            }
+////
+//        } catch (HttpResponseException ex) {
+//            ex.printStackTrace()
+//            throw ex
+//        } catch (ConnectException ex) {
+//            ex.printStackTrace()
+//            throw ex
+//        }
+//    }
 
     static def getText(String baseUrl, String path, Map query) {
 
-        try {
-            def http = new HTTPBuilder(baseUrl + path)
-            http.request(Method.GET, ContentType.JSON) { req ->
-                uri.query = query
-                response.success = { resp, json ->
-//                    println(json)
-//                    println(resp)
-                    return json
-                }
-            }
-//
-        } catch (HttpResponseException ex) {
-            ex.printStackTrace()
-            throw ex
-        } catch (ConnectException ex) {
-            ex.printStackTrace()
-            throw ex
-        }
+        def url = new URL(baseUrl + path + '&' + query.collect{"${URLEncoder.encode(it.key as String)}=${URLEncoder.encode(it.value as String)}"}.join('&'))
+        def connection = url.openConnection()
+        connection.setRequestMethod("GET")
+        connection.doOutput = true
+        connection.connect()
+        JSON.parse(connection.content.text?.toString())
     }
 }

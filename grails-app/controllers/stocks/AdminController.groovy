@@ -58,7 +58,7 @@ class AdminController {
     def oilDataService
     def symbolClientTypeDataService
 
-    def propertyGraphService
+    def initDBService
 
     def index() {
     }
@@ -139,7 +139,7 @@ class AdminController {
 //        metalDataService.importData()
 //        symbolClientTypeDataService.importData()
 //        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
-        propertyGraphService.init()
+        initDBService.init()
     }
 
     def throwException() {
