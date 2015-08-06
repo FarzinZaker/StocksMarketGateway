@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 import stocks.RoleHelper
 import stocks.User
 import stocks.twitter.Article
-import stocks.twitter.Rate
+//import stocks.twitter.Rate
 
 class RateController {
 
