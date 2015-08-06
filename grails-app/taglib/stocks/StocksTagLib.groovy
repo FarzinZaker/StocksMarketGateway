@@ -1,8 +1,6 @@
 package stocks
 
 import stocks.twitter.Article
-import stocks.twitter.Comment
-import stocks.twitter.Document
 
 class StocksTagLib {
 
@@ -172,27 +170,27 @@ class StocksTagLib {
             out << render(template: '/rate/submit', model: [document: attrs.document])
     }
 
-    def commentList = { attrs, body ->
-        if (attrs.document) {
-            out << "<div id='cd_${attrs.document?.id}'></div>"
-            out << commentList(stocks.twitter.Comment.findAllByDocumentAndRelatedCommentIsNull(attrs.document as Document, [sort: 'dateCreated', order: 'desc']), "<div id='ed_${attrs.document?.id}'>${attrs.emptyMessage}</div>" ?: '')
-        }
-        if (attrs.comment) {
-            out << "<div id='cc_${attrs.comment?.id}'></div>"
-            out << commentList(stocks.twitter.Comment.findAllByRelatedComment(attrs.comment as Comment, [sort: 'dateCreated', order: 'desc']))
-        }
-    }
-
-    def commentList(List<Comment> commentList, def emptyMessage = '') {
-        if (commentList && commentList.size() > 0) {
-            def result = ""
-            commentList.each {
-                result += render template: '/comment/view', model: [comment: it]
-            }
-            result
-        } else
-            emptyMessage
-    }
+//    def commentList = { attrs, body ->
+//        if (attrs.document) {
+//            out << "<div id='cd_${attrs.document?.id}'></div>"
+//            out << commentList(stocks.twitter.Comment.findAllByDocumentAndRelatedCommentIsNull(attrs.document as Document, [sort: 'dateCreated', order: 'desc']), "<div id='ed_${attrs.document?.id}'>${attrs.emptyMessage}</div>" ?: '')
+//        }
+//        if (attrs.comment) {
+//            out << "<div id='cc_${attrs.comment?.id}'></div>"
+//            out << commentList(stocks.twitter.Comment.findAllByRelatedComment(attrs.comment as Comment, [sort: 'dateCreated', order: 'desc']))
+//        }
+//    }
+//
+//    def commentList(List<Comment> commentList, def emptyMessage = '') {
+//        if (commentList && commentList.size() > 0) {
+//            def result = ""
+//            commentList.each {
+//                result += render template: '/comment/view', model: [comment: it]
+//            }
+//            result
+//        } else
+//            emptyMessage
+//    }
 
     def like = { attrs, body ->
         def likes = stocks.twitter.Like.findAllByComment(attrs.comment)

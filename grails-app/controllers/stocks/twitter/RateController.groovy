@@ -12,12 +12,12 @@ class RateController {
 
     @Secured([RoleHelper.ROLE_USER])
     def save() {
-        def rate = new Rate()
-        rate.document = stocks.twitter.Document.get(params.id)
-        rate.value = params.rating.toInteger()
-        rate.owner = springSecurityService.currentUser as User
-        rate.save()
-
-        render template: 'result', model: [rate: rate, type: (rate.document.instanceOf(Article) ? 'article' : 'news')]
+//        def rate = new Rate()
+//        rate.document = stocks.twitter.Document.get(params.id)
+//        rate.value = params.rating.toInteger()
+//        rate.owner = springSecurityService.currentUser as User
+//        rate.save()
+//
+//        render template: 'result', model: [rate: rate, type: (rate.document.instanceOf(Article) ? 'article' : 'news')]
     }
 }
