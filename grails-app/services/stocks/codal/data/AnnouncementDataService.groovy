@@ -53,8 +53,10 @@ class AnnouncementDataService {
 
         try {
             def htmlParser = new XmlSlurper(new Parser()).parseText(getList(url))
-            def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
+                def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
             def rows = containerDiv?.'**'?.findAll { it?.name() == 'tr' }
+            rows?.remove(0)
+            rows?.remove(0)
             rows?.remove(0)
             rows?.each { row ->
                 def announcementEvent = new AnnouncementEvent()
@@ -70,22 +72,22 @@ class AnnouncementDataService {
                 announcementEvent.publishDate = parseDateTime(cells[4].text())
                 def linkUrl = cells[5].@onclick[0].text().replace('window.open(\'', '').replace('\');', '')
                 if (linkUrl && linkUrl != '')
-                    announcementEvent.detailsUrl = "http://codal.ir/" + linkUrl
+                    announcementEvent.detailsUrl = linkUrl
                 linkUrl = cells[6].a.@href
                 if (linkUrl && linkUrl != '')
-                    announcementEvent.pdfUrl = "http://codal.ir/" + linkUrl
+                    announcementEvent.pdfUrl = linkUrl
                 linkUrl = cells[7].a.@href
                 if (linkUrl && linkUrl != '')
-                    announcementEvent.excelUrl = "http://codal.ir/" + linkUrl
+                    announcementEvent.excelUrl = linkUrl
                 linkUrl = cells[8].a.@href
                 if (linkUrl && linkUrl != '')
-                    announcementEvent.xmlUrl = "http://codal.ir/" + linkUrl
+                    announcementEvent.xmlUrl = linkUrl
                 linkUrl = cells[9].a.@href
                 if (linkUrl && linkUrl != '')
                     announcementEvent.xbrlUrl = linkUrl
                 linkUrl = cells[10].@onclick[0].text().replace('window.open(\'', '').replace('\');', '')
                 if (linkUrl && linkUrl != '')
-                    announcementEvent.attachmentsUrl = "http://codal.ir/" + linkUrl
+                    announcementEvent.attachmentsUrl = linkUrl
 
                 announcementEvent.data = find(announcementEvent)
                 codalEventGateway.send(announcementEvent)

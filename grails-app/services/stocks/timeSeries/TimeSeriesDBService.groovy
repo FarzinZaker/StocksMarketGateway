@@ -45,8 +45,9 @@ class TimeSeriesDBService {
     private static windowSize = 50
     private static successfulPosts = 0
     private static failedPosts = 0
+    private static failedQueries = 0
 
-    void dropSerie(String serieName){
+    void dropSerie(String serieName) {
 
         query("DROP SERIES FROM ${serieName}")
     }
@@ -66,21 +67,34 @@ class TimeSeriesDBService {
                 }
                 succeed = true
                 windowSize = [windowSize + 5, 100].min()
+                failedPosts = 0;
             }
-            catch (ex) {
-//                println "post command failed with message: ${ex.message}"
+            catch (ignored) {
                 windowSize = [1, Math.round(windowSize / 2)].max()
                 failedPosts++
                 println "window size: ${windowSize}"
-                Thread.sleep(100)
+                Thread.sleep([failedPosts, 5 * 60].min() * 1000)
             }
-//            println "${successfulPosts} succeed, ${failedPosts} failed"
         }
     }
 
     def query(String query) {
         def path = "/query"
-        getCommand(path, [db: DBName, q: query])?.results
+        def result = null
+        def succeed = false
+        while (!succeed) {
+            try {
+                result = getCommand(path, [db: DBName, q: query])?.results
+                succeed = true
+                failedQueries = 0
+            }
+            catch (ignored) {
+                failedQueries++
+                Thread.sleep([failedQueries, 5 * 60].min() * 1000)
+            }
+
+        }
+        result
     }
 
     private def postCommand(String path, data) {
