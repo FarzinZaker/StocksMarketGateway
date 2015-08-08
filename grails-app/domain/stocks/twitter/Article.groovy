@@ -19,8 +19,8 @@ class Article {
 
     static mapping = {
         table 'twit_article'
-        summary type: "clob"
-        body type: "clob"
+        summary type: "text"
+        body type: "text"
     }
 
     static constraints = {

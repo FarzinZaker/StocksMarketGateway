@@ -17,7 +17,7 @@
                       saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
 </form:field>
 
-<form:field fieldName="document.tags">
-    <form:multiSelect name="tags" style="width:900px;" entity="${document}"
-                      dataSourceUrl="${createLink(controller: 'tag', action: 'jsonSearch')}"/>
-</form:field>
+%{--<form:field fieldName="document.tags">--}%
+    %{--<form:multiSelect name="tags" style="width:900px;" entity="${document}"--}%
+                      %{--dataSourceUrl="${createLink(controller: 'tag', action: 'jsonSearch')}"/>--}%
+%{--</form:field>--}%

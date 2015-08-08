@@ -1,6 +1,5 @@
 package stocks
 
-import com.teamdev.jxbrowser1.printing.Order
 import grails.converters.JSON
 import stocks.alerting.MessageHelper
 import stocks.alerting.QueuedMessage
