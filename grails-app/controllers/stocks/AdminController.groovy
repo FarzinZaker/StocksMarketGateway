@@ -142,7 +142,7 @@ class AdminController {
 //        symbolClientTypeDataService.importData()
 //        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
 //        initDBService.init()
-        Thread.start{
+        Thread.start {
             Symbol.withTransaction {
                 migrationService.migrate()
             }
