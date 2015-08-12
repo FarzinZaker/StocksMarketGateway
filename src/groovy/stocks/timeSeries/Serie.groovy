@@ -107,6 +107,9 @@ public class Serie {
     }
 
     public String toCSV(Integer page = 1, Integer pageSize = Integer.MAX_VALUE) {
+        if(!pointList.size())
+            return ""
+
         try {
             def resultList = pointList[(page - 1) * pageSize..[page * pageSize, pointList.size()].min() - 1]
             resultList.collect { it.toCSV() }.join('\n')
