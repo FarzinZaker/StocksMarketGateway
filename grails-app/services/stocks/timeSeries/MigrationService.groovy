@@ -15,23 +15,26 @@ class MigrationService {
         def size = list.size()
         def indexer = 1;
         list.each { measurement ->
+            try {
+                def serie = new Serie()
 
-            def serie = new Serie()
+                def values = query(sourceServerUrl, sourceDBName, "SELECT value FROM ${measurement.find()}")[0]?.series?.values
+                def points = values ? values[0].findAll { it[1] }.collect {
+                    [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
+                }.findAll { it.value } : []
 
-            def values = query(sourceServerUrl, sourceDBName, "SELECT value FROM ${measurement.find()}")[0]?.series?.values
-            def points = values ? values[0].findAll { it[1] }.collect {
-                [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
-            }.findAll { it.value } : []
-
-            points.each { point ->
-                serie.addPoint(new Point(measurement.find())
-                        .time(point.date)
-                        .value(point.value))
-            }
-            write(targetServerUrl, targetDBName, serie)
+                points.each { point ->
+                    serie.addPoint(new Point(measurement.find())
+                            .time(point.date)
+                            .value(point.value))
+                }
+                write(targetServerUrl, targetDBName, serie)
 
 //            println("${indexer++}\t${size}")
-            log.error("${indexer++}\t${size}")
+                log.error("${indexer++}\t${size}")
+            }catch (x){
+                log.error(x)
+            }
         }
     }
 
