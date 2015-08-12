@@ -61,7 +61,7 @@ class IndexFilterService implements IncludeFilterService, ExcludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         false
     }
 

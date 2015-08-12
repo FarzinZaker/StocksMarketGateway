@@ -18,7 +18,7 @@
     <div class="row-fluid">
         <div class="col-xs-9">
             <g:render template="/document/view" model="${[document: article]}"/>
-            <g:render template="/document/tags" model="${[document: article]}"/>
+            %{--<g:render template="/document/tags" model="${[document: article]}"/>--}%
             <stocks:rating document="${article}"/>
             <g:render template="/comment/submit" model="${[document: article]}"/>
             <layout:panel title="${message(code: 'comment.list.title')}" header="h3">

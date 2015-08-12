@@ -78,7 +78,7 @@ class DEMAFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         def targetIndicatorName = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
         def targetIndicator = targetIndicatorName != 'Price' ? ClassResolver.loadDomainClassByName(targetIndicatorName) : null
         def targetParameter = value.first()[1] as String
@@ -86,24 +86,24 @@ class DEMAFilterService implements IncludeFilterService {
         switch (operator) {
             case Operators.UPPER_THAN:
                 if (targetIndicator)
-                    return indicatorCompareService.indicatorUpperThanIndicator(symbol, DEMA, parameter, targetIndicator, targetParameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorUpperThanIndicator(DEMA, parameter, targetIndicator, targetParameter, date, dailyTrades, indicators)
                 else
-                    return indicatorCompareService.indicatorUpperThanPrice(symbol, DEMA, parameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorUpperThanPrice(DEMA, parameter, date, dailyTrades, indicators)
             case Operators.LOWER_THAN:
                 if (targetIndicator)
-                    return indicatorCompareService.indicatorLowerThanIndicator(symbol, DEMA, parameter, targetIndicator, targetParameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorLowerThanIndicator(DEMA, parameter, targetIndicator, targetParameter, date, dailyTrades, indicators)
                 else
-                    return indicatorCompareService.indicatorLowerThanPrice(symbol, DEMA, parameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorLowerThanPrice(DEMA, parameter, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_UP:
                 if (targetIndicator)
-                    return indicatorCompareService.indicatorCrossUpIndicator(symbol, DEMA, parameter, targetIndicator, targetParameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorCrossUpIndicator(DEMA, parameter, targetIndicator, targetParameter, date, dailyTrades, indicators)
                 else
-                    return indicatorCompareService.indicatorCrossUpPrice(symbol, DEMA, parameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorCrossUpPrice(DEMA, parameter, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_DOWN:
                 if (targetIndicator)
-                    return indicatorCompareService.indicatorCrossDownIndicator(symbol, DEMA, parameter, targetIndicator, targetParameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorCrossDownIndicator(DEMA, parameter, targetIndicator, targetParameter, date, dailyTrades, indicators)
                 else
-                    return indicatorCompareService.indicatorCrossDownPrice(symbol, DEMA, parameter, date, adjustmentType)
+                    return indicatorCompareService.indicatorCrossDownPrice(DEMA, parameter, date, dailyTrades, indicators)
         }
         false
     }

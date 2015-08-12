@@ -62,18 +62,18 @@ class NATRFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         def targetValue = value.first() as Double
 
         switch (operator) {
             case Operators.UPPER_THAN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, NATR, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorUpperThanValue(NATR, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.LOWER_THAN:
-                return indicatorCompareService.indicatorLowerThanValue(symbol, NATR, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorLowerThanValue(NATR, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_UP:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, NATR, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorUpperThanValue(NATR, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_DOWN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, NATR, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorUpperThanValue(NATR, parameter, targetValue, date, dailyTrades, indicators)
         }
         false
     }
