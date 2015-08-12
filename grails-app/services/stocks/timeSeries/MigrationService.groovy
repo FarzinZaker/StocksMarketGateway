@@ -7,18 +7,24 @@ import static groovyx.gpars.GParsPool.withPool
 class MigrationService {
 
     def sourceServerUrl = "http://192.168.64.3:8086"
-    def sourceDBName = 'stocks'
+    def sourceDBName = 'stock'
     def targetServerUrl = "http://127.0.0.1:8086"
-    def targetDBName = 'stocks'
+    def targetDBName = 'stock'
 
     def migrate() {
+        log.error("starting migration")
         def measurements = query(sourceServerUrl, sourceDBName, 'SHOW MEASUREMENTS')
+        log.error("measurements received")
         def list = measurements.series.find().find().values
+        log.error(list?.size())
         def size = list.size()
         def indexer = 1;
 
+        log.error("entering pool")
         withPool(12) {
+            log.error("pool entered")
             list.eachParallel { measurement ->
+                log.error("parallel tasks")
                 try {
                     def serie = new Serie()
 
