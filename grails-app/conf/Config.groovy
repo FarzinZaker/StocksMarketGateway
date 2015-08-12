@@ -200,7 +200,7 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'stocks.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRole'
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
-jobsDisabled = false
+jobsDisabled = true
 
 
 grails.gorm.default.mapping = {
@@ -225,7 +225,19 @@ grails.cache.config = {
         memoryStoreEvictionPolicy 'LRU'
     }
     cache {
-        name 'dashboardCache'
+        name 'sparkLine'
+        maxElementsInMemory 10000
+        eternal false
+        timeToIdleSeconds 600
+        timeToLiveSeconds 600
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
+    cache {
+        name 'marketViewCache'
         maxElementsInMemory 10000
         eternal false
         timeToIdleSeconds 60
@@ -237,11 +249,23 @@ grails.cache.config = {
         memoryStoreEvictionPolicy 'LRU'
     }
     cache {
-        name 'sparkLine'
+        name 'announcementsCache'
         maxElementsInMemory 10000
         eternal false
-        timeToIdleSeconds 600
-        timeToLiveSeconds 600
+        timeToIdleSeconds 60
+        timeToLiveSeconds 60
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
+    cache {
+        name 'ratesCache'
+        maxElementsInMemory 10000
+        eternal false
+        timeToIdleSeconds 60
+        timeToLiveSeconds 60
         overflowToDisk true
         maxElementsOnDisk 10000000
         diskPersistent false
