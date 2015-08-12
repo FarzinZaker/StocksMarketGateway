@@ -30,7 +30,7 @@ class MigrationService {
             }
             write(targetServerUrl, targetDBName, serie)
 
-            println("${indexer++}\t${size}")
+//            println("${indexer++}\t${size}")
             log.error("${indexer++}\t${size}")
         }
     }
