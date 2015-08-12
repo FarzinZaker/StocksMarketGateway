@@ -6,9 +6,9 @@ import static groovyx.gpars.GParsPool.withPool
 
 class MigrationService {
 
-    def sourceServerUrl = "http://192.168.0.3:8086"
+    def sourceServerUrl = "http://192.168.64.3:8086"
     def sourceDBName = 'stocks'
-    def targetServerUrl = "http://192.168.0.157:8086"
+    def targetServerUrl = "http://127.0.0.1:8086"
     def targetDBName = 'stocks'
 
     def migrate() {
