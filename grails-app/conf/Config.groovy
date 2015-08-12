@@ -201,6 +201,7 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRo
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
 jobsDisabled = true
+timeSeriesDisabled = true
 
 
 grails.gorm.default.mapping = {

@@ -53,6 +53,10 @@ class TimeSeriesDBService {
     }
 
     void write(Serie serie) {
+
+        if(grailsApplication.config.timeSeriesDisabled)
+            return
+
         def path = "/write"
         serie.databaseName(DBName)
         serie.retentionPolicy('default')
@@ -79,6 +83,10 @@ class TimeSeriesDBService {
     }
 
     def query(String query) {
+
+        if(grailsApplication.config.timeSeriesDisabled)
+            return null
+
         def path = "/query"
         def result = null
         def succeed = false
