@@ -1,6 +1,8 @@
 package stocks.tse.persist
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import groovy.transform.Synchronized
+import stocks.filters.FilterService
 import stocks.indicators.IndicatorServiceBase
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolAdjustedDailyTrade
@@ -8,6 +10,8 @@ import stocks.tse.SymbolDailyTrade
 import stocks.tse.TSEPersistService
 import stocks.tse.event.SymbolDailyTradeEvent
 import stocks.util.ClassResolver
+
+import java.util.logging.Filter
 
 class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade, SymbolDailyTradeEvent> {
     static transactional = false
@@ -34,6 +38,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     protected void afterCreate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
         saveAdjustedDailyTrades(data)
         calculateOnlineIndicators(data)
+        updateFilterService(data)
     }
 
     @Override
@@ -44,6 +49,14 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     protected void afterUpdate(SymbolDailyTradeEvent event, SymbolDailyTrade data) {
         saveAdjustedDailyTrades(data)
         calculateOnlineIndicators(data)
+        updateFilterService(data)
+    }
+
+    @Synchronized
+    private static void updateFilterService(SymbolDailyTrade data){
+        if (FilterService.lastTradingDate.clearTime() < data.date.clearTime())
+            FilterService.recentlyTradedSymbols = [data.id]
+        FilterService.lastTradingDate = data.date
     }
 
     def saveAdjustedDailyTrades(SymbolDailyTrade data) {
@@ -107,8 +120,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
                 dt.save(flush: true)
             }
             println('new daily trade scheduled for indicators: ' + dailyTrade?.id)
-        }
-        else{
+        } else {
 //            println('daily trade skipped')
         }
     }

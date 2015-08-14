@@ -200,8 +200,8 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'stocks.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRole'
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
-jobsDisabled = true
-timeSeriesDisabled = true
+jobsDisabled = false
+timeSeriesDisabled = false
 
 
 grails.gorm.default.mapping = {
