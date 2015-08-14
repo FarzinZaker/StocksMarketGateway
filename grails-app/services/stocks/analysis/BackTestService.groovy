@@ -1,5 +1,7 @@
 package stocks.analysis
 
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
 import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.web.json.JSONArray
@@ -8,7 +10,11 @@ import stocks.alerting.Rule
 import stocks.filters.FilterServiceBase
 import stocks.util.ClassResolver
 
+import java.util.concurrent.TimeUnit
+
 class BackTestService {
+
+    static transactional = false
 
     def springSecurityService
     def adjustedPriceSeriesService
@@ -16,20 +22,37 @@ class BackTestService {
     def bulkDataService
     SessionFactory sessionFactory
 
+    def dailyTradesCache
+    def indicatorsCache
+
+    public BackTestService() {
+        dailyTradesCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+            @Override
+            Object load(Object o) throws Exception {
+                def backTest = o as BackTest
+                adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+                    it.date
+                }
+            }
+        })
+        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+            @Override
+            Object load(Object o) throws Exception {
+                def backTest = o as BackTest
+                indicatorList(backTest)
+            }
+        })
+    }
+
     def runBackTest(BackTest backTest) {
 
-        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
-            it.date
-        }
-        def indicators = indicatorList(backTest)
-//        10.times {
-            while (backTest.status != BackTestHelper.STATUS_FINISHED) {
+        def dailyTrades = dailyTradesCache.get(backTest) as List
+        def indicators = indicatorsCache.get(backTest) as List
+
+        10.times {
+            if (backTest.status != BackTestHelper.STATUS_FINISHED)
                 stepForwardBackTest(backTest, dailyTrades, indicators)
-            }
-//        }
-//        def hibSession = sessionFactory.getCurrentSession()
-//        assert hibSession != null
-//        hibSession.flush()
+        }
     }
 
     void stepForwardBackTest(BackTest backTest, List dailyTrades, List indicators) {
@@ -83,6 +106,7 @@ class BackTestService {
         signal.tax = backTest.buyTax * signal.stockCount * dailyTrade.closingPrice
         signal.reason = BackTestHelper.REASON_RULES_MATCHED
         bulkDataService.save(signal)
+        signal
 //        signal.save(flush: true)
     }
 
@@ -132,6 +156,7 @@ class BackTestService {
         signal.effect = signal.totalValue - (previousBuySignals?.sum { it.totalValue } as Double) ?: 0
 
         bulkDataService.save(signal)
+        signal
 //        signal.save(flush: true)
     }
 
@@ -151,6 +176,7 @@ class BackTestService {
             portfolioLog.remainingOutlay = backTest.outlay
             portfolioLog.stockCount = 0
             bulkDataService.save(portfolioLog)
+            portfolioLog
 //            portfolioLog.save(flush: true)
         }
         portfolioLog
@@ -213,6 +239,7 @@ class BackTestService {
             portfolioLog.stockCount = previousLog.stockCount
         }
         bulkDataService.save(portfolioLog)
+        portfolioLog
 //        portfolioLog.save(flush: true)
     }
 
@@ -263,11 +290,13 @@ class BackTestService {
                     indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: value?.last()?.toString()]
             }
         }
+        indicators = indicators.unique()
         indicators.each { indicator ->
             indicator.values = indicatorSeriesService.indicatorList(backTest.symbolId, indicator.clazz, indicator.parameter, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
                 it.date
             }
         }
+
         indicators
     }
 

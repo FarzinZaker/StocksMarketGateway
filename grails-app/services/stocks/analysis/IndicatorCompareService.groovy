@@ -61,11 +61,11 @@ class IndicatorCompareService {
     }
 
     Boolean indicatorLowerThanPrice(Class<IndicatorBase> sourceIndicator, String sourceParameter, Date date = new Date(), List dailyTrades, List indicators) {
-        getIndicatorValue(sourceIndicator, sourceParameter, date, 1, indicators) < getPrice(date, 1, indicators)
+        getIndicatorValue(sourceIndicator, sourceParameter, date, 1, indicators) < getPrice(date, 1, dailyTrades)
     }
 
     Boolean indicatorUpperThanPrice(Class<IndicatorBase> sourceIndicator, String sourceParameter, Date date = new Date(), List dailyTrades, List indicators) {
-        getIndicatorValue(sourceIndicator, sourceParameter, date, 1, indicators) > getPrice(date, 1, indicators)
+        getIndicatorValue(sourceIndicator, sourceParameter, date, 1, indicators) > getPrice(date, 1, dailyTrades)
     }
 
     Boolean priceLowerThanValue(Double value, Date date = new Date(), List dailyTrades, List indicators) {
