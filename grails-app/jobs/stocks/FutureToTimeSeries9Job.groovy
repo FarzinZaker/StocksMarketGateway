@@ -46,7 +46,7 @@ class FutureToTimeSeries9Job {
 
     def logState(Long lastId) {
         def data = [lastId: lastId]
-        def serviceName = 'FutureToTimeSeries9'
+        def serviceName = 'FutureToTimeSeries92'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -56,7 +56,7 @@ class FutureToTimeSeries9Job {
     }
 
     Long getLastState() {
-        def serviceName = 'FutureToTimeSeries9'
+        def serviceName = 'FutureToTimeSeries92'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
