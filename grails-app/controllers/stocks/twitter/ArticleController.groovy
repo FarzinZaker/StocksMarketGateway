@@ -101,7 +101,7 @@ class ArticleController {
     }
 
     def thread() {
-//        [article: Article.get(params.id)]
+        [article: Article.get(params.id as Long)]
     }
 }
 

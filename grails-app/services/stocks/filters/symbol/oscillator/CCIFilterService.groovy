@@ -62,18 +62,18 @@ class CCIFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         def targetValue = value.first() as Double
 
         switch (operator) {
             case Operators.UPPER_THAN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, CCI, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorUpperThanValue(CCI, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.LOWER_THAN:
-                return indicatorCompareService.indicatorLowerThanValue(symbol, CCI, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorLowerThanValue(CCI, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_UP:
-                return indicatorCompareService.indicatorCrossUpValue(symbol, CCI, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorCrossUpValue(CCI, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_DOWN:
-                return indicatorCompareService.indicatorCrossDownValue(symbol, CCI, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorCrossDownValue(CCI, parameter, targetValue, date, dailyTrades, indicators)
         }
         false
     }

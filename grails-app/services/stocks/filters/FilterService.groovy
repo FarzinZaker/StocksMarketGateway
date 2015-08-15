@@ -22,6 +22,10 @@ class FilterService {
     def springSecurityService
     def lowLevelDataService
 
+    public static Date lastTradingDate
+    public static List<Long> allowedSymbols
+    public static List<Long> recentlyTradedSymbols
+
     public List<String> getFilterGroupList(String property) {
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.filters.${property}.")
@@ -51,7 +55,7 @@ class FilterService {
             } else {
                 null
             }
-        }.findAll { it }
+        }.findAll { it } as ArrayList<String>
     }
 
     String getValueTemplate(String filter, String operator) {
@@ -80,38 +84,41 @@ class FilterService {
         }
 
         def includeFilters = filters.findAll { it.service instanceof IncludeFilterService }
-        def lastTradingDate = SymbolDailyTrade.createCriteria().list() {
-            projections {
-                max('date')
-            }
-        }.find()
+        if (!lastTradingDate)
+            lastTradingDate = SymbolDailyTrade.createCriteria().list() {
+                projections {
+                    max('date')
+                }
+            }.find()
 
-        def allowedSymbols =
-                Symbol.createCriteria().list {
-                    or {
-                        and {
-                            eq('marketCode', 'MCNO')
-                            'in'('type', ['300', '303', '309'])
-                            notEqual('boardCode', '4')
+        if (!allowedSymbols)
+            allowedSymbols =
+                    Symbol.createCriteria().list {
+                        or {
+                            and {
+                                eq('marketCode', 'MCNO')
+                                'in'('type', ['300', '303', '309'])
+                                notEqual('boardCode', '4')
+                            }
+                            and {
+                                eq('marketCode', 'MCNO')
+                                eq('type', '305')
+                            }
                         }
-                        and {
-                            eq('marketCode', 'MCNO')
-                            eq('type', '305')
+                        projections {
+                            property('id')
                         }
                     }
-                    projections {
+
+        if (!recentlyTradedSymbols)
+            recentlyTradedSymbols = SymbolDailyTrade.createCriteria().list {
+                gte('date', lastTradingDate.clearTime())
+                projections {
+                    symbol {
                         property('id')
                     }
                 }
-
-        def recentlyTradedSymbols = SymbolDailyTrade.createCriteria().list {
-            gte('date', lastTradingDate.clearTime())
-            projections {
-                symbol {
-                    property('id')
-                }
-            }
-        }
+            } as List<Long>
         def noResult = false
         def includeList = noResult ? [] : CollectionHelper.getConjunction(
                 [recentlyTradedSymbols] +
@@ -161,13 +168,13 @@ class FilterService {
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
-                indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',','_')}"
+                indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',', '_')}"
 
             def value = JSON.parse(rule.value)?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()?.toString()?.replace(',','_')}"
+                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()?.toString()?.replace(',', '_')}"
             }
         }
         def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: adjustmentType, cols: indicatorColumns.collect {

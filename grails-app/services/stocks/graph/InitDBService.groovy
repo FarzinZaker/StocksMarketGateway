@@ -5,6 +5,9 @@ import com.orientechnologies.orient.core.metadata.schema.OType
 class InitDBService {
 
     def graphDBService
+    def groupGraphService
+    def personGraphService
+    def messageSource
 
     def init() {
         initPerson()
@@ -23,11 +26,11 @@ class InitDBService {
         graphDBService.ensureProperty(personClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(personClass, 'title', OType.STRING, true)
 
-        def publicGroup = graphDBService.getVertex("SELECT FROM Person WHERE identifier = 0")
-        if (!publicGroup)
+        def systemUser = personGraphService.systemUser
+        if (!systemUser)
             graphDBService.addVertex('Person', [
                     identifier: 0,
-                    title     : 'system'
+                    title     : messageSource.getMessage('twitter.systemUser', null, '4?????', Locale.ENGLISH)
             ])
     }
 
@@ -40,10 +43,10 @@ class InitDBService {
         graphDBService.ensureProperty(personClass, 'AllowExceptionalUsers', OType.BOOLEAN, true)
         graphDBService.ensureProperty(personClass, 'ownerType', OType.STRING, true)
 
-        def publicGroup = graphDBService.getVertex("SELECT FROM Group WHERE title = 'public'")
+        def publicGroup = groupGraphService.publicGroup
         if (!publicGroup)
             graphDBService.addVertex('Group', [
-                    title                : 'public',
+                    title                :  messageSource.getMessage('twitter.publicGroup', null, '??? ???????', Locale.ENGLISH),
                     membershipType       : 'open',
                     membershipPeriod     : 'unlimited',
                     membershipPrice      : 0,
@@ -126,6 +129,6 @@ class InitDBService {
         def memberClass = graphDBService.ensureEdgeClass('Member')
         graphDBService.ensureProperty(memberClass, 'type', OType.STRING, true)
         graphDBService.ensureProperty(memberClass, 'startDate', OType.DATETIME, true)
-        graphDBService.ensureProperty(memberClass, 'endDate', OType.DATETIME, true)
+        graphDBService.ensureProperty(memberClass, 'endDate', OType.DATETIME, false)
     }
 }

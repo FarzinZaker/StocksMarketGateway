@@ -10,23 +10,39 @@ import java.beans.Introspector
  */
 public class ClassResolver {
 
+    private static loadedServices = [:]
+
     public static loadServiceByName(String serviceName) {
-        Holders.applicationContext.getBean(Introspector.decapitalize(serviceName.split('\\.')?.last()))
+        if (!loadedServices.containsKey(serviceName))
+            loadedServices[serviceName] = Holders.applicationContext.getBean(Introspector.decapitalize(serviceName.split('\\.')?.last()))
+        loadedServices[serviceName]
     }
 
-    public static Boolean serviceExists(String serviceName){
-        Holders.grailsApplication.getArtefacts('Service').any {
-            it.fullName == serviceName
-        }
+    private static checkedServices = [:]
+
+    public static Boolean serviceExists(String serviceName) {
+        if (!checkedServices.containsKey(serviceName))
+            checkedServices[serviceName] = Holders.grailsApplication.getArtefacts('Service').any {
+                it.fullName == serviceName
+            }
+        checkedServices[serviceName]
     }
 
-    public static def loadDomainClassByName(String domainName){
-        Holders.grailsApplication.getDomainClass(domainName).clazz
+    private static loadedDomainClasses = [:]
+
+    public static def loadDomainClassByName(String domainName) {
+        if (!loadedDomainClasses.containsKey(domainName))
+            loadedDomainClasses[domainName] = Holders.grailsApplication.getDomainClass(domainName).clazz
+        loadedDomainClasses[domainName]
     }
 
-    public static def loadDomainClassListByPackage(String pkg){
-        Holders.grailsApplication.getArtefacts('Domain').findAll {
-            it.fullName.startsWith(pkg)
-        }
+    private static packageDomainClasses = [:]
+
+    public static def loadDomainClassListByPackage(String pkg) {
+        if (!packageDomainClasses.containsKey(pkg))
+            packageDomainClasses[pkg] = Holders.grailsApplication.getArtefacts('Domain').findAll {
+                it.fullName.startsWith(pkg)
+            }
+        packageDomainClasses[pkg]
     }
 }

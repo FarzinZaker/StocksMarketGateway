@@ -84,18 +84,18 @@ class VolumeFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         def parsedValue = JSON.parse(value?.toString()).first() as Double
 
         switch (operator) {
             case Operators.GREATER_THAN:
-                return indicatorCompareService.volumeUpperThanValue(symbol, parsedValue as Double, date, adjustmentType)
+                return indicatorCompareService.volumeUpperThanValue(parsedValue as Double, date, dailyTrades, indicators)
             case Operators.LESS_THAN:
-                return indicatorCompareService.volumeLowerThanValue(symbol, parsedValue as Double, date, adjustmentType)
+                return indicatorCompareService.volumeLowerThanValue(parsedValue as Double, date, dailyTrades, indicators)
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
-                return indicatorCompareService.volumePositiveChangeCompareToAverageGreaterThan(symbol, parsedValue.first() as double, parsedValue.last() as Integer, date, adjustmentType)
+                return indicatorCompareService.volumePositiveChangeCompareToAverageGreaterThan(parsedValue.first() as double, parsedValue.last() as Integer, date, dailyTrades, indicators)
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
-                return indicatorCompareService.volumeNegativeChangeCompareToAverageGreaterThan(symbol, parsedValue.first() as double, parsedValue.last() as Integer, date, adjustmentType)
+                return indicatorCompareService.volumeNegativeChangeCompareToAverageGreaterThan(parsedValue.first() as double, parsedValue.last() as Integer, date, dailyTrades, indicators)
         }
     }
 

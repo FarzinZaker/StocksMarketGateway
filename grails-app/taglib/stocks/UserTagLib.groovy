@@ -1,5 +1,7 @@
 package stocks
 
+import stocks.twitter.Article
+
 class UserTagLib {
 
     def springSecurityService
@@ -7,28 +9,28 @@ class UserTagLib {
     static namespace = "userInfo"
 
     def articleCount = { attrs, body ->
-        out << stocks.twitter.Article.countByAuthor(attrs.user)
+        out << Article.countByAuthor(attrs.user)
     }
 
     def newsCount = { attrs, body ->
-        out << stocks.twitter.News.countByAuthor(attrs.user)
+//        out << stocks.twitter.News.countByAuthor(attrs.user)
     }
 
     def rateAverage = { attrs, body ->
-        out << (stocks.twitter.Rate.createCriteria().get {
-            document {
-                author {
-                    eq('id', attrs.user?.id)
-                }
-            }
-            projections {
-                avg('value')
-            }
-        } ?: 0)
+//        out << (stocks.twitter.Rate.createCriteria().get {
+//            document {
+//                author {
+//                    eq('id', attrs.user?.id)
+//                }
+//            }
+//            projections {
+//                avg('value')
+//            }
+//        } ?: 0)
     }
 
     def commentCount = { attrs, body ->
-        out << stocks.twitter.Comment.countByAuthor(attrs.user)
+//        out << stocks.twitter.Comment.countByAuthor(attrs.user)
     }
 
     def likeCount = { attrs, body ->

@@ -60,6 +60,8 @@ class AdminController {
 
     def initDBService
 
+    def migrationService
+
     def index() {
     }
 
@@ -139,8 +141,15 @@ class AdminController {
 //        metalDataService.importData()
 //        symbolClientTypeDataService.importData()
 //        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
-        initDBService.init()
+//        initDBService.init()
+        Thread.start {
+            Symbol.withTransaction {
+                migrationService.migrate()
+            }
+        }
+        render 1
     }
+
 
     def throwException() {
         throw new Exception('test exception')

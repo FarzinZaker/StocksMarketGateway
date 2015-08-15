@@ -86,7 +86,8 @@ grails.project.dependency.resolution = {
         compile 'com.tinkerpop:pipes:2.6.0'
         compile 'com.tinkerpop.gremlin:gremlin-java:2.6.0'
         compile 'com.tinkerpop.gremlin:gremlin-groovy:2.6.0'
-//        compile 'org.codehaus.groovy:groovy:2.4.4'
+
+        compile "com.google.guava:guava:12.0"
     }
 
     plugins {

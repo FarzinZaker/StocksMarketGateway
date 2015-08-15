@@ -22,5 +22,5 @@ interface FilterServiceBase {
 
     String[] formatQueryValue(value, String operator)
 
-    Boolean check(Symbol symbol, String parameter, String operator, value, Date date, String adjustmentType)
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators)
 }

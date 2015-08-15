@@ -187,9 +187,12 @@ class AdjustedPriceSeriesService {
             item.symbolId = symbolId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
-                item."${serie.name.split('_').last()}" = serie.values.find {
+//                println(serie.name)
+                def value = serie.values.find {
                     it[0] == closingPriceSerie.values[i][0]
-                }[1] as Double
+                }
+
+                item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
             }
             list << item
         }

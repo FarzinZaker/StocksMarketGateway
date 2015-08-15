@@ -96,7 +96,7 @@ class GraphDBService {
     Vertex addVertex(String clazz = 'V', Map properties = [:]) {
         Vertex vertex = null
         doWithGraph { OrientGraph graph ->
-            vertex = graph.addVertex("class:${clazz}");
+            vertex = graph.addVertex("class:${clazz}".toString());
             properties.keySet().each { property ->
                 vertex.setProperty(property?.toString(), properties[property])
             }
@@ -108,7 +108,7 @@ class GraphDBService {
     Edge addEdge(String clazz = 'E', Vertex from, Vertex to, Map properties = [:], String label = null) {
         Edge edge = null
         doWithGraph { OrientGraph graph ->
-            edge = graph.addEdge("class:${clazz}", from, to, label);
+            edge = graph.addEdge("class:${clazz}".toString(), from, to, label);
             properties.keySet().each { property ->
                 edge.setProperty(property?.toString(), properties[property])
             }

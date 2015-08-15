@@ -13,70 +13,70 @@ class StocksTagLib {
 
 
     def tagCloud = { attrs, body ->
-
-        out << asset.javascript(src: 'tagcloud.js')
-        out << """
-            <div class="tagCloud">
-"""
-
-        def tags = stocks.twitter.Document.createCriteria().list({
-            projections {
-                count('id', 'tagCount')
-                tags {
-                    property('id')
-                    groupProperty('id')
-                }
-            }
-            order('tagCount', 'desc')
-        }, max: 20)
-
-        Collections.shuffle(tags)
-        tags.each {
-            def tag = stocks.twitter.Tag.get(it.last())
-            def count = it.first()
-            out << """
-                <a href="${createLink(controller: "${attrs.type}", action: 'listByTag', id: tag.id)}" rel="${count}">${
-                tag.name
-            }</a>
-"""
-        }
-
-        out << """
-            </div>
-            <script language="javascript" type="text/javascript">
-                \$(".tagCloud a").tagcloud({
-                    size: {
-                        start: 12,
-                        end: 24,
-                        unit: 'px'
-                    },
-                    color: {
-                        start: "#007cbc",
-                        end: "#8ebc00"
-                    }
-                });
-            </script>
-"""
+    //
+    //        out << asset.javascript(src: 'tagcloud.js')
+    //        out << """
+    //            <div class="tagCloud">
+    //"""
+    //
+    //        def tags = stocks.twitter.Document.createCriteria().list({
+    //            projections {
+    //                count('id', 'tagCount')
+    //                tags {
+    //                    property('id')
+    //                    groupProperty('id')
+    //                }
+    //            }
+    //            order('tagCount', 'desc')
+    //        }, max: 20)
+    //
+    //        Collections.shuffle(tags)
+    //        tags.each {
+    //            def tag = stocks.twitter.Tag.get(it.last())
+    //            def count = it.first()
+    //            out << """
+    //                <a href="${createLink(controller: "${attrs.type}", action: 'listByTag', id: tag.id)}" rel="${count}">${
+    //                tag.name
+    //            }</a>
+    //"""
+    //        }
+    //
+    //        out << """
+    //            </div>
+    //            <script language="javascript" type="text/javascript">
+    //                \$(".tagCloud a").tagcloud({
+    //                    size: {
+    //                        start: 12,
+    //                        end: 24,
+    //                        unit: 'px'
+    //                    },
+    //                    color: {
+    //                        start: "#007cbc",
+    //                        end: "#8ebc00"
+    //                    }
+    //                });
+    //            </script>
+    //"""
     }
 
     def relatedArticles = { attrs, body ->
 
-        def article = stocks.twitter.Article.get(attrs.id)
-
-        def items = stocks.twitter.Article.createCriteria().listDistinct {
-            ne('id', article.id)
-            tags {
-                'in'('id', article.tags.collect { it.id })
-            }
-            maxResults(7)
-        }
-
-        out << articleList(items)
+//        def article = Article.get(attrs.id)
+//
+//        def items = Article.createCriteria().listDistinct {
+//            ne('id', article.id)
+//            tags {
+//                'in'('id', article.tags.collect { it.id })
+//            }
+//            maxResults(7)
+//        }
+//
+//        out << articleList(items)
     }
 
     def newArticles = { attrs, body ->
 
-        def items = stocks.twitter.Article.createCriteria().listDistinct {
+        def items = Article.createCriteria().listDistinct {
             order('dateCreated', 'desc')
             maxResults(7)
         }
@@ -86,7 +86,7 @@ class StocksTagLib {
 
     def userTopArticles = { attrs, body ->
 
-        def items = stocks.twitter.Article.createCriteria().listDistinct {
+        def items = Article.createCriteria().listDistinct {
             author {
                 eq('id', attrs.user?.id)
             }
@@ -104,7 +104,7 @@ class StocksTagLib {
             maxResults(7)
         }
 
-        out << articleList(stocks.twitter.Article.findAllByIdInList(items))
+        out << articleList(Article.findAllByIdInList(items))
     }
 
     def articleList(def list) {
@@ -163,14 +163,14 @@ class StocksTagLib {
     }
 
     def rating = { attrs, body ->
-        def rate = stocks.twitter.Rate.findByOwnerAndDocument(springSecurityService.currentUser as User, attrs.document)
-        if (rate)
-            out << render(template: '/rate/result', model: [rate: rate, type: (rate.document.instanceOf(Article) ? 'article' : 'news')])
-        else
-            out << render(template: '/rate/submit', model: [document: attrs.document])
+//        def rate = stocks.twitter.Rate.findByOwnerAndDocument(springSecurityService.currentUser as User, attrs.document)
+//        if (rate)
+//            out << render(template: '/rate/result', model: [rate: rate, type: (rate.document.instanceOf(Article) ? 'article' : 'news')])
+//        else
+//            out << render(template: '/rate/submit', model: [document: attrs.document])
     }
 
-//    def commentList = { attrs, body ->
+    def commentList = { attrs, body ->
 //        if (attrs.document) {
 //            out << "<div id='cd_${attrs.document?.id}'></div>"
 //            out << commentList(stocks.twitter.Comment.findAllByDocumentAndRelatedCommentIsNull(attrs.document as Document, [sort: 'dateCreated', order: 'desc']), "<div id='ed_${attrs.document?.id}'>${attrs.emptyMessage}</div>" ?: '')
@@ -179,7 +179,7 @@ class StocksTagLib {
 //            out << "<div id='cc_${attrs.comment?.id}'></div>"
 //            out << commentList(stocks.twitter.Comment.findAllByRelatedComment(attrs.comment as Comment, [sort: 'dateCreated', order: 'desc']))
 //        }
-//    }
+    }
 //
 //    def commentList(List<Comment> commentList, def emptyMessage = '') {
 //        if (commentList && commentList.size() > 0) {

@@ -1,26 +1,61 @@
 package stocks.analysis
 
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
 import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.web.json.JSONArray
+import org.hibernate.SessionFactory
 import stocks.alerting.Rule
 import stocks.filters.FilterServiceBase
 import stocks.util.ClassResolver
 
+import java.util.concurrent.TimeUnit
+
 class BackTestService {
+
+    static transactional = false
 
     def springSecurityService
     def adjustedPriceSeriesService
+    def indicatorSeriesService
+    def bulkDataService
+    SessionFactory sessionFactory
 
-    def runBackTest(BackTest backTest) {
-//        10.times {
-            if (backTest.status != BackTestHelper.STATUS_FINISHED) {
-                stepForwardBackTest(backTest)
+    def dailyTradesCache
+    def indicatorsCache
+
+    public BackTestService() {
+        dailyTradesCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+            @Override
+            Object load(Object o) throws Exception {
+                def backTest = o as BackTest
+                adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+                    it.date
+                }
             }
-//        }
+        })
+        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+            @Override
+            Object load(Object o) throws Exception {
+                def backTest = o as BackTest
+                indicatorList(backTest)
+            }
+        })
     }
 
-    void stepForwardBackTest(BackTest backTest) {
+    def runBackTest(BackTest backTest) {
+
+        def dailyTrades = dailyTradesCache.get(backTest) as List
+        def indicators = indicatorsCache.get(backTest) as List
+
+        10.times {
+            if (backTest.status != BackTestHelper.STATUS_FINISHED)
+                stepForwardBackTest(backTest, dailyTrades, indicators)
+        }
+    }
+
+    void stepForwardBackTest(BackTest backTest, List dailyTrades, List indicators) {
         use(TimeCategory) {
             backTest.currentDate = (backTest.currentDate + 1.day).clearTime()
         }
@@ -28,7 +63,7 @@ class BackTestService {
         if (backTest.currentDate > backTest.endDate) {
             backTest.status = BackTestHelper.STATUS_FINISHED
         } else {
-            def dailyTrade = adjustedPriceSeriesService.lastDailyTrade(backTest?.symbolId, backTest?.currentDate, backTest?.adjustmentType)
+            def dailyTrade = dailyTrades.find { it.date.clearTime() == backTest.currentDate.clearTime() }
             if (dailyTrade) {
                 def portfolioLog = getLastPortfolioLog(backTest, dailyTrade.closingPrice as Double)
                 def lastSignal = BackTestSignal.createCriteria().list {
@@ -36,13 +71,13 @@ class BackTestService {
                     order('date', ORDER_DESCENDING)
                     maxResults(1)
                 }?.find()
-                if (canBuy(backTest, portfolioLog, dailyTrade.closingPrice as Double) && shouldBuy(backTest)) {
+                if (canBuy(backTest, portfolioLog, dailyTrade.closingPrice as Double) && shouldBuy(backTest, dailyTrades, indicators)) {
                     def signal = buy(backTest, portfolioLog, dailyTrade)
                     updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
                 } else if (canSell(portfolioLog)) {
                     def signal = null
                     def limitsResult = shouldSellDueToLimits(backTest, portfolioLog, dailyTrade, lastSignal as BuySignal)
-                    if (limitsResult || shouldSell(backTest)) {
+                    if (limitsResult || shouldSell(backTest, dailyTrades, indicators)) {
                         signal = sell(backTest, portfolioLog, dailyTrade, limitsResult ?: BackTestHelper.REASON_RULES_MATCHED)
                     }
                     updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
@@ -51,15 +86,16 @@ class BackTestService {
             }
         }
 
-        backTest.save(flush: true)
+        bulkDataService.save(backTest)
+//        backTest.save(flush: true)
     }
 
     Boolean canBuy(BackTest backTest, PortfolioLog portfolioLog, Double price) {
         portfolioLog.remainingOutlay >= price * (1 + backTest.buyWage + backTest.buyTax)
     }
 
-    Boolean shouldBuy(BackTest backTest) {
-        checkRules(backTest, Rule.findAllByParent(backTest.buyRule))
+    Boolean shouldBuy(BackTest backTest, List dailyTrades, List indicators) {
+        checkRules(backTest, Rule.findAllByParent(backTest.buyRule), dailyTrades, indicators)
     }
 
     BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, dailyTrade) {
@@ -69,15 +105,17 @@ class BackTestService {
         signal.wage = backTest.buyWage * signal.stockCount * dailyTrade.closingPrice
         signal.tax = backTest.buyTax * signal.stockCount * dailyTrade.closingPrice
         signal.reason = BackTestHelper.REASON_RULES_MATCHED
-        signal.save(flush: true)
+        bulkDataService.save(signal)
+        signal
+//        signal.save(flush: true)
     }
 
     Boolean canSell(PortfolioLog portfolioLog) {
         portfolioLog.stockCount > 0
     }
 
-    Boolean shouldSell(BackTest backTest) {
-        checkRules(backTest, Rule.findAllByParent(backTest.sellRule))
+    Boolean shouldSell(BackTest backTest, List dailyTrades, List indicators) {
+        checkRules(backTest, Rule.findAllByParent(backTest.sellRule), dailyTrades, indicators)
     }
 
     String shouldSellDueToLimits(BackTest backTest, PortfolioLog portfolioLog, dailyTrade, BuySignal lastSignal) {
@@ -117,7 +155,9 @@ class BackTestService {
         def previousBuySignals = BuySignal.executeQuery("from BuySignal bs where bs.backTest.id = ${backTest.id} and not exists (select id from SellSignal ss where ss.backTest.id = ${backTest.id} and ss.date > bs.date)")
         signal.effect = signal.totalValue - (previousBuySignals?.sum { it.totalValue } as Double) ?: 0
 
-        signal.save(flush: true)
+        bulkDataService.save(signal)
+        signal
+//        signal.save(flush: true)
     }
 
     PortfolioLog getLastPortfolioLog(BackTest backTest, Double price) {
@@ -135,12 +175,14 @@ class BackTestService {
             portfolioLog.price = price
             portfolioLog.remainingOutlay = backTest.outlay
             portfolioLog.stockCount = 0
-            portfolioLog.save(flush: true)
+            bulkDataService.save(portfolioLog)
+            portfolioLog
+//            portfolioLog.save(flush: true)
         }
         portfolioLog
     }
 
-    Boolean checkRules(BackTest backTest, List<Rule> rules) {
+    Boolean checkRules(BackTest backTest, List<Rule> rules, List dailyTrades, List indicators) {
 
         def filters = rules.collect { rule ->
             [
@@ -153,7 +195,7 @@ class BackTestService {
 
         for (def i = 0; i < filters.size(); i++) {
             def service = filters[i].service as FilterServiceBase
-            if (!service.check(backTest.symbol, filters[i].parameter?.toString(), filters[i].operator?.toString(), filters[i].value, backTest.currentDate, backTest.adjustmentType))
+            if (!service.check(filters[i].parameter?.toString(), filters[i].operator?.toString(), filters[i].value, backTest.currentDate, dailyTrades, indicators))
                 return false
         }
 
@@ -196,7 +238,9 @@ class BackTestService {
             portfolioLog.remainingOutlay = previousLog.remainingOutlay
             portfolioLog.stockCount = previousLog.stockCount
         }
-        portfolioLog.save(flush: true)
+        bulkDataService.save(portfolioLog)
+        portfolioLog
+//        portfolioLog.save(flush: true)
     }
 
     def extractIndicators(BackTest backTest) {
@@ -229,5 +273,39 @@ class BackTestService {
             }?.find()
         }
         indicatorList
+    }
+
+    def indicatorList(BackTest backTest) {
+        def indicators = []
+        def rules = Rule.findAllByParentInList([backTest.buyRule, backTest.sellRule])
+        rules.each { rule ->
+            def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
+            if (ClassResolver.serviceExists(indicatorName + "Service"))
+                indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: rule.inputType?.toString()]
+
+            def value = JSON.parse(rule.value)?.first()
+            if (value instanceof JSONArray) {
+                indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+                if (ClassResolver.serviceExists(indicatorName + "Service"))
+                    indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: value?.last()?.toString()]
+            }
+        }
+        indicators = indicators.unique()
+        indicators.each { indicator ->
+            indicator.values = indicatorSeriesService.indicatorList(backTest.symbolId, indicator.clazz, indicator.parameter, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+                it.date
+            }
+        }
+
+        indicators
+    }
+
+    def lastDailyTrade(List dailyTrades, Date date) {
+        def lastItem = null
+        for (def i = 0; i < dailyTrades.size(); i++)
+            if (dailyTrades[i].date > date)
+                return lastItem
+            else
+                lastItem = dailyTrades[i]
     }
 }

@@ -17,8 +17,10 @@ class BackTestJob {
 
     def execute() {
 
-        if (grailsApplication.config.jobsDisabled)
-            return
+//        return
+//
+//        if (grailsApplication.config.jobsDisabled)
+//            return
 
         // execute task
         BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
@@ -26,10 +28,13 @@ class BackTestJob {
             it.save(flush: true)
         }
         def waitingBackTests = BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
-        withPool {
+//        withPool(12)  {
+//            waitingBackTests.eachParallel { BackTest backTest ->
             waitingBackTests.each { BackTest backTest ->
-                backTestService.runBackTest(backTest)
+                BackTest.withTransaction {
+                    backTestService.runBackTest(backTest)
+                }
             }
-        }
+//        }
     }
 }

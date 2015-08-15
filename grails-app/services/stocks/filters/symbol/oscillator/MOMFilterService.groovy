@@ -62,18 +62,18 @@ class MOMFilterService implements IncludeFilterService {
     }
 
     @Override
-    Boolean check(Symbol symbol, String parameter, String operator, Object value, Date date, String adjustmentType) {
+    Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
         def targetValue = value.first() as Double
 
         switch (operator) {
             case Operators.UPPER_THAN:
-                return indicatorCompareService.indicatorUpperThanValue(symbol, MOM, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorUpperThanValue(MOM, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.LOWER_THAN:
-                return indicatorCompareService.indicatorLowerThanValue(symbol, MOM, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorLowerThanValue(MOM, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_UP:
-                return indicatorCompareService.indicatorCrossUpValue(symbol, MOM, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorCrossUpValue(MOM, parameter, targetValue, date, dailyTrades, indicators)
             case Operators.CROSSING_TO_DOWN:
-                return indicatorCompareService.indicatorCrossDownValue(symbol, MOM, parameter, targetValue, date, adjustmentType)
+                return indicatorCompareService.indicatorCrossDownValue(MOM, parameter, targetValue, date, dailyTrades, indicators)
         }
         false
     }
