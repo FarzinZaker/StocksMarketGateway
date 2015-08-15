@@ -23,18 +23,22 @@
                 <i class="fa fa-filter"></i>
                 ${screener.title}
             </h1>
+
             <div style="float:left;padding-top:45px;">
                 <form:select name="adjustmentType" style="width:300px;" value="${AdjustmentHelper.defaultType}"
                              items="${AdjustmentHelper.ENABLED_TYPES.collect {
                                  [text: message(code: "priceAdjustment.types.${it}"), value: it]
                              }}" onchange="reloadGrid"/>
             </div>
+
             <div class="clear-fix"></div>
 
             <div id="timer"></div>
 
             <div class="k-rtl">
-                <div id="grid"></div>
+                <div id="grid">
+                    <form:loading id="screenerLoading"/>
+                </div>
             </div>
 
             <div id="filter-query-panel">
@@ -54,7 +58,7 @@
 
             <script>
 
-                function reloadGrid(){
+                function reloadGrid() {
 
                     var documentListView = $('#grid').data('kendoGrid');
                     documentListView.dataSource.read();   // added line
@@ -106,18 +110,59 @@
 
                 var oldData = [];
 
-                $(document).ready(function () {
-                    $("#grid").kendoGrid({
+                var firstTime = true;
+                var initialData = [];
+
+                $('#screenerLoading').show();
+                $.ajax({
+                    url: "${createLink(action: 'jsonView', id: params.id)}",
+                    dataType: "json",
+                    data: {adjustmentType: $('#adjustmentType').val()},
+                    success: function (result) {
+                        // Return loaded data
+                        initialData = result;
+                        createGrid();
+                        $("#grid").slideDown();
+                        startTimer();
+                    },
+                    error: function (result) {
+                    }
+                });
+
+                function createGrid() {
+
+                    $("#grid").html('').kendoGrid({
 
                         dataSource: {
                             transport: {
                                 type: 'odata',
-                                read: {
-                                    url: "${createLink(action: 'jsonView', id: params.id)}",
-                                    dataType: "json",
-                                    type: "POST"
-
+                                read: function (op) {
+                                    if (firstTime) {
+                                        // If it is first return initial content and toggle first
+                                        op.success(initialData);
+                                        firstTime = false;
+                                    } else {
+                                        // Subsequent runs use jquery.ajax for loading the data
+                                        $.ajax({
+                                            url: "${createLink(action: 'jsonView', id: params.id)}",
+                                            dataType: "json",
+                                            data: {adjustmentType: $('#adjustmentType').val()},
+                                            success: function (result) {
+                                                // Return loaded data
+                                                op.success(result);
+                                            },
+                                            error: function (result) {
+                                                op.error(result);
+                                            }
+                                        });
+                                    }
                                 },
+                                %{--{--}%
+                                %{--url: "${createLink(action: 'jsonView', id: params.id)}",--}%
+                                %{--dataType: "json",--}%
+                                %{--type: "POST"--}%
+
+                                %{--},--}%
                                 parameterMap: function (data, action) {
                                     if (action === "read") {
                                         data.adjustmentType = $('#adjustmentType').val();
@@ -242,6 +287,9 @@
                             </g:each>
                         ]
                     });
+                }
+
+                function startTimer() {
 
                     $('#timer').timer({
                         delay: 5000,
@@ -269,19 +317,19 @@
                                 }
                             }
                             grid.refresh();
-                            $('.flashGreenCell').each(function(){
+                            $('.flashGreenCell').each(function () {
                                 var item = $(this).parent();
                                 item.css('background-color', '#a4c400');
                                 item.animate({backgroundColor: jQuery.Color("#a4c400").transition("transparent", 1)}, 4000);
                             });
-                            $('.flashRedCell').each(function(){
+                            $('.flashRedCell').each(function () {
                                 var item = $(this).parent();
                                 item.css('background-color', '#fa6800');
                                 item.animate({backgroundColor: jQuery.Color("#fa6800").transition("transparent", 1)}, 4000);
                             });
                         }
                     });
-                });
+                }
 
                 function formatNumber(data) {
                     return Math.abs(Math.round(data)).toString().replace(/./g, function (c, i, a) {
