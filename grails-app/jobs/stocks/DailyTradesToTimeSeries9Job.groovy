@@ -12,7 +12,7 @@ class DailyTradesToTimeSeries9Job {
     static timeout = 100l
     static concurrent = false
 
-    def adjustedPriceSeriesService9
+    def adjustedPriceSeries9Service
     def grailsApplication
 
     def execute() {
@@ -37,7 +37,7 @@ class DailyTradesToTimeSeries9Job {
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeriesService9.write(list, AdjustmentHelper.TYPES)
+            adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
         }
         else
