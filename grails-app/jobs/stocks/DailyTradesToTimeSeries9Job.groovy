@@ -6,13 +6,13 @@ import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
 
-class DailyTradesToTimeSeriesJob {
+class DailyTradesToTimeSeries9Job {
 
     static startDelay = 60000
     static timeout = 100l
     static concurrent = false
 
-    def adjustedPriceSeriesService
+    def adjustedPriceSeriesService9
     def grailsApplication
 
     def execute() {
@@ -28,7 +28,7 @@ class DailyTradesToTimeSeriesJob {
             gt('id', lastState)
         }
         if (count > 1)
-            println "remaining daily trades: ${count}"
+            log.error "[9] remaining daily trades: ${count}"
 
 
         def list = SymbolDailyTrade.createCriteria().list {
@@ -37,16 +37,16 @@ class DailyTradesToTimeSeriesJob {
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
+            adjustedPriceSeriesService9.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
         }
-//        else
-//            println "no daily trade to import to time series"
+        else
+            log.error "[9] no daily trade to import to time series"
     }
 
     def logState(Long lastId) {
         def data = [lastId: lastId]
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'DailyTradesToTimeSeries9'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -56,7 +56,7 @@ class DailyTradesToTimeSeriesJob {
     }
 
     Long getLastState() {
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'DailyTradesToTimeSeries9'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
