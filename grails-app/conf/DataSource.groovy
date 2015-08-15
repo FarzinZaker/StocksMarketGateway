@@ -27,6 +27,15 @@ environments {
                 password = 'root'
                 db = 'stock'
             }
+
+            dataSource9 {
+//                host = '192.168.0.3'
+                host = '91.98.102.76'
+                port = 8086
+                username = 'root'
+                password = 'root'
+                db = 'stocks'
+            }
         }
 
         graph {
@@ -79,6 +88,15 @@ environments {
                 username = 'root'
                 password = 'root'
                 db = 'stock'
+            }
+
+            dataSource9 {
+//                host = '192.168.0.3'
+                host = '192.168.64.3'
+                port = 8086
+                username = 'root'
+                password = 'root'
+                db = 'stocks'
             }
         }
 

@@ -28,7 +28,7 @@ class DailyTradesToTimeSeriesJob {
             gt('id', lastState)
         }
         if (count > 1)
-            println "remaining daily trades: ${count}"
+            log.error "remaining daily trades: ${count}"
 
 
         def list = SymbolDailyTrade.createCriteria().list {
@@ -39,14 +39,13 @@ class DailyTradesToTimeSeriesJob {
         if (list.size()) {
             adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
-        }
-//        else
-//            println "no daily trade to import to time series"
+        } else
+            log.error "no daily trade to import to time series"
     }
 
     def logState(Long lastId) {
         def data = [lastId: lastId]
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'DailyTradesToTimeSeries9'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -56,7 +55,7 @@ class DailyTradesToTimeSeriesJob {
     }
 
     Long getLastState() {
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'DailyTradesToTimeSeries9'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.lastId ?: 0 : 0
     }

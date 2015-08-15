@@ -84,6 +84,6 @@ public class Point {
     }
 
     public String toCSV() {
-        "${name}${tags.isEmpty() ? ' ' : ', '}${tags.collect { "${it.key}=${it.value}" }.join(', ')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
+        "${name}${tags.isEmpty() ? ' ' : ','}${tags.collect { "${it.key}=${it.value}" }.join(',')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
     }
 }
