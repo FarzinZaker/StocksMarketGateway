@@ -18,7 +18,9 @@ import stocks.portfolio.portfolioItems.PortfolioCurrencyItem
 import stocks.portfolio.portfolioItems.PortfolioCustomBondsItem
 import stocks.portfolio.portfolioItems.PortfolioCustomSymbolItem
 import stocks.portfolio.portfolioItems.PortfolioCustomSymbolPriorityItem
+import stocks.portfolio.portfolioItems.PortfolioHousingFacilitiesItem
 import stocks.portfolio.portfolioItems.PortfolioImmovableItem
+import stocks.portfolio.portfolioItems.PortfolioInvestmentFundItem
 import stocks.portfolio.portfolioItems.PortfolioMovableItem
 import stocks.portfolio.portfolioItems.PortfolioSymbolItem
 import stocks.portfolio.portfolioItems.PortfolioSymbolPriorityItem
@@ -31,7 +33,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class PortfolioActionManagementService {
-
+    def messageSource
     def springSecurityService
     DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'", Locale.ENGLISH);
 
@@ -40,16 +42,33 @@ class PortfolioActionManagementService {
         def portfolio = Portfolio.get(portfolioId)
 
         def action
-        if (model.id == 0)
-            action = new PortfolioAction()
-        else
+        if (model.id)
             action = PortfolioAction.get(model.id)
+        else
+            action = new PortfolioAction()
+
 
         def portfolioItem = getPortfolioItem(portfolio, model)
+        if(model.actionType.actionTypeId in ['s','w']) {
+
+                def actionDate = df.parse(model.actionDate);
+                def prevAmount=PortfolioAction.createCriteria().list {
+                    eq('portfolioItem',portfolioItem)
+                    le('actionDate',actionDate)
+                }.sum {
+                    (it.actionType in ['s','w']?-1:1)*it.shareCount
+                }?:0
+                if(prevAmount<(model.shareCount?:1)) {
+                    portfolioItem.discard()
+                    return [errors:[allErrors:[messageSource.getMessage('portfolio.sharesCount.validation',[prevAmount].toArray(),'',null)]]]
+
+                }
+        }
+
         if (action.id) {
             def oldPortfolioItem = action.portfolioItem
             if (Introspector.decapitalize(action.portfolioItem?.itemType?.split('\\.')?.last()) != model.itemType.clazz
-                    || action.portfolioItem?.propertyId != model.property.propertyId) {
+                    || action.portfolioItem?.propertyId != (model.property.propertyId as Long)) {
                 action.portfolioItem = null
                 action.save()
                 if (!PortfolioAction.countByPortfolioItem(oldPortfolioItem)) {
@@ -112,6 +131,10 @@ class PortfolioActionManagementService {
                 return getBankPortfolioItem(portfolio, model)
             case 'portfolioBondsItem':
                 return getBondsPortfolioItem(portfolio, model)
+            case 'portfolioInvestmentFundItem':
+                return getInvestmentFundPortfolioItem(portfolio, model)
+            case 'portfolioHousingFacilitiesItem':
+                return getHousingFacilitiesPortfolioItem(portfolio, model)
             case 'portfolioBullionItem':
                 return getBullionPortfolioItem(portfolio, model)
             case 'portfolioBrokerItem':
@@ -162,6 +185,35 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBondsItem.findByPortfolioAndBonds(portfolio, bonds)
         if (!portfolioItem)
             portfolioItem = new PortfolioBondsItem(bonds: bonds, portfolio: portfolio, shareCount: 0, cost: 0)
+
+        portfolioItem.shareCount += signedShareCount
+        portfolioItem.cost += signedCost
+
+        portfolioItem
+    }
+
+    def getInvestmentFundPortfolioItem(Portfolio portfolio, Map model) {
+        def signedShareCount = (model.actionType.actionTypeId == 'b') ? model.shareCount : -model.shareCount
+        def signedCost = model.sharePrice * signedShareCount
+
+        def symbol = Symbol.get(model.property.propertyId as Long)
+        def portfolioItem = PortfolioInvestmentFundItem.findByPortfolioAndFund(portfolio, symbol)
+        if (!portfolioItem)
+            portfolioItem = new PortfolioInvestmentFundItem(fund: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
+
+        portfolioItem.shareCount += signedShareCount
+        portfolioItem.cost += signedCost
+
+        portfolioItem
+    }
+    def getHousingFacilitiesPortfolioItem(Portfolio portfolio, Map model) {
+        def signedShareCount = (model.actionType.actionTypeId == 'b') ? model.shareCount : -model.shareCount
+        def signedCost = model.sharePrice * signedShareCount
+
+        def symbol = Symbol.get(model.property.propertyId as Long)
+        def portfolioItem = PortfolioHousingFacilitiesItem.findByPortfolioAndHousingFacility(portfolio, symbol)
+        if (!portfolioItem)
+            portfolioItem = new PortfolioHousingFacilitiesItem(housingFacility: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
 
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost

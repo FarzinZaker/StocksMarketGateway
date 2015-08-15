@@ -10,6 +10,7 @@
             <div class="col-xs-12">
                 <g:hiddenField name="clazz" value="${clazz}"/>
                 <g:hiddenField name="id" value="${id}"/>
+                <g:hiddenField name="portfolioId" value="${portfolioId}"/>
                 <div id="propertyFormFields">
                     <g:render template="portfolioItems/${clazz}"/>
                 </div>

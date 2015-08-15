@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 class CustomBonds {
 
@@ -17,6 +18,7 @@ class CustomBonds {
     Date dueDate
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -27,6 +29,7 @@ class CustomBonds {
     }
 
     static constraints = {
+        portfolio nullable: true
         name()
         bank nullable: true
         value nullable: true

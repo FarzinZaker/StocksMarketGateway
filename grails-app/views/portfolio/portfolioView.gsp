@@ -58,7 +58,57 @@
     //        colors: ['#8ebc00', '#309b46', '#25a0da', '#ff6900', '#e61e26', '#d8e404'] // metro
     //    };
     //    Highcharts.setOptions(Highcharts.theme);
-
+    var dataSource=new kendo.data.DataSource({
+        transport: {
+            type: 'odata',
+            read: function (options) {
+                $.ajax({
+                    url: "${createLink(action: 'jsonPortfolioView', params: [id: params.id])}",
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+//                                $('#chartData').html(data.shareChartData);
+                        createPieChart(data.shareChartData);
+                        options.success(data.gridData);
+                    }
+                })
+            },
+            parameterMap: function (data, action) {
+                if (action === "read") {
+                    data.parent = $('#parent').val();
+                    return data;
+                } else {
+                    return data;
+                }
+            }
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    id: {type: "number"},
+                    clazz: {type: "string"},
+                    clazzTitle: {type: "string"},
+                    symbol: {type: "string"},
+                    shareCount: {type: "number"},
+                    cost: {type: "number"},
+                    avgPrice: {type: "number"},
+                    shareValue: {type: "number"},
+                    currentValue: {type: "number"}
+                }
+            },
+            data: "data", // records are returned in the "data" field of the response
+            total: "total"
+        },
+        pageSize: 20,
+        serverPaging: true,
+        serverFiltering: true,
+        serverSorting: true,
+        group: {
+            field: "clazzTitle",
+            dir: "asc"
+        }
+    })
     $(document).ready(function () {
         $("#toolbar").kendoToolBar({
             items: [
@@ -68,55 +118,15 @@
         });
 
         $("#grid").kendoGrid({
-            dataSource: {
-                transport: {
-                    type: 'odata',
-                    read: function (options) {
-                        $.ajax({
-                            url: "${createLink(action: 'jsonPortfolioView', params: [id: params.id])}",
-                            dataType: "json",
-                            type: "POST",
-                            success: function (data) {
-//                                $('#chartData').html(data.shareChartData);
-                                createPieChart(data.shareChartData);
-                                options.success(data.gridData);
-                            }
-                        })
-                    },
-                    parameterMap: function (data, action) {
-                        if (action === "read") {
-                            data.parent = $('#parent').val();
-                            return data;
-                        } else {
-                            return data;
-                        }
-                    }
-                },
-                schema: {
-                    model: {
-                        id: "id",
-                        fields: {
-                            id: {type: "number"},
-                            clazz: {type: "string"},
-                            clazzTitle: {type: "string"},
-                            symbol: {type: "string"},
-                            shareCount: {type: "number"},
-                            cost: {type: "number"},
-                            avgPrice: {type: "number"},
-                            shareValue: {type: "number"},
-                            currentValue: {type: "number"}
-                        }
-                    },
-                    data: "data", // records are returned in the "data" field of the response
-                    total: "total"
-                },
-                pageSize: 20,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-                group: {
-                    field: "clazzTitle",
-                    dir: "asc"
+            dataSource:dataSource,
+            dataBound: function(e) {
+
+                var groups=dataSource.group()
+                for(var i=0;i<this.columns.length;i++) {
+                    this.showColumn(this.columns[i].field);
+                }
+                for(var i=0;i<groups.length;i++) {
+                    this.hideColumn(groups[i].field);
                 }
             },
 //            height: 550,
@@ -127,6 +137,7 @@
             columns: [
                 {
                     field: "clazzTitle",
+//                    hidden:true,
                     title: "${message(code: 'portfolioItem.type.label')}"
                 },
                 {
@@ -157,6 +168,11 @@
                     field: "currentValue",
                     title: "${message(code:'portfolioItem.currentValue.label')}",
                     template: "#=formatNumber(currentValue)#"
+                },
+                {
+                    field: "profilLoss",
+                    title: "${message(code:'portfolioItem.profitLoss.label')}",
+                    template: "<div class='#:profitLoss>0?\"positive\":\"negative\"#'>#=formatNumber(profitLoss)#</div>"
                 },
                 {
                     command: {text: "${message(code:'view')}", click: viewGridItem},

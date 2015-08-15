@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 class CustomSymbolPriority {
 
@@ -11,6 +12,7 @@ class CustomSymbolPriority {
     CustomSymbol symbol
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -21,5 +23,6 @@ class CustomSymbolPriority {
     }
 
     static constraints = {
+        portfolio nullable: true
     }
 }

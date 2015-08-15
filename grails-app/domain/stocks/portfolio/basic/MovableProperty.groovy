@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 class MovableProperty {
 
@@ -11,6 +12,7 @@ class MovableProperty {
     Integer price
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -21,5 +23,6 @@ class MovableProperty {
     }
 
     static constraints = {
+        portfolio nullable: true
     }
 }

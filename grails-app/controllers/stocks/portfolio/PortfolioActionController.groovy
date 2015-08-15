@@ -1,5 +1,6 @@
 package stocks.portfolio
 
+import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import stocks.tse.Symbol
 
@@ -13,7 +14,6 @@ class PortfolioActionController {
     def portfolioActionManagementService
 
     DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'", Locale.ENGLISH);
-
     def jsonPortfolioActions() {
         def value = [:]
 
@@ -84,6 +84,7 @@ class PortfolioActionController {
                         actionTypeTitle: message(code: "portfolioAction.actionType.${it.actionType}")
                 ],
                 actionDate: df.format(it.actionDate),
+                actionDateNumber:it.actionDate.time,
                 sharePrice: it.sharePrice,
                 shareCount: ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem', 'portfolioImmovableItem'].contains(clazz) ? null : it.shareCount,
                 broker    : [
@@ -100,7 +101,12 @@ class PortfolioActionController {
         def result = []
         JSON.parse(params.models).each { model ->
             def action = portfolioActionManagementService.save(params.long("id"), model as Map, params.parentActionId ? PortfolioAction.get(params.parentActionId as Long) : null)
-            result << gridJson(action)
+            if(action.errors.allErrors)
+                return render( [error:action.errors.allErrors] as JSON)
+            else{
+                result << gridJson(action)
+
+            }
         }
         render([data: result] as JSON)
     }
@@ -113,6 +119,16 @@ class PortfolioActionController {
     }
 
     def propertyList() {
-        render(portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String) as JSON)
+        if(params.actionType in ['s','w']){
+            def properties=PortfolioItem.createCriteria().list {
+                eq('portfolio.id',params.id as Long)
+                eq('class','stocks.portfolio.portfolioItems.'+params.clazz.capitalize())
+            }.collect {[propertyId:it.getPropertyId(),propertyTitle:it.getPropertyTitle()]}
+
+            render(properties as JSON)
+        }
+        else {
+            render(portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String).collect {it+[clazz:params.clazz]} as JSON)
+        }
     }
 }

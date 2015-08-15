@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 class ImmovableProperty {
 
@@ -13,6 +14,7 @@ class ImmovableProperty {
     String address
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -23,6 +25,7 @@ class ImmovableProperty {
     }
 
     static constraints = {
+        portfolio nullable: true
         area nullable: true
         address nullable: true
     }
