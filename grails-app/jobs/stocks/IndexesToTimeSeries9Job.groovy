@@ -27,7 +27,7 @@ class IndexesToTimeSeries9Job {
             gt('id', lastState)
         }
         if (count > 0)
-            println "remaining indexes: ${count}"
+            log.error "[9] remaining indexes: ${count}"
 
 
         def list = IndexHistory.createCriteria().list {
@@ -40,7 +40,7 @@ class IndexesToTimeSeries9Job {
             logState(list.collect { it.id }.max())
         }
 //        else
-//            println "no index to import to time series"
+//            log.error "[9] no index to import to time series"
     }
 
     def logState(Long lastId) {

@@ -28,7 +28,7 @@ class FutureToTimeSeries9Job {
                     gt('id', lastState)
                 }
         if (count > 0)
-            println "remaining futures: ${count}"
+            log.error "[9] remaining futures: ${count}"
 
 
         def list = CoinFutureEvent.createCriteria().list {
@@ -41,7 +41,7 @@ class FutureToTimeSeries9Job {
             logState(list.collect { it.id }.max())
         }
 //        else
-//            println "no future to import to time series"
+//            log.error "[9] no future to import to time series"
     }
 
     def logState(Long lastId) {
