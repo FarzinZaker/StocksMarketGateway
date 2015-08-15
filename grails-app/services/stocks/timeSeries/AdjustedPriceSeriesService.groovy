@@ -3,6 +3,7 @@ package stocks.timeSeries
 import grails.plugin.cache.CachePut
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
@@ -192,7 +193,7 @@ class AdjustedPriceSeriesService {
                     it[0] == closingPriceSerie.values[i][0]
                 }
 
-                item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
+                item."${serie.name.split('_').last()}" = value && (value != JSONObject.Null) ? value[1] as Double : 0
             }
             list << item
         }
