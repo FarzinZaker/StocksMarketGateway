@@ -44,7 +44,7 @@
                 <form:field fieldName="portfolio.advanced">
                     <form:checkbox name="defaultItems" text="${message(code: 'portfolio.defaultItems.label')}"
                                    style="width:132px" entity="${portfolio}" onchange="showHideItems()"
-                                   checked="${portfolio?.defaultItems!=null ?portfolio?.defaultItems: true}"/>
+                                   checked="${portfolio?.defaultItems != null ? portfolio?.defaultItems : true}"/>
                     <form:checkbox name="fullAccounting" text="${message(code: 'portfolio.fullAccounting.label')}"
                                    style="width:120px" entity="${portfolio}"
                                    checked="${portfolio?.fullAccounting ?: false}"/>
@@ -62,7 +62,11 @@
                     <form:field fieldName="portfolio.items">
                         <div style="width: 500px">
                             <g:each in="${items}" var="itm">
-                                <form:checkbox text="${itm.title}" checked="${portfolio?.defaultItems?itm.default:portfolioAvailItems.find{it.item==itm.clazz}}" name="${itm.clazz}"
+                                <form:checkbox text="${itm.title}"
+                                               checked="${portfolio?.defaultItems ? itm.default : portfolioAvailItems.find {
+                                                   it.item == itm.clazz
+                                               }}" name="${itm.clazz}"
+                                               onchange="showHidePortfoilioItems('${itm.clazz}')"
                                                style="width:180px"/>
                             </g:each>
                         </div>
@@ -71,9 +75,63 @@
 
                 <div id="brokers">
                     <form:field fieldName="portfolio.bokers">
-                        <form:multiSelect  name="broker" dataSourceUrl="${createLink(controller: 'portfolio',action: 'jsonSearchBroker')}" style="width: 500px" entity="${portfolioAvailBrokers}"/>
+                        <form:multiSelect name="broker"
+                                          dataSourceUrl="${createLink(controller: 'portfolio', action: 'jsonSearchBroker')}"
+                                          style="width: 500px" entity="${portfolioAvailBrokers}"/>
                     </form:field>
                 </div>
+                <div id="container"></div>
+                <g:each in="${['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioCustomBondsItem', 'portfolioCustomSymbolItem', 'portfolioCustomSymbolPriorityItem', 'portfolioImmovableItem', 'portfolioMovableItem']}">
+                    <div id="${it}GridContainer" class="k-rtl">
+                        <form:field fieldName="${it}" label="${message(code: "${it}.label")}" showHelp="0">
+                            <section id="${it}Section">
+                            <div id="${it}Grid"></div>
+                            <script>
+                                $(function () {
+                                    $('#${it}Grid').kendoGrid({
+                                        dataSource: {
+                                            type: "json",
+                                            serverFiltering: true,
+
+                                            transport: {
+                                                read: {
+                                                    url: "${createLink(controller: 'portfolioAction', action: 'propertyList')}"
+                                                },
+                                                parameterMap: function (option, operation) {
+                                                    var result = option;
+                                                    result.clazz = '${it}';
+                                                    result.id =${ params.id?:0};
+                                                    return result;
+                                                }
+                                            }
+                                        },
+                                        pageable:true,
+                                        pageSize: 10,
+                                        toolbar: [
+                                            {template:'<a class="k-button" href="\\#${it}Section" onclick="return createProperty(\'${it}\')">${message(code:'create')}</a>'}
+                                        ],
+                                        columns: [
+                                            {
+                                                field: "propertyTitle",
+                                                title: '${message(code:'property.title')}'
+                                            },
+                                            {
+                                                command: [
+                                                    {text: "<g:message code="delete"/>", click: deleteProperty},
+                                                    {text: "<g:message code="edit"/>", click: editProperty},
+                                                ],
+                                                title: "&nbsp;",
+                                                width: "160px"
+                                            }
+                                        ]
+                                    })
+                                    showHidePortfoilioItems('${it}')
+                                })
+                            </script>
+                            </section>
+                        </form:field>
+                    </div>
+                </g:each>
 
                 <div class="toolbar">
                     <input type="submit" value="${message(code: 'portfolio.build.button')}" class="k-button"/>
@@ -82,6 +140,14 @@
         </div>
     </div>
     <script>
+        function showHidePortfoilioItems(type) {
+            if ($('#' + type).is(':checked')) {
+                $('#' + type + 'GridContainer').fadeIn();
+            }
+            else {
+                $('#' + type + 'GridContainer').fadeOut();
+            }
+        }
         function showHideItems() {
             if ($('#defaultItems').is(':checked')) {
                 $('#portfolioItems').fadeOut();
@@ -100,6 +166,89 @@
         }
         showHideBrokers();
         showHideItems();
+        function createProperty(type) {
+
+            var container=$('#'+type+'GridContainer')
+            $('<div id="propertyWindow"/>')
+                    .data('caller', $(this))
+                    .appendTo(container)
+                    .addClass('k-rtl')
+                    .kendoWindow({
+                        width: '500px',
+                        title: false,
+                        position:{
+                            left: "20%"
+                        },
+                        content: '${createLink(action: 'propertyForm')}?clazz=' + type+'&portfolioId=${params.id}',
+                        modal: true,
+                        close: function (e) {
+                            $('#' + type + 'Grid').data('kendoGrid').dataSource.read();
+                        }
+                    }).data('kendoWindow').center().open();
+        }
+        function editProperty(e) {
+            e.preventDefault()
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            var container=$('#'+dataItem.clazz+'GridContainer')
+            $('<div id="propertyWindow"/>')
+                    .data('caller', $(this))
+                    .appendTo(container)
+                    .addClass('k-rtl')
+                    .kendoWindow({
+                        width: '500px',
+                        title: false,
+                        content: '${createLink(action: 'propertyForm')}/' + dataItem.propertyId + '?clazz=' + dataItem.clazz+ '&portfolioId=${params.id}',
+                        modal: true,
+                        close: function (e) {
+                            $('#' + dataItem.clazz + 'Grid').data('kendoGrid').dataSource.read();
+                        }
+                    }).data('kendoWindow').center().open();
+        }
+        var idForDelete = 0;
+        var clazzForDelete = '';
+        function deleteProperty(e) {
+            e.preventDefault();
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+            idForDelete = dataItem.propertyId;
+            clazzForDelete = dataItem.clazz;
+            confirm('${message(code: 'property.delete.confirm')}', function () {
+                doDelete(idForDelete, clazzForDelete);
+            }, function () {
+                cancelDelete();
+            })
+        }
+
+        function cancelDelete() {
+            idForDelete = 0;
+            clazzForDelete = ''
+        }
+
+        function doDelete(idForDelete, clazzForDelete) {
+            console.log(idForDelete)
+            if (idForDelete > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: '${createLink(action: 'deleteProperty')}',
+                    data: {
+                        id: idForDelete,
+                        clazz: clazzForDelete,
+                        portfolioId:${params.id?:0}
+                    }
+                }).done(function (response) {
+                    if (response == 1) {
+                        $('#' + clazzForDelete + 'Grid').data('kendoGrid').dataSource.read();
+                    }
+                    else {
+                        window.alert('${message(code: 'property.delete.error')}');
+                    }
+                });
+                idForDelete = 0;
+            }
+        }
+
     </script>
 </div>
 </body>

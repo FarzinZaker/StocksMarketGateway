@@ -1,39 +1,59 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <script id="toolbartemplate" type="text/x-kendo-template">
+
 <ul id="gridtoolbar">
-    <g:if test="${propertyTypes.find{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-        <li><g:message code="portfolioAction.actionType.d" />
+    <g:if test="${propertyTypes.find {
+        ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+    }}">
+        <li><g:message code="portfolioAction.actionType.d"/>
             <ul>
-                <g:each in="${propertyTypes.findAll{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','d',${it.modifiable})">${it.title}</li>
+                <g:each in="${propertyTypes.findAll {
+                    ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+                }}">
+                    <li onclick="addNewItem('${it.clazz}', 'd', ${it.modifiable})">${it.title}</li>
                 </g:each>
             </ul>
         </li>
-        <li><g:message code="portfolioAction.actionType.w" />
-        <ul>
-            <g:each in="${propertyTypes.findAll{ ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                <li onclick="addNewItem('${it.clazz}','w',${it.modifiable})">${it.title}</li>
-            </g:each>
-        </ul>
+        <li><g:message code="portfolioAction.actionType.w"/>
+            <ul>
+                <g:each in="${propertyTypes.findAll {
+                    ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+                }}">
+                    <li onclick="addNewItem('${it.clazz}', 'w', ${it.modifiable})">${it.title}</li>
+                </g:each>
+            </ul>
         </li>
     </g:if>
-    <g:if test="${propertyTypes.find{ !['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-        <li><g:message code="portfolioAction.actionType.b" />
+    <g:if test="${propertyTypes.find {
+        !['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+    }}">
+        <li><g:message code="portfolioAction.actionType.b"/>
             <ul>
-                <g:each in="${propertyTypes.findAll{! ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','b',${it.modifiable})">${it.title}</li>
+                <g:each in="${propertyTypes.findAll {
+                    !['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+                }}">
+                    <li onclick="addNewItem('${it.clazz}', 'b', ${it.modifiable})">${it.title}</li>
                 </g:each>
             </ul>
         </li>
-        <li><g:message code="portfolioAction.actionType.s" />
+        <li><g:message code="portfolioAction.actionType.s"/>
             <ul>
-                <g:each in="${propertyTypes.findAll{! ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)}}">
-                    <li onclick="addNewItem('${it.clazz}','s',${it.modifiable})">${it.title}</li>
+                <g:each in="${propertyTypes.findAll {
+                    !['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'].contains(it.clazz)
+                }}">
+                    <li onclick="addNewItem('${it.clazz}', 's', ${it.modifiable})">${it.title}</li>
                 </g:each>
             </ul>
         </li>
     </g:if>
 </ul>
+</script>
+
+<div id="confirmWindow"></div>
+<script type="text/x-kendo-template" id="confirmWindowTemplate">
+<p><g:message code="property.delete.confirm.message"/></p>
+<button class="k-button" id="yesButton"><g:message code="confirm.dialog.ok"/></button>
+<button class="k-button" id="noButton"><g:message code="confirm.dialog.cancel"/></button>
 </script>
 <script language="javascript" type="text/javascript">
 
@@ -86,7 +106,7 @@
             }
         },
         batch: true,
-        pageSize: 20,
+        pageSize: 10,
         schema: {
             model: {
                 id: "id",
@@ -107,10 +127,13 @@
                         type: "string",
                         defaultValue: "${new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'").format(new Date())}"
                     },
+                    actionDateNumber: {
+                        type: "number"
+                    },
                     sharePrice: {type: "number", defaultValue: null},
                     shareCount: {type: "number", defaultValue: null},
                     broker: {
-                        defaultValue: {brokerId: "", brokerName: ""}
+                        defaultValue: {brokerId: 0, brokerName: ""}
                     },
                     discount: {type: "number", defaultValue: null},
                     wage: {type: "number", defaultValue: null}
@@ -120,6 +143,14 @@
             total: "total"
         }
     });
+    var confirmWindow = $("#confirmWindow").kendoWindow({
+        title: "<g:message code="property.delete.confirm" />",
+        visible: false, //the window will not appear before its .open method is called
+        width: "500px",
+        height: "80px",
+        actions: false,
+    }).data("kendoWindow");
+    var confirmWindowTemplate = kendo.template($("#confirmWindowTemplate").html());
 
     $(document).ready(function () {
 
@@ -128,8 +159,26 @@
             navigatable: true,
             pageable: true,
 //            height: 550,
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        eq: "${message(code:'stocks.filters.operators.equal')}",
+                        neq: "${message(code:'stocks.filters.operators.not-equal')}",
+                        contains: "${message(code:'stocks.filters.operators.contains')}"
+                    },
+                    date: {
+                        gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
+                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                    },
+                    number: {
+                        gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
+                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                    }
+                }
+            },
             toolbar: [
-                { template: kendo.template($("#toolbartemplate").html()) }
+                {template: kendo.template($("#toolbartemplate").html())}
 
                 %{--{name: "create", text: "<g:message code="create"/>"},--}%
                 %{--{name: "save", text: "<g:message code="save"/>"},--}%
@@ -137,72 +186,130 @@
             ],
             columns: [
                 {
-                    field: "itemType",
+                    field: "itemType.clazz",
                     title: "${message(code: 'portfolioItem.type.label')}",
                     editor: itemTypeDropDownEditor,
                     template: "#=itemType.title#",
-                    width: "200px"
+                    width: "200px",
+                    type: 'string',
+                    filterable: {
+                        ui: itemTypeDropDownFilter,
+                        operators: {
+                            string: {
+                                eq: "${message(code:'stocks.filters.operators.equal')}",
+                                neq: "${message(code:'stocks.filters.operators.not-equal')}",
+                            }
+                        }
+                    },
                 },
                 {
-                    field: "property",
+                    field: "property.propertyTitle",
                     title: "${message(code: 'portfolioItem.property.label')}",
                     editor: propertyDropDownEditor, template: "#=property.propertyTitle#",
+                    type: 'string',
+                    filterable: {
+                        operators: {
+                            string: {
+                                contains: "${message(code:'stocks.filters.operators.contains')}"
+                            }
+                        }
+                    },
                     width: "300px"
                 },
                 {
-                    field: "actionType",
+                    field: "actionType.actionTypeId",
                     title: "${message(code: 'portfolioAction.actionType.label')}",
                     editor: actionTypeDropDownEditor,
+                    type: 'string',
+                    filterable: {
+                        ui: actionTypeDropDownFilter,
+                        operators: {
+                            string: {
+                                eq: "${message(code:'stocks.filters.operators.equal')}",
+                                neq: "${message(code:'stocks.filters.operators.not-equal')}",
+                            }
+                        }
+                    },
                     template: "#=actionType.actionTypeTitle#"
                 },
                 {
-                    field: "actionDate",
+                    field: "actionDateNumber",
                     title: "${message(code: 'portfolioAction.actionDate.label')}",
                     editor: dateEditor,// template: "#=actionDate#",
-                    format: "yyyy/MM/dd"
+                    filterable: {
+                        ui: dateFilter,
+                        extra: true,
+                        operators: {
+                            number: {
+                                gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
+                                lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                            }
+                        }
+                    },
+                    template: "#=getJalaliDate(new Date(actionDateNumber))#"
                 },
                 {
                     field: "sharePrice",
                     title: "${message(code: 'portfolioAction.sharePrice.label')}",
                     editor: priceEditor,
+                    filterable: {
+                        extra: true,
+                    },
                     template: "#=sharePrice ? formatNumber(sharePrice) : ''#"
                 },
                 {
                     field: "shareCount",
                     title: "${message(code: 'portfolioAction.shareCount.label')}",
                     editor: countEditor,
+                    filterable: {
+                        extra: true,
+                    },
                     template: "#=shareCount ? formatNumber(shareCount) : ''#"
                 },
                 <g:if test="${portfolio.useBroker}">
-                    {
-                        field: "broker",
-                        title: "${message(code: 'portfolioAction.broker.label')}",
-                        editor: brokerEditor,
-                        template: "#=broker.brokerName ? broker.brokerName : ''#"
+                {
+                    field: "broker.brokerName",
+                    title: "${message(code: 'portfolioAction.broker.label')}",
+                    editor: brokerEditor,
+                    filterable:{
+                        ui: brokerDropDownFilter,
+                        operators: {
+                            string: {
+                                eq: "${message(code:'stocks.filters.operators.equal')}",
+                                neq: "${message(code:'stocks.filters.operators.not-equal')}",
+                            }
+                        }
                     },
+                    template: "#=broker.brokerName ? broker.brokerName : ''#"
+                },
                 </g:if>
                 <g:if test="${portfolio.useWageAndDiscount}">
-                    {
-                        field: "discount",
-                        title: "${message(code: 'portfolioAction.discount.label')}",
-                        editor: discountEditor,
-                        template: "#=discount?formatNumber(discount * 100) + ' %':''#"
-                    },
-                    {
-                        field: "wage",
-                        title: "${message(code: 'portfolioAction.wage.label')}",
-                        editor: wageEditor,
-                        template: "#=wage?formatNumber(wage * 100) + ' %':''#"
-                    },
+                {
+                    field: "discount",
+                    title: "${message(code: 'portfolioAction.discount.label')}",
+                    editor: discountEditor,
+                    filterable:false,
+                    template: "#=discount?formatNumber(discount * 100) + ' %':''#"
+                },
+                {
+                    field: "wage",
+                    title: "${message(code: 'portfolioAction.wage.label')}",
+                    editor: wageEditor,
+                    filterable:false,
+                    template: "#=wage?formatNumber(wage * 100) + ' %':''#"
+                },
                 </g:if>
                 {
-                        command: [{name: "destroy", text: "<g:message code="delete"/>"}],
+                    command: [
+                        {text: "<g:message code="delete"/>", click: deletePortfolioItem},
+                        {text: "<g:message code="edit"/>", click: editPortfolioItem},
+                    ],
                     title: "&nbsp;",
-                    width: "95px"
+                    width: "160px"
                 }
             ],
             <g:if test="${portfolio.fullAccounting}">
-                detailInit: detailInit,
+            detailInit: detailInit,
             </g:if>
 //            editable: "incell",
             save: function (e) {
@@ -232,12 +339,33 @@
                 .kendoWindow({
                     width: '500px',
                     title: false,
-                    content: '${createLink(action: 'propertyForm')}?clazz=' + options.model.itemType.clazz,
+                    content: '${createLink(action: 'propertyForm')}?clazz=' + options.model.itemType.clazz+'&portfolioId=${params.id}',
                     modal: true,
                     close: function (e) {
                         $(container).find('input[type!=text].propertyComboBox').data('kendoComboBox').dataSource.read();
                     }
                 }).data('kendoWindow').open();
+    }
+    function deletePortfolioItem(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        confirmWindow.content(confirmWindowTemplate(dataItem)); //send the row data object to the template and render it
+        confirmWindow.open().center();
+        $("#yesButton").click(function () {
+            dataSource.remove(dataItem)  //prepare a "destroy" request
+            dataSource.sync()  //actually send the request (might be ommited if the autoSync option is enabled in the dataSource)
+            confirmWindow.close();
+        })
+        $("#noButton").click(function () {
+            confirmWindow.close();
+        })
+    }
+    function editPortfolioItem(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        editItem(dataItem)
     }
 
     function editProperty(container, options) {
@@ -252,7 +380,7 @@
                 .kendoWindow({
                     width: '500px',
                     title: false,
-                    content: '${createLink(action: 'propertyForm')}/' + combo.value() + '?clazz=' + options.model.itemType.clazz,
+                    content: '${createLink(action: 'propertyForm')}/' + combo.value() + '?clazz=' + options.model.itemType.clazz+'&portfolioId=${params.id}',
                     modal: true,
                     close: function (e) {
                     }
@@ -299,7 +427,8 @@
                 url: '${createLink(action: 'deleteProperty')}',
                 data: {
                     id: idForDelete,
-                    clazz: clazzForDelete
+                    clazz: clazzForDelete,
+                portfolioId:${params.id}
                 }
             }).done(function (response) {
                 if (response == 1) {

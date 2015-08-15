@@ -1,6 +1,9 @@
 <div id="itemDialog" class="k-rtl">
-    <form:field id="propertycontainer" fieldName="portfolioItem.property" showHelp="0">
-        <input id="propertyId" class="propertyComboBox" style="width: 300px" required>
+    <form:field fieldName="portfolioItem.property" showHelp="0">
+        <div id="propertycontainer" >
+            <input id="propertyId" class="propertyComboBox" style="width: 300px" required>
+            <form:button id="editItems" name="editItems" text="${message(code: 'portfolio.edit.items.title')}"/>
+        </div>
     </form:field>
     <form:field fieldName="portfolioAction.actionDate" showHelp="0">
         <input id="actionDate" style="width: 300px">
@@ -30,33 +33,50 @@
         <script language="javascript" type="text/javascript">
             $('span[name=submit]').click(function () {
 //                if ($('#portfolioForm').isValid()) {
-                    dataSource.insert( 0,{
-                        itemType:{clazz:currenctType},
-                        property:{propertyId:propertyId.data('kendoComboBox').value()},
-                        actionType:{actionTypeId:currenctAction},
-                        actionDate:actionDate.data('kendoDatePicker').value().gregoriandate.toString(),
-                        sharePrice:sharePrice.data('kendoNumericTextBox').value(),
-                        shareCount:shareCount.data('kendoNumericTextBox').value(),
-                        <g:if test="${portfolio.useBroker}">
-                            broker:{brokerId:broker.data("kendoComboBox").value()},
-                        </g:if>
-                        <g:if test="${portfolio.useWageAndDiscount}">
-                            discount:discount.data("kendoNumericTextBox").value(),
-                            wage:wage.data("kendoNumericTextBox").value()
-                        </g:if>
+                    $.ajax({url:'${createLink(controller: 'portfolioAction', action: 'portfolioActionSave', id: params.id)}',type:'post',
+                        data:{models:JSON.stringify([{
+                                id:currentId,
+                                itemType:{clazz:currenctType},
+                                property:{propertyId:propertyId.data('kendoComboBox').value()},
+                                actionType:{actionTypeId:currenctAction},
+                                actionDate:actionDate.data('kendoDatePicker').value().gregoriandate.toString(),
+                                sharePrice:sharePrice.data('kendoNumericTextBox').value(),
+                                shareCount:shareCount.data('kendoNumericTextBox').value(),
+                                <g:if test="${portfolio.useBroker}">
+                                    broker:{brokerId:broker.data("kendoComboBox").value()},
+                                </g:if>
+                                <g:if test="${portfolio.useWageAndDiscount}">
+                                    discount:discount.data("kendoNumericTextBox").value(),
+                                    wage:wage.data("kendoNumericTextBox").value()
+                                </g:if>
+                        }])
+                        },success:function(e){
+                            if(e.error)
+                            {
+                                alert(e.error.join('\n'))
+                            }
+                            else {
+                                dataSource.read();
+                                itemDialog.kendoWindow("close");
+                            }
+                        }
                     });
-                    dataSource.sync().done(function(){
-                        dataSource.fetch();
-                        itemDialog.kendoWindow("close");
-                    }).fail(function(){
-                        dataSource.cancelChanges();
-                    });
+//                    dataSource.sync().done(function(data){
+//                        console.log(data)
+//                        dataSource.fetch();
+//                        itemDialog.kendoWindow("close");
+//                    }).fail(function(){
+//                        dataSource.cancelChanges();
+//                    });
 
 //                }/
             });
             $('span[name=cancel]').click(function () {
                 $(this).closest("[data-role=window]").kendoWindow("close");
             });
+        $('#editItems').click(function(){
+            propertyContextMenu.data('kendoContextMenu').open()
+        })
         </script>
     </div>
 </div>
@@ -70,6 +90,7 @@
     var currenctType='';
     var currenctAction='';
     var currentModifiable=false;
+    var currentId='';
 
     if (!itemDialog.data("kendoWindow")) {
         itemDialog.kendoWindow({
@@ -104,6 +125,8 @@
                 parameterMap: function (option, operation) {
                     var result = option;
                     result.clazz = currenctType;
+                    result.actionType=currenctAction;
+                    result.id=${ params.id};
                     return result;
                 }
             }
@@ -179,11 +202,64 @@
             step: 0.1
         });
     </g:if>
+    function editItem(dataItem){
+        itemDialog.data("kendoWindow").open();
+        currentId=dataItem.id
+        currenctType=dataItem.itemType.clazz;
+        currenctAction=dataItem.actionType.actionTypeId;
+        currentModifiable=( [
+            'portfolioBondsItem',
+            'portfolioBullionItem',
+            'portfolioCoinItem',
+            'portfolioCurrencyItem',
+            'portfolioSymbolItem',
+            'portfolioSymbolPriorityItem',
+            'portfolioInvestmentFundItem',
+            'portfolioHousingFacilitiesItem'
+        ].indexOf(dataItem.itemType.clazz)<0);
+        propertyId.data("kendoComboBox").dataSource.read();
+        propertyId.data("kendoComboBox").value(dataItem.property.propertyId);
+        actionDate.data('kendoDatePicker').value(getJalaliDate(new Date(dataItem.actionDateNumber)));
+        sharePrice.data('kendoNumericTextBox').value(dataItem.sharePrice);
+        shareCount.data('kendoNumericTextBox').value(dataItem.shareCount);
+        <g:if test="${portfolio.useBroker}">
+        broker.data("kendoComboBox").value(dataItem.broker.brokerId);
+        </g:if>
+        <g:if test="${portfolio.useWageAndDiscount}">
+        discount.data("kendoNumericTextBox").value(dataItem.discount);
+        wage.data("kendoNumericTextBox").value(dataItem.wage);
+        </g:if>
+        if (['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem'].indexOf(currenctType) >= 0) {
+            $('#brokerconainer').show();
+            $('#wageconainer').show();
+            $('#discountconainer').show();
+        }
+        else{
+            $('#brokerconainer').hide();
+            $('#wageconainer').hide();
+            $('#discountconainer').hide();
+        }
+        if (['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioImmovableItem', 'portfolioBrokerItem'].indexOf(currenctType) == -1){
+            $('#sharecountcontainer').show();
+        }
+        else{
+            $('#sharecountcontainer').hide();
+        }
+        if(currentModifiable){
+            $('#editItems').show()
+        }
+        else{
+            $('#editItems').hide()
+        }
+
+    }
     function addNewItem(type,action,modifiable) {
         itemDialog.data("kendoWindow").open();
+        currentId='';
         currenctType=type;
         currenctAction=action;
         currentModifiable=modifiable;
+        propertyId.data("kendoComboBox").dataSource.read();
         propertyId.data("kendoComboBox").value('');
         actionDate.data('kendoDatePicker').value('');
         sharePrice.data('kendoNumericTextBox').value('');
@@ -210,6 +286,12 @@
         }
         else{
             $('#sharecountcontainer').hide();
+        }
+        if(currentModifiable){
+            $('#editItems').show()
+        }
+        else{
+            $('#editItems').hide()
         }
     }
     function validate(){

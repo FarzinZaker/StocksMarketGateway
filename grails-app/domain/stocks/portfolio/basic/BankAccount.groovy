@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 
 class BankAccount {
@@ -14,6 +15,7 @@ class BankAccount {
     String accountType
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -24,6 +26,7 @@ class BankAccount {
     }
 
     static constraints = {
+        portfolio nullable: true
         bank nullable: true
         branch nullable: true
         accountNumber nullable: true

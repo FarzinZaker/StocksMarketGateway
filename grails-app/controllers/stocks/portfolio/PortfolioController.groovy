@@ -72,7 +72,7 @@ class PortfolioController {
                 }
             }
             if (portfolio.useBroker) {
-                if(params.broker) {
+                if (params.broker) {
                     params.broker.split(',').each {
                         def broker = Broker.findByName(it)
                         PortfolioAvailBroker.findByBrokerAndPortfolio(broker, portfolio) ?: new PortfolioAvailBroker(broker: broker, portfolio: portfolio).save()
@@ -128,6 +128,7 @@ class PortfolioController {
         value.data = list.collect {
             def clazz = Introspector.decapitalize(it.itemType.split('\\.').last())
             def shareValue = portfolioPropertyManagementService.getCurrentValueOfProperty(clazz, it.propertyId) ?: it.cost / it.shareCount
+            def curVal = it.shareCount * shareValue
             totalValue += it.shareCount * shareValue
             [
                     id          : it.id,
@@ -138,7 +139,8 @@ class PortfolioController {
                     cost        : it.cost,
                     avgPrice    : String.format("%.2f", it.cost / it.shareCount),
                     shareValue  : shareValue,
-                    currentValue: it.shareCount * shareValue
+                    currentValue: curVal,
+                    profitLoss  : curVal - it.cost
             ]
         }
         def shareChartData = [:]
@@ -209,13 +211,14 @@ class PortfolioController {
                 ]
             }
         }
-        def availItems=[]
-        if(portfolio.defaultItems){
-            availItems=portfolioPropertyManagementService.portfolioItemTypes().findAll {it.default}
-        }
-        else{
-            def avails=PortfolioAvailItem.findAllByPortfolio(portfolio)
-            availItems=portfolioPropertyManagementService.portfolioItemTypes().findAll {avails.find {av->it.clazz==av.item}}
+        def availItems = []
+        if (portfolio.defaultItems) {
+            availItems = portfolioPropertyManagementService.portfolioItemTypes().findAll { it.default }
+        } else {
+            def avails = PortfolioAvailItem.findAllByPortfolio(portfolio)
+            availItems = portfolioPropertyManagementService.portfolioItemTypes().findAll {
+                avails.find { av -> it.clazz == av.item }
+            }
         }
 
         [
@@ -286,9 +289,10 @@ class PortfolioController {
 
     def propertyForm() {
         [
-                clazz: params.clazz,
-                id   : params.id ?: '',
-                item : portfolioPropertyManagementService.getProperty(params.clazz as String, params.id == "" ? null : params.id as Long)
+                clazz      : params.clazz,
+                id         : params.id ?: '',
+                portfolioId: params.portfolioId,
+                item       : portfolioPropertyManagementService.getProperty(params.clazz as String, params.id == "" ? null : params.id as Long)
         ]
     }
 

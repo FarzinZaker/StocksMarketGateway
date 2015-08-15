@@ -28,8 +28,12 @@ class PortfolioPropertyManagementService {
         switch (clazz) {
             case 'portfolioBankItem':
                 return findBank(id, query)
+            case 'portfolioInvestmentFundItem':
+                return findInvestmentFund(id, query)
             case 'portfolioBondsItem':
                 return findBonds(id, query)
+            case 'portfolioHousingFacilitiesItem':
+                return findHousingFacility(id, query)
             case 'portfolioBrokerItem':
                 return findBroker(id, query)
             case 'portfolioBullionItem':
@@ -63,7 +67,9 @@ class PortfolioPropertyManagementService {
             'portfolioCoinItem',
             'portfolioCurrencyItem',
             'portfolioSymbolItem',
-            'portfolioSymbolPriorityItem'
+            'portfolioSymbolPriorityItem',
+            'portfolioInvestmentFundItem',
+            'portfolioHousingFacilitiesItem'
     ]
     private def defaultItems = ['portfolioSymbolItem', 'portfolioSymbolPriorityItem', 'portfolioBondsItem']
 
@@ -104,8 +110,69 @@ class PortfolioPropertyManagementService {
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
-                'in'('type', ['400', '403', '404'])
-                notEqual('boardCode', '4')
+                or{
+                    eq('type','306')
+                    and{
+                        eq('type','301')
+                        eq('boardCode','9')
+                    }
+                }
+//                'in'('type', ['400', '403', '404'])
+//                notEqual('boardCode', '4')
+                order('persianCode')
+            }
+        symbols.collect {
+            [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
+        }
+    }
+    def findHousingFacility(Long id, String query) {
+        def symbols
+
+        if (id) {
+            def currentSymbol = Symbol.get(id)
+            if (currentSymbol)
+                if (query) {
+                    if (query.contains(currentSymbol.persianCode) || query.contains(currentSymbol.persianName) ||
+                            query.contains(currentSymbol.code) || query.contains(currentSymbol.name))
+                        query = currentSymbol.persianCode
+                } else {
+                    query = currentSymbol.companySmallCode
+                }
+        }
+        if (query)
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:303 AND boardCode:4").results
+        else
+            symbols = Symbol.createCriteria().list {
+                eq('marketCode', 'MCNO')
+                    eq('type','303')
+                    eq('boardCode','4')
+                order('persianCode')
+            }
+        symbols.collect {
+            [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
+        }
+    }
+
+    def findInvestmentFund(Long id, String query) {
+        def symbols
+
+        if (id) {
+            def currentSymbol = Symbol.get(id)
+            if (currentSymbol)
+                if (query) {
+                    if (query.contains(currentSymbol.persianCode) || query.contains(currentSymbol.persianName) ||
+                            query.contains(currentSymbol.code) || query.contains(currentSymbol.name))
+                        query = currentSymbol.persianCode
+                } else {
+                    query = currentSymbol.companySmallCode
+                }
+        }
+        if (query)
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:305").results
+        else
+            symbols = Symbol.createCriteria().list {
+                eq('marketCode', 'MCNO')
+                eq('type','305')
                 order('persianCode')
             }
         symbols.collect {
@@ -242,9 +309,9 @@ class PortfolioPropertyManagementService {
                 eq('marketCode', 'MCNO')
                 'in'('type', ['400', '403', '404'])
                 notEqual('boardCode', '4')
-                projections {
-                    property('id')
-                }
+//                projections {
+//                    property('id')
+//                }
             }
         symbols.collect {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
@@ -414,6 +481,10 @@ class PortfolioPropertyManagementService {
                 return getCurrentValueOfBank(id)
             case 'portfolioBondsItem':
                 return getCurrentValueOfBonds(id)
+            case 'portfolioHousingFacilitiesItem':
+                return getCurrentValueOfHousingFacilities(id)
+            case 'portfolioInvestmentFundItem':
+                return getCurrentValueOfInvestmentFund(id)
             case 'portfolioBrokerItem':
                 return getCurrentValueOfBroker(id)
             case 'portfolioBullionItem':
@@ -447,6 +518,12 @@ class PortfolioPropertyManagementService {
     }
 
     def getCurrentValueOfBonds(Long id) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+    def getCurrentValueOfHousingFacilities(Long id) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+    def getCurrentValueOfInvestmentFund(Long id) {
         priceService.lastPrice(Symbol.get(id))
     }
 

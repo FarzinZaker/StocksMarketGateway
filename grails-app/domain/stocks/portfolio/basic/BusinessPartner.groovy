@@ -1,6 +1,7 @@
 package stocks.portfolio.basic
 
 import stocks.User
+import stocks.portfolio.Portfolio
 
 class BusinessPartner {
 
@@ -10,6 +11,7 @@ class BusinessPartner {
     String name
 
     User owner
+    Portfolio portfolio
 
     Boolean deleted = false
     Date dateCreated
@@ -20,5 +22,6 @@ class BusinessPartner {
     }
 
     static constraints = {
+        portfolio nullable: true
     }
 }
