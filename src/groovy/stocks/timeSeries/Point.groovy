@@ -40,7 +40,7 @@ public class Point {
 
         def utc = date.clearTime()
         use(TimeCategory){
-             utc = utc + 1.day
+             utc = utc + 1.days
         }
         timeLong = utc.time
         this
