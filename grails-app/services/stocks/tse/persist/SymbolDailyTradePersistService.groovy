@@ -18,6 +18,8 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     def bulkDataService
 
     def grailsApplication
+    def adjustedPriceSeries9Service
+    def adjustedPriceSeriesService
 
     @Override
     protected getSampleObject() {
@@ -60,6 +62,10 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     }
 
     def saveAdjustedDailyTrades(SymbolDailyTrade data) {
+
+        adjustedPriceSeries9Service.write([data], AdjustmentHelper.ENABLED_TYPES)
+        adjustedPriceSeriesService.write([data], AdjustmentHelper.ENABLED_TYPES)
+
         def date = data.date
         date = date.clearTime()
 

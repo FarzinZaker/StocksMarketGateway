@@ -60,6 +60,8 @@ class BackTestController {
 
     def view() {
         def backTest = BackTest.get(params.id as Long)
+        while(PortfolioLog.countByBackTest(backTest) < 1)
+            Thread.sleep(500)
         def signals = decorateBackTestSignals(backTest, null)
         def logs = decoratePortfolioLogs(backTest, null)
         [

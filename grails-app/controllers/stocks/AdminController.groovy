@@ -62,6 +62,8 @@ class AdminController {
 
     def migrationService
 
+    def adjustedPriceSeries9Service
+
     def index() {
     }
 
@@ -142,11 +144,13 @@ class AdminController {
 //        symbolClientTypeDataService.importData()
 //        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
 //        initDBService.init()
-        Thread.start {
-            Symbol.withTransaction {
-                migrationService.migrate()
-            }
-        }
+//        Thread.start {
+//            Symbol.withTransaction {
+//                migrationService.migrate()
+//            }
+//        }
+
+        adjustedPriceSeries9Service.write(SymbolDailyTrade.findAllBySymbol(Symbol.get(1336)), AdjustmentHelper.ENABLED_TYPES)
         render 1
     }
 

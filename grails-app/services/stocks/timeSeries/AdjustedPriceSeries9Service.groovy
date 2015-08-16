@@ -1,15 +1,14 @@
 package stocks.timeSeries
 
-import grails.plugin.cache.CachePut
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
-import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.tse.AdjustmentHelper
 import stocks.tse.SymbolDailyTrade
 
-class AdjustedPriceSeriesService {
+class AdjustedPriceSeries9Service {
 
-    def timeSeriesDBService
+
+    def timeSeriesDB9Service
 
     def clear(Long symbolId, List<String> adjustmentTypes) {
 
@@ -27,7 +26,7 @@ class AdjustedPriceSeriesService {
                     'yesterdayPrice',
                     'priceChange'
             ].each { property ->
-                timeSeriesDBService.dropSerie("dailyTrade_${adjustmentType}_${symbolId}_${property}")
+                timeSeriesDB9Service.dropSerie("${property}")
             }
 
         }
@@ -53,18 +52,17 @@ class AdjustedPriceSeriesService {
                             'yesterdayPrice',
                             'priceChange'
                     ].each { property ->
-                        serie.addPoint(new Point("dailyTrade_${adjustmentType}_${dailyTrade.symbolId}_${property}")
-//                            .tags([symbolId: dailyTrade.symbolId?.toString()])
+                        serie.addPoint(new Point("${property}")
+                            .tags([symbolId: dailyTrade.symbolId?.toString(), adjustmentType: adjustmentType])
                                 .time(dailyTrade.date)
                                 .value(dailyTrade."${property}"))
                     }
                 }
 
-//                serie.addPoint(new Point("dailyTrade.${adjustmentType}.adjustable").tags([symbolId: dailyTrade.symbolId?.toString()]).time(dailyTrade.date).value(dailyTrade.symbolPersianCode.startsWith("تسه") ? 0 : 1))
             }
         }
 
-        timeSeriesDBService.write(serie)
+        timeSeriesDB9Service.write(serie)
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbolId.toString().concat("-").concat(#daysCount.toString())')
@@ -176,9 +174,9 @@ class AdjustedPriceSeriesService {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDBService.query("SELECT value FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
@@ -193,11 +191,7 @@ class AdjustedPriceSeriesService {
                     it[0] == closingPriceSerie.values[i][0]
                 }
 
-                try {
-                    item."${serie.name.split('_').last()}" = value && (value != JSONObject.Null) ? value[1] as Double : 0
-                }catch(ignored){
-                    item."${serie.name.split('_').last()}" = 0
-                }
+                item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
             }
             list << item
         }
@@ -217,9 +211,9 @@ class AdjustedPriceSeriesService {
             adjustmentType = AdjustmentHelper.defaultType
         def values
         if (groupingMode == '')
-            values = timeSeriesDBService.query("SELECT value FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT value FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
         else
-            values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         }.findAll { it.value } : []
@@ -243,7 +237,7 @@ class AdjustedPriceSeriesService {
                 'yesterdayPrice',
                 'priceChange'
         ]
-        def series = timeSeriesDBService.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "dailyTrade_${adjustmentType}_${symbolId}_${pr}" }.join(', ')} WHERE time <= ${endDate.time * 1000}u")[0]?.series
+        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time <= ${endDate.time * 1000}u")[0]?.series
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
             return null
@@ -263,7 +257,7 @@ class AdjustedPriceSeriesService {
             endDate = new Date()
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
-        def values = timeSeriesDBService.query("SELECT LAST(value) FROM dailyTrade_${adjustmentType}_${symbolId}_${property} WHERE time <= ${endDate.time * 1000}u")[0]?.series?.values
+        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time <= ${endDate.time * 1000}u")[0]?.series?.values
         values ? values[0].find()[1] as Double : null
     }
 
@@ -279,5 +273,4 @@ class AdjustedPriceSeriesService {
             maxResults(1)
         }[0]
     }
-
 }

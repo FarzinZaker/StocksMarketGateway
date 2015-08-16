@@ -1,5 +1,4 @@
-import org.springframework.web.multipart.commons.CommonsMultipartFile
-import stocks.FarsiNormalizationFilter
+package stocks
 
 class FarsiNormalizationFilters {
 
