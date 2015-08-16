@@ -14,7 +14,7 @@ import stocks.tse.Symbol
 class BackTestController {
 
     def springSecurityService
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
 
     def index() {}
 
@@ -196,7 +196,7 @@ class BackTestController {
         } else {
             def logs = PortfolioLog.findAllByBackTest(backTest)
 //            def dailyTrades = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
-            def dailyTrades = adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
+            def dailyTrades = adjustedPriceSeries9Service.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
             dailyTrades.sort {
                 it.date.time
             }.each { dailyTrade ->
@@ -220,7 +220,7 @@ class BackTestController {
 
     private def calculateSummary(BackTest backTest, List logs, List signals) {
 //        def openDays = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
-        def openDays = adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
+        def openDays = adjustedPriceSeries9Service.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
         def maxDrawDown = 0
         def sortedLogs = logs.sort { it[0] }
         for (def i = 1; i < sortedLogs.size(); i++) {

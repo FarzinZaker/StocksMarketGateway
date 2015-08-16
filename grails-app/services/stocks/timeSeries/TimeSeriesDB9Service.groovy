@@ -7,6 +7,7 @@ import stocks.util.HttpHelper
 class TimeSeriesDB9Service {
 
     def grailsApplication
+    def smsService
 
     private def conn = null
 
@@ -51,7 +52,7 @@ class TimeSeriesDB9Service {
 
     void write(Serie serie) {
 
-        if(grailsApplication.config.timeSeriesDisabled)
+        if (grailsApplication.config.timeSeriesDisabled)
             return
 
         def path = "/write"
@@ -59,29 +60,29 @@ class TimeSeriesDB9Service {
         serie.retentionPolicy('default')
         def succeed = false
         while (!succeed) {
-            try {
-                serie.toPagedCSV(windowSize).each {
+            serie.toPagedCSV(windowSize).each {
+                try {
                     postCommand(path, it)
-
                     successfulPosts++
-//                    println "written ${windowSize} records"
+                    succeed = true
+                    windowSize = [windowSize + 5, 100].min()
+                    failedPosts = 0;
                 }
-                succeed = true
-                windowSize = [windowSize + 5, 100].min()
-                failedPosts = 0;
-            }
-            catch (ignored) {
-                windowSize = [1, Math.round(windowSize / 2)].max()
-                failedPosts++
-                println "window size: ${windowSize}"
-                Thread.sleep([failedPosts, 5 * 60].min() * 1000)
+                catch (ignored) {
+                    windowSize = [1, Math.round(windowSize / 2)].max()
+                    failedPosts++
+                    if(failedPosts == 100)
+                        smsService.sendCustomMessage('09122110811', 'time series db is not responding to write requests')
+                    println "window size: ${windowSize}"
+                    Thread.sleep([failedPosts, 5 * 60].min() * 1000)
+                }
             }
         }
     }
 
     def query(String query) {
 
-        if(grailsApplication.config.timeSeriesDisabled)
+        if (grailsApplication.config.timeSeriesDisabled)
             return null
 
         def path = "/query"
@@ -95,6 +96,8 @@ class TimeSeriesDB9Service {
             }
             catch (ignored) {
                 failedQueries++
+                if(failedQueries == 100)
+                    smsService.sendCustomMessage('09122110811', 'time series db is not responding to read requests')
                 Thread.sleep([failedQueries, 5 * 60].min() * 1000)
             }
 

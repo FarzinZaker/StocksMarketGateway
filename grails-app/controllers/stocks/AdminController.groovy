@@ -52,7 +52,6 @@ class AdminController {
     def SMAService
 
     def timeSeriesDBService
-    def adjustedPriceSeriesService
     def commodityMarketActivityDataService
     def energyMarketValueDataService
     def oilDataService
@@ -64,93 +63,29 @@ class AdminController {
 
     def adjustedPriceSeries9Service
 
+    def priceSeriesAdjustmentService
+
     def index() {
     }
 
     def test() {
-//        boardDataService.importData()
-//        companyDataService.importData()
-//        industryGroupDataService.importData()
-//        industryGroupStateDataService.importData()
-//        industrySubgroupDataService.importData()
-//        supervisorMessageDataService.importData()
-//        symbolDataService.importData()
-//        symbolStateDataService.importData()
-//        symbolBestOrderDataService.importData()
-//        symbolBestOrderDataService.importData(65122215875355555)
-//        symbolDailyTradeDataService.importData()
-//        symbolDailyTradeDataService.importData((new Date() - 1), 1)
-//        symbolDailyTradeDataService.importData(65122215875355555, (new Date() - 5), new Date())
-//        marketActivityDataService.importData()
-//        futureDataService.importData(new Date() - 2)
-//        announcementDataService.importData()
-//        indexDataService.importData()
-//        indexSymbolDataService.importData()
-//        def queryInstance = QueryInstance.get(14)
-//        render smsService.sendEventBasedMessage(queryInstance, queryService.get(queryInstance))
-//        dataService.initializeJobs()
-//        render dataService.printJobList()
 
-//        boardDataService.importData()
-//        def test = 'کا'
-//        def test2 = FarsiNormalizationFilter.apply(test)
-//        println(test.replace(test, FarsiNormalizationFilter.apply(test)) == test2)
-//        queryService.getDomainParameterValues(ParameterValue.get(39));
-//        currencyDataService.importData()
+        def idList = SymbolDailyTrade.createCriteria().list {
+            not {
+                like('symbolPersianCode', '%تسه')
+            }
+            projections {
+                symbol {
+                    distinct('id')
+                }
+            }
+        }
 
-//        def dailyTrade = SymbolDailyTrade.get(35645) //mellat bank
-//        render symbolIndicatorService.calculateIndicators(Symbol.get(dailyTrade.symbolId), dailyTrade.date).replace('\n', '<br/>')
+        for (def i = 0; i < idList.size(); i++) {
+            println("${i}\t${idList.size()}")
+            priceSeriesAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [idList[i]])
 
-//        symbolDailyTradeMissingDataService.importData()
-
-//        println ratePurgeService.purgeMetal()
-
-//        render SMAService.bulkCalculate(Symbol.get(17853), 7)
-
-//        timeSeriesDBService.query('')
-
-//        def list = SymbolDailyTrade.list(max: 1)
-//        adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
-
-//        def dt1 = [:]
-//        dt1.firstTradePrice = 1000
-//        dt1.lastTradePrice = 1000
-//        dt1.closingPrice = 5000
-//        dt1.minPrice = 1000
-//        dt1.maxPrice = 1000
-//        dt1.totalTradeCount = 1000
-//        dt1.totalTradeValue = 1000
-//        dt1.totalTradeVolume = 1000
-//        dt1.yesterdayPrice = 1000
-//        dt1.priceChange = 1000
-//        dt1.date = new Date()
-//        dt1.symbolId = 66
-//        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
-
-//        def lst1 = adjustedPriceSeriesService.dailyTradeList(35, null, null, '', AdjustmentHelper.TYPE_NONE)
-//        adjustedPriceSeriesService.write([dt1], [AdjustmentHelper.TYPE_NONE])
-
-//        def lst2 = adjustedPriceSeriesService.dailyTradeList(35, null, null, '', AdjustmentHelper.TYPE_NONE)
-
-//        render timeSeriesDBService.query('select * from /.*/')
-
-//        println 'finished'
-
-//        commodityMarketActivityDataService.importData()
-
-//        energyMarketValueDataService.importData()
-
-//        metalDataService.importData()
-//        symbolClientTypeDataService.importData()
-//        PushUtil.push('1', 'age khabar name codal gerefti khabar bede :D')
-//        initDBService.init()
-//        Thread.start {
-//            Symbol.withTransaction {
-//                migrationService.migrate()
-//            }
-//        }
-
-        adjustedPriceSeries9Service.write(SymbolDailyTrade.findAllBySymbol(Symbol.get(1336)), AdjustmentHelper.ENABLED_TYPES)
+        }
         render 1
     }
 

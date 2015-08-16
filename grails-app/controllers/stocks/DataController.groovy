@@ -7,7 +7,7 @@ import stocks.tse.SymbolAdjustedDailyTrade
 
 class DataController {
 
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
 
     def ohlcv() {
         def symbolId = params.id as Long
@@ -20,7 +20,7 @@ class DataController {
             }
 
         render(
-                adjustedPriceSeriesService.dailyTradeList(symbolId, startDate, endDate, '', adjustmentType)
+                adjustedPriceSeries9Service.dailyTradeList(symbolId, startDate, endDate, '', adjustmentType)
                         .collect {
                     [
                             it.date.time,

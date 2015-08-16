@@ -6,7 +6,6 @@ class BootStrap {
     def dataService
     def dataStateService
     def grailsApplication
-    def adjustedPriceSeriesService
 
     def init = { servletContext ->
 

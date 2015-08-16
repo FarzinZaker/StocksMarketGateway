@@ -5,7 +5,6 @@ import stocks.tse.SymbolDailyTrade
 class TimeSeriesController {
 
     def timeSeriesDBService
-    def adjustedPriceSeriesService
 
     def createDB() {
         try {

@@ -45,7 +45,7 @@ class FutureSeries9Service {
         def propertyList = [
                 "closingPrice"
         ]
-        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "future_${pr}" }.join(', ')} WHERE futureId = '${futureId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "future_${pr}" }.join(', ')} WHERE futureId = '${futureId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         for (def i = 0; i < series.collect { it.values.size() }.min(); i++) {
             def item = [:]
@@ -68,7 +68,7 @@ class FutureSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         } : []
@@ -77,7 +77,7 @@ class FutureSeries9Service {
     Double lastPrice(Long futureId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' time <= ${endDate.time * 1000}u")[0]?.series?.values
+        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
         values ? values[0].find()[1] as Double : null
     }
 

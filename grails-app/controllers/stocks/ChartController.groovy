@@ -10,7 +10,7 @@ import stocks.tse.Index
 
 class ChartController {
 
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
 
     def config() {
 
@@ -94,7 +94,7 @@ class ChartController {
 
         }
 
-        def trades = adjustedPriceSeriesService.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode, params.adjustmentType?.toString())
+        def trades = adjustedPriceSeries9Service.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode, params.adjustmentType?.toString())
 
         render(
                 [
@@ -149,7 +149,7 @@ class ChartController {
         render((symbols + indexes) as JSON)
     }
     def sparkLine(Long id){
-        def list = adjustedPriceSeriesService.sparkLIine(id, 30)
+        def list = adjustedPriceSeries9Service.sparkLIine(id, 30)
         render ([id: id, value: list] as JSON)
     }
 }

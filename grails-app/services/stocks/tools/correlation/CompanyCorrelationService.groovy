@@ -10,7 +10,7 @@ import stocks.tse.SymbolDailyTrade
 
 class CompanyCorrelationService extends CorrelationServiceBase {
 
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
 
     @Override
     List searchItems(String queryStr) {
@@ -65,7 +65,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
 
         def result = [:]
         items.each { symbolId ->
-            result.put(symbolId, adjustedPriceSeriesService.closingPriceList(symbolId as Long, startDate, endDate, groupingMode, adjustmentType).collect {
+            result.put(symbolId, adjustedPriceSeries9Service.closingPriceList(symbolId as Long, startDate, endDate, groupingMode, adjustmentType).collect {
                 [
                         date : it.date,
                         value: it.value
@@ -92,19 +92,19 @@ class CompanyCorrelationService extends CorrelationServiceBase {
                 break
         }
 
-        adjustedPriceSeriesService.closingPriceList(item as Long, startDate, endDate, groupingMode, adjustmentType)
+        adjustedPriceSeries9Service.closingPriceList(item as Long, startDate, endDate, groupingMode, adjustmentType)
     }
 
     @Override
     Double getBaseValue(String item, Date startDate, String adjustmentType) {
-        adjustedPriceSeriesService.lastClosingPrice(item as Long, startDate, adjustmentType) ?: 0
+        adjustedPriceSeries9Service.lastClosingPrice(item as Long, startDate, adjustmentType) ?: 0
     }
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each {symbolId ->
-            result.put(symbolId, adjustedPriceSeriesService.lastClosingPrice(symbolId as Long, startDate, adjustmentType))
+            result.put(symbolId, adjustedPriceSeries9Service.lastClosingPrice(symbolId as Long, startDate, adjustmentType))
         }
         result
     }

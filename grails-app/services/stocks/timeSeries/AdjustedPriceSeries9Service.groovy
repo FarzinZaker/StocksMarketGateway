@@ -10,7 +10,7 @@ class AdjustedPriceSeries9Service {
 
     def timeSeriesDB9Service
 
-    def clear(Long symbolId, List<String> adjustmentTypes) {
+    def clear(List<String> adjustmentTypes) {
 
         adjustmentTypes.each { adjustmentType ->
 
@@ -174,9 +174,9 @@ class AdjustedPriceSeries9Service {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
@@ -186,12 +186,18 @@ class AdjustedPriceSeries9Service {
             item.symbolId = symbolId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
+                if(closingPriceSerie.values[i][1]?.toString() != 'null') {
 //                println(serie.name)
-                def value = serie.values.find {
-                    it[0] == closingPriceSerie.values[i][0]
-                }
+                    def value = serie.values.find {
+                        it[0] == closingPriceSerie.values[i][0]
+                    }
 
-                item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
+                    try {
+                        item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
+                    } catch (ignored) {
+                        item."${serie.name.split('_').last()}" = 0
+                    }
+                }
             }
             list << item
         }
@@ -211,9 +217,9 @@ class AdjustedPriceSeries9Service {
             adjustmentType = AdjustmentHelper.defaultType
         def values
         if (groupingMode == '')
-            values = timeSeriesDB9Service.query("SELECT value FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT value FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
         else
-            values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         }.findAll { it.value } : []
@@ -237,7 +243,7 @@ class AdjustedPriceSeries9Service {
                 'yesterdayPrice',
                 'priceChange'
         ]
-        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time <= ${endDate.time * 1000}u")[0]?.series
+        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
             return null
@@ -257,7 +263,7 @@ class AdjustedPriceSeries9Service {
             endDate = new Date()
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
-        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' time <= ${endDate.time * 1000}u")[0]?.series?.values
+        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
         values ? values[0].find()[1] as Double : null
     }
 

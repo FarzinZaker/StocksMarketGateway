@@ -11,7 +11,7 @@ import stocks.tse.SymbolPriceAdjustment
 class SymbolController {
 
     def priceService
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
     def priceSeriesAdjustmentService
 
     def info() {
@@ -68,12 +68,12 @@ class SymbolController {
     }
 
     def clearTimeSeries() {
-        adjustedPriceSeriesService.clear(params.id as Long, AdjustmentHelper.TYPES)
+        adjustedPriceSeries9Service.clear(AdjustmentHelper.TYPES)
         render 'done'
     }
 
     def loadTimeSeries(){
-        adjustedPriceSeriesService.write(SymbolDailyTrade.createCriteria().list {
+        adjustedPriceSeries9Service.write(SymbolDailyTrade.createCriteria().list {
             symbol{
                 eq('id', params.id as Long)
             }

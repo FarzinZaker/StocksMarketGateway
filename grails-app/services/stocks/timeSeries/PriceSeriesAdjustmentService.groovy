@@ -8,7 +8,7 @@ import stocks.tse.SymbolAdjustedDailyTrade
 class PriceSeriesAdjustmentService {
 
     def symbolIndicatorBulkService
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
 
     def apply(String type, List args) {
         switch (type) {
@@ -19,7 +19,7 @@ class PriceSeriesAdjustmentService {
 
     def applyCapitalIncreasePlusBrought(Long symbolId) {
 
-        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT).sort {
+        def dailyTrades = adjustedPriceSeries9Service.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT).sort {
             -it.date.time
         }
 
@@ -41,7 +41,7 @@ class PriceSeriesAdjustmentService {
             }
 
 //            if (finalList?.size())
-            adjustedPriceSeriesService.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
+            adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
 //            symbolIndicatorBulkService.recalculateIndicators(symbol)
         }
@@ -56,8 +56,8 @@ class PriceSeriesAdjustmentService {
 
     def undoCapitalIncreasePlusBrought(Long symbolId) {
 
-        def dailyTrades = adjustedPriceSeriesService.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_NONE)
-        adjustedPriceSeriesService.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
+        def dailyTrades = adjustedPriceSeries9Service.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_NONE)
+        adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
 //            symbolIndicatorBulkService.recalculateIndicators(symbol)
     }

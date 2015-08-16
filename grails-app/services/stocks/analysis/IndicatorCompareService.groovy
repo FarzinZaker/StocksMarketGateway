@@ -6,8 +6,6 @@ import stocks.tse.Symbol
 
 class IndicatorCompareService {
 
-    def adjustedPriceSeriesService
-
     Boolean indicatorCrossDownValue(Class<IndicatorBase> sourceIndicator, String sourceParameter, Double value, Date date = new Date(), List dailyTrades, List indicators) {
         getIndicatorValue(sourceIndicator, sourceParameter, date, 1, indicators) < value &&
                 (getIndicatorValue(sourceIndicator, sourceParameter, date, 2, indicators) > value ||

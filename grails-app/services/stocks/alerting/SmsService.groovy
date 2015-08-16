@@ -45,11 +45,11 @@ class SmsService {
     String prepareTitle(QueryInstance queryInstance, recordList) {
         switch (queryInstance?.domainClazz) {
             case SupervisorMessage.class.canonicalName:
-                return recordList.collect{SupervisorMessage item ->
+                return recordList.collect { SupervisorMessage item ->
                     item.title
                 }.join(', ')
             case Announcement.class.canonicalName:
-                return recordList.collect{Announcement item ->
+                return recordList.collect { Announcement item ->
                     item.title
                 }.join(', ')
             default:
@@ -113,22 +113,21 @@ class SmsService {
     }
 
     def sendMessage(QueuedMessage message) {
-        if(message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH){
-            if(message.status == MessageHelper.STATUS_WAITING)
+        if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH) {
+            if (message.status == MessageHelper.STATUS_WAITING)
                 sendMessageViaMobilePush(message)
-            if(message.status == MessageHelper.STATUS_SENT){
+            if (message.status == MessageHelper.STATUS_SENT) {
                 def expireTime = message.lastUpdated
-                use(TimeCategory){
+                use(TimeCategory) {
                     expireTime = message.lastUpdated + 30.seconds
                 }
-                if(expireTime > new Date()){
+                if (expireTime > new Date()) {
                     message.deliveryMethod = MessageHelper.DELIVERY_METHOD_SMS
-                    message.save(flush:true)
+                    message.save(flush: true)
                     sendMessageViaSMS(message)
                 }
             }
-        }
-        else if(message.deliveryMethod == MessageHelper.DELIVERY_METHOD_SMS){
+        } else if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_SMS) {
             sendMessageViaSMS(message)
         }
     }
@@ -140,6 +139,15 @@ class SmsService {
         message.save(flush: true)
     }
 
+    def sendCustomMessage(String number, String body) {
+        new SmsLocator().getsmsSoap().doSendSMS(
+                parameters.agah.userName,
+                parameters.agah.userPassword,
+                parameters.agah.senderNumber,
+                number,
+                body,
+                true, false, false, '')
+    }
 
     def sendMessageViaSMS(QueuedMessage message) {
         def messageService = new SmsLocator().getsmsSoap()

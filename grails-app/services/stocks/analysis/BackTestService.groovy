@@ -17,7 +17,7 @@ class BackTestService {
     static transactional = false
 
     def springSecurityService
-    def adjustedPriceSeriesService
+    def adjustedPriceSeries9Service
     def indicatorSeriesService
     def bulkDataService
     SessionFactory sessionFactory
@@ -30,7 +30,7 @@ class BackTestService {
             @Override
             Object load(Object o) throws Exception {
                 def backTest = o as BackTest
-                adjustedPriceSeriesService.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+                adjustedPriceSeries9Service.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
                     it.date
                 }
             }
