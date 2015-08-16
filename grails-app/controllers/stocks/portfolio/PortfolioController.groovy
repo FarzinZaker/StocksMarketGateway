@@ -136,8 +136,8 @@ class PortfolioController {
                     clazzTitle  : message(code: it.itemType),
                     symbol      : it.propertyTitle,
                     shareCount  : it.shareCount,
-                    cost        : it.cost,
-                    avgPrice    : String.format("%.2f", it.cost / it.shareCount),
+                    cost        :  it.avgBuyCost * it.shareCount,
+                    avgPrice    :  it.avgBuyCost,
                     shareValue  : shareValue,
                     currentValue: curVal,
                     profitLoss  : curVal - it.cost

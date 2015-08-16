@@ -9,6 +9,7 @@ class PortfolioItem {
 
     Long shareCount
     Long cost
+    Long avgBuyCost
 
     String getPortfolioName() {
         portfolio?.name
@@ -38,5 +39,6 @@ class PortfolioItem {
         portfolio(nullable: false)
         shareCount(nullable: false)
         cost(nullable: false)
+        avgBuyCost(nullable: true)
     }
 }

@@ -193,7 +193,11 @@ class AdjustedPriceSeriesService {
                     it[0] == closingPriceSerie.values[i][0]
                 }
 
-                item."${serie.name.split('_').last()}" = value && (value != JSONObject.Null) ? value[1] as Double : 0
+                try {
+                    item."${serie.name.split('_').last()}" = value && (value != JSONObject.Null) ? value[1] as Double : 0
+                }catch(ignored){
+                    item."${serie.name.split('_').last()}" = 0
+                }
             }
             list << item
         }

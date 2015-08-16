@@ -49,20 +49,20 @@ class PortfolioActionManagementService {
 
 
         def portfolioItem = getPortfolioItem(portfolio, model)
-        if(model.actionType.actionTypeId in ['s','w']) {
+        if (model.actionType.actionTypeId in ['s', 'w']) {
 
-                def actionDate = df.parse(model.actionDate);
-                def prevAmount=PortfolioAction.createCriteria().list {
-                    eq('portfolioItem',portfolioItem)
-                    le('actionDate',actionDate)
-                }.sum {
-                    (it.actionType in ['s','w']?-1:1)*it.shareCount
-                }?:0
-                if(prevAmount<(model.shareCount?:1)) {
-                    portfolioItem.discard()
-                    return [errors:[allErrors:[messageSource.getMessage('portfolio.sharesCount.validation',[prevAmount].toArray(),'',null)]]]
+            def actionDate = df.parse(model.actionDate);
+            def prevAmount = PortfolioAction.createCriteria().list {
+                eq('portfolioItem', portfolioItem)
+                le('actionDate', actionDate)
+            }.sum {
+                (it.actionType in ['s', 'w'] ? -1 : 1) * it.shareCount
+            } ?: 0
+            if (prevAmount < (model.shareCount ?: 1)) {
+                portfolioItem.discard()
+                return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesCount.validation', [prevAmount].toArray(), '', null)]]]
 
-                }
+            }
         }
 
         if (action.id) {
@@ -74,11 +74,17 @@ class PortfolioActionManagementService {
                 if (!PortfolioAction.countByPortfolioItem(oldPortfolioItem)) {
                     oldPortfolioItem.delete()
                 } else {
+                    if (action.signedCost > 0) {
+                        oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount -action. signedShareCount)
+                    }
                     oldPortfolioItem.cost -= action.signedCost
                     oldPortfolioItem.shareCount -= action.signedShareCount
                     oldPortfolioItem.save()
                 }
             } else {
+                if (action.signedCost > 0) {
+                    oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount -action. signedShareCount)
+                }
                 oldPortfolioItem.cost -= action.signedCost
                 oldPortfolioItem.shareCount -= action.signedShareCount
                 oldPortfolioItem.save()
@@ -117,6 +123,9 @@ class PortfolioActionManagementService {
         def signedCost = item.signedCost
         item.delete()
         if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
+            if (signedCost > 0) {
+                portfolioItem.avgBuyCost = (portfolioItem.avgBuyCost * portfolioItem.shareCount - signedCost) / (portfolioItem.shareCount - signedShareCount)
+            }
             portfolioItem.shareCount -= signedShareCount
             portfolioItem.cost -= signedCost
         } else {
@@ -171,6 +180,9 @@ class PortfolioActionManagementService {
         if (!portfolioItem)
             portfolioItem = new PortfolioBankItem(bankAccount: bank, portfolio: portfolio, shareCount: 0, cost: 0)
 
+        if (model.actionType.actionTypeId == 'd') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -185,6 +197,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBondsItem.findByPortfolioAndBonds(portfolio, bonds)
         if (!portfolioItem)
             portfolioItem = new PortfolioBondsItem(bonds: bonds, portfolio: portfolio, shareCount: 0, cost: 0)
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
 
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
@@ -200,12 +215,15 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioInvestmentFundItem.findByPortfolioAndFund(portfolio, symbol)
         if (!portfolioItem)
             portfolioItem = new PortfolioInvestmentFundItem(fund: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
         portfolioItem
     }
+
     def getHousingFacilitiesPortfolioItem(Portfolio portfolio, Map model) {
         def signedShareCount = (model.actionType.actionTypeId == 'b') ? model.shareCount : -model.shareCount
         def signedCost = model.sharePrice * signedShareCount
@@ -215,6 +233,9 @@ class PortfolioActionManagementService {
         if (!portfolioItem)
             portfolioItem = new PortfolioHousingFacilitiesItem(housingFacility: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
 
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -229,7 +250,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBrokerItem.findByPortfolioAndBroker(portfolio, broker)
         if (!portfolioItem)
             portfolioItem = new PortfolioBrokerItem(broker: broker, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'd') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -244,7 +267,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBullionItem.findByPortfolioAndCarat(portfolio, carat)
         if (!portfolioItem)
             portfolioItem = new PortfolioBullionItem(carat: carat, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -259,7 +284,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBusinessPartnerItem.findByPortfolioAndPartner(portfolio, partner)
         if (!portfolioItem)
             portfolioItem = new PortfolioBusinessPartnerItem(partner: partner, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'd') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -274,7 +301,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioCoinItem.findByPortfolioAndCoin(portfolio, coin)
         if (!portfolioItem)
             portfolioItem = new PortfolioCoinItem(coin: coin, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -289,7 +318,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioCurrencyItem.findByPortfolioAndCurrency(portfolio, currency)
         if (!portfolioItem)
             portfolioItem = new PortfolioCurrencyItem(currency: currency, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -304,7 +335,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioCustomBondsItem.findByPortfolioAndCustomBonds(portfolio, bonds)
         if (!portfolioItem)
             portfolioItem = new PortfolioCustomBondsItem(customBonds: bonds, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -319,7 +352,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioCustomSymbolItem.findByPortfolioAndCustomSymbol(portfolio, symbol)
         if (!portfolioItem)
             portfolioItem = new PortfolioCustomSymbolItem(customSymbol: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -334,7 +369,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioCustomSymbolPriorityItem.findByPortfolioAndCustomSymbolPriority(portfolio, symbol)
         if (!portfolioItem)
             portfolioItem = new PortfolioCustomSymbolPriorityItem(customSymbolPriority: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -349,7 +386,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioImmovableItem.findByPortfolioAndImmovableProperty(portfolio, property)
         if (!portfolioItem)
             portfolioItem = new PortfolioImmovableItem(immovableProperty: property, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -364,7 +403,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioMovableItem.findByPortfolioAndMovableProperty(portfolio, property)
         if (!portfolioItem)
             portfolioItem = new PortfolioMovableItem(movableProperty: property, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -379,7 +420,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioSymbolItem.findByPortfolioAndSymbol(portfolio, symbol)
         if (!portfolioItem)
             portfolioItem = new PortfolioSymbolItem(symbol: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
@@ -394,7 +437,9 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioSymbolPriorityItem.findByPortfolioAndSymbolPriority(portfolio, symbol)
         if (!portfolioItem)
             portfolioItem = new PortfolioSymbolPriorityItem(symbolPriority: symbol, portfolio: portfolio, shareCount: 0, cost: 0)
-
+        if (model.actionType.actionTypeId == 'b') {
+            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
+        }
         portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
 
