@@ -24,7 +24,7 @@ class SymbolClientTypeDataService extends TSEDataService<SymbolClientType, Symbo
 
     @Override
     protected SymbolClientType find(SymbolClientTypeEvent object) {
-        SymbolClientType.findBySymbolInternalCodeAndDate(object.symbolInternalCode, object.date)
+        SymbolClientType.findBySymbolInternalCodeAndDate(object.symbolInternalCode, new Date().clearTime())
     }
 
     public void importData(){

@@ -8,7 +8,7 @@ import stocks.tse.event.IndexEvent
 
 class IndexCorrelationService extends CorrelationServiceBase {
 
-    def indexSeriesService
+    def indexSeries9Service
 
     @Override
     List searchItems(String term) {
@@ -50,7 +50,7 @@ class IndexCorrelationService extends CorrelationServiceBase {
 
         def result = [:]
         items.each { indexId ->
-            result.put(indexId?.toString(), indexSeriesService.finalIndexValueList(indexId as Long, startDate, endDate, groupingMode).collect {
+            result.put(indexId?.toString(), indexSeries9Service.finalIndexValueList(indexId as Long, startDate, endDate, groupingMode).collect {
                 [
                         date : it.date,
                         value: it.value
@@ -77,19 +77,19 @@ class IndexCorrelationService extends CorrelationServiceBase {
                 break
         }
 
-        indexSeriesService.finalIndexValueList(item as Long, startDate, endDate, groupingMode)
+        indexSeries9Service.finalIndexValueList(item as Long, startDate, endDate, groupingMode)
     }
 
     @Override
     Double getBaseValue(String item, Date startDate, String adjustmentType) {
-        indexSeriesService.lastFinalIndexValue(item as Long, startDate) ?: 0
+        indexSeries9Service.lastFinalIndexValue(item as Long, startDate) ?: 0
     }
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each {indexId ->
-            result.put(indexId, indexSeriesService.lastFinalIndexValue(indexId as Long, startDate))
+            result.put(indexId, indexSeries9Service.lastFinalIndexValue(indexId as Long, startDate))
         }
         result
     }

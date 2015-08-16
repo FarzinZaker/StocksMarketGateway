@@ -10,4 +10,8 @@ class GroupController {
                 group: group
         ]
     }
+
+    def save(){
+        println params
+    }
 }

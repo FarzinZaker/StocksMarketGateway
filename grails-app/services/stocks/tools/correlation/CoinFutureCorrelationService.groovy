@@ -8,7 +8,7 @@ import stocks.tse.event.FutureEvent
 
 class CoinFutureCorrelationService extends CorrelationServiceBase {
 
-    def futureSeriesService
+    def futureSeries9Service
 
     @Override
     List searchItems(String term) {
@@ -52,7 +52,7 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
 
         def result = [:]
         items.each { indexId ->
-            result.put(indexId?.toString(), futureSeriesService.closingPriceList(indexId as Long, startDate, endDate, groupingMode).collect {
+            result.put(indexId?.toString(), futureSeries9Service.closingPriceList(indexId as Long, startDate, endDate, groupingMode).collect {
                 [
                         date : it.date,
                         value: it.value
@@ -79,19 +79,19 @@ class CoinFutureCorrelationService extends CorrelationServiceBase {
                 break
         }
 
-        futureSeriesService.closingPriceList(item as Long, startDate, endDate, groupingMode)
+        futureSeries9Service.closingPriceList(item as Long, startDate, endDate, groupingMode)
     }
 
     @Override
     Double getBaseValue(String item, Date startDate, String adjustmentType) {
-        futureSeriesService.lastClosingPrice(item as Long, startDate) ?: 0
+        futureSeries9Service.lastClosingPrice(item as Long, startDate) ?: 0
     }
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each {indexId ->
-            result.put(indexId, futureSeriesService.lastClosingPrice(indexId as Long, startDate))
+            result.put(indexId, futureSeries9Service.lastClosingPrice(indexId as Long, startDate))
         }
         result
     }
