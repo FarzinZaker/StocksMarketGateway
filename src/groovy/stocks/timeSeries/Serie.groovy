@@ -94,7 +94,7 @@ public class Serie {
         toJSON()
     }
 
-    public List<String> toPagedCSV(Integer pageSize) {
+    public List<String> toPagedCSV(pageSize) {
         if (pointList.size() <= pageSize)
             return [toCSV()]
 
