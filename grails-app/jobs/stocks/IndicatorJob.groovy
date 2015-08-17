@@ -55,13 +55,13 @@ class IndicatorJob {
                 }
             }
             try {
-                SymbolDailyTrade.executeUpdate("update SymbolDailyTrade s set s.modificationDate = :modificationDate where s.indicatorsCalculated = :indicatorsCalculated", [modificationDate: new Date(), indicatorsCalculated: true])
+                SymbolDailyTrade.executeUpdate("update SymbolDailyTrade s set s.modificationDate = :modificationDate, s.indicatorsCalculated = :indicatorsCalculated where id = :id", [id: dailyTrade.id, modificationDate: new Date(), indicatorsCalculated: true])
 //                dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
 //                dailyTrade.modificationDate = new Date()
 //                dailyTrade.indicatorsCalculated = true
 //                dailyTrade.merge(flush: true)
             }
-            catch (ignored){
+            catch (ignored) {
                 println("indicator job: [exception] ${ignored.message}")
             }
         }

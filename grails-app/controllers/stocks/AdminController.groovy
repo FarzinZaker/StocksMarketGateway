@@ -70,22 +70,8 @@ class AdminController {
 
     def test() {
 
-        def idList = SymbolDailyTrade.createCriteria().list {
-            not {
-                like('symbolPersianCode', '%تسه')
-            }
-            projections {
-                symbol {
-                    distinct('id')
-                }
-            }
-        }
+        symbolDailyTradeDataService.importData()
 
-        for (def i = 0; i < idList.size(); i++) {
-            println("${i}\t${idList.size()}")
-            priceSeriesAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [idList[i]])
-
-        }
         render 1
     }
 

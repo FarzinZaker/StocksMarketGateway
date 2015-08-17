@@ -66,53 +66,59 @@ public abstract class TSEDataService<T, K> {
             obj.children()[0].children().each { item ->
                 def object = domainClass.newInstance()
 
-                domainClass.constrainedProperties.findAll{!it.key?.toString()?.contains('Snapshot')}.each { property ->
-                    def value
-                    def xmlNodeName = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.xmlNodeName
-                    if (xmlNodeName) {
-                        value = item[xmlNodeName]?.text()?.toString()
-                    } else {
-                        def parameterIndex = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.parameterIndex
-                        if (parameterIndex != null) {
-                            value = parameter[parameterIndex as Integer]
+                try {
+                    domainClass.constrainedProperties.findAll {
+                        !it.key?.toString()?.contains('Snapshot')
+                    }.each { property ->
+                        def value
+                        def xmlNodeName = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.xmlNodeName
+                        if (xmlNodeName) {
+                            value = item[xmlNodeName]?.text()?.toString()
+                        } else {
+                            def parameterIndex = domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.parameterIndex
+                            if (parameterIndex != null) {
+                                value = parameter[parameterIndex as Integer]
+                            }
                         }
-                    }
-                    if (value != null && value != '') {
-                        switch (property.value.propertyType) {
-                            case Integer:
-                                object."${property.key}" = value?.toInteger()
-                                break
-                            case Long:
-                                object."${property.key}" = value?.toLong()
-                                break
-                            case Double:
-                                object."${property.key}" = value?.toDouble()
-                                break
-                            case Boolean:
-                                object."${property.key}" = value?.toInteger() > 0
-                                break
-                            case Date:
-                                object."${property.key}" = parseDate(
-                                        domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.locale,
-                                        value,
-                                        item."${domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.timeXmlNode}"?.text())
+                        if (value != null && value != '') {
+                            switch (property.value.propertyType) {
+                                case Integer:
+                                    object."${property.key}" = value?.toInteger()
+                                    break
+                                case Long:
+                                    object."${property.key}" = value?.toLong()
+                                    break
+                                case Double:
+                                    object."${property.key}" = value?.toDouble()
+                                    break
+                                case Boolean:
+                                    object."${property.key}" = value?.toInteger() > 0
+                                    break
+                                case Date:
+                                    object."${property.key}" = parseDate(
+                                            domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.locale,
+                                            value,
+                                            item."${domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.timeXmlNode}"?.text())
 
-                                break
-                            case String:
-                                object."${property.key}" = FarsiNormalizationFilter.apply((value as String)?.trim())
-                                break
-                            default:
-                                object."${property.key}" = parseForeignKey(
-                                        property.value.propertyType.name,
-                                        domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
-                                        FarsiNormalizationFilter.apply(value as String))
-                        }
+                                    break
+                                case String:
+                                    object."${property.key}" = FarsiNormalizationFilter.apply((value as String)?.trim())
+                                    break
+                                default:
+                                    object."${property.key}" = parseForeignKey(
+                                            property.value.propertyType.name,
+                                            domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
+                                            FarsiNormalizationFilter.apply(value as String))
+                            }
 //                    println(value)
+                        }
                     }
-                }
 
-                object.data = find(object as K)
-                list << tseEventGateway.send(object, this.class.name)
+                    object.data = find(object as K)
+                    list << tseEventGateway.send(object, this.class.name)
+                } catch (ignored) {
+                    throw ignored
+                }
             }
             if (autoLogStateEnabled)
                 logState([status: 'successful'])
