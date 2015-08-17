@@ -22,6 +22,8 @@ class IndicatorJob {
 
     def execute() {
 
+//        return
+
         if (grailsApplication.config.jobsDisabled)
             return
 
@@ -53,10 +55,11 @@ class IndicatorJob {
                 }
             }
             try {
-                dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
-                dailyTrade.modificationDate = new Date()
-                dailyTrade.indicatorsCalculated = true
-                dailyTrade.save(flush: true)
+                SymbolDailyTrade.executeUpdate("update SymbolDailyTrade s set s.modificationDate = :modificationDate where s.indicatorsCalculated = :indicatorsCalculated", [modificationDate: new Date(), indicatorsCalculated: true])
+//                dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
+//                dailyTrade.modificationDate = new Date()
+//                dailyTrade.indicatorsCalculated = true
+//                dailyTrade.merge(flush: true)
             }
             catch (ignored){
                 println("indicator job: [exception] ${ignored.message}")
