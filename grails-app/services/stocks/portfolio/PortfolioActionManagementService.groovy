@@ -75,7 +75,7 @@ class PortfolioActionManagementService {
                     oldPortfolioItem.delete()
                 } else {
                     if (action.signedCost > 0) {
-                        oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount -action. signedShareCount)
+                        oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount - action.signedShareCount)
                     }
                     oldPortfolioItem.cost -= action.signedCost
                     oldPortfolioItem.shareCount -= action.signedShareCount
@@ -83,7 +83,7 @@ class PortfolioActionManagementService {
                 }
             } else {
                 if (action.signedCost > 0) {
-                    oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount -action. signedShareCount)
+                    oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount - action.signedShareCount)
                 }
                 oldPortfolioItem.cost -= action.signedCost
                 oldPortfolioItem.shareCount -= action.signedShareCount
@@ -115,23 +115,30 @@ class PortfolioActionManagementService {
 
     def delete(Long actionId) {
         def item = PortfolioAction.get(actionId)
-        PortfolioAction.findAllByParentAction(item).each { childAction ->
-            delete(childAction.id)
-        }
-        def portfolioItem = item.portfolioItem
-        def signedShareCount = item.signedShareCount
-        def signedCost = item.signedCost
-        item.delete()
-        if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
-            if (signedCost > 0) {
-                portfolioItem.avgBuyCost = (portfolioItem.avgBuyCost * portfolioItem.shareCount - signedCost) / (portfolioItem.shareCount - signedShareCount)
+        if (item) {
+            def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id,item.portfolioItem, item.actionDate)
+            if ((items?.sum { it.signedShareCount } ?: 0) < 0)
+                return [error: 'countLessThanZero']
+            PortfolioAction.findAllByParentAction(item).each { childAction ->
+                delete(childAction.id)
             }
-            portfolioItem.shareCount -= signedShareCount
-            portfolioItem.cost -= signedCost
-        } else {
-            if (!PortfolioAction.findAllByPortfolioItem(portfolioItem))
-                portfolioItem.delete()
+
+            def portfolioItem = item.portfolioItem
+            def signedShareCount = item.signedShareCount
+            def signedCost = item.signedCost
+            item.delete()
+            if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
+                if (signedCost > 0) {
+                    portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / ((portfolioItem.shareCount ?: 0) - signedShareCount)
+                }
+                portfolioItem.shareCount -= signedShareCount
+                portfolioItem.cost -= signedCost
+            } else {
+                if (!PortfolioAction.findAllByPortfolioItem(portfolioItem))
+                    portfolioItem.delete()
+            }
         }
+        return [error: false]
     }
 
     def getPortfolioItem(Portfolio portfolio, Map model) {

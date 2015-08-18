@@ -353,9 +353,14 @@
         confirmWindow.content(confirmWindowTemplate(dataItem)); //send the row data object to the template and render it
         confirmWindow.open().center();
         $("#yesButton").click(function () {
-            dataSource.remove(dataItem)  //prepare a "destroy" request
-            dataSource.sync()  //actually send the request (might be ommited if the autoSync option is enabled in the dataSource)
-            confirmWindow.close();
+            $.ajax({url:'${createLink(action: 'portfolioActionDelete',controller: 'portfolioAction')}',data:{models:JSON.stringify([dataItem])},type:'post',success:function(data){
+                if(data.error)
+                    alert(data.error);
+                else
+                    dataSource.read()
+                confirmWindow.close();
+            }});
+
         })
         $("#noButton").click(function () {
             confirmWindow.close();
