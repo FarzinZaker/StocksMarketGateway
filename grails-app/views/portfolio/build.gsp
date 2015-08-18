@@ -45,9 +45,9 @@
                     <form:checkbox name="defaultItems" text="${message(code: 'portfolio.defaultItems.label')}"
                                    style="width:132px" entity="${portfolio}" onchange="showHideItems()"
                                    checked="${portfolio?.defaultItems != null ? portfolio?.defaultItems : true}"/>
-                    <form:checkbox name="fullAccounting" text="${message(code: 'portfolio.fullAccounting.label')}"
-                                   style="width:120px" entity="${portfolio}"
-                                   checked="${portfolio?.fullAccounting ?: false}"/>
+                    %{--<form:checkbox name="fullAccounting" text="${message(code: 'portfolio.fullAccounting.label')}"--}%
+                                   %{--style="width:120px" entity="${portfolio}"--}%
+                                   %{--checked="${portfolio?.fullAccounting ?: false}"/>--}%
                     <form:checkbox name="useWageAndDiscount"
                                    text="${message(code: 'portfolio.useWageAndDiscount.label')}"
                                    style="width:120px" entity="${portfolio}"

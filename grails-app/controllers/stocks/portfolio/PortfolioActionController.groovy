@@ -113,7 +113,9 @@ class PortfolioActionController {
 
     def portfolioActionDelete() {
         JSON.parse(params.models).each { model ->
-            portfolioActionManagementService.delete(model.id as Long)
+            def res=portfolioActionManagementService.delete(model.id as Long)
+            if(res.error)
+                return render([error:message(code:"portfolioItem.delete.${res.error}")] as JSON)
         }
         render 0
     }
