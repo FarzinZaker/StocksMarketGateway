@@ -9,6 +9,7 @@ import com.tinkerpop.blueprints.Edge
 import com.tinkerpop.blueprints.Vertex
 import com.tinkerpop.blueprints.impls.orient.OrientGraph
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory
+import com.tinkerpop.blueprints.impls.orient.OrientVertex
 
 class GraphDBService {
 
@@ -117,11 +118,17 @@ class GraphDBService {
         edge
     }
 
-    Iterator query(String queryString) {
-        Iterator result = null
+    List query(String queryString) {
+        List result = null
         doWithGraph { OrientGraph graph ->
-            result = graph.command(new OCommandSQL(queryString)).execute().iterator()
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
         }
-        result
+        result.collect { OrientVertex vertex ->
+            def item = [id: vertex.id?.toString()]
+            vertex.propertyKeys.each { propertyKey ->
+                item.put(propertyKey, vertex.getProperty(propertyKey))
+            }
+            item
+        }
     }
 }

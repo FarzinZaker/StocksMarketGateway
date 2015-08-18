@@ -7,22 +7,23 @@ class GroupGraphService {
 
     def graphDBService
     def messageSource
+    def personGraphService
 
-    Vertex getPublicGroup(){
-        graphDBService.getVertex("SELECT FROM Group WHERE title = '${messageSource.getMessage('twitter.publicGroup', null, '??? ???????', Locale.ENGLISH)}'")
-    }
-
-    def create(group, User owner) {
+    def create(String title, String membershipType, String membershipPeriod, Integer membershipPrice, Boolean allowExceptionalUsers, User owner) {
         def groupVertex = graphDBService.addVertex('Group', [
-                title                : group.title,
-                membershipType       : group.membershipType,
-                membershipPeriod     : group.membershipPeriod,
-                membershipPrice      : group.membershipPrice,
-                AllowExceptionalUsers: group.AllowExceptionalUsers,
+                title                : title,
+                membershipType       : membershipType,
+                membershipPeriod     : membershipPeriod,
+                membershipPrice      : membershipPrice,
+                allowExceptionalUsers: allowExceptionalUsers,
                 ownerType            : 'user'
         ])
 
         Vertex person = personGraphService.ensurePerson(owner)
-        graphDBService.addEdge('E', person, groupVertex, [:], 'own')
+        graphDBService.addEdge('own', person, groupVertex)
+    }
+
+    def list(User user){
+        graphDBService.query("SELECT * FROM (SELECT EXPAND(OUT('own')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
     }
 }

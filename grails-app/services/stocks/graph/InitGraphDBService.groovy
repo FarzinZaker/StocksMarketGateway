@@ -2,12 +2,11 @@ package stocks.graph
 
 import com.orientechnologies.orient.core.metadata.schema.OType
 
-class InitDBService {
+class InitGraphDBService {
 
     def graphDBService
-    def groupGraphService
-    def personGraphService
     def messageSource
+    def commonGraphService
 
     def init() {
         initPerson()
@@ -26,7 +25,7 @@ class InitDBService {
         graphDBService.ensureProperty(personClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(personClass, 'title', OType.STRING, true)
 
-        def systemUser = personGraphService.systemUser
+        def systemUser = commonGraphService.systemUser
         if (!systemUser)
             graphDBService.addVertex('Person', [
                     identifier: 0,
@@ -40,17 +39,17 @@ class InitDBService {
         graphDBService.ensureProperty(personClass, 'membershipType', OType.STRING, true)
         graphDBService.ensureProperty(personClass, 'membershipPeriod', OType.STRING, true)
         graphDBService.ensureProperty(personClass, 'membershipPrice', OType.INTEGER, true)
-        graphDBService.ensureProperty(personClass, 'AllowExceptionalUsers', OType.BOOLEAN, true)
+        graphDBService.ensureProperty(personClass, 'allowExceptionalUsers', OType.BOOLEAN, true)
         graphDBService.ensureProperty(personClass, 'ownerType', OType.STRING, true)
 
-        def publicGroup = groupGraphService.publicGroup
+        def publicGroup = commonGraphService.publicGroup
         if (!publicGroup)
             graphDBService.addVertex('Group', [
                     title                :  messageSource.getMessage('twitter.publicGroup', null, '??? ???????', Locale.ENGLISH),
                     membershipType       : 'open',
                     membershipPeriod     : 'unlimited',
                     membershipPrice      : 0,
-                    AllowExceptionalUsers: false,
+                    allowExceptionalUsers: false,
                     ownerType            : 'system'
             ])
     }

@@ -6,6 +6,7 @@ import stocks.User
 class PersonGraphService {
 
     def graphDBService
+    def commonGraphService
 
     Vertex getSystemUser() {
         graphDBService.getVertex("SELECT FROM Person WHERE identifier = 0")
@@ -20,7 +21,7 @@ class PersonGraphService {
                     title     : "${user.firstName} ${user.lastName}"
             ])
 
-            graphDBService.addEdge('Member', person, groupGraphService.publicGroup, [type: 'normal', startDate: new Date()], null)
+            graphDBService.addEdge('Member', person, commonGraphService.publicGroup, [type: 'normal', startDate: new Date()], null)
         }
         person
     }

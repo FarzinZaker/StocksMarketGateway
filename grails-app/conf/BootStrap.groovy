@@ -7,6 +7,8 @@ class BootStrap {
     def dataStateService
     def grailsApplication
 
+    def initGraphDBService
+
     def init = { servletContext ->
 
         RoleHelper.ROLES.each {
@@ -40,6 +42,11 @@ class BootStrap {
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')
 
+        println('--------------------------------------------')
+        println('initializing graph db')
+        initGraphDBService.init()
+        println('graph db initialization completed')
+        println('--------------------------------------------')
 
     }
     def destroy = {
