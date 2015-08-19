@@ -38,9 +38,7 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType) {
-
-        def series = tradesDataService.getAllPriceSeries(item, adjustmentType)
+    Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType, List series) {
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

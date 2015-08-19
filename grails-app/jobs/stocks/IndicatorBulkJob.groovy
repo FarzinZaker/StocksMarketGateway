@@ -13,29 +13,23 @@ class IndicatorBulkJob {
     def symbolIndicatorBulkService
     def grailsApplication
     def lowLevelDataService
+    def smsService
 
     def execute() {
-
-        return
 
         if (grailsApplication.config.jobsDisabled)
             return
 
-        println()
-        println "-----------------------------------------"
-        println "---- calculating indicators started ----"
-        println()
         def symbol = findNextSymbol(getLastState())
         if(symbol) {
-            println "--------- ${symbol.persianName} ---------"
+            log.error "[9] bulk indicator calculate: ${symbol.shortCode}"
             symbolIndicatorBulkService.bulkCalculateIndicator(symbol)
             logState(symbol?.id)
         }
         else{
-            println()
-            println "---- calculating indicators finished ----"
-            println "-----------------------------------------"
-            println()
+            smsService.sendCustomMessage('09122110811', 'bulk indicator calculation completed')
+            log.error "[9] no adjustment"
+            logState(0)
         }
     }
 
@@ -46,7 +40,7 @@ class IndicatorBulkJob {
 
     def logState(Long symbolId) {
         def data = [symbolId: symbolId]
-        def serviceName = 'indicator-bulk'
+        def serviceName = 'indicator-bulk9'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -56,7 +50,7 @@ class IndicatorBulkJob {
     }
 
     Long getLastState() {
-        def serviceName = 'indicator-bulk'
+        def serviceName = 'indicator-bulk9'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.symbolId ?: 0 : 0
     }

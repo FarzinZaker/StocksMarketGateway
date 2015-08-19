@@ -26,7 +26,7 @@ class TEMAService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
 
-        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, parameter, date)
+        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
         if (series.size() < parameter)
             return 0
         def core = new Core()
@@ -40,9 +40,7 @@ class TEMAService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType) {
-
-        def series = tradesDataService.getPriceSeries(item, adjustmentType)
+    Map bulkCalculate(Symbol item, Integer parameter, String adjustmentType, List series) {
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

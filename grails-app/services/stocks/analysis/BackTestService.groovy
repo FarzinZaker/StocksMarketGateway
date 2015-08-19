@@ -18,7 +18,7 @@ class BackTestService {
 
     def springSecurityService
     def adjustedPriceSeries9Service
-    def indicatorSeriesService
+    def indicatorSeries9Service
     def bulkDataService
     SessionFactory sessionFactory
 
@@ -292,7 +292,7 @@ class BackTestService {
         }
         indicators = indicators.unique()
         indicators.each { indicator ->
-            indicator.values = indicatorSeriesService.indicatorList(backTest.symbolId, indicator.clazz, indicator.parameter, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+            indicator.values = indicatorSeries9Service.indicatorList(backTest.symbolId, indicator.clazz, indicator.parameter, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
                 it.date
             }
         }

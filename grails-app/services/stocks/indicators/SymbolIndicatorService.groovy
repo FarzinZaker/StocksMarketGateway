@@ -12,7 +12,7 @@ class SymbolIndicatorService {
 
     def grailsApplication
     def lowLevelDataService
-    def indicatorSeriesService
+    def indicatorSeries9Service
 
     def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
 
@@ -38,7 +38,7 @@ class SymbolIndicatorService {
                 clazz.executeUpdate("update ${className.split('\\.').last()} i set i.dayNumber = i.dayNumber + 1 where i.symbol.id = ${indicator.symbolId} and i.parameter = '${parameterString}' and i.adjustmentType = '${adjustmentType}' and i.id <> ${indicator.id}")
 
 
-                indicatorSeriesService.write(indicator as IndicatorBase)
+                indicatorSeries9Service.write(indicator as IndicatorBase)
             }
         }
 

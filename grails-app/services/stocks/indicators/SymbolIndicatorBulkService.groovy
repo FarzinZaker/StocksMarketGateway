@@ -12,15 +12,17 @@ class SymbolIndicatorBulkService {
     def grailsApplication
     def lowLevelDataService
     def bulkDataService
-    def indicatorSeriesService
+    def indicatorSeries9Service
+    def tradesDataService
 
-    def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter) {
+    def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter, seriesMap) {
 
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
         AdjustmentHelper.ENABLED_TYPES.each { adjustmentType ->
-            def value = symbol ? serviceClass.bulkCalculate(symbol, parameter, adjustmentType) : [series: [], indicators: []]
+            def series = seriesMap[adjustmentType]
+            def value = symbol ? serviceClass.bulkCalculate(symbol, parameter, adjustmentType, series) : [series: [], indicators: []]
 
             if (value.indicators?.size())
                 value.indicators = CollectionHelper.moveZeroesToFirst(value.indicators as List)
@@ -44,20 +46,26 @@ class SymbolIndicatorBulkService {
 
             }
             if (indicatorList.size())
-                indicatorSeriesService.write(indicatorList)
+                indicatorSeries9Service.write(indicatorList)
 
         }
 
     }
 
     def bulkCalculateIndicator(Symbol symbol) {
+
+        def seriesMap = [:]
+        AdjustmentHelper.ENABLED_TYPES.each {adjustmentType ->
+            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeries(symbol, adjustmentType))
+        }
+
         grailsApplication.getArtefacts('Service').findAll {
             it.fullName.startsWith("stocks.indicators.symbol.")
         }.sort { it.fullName }.each { serviceClass ->
             def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
             if (service.enabled) {
                 service.commonParameters.each { parameter ->
-                    bulkCalculateIndicator(symbol, service, parameter)
+                    bulkCalculateIndicator(symbol, service, parameter, seriesMap)
                 }
             }
         }

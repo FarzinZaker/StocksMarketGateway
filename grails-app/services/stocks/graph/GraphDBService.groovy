@@ -87,9 +87,7 @@ class GraphDBService {
     Vertex getVertex(String queryString) {
         Vertex vertex = null
         doWithGraph { OrientGraph graph ->
-            def iterator = query(queryString)
-            if (iterator.hasNext())
-                vertex = iterator.next() as Vertex
+            vertex = query(queryString)?.find() as Vertex
         }
         vertex
     }
