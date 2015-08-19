@@ -18,6 +18,22 @@ public class CollectionHelper {
         }
     }
 
+    public static ArrayList getDisjunction(ArrayList<ArrayList> list) {
+        if (list.size() < 1)
+            return null
+        if (list.size() < 2)
+            return list.find()
+
+        def result = []
+        list.each {ls ->
+            ls.each {item ->
+                if(!result.contains(item))
+                    result.add(item)
+            }
+        }
+        result
+    }
+
     public static List moveZeroesToFirst(List list) {
         if (!list.any { it != 0 })
             return list

@@ -35,17 +35,17 @@ class CommodityMarketActivityDataService {
         rows.each { row ->
             def marketActivity = new CommodityMarketActivityEvent()
             marketActivity.date = date
-            marketActivity.marketIdentifier = CommodityMarketHelper.marketIdentifier(row.children()[0].text().trim())
-            marketActivity.internalVolume = row.children()[1].text().trim().replace(',', '') as Double
-            marketActivity.exportVolume = row.children()[2].text().trim().replace(',', '') as Double
-            marketActivity.internalValue = row.children()[3].text().trim().replace(',', '') as Double
-            marketActivity.exportValue = row.children()[4].text().trim().replace(',', '') as Double
-            marketActivity.internalBuyersCount = row.children()[5].text().trim().replace(',', '') as Integer
-            marketActivity.exportBuyersCount = row.children()[6].text().trim().replace(',', '') as Integer
-            marketActivity.internalSellersCount = row.children()[7].text().trim().replace(',', '') as Integer
-            marketActivity.exportSellersCount = row.children()[8].text().trim().replace(',', '') as Integer
-            marketActivity.internalTradeCount = row.children()[9].text().trim().replace(',', '') as Integer
-            marketActivity.exportTradeCount = row.children()[10].text().trim().replace(',', '') as Integer
+            marketActivity.marketIdentifier = CommodityMarketHelper.marketIdentifier(row.children()[0].text()?.trim())
+            marketActivity.internalVolume = row.children()[1].text()?.trim()?.replace(',', '') as Double
+            marketActivity.exportVolume = row.children()[2].text()?.trim()?.replace(',', '') as Double
+            marketActivity.internalValue = row.children()[3].text()?.trim()?.replace(',', '') as Double
+            marketActivity.exportValue = row.children()[4].text()?.trim()?.replace(',', '') as Double
+            marketActivity.internalBuyersCount = row.children()[5].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.exportBuyersCount = row.children()[6].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.internalSellersCount = row.children()[7].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.exportSellersCount = row.children()[8].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.internalTradeCount = row.children()[9].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.exportTradeCount = row.children()[10].text()?.trim()?.replace(',', '') as Integer
 
             marketActivity.data = CommodityMarketActivity.findByMarketIdentifierAndDate(marketActivity.marketIdentifier, marketActivity.date)
             commodityEventGateway.send(marketActivity)
@@ -56,7 +56,7 @@ class CommodityMarketActivityDataService {
 
 
     private static Date parseDate(String date) {
-        date = date.trim()
+        date = date?.trim()
         def dateParts = date.split("/").collect { it as Integer }
         JalaliCalendar jc = new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2])
         def cal = jc.toJavaUtilGregorianCalendar()
