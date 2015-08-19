@@ -102,7 +102,7 @@ environments {
 
         graph {
             dataSource {
-                host = 'localhost'
+                host = '192.168.64.3'
                 username = 'stocks'
                 password = 'agah!#($'
                 db = 'stocks'
