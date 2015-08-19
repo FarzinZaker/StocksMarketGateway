@@ -43,7 +43,7 @@ class PriceSeriesAdjustmentService {
 //            if (finalList?.size())
             adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
-            symbolIndicatorBulkService.recalculateIndicators(symbol)
+            symbolIndicatorBulkService.recalculateIndicators(Symbol.get(symbolId))
         }
     }
 
