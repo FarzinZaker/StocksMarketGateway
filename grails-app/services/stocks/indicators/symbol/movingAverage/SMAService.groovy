@@ -27,14 +27,14 @@ class SMAService implements IndicatorServiceBase<Symbol, Integer> {
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
 
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
+        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, date)
         if (series.size() < parameter)
             return 0
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
         def result = new double[parameter]
-        core.sma(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
+        core.sma(0, parameter - 1, TypeCast.toDoubleArray(series.subList(series.size()-parameter,series.size()).collect {
             it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.toList()?.first()

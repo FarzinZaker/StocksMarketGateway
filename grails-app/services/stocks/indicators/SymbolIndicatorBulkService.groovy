@@ -27,7 +27,7 @@ class SymbolIndicatorBulkService {
             if (value.indicators?.size())
                 value.indicators = CollectionHelper.moveZeroesToFirst(value.indicators as List)
 
-            def dailyTrades = value.series.reverse()
+            def dailyTrades = value.series
             def indicatorValues = value.indicators
 
             def loopCount = [dailyTrades.size(), indicatorValues.size()].min()
@@ -69,6 +69,21 @@ class SymbolIndicatorBulkService {
                 }
             }
         }
+    }
+    def bulkCalculateSingleIndicator(Symbol symbol,serviceClass ) {
+
+        def seriesMap = [:]
+        AdjustmentHelper.ENABLED_TYPES.each {adjustmentType ->
+            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeries(symbol, adjustmentType))
+        }
+
+        def service = ClassResolver.loadServiceByName(serviceClass.name ) as IndicatorServiceBase
+        if (service.enabled) {
+            service.commonParameters.each { parameter ->
+                bulkCalculateIndicator(symbol, service, parameter, seriesMap)
+            }
+        }
+
     }
 
     def recalculateIndicators(Symbol symbol) {
