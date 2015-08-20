@@ -13,6 +13,7 @@ class SymbolController {
     def priceService
     def adjustedPriceSeries9Service
     def priceSeriesAdjustmentService
+    def symbolIndicatorBulkService
 
     def info() {
         def symbol = Symbol.get(params.id as Long)
@@ -89,6 +90,11 @@ class SymbolController {
 
     def undoAdjustment(){
         priceSeriesAdjustmentService.undo(params.type?.toString(), [params.id])
+        render 'done'
+    }
+
+    def recalculateIndicators(){
+        symbolIndicatorBulkService.recalculateIndicators(Symbol.get(params.id as Long))
         render 'done'
     }
 

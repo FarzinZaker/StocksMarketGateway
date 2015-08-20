@@ -17,6 +17,9 @@
         <li>
             <a href="${createLink(action: 'undoAdjustment', id: params.id, params:[type: AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])}" target="_blank">Undo Adjustment [ ${AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT} ]</a>
         </li>
+        <li>
+            <a href="${createLink(action: 'recalculateIndicators', id: params.id)}" target="_blank">Recalculate Indicators</a>
+        </li>
     </ul>
     </div>
 </sec:ifAllGranted>
