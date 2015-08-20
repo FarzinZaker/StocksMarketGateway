@@ -13,7 +13,7 @@ class IndicatorSeries9Service {
     }
 
     def write(List<IndicatorBase> indicators) {
-
+    return
         def serie = new Serie()
         indicators.each { indicator ->
             if (indicator.symbolId) {
