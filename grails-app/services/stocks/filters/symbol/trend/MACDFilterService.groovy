@@ -62,7 +62,7 @@ class MACDFilterService implements IncludeFilterService {
     @Override
     String[] formatQueryValue(Object value, String operator) {
         if (value?.contains( 'constant_switch'))
-            [NumberFormat.instance.format(value.first() as Double)]
+            [NumberFormat.instance.format(value?.findAll()?.sort()?.first() as Double)]
         else
             [messageSource.getMessage('macd.signal', null, Locale.ENGLISH)]
     }
@@ -100,7 +100,7 @@ class MACDFilterService implements IncludeFilterService {
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
         if (value.contains( 'constant_switch')) {
-            def targetValue = value?.sort()?.first()
+            def targetValue =value?.findAll()?.sort()?.first()
             switch (operator) {
                 case Operators.UPPER_THAN:
                     idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [

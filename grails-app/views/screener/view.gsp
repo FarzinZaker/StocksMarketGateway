@@ -90,6 +90,14 @@
                 function formatNumericField(model, fieldName) {
                     return "<div class='" + getChangeColor(eval('model.' + fieldName + 'Change')) + "'>" + formatNumber(eval('model.' + fieldName)) + "</div>";
                 }
+                function formatNumericFieldIndicator(model, fieldName) {
+//                    if(eval('model.' + fieldName)>0)
+//                        return "<div style='color:green' class='" + getChangeColor(eval('model.' + fieldName )) + "Change'>" + formatNumber(eval('model.' + fieldName)) + "</div>";
+//                    else if(eval('model.' + fieldName)<0)
+//                        return "<div style='color:red' class='" + getChangeColor(eval('model.' + fieldName )) + "Change'>" + formatNumber(eval('model.' + fieldName)) + "</div>";
+//                    else
+                        return "<div class='" + getChangeColor(eval('model.' + fieldName )) + "Change'>" + formatNumber(eval('model.' + fieldName)) + ((eval('model.' + fieldName)<0)?'-':'')+"</div>";
+                }
 
                 var changableColumns = [
                     'closingPrice',
@@ -281,7 +289,7 @@
                             {
                                 field: "${indicatorColumn.key.replace(',', '_')}",
                                 title: "${indicatorColumn.value}",
-                                template: "#=formatNumericField(data, '${indicatorColumn.key.replace(',', '_')}')#"
+                                template: "#=formatNumericFieldIndicator(data, '${indicatorColumn.key.replace(',', '_')}')#"
 //                                format: '{0:n0}'
                             },
                             </g:each>
