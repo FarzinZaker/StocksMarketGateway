@@ -200,7 +200,7 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'stocks.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRole'
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
-jobsDisabled = false
+jobsDisabled = true
 timeSeriesDisabled = false
 
 
@@ -283,3 +283,7 @@ quartz {
 
     }
 }
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+        "/console/**":          ['ROLE_ADMIN'],
+        "/plugins/console*/**": ['ROLE_ADMIN']
+]
