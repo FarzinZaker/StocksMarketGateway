@@ -57,6 +57,8 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
     private static void updateFilterService(SymbolDailyTrade data){
         if (!FilterService.lastTradingDate || FilterService.lastTradingDate.clearTime() < data.date.clearTime())
             FilterService.recentlyTradedSymbols = [data.id]
+        else if(!FilterService.recentlyTradedSymbols.contains(data.id))
+            FilterService.recentlyTradedSymbols.add(data.id)
         FilterService.lastTradingDate = data.date
     }
 
