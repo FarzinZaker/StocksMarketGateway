@@ -25,11 +25,21 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
 
     @Override
     Double calculate(Symbol item, Integer parameter, String adjustmentType, List series, Date date = new Date()) {
-        def yesterday= tradesDataService.getLastIndicatorPrice(item.id, EMA, parameter.toString(), date-1, adjustmentType)
-        def price=tradesDataService.getLastSymbolPrice(item.id,date,adjustmentType).lastTradePrice
-        double multiplier = (2D / (parameter + 1));
-
-            return (price - yesterday) * multiplier + yesterday;
+//        def yesterday= tradesDataService.getLastIndicatorPrice(item.id, EMA, parameter.toString(), date-1, adjustmentType)
+//        def price=tradesDataService.getLastSymbolPrice(item.id,date,adjustmentType).lastTradePrice
+//        double multiplier = (2D / (parameter + 1));
+//
+//            return ((price?:0) - (yesterday?:0)) * multiplier + (yesterday?:0);
+        if (series.size() < parameter)
+            return 0
+        def core = new Core()
+        def beginIndex = new MInteger()
+        def endIndex = new MInteger()
+        def result = new double[series.size()]
+        core.ema(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
+            it.lastTradePrice
+        }), parameter, beginIndex, endIndex, result)
+        result?.findAll()?.last()
 
     }
 

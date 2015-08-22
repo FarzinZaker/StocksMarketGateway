@@ -32,11 +32,8 @@ class TradesDataService {
 
         if(!maxDate)
             maxDate = new Date()
-        def startDate = maxDate
-        use(TimeCategory){
-            startDate = startDate - 1000
-        }
-        adjustedPriceSeries9Service.dailyTradeListForIndicators(symbol.id, startDate, maxDate, '', adjustmentType)
+
+        adjustedPriceSeries9Service.dailyTradeListForIndicators(symbol.id, null, maxDate, '', adjustmentType)
     }
     List getAllPriceSeriesFromDate(Symbol symbol, String adjustmentType,Date minDate=null, Date maxDate = null) {
         adjustedPriceSeries9Service.dailyTradeList(symbol.id, minDate, maxDate, '', adjustmentType)
