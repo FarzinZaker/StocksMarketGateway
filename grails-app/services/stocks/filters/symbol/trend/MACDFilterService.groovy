@@ -99,8 +99,8 @@ class MACDFilterService implements IncludeFilterService {
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
-        if (value.last() == 'constant_switch') {
-            def targetValue = value.first()
+        if (value.contains( 'constant_switch')) {
+            def targetValue = value?.sort()?.first()
             switch (operator) {
                 case Operators.UPPER_THAN:
                     idList = lowLevelDataService.executeFunction('IND_UPPER_THAN_VAL_FILTER', [
