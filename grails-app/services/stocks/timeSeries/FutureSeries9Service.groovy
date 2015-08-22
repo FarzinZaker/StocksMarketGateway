@@ -42,6 +42,9 @@ class FutureSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
         def propertyList = [
                 "closingPrice"
         ]
@@ -68,6 +71,9 @@ class FutureSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
@@ -77,6 +83,9 @@ class FutureSeries9Service {
     Double lastPrice(Long futureId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
         values ? values[0].find()[1] as Double : null
     }

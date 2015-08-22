@@ -1,5 +1,6 @@
 package stocks.timeSeries
 
+import eu.verdelhan.ta4j.TimeSeries
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import stocks.tse.AdjustmentHelper
@@ -53,7 +54,7 @@ class AdjustedPriceSeries9Service {
                             'priceChange'
                     ].each { property ->
                         serie.addPoint(new Point("${property}")
-                            .tags([symbolId: dailyTrade.symbolId?.toString(), adjustmentType: adjustmentType])
+                                .tags([symbolId: dailyTrade.symbolId?.toString(), adjustmentType: adjustmentType])
                                 .time(dailyTrade.date)
                                 .value(dailyTrade."${property}"))
                     }
@@ -157,6 +158,9 @@ class AdjustedPriceSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
 
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
@@ -186,7 +190,7 @@ class AdjustedPriceSeries9Service {
             item.symbolId = symbolId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
-                if(closingPriceSerie.values[i][1]?.toString() != 'null') {
+                if (closingPriceSerie.values[i][1]?.toString() != 'null') {
 //                println(serie.name)
                     def value = serie.values.find {
                         it[0] == closingPriceSerie.values[i][0]
@@ -213,7 +217,9 @@ class AdjustedPriceSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-
+        use(TimeCategory) {
+            endDate = endDate + 1.day
+        }
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def propertyList = [
@@ -235,7 +241,7 @@ class AdjustedPriceSeries9Service {
             item.symbolId = symbolId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
             series.each { serie ->
-                if(closingPriceSerie.values[i][1]?.toString() != 'null') {
+                if (closingPriceSerie.values[i][1]?.toString() != 'null') {
                     def value = serie.values.find {
                         it[0] == closingPriceSerie.values[i][0]
                     }
@@ -261,6 +267,9 @@ class AdjustedPriceSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory) {
+            endDate = endDate + 1.day
+        }
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def values
@@ -276,6 +285,9 @@ class AdjustedPriceSeries9Service {
     def lastDailyTrade(Long symbolId, Date endDate = null, String adjustmentType = null) {
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory) {
+            endDate = endDate + 1.day
+        }
 
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
@@ -309,6 +321,10 @@ class AdjustedPriceSeries9Service {
     Double lastPrice(Long symbolId, String property, Date endDate = null, String adjustmentType = null) {
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory) {
+            endDate = endDate + 1.day
+        }
+
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values

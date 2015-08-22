@@ -36,6 +36,9 @@ class IndicatorSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def values
@@ -51,6 +54,9 @@ class IndicatorSeries9Service {
     Double lastIndicator(Long symbolId, Class<IndicatorBase> indicator, String parameter, Date endDate = null, String adjustmentType = null) {
         if (!endDate)
             endDate = new Date()
+        use(TimeCategory){
+            endDate = endDate + 1.day
+        }
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${indicator.canonicalName.replace('.', '_').replace('stocks_indicators_symbol_', '')} WHERE parameter = '${parameter?.replace(',', '_')}' AND adjustmentType = '${adjustmentType}' AND symbolId = '${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
