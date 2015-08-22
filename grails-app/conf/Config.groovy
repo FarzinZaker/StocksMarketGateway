@@ -283,6 +283,7 @@ quartz {
 
     }
 }
+grails.plugin.console.enabled=true
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         "/console/**":          ['ROLE_ADMIN'],
         "/plugins/console*/**": ['ROLE_ADMIN']
