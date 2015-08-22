@@ -38,10 +38,10 @@ class IndicatorJob {
             maxResults(1)
         }?.find()
 
-        println "remaining indicators:" + (SymbolDailyTrade.createCriteria().count {
+        log.warn( "remaining indicators:" + (SymbolDailyTrade.createCriteria().count {
             eq('indicatorsCalculated', false)
             gt('date', startDate)
-        })
+        }))
 
         if (dailyTrade) {
             grailsApplication.getArtefacts('Service').findAll {
@@ -62,7 +62,7 @@ class IndicatorJob {
 //                dailyTrade.merge(flush: true)
             }
             catch (ignored) {
-                println("indicator job: [exception] ${ignored.message}")
+                log.error("indicator job: [exception] ${ignored.message}")
             }
         }
     }
