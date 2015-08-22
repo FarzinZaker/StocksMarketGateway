@@ -10,31 +10,31 @@ class UserController {
     def mailService
     def springSecurityService
 
-    def register() {
+    def completeRegistration() {
+
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
+
+        def code = new String(params.code.toString().decodeBase64()).split('_')[2]
+        if (code.toString() == params.id.toString()) {
+            [user: User.get(params.id as Long)]
+
+        } else
+            render "code error"
     }
 
-    def saveRegistration() {
+    def saveInitialRegistration() {
 
-        if (springSecurityService.loggedIn)
-            redirect(uri: '/')
-
-        def user = new User(params)
-        if (!simpleCaptchaService.validateCaptcha(params.captcha)) {
-
-            flash.validationError = message(code: 'captcha.invalid')
-            render view: 'register', model: [user: user]
+        if (springSecurityService.loggedIn) {
+            render '0'
             return
         }
 
-        user.city = City.get(params.cityId)
+        def user = new User(params)
         user.username = user.email?.toLowerCase()
         user.enabled = false
 
         if (user.validate() && user.save()) {
-
-            UserRole.create user, Role.findByAuthority(RoleHelper.ROLE_USER)
 
             mailService.sendMail {
                 to user.email
@@ -42,11 +42,40 @@ class UserController {
                 html(view: "/messageTemplates/email_template",
                         model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString()])
             }
+            render '1'
+        } else
+            render '-1'
+    }
 
-            render(view: 'checkForActivationMail')
+    def saveRegistration() {
+
+        if (springSecurityService.loggedIn)
+            redirect(uri: '/')
+
+        def user = User.get(params.id)
+//        if (!simpleCaptchaService.validateCaptcha(params.captcha)) {
+//
+//            flash.validationError = message(code: 'captcha.invalid')
+//            render view: 'register', model: [user: user]
+//            return
+//        }
+
+        user.properties = params
+        user.city = City.get(params.cityId as Long)
+        user.enabled = true
+
+        if (user.validate() && user.save()) {
+
+            UserRole.create user, Role.findByAuthority(RoleHelper.ROLE_USER)
+
+            redirect(controller: 'login', action: 'auth')
         } else {
             render(view: 'register', model: [user: user])
         }
+    }
+
+    def checkForActivationMail() {
+
     }
 
     def list() {
@@ -142,6 +171,8 @@ class UserController {
     }
 
     def activate() {
+
+        return
 
         if (springSecurityService.loggedIn)
             redirect(uri: '/')

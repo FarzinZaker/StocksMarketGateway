@@ -320,7 +320,7 @@ button {
   }
 }
 
-#confirmDialog, #alertDialog {
+#confirmDialog, #alertDialog, #infoDialog {
   display: none;
   img {
     display: block;
@@ -1301,6 +1301,8 @@ h1, h2, h3, h4 {
 
 .loginModal {
   margin: -8px;
+  overflow:hidden;
+  height: 382px;
   i.fa-close {
     position: absolute;
     top: 10px;
@@ -1318,41 +1320,69 @@ h1, h2, h3, h4 {
         padding: 0;
         &:first-child {
           div {
-            margin: 0 0 -7px;
             background-color: @summary-back-color;
+            border-left-width: 0;
+            height: auto;
+            h3 {
+              padding-top: 0;
+            }
             div {
-              padding-top: 40px;
-              background: url(../images/networking.png) no-repeat bottom center;
-              height: 360px;
+              margin-top: 0;
+              padding-top: 30px;
+              background: url(../images/networking.png) no-repeat center 220px;
               background-size: 80%;
               margin-bottom: 20px;
               padding-right: 10px;
               padding-left: 10px;
               text-align: justify;
-              h3 {
-                color: @error-color;
-                font-size: 22px;
-                font-weight: bolder;
-              }
+              height: 360px;
             }
           }
         }
         div {
           padding-right: 10px;
-          padding-left:10px;
-          margin-top:10px;
-          margin-bottom:10px;
-          height: 413px;
-          border-left:1px solid @summary-back-color;
+          padding-left: 10px;
+          margin: 0 0 -28px;
+          border-left: 1px solid @editor-border-color;
+          text-align: center;
+          height: 360px;
+          h3 {
+            padding-right: 0;
+            text-align: right;
+            font-size: 22px;
+            color: @error-color;
+            margin-bottom: 20px !important;
+            padding-top: 30px;
+            margin-top: 15px;
+          }
+          form {
+            display: inline-block;
+            width: 220px;
+          }
           div {
+            margin: 0 0 5px 0;
             padding: 0;
-            height: auto;
             border-left-width: 0;
+            text-align: right;
+            height: auto;
           }
         }
         &:last-child {
-          div{
+          div {
             border-left-width: 0;
+            margin-right: 5px;
+            overflow: hidden;
+            padding-right: 0;
+            width: 230px;
+            h3 {
+              margin-right: 5px;
+            }
+            form {
+              margin-right: -10px;
+              input[type=submit]{
+                margin-right:5px;
+              }
+            }
           }
         }
       }

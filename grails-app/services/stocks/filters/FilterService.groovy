@@ -177,6 +177,7 @@ class FilterService {
                     indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()?.toString()?.replace(',', '_')}"
             }
         }
+        indicatorColumns = indicatorColumns.unique()
         def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: adjustmentType, cols: indicatorColumns.collect {
             "'" + it.replace('stocks_indicators_symbol_', '') + "'"
         }.join(',')])

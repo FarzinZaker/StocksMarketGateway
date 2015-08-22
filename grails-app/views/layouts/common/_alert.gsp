@@ -3,7 +3,7 @@
     <asset:image src="error.png"/>
     <div class="message">message</div>
     <div class="toolbar">
-        <input type="button" class="k-button btn-ok" value="${message(code:'confirm.dialog.ok')}"/>
+        <input type="button" class="k-button btn-ok" value="${message(code:'alert.dialog.ok')}"/>
     </div>
 </div>
 

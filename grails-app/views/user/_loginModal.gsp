@@ -19,10 +19,9 @@
                         <h3 class="steel">
                             <g:message code="register.title"/>
                         </h3>
-                        <form:error message="${flash.message}"/>
-                        <form:info message="${flash.info}"/>
 
-                        <form action='${postUrl}' method='POST' id='loginForm' autocomplete='off'>
+                        <form action='${createLink(controller: 'user', action: 'saveInitialRegistration')}'
+                              method='POST' id='registerModalForm' autocomplete='off'>
                             <form:field fieldName="user.email" showHelp="0" border="0">
                                 <form:textBox name="email" validation="required" style="width:220px;"/>
                             </form:field>
@@ -32,7 +31,9 @@
                             <form:field fieldName="user.confirmPassword" showHelp="0" border="0">
                                 <form:password name="confirmPassword" validation="required" style="width:220px;"/>
                             </form:field>
-                            <form:submitButton name="submit" text="${message(code: 'register.button.label')}"/>
+                            <div>
+                                <form:button name="initialRegister" text="${message(code: 'register.button.label')}" onclick="doInitialRegistration()"/>
+                            </div>
                         </form></div>
                 </div>
 
@@ -41,10 +42,9 @@
                         <h3 class="steel">
                             <g:message code="login.title"/>
                         </h3>
-                        <form:error message="${flash.message}"/>
-                        <form:info message="${flash.info}"/>
 
-                        <form action='${postUrl}' method='POST' id='loginForm' autocomplete='off'>
+                        <form action='${createLink(uri: '/j_spring_security_check')}' method='POST' id='loginPopupForm'
+                              autocomplete='off'>
                             <form:field fieldName="login.username" showHelp="0" border="0">
                                 <form:textBox name="j_username" validation="required" style="width:220px;"/>
                             </form:field>
@@ -52,15 +52,37 @@
                                 <form:password name="j_password" validation="required" style="width:220px;"/>
                             </form:field>
                             <form:field showHelp="0" border="0">
-                                <form:checkbox name="${rememberMeParameter}" text="${message(code: 'login.rememberMe')}"
-                                               style="width:220px;" checked="${hasCookie}"/>
+                                <form:checkbox name="_spring_security_remember_me" id="popupRememberMe"
+                                               text="${message(code: 'login.rememberMe')}"
+                                               style="width:220px;" checked="${true}"/>
                             </form:field>
-                            <form:submitButton name="submit" text="${message(code: 'login.button.label')}"/>
+                            <div>
+                                <form:submitButton name="submit" text="${message(code: 'login.button.label')}"/>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <i class="fa fa-close"></i>
+    <i class="fa fa-close" onclick="closeLoginDialog();"></i>
 </div>
+
+<script language="JavaScript" type="text/javascript">
+    function doInitialRegistration() {
+        $.ajax({
+            type: "POST",
+            url: '${createLink(controller: 'User', action: 'saveInitialRegistration')}',
+            data: $('#registerModalForm').serialize()
+        }).done(function (response) {
+            if (response == '0')
+                window.location.href = '${createLink(uri: '/')}';
+            else if (response == '1') {
+                closeLoginDialog();
+                window.info('<g:message code="register.checkForActivationMail.body"/>');
+            }
+            else if(response == '-1')
+                window.alert('${message(code: 'user.register.error')}')
+        });
+    }
+</script>
