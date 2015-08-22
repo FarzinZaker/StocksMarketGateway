@@ -25,6 +25,7 @@ class CCIService implements IndicatorServiceBase<Symbol, Integer> {
     Double calculate(Symbol item, Integer parameter, String adjustmentType, List series, Date date = new Date()) {
         if (series.size() < parameter)
             return 0
+        series=series.subList(series.size()-parameter,series.size())
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()

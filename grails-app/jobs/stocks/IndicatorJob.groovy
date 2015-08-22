@@ -38,10 +38,10 @@ class IndicatorJob {
             maxResults(1)
         }?.find()
 
-        println "remaining indicators:" + (SymbolDailyTrade.createCriteria().count {
+        log.warn( "remaining indicators:" + (SymbolDailyTrade.createCriteria().count {
             eq('indicatorsCalculated', false)
             gt('date', startDate)
-        })
+        }))
 
         if (dailyTrade) {
             symbolIndicatorService.calculateIndicators(dailyTrade)

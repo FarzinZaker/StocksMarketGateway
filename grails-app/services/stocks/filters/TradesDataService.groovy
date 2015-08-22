@@ -8,6 +8,8 @@ import stocks.tse.SymbolDailyTrade
 class TradesDataService {
 
     def adjustedPriceSeries9Service
+    def indicatorSeries9Service
+
     List getPriceSeries(Symbol symbol, String adjustmentType, Integer daysCount = 200, Date maxDate = null) {
 
         maxDate = maxDate?.clearTime()
@@ -22,15 +24,9 @@ class TradesDataService {
             maxResults(daysCount)
         }.sort { it.dailySnapshot }
     }
-    List getAllPriceSeries(Symbol symbol, String adjustmentType,Date maxDate = null) {
 
-        if(!maxDate)
-            maxDate = new Date()
-        def startDate = maxDate
-        use(TimeCategory){
-            startDate = startDate - 1000
-        }
-        adjustedPriceSeries9Service.dailyTradeList(symbol.id, startDate, maxDate, '', adjustmentType)
+    List getAllPriceSeries(Symbol symbol, String adjustmentType, Date maxDate = null) {
+        adjustedPriceSeries9Service.dailyTradeList(symbol.id, null, maxDate, '', adjustmentType)
     }
     List getAllPriceSeriesForIndicators(Symbol symbol, String adjustmentType,Date maxDate = null) {
 
@@ -42,4 +38,15 @@ class TradesDataService {
         }
         adjustedPriceSeries9Service.dailyTradeListForIndicators(symbol.id, startDate, maxDate, '', adjustmentType)
     }
+    List getAllPriceSeriesFromDate(Symbol symbol, String adjustmentType,Date minDate=null, Date maxDate = null) {
+        adjustedPriceSeries9Service.dailyTradeList(symbol.id, minDate, maxDate, '', adjustmentType)
+    }
+
+    Double getLastIndicatorPrice(symbolId, indicator, parameter, date, adjustmentType) {
+        indicatorSeries9Service.lastIndicator(symbolId, indicator, parameter, date, adjustmentType)
+    }
+    def getLastSymbolPrice(symbolId, date, adjustmentType) {
+        adjustedPriceSeries9Service.lastDailyTrade(symbolId,date, adjustmentType)
+    }
+
 }

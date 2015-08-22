@@ -164,7 +164,6 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.oracle/ojdbc6/jars/ojdbc6-11.2.0.3.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.ws.rs/jsr311-api/jars/jsr311-api-1.1.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.sun.jersey/jersey-bundle/jars/jersey-bundle-1.1.5.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/log4j/log4j/jars/log4j-1.2.14.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/net.sourceforge.jexcelapi/jxl/jars/jxl-2.6.12.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.squareup.okhttp/okhttp-urlconnection/jars/okhttp-urlconnection-2.0.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/com.google.code.gson/gson/jars/gson-2.3.jar!/" />
@@ -207,4 +206,3 @@
     </orderEntry>
   </component>
 </module>
-
