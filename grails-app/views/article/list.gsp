@@ -16,7 +16,16 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange"><g:message code="article.list.title"/></h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.articles'), url:createLink(controller: 'article')],
+                    [text: '<i class="fa fa-file"></i> ' + message(code:'article.list.title'), url:createLink(controller: 'article', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            %{--<h1 class="orange"><g:message code="article.list.title"/></h1>--}%
             <g:render template="../document/list"
                       model="[entityName: 'article', dataServiceUrl: createLink(controller: 'article', action: 'jsonList')]"/>
         </div>

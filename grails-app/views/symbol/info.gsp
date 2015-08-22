@@ -65,17 +65,17 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'symbol.info'), url: createLink(controller: 'symbol')],
-                    [text: "${symbol.persianCode} (${symbol.persianName})", url: createLink(controller: 'symbol', action: 'info', id: params.id)]
+                    [text: "<i class=\"fa fa-line-chart\"></i> ${symbol.persianCode} (${symbol.persianName})", url: createLink(controller: 'symbol', action: 'info', id: params.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-3">
-            <h1 class="pink">
-                <i class="fa fa-line-chart"></i>
-                ${symbol.persianCode} (${symbol.persianName})
-            </h1>
+            %{--<h1 class="pink">--}%
+                %{--<i class="fa fa-line-chart"></i>--}%
+                %{--${symbol.persianCode} (${symbol.persianName})--}%
+            %{--</h1>--}%
 
             <g:if test="${lastDailyTrade}">
                 <div style="line-height: 30px;">

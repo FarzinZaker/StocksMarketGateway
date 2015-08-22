@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.basicInfo'), url:createLink(controller: 'baseInfo')],
-                    [text: message(code:'city.list.title'), url:createLink(controller: 'city', action: 'list')]
+                    [text: '<i class="fa fa-map-marker"></i>' + message(code:'city.list.title'), url:createLink(controller: 'city', action: 'list')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange">
-                <i class="fa fa-map-marker"></i>
-                <g:message code="city.list.title"/>
-            </h1>
+            %{--<h1 class="orange">--}%
+                %{--<i class="fa fa-map-marker"></i>--}%
+                %{--<g:message code="city.list.title"/>--}%
+            %{--</h1>--}%
 
             <div class="k-rtl">
                 <div style="padding-bottom: 10px;">

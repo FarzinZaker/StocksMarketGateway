@@ -21,21 +21,21 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.strategy'), url:createLink(controller: 'tradeStrategy')],
-                    [text: message(code:"${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}", args:[tradeStrategy?.name]), url:createLink(controller: 'tradeStrategy', action: 'build', id: params.id)]
+                    [text: '<i class="fa fa-magic"></i> ' + message(code:"${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}", args:[tradeStrategy?.name]), url:createLink(controller: 'tradeStrategy', action: 'build', id: params.id)]
             ]}"/>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="col-xs-12">
-            <h1 class="magenta">
-                <i class="fa fa-magic"></i>
-                <g:message code="${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}"
-                           args="${[tradeStrategy?.name]}"/>
-            </h1>
+    %{--<div class="row-fluid">--}%
+        %{--<div class="col-xs-12">--}%
+            %{--<h1 class="magenta">--}%
+                %{--<i class="fa fa-magic"></i>--}%
+                %{--<g:message code="${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}"--}%
+                           %{--args="${[tradeStrategy?.name]}"/>--}%
+            %{--</h1>--}%
 
-            <p><g:message code="tradeStrategy.description"/></p>
-        </div>
-    </div>
+            %{--<p><g:message code="tradeStrategy.description"/></p>--}%
+        %{--</div>--}%
+    %{--</div>--}%
 
     <div class="row-fluid">
         <div class="col-xs-12">

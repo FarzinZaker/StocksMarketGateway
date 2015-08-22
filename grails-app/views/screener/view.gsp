@@ -19,12 +19,22 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="pink" style="float:right;">
-                <i class="fa fa-filter"></i>
-                ${screener.title}
-            </h1>
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.screener'), url:createLink(controller: 'screener')],
+                    [text: message(code:"menu.screener.list"), url:createLink(controller: 'screener', action: 'list')],
+                    [text: '<i class="fa fa-filter"></i> ' + screener.title, url:createLink(controller: 'screener', action: 'view', id: params.id)]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            %{--<h1 class="pink" style="float:right;">--}%
+                %{--<i class="fa fa-filter"></i>--}%
+                %{--${screener.title}--}%
+            %{--</h1>--}%
 
-            <div style="float:left;padding-top:45px;">
+            <div style="float:left;">
                 <form:select name="adjustmentType" style="width:300px;" value="${AdjustmentHelper.defaultType}"
                              items="${AdjustmentHelper.ENABLED_TYPES.collect {
                                  [text: message(code: "priceAdjustment.types.${it}"), value: it]

@@ -19,7 +19,7 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.newsletters'), url:createLink(controller: 'query')],
-                    [text: message(code:'menu.newsletters.list'), url:createLink(controller: 'query', action: 'list')]
+                    [text: '<i class="fa fa-paper-plane-o"></i> ' + message(code:'menu.newsletters.list'), url:createLink(controller: 'query', action: 'list')]
             ]}"/>
         </div>
     </div>
@@ -54,10 +54,10 @@
             </script>
         </div>
         <div class="col-xs-9">
-            <h1 class="crimson">
-                <i class="fa fa-paper-plane-o"></i>
-                <g:message code="query.list.title"/>
-            </h1>
+            %{--<h1 class="crimson">--}%
+                %{--<i class="fa fa-paper-plane-o"></i>--}%
+                %{--<g:message code="query.list.title"/>--}%
+            %{--</h1>--}%
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

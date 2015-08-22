@@ -20,17 +20,17 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'twitter.title'), url: ''],
                     [text: message(code: 'twitter.group'), url: createLink(action: 'index')],
-                    [text: message(code: "twitter.group.${group ? 'edit' : 'create'}", args: [group?.title]), url: createLink(action: 'build', id: group?.id)]
+                    [text: '<i class="fa-group fa"></i> ' + message(code: "twitter.group.${group ? 'edit' : 'create'}", args: [group?.title]), url: createLink(action: 'build', id: group?.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange">
-                <i class="fa-group fa"></i>
-                <g:message code="twitter.group.${group ? 'edit' : 'create'}" args="${[group?.title]}"/>
-            </h1>
+            %{--<h1 class="orange">--}%
+                %{--<i class="fa-group fa"></i>--}%
+                %{--<g:message code="twitter.group.${group ? 'edit' : 'create'}" args="${[group?.title]}"/>--}%
+            %{--</h1>--}%
             <form:form action="save" name="groupForm">
                 <form:hidden name="id" entity="${group}"/>
 

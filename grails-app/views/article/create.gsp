@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.articles'), url:createLink(controller: 'article')],
-                    [text: message(code:'menu.articles.add'), url:createLink(controller: 'article', action: 'create')]
+                    [text: '<i class="fa fa-file"></i> ' + message(code:'menu.articles.add'), url:createLink(controller: 'article', action: 'create')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange">
-                <i class="fa fa-file"></i>
-                <g:message code="article.create.title"/>
-            </h1>
+            %{--<h1 class="orange">--}%
+                %{--<i class="fa fa-file"></i>--}%
+                %{--<g:message code="article.create.title"/>--}%
+            %{--</h1>--}%
             <g:form action="save">
                 <g:render template="../document/form" model="${[document: article]}"/>
                 <div class="toolbar">

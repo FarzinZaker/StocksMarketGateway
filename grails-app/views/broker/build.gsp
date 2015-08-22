@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.broker'), url:createLink(controller: 'broker')],
-                    [text: message(code:'broker.build.title'), url:createLink(controller: 'broker', action: 'build')]
+                    [text: '<i class="fa fa-institution"></i> ' + message(code:'broker.build.title'), url:createLink(controller: 'broker', action: 'build')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="darkBlue">
-                <i class="fa fa-institution"></i>
-                <g:message code="broker.build.title"/>
-            </h1>
+            %{--<h1 class="darkBlue">--}%
+                %{--<i class="fa fa-institution"></i>--}%
+                %{--<g:message code="broker.build.title"/>--}%
+            %{--</h1>--}%
             <form:form action="save" name="brokerForm">
                 <form:hidden name="id" entity="${brokerInstance}"/>
 

@@ -26,17 +26,17 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
-                    [text: message(code: 'scheduleTemplate.build.title'), url: createLink(controller: 'scheduleTemplate', action: 'build', id: params.id)]
+                    [text: '<i class="fa fa-clock-o"></i> ' + message(code: 'scheduleTemplate.build.title'), url: createLink(controller: 'scheduleTemplate', action: 'build', id: params.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="pink">
-                <i class="fa fa-clock-o"></i>
-                <g:message code="scheduleTemplate.build.title"/>
-            </h1>
+            %{--<h1 class="pink">--}%
+                %{--<i class="fa fa-clock-o"></i>--}%
+                %{--<g:message code="scheduleTemplate.build.title"/>--}%
+            %{--</h1>--}%
 
             <form:form name="scheduleForm" action="save">
                 <form:hidden name="id" entity="${scheduleTemplateInstance}"/>

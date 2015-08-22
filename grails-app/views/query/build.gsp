@@ -41,16 +41,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
-                    [text: message(code: 'query.build.title', args:[message(code: "${domainClass}.label")]), url: createLink(controller: 'query', action: 'selectData', params:[domainClass:domainClass])]
+                    [text: '<i class="fa fa-paper-plane-o"></i> ' + message(code: 'query.build.title', args:[message(code: "${domainClass}.label")]), url: createLink(controller: 'query', action: 'selectData', params:[domainClass:domainClass])]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="crimson">
-                <i class="fa fa-paper-plane-o"></i>
-                <g:message code="query.build.title" args="${[message(code: "${domainClass}.label")]}"/>
-            </h1>
+            %{--<h1 class="crimson">--}%
+                %{--<i class="fa fa-paper-plane-o"></i>--}%
+                %{--<g:message code="query.build.title" args="${[message(code: "${domainClass}.label")]}"/>--}%
+            %{--</h1>--}%
 
             <form:form name="queryForm" action="save">
                 <form:hidden name="id" entity="${queryInstance}"/>

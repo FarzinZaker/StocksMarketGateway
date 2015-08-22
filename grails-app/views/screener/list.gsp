@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.screener'), url:createLink(controller: 'screener')],
-                    [text: message(code:"menu.screener.list"), url:createLink(controller: 'screener', action: 'list')]
+                    [text: '<i class="fa fa-filter"></i> ' + message(code:"menu.screener.list"), url:createLink(controller: 'screener', action: 'list')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="pink">
-                <i class="fa fa-filter"></i>
-                <g:message code="screener.list.title"/>
-            </h1>
+            %{--<h1 class="pink">--}%
+                %{--<i class="fa fa-filter"></i>--}%
+                %{--<g:message code="screener.list.title"/>--}%
+            %{--</h1>--}%
             <div class="screenerGridContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

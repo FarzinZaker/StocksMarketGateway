@@ -20,16 +20,16 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'twitter.title'), url: ''],
                     [text: message(code: 'twitter.group'), url: createLink(action: 'index')],
-                    [text: message(code: "twitter.group.list.title"), url: createLink(action: 'list')]
+                    [text: '<i class="fa fa-users"></i> ' + message(code: "twitter.group.list.title"), url: createLink(action: 'list')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange">
-                <i class="fa fa-users"></i>
-                <g:message code="twitter.group.list.title"/>
-            </h1>
+            %{--<h1 class="orange">--}%
+                %{--<i class="fa fa-users"></i>--}%
+                %{--<g:message code="twitter.group.list.title"/>--}%
+            %{--</h1>--}%
             <div class="screenerGridContainer k-rtl">
                 %{--<form:searchBox name="search" action="searchList"/>--}%
                 <script language="javascript" type="text/javascript">

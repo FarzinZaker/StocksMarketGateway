@@ -17,7 +17,7 @@
 <body><div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1><g:message code="monitor.dataSources.title"/></h1>
+            %{--<h1><g:message code="monitor.dataSources.title"/></h1>--}%
 
             <div id="timer"></div>
 
