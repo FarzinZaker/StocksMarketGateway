@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.users'), url:createLink(controller: 'user')],
-                    [text: message(code:'user.build.title'), url:createLink(controller: 'user', action: 'build', id:params.id)]
+                    [text: '<i class="fa fa-user"></i> ' + message(code:'user.build.title'), url:createLink(controller: 'user', action: 'build', id:params.id)]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="cyan">
-                <i class="fa fa-user"></i>
-                <g:message code="user.build.title"/>
-            </h1>
+            %{--<h1 class="cyan">--}%
+                %{--<i class="fa fa-user"></i>--}%
+                %{--<g:message code="user.build.title"/>--}%
+            %{--</h1>--}%
             <form:error message="${flash.validationError}"/>
             <form:form action="save" name="userForm">
 

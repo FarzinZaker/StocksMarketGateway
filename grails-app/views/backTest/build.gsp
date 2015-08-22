@@ -23,22 +23,22 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.strategy'), url: createLink(controller: 'tradeStrategy')],
                     [text: tradeStrategy?.name, url: createLink(controller: 'tradeStrategy', action: 'build', id: tradeStrategy?.id)],
-                    [text: message(code: "${'backTest.build.title'}", args: ['']), url: createLink(controller: 'backTest', action: 'build', id: tradeStrategy?.id)]
+                    [text: '<i class="fa fa-magic"></i> ' + message(code: "${'backTest.build.title'}", args: ['']), url: createLink(controller: 'backTest', action: 'build', id: tradeStrategy?.id)]
             ]}"/>
         </div>
     </div>
 
-    <div class="row-fluid">
-        <div class="col-xs-12">
-            <h1 class="magenta">
-                <i class="fa fa-magic"></i>
-                <g:message code="${'backTest.build.title'}"
-                           args="${[tradeStrategy?.name]}"/>
-            </h1>
+    %{--<div class="row-fluid">--}%
+        %{--<div class="col-xs-12">--}%
+            %{--<h1 class="magenta">--}%
+                %{--<i class="fa fa-magic"></i>--}%
+                %{--<g:message code="${'backTest.build.title'}"--}%
+                           %{--args="${[tradeStrategy?.name]}"/>--}%
+            %{--</h1>--}%
 
-            <p><g:message code="backTest.description"/></p>
-        </div>
-    </div>
+            %{--<p><g:message code="backTest.description"/></p>--}%
+        %{--</div>--}%
+    %{--</div>--}%
     <form:form name="backTestForm" controller="backTest" action="save">
 
         <div class="row-fluid">

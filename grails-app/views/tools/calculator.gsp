@@ -40,21 +40,21 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.tools'), url:createLink(controller: 'tools')],
-                    [text: message(code:'menu.tools.calculator'), url:createLink(controller: 'tools', action: 'calculator')]
+                    [text: '<i class="fa fa-calculator"></i> ' + message(code:'menu.tools.calculator'), url:createLink(controller: 'tools', action: 'calculator')]
             ]}"/>
         </div>
     </div>
 
-    <div class="row-fluid">
-        <div class="col-xs-12">
-            <h1 class="cyan">
-                <i class="fa fa-calculator"></i>
-                <g:message code="tools.calculator.title"/>
-            </h1>
+    %{--<div class="row-fluid">--}%
+        %{--<div class="col-xs-12">--}%
+            %{--<h1 class="cyan">--}%
+                %{--<i class="fa fa-calculator"></i>--}%
+                %{--<g:message code="tools.calculator.title"/>--}%
+            %{--</h1>--}%
 
-            <p><g:message code="tools.calculator.description"/></p>
-        </div>
-    </div>
+            %{--<p><g:message code="tools.calculator.description"/></p>--}%
+        %{--</div>--}%
+    %{--</div>--}%
 
     <g:render template="calculator/parameters"/>
     <div class="row-fluid">

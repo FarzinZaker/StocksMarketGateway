@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.newsletter.register'), url: createLink(controller: 'query')],
-                    [text: message(code: 'query.selectClass.title'), url: createLink(controller: 'query', action: 'selectData')]
+                    [text: '<i class="fa fa-paper-plane-o"></i> ' + message(code: 'query.selectClass.title'), url: createLink(controller: 'query', action: 'selectData')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="crimson">
-                <i class="fa fa-paper-plane-o"></i>
-                <g:message code="query.selectClass.title"/>
-            </h1>
+            %{--<h1 class="crimson">--}%
+                %{--<i class="fa fa-paper-plane-o"></i>--}%
+                %{--<g:message code="query.selectClass.title"/>--}%
+            %{--</h1>--}%
             <form:form name="selectClassForm" action="build">
                 <form:field fieldName="query.class" showLabel="true">
                     <alerting:domainClassList/>

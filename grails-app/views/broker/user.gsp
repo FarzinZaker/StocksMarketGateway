@@ -20,17 +20,17 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.broker'), url: createLink(controller: 'broker')],
                     [text: broker?.name, url: createLink(controller: 'broker', action: 'build', id: broker?.id)],
-                    [text: message(code: 'user.build.title'), url: createLink(controller: 'broker', action: 'user', params: params)]
+                    [text: '<i class="fa fa-user"></i> ' + message(code: 'user.build.title'), url: createLink(controller: 'broker', action: 'user', params: params)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="darkBlue">
-                <i class="fa fa-user"></i>
-                <g:message code="user.build.title"/>
-            </h1>
+            %{--<h1 class="darkBlue">--}%
+                %{--<i class="fa fa-user"></i>--}%
+                %{--<g:message code="user.build.title"/>--}%
+            %{--</h1>--}%
             <form:error message="${flash.validationError}"/>
             <form:form action="userSave" name="userForm">
 

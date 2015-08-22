@@ -261,7 +261,7 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.reports'), url: createLink(controller: 'report')],
-                    [text: '<i class="fa fa-desktop" style="font-size:14px;"></i> ' + message(code: 'menu.reports.heatMap'), url: createLink(controller: 'report', action: 'heatMap')]
+                    [text: '<i class="fa fa-desktop"></i> ' + message(code: 'menu.reports.heatMap'), url: createLink(controller: 'report', action: 'heatMap')]
             ]}"/>
         </div>
     </div>
@@ -279,7 +279,7 @@
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <div class="whitePanel" style="margin-top:10px;">
+            <div class="whitePanel">
                 <div>
                     <g:message code="report.heatmap.display.desc"/>
                     <input type="radio" id="rbtn_size" name="mode" class="css-checkbox" value="size" checked> <label

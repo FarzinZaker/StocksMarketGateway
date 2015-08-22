@@ -44,16 +44,16 @@
                             [text: '', url: createLink(uri: '/')],
                             [text: message(code: 'menu.strategy'), url: createLink(controller: 'tradeStrategy')],
                             [text: backTest?.tradeStrategy?.name, url: createLink(controller: 'tradeStrategy', action: 'build', id: backTest?.tradeStrategy?.id)],
-                            [text: message(code:'backTest.view.title',args:[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]), url: createLink(controller: 'backTest', action: 'view', id: backTest?.id)]
+                            [text: '<i class="fa fa-magic"></i> ' + message(code:'backTest.view.title',args:[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]), url: createLink(controller: 'backTest', action: 'view', id: backTest?.id)]
                     ]}"/>
                 </div>
             </div>
             <div class="col-xs-12" id="pageHeader">
-                <h1 style="float:right" class="magenta">
-                    <i class="fa fa-magic"></i>
-                    <g:message code="${'backTest.view.title'}"
-                               args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/>
-                </h1>
+                %{--<h1 style="float:right" class="magenta">--}%
+                    %{--<i class="fa fa-magic"></i>--}%
+                    %{--<g:message code="${'backTest.view.title'}"--}%
+                               %{--args="${[backTest?.tradeStrategy?.name, "${backTest.symbol?.persianName} - ${backTest.symbol?.persianCode}"]}"/>--}%
+                %{--</h1>--}%
 
                 <div style="float:left;margin-top:40px;font-size:12px;display: ${backTest.status == BackTestHelper.STATUS_FINISHED ? 'none': 'block'}">
                     <g:message code="backTest.currentDate"/>: <span id="currentDate"><format:jalaliDate

@@ -20,17 +20,17 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.broker'), url: createLink(controller: 'broker')],
                     [text: broker?.name, url: createLink(controller: 'broker', action: 'build', id: broker?.id)],
-                    [text: message(code: 'user.list.title'), url: createLink(controller: 'broker', action: 'userList', id:params.id)]
+                    [text: '<i class="fa fa-user"></i> ' + message(code: 'user.list.title'), url: createLink(controller: 'broker', action: 'userList', id:params.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="darkBlue">
-                <i class="fa fa-user"></i>
-                <g:message code="user.list.title"/> ${broker.name}
-            </h1>
+            %{--<h1 class="darkBlue">--}%
+                %{--<i class="fa fa-user"></i>--}%
+                %{--<g:message code="user.list.title"/> ${broker.name}--}%
+            %{--</h1>--}%
             <div class="queryListContainer k-rtl">
                 <form:searchBox name="search" action="searchList"/>
                 <script language="javascript" type="text/javascript">

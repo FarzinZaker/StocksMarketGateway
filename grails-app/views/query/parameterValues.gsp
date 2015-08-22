@@ -20,17 +20,17 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.newsletters'), url: createLink(controller: 'query')],
                     [text: query?.title, url: createLink(controller: 'query', action: 'build', id: query?.id)],
-                    [text: message(code: 'query.parameter.allowedValues.breadcrumbTitle'), url: createLink(controller: 'query', action: 'parameterValues', id: query?.id)]
+                    [text: '<i class="fa fa-paper-plane-o"></i> ' + message(code: 'query.parameter.allowedValues.breadcrumbTitle'), url: createLink(controller: 'query', action: 'parameterValues', id: query?.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="crimson">
-                <i class="fa fa-paper-plane-o"></i>
-                <g:message code="query.parameter.allowedValues.title"/> ${query.title}
-            </h1>
+            %{--<h1 class="crimson">--}%
+                %{--<i class="fa fa-paper-plane-o"></i>--}%
+                %{--<g:message code="query.parameter.allowedValues.title"/> ${query.title}--}%
+            %{--</h1>--}%
 
             <div class="k-rtl">
                 <div id="tabstrip">

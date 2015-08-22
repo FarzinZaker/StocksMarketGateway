@@ -20,22 +20,22 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.screener'), url: createLink(controller: 'screener')],
-                    [text: message(code: "${params.id ? 'screener.title.edit' : 'screener.title.new'}", args: [screener?.title]), url: createLink(controller: 'screener', action: 'build', id: params.id)]
+                    [text: '<i class="fa fa-filter"></i> ' + message(code: "${params.id ? 'screener.title.edit' : 'screener.title.new'}", args: [screener?.title]), url: createLink(controller: 'screener', action: 'build', id: params.id)]
             ]}"/>
         </div>
     </div>
 
-    <div class="row-fluid">
-        <div class="col-xs-12">
-            <h1 class="pink">
-                <i class="fa fa-filter"></i>
-                <g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}"
-                           args="${[screener?.title]}"/>
-            </h1>
+    %{--<div class="row-fluid">--}%
+        %{--<div class="col-xs-12">--}%
+            %{--<h1 class="pink">--}%
+                %{--<i class="fa fa-filter"></i>--}%
+                %{--<g:message code="${params.id ? 'screener.title.edit' : 'screener.title.new'}"--}%
+                           %{--args="${[screener?.title]}"/>--}%
+            %{--</h1>--}%
 
-            <p><g:message code="screener.description"/></p>
-        </div>
-    </div>
+            %{--<p><g:message code="screener.description"/></p>--}%
+        %{--</div>--}%
+    %{--</div>--}%
 
     <div class="row-fluid">
         <div class="col-xs-12">

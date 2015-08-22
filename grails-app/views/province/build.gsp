@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.basicInfo'), url:createLink(controller: 'baseInfo')],
-                    [text: message(code:'province.build.title'), url:createLink(controller: 'province', action: 'build', id:params.id)]
+                    [text: '<i class="fa fa-flag"></i> ' + message(code:'province.build.title'), url:createLink(controller: 'province', action: 'build', id:params.id)]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="orange">
-                <i class="fa fa-flag"></i>
-                <g:message code="province.build.title"/>
-            </h1>
+            %{--<h1 class="orange">--}%
+                %{--<i class="fa fa-flag"></i>--}%
+                %{--<g:message code="province.build.title"/>--}%
+            %{--</h1>--}%
             <form:form action="save" name="provinceForm">
                 <form:hidden name="id" entity="${province}"/>
 

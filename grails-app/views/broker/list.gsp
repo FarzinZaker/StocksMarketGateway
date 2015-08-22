@@ -19,16 +19,16 @@
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
                     [text: message(code:'menu.broker'), url:createLink(controller: 'broker')],
-                    [text: message(code:'broker.list.title'), url:createLink(controller: 'broker', action: 'list')]
+                    [text: '<i class="fa fa-institution"></i> ' + message(code:'broker.list.title'), url:createLink(controller: 'broker', action: 'list')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="darkBlue">
-                <i class="fa fa-institution"></i>
-                <g:message code="broker.list.title"/>
-            </h1>
+            %{--<h1 class="darkBlue">--}%
+                %{--<i class="fa fa-institution"></i>--}%
+                %{--<g:message code="broker.list.title"/>--}%
+            %{--</h1>--}%
 
             <div class="k-rtl">
                 <div id="grid"></div>

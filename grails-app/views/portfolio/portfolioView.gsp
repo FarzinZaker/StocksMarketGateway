@@ -17,17 +17,17 @@
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.portfolios'), url: createLink(controller: 'portfolio')],
                     [text: portfolio.name, url: createLink(controller: 'portfolio', action: 'build', id: portfolio.id)],
-                    [text: message(code: 'portfolio.view.title'), url: createLink(controller: 'portfolio', action: 'portfolioView', id: params.id)]
+                    [text: '<i class="fa fa-shopping-cart"></i> ' + message(code: 'portfolio.view.title'), url: createLink(controller: 'portfolio', action: 'portfolioView', id: params.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="darkBlue">
-                <i class="fa fa-shopping-cart"></i>
-                <g:message code="portfolio.view.title"/>
-            </h1>
+            %{--<h1 class="darkBlue">--}%
+                %{--<i class="fa fa-shopping-cart"></i>--}%
+                %{--<g:message code="portfolio.view.title"/>--}%
+            %{--</h1>--}%
 
             <div class="k-rtl k-header">
                 <div id="toolbar"></div>

@@ -12,16 +12,16 @@
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
-                    [text: message(code: 'login.title'), url: createLink(controller: 'login', action: 'auth')]
+                    [text: '<i class="fa fa-key"></i> ' + message(code: 'login.title'), url: createLink(controller: 'login', action: 'auth')]
             ]}"/>
         </div>
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="steel">
-                <i class="fa fa-key"></i>
-                <g:message code="login.title"/>
-            </h1>
+            %{--<h1 class="steel">--}%
+                %{--<i class="fa fa-key"></i>--}%
+                %{--<g:message code="login.title"/>--}%
+            %{--</h1>--}%
             <form:error message="${flash.message}"/>
             <form:info message="${flash.info}"/>
 
