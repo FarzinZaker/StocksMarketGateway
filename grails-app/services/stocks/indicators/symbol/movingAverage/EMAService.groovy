@@ -35,8 +35,8 @@ class EMAService implements IndicatorServiceBase<Symbol, Integer> {
         def core = new Core()
         def beginIndex = new MInteger()
         def endIndex = new MInteger()
-        def result = new double[parameter]
-        core.ema(0, parameter - 1, TypeCast.toDoubleArray(series.collect {
+        def result = new double[series.size()]
+        core.ema(0, series.size() - 1, TypeCast.toDoubleArray(series.collect {
             it.lastTradePrice
         }), parameter, beginIndex, endIndex, result)
         result?.findAll()?.last()
