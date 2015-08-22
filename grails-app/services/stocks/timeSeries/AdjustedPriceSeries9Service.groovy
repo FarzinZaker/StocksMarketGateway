@@ -227,7 +227,7 @@ class AdjustedPriceSeries9Service {
         else
             series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
-        def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
+        def closingPriceSerie = series.find { it.name.endsWith('lastTradePrice') }
         if (!closingPriceSerie)
             return []
         for (def i = 0; i < closingPriceSerie.values.size(); i++) {
@@ -249,7 +249,7 @@ class AdjustedPriceSeries9Service {
             }
             list << item
         }
-        list = list.findAll { it.closingPrice }
+        list = list.findAll { it.lastTradePrice }
         list.sort { it.date }
 
     }

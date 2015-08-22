@@ -16,22 +16,23 @@ class SymbolIndicatorService {
     def tradesDataService
 
     def calculateIndicators(SymbolDailyTrade dailyTrade){
-        if(!dailyTrade.symbol)
-            return
-
-        def seriesMap = [:]
-        AdjustmentHelper.ENABLED_TYPES.each {adjustmentType ->
-            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeriesForIndicators(dailyTrade?.symbol, adjustmentType))
-        }
+        if(dailyTrade.symbol) {
 
 
-        grailsApplication.getArtefacts('Service').findAll {
-            it.fullName.startsWith("stocks.indicators.symbol.")
-        }.each { serviceClass ->
-            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-            if (service.enabled) {
-                service.commonParameters.each { parameter ->
-                    calculateIndicator(dailyTrade, service, parameter, seriesMap)
+            def seriesMap = [:]
+            AdjustmentHelper.ENABLED_TYPES.each { adjustmentType ->
+                seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeriesForIndicators(dailyTrade?.symbol, adjustmentType))
+            }
+
+
+            grailsApplication.getArtefacts('Service').findAll {
+                it.fullName.startsWith("stocks.indicators.symbol.")
+            }.each { serviceClass ->
+                def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+                if (service.enabled) {
+                    service.commonParameters.each { parameter ->
+                        calculateIndicator(dailyTrade, service, parameter, seriesMap)
+                    }
                 }
             }
         }
