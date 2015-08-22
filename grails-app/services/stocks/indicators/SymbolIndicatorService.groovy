@@ -13,8 +13,37 @@ class SymbolIndicatorService {
     def grailsApplication
     def lowLevelDataService
     def indicatorSeries9Service
+    def tradesDataService
 
-    def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter) {
+    def calculateIndicators(SymbolDailyTrade dailyTrade){
+        if(!dailyTrade.symbol)
+            return
+
+        def seriesMap = [:]
+        AdjustmentHelper.ENABLED_TYPES.each {adjustmentType ->
+            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeriesForIndicators(dailyTrade?.symbol, adjustmentType))
+        }
+
+
+        grailsApplication.getArtefacts('Service').findAll {
+            it.fullName.startsWith("stocks.indicators.symbol.")
+        }.each { serviceClass ->
+            def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
+            if (service.enabled) {
+                service.commonParameters.each { parameter ->
+                    calculateIndicator(dailyTrade, service, parameter, seriesMap)
+                }
+            }
+        }
+        try {
+            SymbolDailyTrade.executeUpdate("update SymbolDailyTrade s set s.modificationDate = :modificationDate, s.indicatorsCalculated = :indicatorsCalculated where id = :id", [id: dailyTrade.id, modificationDate: new Date(), indicatorsCalculated: true])
+        }
+        catch (ignored) {
+            println("indicator job: [exception] ${ignored.message}")
+        }
+    }
+
+    def calculateIndicator(SymbolDailyTrade dailyTrade, IndicatorServiceBase serviceClass, parameter, Map<String, List> seriesMap) {
 
         IndicatorBase.withTransaction {
             def symbol = Symbol.get(dailyTrade.symbolId) ?: Symbol.findByPersianCode(dailyTrade.symbolPersianCode)
@@ -22,7 +51,7 @@ class SymbolIndicatorService {
             def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter
             def clazz = ClassResolver.loadDomainClassByName(className)
             AdjustmentHelper.ENABLED_TYPES.each { adjustmentType ->
-                def value = symbol ? serviceClass.calculate(symbol, parameter, adjustmentType, dailyTrade.date) : 0
+                def value = symbol ? serviceClass.calculate(symbol, parameter, adjustmentType, seriesMap[adjustmentType], dailyTrade.date) : 0
                 def indicator = clazz.findBySymbolAndParameterAndAdjustmentTypeAndcalculationDateGreaterThanEquals(symbol, parameterString, adjustmentType, dailyTrade.date.clearTime())
                 if (!indicator) {
                     indicator = clazz.newInstance()

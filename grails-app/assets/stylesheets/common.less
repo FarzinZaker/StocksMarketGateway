@@ -678,29 +678,25 @@ span.has-error {
   }
 }
 
-#topBar {
-  background: @header-color;
-  .user-panel {
-    float: left;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 10px;
-    li {
-      list-style: none;
-      text-align: left;
-      display: inline-block;
-      a {
-        font-size: 12px;
-        padding: 2px 10px 3px;
-        display: block;
-        color: #ffffff;
-        &:hover {
-          color: white;
-          //        background-color: @main-color;
-        }
-        i {
-          margin-right: 5px;
-        }
+.user-panel {
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  padding-right: 30px;
+  li {
+    list-style: none;
+    text-align: left;
+    //display: inline-block;
+    a {
+      font-size: 12px;
+      color: @header-color;
+      &:hover {
+        color: @header-color;
+        //        background-color: @main-color;
+      }
+      i {
+        margin-right: 8px;
       }
     }
   }
@@ -1256,10 +1252,10 @@ h1, h2, h3, h4 {
 .marketViewItem {
   line-height: 25px;
 
-  &.odd{
+  &.odd {
   }
 
-  &.even{
+  &.even {
     background: #f8f8f8;
     margin-right: -5px;
     margin-left: -5px;
@@ -1277,12 +1273,12 @@ h1, h2, h3, h4 {
     margin-left: 10px;
     direction: ltr;
     display: inline-block;
-    color:black;
-    span{
+    color: black;
+    span {
       display: inline-block;
-      color:#787878;
+      color: #787878;
       direction: rtl;
-      font-size:11px;
+      font-size: 11px;
     }
   }
 
@@ -1299,7 +1295,68 @@ h1, h2, h3, h4 {
   }
 }
 
-.mix{
+.mix {
   line-height: 20px;
+}
+
+.loginModal {
+  margin: -8px;
+  i.fa-close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    &:hover {
+      color: @error-color;
+    }
+  }
+
+  .container-fluid {
+    padding: 0;
+    .row-fluid {
+      .col-xs-4 {
+        padding: 0;
+        &:first-child {
+          div {
+            margin: 0 0 -7px;
+            background-color: @summary-back-color;
+            div {
+              padding-top: 40px;
+              background: url(../images/networking.png) no-repeat bottom center;
+              height: 360px;
+              background-size: 80%;
+              margin-bottom: 20px;
+              padding-right: 10px;
+              padding-left: 10px;
+              text-align: justify;
+              h3 {
+                color: @error-color;
+                font-size: 22px;
+                font-weight: bolder;
+              }
+            }
+          }
+        }
+        div {
+          padding-right: 10px;
+          padding-left:10px;
+          margin-top:10px;
+          margin-bottom:10px;
+          height: 413px;
+          border-left:1px solid @summary-back-color;
+          div {
+            padding: 0;
+            height: auto;
+            border-left-width: 0;
+          }
+        }
+        &:last-child {
+          div{
+            border-left-width: 0;
+          }
+        }
+      }
+    }
+  }
 }
 

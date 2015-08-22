@@ -21,9 +21,7 @@ class PSARService implements IndicatorServiceBase<Symbol, List<Integer>> {
     }
 
     @Override
-    Double calculate(Symbol item, List<Integer> parameter, String adjustmentType, Date date) {
-
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter.max(), date)
+    Double calculate(Symbol item, List<Integer> parameter, String adjustmentType, List series, Date date) {
         if (series.size() < parameter.max())
             return 0
         def core = new Core()

@@ -261,46 +261,46 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.reports'), url: createLink(controller: 'report')],
-                    [text: message(code: 'menu.reports.heatMap'), url: createLink(controller: 'report', action: 'heatMap')]
+                    [text: '<i class="fa fa-desktop" style="font-size:14px;"></i> ' + message(code: 'menu.reports.heatMap'), url: createLink(controller: 'report', action: 'heatMap')]
             ]}"/>
         </div>
     </div>
 
+    %{--<div class="row-fluid">--}%
+        %{--<div class="col-xs-12">--}%
+            %{--<h1 class="crimson">--}%
+                %{--<i class="fa fa-desktop"></i>--}%
+                %{--<g:message code="report.heatmap.title"/>--}%
+            %{--</h1>--}%
+
+            %{--<p><g:message code="report.heatmap.description"/></p>--}%
+        %{--</div>--}%
+    %{--</div>--}%
+
     <div class="row-fluid">
         <div class="col-xs-12">
-            <h1 class="crimson">
-                <i class="fa fa-desktop"></i>
-                <g:message code="report.heatmap.title"/>
-            </h1>
-
-            <p><g:message code="report.heatmap.description"/></p>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class="col-xs-12">
-            <div class="whitePanel">
+            <div class="whitePanel" style="margin-top:10px;">
                 <div>
                     <g:message code="report.heatmap.display.desc"/>
                     <input type="radio" id="rbtn_size" name="mode" class="css-checkbox" value="size" checked> <label
-                        for="rbtn_size" class="css-label" style="margin-right:20px;margin-left:20px;"><g:message
+                        for="rbtn_size" class="css-label" style="margin-right:10px;margin-left:10px;"><g:message
                             code="report.heatmap.display.value"/></label>
                     <input type="radio" id="rbtn_count" name="mode" class="css-checkbox" value="count"> <label
                         for="rbtn_count" class="css-label"><g:message code="report.heatmap.display.volume"/></label>
 
-                    <span style="margin-right:40px;margin-left:20px;display:inline-block;"><g:message
-                            code="report.heatmap.symbol.count"/></span>
-                    <form:numericTextBox name="symbolCount" value="10" min="1" max="100"/>
-                </div>
+                    %{--<span style="margin-right:40px;margin-left:20px;display:inline-block;"><g:message--}%
+                            %{--code="report.heatmap.symbol.count"/></span>--}%
+                    %{--<form:numericTextBox name="symbolCount" value="10" min="1" max="100"/>--}%
+                %{--</div>--}%
 
-                <div style="margin-top:10px;margin-bottom:10px;">
-                    <span style="margin-left:20px;display:inline-block;"><g:message
+                %{--<div style="margin-top:10px;margin-bottom:10px;">--}%
+                    <span style="margin-left:10px;margin-right:20px;display:inline-block;"><g:message
                             code="report.heatmap.industryGroup.desc"/></span>
                     <form:select name="industry" onchange="industryChanged"
                                  items="${[[text: message(code: 'report.heatmap.industryGroup.all'), value: 0]] + industryGroups}"
                                  allowUserInput="false"
                                  style="width:300px;"/>
-                    <span style="margin-right:40px;margin-left:20px;display:inline-block;"><g:message
+                    <span style="margin-right:40px;margin-left:10px;display:inline-block;"><g:message
                             code="report.heatmap.symbol.desc"/></span>
                     <input type="text" class="k-input k-textbox" id="txtSymbolFilter"/>
                 </div>
@@ -382,7 +382,7 @@
 
     var supportsForeignObject = Modernizr.svgforeignobject;
     var chartWidth = $('#body').width();
-    var chartHeight = 500;
+    var chartHeight = $(window).height() - 300;
     var xscale = d3.scale.linear().range([0, chartWidth]);
     var yscale = d3.scale.linear().range([0, chartHeight]);
     var color = d3.scale.category10();
@@ -481,10 +481,10 @@
         coordinates = d3.mouse(this);
         var x = coordinates[0];
         var y = coordinates[1];
-        if (y > 250)
-            y -= $('.d3-tip').height() - 370;
+        if (y > ($(window).height() - 300) / 2)
+            y -= $('.d3-tip').height() - 180;
         else
-            y += 440;
+            y += 240;
         if (x < 300)
             x = 200;
         if (x > chartWidth - 300)

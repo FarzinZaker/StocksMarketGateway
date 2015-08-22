@@ -246,5 +246,4 @@ class UserController {
         [user: springSecurityService.currentUser as User]
     }
 
-
 }

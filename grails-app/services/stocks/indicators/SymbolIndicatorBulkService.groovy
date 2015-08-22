@@ -56,7 +56,7 @@ class SymbolIndicatorBulkService {
 
         def seriesMap = [:]
         AdjustmentHelper.ENABLED_TYPES.each {adjustmentType ->
-            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeries(symbol, adjustmentType))
+            seriesMap.put(adjustmentType, tradesDataService.getAllPriceSeriesForIndicators(symbol, adjustmentType))
         }
 
         grailsApplication.getArtefacts('Service').findAll {

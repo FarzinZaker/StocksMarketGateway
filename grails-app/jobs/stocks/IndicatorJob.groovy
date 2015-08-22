@@ -44,26 +44,7 @@ class IndicatorJob {
         })
 
         if (dailyTrade) {
-            grailsApplication.getArtefacts('Service').findAll {
-                it.fullName.startsWith("stocks.indicators.symbol.")
-            }.each { serviceClass ->
-                def service = ClassResolver.loadServiceByName(serviceClass.fullName) as IndicatorServiceBase
-                if (service.enabled) {
-                    service.commonParameters.each { parameter ->
-                        symbolIndicatorService.calculateIndicator(dailyTrade, service, parameter)
-                    }
-                }
-            }
-            try {
-                SymbolDailyTrade.executeUpdate("update SymbolDailyTrade s set s.modificationDate = :modificationDate, s.indicatorsCalculated = :indicatorsCalculated where id = :id", [id: dailyTrade.id, modificationDate: new Date(), indicatorsCalculated: true])
-//                dailyTrade = SymbolDailyTrade.get(dailyTrade.id)
-//                dailyTrade.modificationDate = new Date()
-//                dailyTrade.indicatorsCalculated = true
-//                dailyTrade.merge(flush: true)
-            }
-            catch (ignored) {
-                println("indicator job: [exception] ${ignored.message}")
-            }
+            symbolIndicatorService.calculateIndicators(dailyTrade)
         }
     }
 

@@ -206,6 +206,54 @@ class AdjustedPriceSeries9Service {
 
     }
 
+    def dailyTradeListForIndicators(Long symbolId, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
+        if (!startDate)
+            use(TimeCategory) {
+                startDate = firstTradeDate(symbolId) ?: new Date() - 10.years
+            }
+        if (!endDate)
+            endDate = new Date()
+
+        if (!adjustmentType)
+            adjustmentType = AdjustmentHelper.defaultType
+        def propertyList = [
+                'lastTradePrice',
+                'minPrice',
+                'maxPrice'
+        ]
+        def series
+        if (groupingMode == '')
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+        else
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+        def list = []
+        def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
+        if (!closingPriceSerie)
+            return []
+        for (def i = 0; i < closingPriceSerie.values.size(); i++) {
+            def item = [:]
+            item.symbolId = symbolId
+            item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", closingPriceSerie.values[i][0])
+            series.each { serie ->
+                if(closingPriceSerie.values[i][1]?.toString() != 'null') {
+                    def value = serie.values.find {
+                        it[0] == closingPriceSerie.values[i][0]
+                    }
+
+                    try {
+                        item."${serie.name.split('_').last()}" = value ? value[1] as Double : 0
+                    } catch (ignored) {
+                        item."${serie.name.split('_').last()}" = 0
+                    }
+                }
+            }
+            list << item
+        }
+        list = list.findAll { it.closingPrice }
+        list.sort { it.date }
+
+    }
+
     def priceList(Long symbolId, String property, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
         if (!startDate)
             use(TimeCategory) {

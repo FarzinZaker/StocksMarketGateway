@@ -24,7 +24,7 @@
 
 <body>
 <div class="page-wrap">
-    <g:render template="/layouts/common/topBar"/>
+    %{--<g:render template="/layouts/common/topBar"/>--}%
     <div id="header" role="banner" class="k-rtl">
         <a href="${createLink(uri: '/')}" id="logo">
             <asset:image src="logo.png" alt="stocks"/>

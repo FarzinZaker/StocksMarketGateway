@@ -22,9 +22,7 @@ class RSIService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date = new Date()) {
-
-        def series = tradesDataService.getAllPriceSeries(item, adjustmentType, date)
+    Double calculate(Symbol item, Integer parameter, String adjustmentType, List series, Date date = new Date()) {
         if (series.size() < parameter + 1)
             return 0
         def core = new Core()

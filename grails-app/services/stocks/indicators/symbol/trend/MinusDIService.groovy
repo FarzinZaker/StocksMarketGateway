@@ -21,9 +21,7 @@ class MinusDIService implements IndicatorServiceBase<Symbol, Integer> {
     }
 
     @Override
-    Double calculate(Symbol item, Integer parameter, String adjustmentType, Date date) {
-
-        def series = tradesDataService.getPriceSeries(item, adjustmentType, parameter, date)
+    Double calculate(Symbol item, Integer parameter, String adjustmentType, List series, Date date) {
         if ([series.size(), highSeries.size(), lowSeries.size()].min() < parameter)
             return 0
         def core = new Core()
