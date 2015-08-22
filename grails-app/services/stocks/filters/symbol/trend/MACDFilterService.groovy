@@ -61,7 +61,7 @@ class MACDFilterService implements IncludeFilterService {
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
-        if (value.last() == 'constant_switch')
+        if (value?.contains( 'constant_switch'))
             [NumberFormat.instance.format(value.first() as Double)]
         else
             [messageSource.getMessage('macd.signal', null, Locale.ENGLISH)]

@@ -39,4 +39,5 @@
     }
 
     macd_value_change();
+    macd_signal_change();
 </script>
