@@ -31,6 +31,10 @@
             </h1>
             <form:error message="${flash.validationError}"/>
             <form:form action="saveRegistration" name="registerForm">
+                <form:hidden name="id" entity="${user}"/>
+                <form:field fieldName="user.email">
+                    <form:textBox name="email" entity="${user}" validation="email" style="width:500px;" readonly="true"/>
+                </form:field>
                 <form:field fieldName="user.firstName">
                     <form:textBox name="firstName" entity="${user}" validation="required" style="width:500px;"/>
                 </form:field>
@@ -56,18 +60,9 @@
                                value="${user?.city?.id ?: stocks.City.findByProvinceAndDeleted(defaultProvince, false)?.id}"/>
                     </div>
                 </form:field>
-                <form:field fieldName="user.email">
-                    <form:textBox name="email" entity="${user}" validation="email" style="width:500px;"/>
-                </form:field>
-                <form:field fieldName="user.password">
-                    <form:password name="password_confirmation" validation="required" style="width:500px;"/>
-                </form:field>
-                <form:field fieldName="user.confirmPassword">
-                    <form:password name="password" validation="confirmation" style="width:500px;"/>
-                </form:field>
-                <form:field fieldName="captcha">
-                    <form:captcha name="captcha" validation="required" width="500"/>
-                </form:field>
+                %{--<form:field fieldName="captcha">--}%
+                    %{--<form:captcha name="captcha" validation="required" width="500"/>--}%
+                %{--</form:field>--}%
                 <form:submitButton name="submit" text="${message(code:'register.button.label')}"/>
             </form:form>
         </div>
