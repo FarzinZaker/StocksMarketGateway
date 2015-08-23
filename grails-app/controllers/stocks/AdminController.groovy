@@ -78,8 +78,13 @@ class AdminController {
 
     def test() {
 
-        render(template: "/messageTemplates/email_template",
-                model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: User.get(5)]).toString()])
+        mailService.sendMail {
+            to 'farzin.zaker@gmail.com'
+            subject message(code: 'emailTemplates.email_verification.subject')
+            html(template: "/messageTemplates/email_template",
+                    model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: User.get(5)]).toString()])
+        }
+        render 1
     }
 
 
