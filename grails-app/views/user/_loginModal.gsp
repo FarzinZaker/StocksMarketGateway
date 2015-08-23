@@ -32,7 +32,10 @@
                                 <form:password name="confirmPassword" validation="required" style="width:220px;"/>
                             </form:field>
                             <div>
-                                <form:button name="initialRegister" text="${message(code: 'register.button.label')}" onclick="doInitialRegistration()"/>
+                                <form:button name="initialRegister" id="btnInitialRegister"
+                                             text="${message(code: 'register.button.label')}"
+                                             onclick="doInitialRegistration()"/>
+                                <form:loading id="loadInitialRegister"/>
                             </div>
                         </form></div>
                 </div>
@@ -70,6 +73,8 @@
 
 <script language="JavaScript" type="text/javascript">
     function doInitialRegistration() {
+        $('#btnInitialRegister').hide();
+        $('#loadInitialRegister').show();
         $.ajax({
             type: "POST",
             url: '${createLink(controller: 'User', action: 'saveInitialRegistration')}',
@@ -81,8 +86,10 @@
                 closeLoginDialog();
                 window.info('<g:message code="register.checkForActivationMail.body"/>');
             }
-            else if(response == '-1')
-                window.alert('${message(code: 'user.register.error')}')
+            else
+                window.alert(response);
+            $('#btnInitialRegister').show();
+            $('#loadInitialRegister').hide();
         });
     }
 </script>

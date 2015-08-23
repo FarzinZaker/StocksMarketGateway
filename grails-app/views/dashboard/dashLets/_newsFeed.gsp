@@ -3,7 +3,7 @@
     display: none;
 }
 
-.loading {
+#newsFeedItems .loading {
     display: block;
 
 }
