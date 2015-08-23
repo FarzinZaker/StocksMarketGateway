@@ -20,7 +20,7 @@ class DashboardService {
 
     def messageSource
 
-    @Cacheable('marketViewCache')
+//    @Cacheable('marketViewCache')
     def marketView() {
 
         def totalIndex = Index.findByInternalCode(32097828799138957)
