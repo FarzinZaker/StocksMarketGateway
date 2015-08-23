@@ -62,7 +62,7 @@ class UserController {
             mailService.sendMail {
                 to user.email
                 subject message(code: 'emailTemplates.email_verification.subject')
-                html(template: "/messageTemplates/email_template",
+                html(view: "/messageTemplates/email_template",
                         model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString()])
             }
             render '1'
@@ -210,7 +210,7 @@ class UserController {
             mailService.sendMail {
                 to user.email
                 subject message(code: 'emailTemplates.activation_result.subject')
-                html(template: "/messageTemplates/email_template",
+                html(view: "/messageTemplates/email_template",
                         model: [message: g.render(template: '/messageTemplates/mail/activation_result', model: [user: user]).toString()])
             }
 
