@@ -110,7 +110,7 @@ class SMAFilterService implements IncludeFilterService {
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
-        def targetIndicator = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
+        def targetIndicator = value.sort{-it[0].size()}.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
         def targetParameter = value.first()[1]
 
         switch (operator) {
