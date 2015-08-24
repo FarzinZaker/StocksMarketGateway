@@ -168,16 +168,16 @@ grails.views.gsp.encoding="UTF-8"
 grails.assets.less.compiler = 'less4j'
 
 
-grails.mail.default.from="Stocks <no-reply@agah-it.com>"
+grails.mail.default.from="4tablo <no-reply@4tablo.ir>"
 grails {
     mail {
         ssl = "off"
         host = "agah-it.com"
-        from = "no-reply@agah-it.com"
+        from = "no-reply@4tablo.ir"
         port = 25
         ssl = "off"
-        username = "no-reply@agah-it.com"
-        password = "Salam123"
+        username = "no-reply@4tablo.ir"
+        password = 'agah!#($'
         props = [
                 "mail.debug":"true",
         ]

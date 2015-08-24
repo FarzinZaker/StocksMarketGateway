@@ -100,4 +100,9 @@ class Symbol {
         else
             this.marketCode = marketCode
     }
+
+    @Override
+    String toString(){
+        "${persianCode} - ${persianName}"
+    }
 }

@@ -30,6 +30,29 @@ class UserController {
             return
         }
 
+        if(!params.email)
+        {
+            render message(code:'register.error.emailRequired')
+            return
+        }
+
+        if(!params.password)
+        {
+            render message(code:'register.error.passwordRequired')
+            return
+        }
+
+        if(params.password != params.confirmPassword)
+        {
+            render message(code:'register.error.passwordsDoesNotMatch')
+            return
+        }
+
+        if(User.findByEmail(params.email?.toString()?.toLowerCase())){
+            render message(code:'register.error.repetitiveEmail')
+            return
+        }
+
         def user = new User(params)
         user.username = user.email?.toLowerCase()
         user.enabled = false

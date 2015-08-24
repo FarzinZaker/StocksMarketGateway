@@ -11,7 +11,7 @@ import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
 import static groovyx.gpars.GParsPool.withPool
 
-@Secured([RoleHelper.ROLE_ADMIN])
+//@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
 
     def companyDataService
@@ -66,15 +66,24 @@ class AdminController {
 
     def priceSeriesAdjustmentService
     def RSIService
+    def mailService
 
     def index() {
+        def admin = User.get(5)
+        admin.username = 'admin'
+        admin.email = 'admin'
+        admin.password = 'admin'
+        admin.save(flush: true)
     }
 
     def test() {
-        def s = Symbol.get(29336)
-        println RSIService.bulkCalculate(s,14,'capitalIncreasePlusBrought')
-//        symbolDailyTradeDataService.importData()
 
+        mailService.sendMail {
+            to 'farzin.zaker@gmail.com'
+            subject message(code: 'emailTemplates.email_verification.subject')
+            html(template: "/messageTemplates/email_template",
+                    model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: User.get(5)]).toString()])
+        }
         render 1
     }
 

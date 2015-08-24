@@ -46,7 +46,7 @@ public abstract class TSEPersistService<T, K> {
                 event.data."${property.name}" != event."${property.name}"
             }
             object.properties = event.properties.findAll {
-                !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
+                !(it.key.toString() in ['creationDate', 'dailySnapshot', 'weeklySnapshot', 'monthlySnapshot'] + propertyExcludeList) && !it.key.toString().endsWith('Id')
             }
             bulkDataGateway.save(object)
             if (result)
