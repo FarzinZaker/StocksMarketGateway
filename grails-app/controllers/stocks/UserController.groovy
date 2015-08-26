@@ -2,6 +2,7 @@ package stocks
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.apache.lucene.search.BooleanQuery
 import stocks.User
 
 class UserController {
@@ -295,9 +296,18 @@ class UserController {
         [user: springSecurityService.currentUser as User]
     }
 
-    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
-    def profile() {
-        [user: springSecurityService.currentUser as User]
+
+    def autoComplete() {
+        def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def result = User.search("*${queryStr}*").results.unique { a, b -> a?.id <=> b?.id }.collect {
+            [
+                    name : it.toString(),
+                    value: it.id
+            ]
+        }
+        render([data: result] as JSON)
     }
 
 }

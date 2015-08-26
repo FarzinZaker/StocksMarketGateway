@@ -1,0 +1,50 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: root
+  Date: 8/14/14
+  Time: 4:48 PM
+--%>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head>
+    <meta name="layout" content="main"/>
+    <title><g:message code="transaction.list"/></title>
+
+    <script language="javascript" type="text/javascript">
+        var dataUrl = "${createLink(action: 'jsonList')}";
+    </script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <layout:breadcrumb items="${[
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'transaction'), url: createLink(controller: 'transaction')],
+                    [text: '<i class="fa fa-money"></i> ' + message(code: 'transaction.list'), url: createLink(controller: 'transaction', action: 'list')]
+            ]}"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <div class="queryListContainer k-rtl">
+
+                <div id="queryListView"></div>
+
+                <div id="pager" class="k-pager-wrap"></div>
+            </div>
+
+            <g:render template="list"/>
+
+            <div class="toolbar">
+                <form:linkButton href="${createLink(action: 'build')}"
+                                 text="${message(code: 'transaction.create')}"/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -336,7 +336,7 @@ class FormTagLib {
         if (image)
             out << """
             \$('#${
-                attrs.name
+                attrs.id ?: attrs.name
             }_container .k-widget.k-upload.k-header').append('<ul class="k-upload-files k-reset"><li class="k-file k-file-success"><img id="image_preview" class="upload-thumbnail" src="${
                 createLink(controller: 'image', action: 'index', id: image?.id)
             }"/><span title="${image.name}" class="k-filename">1403890017_basics-22.png</span><strong class="k-upload-status"><span class="k-upload-pct">100%</span><button class="k-button k-button-bare k-upload-action" type="button" style="display: none;"></button></strong></li></ul>');

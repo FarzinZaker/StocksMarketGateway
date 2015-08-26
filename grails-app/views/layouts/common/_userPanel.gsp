@@ -1,16 +1,12 @@
 <%@ page import="stocks.User" %>
 <ul class="user-panel">
     <sec:ifLoggedIn>
-    %{--<li><a href="${createLink(controller: 'user', action: 'changePassword')}"><g:message code="menu.currentUser.changePassword"/> <i class="glyphicon glyphicon-cog"></i></a></li>--}%
-        <li>${stocks.User.findByUsername(sec.username())} <i class="fa fa-user"></i></li>
-        <li><a href="${createLink(controller: 'logout')}"><g:message code="menu.currentUser.logout"/></a> <i
-                class="fa fa-sign-out"></i></li>
+        <li id="userInfoLink"><a><span>${stocks.User.findByUsername(sec.username())} <i class="fa fa-user"></i></span>
+        </a></li>
     </sec:ifLoggedIn>
     <sec:ifNotLoggedIn>
-        <li style="margin-top:10px;"><a href="javascript:openLoginDialog()"><g:message code="menu.currentUser.loginOrRegister"/> <i
+        <li><a href="javascript:openLoginDialog()"><g:message code="menu.currentUser.loginOrRegister"/> <i
                 class="fa fa-user"></i></a></li>
-        %{--<li><a href="${createLink(controller: 'user', action: 'register')}"><g:message--}%
-                %{--code="menu.currentUser.register"/> <i class="glyphicon glyphicon-plus"></i></a></li>--}%
     </sec:ifNotLoggedIn>
 </ul>
 
@@ -20,13 +16,53 @@
     </div>
 </div>
 
+<script id="template" type="text/x-kendo-template">
+<ul>
+    <li>
+        <a href="${createLink(uri: '/profile')}">
+            <i class="fa fa-user"></i> <span><g:message code="menu.currentUser.profile"/></span>
+            <div class="clear-fix"></div>
+        </a>
+    </li>
+    <li>
+        <a href="${createLink(controller: 'user', action: 'changePassword')}">
+            <i class="fa fa-key"></i> <span><g:message code="menu.currentUser.changePassword"/></span>
+            <div class="clear-fix"></div>
+        </a>
+    </li>
+    <li>
+        <a href="${createLink(uri:'/j_spring_security_logout')}">
+            <i class="fa fa-sign-out"></i> <span><g:message code="menu.currentUser.logout"/></span>
+            <div class="clear-fix"></div>
+        </a>
+    </li>
+</ul>
+%{--<img src="../content/web/foods/200/#=target.data('id')#.jpg" alt="#=target.data('title')#" />--}%
+%{--<p>#=target.data('title')#</p>--}%
+</script>
+
 <script language="javascript">
+    var urlFormat = "../content/web/tooltip/ajax/ajaxContent{0}.html";
+
+    $(document).ready(function () {
+        var userInfoLink = $("#userInfoLink");
+        userInfoLink.kendoTooltip({
+            filter: "a",
+            content: kendo.template($("#template").html()),
+            width: 120,
+//            height: 100,
+            position: "top",
+//            autoHide: false
+        });
+
+        userInfoLink.find("a").click(false);
+    });
 
     function openLoginDialog() {
         loginPanel.data("kendoWindow").center().open();
     }
 
-    function closeLoginDialog(){
+    function closeLoginDialog() {
         loginPanel.data("kendoWindow").close();
     }
 

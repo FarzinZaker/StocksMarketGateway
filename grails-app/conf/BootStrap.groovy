@@ -48,6 +48,7 @@ class BootStrap {
         println('graph db initialization completed')
         println('--------------------------------------------')
 
+        TrustAllCerts.apply()
     }
     def destroy = {
     }

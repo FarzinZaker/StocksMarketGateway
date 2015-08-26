@@ -18,7 +18,7 @@
 <asset:stylesheet src="common.less"/>
 
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui/jalali', file:'JalaliDate.js')}"></script>
-<script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.all.js')}"></script>
+<script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.web.min.js')}"></script>
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui/jalali', file:'fa-IR.js')}"></script>
 <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui/jalali', file:'kendo.messages.fa-IR.js')}"></script>
 

@@ -11,7 +11,7 @@
     <meta name="layout" content="main"/>
     <title><g:message code="user.profile.edit"/></title>
     <asset:javascript src="form-validator/security.js"/>
-    <asset:javascript src="jquery.cropit.min.js"/>
+    %{--<asset:javascript src="jquery.cropit.min.js"/>--}%
 </head>
 
 <body>
@@ -19,10 +19,22 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
+            <layout:breadcrumb items="${[
+                    [text: '', url:createLink(uri:'/')],
+                    [text: message(code:'menu.currentUser.profile'), url:createLink(controller: 'profile', action: 'index')],
+                    [text: '<i class="fa fa-edit"></i> ' + message(code:'user.profile.edit'), url:createLink(controller: 'profile', action: 'edit')]
+            ]}"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-xs-3">
+            <g:render template="menu"/>
+        </div>
 
-            <h1><g:message code="user.profile.edit"/></h1>
+        <div class="col-xs-9">
+            <form:info message="${flash.message}"/>
             <form:error message="${flash.validationError}"/>
-            <form:form action="saveRegistration" name="registerForm">
+            <form:form action="saveProfile" name="profileForm">
                 <form:field fieldName="user.firstName">
                     <form:textBox name="firstName" entity="${user}" validation="required" style="width:500px;"/>
                 </form:field>
@@ -30,39 +42,8 @@
                     <form:textBox name="lastName" entity="${user}" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="user.image">
-                    <style type="text/css" rel="stylesheet">
-                        /* Translucent background image */
-                        .cropit-image-background {
-                            opacity: .2;
-                        }
-
-                        /*
-                         * If the slider or anything else is covered by the background image,
-                         * use relative or absolute position on it
-                         */
-                        input.cropit-image-zoom-input {
-                            position: relative;
-                        }
-
-                        /* Limit the background image by adding overflow: hidden */
-                        #image-cropper {
-                            overflow: hidden;
-                        }
-                    </style>
-                    <div id="image-cropper">
-                        <!-- The preview container is needed for background image to work -->
-                        <div class="cropit-image-preview-container">
-                            <div class="cropit-image-preview"></div>
-                        </div>
-
-                        <input type="range" class="cropit-image-zoom-input" />
-
-                        <input type="file" class="cropit-image-input" />
-                        <div class="select-image-btn">Select new image</div>
-                    </div>
-                    <script language="javascript" type="text/javascript">
-                        $('#image-cropper').cropit({ imageBackground: true });
-                    </script>
+                    <form:imageUpload name="image" id="imageUpload" style="width:500px;" entity="${user}"
+                                      saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
                 </form:field>
                 <form:field fieldName="user.sex">
                     <form:select name="sex" entity="${user}"
@@ -86,7 +67,7 @@
                     </div>
                 </form:field>
 
-                <form:submitButton name="submit" text="${message(code: 'register.button.label')}"/>
+                <form:submitButton name="submit" text="${message(code: 'profile.saveButton.label')}"/>
             </form:form>
         </div>
     </div>

@@ -42,7 +42,7 @@
         <input style="float:right;" type="button" class="btn-delete-row" onclick="removeTime(this)" data-row="{{$index}}"/>
 
         <div style="float:right">
-            <div class="input-group clockpicker" style="200px">
+            <div class="input-group clockpicker" style="width:200px">
                 <input name="scheduleTimes" type="text" class="form-control" width="200px" id="time{{$index + 1}}"
                        ng-model="time.value">
                 <span class="input-group-addon">

@@ -148,6 +148,7 @@
                                 title: "${message(code:'user.roles.label')}",
                                 sortable: false
                             } ,
+                            { command: { text: "${message(code:'transactions')}", click: manageTransaction }, title: "", width: "105px", headerAttributes: { style: "text-align: center"} } ,
                             { command: { text: "${message(code:'edit')}", click: editGridItem }, title: "", width: "85px", headerAttributes: { style: "text-align: center"} }
                         ]
                     });
@@ -155,6 +156,10 @@
 
                 function editGridItem(e) {
                     window.location.href = "${createLink(action: 'build')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+                }
+
+                function manageTransaction(e) {
+                    window.location.href = "${createLink(controller: 'transaction', action: 'user')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
                 }
             </script>
         </div>
