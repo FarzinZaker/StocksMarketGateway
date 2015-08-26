@@ -97,7 +97,7 @@
                     title: "${message(code:'transaction.creator.label')}"
                 }
                 <g:if test="${!readOnly}">
-                {
+                ,{
                     command: {text: "${message(code:'edit')}", click: editGridItem},
                     title: "",
                     width: "105px",
