@@ -20,25 +20,31 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
-                    [text: '', url:createLink(uri:'/')],
-                    [text: message(code:'menu.screener'), url:createLink(controller: 'screener')],
-                    [text: message(code:"menu.screener.list"), url:createLink(controller: 'screener', action: 'list')],
-                    [text: '<i class="fa fa-filter"></i> ' + screener.title, url:createLink(controller: 'screener', action: 'view', id: params.id)]
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.screener'), url: createLink(controller: 'screener')],
+                    [text: message(code: "menu.screener.list"), url: createLink(controller: 'screener', action: 'list')],
+                    [text: '<i class="fa fa-filter"></i> ' + screener.title, url: createLink(controller: 'screener', action: 'view', id: params.id)]
             ]}"/>
         </div>
     </div>
+
     <div class="row-fluid">
         <div class="col-xs-12">
-            %{--<h1 class="pink" style="float:right;">--}%
-                %{--<i class="fa fa-filter"></i>--}%
-                %{--${screener.title}--}%
-            %{--</h1>--}%
 
-            <div style="float:left;">
-                <form:select name="adjustmentType" style="width:300px;" value="${AdjustmentHelper.defaultType}"
-                             items="${AdjustmentHelper.ENABLED_TYPES.collect {
-                                 [text: message(code: "priceAdjustment.types.${it}"), value: it]
-                             }}" onchange="reloadGrid"/>
+            <div id="filter-query-panel" style="float: right;margin-bottom:10px;margin-top:0;min-width: 50%;">
+                <span id="btnShowConditions" style="cursor: pointer;"><i class="fa fa-plus"></i> <g:message
+                        code="screener.view.showConditions"/></span>
+                <span id="btnHideConditions" style="display: none;cursor:pointer;"><i
+                        class="fa fa-minus"></i> <g:message code="screener.view.hideConditions"/></span>
+                <g:set var="index" value="${0}"/>
+                <div id="filterList" style="display: none">
+                    <g:each in="${rules}" var="rule">
+                        <div class="queryItem readonly" id="queryItem_${index++}">
+                            <g:render template="queryItem"
+                                      model="${[filter: rule.filter, operator: rule.operator, value: rule.value, text: rule.text, parameter: rule.parameter]}"/>
+                        </div>
+                    </g:each>
+                </div>
             </div>
 
             <div class="clear-fix"></div>
@@ -46,19 +52,16 @@
             <div id="timer"></div>
 
             <div class="k-rtl">
+                <div style="float:left;margin-top:-40px;">
+                    <form:select name="adjustmentType" style="width:300px;" value="${AdjustmentHelper.defaultType}"
+                                 items="${AdjustmentHelper.ENABLED_TYPES.collect {
+                                     [text: message(code: "priceAdjustment.types.${it}"), value: it]
+                                 }}" onchange="reloadGrid"/>
+                </div>
+
                 <div id="grid">
                     <form:loading id="screenerLoading"/>
                 </div>
-            </div>
-
-            <div id="filter-query-panel">
-                <g:set var="index" value="${0}"/>
-                <g:each in="${rules}" var="rule">
-                    <div class="queryItem readonly" id="queryItem_${index++}">
-                        <g:render template="queryItem"
-                                  model="${[filter: rule.filter, operator: rule.operator, value: rule.value, text: rule.text, parameter: rule.parameter]}"/>
-                    </div>
-                </g:each>
             </div>
 
             <div class="toolbar">
@@ -67,6 +70,19 @@
             </div>
 
             <script>
+
+                $(document).ready(function () {
+                    $('#btnShowConditions').click(function () {
+                        $('#btnShowConditions').hide();
+                        $('#btnHideConditions').show();
+                        $('#filterList').slideDown();
+                    });
+                    $('#btnHideConditions').click(function () {
+                        $('#btnHideConditions').hide();
+                        $('#btnShowConditions').show();
+                        $('#filterList').slideUp();
+                    });
+                });
 
                 function reloadGrid() {
 
@@ -77,15 +93,15 @@
 
                 function formatPriceChange(model) {
                     if (model.priceChange > 0) {
-                        return Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
+                        return '<div style="float:right;">' + Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
                                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                                }) + "<i class='fa fa-icon fa-arrow-up' style='color: green;float:left;line-height:22px;'></i>";
+                                }) + "</div><i class='fa fa-icon fa-arrow-up' style='color: green;float:left;line-height:22px;'></i><div style='float:left;margin-left:10px;'>" + Math.round(Math.abs(model.priceChange) * 10000 / model.yesterdayPrice) / 100 + "%</div>";
                     } else if (model.priceChange < 0) {
-                        return Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
+                        return '<div style="float:right;">' + Math.abs(model.priceChange).toString().replace(/./g, function (c, i, a) {
                                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                                }) + "<i class='fa fa-icon fa-arrow-down' style='color: red;float:left;;line-height:22px;'></i>";
+                                }) + "</div><i class='fa fa-icon fa-arrow-down' style='color: red;float:left;;line-height:22px;'></i><div style='float:left;margin-left:10px;'>" + Math.round(Math.abs(model.priceChange) * 10000 / model.yesterdayPrice) / 100 + "%</div>";
                     } else {
-                        return "-";
+                        return "0";
                     }
                 }
 
@@ -106,7 +122,7 @@
 //                    else if(eval('model.' + fieldName)<0)
 //                        return "<div style='color:red' class='" + getChangeColor(eval('model.' + fieldName )) + "Change'>" + formatNumber(eval('model.' + fieldName)) + "</div>";
 //                    else
-                        return "<div class='" + getChangeColor(eval('model.' + fieldName )) + "Change'>" + formatNumber(eval('model.' + fieldName)) + ((eval('model.' + fieldName)<0)?'-':'')+"</div>";
+                    return "<div class='" + getChangeColor(eval('model.' + fieldName)) + "Change'>" + formatNumber(eval('model.' + fieldName)) + ((eval('model.' + fieldName) < 0) ? '-' : '') + "</div>";
                 }
 
                 var changableColumns = [
@@ -194,6 +210,7 @@
                                 model: {
                                     fields: {
                                         id: {type: "number"},
+                                        symbolName: {type: "string"},
                                         symbol: {type: "string"},
                                         closingPrice: {type: "number"},
                                         firstTradePrice: {type: "number"},
@@ -215,83 +232,126 @@
                             }
 //                            pageSize: 10
                         },
-//                        height: 450,
+                        height: $(window).height() - 310,
                         filterable: false,
                         sortable: true,
+                        scrollable: true,
 //                        pageable: true,
                         columns: [
-                            <g:if test="${Environment.developmentMode}">
+                            <g:if test="${!Environment.developmentMode}">
                             {
                                 field: "id",
                                 title: "#",
                                 width: "70px",
                                 attributes: {style: "text-align: center"},
-                                headerAttributes: {style: "text-align: center"}
+                                headerAttributes: {style: "text-align: center"},
+                                locked: true,
+                                lockable: false
                             },
                             </g:if>
                             {
+                                field: "symbolName",
+                                title: "",
+                                width: "0px",
+                                locked: true,
+                                template: "<div style='white-space: nowrap'>#=data.symbolName#</div>",
+//                                lockable: false
+                            },
+                            {
                                 field: "symbol",
                                 title: "${message(code:'symbol.title.label')}",
-                                template: "<a target='_blank' href='${createLink(controller: 'symbol', action: 'info')}/#=data.id#'>#=data.symbol#</a>"
+                                template: "<a target='_blank' href='${createLink(controller: 'symbol', action: 'info')}/#=data.id#'>#=data.symbol#</a>",
+                                width: "80px",
+                                locked: true
+//                                lockable: false
                             },
                             {
                                 field: "closingPrice",
                                 title: "${message(code:'symbol.closingPrice.label')}",
-                                template: "#=formatNumericField(data, 'closingPrice')#"
+                                template: "#=formatNumericField(data, 'closingPrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "100px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "firstTradePrice",
                                 title: "${message(code:'symbol.firstTradePrice.label')}",
-                                template: "#=formatNumericField(data, 'firstTradePrice')#"
+                                template: "#=formatNumericField(data, 'firstTradePrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "lastTradePrice",
                                 title: "${message(code:'symbol.lastTradePrice.label')}",
-                                template: "#=formatNumericField(data, 'lastTradePrice')#"
+                                template: "#=formatNumericField(data, 'lastTradePrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "maxPrice",
                                 title: "${message(code:'symbol.maxPrice.label')}",
-                                template: "#=formatNumericField(data, 'maxPrice')#"
+                                template: "#=formatNumericField(data, 'maxPrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "100px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "minPrice",
                                 title: "${message(code:'symbol.minPrice.label')}",
-                                template: "#=formatNumericField(data, 'minPrice')#"
+                                template: "#=formatNumericField(data, 'minPrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "100px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "priceChange",
                                 title: "${message(code:'symbol.priceChange.label')}",
-                                template: "#= formatPriceChange(data) #"
-
+                                template: "#= formatPriceChange(data) #",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
                             },
                             {
                                 field: "totalTradeCount",
                                 title: "${message(code:'symbol.totalTradeCount.label')}",
-                                template: "#=formatNumericField(data, 'totalTradeCount')#"
+                                template: "#=formatNumericField(data, 'totalTradeCount')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "100px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "totalTradeValue",
                                 title: "${message(code:'symbol.totalTradeValue.label')}",
-                                template: "#=formatNumericField(data, 'totalTradeValue')#"
+                                template: "#=formatNumericField(data, 'totalTradeValue')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "150px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "totalTradeVolume",
                                 title: "${message(code:'symbol.totalTradeVolume.label')}",
-                                template: "#=formatNumericField(data, 'totalTradeVolume')#"
+                                template: "#=formatNumericField(data, 'totalTradeVolume')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "150px"
 //                                format: '{0:n0}'
                             },
                             {
                                 field: "yesterdayPrice",
                                 title: "${message(code:'symbol.yesterdayPrice.label')}",
-                                template: "#=formatNumericField(data, 'yesterdayPrice')#"
+                                template: "#=formatNumericField(data, 'yesterdayPrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "100px"
 //                                format: '{0:n0}'
                             },
 
@@ -299,16 +359,26 @@
                             {
                                 field: "${indicatorColumn.key.replace(',', '_')}",
                                 title: "${indicatorColumn.value}",
-                                template: "#=formatNumericFieldIndicator(data, '${indicatorColumn.key.replace(',', '_')}')#"
+                                template: "#=formatNumericFieldIndicator(data, '${indicatorColumn.key.replace(',', '_')}')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
 //                                format: '{0:n0}'
                             },
                             </g:each>
                         ]
                     });
+                    $("#grid").kendoTooltip({
+                        filter: ".k-grid-content-locked td", //this filter selects the first column cells
+                        position: "left",
+                        content: function (e) {
+                            var content = '<div class="screener-tooltip-content">' + $(e.target.closest("tr").find('td')[0]).text() + '</div>';
+                            return content;
+                        }
+                    }).data("kendoTooltip");
                 }
 
                 function startTimer() {
-
                     $('#timer').timer({
                         delay: 5000,
                         repeat: true,

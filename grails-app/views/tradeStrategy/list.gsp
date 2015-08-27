@@ -89,7 +89,7 @@
                             serverFiltering: true,
                             serverSorting: true
                         },
-                        height: 550,
+//                        height: 550,
                         filterable: false,
                         sortable: true,
                         pageable: true,

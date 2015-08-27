@@ -10,6 +10,7 @@ import stocks.filters.Operators
 import stocks.filters.QueryFilterService
 import stocks.portfolio.Portfolio
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.portfolioItems.PortfolioSymbolItem
 import stocks.tse.Symbol
 
 import javax.naming.OperationNotSupportedException
@@ -63,7 +64,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
-        [value.collect { Portfolio.get(it as Long).name }.join('، ')]
+        [value.findAll{it != ''}.collect { Portfolio.get(it as Long).name }.join('، ')]
     }
 
     @Override
@@ -74,7 +75,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     @Override
     List<Long> getExcludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.NOT_MEMBER_OF)
-            return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+            return PortfolioSymbolItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
                 it.symbol?.id
             }
         null
@@ -83,7 +84,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.MEMBER_OF)
-            return PortfolioItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+            return PortfolioSymbolItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
                 it.symbol?.id
             }
         null

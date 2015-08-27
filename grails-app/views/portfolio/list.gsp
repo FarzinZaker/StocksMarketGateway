@@ -69,15 +69,15 @@
                             serverFiltering: true,
                             serverSorting: true
                         },
-                        height: 550,
+//                        height: 550,
                         filterable: false,
                         sortable: true,
                         pageable: true,
                         columns: [
-                            {
-                                field: "id",
-                                title: "${message(code:'portfolio.id.label')}"
-                            },
+                            %{--{--}%
+                                %{--field: "id",--}%
+                                %{--title: "${message(code:'portfolio.id.label')}"--}%
+                            %{--},--}%
                             {
                                 field: "name",
                                 title: "${message(code:'portfolio.name.label')}"
