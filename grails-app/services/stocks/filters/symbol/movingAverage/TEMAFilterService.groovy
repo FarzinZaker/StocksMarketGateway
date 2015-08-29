@@ -79,7 +79,9 @@ class TEMAFilterService implements IncludeFilterService {
 
     @Override
     Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
-        def targetIndicatorName = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
+        def targetIndicatorName = value.sort {
+            -it[0].size()
+        }.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
         def targetIndicator = targetIndicatorName != 'Price' ? ClassResolver.loadDomainClassByName(targetIndicatorName) : null
         def targetParameter = value.first()[1] as String
 

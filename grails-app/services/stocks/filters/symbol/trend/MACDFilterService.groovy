@@ -69,8 +69,8 @@ class MACDFilterService implements IncludeFilterService {
 
     @Override
     Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
-        if (value.last() == 'constant_switch') {
-            def targetValue = value.first() as Double
+        if (value.contains( 'constant_switch')) {
+            def targetValue =value?.findAll()?.sort()?.first() as Double
             switch (operator) {
                 case Operators.UPPER_THAN:
                     return indicatorCompareService.indicatorUpperThanValue(MACD, parameter, targetValue, date, dailyTrades, indicators)

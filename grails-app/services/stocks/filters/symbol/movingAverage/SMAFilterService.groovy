@@ -1,4 +1,5 @@
 package stocks.filters.symbol.movingAverage
+
 import grails.util.Holders
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import stocks.User
@@ -78,7 +79,9 @@ class SMAFilterService implements IncludeFilterService {
 
     @Override
     Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
-        def targetIndicatorName = value.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
+        def targetIndicatorName = value.sort {
+            -it[0].size()
+        }.first()[0].replace('FilterService', '').replace('.filters', '.indicators') as String
         def targetIndicator = targetIndicatorName != 'Price' ? ClassResolver.loadDomainClassByName(targetIndicatorName) : null
         def targetParameter = value.first()[1] as String
 
@@ -110,7 +113,9 @@ class SMAFilterService implements IncludeFilterService {
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
-        def targetIndicator = value.sort{-it[0].size()}.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
+        def targetIndicator = value.sort {
+            -it[0].size()
+        }.first()[0].replace('FilterService', '').replace('.filters', '.indicators')
         def targetParameter = value.first()[1]
 
         switch (operator) {

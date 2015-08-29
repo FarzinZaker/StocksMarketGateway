@@ -35,7 +35,7 @@ class BackTestService {
                 }
             }
         })
-        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS).maximumSize(10000).build(new CacheLoader() {
             @Override
             Object load(Object o) throws Exception {
                 def backTest = o as BackTest
@@ -283,7 +283,7 @@ class BackTestService {
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: rule.inputType?.toString()]
 
-            def value = JSON.parse(rule.value)?.first()
+            def value = JSON.parse(rule.value)?.sort { -it[0].size() }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
