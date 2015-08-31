@@ -24,6 +24,7 @@ class User {
     boolean passwordExpired
     Boolean useMobilePushNotification = false
     Image image
+    String externalImageUrl
 
     static hasMany = [followList: User]
 
@@ -41,6 +42,7 @@ class User {
         useMobilePushNotification nullable: true
         image nullable: true
         city nullable: true
+        externalImageUrl nullable: true
     }
 
     static mapping = {

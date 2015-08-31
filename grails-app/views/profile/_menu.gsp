@@ -36,6 +36,15 @@
                 <div class="clear-fix"></div>
             </a>
         </li>
+        <li class="${params.action == 'invite' ? 'active' : ''}">
+            <a href="${createLink(action: 'invite')}">
+                <i class="fa fa-envelope"></i>
+                <span>
+                    <g:message code="user.profile.invite"/>
+                </span>
+                <div class="clear-fix"></div>
+            </a>
+        </li>
     </ul>
 </div>
 <script language="javascript" type="text/javascript">

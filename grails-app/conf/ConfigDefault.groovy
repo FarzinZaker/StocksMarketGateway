@@ -63,7 +63,7 @@ grails {
 environments {
     development {
         grails.logging.jul.usebridge = true
-        grails.serverURL = "http://localhost:8080"
+        grails.serverURL = "http://www.4tablo.ir"
         searchable {
             // disable bulk index on startup
             bulkIndexOnStartup = false

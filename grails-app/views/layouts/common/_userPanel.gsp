@@ -1,7 +1,9 @@
 <%@ page import="stocks.User" %>
+
 <ul class="user-panel">
     <sec:ifLoggedIn>
-        <li id="userInfoLink"><a><span>${stocks.User.findByUsername(sec.username())} <i class="fa fa-user"></i></span>
+        <li id="userInfoLink"><a><span>${stocks.User.findByUsername(sec.username())} <i
+                class="fa fa-user"></i></span>
         </a></li>
     </sec:ifLoggedIn>
     <sec:ifNotLoggedIn>
@@ -21,24 +23,25 @@
     <li>
         <a href="${createLink(uri: '/profile')}">
             <i class="fa fa-user"></i> <span><g:message code="menu.currentUser.profile"/></span>
+
             <div class="clear-fix"></div>
         </a>
     </li>
     <li>
         <a href="${createLink(controller: 'user', action: 'changePassword')}">
             <i class="fa fa-key"></i> <span><g:message code="menu.currentUser.changePassword"/></span>
+
             <div class="clear-fix"></div>
         </a>
     </li>
     <li>
-        <a href="${createLink(uri:'/j_spring_security_logout')}">
+        <a href="${createLink(uri: '/j_spring_security_logout')}">
             <i class="fa fa-sign-out"></i> <span><g:message code="menu.currentUser.logout"/></span>
+
             <div class="clear-fix"></div>
         </a>
     </li>
 </ul>
-%{--<img src="../content/web/foods/200/#=target.data('id')#.jpg" alt="#=target.data('title')#" />--}%
-%{--<p>#=target.data('title')#</p>--}%
 </script>
 
 <script language="javascript">

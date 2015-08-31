@@ -43,4 +43,9 @@ class ProfileController {
     def transactions() {
         [user: springSecurityService.currentUser as User]
     }
+
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
+    def invite() {
+        [user: springSecurityService.currentUser as User]
+    }
 }

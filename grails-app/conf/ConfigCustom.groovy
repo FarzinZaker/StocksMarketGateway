@@ -20,6 +20,7 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRo
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
 
+
 grails.gorm.default.mapping = {
     autoTimestamp true //or false based on your need
 }

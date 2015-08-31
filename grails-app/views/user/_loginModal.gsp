@@ -63,6 +63,22 @@
                                 <form:submitButton name="submit" text="${message(code: 'login.button.label')}"/>
                             </div>
                         </form>
+                        <div class="oAuthToolbar">
+                            <a href="${createLink(controller: 'OAuth2', action: 'google')}" class="oAuthButton googleButton">
+                                <i class="fa fa-google"></i>
+                                <span>
+                                    <g:message code="oAuth.button.title"/>
+                                    <span>Google</span>
+                                </span>
+                            </a>
+                            <a href="${createLink(controller: 'OAuth2', action: 'yahoo')}" class="oAuthButton yahooButton">
+                                <i class="fa fa-yahoo"></i>
+                                <span>
+                                    <g:message code="oAuth.button.title"/>
+                                    <span>Yahoo</span>
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,11 +37,17 @@
                 <li class="profile-field txt-align-center last">
                     <g:if test="${user?.image}">
                         <img src="${createLink(controller: 'image', id: user?.imageId)}"
-                             alt="${message(code: 'profile.image')}" class="profile-image"/>
+                              class="profile-image"/>
                     </g:if>
                     <g:else>
-                        <asset:image src="user-noImage.png" alt="${message(code: 'profile.image')}"
-                                     class="profile-image"/>
+                        <g:if test="${user?.externalImageUrl}">
+                            <img src="${user?.externalImageUrl}"
+                                  class="profile-image"/>
+                        </g:if>
+                        <g:else>
+                            <asset:image src="user-noImage.png"
+                                         class="profile-image"/>
+                        </g:else>
                     </g:else>
                 </li>
                 <li class="profile-field" tabindex="0">

@@ -88,6 +88,11 @@ grails.project.dependency.resolution = {
         compile 'com.tinkerpop.gremlin:gremlin-groovy:2.6.0'
 
         compile "com.google.guava:guava:12.0"
+
+        compile 'org.scribe:scribe:1.3.7'
+
+        compile 'com.google.oauth-client:google-oauth-client:1.20.0'
+        compile 'com.google.gdata:core:1.47.1'
     }
 
     plugins {
@@ -112,6 +117,8 @@ grails.project.dependency.resolution = {
 //        //compile ":handlebars-asset-pipeline:1.3.0.3"
 //
         compile ":spring-security-core:1.2.7.3"
+//        compile ':spring-security-oauth:2.0.1.1'
+
         compile ":rest:0.8"
         compile ":searchable:0.6.8"
         compile ":simple-captcha:0.9.9"
