@@ -12,5 +12,5 @@ beans = {
     commodityEventGateway(CommodityEventService) { bean -> bean.autowire = 'byName' }
     rateEventGateway(RateEventService) { bean -> bean.autowire = 'byName' }
     bulkDataGateway(BulkDataService) { bean -> bean.autowire = 'byName' }
-    groovyPagesTemplateEngine(GroovyPagesTemplateEngine) { bean -> bean.autowire = 'byName' }
+//    groovyPagesTemplateEngine(GroovyPagesTemplateEngine) { bean -> bean.autowire = 'byName' }
 }
