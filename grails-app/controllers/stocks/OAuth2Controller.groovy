@@ -187,7 +187,7 @@ class OAuth2Controller {
 
     }
 
-    private static def loginUser(User user) {
+    private def loginUser(User user) {
         log.error('logging in ' + user)
         def role = UserRole.findByUser(user)
         if (!role) {
