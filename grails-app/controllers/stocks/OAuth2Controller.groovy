@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import grails.util.Environment
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -24,7 +25,7 @@ class OAuth2Controller {
     def google() {
         redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s&access_type=%s',
                 URLEncoder.encode(consumers.google.client_id),
-                URLEncoder.encode("${createLink(url: 'http://www.4tablo.ir/OAuth2/googleCallback')}"),
+                URLEncoder.encode("${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/OAuth2/googleCallback")}"),
                 URLEncoder.encode('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/contacts.readonly'),
                 URLEncoder.encode('code'),
                 URLEncoder.encode('offline')
@@ -40,7 +41,7 @@ class OAuth2Controller {
                 code         : params.code,
                 client_id    : consumers.google.client_id,
                 client_secret: consumers.google.client_secret,
-                redirect_uri : "${createLink(url: 'http://www.4tablo.ir/OAuth2/googleCallback')}",
+                redirect_uri : "${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/OAuth2/googleCallback")}",
                 grant_type   : 'authorization_code'
         ].collect { "${it.key}=${it.value}" }.join('&');
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
@@ -124,8 +125,8 @@ class OAuth2Controller {
                 URLEncoder.encode('http://specs.openid.net/auth/2.0/identifier_select'),
                 URLEncoder.encode('checkid_setup'),
                 URLEncoder.encode('http://specs.openid.net/auth/2.0'),
-                URLEncoder.encode('http://www.4tablo.ir/'),
-                URLEncoder.encode('http://www.4tablo.ir/OAuth2/yahooCallback'),
+                URLEncoder.encode("http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/"),
+                URLEncoder.encode("http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/OAuth2/yahooCallback"),
                 URLEncoder.encode('http://specs.openid.net/extensions/oauth/1.0'),
                 URLEncoder.encode(consumers.yahoo.client_id),
                 URLEncoder.encode('http://openid.net/srv/ax/1.0'),

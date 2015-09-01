@@ -1,6 +1,7 @@
 package stocks
 
 import grails.converters.JSON
+import grails.util.Environment
 import org.apache.commons.codec.binary.Base64
 
 import java.nio.charset.StandardCharsets
@@ -21,7 +22,7 @@ class SocialController {
     def google() {
         redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s&access_type=%s',
                 URLEncoder.encode(consumers.google.client_id),
-                URLEncoder.encode("${createLink(url: 'http://www.4tablo.ir/social/googleCallback')}"),
+                URLEncoder.encode("${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/social/googleCallback")}"),
                 URLEncoder.encode('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/contacts.readonly'),
                 URLEncoder.encode('code'),
                 URLEncoder.encode('offline')
@@ -38,7 +39,7 @@ class SocialController {
                 code         : params.code,
                 client_id    : consumers.google.client_id,
                 client_secret: consumers.google.client_secret,
-                redirect_uri : "${createLink(url: 'http://www.4tablo.ir/social/googleCallback')}",
+                redirect_uri : "${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/social/googleCallback")}",
                 grant_type   : 'authorization_code'
         ].collect { "${it.key}=${it.value}" }.join('&');
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
@@ -87,7 +88,7 @@ class SocialController {
     def yahoo() {
         redirect(url: String.format('https://api.login.yahoo.com/oauth2/request_auth?client_id=%s&redirect_uri=%s&response_type=%s',
                 URLEncoder.encode(consumers.yahoo.client_id),
-                URLEncoder.encode("${createLink(url: 'http://www.4tablo.ir/social/yahooCallback')}"),
+                URLEncoder.encode("${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/social/yahooCallback")}"),
                 URLEncoder.encode('code')
         ))
     }
@@ -102,7 +103,7 @@ class SocialController {
                 code         : params.code,
                 client_id    : consumers.yahoo.client_id,
                 client_secret: consumers.yahoo.client_secret,
-                redirect_uri : "${createLink(url: 'http://www.4tablo.ir/social/yahooCallback')}",
+                redirect_uri : "${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/social/yahooCallback")}",
                 grant_type   : 'authorization_code'
         ].collect { "${it.key}=${it.value}" }.join('&');
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);

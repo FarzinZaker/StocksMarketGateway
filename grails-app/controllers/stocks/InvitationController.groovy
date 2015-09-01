@@ -70,32 +70,15 @@ class InvitationController {
                 invitation.identifier = UUID.randomUUID().toString()
                 invitation.save()
 
-//                if (params.provider.toString() == 'no-social' || service.useEmail) {
-                def messageBody = g.render(
-                        template: 'templates/email',
-                        model: [
-                                inviter   : invitation.sender,
-                                message   : params.message.toString().replace('\n', '<br/>'),
-                                identifier: invitation.identifier])
-
-
                 mailService.sendMail {
                     to address
                     subject params.subject
                     html(view: "/messageTemplates/email_template",
-                            model: [message: messageBody])
+                            model: [message: g.render(template: '/invitation/templates/email', model: [
+                                    inviter   : invitation.sender,
+                                    message   : params.message.toString().replace('\n', '<br/>'),
+                                    identifier: invitation.identifier]).toString()])
                 }
-//                } else {
-//                    def messageBody = g.render(
-//                            template: 'templates/message',
-//                            model: [
-//                                    inviter: invitation.sender,
-//                                    message: params.message,
-//                                    identifier: invitation.identifier])
-//
-//                    def response = service.sendMessage(accessToken: accessToken, link: params.link, message: messageBody, description: params.description, contact: address, subject: params.subject)
-//                    log.info "response = ${response}"
-//                }
             }
 
             flash.message = g.message(code: 'grails.plugin.invitation.result.title')

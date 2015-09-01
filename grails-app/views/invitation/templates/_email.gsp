@@ -1,12 +1,11 @@
-فروشگاه اینترنتی <g:message code="name"/>
-<br/>
 
-${inviter}<br/>
 
 ${message}     <br/>
 
+${inviter}<br/>
+
 <a href="${createLink(uri: '/', absolute: true)}?invitation=${identifier}">
-    <g:message code="name"/>
+    www.4tablo.ir
 </a>
 
 <a href="${createLink(controller: 'customer', action: 'register', absolute: true)}?invitation=${identifier}">
