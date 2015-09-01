@@ -26,10 +26,25 @@ class AuthenticationProvider extends DaoAuthenticationProvider {
 
     Authentication authenticate(Authentication authentication) {
 
-        if(authentication instanceof RememberMeAuthenticationToken){
+        if (authentication instanceof RememberMeAuthenticationToken) {
             return authentication
-        }
-        else {
+        } else if (authentication.principal == 'oAuthLogin') {
+
+            def user = session['oAuthLogin'] as User
+            session['oAuthLogin'] = null
+            if (user) {
+
+                checkUserFlags(user)
+
+                GrantedAuthorityImpl[] authorities = user.authorities.collect {
+                    new GrantedAuthorityImpl(it.authority)
+                }
+                def userDetails = new GrailsUser(user.username, user.password, user.enabled, !user.accountExpired, true, !user.accountLocked, authorities as Collection<GrantedAuthority>, user.id)
+                def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
+                token.details = authentication.details
+                return token
+            } else return super.authenticate(authentication);
+        } else {
             User.withTransaction { status ->
                 def user = User.findByUsername(authentication.principal as String)
                 if (user) {

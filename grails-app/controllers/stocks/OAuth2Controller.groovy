@@ -15,6 +15,8 @@ import java.nio.charset.StandardCharsets
 
 class OAuth2Controller {
 
+    AuthenticationManager authenticationManager
+
     def static consumers = [
             google: [
                     client_id    : '784184303586-693j0vqr1gmut4ucdudsphjdcv5peqqc.apps.googleusercontent.com',
@@ -193,63 +195,16 @@ class OAuth2Controller {
     }
 
     private def loginUser(User user) {
-        def role = UserRole.findByUser(user)
-        if (!role) {
-            role = new UserRole()
-            role.user = user
-            role.role = Role.findByAuthority(RoleHelper.ROLE_USER)
-            role.save(flush: true)
-        }
 
-        def userDetails = new GrailsUser(user.username, user.password, user.enabled, !user.accountExpired, true, !user.accountLocked, user.getAuthorities().collect {
-            new GrantedAuthority() {
-                public String getAuthority() {
-                    return it.authority;
-                }
-            }
-        }, user.id)
+        session['oAuthLogin'] = user
 
-        session['oAuthLogin'] = userDetails
-//        def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
-//
-//        SecurityContextHolder.getContext().setAuthentication(token)
-
-        AuthenticationManager.authenticate(new Authentication() {
-            @Override
-            Collection<GrantedAuthority> getAuthorities() {
-                return null
-            }
-
-            @Override
-            Object getCredentials() {
-                return null
-            }
-
-            @Override
-            Object getDetails() {
-                return null
-            }
-
-            @Override
-            Object getPrincipal() {
-                return null
-            }
-
-            @Override
-            boolean isAuthenticated() {
-                return false
-            }
-
-            @Override
-            void setAuthenticated(boolean b) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            String getName() {
-                return null
-            }
-        })
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken('oAuthLogin', '');
+        token.setDetails(user);
+        //doing actual authentication
+        Authentication auth = authenticationManager.authenticate(token);
+        log.debug("Login succeeded!");
+        //setting principal in context
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     private handleWebLogicApplicationContextProblem() {
