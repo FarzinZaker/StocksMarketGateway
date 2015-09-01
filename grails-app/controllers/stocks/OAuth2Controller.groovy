@@ -3,6 +3,8 @@ package stocks
 import grails.converters.JSON
 import grails.util.Environment
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -189,7 +191,7 @@ class OAuth2Controller {
     }
 
     private def loginUser(User user) {
-        log.error('logging in ' + user)
+        handleWebLogicApplicationContextProblem()
         def role = UserRole.findByUser(user)
         if (!role) {
             role = new UserRole()
@@ -208,7 +210,11 @@ class OAuth2Controller {
         def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
 
         SecurityContextHolder.getContext().setAuthentication(token)
+    }
 
-        log.error('logged in ' + user)
+    private handleWebLogicApplicationContextProblem() {
+        ServletContextHolder.servletContext
+                .getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)
+
     }
 }
