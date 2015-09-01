@@ -25,6 +25,7 @@ class OAuth2Controller {
     ]
 
     def google() {
+        handleWebLogicApplicationContextProblem()
         redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s&access_type=%s',
                 URLEncoder.encode(consumers.google.client_id),
                 URLEncoder.encode("${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/OAuth2/googleCallback")}"),
@@ -106,6 +107,7 @@ class OAuth2Controller {
     }
 
     def yahoo() {
+        handleWebLogicApplicationContextProblem()
         redirect(url: String.format('https://open.login.yahooapis.com/openid/op/auth?' +
                 'openid.claimed_id=%s' +
                 '&openid.identity=%s' +
@@ -191,7 +193,6 @@ class OAuth2Controller {
     }
 
     private def loginUser(User user) {
-        handleWebLogicApplicationContextProblem()
         def role = UserRole.findByUser(user)
         if (!role) {
             role = new UserRole()
