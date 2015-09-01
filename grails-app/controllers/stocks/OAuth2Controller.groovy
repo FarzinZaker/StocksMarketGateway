@@ -206,7 +206,8 @@ class OAuth2Controller {
         }, user.id)
         def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
 
-        SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(token)
+
         log.error('logged in ' + user)
     }
 }
