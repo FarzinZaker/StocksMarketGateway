@@ -1,3 +1,4 @@
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import stocks.BulkDataService
 import stocks.CodalEventService
 import stocks.CommodityEventService
@@ -11,4 +12,5 @@ beans = {
     commodityEventGateway(CommodityEventService) { bean -> bean.autowire = 'byName' }
     rateEventGateway(RateEventService) { bean -> bean.autowire = 'byName' }
     bulkDataGateway(BulkDataService) { bean -> bean.autowire = 'byName' }
+    groovyPagesTemplateEngine(GroovyPagesTemplateEngine) { bean -> bean.autowire = 'byName' }
 }
