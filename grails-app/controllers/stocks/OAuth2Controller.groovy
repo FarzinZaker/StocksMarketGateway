@@ -5,7 +5,9 @@ import grails.util.Environment
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -25,7 +27,6 @@ class OAuth2Controller {
     ]
 
     def google() {
-        handleWebLogicApplicationContextProblem()
         redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s&access_type=%s',
                 URLEncoder.encode(consumers.google.client_id),
                 URLEncoder.encode("${createLink(url: "http://${Environment.isDevelopmentMode() ? 'localhost' : 'www.4tablo.ir'}/OAuth2/googleCallback")}"),
@@ -107,7 +108,6 @@ class OAuth2Controller {
     }
 
     def yahoo() {
-        handleWebLogicApplicationContextProblem()
         redirect(url: String.format('https://open.login.yahooapis.com/openid/op/auth?' +
                 'openid.claimed_id=%s' +
                 '&openid.identity=%s' +
@@ -208,9 +208,48 @@ class OAuth2Controller {
                 }
             }
         }, user.id)
-        def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
 
-        SecurityContextHolder.getContext().setAuthentication(token)
+        session['oAuthLogin'] = userDetails
+//        def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
+//
+//        SecurityContextHolder.getContext().setAuthentication(token)
+
+        AuthenticationManager.authenticate(new Authentication() {
+            @Override
+            Collection<GrantedAuthority> getAuthorities() {
+                return null
+            }
+
+            @Override
+            Object getCredentials() {
+                return null
+            }
+
+            @Override
+            Object getDetails() {
+                return null
+            }
+
+            @Override
+            Object getPrincipal() {
+                return null
+            }
+
+            @Override
+            boolean isAuthenticated() {
+                return false
+            }
+
+            @Override
+            void setAuthenticated(boolean b) throws IllegalArgumentException {
+
+            }
+
+            @Override
+            String getName() {
+                return null
+            }
+        })
     }
 
     private handleWebLogicApplicationContextProblem() {

@@ -19,6 +19,16 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'stocks.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'stocks.UserRole'
 grails.plugins.springsecurity.authority.className = 'stocks.Role'
 
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/'
+grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
+
+grails.plugins.springsecurity.providerNames = [
+        'authenticationProvider',
+// 'daoAuthenticationProvider',
+        'anonymousAuthenticationProvider',
+        'rememberMeAuthenticationProvider']
+
+
 
 
 grails.gorm.default.mapping = {

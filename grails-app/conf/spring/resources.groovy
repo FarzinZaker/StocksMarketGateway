@@ -4,6 +4,8 @@ import stocks.CodalEventService
 import stocks.CommodityEventService
 import stocks.RateEventService
 import stocks.TSEEventService
+import stocks.AuthenticationProvider
+
 
 // Place your Spring DSL code here
 beans = {
@@ -12,5 +14,14 @@ beans = {
     commodityEventGateway(CommodityEventService) { bean -> bean.autowire = 'byName' }
     rateEventGateway(RateEventService) { bean -> bean.autowire = 'byName' }
     bulkDataGateway(BulkDataService) { bean -> bean.autowire = 'byName' }
-//    groovyPagesTemplateEngine(GroovyPagesTemplateEngine) { bean -> bean.autowire = 'byName' }
+
+    //custom authentication
+    authenticationProvider(AuthenticationProvider) {
+        springSecurityService = ref('springSecurityService')
+        passwordEncoder = ref('passwordEncoder')
+        saltSource = ref('saltSource')
+        userDetailsService = ref('userDetailsService')
+        grailsApplication = ref('grailsApplication')
+    }
+
 }
