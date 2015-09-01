@@ -22,11 +22,12 @@ class OAuth2Controller {
     ]
 
     def google() {
-        redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s',
+        redirect(url: String.format('https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s&access_type=%s',
                 URLEncoder.encode(consumers.google.client_id),
                 URLEncoder.encode("${createLink(url: 'http://www.4tablo.ir/OAuth2/googleCallback')}"),
-                URLEncoder.encode('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'),
-                URLEncoder.encode('code')
+                URLEncoder.encode('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/contacts.readonly'),
+                URLEncoder.encode('code'),
+                URLEncoder.encode('offline')
         ))
     }
 
@@ -57,9 +58,6 @@ class OAuth2Controller {
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream())
         wr.write(postData);
         def data = JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
-        def oAuthID = new OAuthID()
-        oAuthID.accessToken = data.access_token
-        oAuthID.provider = 'google'
 
         def profile = JSON.parse("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${data.access_token}".toURL().text) as Map
         def user = User.findByEmail(profile.email as String)
@@ -84,6 +82,17 @@ class OAuth2Controller {
         if (!user.externalImageUrl)
             user.externalImageUrl = profile.picture
         user.save(flush: true)
+
+        def oAuthKey = OAuthKey.findByProviderAndIdentifier('google', profile.email as String)
+        if (!oAuthKey) {
+            oAuthKey = new OAuthKey()
+            oAuthKey.provider = 'google'
+            oAuthKey.identifier = profile.email
+        }
+        oAuthKey.accessToken = data.access_token
+        if (data.refresh_token)
+            oAuthKey.refreshToken = data.refresh_token
+        oAuthKey.save(flush: true)
 
         loginUser(user)
 
@@ -138,9 +147,9 @@ class OAuth2Controller {
         def nameParts = fullName.split(' ')
         def firstName
         def lastName
-        if(nameParts.size() > 0)
+        if (nameParts.size() > 0)
             firstName = nameParts[0]
-        if(nameParts.size() > 1)
+        if (nameParts.size() > 1)
             lastName = nameParts[1]
         def gender = params.openid.ax.value.gender == 'M' ? 'male' : 'female'
         def image = params.openid.ax.value.image
@@ -178,7 +187,7 @@ class OAuth2Controller {
 
     }
 
-    private static def loginUser(User user){
+    private static def loginUser(User user) {
         def role = UserRole.findByUser(user)
         if (!role) {
             role = new UserRole()

@@ -40,9 +40,9 @@ class InvitationController {
     }
 
     def sendInvites = {
-        def service
-        if (params.provider.toString() != 'no-social')
-            service = resolveService(params.provider)
+//        def service
+//        if (params.provider.toString() != 'no-social')
+//            service = resolveService(params.provider)
         def accessToken = session["${params.provider}_accessToken"]
         def message = params.message + ' ' + (grailsApplication.config.grails.plugin.invitation.defaultMessage ?: '') as String
 
@@ -52,7 +52,7 @@ class InvitationController {
 				<html>
 				<body>
 				This is a debug screen.<br/>
-				In a real life situation, I would have sent ${ message } to ${ params.receivers } on ${ params.provider }
+				In a real life situation, I would have sent ${message} to ${params.receivers} on ${params.provider}
 				</body>
 				</html>
 
@@ -70,37 +70,36 @@ class InvitationController {
                 invitation.identifier = UUID.randomUUID().toString()
                 invitation.save()
 
-                if (params.provider.toString() == 'no-social' || service.useEmail) {
-                    def messageBody = g.render(
-                            template: 'templates/email',
-                            model: [
-                                    inviter: invitation.sender,
-                                    message: params.message.toString().replace('\n', '<br/>'),
-                                    identifier: invitation.identifier])
+//                if (params.provider.toString() == 'no-social' || service.useEmail) {
+                def messageBody = g.render(
+                        template: 'templates/email',
+                        model: [
+                                inviter   : invitation.sender,
+                                message   : params.message.toString().replace('\n', '<br/>'),
+                                identifier: invitation.identifier])
 
 
-                    mailService.sendMail {
-                        to address
-                        subject params.subject
-                        html(view: "/messageTemplates/${grailsApplication.config.eShop.instance}_email_template",
-                                model: [message: messageBody])
-                    }
-
-                } else {
-                    def messageBody = g.render(
-                            template: 'templates/message',
-                            model: [
-                                    inviter: invitation.sender,
-                                    message: params.message,
-                                    identifier: invitation.identifier])
-
-                    def response = service.sendMessage(accessToken: accessToken, link: params.link, message: messageBody, description: params.description, contact: address, subject: params.subject)
-                    log.info "response = ${response}"
+                mailService.sendMail {
+                    to address
+                    subject params.subject
+                    html(view: "/messageTemplates/${grailsApplication.config.eShop.instance}_email_template",
+                            model: [message: messageBody])
                 }
+//                } else {
+//                    def messageBody = g.render(
+//                            template: 'templates/message',
+//                            model: [
+//                                    inviter: invitation.sender,
+//                                    message: params.message,
+//                                    identifier: invitation.identifier])
+//
+//                    def response = service.sendMessage(accessToken: accessToken, link: params.link, message: messageBody, description: params.description, contact: address, subject: params.subject)
+//                    log.info "response = ${response}"
+//                }
             }
 
             flash.message = g.message(code: 'grails.plugin.invitation.result.title')
-            redirect(uri: '/customer/panel')
+            redirect(controller: 'profile', action: 'invite')
         }
     }
 
@@ -109,17 +108,17 @@ class InvitationController {
      */
 
     def contacts() {
-        validateRequest(params.provider)
-        def service = resolveService(params.provider)
-        def accessToken = service.getAccessToken(params, session["${params.provider}_requestToken"])
-        session["${params.provider}_accessToken"] = accessToken
-        def contacts = service.getContacts(accessToken)
-        render(view: '/invitation/contacts', model: [contacts: contacts, provider: params.provider], plugin: 'invitation')
+//        validateRequest(params.provider)
+//        def service = resolveService(params.provider)
+//        def accessToken = service.getAccessToken(params, session["${params.provider}_requestToken"])
+//        session["${params.provider}_accessToken"] = accessToken
+        def contacts = session["invite_${params.provider}_contacts"] //service.getContacts(accessToken)
+        render(view: '/invitation/contacts', model: [contacts: contacts, provider: params.provider])
     }
 
     def emailList() {
         def contacts = params.mailList.split('\n').collect { [address: it?.toString()?.trim()] }.findAll { it.address }
-        render(view: '/invitation/contacts', model: [contacts: contacts, provider: 'no-social'], plugin: 'invitation')
+        render(view: '/invitation/contacts', model: [contacts: contacts, provider: 'no-social'])
     }
 
     /*
@@ -153,7 +152,7 @@ class InvitationController {
     }
 
     private def resolveService(provider) {
-        def serviceName = "${ provider as String }InvitationService"
+        def serviceName = "${provider as String}InvitationService"
         serviceName = serviceName[0].toString().toLowerCase() + serviceName[1..serviceName.length() - 1]
         grailsApplication.mainContext.getBean(serviceName)
     }

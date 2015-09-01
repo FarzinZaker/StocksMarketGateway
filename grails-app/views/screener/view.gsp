@@ -238,7 +238,7 @@
                         scrollable: true,
 //                        pageable: true,
                         columns: [
-                            <g:if test="${!Environment.developmentMode}">
+                            <g:if test="${Environment.developmentMode}">
                             {
                                 field: "id",
                                 title: "#",
@@ -372,7 +372,7 @@
                         filter: ".k-grid-content-locked td", //this filter selects the first column cells
                         position: "left",
                         content: function (e) {
-                            var content = '<div class="screener-tooltip-content">' + $(e.target.closest("tr").find('td')[0]).text() + '</div>';
+                            var content = '<div class="screener-tooltip-content">' + $(e.target.closest("tr").find('td')[${Environment.isDevelopmentMode() ? 1 : 0}]).text() + '</div>';
                             return content;
                         }
                     }).data("kendoTooltip");

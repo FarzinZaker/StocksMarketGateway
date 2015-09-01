@@ -20,7 +20,7 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.currentUser.profile'), url: createLink(controller: 'profile', action: 'index')],
-                    [text: '<i class="fa fa-shopping-cart"></i> ' + message(code: 'user.profile.payment'), url: createLink(controller: 'profile', action: 'payment')]
+                    [text: '<i class="fa fa-envelope"></i> ' + message(code: 'user.profile.invite'), url: createLink(controller: 'profile', action: 'invite')]
             ]}"/>
         </div>
     </div>
@@ -31,6 +31,11 @@
         </div>
 
         <div class="col-xs-9">
+            <g:if test="${flash.message}">
+                <div class="info" style="border-bottom:1px solid white;margin-bottom:20px;">
+                    ${flash.message}
+                </div>
+            </g:if>
             <div>
                 <g:message code="profile.invite.social.description"/>
             </div>

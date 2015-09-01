@@ -14,6 +14,7 @@
     <asset:javascript src="d3/d3.js"/>
     <asset:javascript src="d3/d3.tip.js"/>
     <asset:javascript src="FarsiNormalizer.js"/>
+    <script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.dataviz.min.js')}"></script>
     <script language="javascript" type="text/javascript">
 
 

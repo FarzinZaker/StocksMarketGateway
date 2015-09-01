@@ -1,7 +1,7 @@
 <div class="profileMenu">
     <ul>
         <li class="${params.action == 'index' || params.action == null ? 'active' : ''}">
-            <a href="${createLink(action: 'index')}">
+            <a href="${createLink(controller: 'profile', action: 'index')}">
                 <i class="fa fa-user"></i>
                 <span>
                     <g:message code="menu.currentUser.profile"/>
@@ -10,7 +10,7 @@
             </a>
         </li>
         <li class="${params.action == 'edit' ? 'active' : ''}">
-            <a href="${createLink(action: 'edit')}">
+            <a href="${createLink(controller: 'profile', action: 'edit')}">
                 <i class="fa fa-edit"></i>
                 <span>
                     <g:message code="user.profile.edit"/>
@@ -19,7 +19,7 @@
             </a>
         </li>
         <li class="${params.action == 'payment' ? 'active' : ''}">
-            <a href="${createLink(action: 'payment')}">
+            <a href="${createLink(controller: 'profile', action: 'payment')}">
                 <i class="fa fa-shopping-cart"></i>
                 <span>
                     <g:message code="user.profile.payment"/>
@@ -28,7 +28,7 @@
             </a>
         </li>
         <li class="${params.action == 'transactions' ? 'active' : ''}">
-            <a href="${createLink(action: 'transactions')}">
+            <a href="${createLink(controller: 'profile', action: 'transactions')}">
                 <i class="fa fa-exchange"></i>
                 <span>
                     <g:message code="user.profile.transactions"/>
@@ -36,8 +36,8 @@
                 <div class="clear-fix"></div>
             </a>
         </li>
-        <li class="${params.action == 'invite' ? 'active' : ''}">
-            <a href="${createLink(action: 'invite')}">
+        <li class="${params.action == 'invite' || params.controller == 'invitation' ? 'active' : ''}">
+            <a href="${createLink(controller: 'profile', action: 'invite')}">
                 <i class="fa fa-envelope"></i>
                 <span>
                     <g:message code="user.profile.invite"/>
