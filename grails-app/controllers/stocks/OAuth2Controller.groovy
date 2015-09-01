@@ -188,7 +188,7 @@ class OAuth2Controller {
     }
 
     private static def loginUser(User user) {
-        log.error "logging in ${user}"
+        log.error('logging in ' + user)
         def role = UserRole.findByUser(user)
         if (!role) {
             role = new UserRole()
@@ -207,6 +207,6 @@ class OAuth2Controller {
         def token = new UsernamePasswordAuthenticationToken(userDetails, user.password, userDetails.authorities)
 
         SecurityContextHolder.getContext().setAuthentication(token);
-        log.error "loggen in ${user}"
+        log.error('logged in ' + user)
     }
 }
