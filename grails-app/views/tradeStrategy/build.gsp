@@ -19,23 +19,27 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
-                    [text: '', url:createLink(uri:'/')],
-                    [text: message(code:'menu.strategy'), url:createLink(controller: 'tradeStrategy')],
-                    [text: '<i class="fa fa-magic"></i> ' + message(code:"${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}", args:[tradeStrategy?.name]), url:createLink(controller: 'tradeStrategy', action: 'build', id: params.id)]
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.strategy'), url: createLink(controller: 'tradeStrategy')],
+                    [text: '<i class="fa fa-magic"></i> ' + message(code: "${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}", args: [tradeStrategy?.name]), url: createLink(controller: 'tradeStrategy', action: 'build', id: params.id)]
             ]}"/>
         </div>
     </div>
-    %{--<div class="row-fluid">--}%
-        %{--<div class="col-xs-12">--}%
-            %{--<h1 class="magenta">--}%
-                %{--<i class="fa fa-magic"></i>--}%
-                %{--<g:message code="${params.id ? 'tradeStrategy.title.edit' : 'tradeStrategy.title.new'}"--}%
-                           %{--args="${[tradeStrategy?.name]}"/>--}%
-            %{--</h1>--}%
 
-            %{--<p><g:message code="tradeStrategy.description"/></p>--}%
-        %{--</div>--}%
-    %{--</div>--}%
+    <g:if test="${flash.errors}">
+        <div class="row-fluid">
+            <div class="col-xs-12">
+                <div class="errorBlock">
+                    <g:message code="strategy.build.errors.title"/>
+                    <ul>
+                        <g:each in="${flash.errors}" var="error">
+                            <li>${error}</li>
+                        </g:each>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </g:if>
 
     <div class="row-fluid">
         <div class="col-xs-12">

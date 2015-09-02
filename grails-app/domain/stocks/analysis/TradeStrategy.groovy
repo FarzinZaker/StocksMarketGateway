@@ -1,5 +1,6 @@
 package stocks.analysis
 
+import com.jniwrapper.Bool
 import stocks.User
 import stocks.alerting.Rule
 import stocks.tse.Symbol
@@ -18,6 +19,7 @@ class TradeStrategy {
     Integer timeLimit = 0
     User owner
 
+    Boolean isValid = false
     Boolean deleted = false
 
     Date dateCreated

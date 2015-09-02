@@ -193,6 +193,9 @@ class BackTestService {
             ]
         }
 
+        if(filters.size() == 0)
+            return false
+
         for (def i = 0; i < filters.size(); i++) {
             def service = filters[i].service as FilterServiceBase
             if (!service.check(filters[i].parameter?.toString(), filters[i].operator?.toString(), filters[i].value, backTest.currentDate, dailyTrades, indicators))
