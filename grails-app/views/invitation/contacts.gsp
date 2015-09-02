@@ -14,8 +14,7 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.currentUser.profile'), url: createLink(controller: 'profile', action: 'index')],
-                    [text: message(code: 'user.profile.invite'), url: createLink(controller: 'profile', action: 'invite')],
-                    [text: '<i class="fa fa-user"></i> ' + message(code: 'select'), url: createLink(controller: 'invitation', action: 'emailList', params: [mailList: params.mailList])]
+                    [text: '<i class="fa fa-envelope"></i> ' + message(code: 'user.profile.invite'), url: createLink(controller: 'profile', action: 'invite')]
             ]}"/>
         </div>
     </div>

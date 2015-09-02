@@ -40,53 +40,36 @@ class InvitationController {
     }
 
     def sendInvites = {
-//        def service
-//        if (params.provider.toString() != 'no-social')
-//            service = resolveService(params.provider)
-        def accessToken = session["${params.provider}_accessToken"]
-        def message = params.message + ' ' + (grailsApplication.config.grails.plugin.invitation.defaultMessage ?: '') as String
+        def result = []
+        params.addresses.split(',').each { address ->
 
-        if (grailsApplication.config.grails.plugin.invitation.debug) {
-            render """
+            if (!User.findByEmail(address?.toString()?.trim()?.toLowerCase())) {
+                def invitation = new Invitation()
+                invitation.subject = params.subject
+                invitation.body = params.message
+                invitation.sendDate = new Date()
+                invitation.provider = params.provider
+                invitation.sender = springSecurityService.currentUser as User
+                invitation.identifier = UUID.randomUUID().toString()
+                invitation.receiverAddress = address
+                invitation.save()
 
-				<html>
-				<body>
-				This is a debug screen.<br/>
-				In a real life situation, I would have sent ${message} to ${params.receivers} on ${params.provider}
-				</body>
-				</html>
-
-			"""
-            return
-        } else {
-            params.addresses.split(',').each { address ->
-
-                if (!User.findByEmail(address?.toString()?.trim()?.toLowerCase())) {
-                    def invitation = new Invitation()
-                    invitation.subject = params.subject
-                    invitation.body = params.message
-                    invitation.sendDate = new Date()
-                    invitation.provider = params.provider
-                    invitation.sender = springSecurityService.currentUser as User
-                    invitation.identifier = UUID.randomUUID().toString()
-                    invitation.receiverAddress = address
-                    invitation.save()
-
-                    mailService.sendMail {
-                        to address
-                        subject params.subject
-                        html(view: "/messageTemplates/email_template",
-                                model: [message: g.render(template: '/invitation/templates/email', model: [
-                                        inviter   : invitation.sender,
-                                        message   : params.message.toString().replace('\n', '<br/>'),
-                                        identifier: invitation.identifier]).toString()])
-                    }
+                mailService.sendMail {
+                    to address
+                    subject params.subject
+                    html(view: "/messageTemplates/email_template",
+                            model: [message: g.render(template: '/invitation/templates/email', model: [
+                                    inviter   : invitation.sender,
+                                    message   : params.message.toString().replace('\n', '<br/>'),
+                                    identifier: invitation.identifier]).toString()])
                 }
-            }
-
-            flash.message = g.message(code: 'grails.plugin.invitation.result.title')
-            redirect(controller: 'profile', action: 'invite')
+                result << [address: address, state: 'yes', description: message(code: 'invitation.status.succeed')]
+            } else
+                result << [address: address, state: 'no', description: message(code: 'invitation.status.repetitive')]
         }
+
+        flash.message = g.message(code: 'grails.plugin.invitation.result.title')
+        [list: result]
     }
 
     /*
