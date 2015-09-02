@@ -35,7 +35,8 @@
                             date: {type: "string"},
                             account: {type: "string"},
                             customer: {type: "string"},
-                            creator: {type: "string"}
+                            creator: {type: "string"},
+                            description: {type: "string"}
                         }
                     },
                     data: "data", // records are returned in the "data" field of the response
@@ -95,6 +96,10 @@
                 {
                     field: "creator",
                     title: "${message(code:'transaction.creator.label')}"
+                },
+                {
+                    field: "description",
+                    title: "${message(code:'transaction.description.label')}"
                 }
                 <g:if test="${!readOnly}">
                 ,{

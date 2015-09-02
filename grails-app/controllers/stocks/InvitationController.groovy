@@ -61,23 +61,26 @@ class InvitationController {
         } else {
             params.addresses.split(',').each { address ->
 
-                def invitation = new Invitation()
-                invitation.subject = params.subject
-                invitation.body = params.message
-                invitation.sendDate = new Date()
-                invitation.provider = params.provider
-                invitation.sender = springSecurityService.currentUser as User
-                invitation.identifier = UUID.randomUUID().toString()
-                invitation.save()
+                if (!User.findByEmail(address?.toString()?.trim()?.toLowerCase())) {
+                    def invitation = new Invitation()
+                    invitation.subject = params.subject
+                    invitation.body = params.message
+                    invitation.sendDate = new Date()
+                    invitation.provider = params.provider
+                    invitation.sender = springSecurityService.currentUser as User
+                    invitation.identifier = UUID.randomUUID().toString()
+                    invitation.receiverAddress = address
+                    invitation.save()
 
-                mailService.sendMail {
-                    to address
-                    subject params.subject
-                    html(view: "/messageTemplates/email_template",
-                            model: [message: g.render(template: '/invitation/templates/email', model: [
-                                    inviter   : invitation.sender,
-                                    message   : params.message.toString().replace('\n', '<br/>'),
-                                    identifier: invitation.identifier]).toString()])
+                    mailService.sendMail {
+                        to address
+                        subject params.subject
+                        html(view: "/messageTemplates/email_template",
+                                model: [message: g.render(template: '/invitation/templates/email', model: [
+                                        inviter   : invitation.sender,
+                                        message   : params.message.toString().replace('\n', '<br/>'),
+                                        identifier: invitation.identifier]).toString()])
+                    }
                 }
             }
 

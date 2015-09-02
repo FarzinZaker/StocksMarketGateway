@@ -4,12 +4,31 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.apache.lucene.search.BooleanQuery
 import stocks.User
+import stocks.accounting.Transaction
 
 class UserController {
 
     def simpleCaptchaService
     def mailService
     def springSecurityService
+
+    def registerInvited() {
+
+        if (springSecurityService.loggedIn)
+            redirect(uri: '/')
+
+        def invitation = Invitation.findByIdentifier(params.invitation as String)
+        if (!invitation) {
+            render "code error"
+            return
+        }
+        if (invitation.registrationRecorded) {
+            render "already registered"
+            return
+        }
+
+        [user: new User(email: invitation.receiverAddress, username: invitation.receiverAddress, referer: invitation.sender)]
+    }
 
     def completeRegistration() {
 
@@ -31,26 +50,23 @@ class UserController {
             return
         }
 
-        if(!params.email)
-        {
-            render message(code:'register.error.emailRequired')
+        if (!params.email) {
+            render message(code: 'register.error.emailRequired')
             return
         }
 
-        if(!params.password)
-        {
-            render message(code:'register.error.passwordRequired')
+        if (!params.password) {
+            render message(code: 'register.error.passwordRequired')
             return
         }
 
-        if(params.password != params.confirmPassword)
-        {
-            render message(code:'register.error.passwordsDoesNotMatch')
+        if (params.password != params.confirmPassword) {
+            render message(code: 'register.error.passwordsDoesNotMatch')
             return
         }
 
-        if(User.findByEmail(params.email?.toString()?.toLowerCase())){
-            render message(code:'register.error.repetitiveEmail')
+        if (User.findByEmail(params.email?.toString()?.toLowerCase())) {
+            render message(code: 'register.error.repetitiveEmail')
             return
         }
 
@@ -76,25 +92,45 @@ class UserController {
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
 
-        def user = User.get(params.id)
-//        if (!simpleCaptchaService.validateCaptcha(params.captcha)) {
-//
-//            flash.validationError = message(code: 'captcha.invalid')
-//            render view: 'register', model: [user: user]
-//            return
-//        }
+        def user
+        if (params.id)
+            user = User.get(params.id)
+        else {
+            user = new User()
+            user.username = params.email
+        }
 
         user.properties = params
         user.city = City.get(params.cityId as Long)
+        if (params.refererId)
+            user.referer = User.get(params.refererId as Long)
         user.enabled = true
 
         if (user.validate() && user.save()) {
+            if (user.referer) {
+                def transaction = new Transaction()
+                transaction.date = new Date()
+                transaction.accountId = grailsApplication.config.accounts.find { it.giftAccount }.id
+                transaction.creator = user
+                transaction.customer = user.referer
+                transaction.type = AccountingHelper.TRANSACTION_TYPE_DEPOSIT
+                transaction.value = grailsApplication.config.gift.invite.registration
+                transaction.description = message(code: 'transaction.description.gift.register', args: [user.toString()])
+                transaction.save()
+
+                Invitation.findAllByReceiverAddress(user.email).each {
+                    it.registrationRecorded = true
+                    it.save(flush: true)
+                }
+            }
 
             UserRole.create user, Role.findByAuthority(RoleHelper.ROLE_USER)
 
             redirect(controller: 'login', action: 'auth')
         } else {
-            render(view: 'register', model: [user: user])
+            if(User.findByUsername(user.username))
+                flash.validationError = message(code:'register.error.repetitiveUser')
+            render(view: params.view, model: [user: user])
         }
     }
 

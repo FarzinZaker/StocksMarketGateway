@@ -8,6 +8,6 @@ ${inviter}<br/>
     www.4tablo.ir
 </a>
 <br/>
-<a href="${createLink(controller: 'customer', action: 'register', absolute: true)}?invitation=${identifier}">
+<a href="${createLink(controller: 'user', action: 'registerInvited', absolute: true)}?invitation=${identifier}">
 ثبت نام
 </a>

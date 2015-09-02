@@ -19,7 +19,7 @@
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
-                    [text: '<i class="fa fa-user"></i> ' + message(code: 'register.title'), url: createLink(controller: 'user', action: 'registerInvited', params: [invitation:params.invitation])]
+                    [text: '<i class="fa fa-user"></i> ' + message(code: 'register.title'), url: createLink(controller: 'user', action: 'register')]
             ]}"/>
         </div>
     </div>
@@ -27,10 +27,16 @@
         <div class="col-xs-12">
             <form:error message="${flash.validationError}"/>
             <form:form action="saveRegistration" name="registerForm">
-                <form:hidden name="view" value="completeRegistration"/>
-                <form:hidden name="id" entity="${user}"/>
+                <form:hidden name="view" value="registerInvited"/>
+                <form:hidden name="refererId" entity="${user}"/>
                 <form:field fieldName="user.email">
                     <form:textBox name="email" entity="${user}" validation="email" style="width:500px;" readonly="true"/>
+                </form:field>
+                <form:field fieldName="user.password">
+                    <form:password name="password_confirmation" validation="required" style="width:500px;"/>
+                </form:field>
+                <form:field fieldName="user.confirmPassword">
+                    <form:password name="password" validation="confirmation" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="user.firstName">
                     <form:textBox name="firstName" entity="${user}" validation="required" style="width:500px;"/>

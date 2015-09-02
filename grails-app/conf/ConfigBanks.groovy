@@ -1,10 +1,11 @@
 accounts = [
         [
                 id                        : 1,
+                giftAccount               : true,
                 bankName                  : 'saman',
                 type                      : 'legal',
-                branchName                : '??????? ?????',
-                ownerName                 : '????? ????????? ?? ????',
+                branchName                : 'شعبه خوب',
+                ownerName                 : 'بی صاحب',
                 accountNumber             : '820-810-2030529-1',
                 shebaNumber               : 'IR__-____-____-____-____-____-__',
                 cardNumber                : '____ ____ ____ ____',
@@ -14,5 +15,12 @@ accounts = [
                         password: '4049703'
                 ]
 
+        ]
+]
+
+gift = [
+        invite: [
+                registration: 1000,
+                visit       : 500
         ]
 ]

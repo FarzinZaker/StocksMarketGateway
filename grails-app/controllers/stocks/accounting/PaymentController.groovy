@@ -71,6 +71,7 @@ class PaymentController {
             transaction.customer = onlinePayment.owner
             transaction.type = AccountingHelper.TRANSACTION_TYPE_DEPOSIT
             transaction.value = onlinePayment.amount
+            transaction.description = message(code: 'transaction.description.payment.online.saman')
             transaction.save()
         }
         model.verificationResult = state.toInteger()

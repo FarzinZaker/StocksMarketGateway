@@ -41,13 +41,14 @@ class TransactionController {
 
         value.data = list.collect { transaction ->
             [
-                    id      : transaction.id,
-                    value   : transaction.value * (transaction.type == AccountingHelper.TRANSACTION_TYPE_WITHDRAWAL? -1 : 1),
-                    type    : message(code: "transaction.type.${transaction.type}"),
-                    date    : format.jalaliDate(date: transaction.date, hm: true),
-                    account : message(code: "bank.${grailsApplication.config.accounts.find { it.id == transaction.accountId }.bankName}"),
-                    customer: transaction.customer?.toString(),
-                    creator : transaction.creator?.toString(),
+                    id         : transaction.id,
+                    value      : transaction.value * (transaction.type == AccountingHelper.TRANSACTION_TYPE_WITHDRAWAL ? -1 : 1),
+                    type       : message(code: "transaction.type.${transaction.type}"),
+                    date       : format.jalaliDate(date: transaction.date, hm: true),
+                    account    : message(code: "bank.${grailsApplication.config.accounts.find { it.id == transaction.accountId }.bankName}"),
+                    customer   : transaction.customer?.toString(),
+                    creator    : transaction.creator?.toString(),
+                    description: transaction.description?.toString()
             ]
         }
 
@@ -85,6 +86,7 @@ class TransactionController {
         transaction.date = parseDateTime(params.date?.toString(), params.time?.toString())
         transaction.customer = User.get(params.customer.id as Long)
         transaction.creator = springSecurityService.currentUser as User
+        transaction.description = message(code: "transaction.description.admin.${transaction.type}")
 
         transaction.save(flush: true)
 
