@@ -90,11 +90,13 @@ class TradeStrategyController {
             strategy.buyRule = new Rule(aggregationType: 'AND').save(flush: true)
             strategy.sellRule = new Rule(aggregationType: 'AND').save(flush: true)
         }
-        flash.errors = validateStrategy(strategy)
-        strategy.isValid = flash.errors.size() == 0
+        if(params.id) {
+            flash.errors = validateStrategy(strategy)
+            strategy.isValid = flash.errors.size() == 0
+        }
         strategy.save(flush: true)
 
-        if (flash.errors.size() > 0)
+        if (flash.errors?.size() > 0)
             redirect(action: 'build', id: strategy.id)
         else if (params.submitAndExit)
             redirect(action: 'list')

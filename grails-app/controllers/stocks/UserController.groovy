@@ -128,8 +128,8 @@ class UserController {
 
             redirect(controller: 'login', action: 'auth')
         } else {
-            if(User.findByUsername(user.username))
-                flash.validationError = message(code:'register.error.repetitiveUser')
+            if (User.findByUsername(user.username))
+                flash.validationError = message(code: 'register.error.repetitiveUser')
             render(view: params.view, model: [user: user])
         }
     }
@@ -262,12 +262,14 @@ class UserController {
     @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def changePassword() {
 
+        def user = User.findByUsername((springSecurityService.currentUser as User).username)
+        [askForOldPassword: user.password != springSecurityService.encodePassword(' ')]
     }
 
     @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def saveNewPassword() {
-        def user = (User) springSecurityService.currentUser
-        if (user.password == springSecurityService.encodePassword(params.oldPassword)) {
+        def user = User.findByUsername((springSecurityService.currentUser as User).username)
+        if (user.password == springSecurityService.encodePassword(params.oldPassword) || user.password == springSecurityService.encodePassword(' ')) {
             if (params.newPassword.trim() != '') {
                 if (params.newPassword == params.newPassword_confirmation) {
                     user.password = params.newPassword

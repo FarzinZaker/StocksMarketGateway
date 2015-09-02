@@ -134,10 +134,10 @@ class BackTestService {
         if (backTest.profitLimit || backTest.lossLimit) {
             def sellValue = portfolioLog.stockCount * dailyTrade.closingPrice * (1 - backTest.sellWage - backTest.sellTax)
 
-            if (backTest.profitLimit && sellValue - lastSignal.totalValue >= backTest.profitLimitValue)
+            if (backTest.profitLimit && ((sellValue - lastSignal.totalValue) / lastSignal.totalValue) >= backTest.profitLimitValue)
                 return BackTestHelper.REASON_PROFIT_LIMIT
 
-            if (backTest.lossLimit && lastSignal.totalValue - sellValue >= backTest.lossLimitValue)
+            if (backTest.lossLimit && ((lastSignal.totalValue - sellValue) / lastSignal.totalValue) >= backTest.lossLimitValue)
                 return BackTestHelper.REASON_LOSS_LIMIT
         }
         null
@@ -193,7 +193,7 @@ class BackTestService {
             ]
         }
 
-        if(filters.size() == 0)
+        if (filters.size() == 0)
             return false
 
         for (def i = 0; i < filters.size(); i++) {

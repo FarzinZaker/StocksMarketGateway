@@ -35,7 +35,7 @@ class User {
         firstName nullable: true
         lastName nullable: true
         username blank: false, unique: true
-        password blank: false
+//        password blank: false
         sex nullable: true, inList: ['male', 'female']
         mobile nullable: true
         nationalCode nullable: true

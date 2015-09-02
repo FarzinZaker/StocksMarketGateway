@@ -94,13 +94,13 @@
                         sortable: true,
                         pageable: true,
                         columns: [
-                            {
-                                field: "id",
-                                title: "${message(code:'tradeStrategy.id.label')}",
-                                width: "70px",
-                                attributes: { style: "text-align: center"},
-                                headerAttributes: { style: "text-align: center"}
-                            },
+                            %{--{--}%
+                                %{--field: "id",--}%
+                                %{--title: "${message(code:'tradeStrategy.id.label')}",--}%
+                                %{--width: "70px",--}%
+                                %{--attributes: { style: "text-align: center"},--}%
+                                %{--headerAttributes: { style: "text-align: center"}--}%
+                            %{--},--}%
                             {
                                 field: "title",
                                 title: "${message(code:'tradeStrategy.title.label')}"

@@ -78,7 +78,7 @@ class OAuth2Controller {
             user.accountExpired = false
             user.accountLocked = false
             user.passwordExpired = false
-            user.password = UUID.randomUUID().toString()
+            user.password = ''
         }
         if (!user.firstName)
             user.firstName = profile.given_name
@@ -173,7 +173,7 @@ class OAuth2Controller {
             user.accountExpired = false
             user.accountLocked = false
             user.passwordExpired = false
-            user.password = UUID.randomUUID().toString()
+            user.password = ''
         }
         if (!user.firstName)
             user.firstName = firstName

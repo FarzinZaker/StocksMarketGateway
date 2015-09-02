@@ -24,24 +24,27 @@
             ]}"/>
         </div>
     </div>
+
     <div class="row-fluid">
         <div class="col-xs-12">
             %{--<h1 class="steel">--}%
-                %{--<i class="fa fa-key"></i>--}%
-                %{--<g:message code="changePassword.title"/>--}%
+            %{--<i class="fa fa-key"></i>--}%
+            %{--<g:message code="changePassword.title"/>--}%
             %{--</h1>--}%
             <form:error message="${flash.validationError}"/>
             <form:form action="saveNewPassword" name="changePasswordForm">
-                <form:field fieldName="password.old">
-                    <form:password name="oldPassword" validation="required" style="width:500px;"/>
-                </form:field>
+                <g:if test="${askForOldPassword}">
+                    <form:field fieldName="password.old">
+                        <form:password name="oldPassword" validation="required" style="width:500px;"/>
+                    </form:field>
+                </g:if>
                 <form:field fieldName="password.new">
                     <form:password name="newPassword_confirmation" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field fieldName="password.new.confirm">
                     <form:password name="newPassword" validation="confirmation" style="width:500px;"/>
                 </form:field>
-                <form:submitButton name="submit" text="${message(code:'changePassword.button.label')}"/>
+                <form:submitButton name="submit" text="${message(code: 'changePassword.button.label')}"/>
             </form:form>
         </div>
     </div>

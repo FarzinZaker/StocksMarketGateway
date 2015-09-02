@@ -25,11 +25,7 @@
     </div>
     <div class="row-fluid">
         <div class="col-xs-12">
-            %{--<h1 class="steel">--}%
-                %{--<i class="fa fa-key"></i>--}%
-                %{--<g:message code="password.change.success.title"/>--}%
-            %{--</h1>--}%
-            <form:info message="${flash.message}"/>
+            <form:info message="${message(code:'password.change.success.title')}"/>
         </div>
     </div>
 </div>

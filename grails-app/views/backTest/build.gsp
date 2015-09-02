@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row-fluid" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyWage">
                     <form:numericTextBox name="buyWage" style="width:450px;" value="0.00486" format="p3" decimals="5"
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row-fluid" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellWage">
                     <form:numericTextBox name="sellWage" style="width:450px;" value="0.00526" format="p3" decimals="5"
@@ -150,16 +150,16 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row-fluid" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyTax">
-                    <form:numericTextBox name="buyTax" style="width:450px;" value="0.005" format="p1" decimals="3"
+                    <form:numericTextBox name="buyTax" style="width:450px;" value="0" format="p1" decimals="3"
                                          step="0.001" min="0" readonly="true"/>
                 </form:field>
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row-fluid" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellTax">
                     <form:numericTextBox name="sellTax" style="width:450px;" value="0.005" format="p1" decimals="3"
