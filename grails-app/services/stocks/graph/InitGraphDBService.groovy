@@ -9,15 +9,20 @@ class InitGraphDBService {
     def commonGraphService
 
     def init() {
-        initPerson()
-        initGroup()
-        initProperty()
-        initMaterial()
-        initComment()
-        initRate()
-        initLike()
-        initMembership()
-        initFollow()
+        try {
+            initPerson()
+            initGroup()
+            initProperty()
+            initMaterial()
+            initComment()
+            initRate()
+            initLike()
+            initMembership()
+            initFollow()
+        }
+        catch (ignored){
+            log.error('error initializing graph db')
+        }
     }
 
     def initPerson() {

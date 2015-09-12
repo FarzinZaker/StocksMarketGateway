@@ -72,13 +72,13 @@ class BackTestService {
                     maxResults(1)
                 }?.find()
                 if (canBuy(backTest, portfolioLog, dailyTrade.closingPrice as Double) && shouldBuy(backTest, dailyTrades, indicators)) {
-                    def signal = buy(backTest, portfolioLog, dailyTrade)
+                    def signal = buy(backTest, portfolioLog, dailyTrade, indicators)
                     updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
                 } else if (canSell(portfolioLog)) {
                     def signal = null
                     def limitsResult = shouldSellDueToLimits(backTest, portfolioLog, dailyTrade, lastSignal as BuySignal)
                     if (limitsResult || shouldSell(backTest, dailyTrades, indicators)) {
-                        signal = sell(backTest, portfolioLog, dailyTrade, limitsResult ?: BackTestHelper.REASON_RULES_MATCHED)
+                        signal = sell(backTest, portfolioLog, dailyTrade, limitsResult ?: BackTestHelper.REASON_RULES_MATCHED, indicators)
                     }
                     updatePortfolioLog(backTest, portfolioLog, dailyTrade, signal)
                 } else
@@ -98,9 +98,9 @@ class BackTestService {
         checkRules(backTest, Rule.findAllByParent(backTest.buyRule), dailyTrades, indicators)
     }
 
-    BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, dailyTrade) {
+    BackTestSignal buy(BackTest backTest, PortfolioLog portfolioLog, dailyTrade, List indicators) {
         def signal = new BuySignal()
-        fillSignalCommonFields(signal, backTest, dailyTrade)
+        fillSignalCommonFields(signal, backTest, dailyTrade, indicators)
         signal.stockCount = Math.floor(portfolioLog.remainingOutlay / (dailyTrade.closingPrice * (1 + backTest.buyWage + backTest.buyTax)))
         signal.wage = backTest.buyWage * signal.stockCount * dailyTrade.closingPrice
         signal.tax = backTest.buyTax * signal.stockCount * dailyTrade.closingPrice
@@ -143,9 +143,9 @@ class BackTestService {
         null
     }
 
-    BackTestSignal sell(BackTest backTest, PortfolioLog portfolioLog, dailyTrade, String reason) {
+    BackTestSignal sell(BackTest backTest, PortfolioLog portfolioLog, dailyTrade, String reason, List indicators) {
         def signal = new SellSignal()
-        fillSignalCommonFields(signal, backTest, dailyTrade)
+        fillSignalCommonFields(signal, backTest, dailyTrade, indicators)
         signal.stockCount = portfolioLog.stockCount
         signal.wage = backTest.sellWage * signal.stockCount * dailyTrade.closingPrice
         signal.tax = backTest.sellTax * signal.stockCount * dailyTrade.closingPrice
@@ -205,7 +205,7 @@ class BackTestService {
         true
     }
 
-    void fillSignalCommonFields(BackTestSignal signal, BackTest backTest, dailyTrade) {
+    void fillSignalCommonFields(BackTestSignal signal, BackTest backTest, dailyTrade, List indicators) {
         signal.backTest = backTest
         signal.symbol = backTest.symbol
         signal.date = backTest.currentDate
@@ -221,7 +221,7 @@ class BackTestService {
         signal.totalTradeVolume = dailyTrade.totalTradeVolume
         signal.yesterdayPrice = dailyTrade.yesterdayPrice
 
-        signal.indicators = extractIndicators(backTest)
+        signal.indicators = extractIndicators(backTest, indicators)
     }
 
     void updatePortfolioLog(BackTest backTest, PortfolioLog previousLog, dailyTrade, BackTestSignal signal = null) {
@@ -246,7 +246,7 @@ class BackTestService {
 //        portfolioLog.save(flush: true)
     }
 
-    def extractIndicators(BackTest backTest) {
+    def extractIndicators(BackTest backTest, List indicators) {
         def rules = Rule.findAllByParentInList([backTest.buyRule, backTest.sellRule])
         def indicatorList = []
         rules.each { rule ->
@@ -255,7 +255,7 @@ class BackTestService {
                 if (!indicatorList.any { it.name == indicatorName && it.parameter == rule.inputType })
                     indicatorList << [name: indicatorName, parameter: rule.inputType]
 
-            def value = JSON.parse(rule.value)?.first()
+            def value = JSON.parse(rule.value)?.sort { -it[0]?.size() }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
@@ -264,18 +264,12 @@ class BackTestService {
             }
         }
         indicatorList.each { indicator ->
-            indicator.value = ClassResolver.loadDomainClassByName(indicator.name?.toString()).createCriteria().list {
-                eq('symbol', backTest.symbol)
-                eq('parameter', indicator.parameter)
-                lte('calculationDate', backTest.currentDate)
-                order('calculationDate', ORDER_DESCENDING)
-                maxResults(1)
-                projections {
-                    property('value')
-                }
-            }?.find()
+            indicator.value = indicators.find {
+                it.clazz.canonicalName == indicator.name && it.parameter == indicator.parameter
+            }?.values?.find { it.date?.clearTime() == backTest.currentDate.clearTime() }?.value
         }
         indicatorList
+
     }
 
     def indicatorList(BackTest backTest) {

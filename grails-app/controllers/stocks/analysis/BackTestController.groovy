@@ -82,7 +82,7 @@ class BackTestController {
                 if (!indicatorList.any { it.name == indicatorName && it.parameter == rule.inputType })
                     indicatorList << [name: indicatorName, parameter: rule.inputType]
 
-            def value = JSON.parse(rule.value)?.first()
+            def value = JSON.parse(rule.value)?.sort { -it[0]?.size() }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (stocks.util.ClassResolver.serviceExists(indicatorName + "Service"))
