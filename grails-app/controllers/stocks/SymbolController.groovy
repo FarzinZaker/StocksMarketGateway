@@ -102,7 +102,7 @@ class SymbolController {
         def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)").results.unique { a, b -> a?.id <=> b?.id }.collect {
+        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
             [
                     name : "${it.persianCode} - ${it.persianName}",
                     value: it.id

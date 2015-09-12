@@ -31,7 +31,7 @@
     <div class="row-fluid">
         <div class="col-xs-12">
 
-            <div id="filter-query-panel" style="float: right;margin-bottom:10px;margin-top:0;min-width: 50%;">
+            <div id="filter-query-panel" style="float: right;margin-bottom:10px;margin-top:0;min-width: 40%;">
                 <span id="btnShowConditions" style="cursor: pointer;"><i class="fa fa-plus"></i> <g:message
                         code="screener.view.showConditions"/></span>
                 <span id="btnHideConditions" style="display: none;cursor:pointer;"><i
@@ -45,6 +45,11 @@
                         </div>
                     </g:each>
                 </div>
+            </div>
+
+            <div class="toolbar" style="float: right;margin-right: 10px;margin-top: 3px;">
+                <form:linkButton href="${createLink(action: 'build', id: params.id)}"
+                                 text="${message(code: 'screener.edit')}"/>
             </div>
 
             <div class="clear-fix"></div>
@@ -62,11 +67,6 @@
                 <div id="grid">
                     <form:loading id="screenerLoading"/>
                 </div>
-            </div>
-
-            <div class="toolbar">
-                <form:linkButton href="${createLink(action: 'build', id: params.id)}"
-                                 text="${message(code: 'screener.edit')}"/>
             </div>
 
             <script>
@@ -266,6 +266,15 @@
 //                                lockable: false
                             },
                             {
+                                field: "lastTradePrice",
+                                title: "${message(code:'symbol.lastTradePrice.label')}",
+                                template: "#=formatNumericField(data, 'lastTradePrice')#",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
+//                                format: '{0:n0}'
+                            },
+                            {
                                 field: "closingPrice",
                                 title: "${message(code:'symbol.closingPrice.label')}",
                                 template: "#=formatNumericField(data, 'closingPrice')#",
@@ -275,18 +284,17 @@
 //                                format: '{0:n0}'
                             },
                             {
-                                field: "firstTradePrice",
-                                title: "${message(code:'symbol.firstTradePrice.label')}",
-                                template: "#=formatNumericField(data, 'firstTradePrice')#",
+                                field: "priceChange",
+                                title: "${message(code:'symbol.priceChange.label')}",
+                                template: "#= formatPriceChange(data) #",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"},
                                 width: "120px"
-//                                format: '{0:n0}'
                             },
                             {
-                                field: "lastTradePrice",
-                                title: "${message(code:'symbol.lastTradePrice.label')}",
-                                template: "#=formatNumericField(data, 'lastTradePrice')#",
+                                field: "firstTradePrice",
+                                title: "${message(code:'symbol.firstTradePrice.label')}",
+                                template: "#=formatNumericField(data, 'firstTradePrice')#",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"},
                                 width: "120px"
@@ -311,17 +319,9 @@
 //                                format: '{0:n0}'
                             },
                             {
-                                field: "priceChange",
-                                title: "${message(code:'symbol.priceChange.label')}",
-                                template: "#= formatPriceChange(data) #",
-                                attributes: {style: "text-align: center"},
-                                headerAttributes: {style: "text-align: center"},
-                                width: "120px"
-                            },
-                            {
-                                field: "totalTradeCount",
-                                title: "${message(code:'symbol.totalTradeCount.label')}",
-                                template: "#=formatNumericField(data, 'totalTradeCount')#",
+                                field: "yesterdayPrice",
+                                title: "${message(code:'symbol.yesterdayPrice.label')}",
+                                template: "#=formatNumericField(data, 'yesterdayPrice')#",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"},
                                 width: "100px"
@@ -346,9 +346,9 @@
 //                                format: '{0:n0}'
                             },
                             {
-                                field: "yesterdayPrice",
-                                title: "${message(code:'symbol.yesterdayPrice.label')}",
-                                template: "#=formatNumericField(data, 'yesterdayPrice')#",
+                                field: "totalTradeCount",
+                                title: "${message(code:'symbol.totalTradeCount.label')}",
+                                template: "#=formatNumericField(data, 'totalTradeCount')#",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"},
                                 width: "100px"

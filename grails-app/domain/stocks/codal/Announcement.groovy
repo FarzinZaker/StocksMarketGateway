@@ -95,7 +95,7 @@ class Announcement {
         title nullable: true, query: true, token: true
         sendDate nullable: true, query: true, token: true
         publishDate nullable: true, query: true, token: true
-        detailsUrl nullable: true
+        detailsUrl nullable: true, token: true
         pdfUrl nullable: true
         excelUrl nullable: true
         xmlUrl nullable: true

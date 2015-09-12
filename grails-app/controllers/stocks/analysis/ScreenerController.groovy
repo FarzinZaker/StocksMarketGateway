@@ -77,6 +77,8 @@ class ScreenerController {
 
         if (params.submitAndExit)
             redirect(action: 'list')
+        else if (params.submitAndView)
+            redirect(action: 'view', id: screener.id)
         else
             redirect(action: 'build', id: screener.id)
     }
@@ -145,8 +147,8 @@ class ScreenerController {
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}".replace('stocks_indicators_symbol_', ''), "(${message(code: rule.field)} (${rule.inputType}")
 
-            def value =  JSON.parse(rule.value)?.first()
-            if(value instanceof JSONArray) {
+            def value = JSON.parse(rule.value)?.first()
+            if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
                     indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}".replace('stocks_indicators_symbol_', ''), "(${message(code: value?.first())} (${value?.last()}")
@@ -176,7 +178,7 @@ class ScreenerController {
 
         def screener = Screener.get(params.id as Long)
         if (screener.ownerId != owner?.id && Environment.current != Environment.DEVELOPMENT)
-            return render ([] as JSON)
+            return render([] as JSON)
 
         def list = filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule), params.adjustmentType?.toString())
         value.total = list.size()

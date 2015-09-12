@@ -92,6 +92,7 @@ class AdminController {
 
     def reindexAll() {
         searchableService.reindexAll()
+        Symbol.reindexAll()
         render 'done'
     }
 

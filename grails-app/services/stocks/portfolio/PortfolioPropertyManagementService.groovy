@@ -106,7 +106,7 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND ((type:301 AND boardCode:9) OR type:306)").results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND ((type:301 AND boardCode:9) OR type:306)", max: 20).results
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
@@ -140,7 +140,7 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:303 AND boardCode:4").results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:303 AND boardCode:4", max: 20).results
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
@@ -168,7 +168,7 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:305").results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND type:305", max: 20).results
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
@@ -274,7 +274,7 @@ class PortfolioPropertyManagementService {
                 }
         }
         if (query)
-            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4").results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4", max: 20).results
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
@@ -303,7 +303,7 @@ class PortfolioPropertyManagementService {
         }
 
         if (query)
-            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:400 OR type:403 OR type:404) AND -boardCode:4").results
+            symbols = Symbol.search("*${query}* AND marketCode:MCNO AND (type:400 OR type:403 OR type:404) AND -boardCode:4", max: 20).results
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')

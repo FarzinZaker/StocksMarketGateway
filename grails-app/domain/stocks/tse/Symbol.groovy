@@ -2,7 +2,11 @@ package stocks.tse
 
 class Symbol {
 
-    static searchable = [only: ['code', 'shortCode', 'name', 'companyCode', 'companyName', 'companySmallCode', 'persianCode', 'persianName', 'company', 'marketCode', 'type']]
+    static searchable = {
+        only: ['code', 'shortCode', 'name', 'companyCode', 'companyName', 'companySmallCode', 'persianCode', 'persianName', 'company', 'marketCode', 'type']
+        persianCode boost: 2.0
+//        persianName boost: 1.0
+    }
 
     String code
     Long internalCode

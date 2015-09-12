@@ -34,7 +34,7 @@ class BackTestController {
         def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)").results.unique { a, b -> a?.id <=> b?.id }.collect {
+        def result = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
             [
                     name : "${it.persianCode} - ${it.persianName}",
                     value: it.id
@@ -60,7 +60,7 @@ class BackTestController {
 
     def view() {
         def backTest = BackTest.get(params.id as Long)
-        while(PortfolioLog.countByBackTest(backTest) < 1)
+        while (PortfolioLog.countByBackTest(backTest) < 1)
             Thread.sleep(500)
         def signals = decorateBackTestSignals(backTest, null)
         def logs = decoratePortfolioLogs(backTest, null)
@@ -175,7 +175,7 @@ class BackTestController {
             ]
             //indicators
             it.indicators.each { indicator ->
-                item.put("${indicator.name.replace('.', '_')}_${indicator.parameter.replace(',','_')}", indicator.value)
+                item.put("${indicator.name.replace('.', '_')}_${indicator.parameter.replace(',', '_')}", indicator.value)
             }
             item
         }

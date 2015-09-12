@@ -124,7 +124,7 @@ class ChartController {
 
         def symbols = []
         if (!params.type || params.type == '' || params.type == 'stock')
-            symbols = Symbol.search("*${phrase}* ${market ? "AND marketIdentifier:${market}" : ''}").results.unique { a, b -> a?.id <=> b?.id }.collect {
+            symbols = Symbol.search("*${phrase}* ${market ? "AND marketIdentifier:${market}" : ''}", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
                 [
                         symbol     : it.persianCode,
                         full_name  : it.persianCode,

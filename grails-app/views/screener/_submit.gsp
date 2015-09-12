@@ -3,8 +3,9 @@
     <g:hiddenField name="name" id="form_name"/>
     <g:hiddenField name="rules" id="form_rules"/>
     <div class="toolbar" style="border-top:1px dashed #9e9e9e;margin-top:10px;padding-top:10px;">
-        <form:submitButton name="submit" text="${message(code: 'screener.save')}"/>
-        <form:submitButton name="submitAndExit" text="${message(code: 'screener.saveAndExit')}"/>
+        %{--<form:submitButton name="submit" text="${message(code: 'screener.save')}"/>--}%
+        %{--<form:submitButton name="submitAndExit" text="${message(code: 'screener.saveAndExit')}"/>--}%
+        <form:submitButton name="submitAndView" text="${message(code: 'screener.saveAndView')}"/>
     </div>
 </form:form>
 
