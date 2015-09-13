@@ -1,4 +1,6 @@
-<div id="chart"></div>
+<div class="chart-container">
+    <div id="chart"></div>
+</div>
 
 <script language="javascript" type="text/javascript">
 
@@ -52,7 +54,12 @@
         },
         legend: {
             borderWidth: 0,
-            useHTML: true
+            useHTML: true,
+//            title: {
+//                style: {
+//                    fontWeight: 'normal'
+//                }
+//            }
         },
         credits: {
             enabled: false

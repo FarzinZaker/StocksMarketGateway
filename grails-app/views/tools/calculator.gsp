@@ -38,46 +38,48 @@
     <div class="row-fluid">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
-                    [text: '', url:createLink(uri:'/')],
-                    [text: message(code:'menu.tools'), url:createLink(controller: 'tools')],
-                    [text: '<i class="fa fa-calculator"></i> ' + message(code:'menu.tools.calculator'), url:createLink(controller: 'tools', action: 'calculator')]
+                    [text: '', url: createLink(uri: '/')],
+                    [text: message(code: 'menu.tools'), url: createLink(controller: 'tools')],
+                    [text: '<i class="fa fa-calculator"></i> ' + message(code: 'menu.tools.calculator'), url: createLink(controller: 'tools', action: 'calculator')]
             ]}"/>
         </div>
     </div>
 
     %{--<div class="row-fluid">--}%
-        %{--<div class="col-xs-12">--}%
-            %{--<h1 class="cyan">--}%
-                %{--<i class="fa fa-calculator"></i>--}%
-                %{--<g:message code="tools.calculator.title"/>--}%
-            %{--</h1>--}%
-
-            %{--<p><g:message code="tools.calculator.description"/></p>--}%
-        %{--</div>--}%
-    %{--</div>--}%
-
-    <g:render template="calculator/parameters"/>
-    <div class="row-fluid">
-        <div class="col-xs-12 vertical-spacer-20"></div>
-    </div>
-    <g:render template="calculator/baseInfo"/>
-    <div class="row-fluid">
-        <div class="col-xs-12 vertical-spacer-20"></div>
-    </div>
-
-    %{--<div class="row-fluid">--}%
     %{--<div class="col-xs-12">--}%
-    %{--<h2><g:message code="tools.calculator.result.title"/></h2>--}%
+    %{--<h1 class="cyan">--}%
+    %{--<i class="fa fa-calculator"></i>--}%
+    %{--<g:message code="tools.calculator.title"/>--}%
+    %{--</h1>--}%
+
+    %{--<p><g:message code="tools.calculator.description"/></p>--}%
     %{--</div>--}%
     %{--</div>--}%
 
     <div class="row-fluid">
-        <div class="col-sm-8 whitePanel smallPadding">
-            <g:render template="calculator/grid"/>
-        </div>
+        <div class="col-xs-12">
+            <table class="calculator-container">
+                <tr>
+                    <td width="300px;">
+                        <div class="parameters">
+                            <g:render template="calculator/parameters"/>
+                        </div>
 
-        <div class="col-sm-4">
-            <g:render template="calculator/chart"/>
+                        <div>
+                            <g:render template="calculator/chart"/>
+                        </div>
+                    </td>
+                    <td rowspan="2">
+
+                        <div class="whitePanel smallPadding calculator">
+                            <g:render template="calculator/grid"/>
+                        </div>
+                        <div class="baseInfo">
+                            <g:render template="calculator/baseInfo"/>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 

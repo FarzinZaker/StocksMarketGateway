@@ -787,34 +787,6 @@ span.has-error {
   text-align: left;
 }
 
-.calculator {
-  th, td {
-    padding: 5px;
-  }
-  .baseInfo {
-    background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  .resultTitle {
-    background-color: @main-color;
-    color: @body-color;
-    line-height: 32px;
-  }
-  .resultSubtitle {
-    background-color: @editor-border-color;
-  }
-  .odd {
-    td {
-      background-color: white;
-    }
-  }
-  .even {
-    td {
-      background-color: #f5f5f5;
-    }
-  }
-}
 
 .chart {
   border: 1px solid #dadada;
@@ -901,16 +873,16 @@ span.has-error {
 }
 
 .calculator-button {
-  background-color: #ffb74f;
-  color: #000000;
+  background-color: #ff7663 !important;
+  color: white;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  vertical-align: middle;
+  vertical-align: middle !important;
   cursor: pointer;
   &.k-state-hover, &:hover {
-    background-color: #ff7663 !important;
-    color: white;
+    background-color: #ffb74f !important;
+    color: #000000;
   }
 }
 
