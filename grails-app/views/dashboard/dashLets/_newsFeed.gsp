@@ -14,9 +14,9 @@
 <asset:javascript src="jquery.timer.js"/>
 
 
-<div id="newsFeedTimer"></div>
+<div id="newsFeedTimer" style="display: none"></div>
 
-<div id="newsFeedContainer" class="dashLet darkBlue">
+<div id="newsFeedContainer" class="dashLet darkBlue newsFeedContainer">
     <h2 style="float:right"><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
 
     <div id="newsFeedSort">
@@ -25,18 +25,33 @@
 
         <div class="sort active" data-sort="time:desc"><g:message code="newsFeed.newest"/></div>
 
-        <div class="sort" data-sort="random"><g:message code="newsFeed.random"/></div>
+        <div class="sort" data-sort="click:desc"><g:message code="newsFeed.mostClicked"/></div>
+
+        %{--<div class="sort" data-sort="random"><g:message code="newsFeed.random"/></div>--}%
     </div>
 
     <div class="clear-fix"></div>
 
     <div id="newsFeedFilters"></div>
 
-    <div id="newsFeedItems">
+    <div id="newsFeedItems" class="newsFeedItems">
         <form:loading/>
+    </div>
+    <div class="dashletFooter">
+        <a href="${createLink(controller: 'news', action: 'archive')}"><g:message code="newsFeed.archive"/></a>
     </div>
 </div>
 <script language="javascript" type="text/javascript">
+    function newsLinkClick(item) {
+        var win = window.open('${createLink(controller: 'news', action: 'view')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime(), '_blank');
+        if (win) {
+            win.focus();
+        } else {
+            window.location.href = '${createLink(controller: 'news', action: 'view')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime();
+        }
+        %{--$.ajax({url: '${createLink(controller: 'news', action: 'click')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime()});--}%
+        $(item).parent().attr('data-click', parseInt($(item).parent().attr('data-click')));
+    }
 
     function parseRSS(setupMixItUp) {
         $.ajax({
@@ -58,12 +73,13 @@
                     feedContainer.html('');
                 }
                 $.each(response.data, function () {
-                    var oldItem = $('[data-id=' + this.id + ']');
+                    var oldItem = $('[data-id=' + this.identifier + ']');
                     if (oldItem.length > 0) {
                         oldItem.find('.newsFeedItemDate').html(this.dateString);
+                        oldItem.attr('data-click', this.clickCount);
                     }
                     else {
-                        var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.id).attr('data-time', this.time);
+                        var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
                         var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
                         itemContainer.append(title);
                         var source = $('<div/>').addClass('newsFeedItemSource').html(this.source);
@@ -103,7 +119,22 @@
                         }
                     });
 
+                    $('#newsFeedSort').find('.sort').click(function () {
+                        $('#newsFeedSort').find('.sort').removeClass('active');
+                        $(this).addClass('active');
+                    });
+
                 }
+                else{
+                    $('#archiveByTimeContainer').mixItUp('sort', 'time:desc', true);
+                    $('#archiveByClickContainer').mixItUp('sort', 'click:desc', true);
+                }
+
+                $('.newsFeedItems a').unbind('click').click(function (event) {
+                    event.preventDefault();
+                    newsLinkClick(this);
+                });
+
                 $('#newsFeedTimer').timer('start');
 
             }

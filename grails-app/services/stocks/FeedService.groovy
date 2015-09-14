@@ -1,30 +1,62 @@
 package stocks
 
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
-import groovyx.net.http.HTTPBuilder
-import org.springframework.cache.annotation.Cacheable
+import org.ocpsoft.prettytime.PrettyTime
+import stocks.feed.News
 import stocks.util.EncodingHelper
 
 class FeedService {
 
     private static String POLITICAL = 'political'
     private static String ECONOMIC = 'economic'
-    public static String[] categories = [ECONOMIC, POLITICAL]
+    public static List<String> categoryList = [ECONOMIC, POLITICAL]
+
+    def messageSource
 
     @Cacheable('newsCache')
     def news() {
-        def feeds = farsNews() + asrIran() + bourseNews() + tabnak() + tasnim() + irna() + isna()
-        feeds = feeds.findAll { it.date }.sort { -it.date.time }
-        if (feeds.size() > 500)
-            feeds = feeds[0..499]
-        feeds.each {
-                it.id = EncodingHelper.MD5("${it.title}-${it.source}")
-                it.time = it.date.time
 
-            }
+        def feeds = News.createCriteria().list {
+            order('date', ORDER_DESCENDING)
+            maxResults(100)
+        }.collect {
+            [
+                    identifier: it.identifier,
+                    title     : it.title,
+                    time      : it.date.time,
+                    link      : it.link,
+                    category  : it.category,
+                    source    : messageSource.getMessage("newsSource.${it.source}", null, it.source, Locale.ENGLISH),
+                    dateString: new PrettyTime(new Locale('fa')).format(it.date),
+                    clickCount: it.clickCount
+
+            ]
+        }
         [
-                data        : feeds,
-                categoryList: categories]
+                data      : feeds,
+                categories: categoryList.collect {
+                    [
+                            value: it,
+                            text : messageSource.getMessage("newsCategory.${it}", null, it, Locale.ENGLISH)
+                    ]
+                }
+        ]
+    }
+
+    def refresh() {
+
+        def feeds = farsNews() + asrIran() + bourseNews() + tabnak() + tasnim() + irna() + isna()
+        feeds = feeds.findAll { it.date }
+        feeds.each {
+            it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
+            def item = News.findByIdentifier(it.identifier as String)
+            if (!item) {
+                item = new News()
+                item.properties = it
+                item.save(flush: true)
+            }
+        }
     }
 
     List<Map> farsNews() {

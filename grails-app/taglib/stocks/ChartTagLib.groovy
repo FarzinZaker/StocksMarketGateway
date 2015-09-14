@@ -43,7 +43,7 @@ class ChartTagLib {
                         ${attrs.subtitle ? "subtitle: {text: '${attrs.subtitle}'}," : ""}
 
                         xAxis: {
-                            categories: [${(attrs.categories + attrs.trendCategories)?.collect { "'${it}'" }?.join(',')}],
+                            categoryList: [${(attrs.categories + attrs.trendCategories)?.collect { "'${it}'" }?.join(',')}],
                             ${attrs.xAxisName ? "title: {text: '${attrs.xAxisName}'}," : ""}
                             plotBands: {
                                 color: '#eeeeee', // Color value
