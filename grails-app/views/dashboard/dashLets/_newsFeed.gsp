@@ -37,6 +37,7 @@
     <div id="newsFeedItems" class="newsFeedItems">
         <form:loading/>
     </div>
+
     <div class="dashletFooter">
         <a href="${createLink(controller: 'news', action: 'archive')}"><g:message code="newsFeed.archive"/></a>
     </div>
@@ -125,9 +126,8 @@
                     });
 
                 }
-                else{
-                    $('#archiveByTimeContainer').mixItUp('sort', 'time:desc', true);
-                    $('#archiveByClickContainer').mixItUp('sort', 'click:desc', true);
+                else {
+                    $('#newsFeedContainer').mixItUp('sort', $('.sort.active').attr('data-sort'), true);
                 }
 
                 $('.newsFeedItems a').unbind('click').click(function (event) {
