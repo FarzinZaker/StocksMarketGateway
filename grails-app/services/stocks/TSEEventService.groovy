@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 import org.codehaus.groovy.reflection.ReflectionUtils
 import stocks.tse.event.BoardEvent
+import stocks.tse.event.SymbolClientTypeEvent
 import stocks.util.ClassResolver
 
 import java.beans.Introspector
@@ -45,6 +46,12 @@ class TSEEventService {
     }
 
     def send(Object event, String senderClassName) {
+        switch (event.class) {
+            case SymbolClientTypeEvent.class:
+                def item = event as SymbolClientTypeEvent
+                if(item.individualBuyVolume + item.legalBuyVolume != item.individualSellVolume + item.legalSellVolume)
+                    return
+        }
         persistEvent(event, senderClassName)
         switch (event.class) {
             case BoardEvent.class:

@@ -206,21 +206,22 @@ class DashboardService {
     def rates() {
         def currency = [:]
         ['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
-            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
+            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }
         def gold = [:]
         ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18'].each {
-            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
+            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: ['ons'].contains(it) ? messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH) : messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }
         def metal = [:]
         ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
-            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, '????', Locale.ENGLISH)])
+            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH)])
         }
         def oil = [:]
         ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex'].each {
             def item = Oil.findBySymbol(it)
             oil.put(it.replace('-', '_'), [price: item?.price, unit: item.unit])
         }
+
         [
                 currency: currency,
                 gold    : gold,
