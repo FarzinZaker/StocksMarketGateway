@@ -44,11 +44,11 @@
 </div>
 <script language="javascript" type="text/javascript">
     function newsLinkClick(item) {
-        var win = window.open('${createLink(controller: 'news', action: 'view')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime(), '_blank');
+        var win = window.open('${createLink(controller: 'news', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(), '_blank');
         if (win) {
             win.focus();
         } else {
-            window.location.href = '${createLink(controller: 'news', action: 'view')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime();
+            window.location.href = '${createLink(controller: 'news', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime();
         }
         %{--$.ajax({url: '${createLink(controller: 'news', action: 'click')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime()});--}%
         $(item).parent().attr('data-click', parseInt($(item).parent().attr('data-click')));
