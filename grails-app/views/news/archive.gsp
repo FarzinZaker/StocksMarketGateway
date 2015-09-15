@@ -174,7 +174,7 @@
 
                     $('#archiveByTimeContainer').mixItUp({
                         pagination: {
-                            limit: 20,
+                            limit: 10,
                             prevButtonHTML: '<i class="fa fa-chevron-right"></i>',
                             nextButtonHTML: '<i class="fa fa-chevron-left"></i>'
                         },
@@ -194,7 +194,7 @@
 
                     $('#archiveByClickContainer').mixItUp({
                         pagination: {
-                            limit: 20,
+                            limit: 10,
                             prevButtonHTML: '<i class="fa fa-chevron-right"></i>',
                             nextButtonHTML: '<i class="fa fa-chevron-left"></i>'
                         },

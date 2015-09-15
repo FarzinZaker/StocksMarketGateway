@@ -64,7 +64,7 @@ class NewsController {
         Calendar calendar = Calendar.instance
         if (date)
             calendar.setTime(date)
-        def feeds = News.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: "date", order: "desc", max: 200).results.collect {
+        def feeds = News.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: "date", order: "desc", max: 1000).results.collect {
             [
                     identifier  : it.identifier,
                     title       : it.title,
