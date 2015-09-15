@@ -8,7 +8,7 @@
         <div class="subPanel">
             <g:each in="${categories}" var="category">
                 <div>
-                    <form:checkbox name="category" id="source_${category}"
+                    <form:checkbox name="category_${category}" id="category_${category}"
                                    text="${message(code: "newsCategory.${category}")}" checked="${true}"/>
                 </div>
             </g:each>
@@ -19,7 +19,7 @@
         <div class="subPanel">
             <g:each in="${sources}" var="source">
                 <div>
-                    <form:checkbox name="source" id="source_${source}"
+                    <form:checkbox name="source_${source}" id="source_${source}"
                                    text="${message(code: "newsSource.${source}")}" checked="${true}"/>
                 </div>
             </g:each>
@@ -40,6 +40,6 @@
     </form>
 
     <div class="dashletFooter">
-        <a href="javascript://void(0)" onclick="parseRSS(false);"><g:message code="newsFeed.filterButton"/></a>
+        <a href="javascript://void(0)" onclick="resetNews = true;parseRSS(false);"><g:message code="newsFeed.filterButton"/></a>
     </div>
 </div>

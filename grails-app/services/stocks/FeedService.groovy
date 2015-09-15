@@ -22,14 +22,15 @@ class FeedService {
             maxResults(100)
         }.collect {
             [
-                    identifier: it.identifier,
-                    title     : it.title,
-                    time      : it.date.time,
-                    link      : it.link,
-                    category  : it.category,
-                    source    : messageSource.getMessage("newsSource.${it.source}", null, it.source, Locale.ENGLISH),
-                    dateString: new PrettyTime(new Locale('fa')).format(it.date),
-                    clickCount: it.clickCount
+                    identifier  : it.identifier,
+                    title       : it.title,
+                    time        : it.date.time,
+                    link        : it.link,
+                    category    : it.category,
+                    source      : it.source,
+                    sourceString: messageSource.getMessage("newsSource.${it.source}", null, it.source, Locale.ENGLISH),
+                    dateString  : new PrettyTime(new Locale('fa')).format(it.date),
+                    clickCount  : it.clickCount
 
             ]
         }

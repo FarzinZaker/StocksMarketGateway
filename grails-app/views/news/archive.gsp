@@ -53,26 +53,36 @@
             <g:render template="filter"/>
         </div>
 
-        <div class="col-xs-5">
-            <div id="archiveByTimeContainer" class="dashLet cyan newsFeedContainer">
+        <div class="col-xs-5 ">
+            <div class="dashLet cyan ">
                 <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="newsFeed.byTime.title"/></h2>
+                <div id="archiveByTimeContainer" class="newsFeedContainer">
 
-                <div class="clear-fix"></div>
+                    <div class="clear-fix"></div>
 
-                <div id="archiveByTimeItems" class="newsFeedItems">
-                    <form:loading id="loadArchiveByTime"/>
+                    <div id="archiveByTimeItems" class="newsFeedItems">
+                        <form:loading id="loadArchiveByTime"/>
+                    </div>
+                </div>
+
+                <div class="pagerByTime dashletFooter">
                 </div>
             </div>
         </div>
 
         <div class="col-xs-5">
-            <div id="archiveByClickContainer" class="dashLet green newsFeedContainer">
+            <div class="dashLet green">
                 <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="newsFeed.byClick.title"/></h2>
+                <div id="archiveByClickContainer" class="newsFeedContainer">
 
-                <div class="clear-fix"></div>
+                    <div class="clear-fix"></div>
 
-                <div id="archiveByClickItems" class="newsFeedItems">
-                    <form:loading id="loadArchiveByClick"/>
+                    <div id="archiveByClickItems" class="newsFeedItems">
+                        <form:loading id="loadArchiveByClick"/>
+                    </div>
+                </div>
+
+                <div class="pagerByClick dashletFooter">
                 </div>
             </div>
         </div>
@@ -80,6 +90,9 @@
 </div>
 
 <script language="javascript" type="text/javascript">
+
+    var resetNews = false;
+
     function newsLinkClick(item) {
         var win = window.open('${createLink(controller: 'news', action: 'view')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime(), '_blank');
         if (win) {
@@ -92,14 +105,18 @@
 
     function parseRSS(setupMixItUp) {
         $.ajax({
-            url: '${createLink(controller: 'dashboard', action: 'news')}?t=' + new Date().getTime(),
+            url: '${createLink(action: 'jsonList')}?t=' + new Date().getTime(),
+            type: 'POST',
+            data: $('#filterForm').serialize(),
             success: function (response) {
                 var feedByTimeContainer = $('#archiveByTimeItems');
                 var feedByClickContainer = $('#archiveByClickItems');
-                if (setupMixItUp) {
+                if (setupMixItUp || resetNews) {
                     feedByTimeContainer.html('');
                     feedByClickContainer.html('');
+                    resetNews = false;
                 }
+
                 $.each(response.data, function () {
                     var oldItem = $('[data-id=' + this.identifier + ']');
                     if (oldItem.length > 0) {
@@ -112,28 +129,42 @@
                     }
                     else {
                         var itemByTimeContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+                        var imageByTimeContainer = $('<div/>').addClass('newsFeedImageContainer');
+                        imageByTimeContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '48px'));
+                        itemByTimeContainer.append(imageByTimeContainer);
+                        var titleByTimeContainer = $('<div/>').addClass('newsFeedTitleContainer');
                         var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
-                        itemByTimeContainer.append(title);
-                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.source);
-                        itemByTimeContainer.append(source);
+                        titleByTimeContainer.append(title);
+                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.sourceString);
+                        titleByTimeContainer.append(source);
+                        itemByTimeContainer.append(titleByTimeContainer);
                         var date = $('<div/>').addClass('newsFeedItemDate').html(this.dateString);
                         itemByTimeContainer.append(date);
+                        itemByTimeContainer.append($('<div/>').addClass('clear-fix'));
 
                         var itemByClickContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+                        var imageByClickContainer = $('<div/>').addClass('newsFeedImageContainer');
+                        imageByClickContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '48px'));
+                        itemByClickContainer.append(imageByClickContainer);
+                        var titleByClickContainer = $('<div/>').addClass('newsFeedTitleContainer');
                         var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
-                        itemByClickContainer.append(title);
-                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.source);
-                        itemByClickContainer.append(source);
+                        titleByClickContainer.append(title);
+                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.sourceString);
+                        titleByClickContainer.append(source);
+                        itemByClickContainer.append(titleByClickContainer);
                         var date = $('<div/>').addClass('newsFeedItemClick').html(this.clickCount + ' ${message(code:'visit')}');
                         itemByClickContainer.append(date);
+                        itemByClickContainer.append($('<div/>').addClass('clear-fix'));
 
                         if (setupMixItUp) {
                             feedByTimeContainer.append(itemByTimeContainer);
                             feedByClickContainer.append(itemByClickContainer);
                         }
-                        else{
-                            $('#archiveByTimeContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', 'time:desc', true);
-                            $('#archiveByClickContainer').mixItUp('prepend', itemByClickContainer, {}).mixItUp('sort', 'click:desc', true);
+                        else {
+                            var pageByTime = parseInt($('.pagerByTime .pager.active span').text());
+                            var pageByClick = parseInt($('.pagerByClick .pager.active span').text());
+                            $('#archiveByTimeContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', 'time:desc', true).mixItUp('paginate', pageByTime);
+                            $('#archiveByClickContainer').mixItUp('prepend', itemByClickContainer, {}).mixItUp('sort', 'click:desc', true).mixItUp('paginate', pageByClick);
                         }
                     }
 
@@ -143,7 +174,9 @@
 
                     $('#archiveByTimeContainer').mixItUp({
                         pagination: {
-                            limit: 20
+                            limit: 20,
+                            prevButtonHTML: '<i class="fa fa-chevron-right"></i>',
+                            nextButtonHTML: '<i class="fa fa-chevron-left"></i>'
                         },
                         layout: {
                             display: 'block'
@@ -153,12 +186,17 @@
                         },
                         controls: {
                             toggleFilterButtons: false
+                        },
+                        selectors: {
+                            pagersWrapper: '.pagerByTime'
                         }
                     });
 
                     $('#archiveByClickContainer').mixItUp({
                         pagination: {
-                            limit: 20
+                            limit: 20,
+                            prevButtonHTML: '<i class="fa fa-chevron-right"></i>',
+                            nextButtonHTML: '<i class="fa fa-chevron-left"></i>'
                         },
                         layout: {
                             display: 'block'
@@ -169,13 +207,18 @@
                         controls: {
                             live: true,
                             toggleFilterButtons: false
+                        },
+                        selectors: {
+                            pagersWrapper: '.pagerByClick'
                         }
                     });
 
                 }
-                else{
-                    $('#archiveByTimeContainer').mixItUp('sort', 'time:desc', true);
-                    $('#archiveByClickContainer').mixItUp('sort', 'click:desc', true);
+                else {
+                    var pageByTime = parseInt($('.pagerByTime .pager.active span').text());
+                    var pageByClick = parseInt($('.pagerByClick .pager.active span').text());
+                    $('#archiveByTimeContainer').mixItUp('sort', 'time:desc', true).mixItUp('paginate', pageByTime);
+                    $('#archiveByClickContainer').mixItUp('sort', 'click:desc', true).mixItUp('paginate', pageByClick);
                 }
 
                 $('.newsFeedItems a').unbind('click').click(function (event) {

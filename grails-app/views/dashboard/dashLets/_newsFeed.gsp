@@ -80,19 +80,26 @@
                         oldItem.attr('data-click', this.clickCount);
                     }
                     else {
-                        var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+
+                        var itemByTimeContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+                        var imageByTimeContainer = $('<div/>').addClass('newsFeedImageContainer');
+                        imageByTimeContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
+                        itemByTimeContainer.append(imageByTimeContainer);
+                        var titleByTimeContainer = $('<div/>').addClass('newsFeedTitleContainer');
                         var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
-                        itemContainer.append(title);
-                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.source);
-                        itemContainer.append(source);
+                        titleByTimeContainer.append(title);
+                        var source = $('<div/>').addClass('newsFeedItemSource').html(this.sourceString);
+                        titleByTimeContainer.append(source);
+                        itemByTimeContainer.append(titleByTimeContainer);
                         var date = $('<div/>').addClass('newsFeedItemDate').html(this.dateString);
-                        itemContainer.append(date);
+                        itemByTimeContainer.append(date);
+                        itemByTimeContainer.append($('<div/>').addClass('clear-fix'));
 
                         if (setupMixItUp) {
-                            feedContainer.append(itemContainer);
+                            feedContainer.append(itemByTimeContainer);
                         }
                         else {
-                            $('#newsFeedContainer').mixItUp('prepend', itemContainer, {}).mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                            $('#newsFeedContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', $('.sort.active').attr('data-sort'), true);
                         }
                     }
 

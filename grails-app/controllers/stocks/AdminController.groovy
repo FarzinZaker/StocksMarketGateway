@@ -10,6 +10,7 @@ import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
 import static groovyx.gpars.GParsPool.withPool
+import stocks.feed.News
 
 //@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -100,4 +101,10 @@ class AdminController {
         searchableService.indexAll()
         render 'done'
     }
+
+    def reindexNews() {
+        News.reindexAll()
+        render 'done'
+    }
+
 }

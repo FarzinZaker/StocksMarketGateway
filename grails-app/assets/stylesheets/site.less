@@ -587,32 +587,56 @@ ul.linkList {
   }
 
   .newsFeedItems {
+
+    div:last-of-type{
+      border-bottom-width: 0 !important;
+    }
     .mix {
-      margin-top: 10px;
+      //background: #fafafa none repeat scroll 0 0;
+      border-bottom: 1px dashed #dadada;
       margin-right: 10px;
-      .newsFeedItemTitle {
-        display: inline-block;
-        margin-left: 10px;
+      margin-top: 5px;
+      margin-left: 10px;
+      padding: 3px 3px 9px 10px;
+
+      .newsFeedImageContainer {
+        float: right;
+        border: 1px solid #f4f4f4;
+        background: white;
+        padding: 2px;
+        margin-left: 8px;
+        font-size:10px;
       }
-      .newsFeedItemSource {
-        font-size: 12px;
-        display: inline-block;
-        margin-left: 5px;
+      .newsFeedTitleContainer {
+        //margin-right:65px;
+        float:right;
+        .newsFeedItemTitle {
+          display: block;
+          margin-left: 10px;
+          float:right;
+        }
+        .newsFeedItemSource {
+          font-size: 12px;
+          display: block;
+          margin-left: 5px;
+          float: right;
+          clear: both;
+        }
       }
       .newsFeedItemDate, .newsFeedItemClick {
         font-size: 10px;
         color: dimgrey;
-        display: inline-block;
+        display: block;
+        float: left;
       }
     }
   }
 }
 
-
 .announcementFeedContainer {
 
   .announcementFeedItems {
-    height:auto !important;
+    height: auto !important;
     .mix {
       margin-bottom: 10px;
       .announcementFeedItemTitle {
@@ -624,7 +648,7 @@ ul.linkList {
         font-size: 12px;
         display: inline-block;
         margin-left: 5px;
-        color:black;
+        color: black;
       }
       .announcementFeedItemDate {
         font-size: 10px;
@@ -637,17 +661,17 @@ ul.linkList {
 
 .calculator-container {
   width: 100%;
-  td{
+  td {
     vertical-align: top;
   }
   .parameters {
     background-color: white;
     padding: 5px;
-    padding-right:10px;
-    padding-left:10px;
-    padding-bottom:10px;
-    margin-left:10px;
-    border:1px solid #dadada;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    border: 1px solid #dadada;
     table {
       td {
         vertical-align: bottom;
@@ -655,36 +679,36 @@ ul.linkList {
           display: block;
           margin-bottom: 5px;
           margin-top: 10px;
-          font-size:11px;
+          font-size: 11px;
           font-weight: normal;
         }
       }
     }
-    .advancedParameters{
+    .advancedParameters {
       display: none;
     }
   }
   .baseInfo {
-    margin-top:3px;
+    margin-top: 3px;
     .col-xs-3 {
-      padding:5px;
-      &:first-of-type{
-        padding-right:0;
+      padding: 5px;
+      &:first-of-type {
+        padding-right: 0;
       }
-      &:last-of-type{
-        padding-left:0;
+      &:last-of-type {
+        padding-left: 0;
       }
       .col-sm-12 {
-        padding-top:10px;
-        padding-bottom:10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         background-color: white;
-        border:1px solid #dadada;
-        &:first-of-type{
+        border: 1px solid #dadada;
+        &:first-of-type {
           padding-bottom: 0;
           border-bottom-width: 0;
-          font-size:11px;
+          font-size: 11px;
         }
-        &:last-of-type{
+        &:last-of-type {
           padding-top: 0;
           border-top-width: 0;
         }
@@ -706,7 +730,7 @@ ul.linkList {
     padding-left: 0;
     padding-top: 20px;
     #chart {
-      margin-left:-20px;
+      margin-left: -20px;
     }
   }
   .calculator {

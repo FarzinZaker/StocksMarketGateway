@@ -4,7 +4,10 @@ import stocks.FeedService
 
 class News {
 
-    static searchable = true
+    static searchable = {
+        'date' format:'yyyyMMdd hh:mm:ss'
+        'date' name: 'day', format:'yyyyMMdd'
+    }
 
     String title
     String identifier
