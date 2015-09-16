@@ -208,13 +208,20 @@ class FeedService {
     }
 
     List<Map> boursePress() {
-        readRSS(
+        def result = readRSS(
                 [
                         [
                                 url     : 'http://boursepress.ir/page/rss',
                                 category: ECONOMIC
                         ]
                 ], 'boursePress')
+
+        result.each { item ->
+            use(TimeCategory) {
+                item.date = item.date - 4.hours - 30.minutes
+            }
+        }
+        result
     }
 
     List<Map> mellatBazar() {
