@@ -20,5 +20,6 @@ class PurgeJob {
         ratePurgeService.purgeCoin()
         ratePurgeService.purgeCurrency()
         ratePurgeService.purgeMetal()
+        ratePurgeService.purgeOil()
     }
 }

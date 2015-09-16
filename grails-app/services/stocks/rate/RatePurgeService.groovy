@@ -15,4 +15,8 @@ class RatePurgeService {
     def purgeMetal() {
         lowLevelDataService.executeStoredProcedure('rate_purge', [name: 'metal'])
     }
+
+    def purgeOil() {
+        lowLevelDataService.executeStoredProcedure('rate_purge', [name: 'oil'])
+    }
 }
