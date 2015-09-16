@@ -47,7 +47,7 @@ class FeedService {
 
     def refresh() {
 
-        def feeds = farsNews() + asrIran() + bourseNews() + tabnak() + tasnim() + irna() + isna()
+        def feeds = farsNews() + asrIran() + bourseNews() + tabnak() + tasnim() + irna() + isna() + sena() + boursePress() + mellatBazar()
         feeds = feeds.findAll { it.date }
         feeds.each {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
@@ -187,6 +187,38 @@ class FeedService {
                 ], 'isna')
     }
 
+    List<Map> sena() {
+        readRSS(
+                [
+                        [
+                                url     : 'http://www.sena.ir/RSS.ashx',
+                                category: ECONOMIC
+                        ]
+                ], 'sena')
+    }
+
+    List<Map> boursePress() {
+        readRSS(
+                [
+                        [
+                                url     : 'http://boursepress.ir/page/rss',
+                                category: ECONOMIC
+                        ]
+                ], 'boursePress')
+    }
+
+    List<Map> mellatBazar() {
+        readRSS(
+                [
+                        [
+                                url     : 'http://mellatbazar.ir/fa/rss/allnews',
+                                category: ECONOMIC
+                        ]
+                ], 'mellatBazar')
+    }
+
+
+
     List<Map> readRSS(List<Map> feeds, String source) {
         def list = []
         feeds.each { rss ->
@@ -202,6 +234,7 @@ class FeedService {
                 })
             }
             catch (ignored) {
+                throw ignored
             }
         }
         list.findAll { it } as List<Map>

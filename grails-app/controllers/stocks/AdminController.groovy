@@ -69,6 +69,8 @@ class AdminController {
     def RSIService
     def mailService
 
+    def feedService
+
     def index() {
         def admin = User.get(5)
         admin.username = 'admin'
@@ -79,8 +81,10 @@ class AdminController {
 
     def test() {
 
-        symbolClientTypeDataService.importData()
+//        symbolClientTypeDataService.importData()
+        render feedService.mellatBazar()
     }
+
 
 
     def throwException() {

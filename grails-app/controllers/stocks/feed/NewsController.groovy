@@ -42,7 +42,7 @@ class NewsController {
 
     def archive() {
         [
-                sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna'],
+                sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna', 'sena', 'boursePress', 'mellatBazar'],
                 categories: FeedService.categoryList
         ]
     }
