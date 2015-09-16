@@ -1,5 +1,5 @@
 <%@ page import="stocks.RateHelper" %>
-<div id="currency_lastUpdatedFlag" class="lastUpdatedFlag"></div>
+<div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="currency_lastUpdatedFlag"></span></div>
 <g:each in="${['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey']}" var="currency" status="indexer">
     <div class="marketViewItem ${indexer % 2 ? 'even' : 'odd'}" id="rate_currency_${currency}">
         <span class="marketViewItem_label">${RateHelper.CURRENCIES."${currency}".name}</span>

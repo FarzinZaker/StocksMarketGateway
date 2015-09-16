@@ -113,7 +113,7 @@ class DashboardService {
                                 changePercent: otcMarketValue.valueChange / ((otcMarketValue.value - otcMarketValue.valueChange) ?: 1),
                                 tradeValue   : otcMarketValue.tradeValue
                         ],
-                        date         : new PrettyTime(new Locale('fa')).format([totalIndex.modificationDate, priceIndex.modificationDate, otcTotalIndex.modificationDate].max())
+                        date         : jalaliDate([totalIndex.modificationDate, priceIndex.modificationDate, otcTotalIndex.modificationDate].max())
                 ],
                 commodity: [
                         total      : commodityMarketActivities.findAll { it.marketIdentifier == 0 }?.collect {
@@ -151,7 +151,7 @@ class DashboardService {
                                     volume: it.volume
                             ]
                         }?.find() ?: [value: 0, count: 0, volume: 0],
-                        date       : new PrettyTime(new Locale('fa')).format(commodityMarketActivities.collect {
+                        date       : jalaliDate(commodityMarketActivities.collect {
                             it.modificationDate
                         }.max())
                 ],
@@ -160,7 +160,7 @@ class DashboardService {
                         tradeValue   : futureContracts.sum { CoinFuture contract -> contract.tradesValue },
                         openInterests: futureContracts.sum { CoinFuture contract -> contract.openInterests },
                         tradeCount   : futureContracts.sum { CoinFuture contract -> contract.tradesCount },
-                        date         : new PrettyTime(new Locale('fa')).format(futureContracts.collect {
+                        date         : jalaliDate(futureContracts.collect {
                             it.modificationDate
                         }.max())
                 ],
@@ -174,7 +174,7 @@ class DashboardService {
                                 tradeValue: physicalMarketValue.tradeValue,
                                 tradeCount: physicalMarketValue.tradeCount
                         ],
-                        date    : new PrettyTime(new Locale('fa')).format([
+                        date    : jalaliDate([
                                 powerMarketValue.collect {
                                     it.modificationDate
                                 }.max(),
@@ -201,7 +201,7 @@ class DashboardService {
                             id        : "announcement${it.id}",
                             title     : it.title,
                             time      : it.publishDate.time,
-                            dateString: new PrettyTime(new Locale('fa')).format(date),
+                            dateString: jalaliDate(date),
                             source    : it.symbol ? "${it.symbol?.persianName} (${it.symbol?.persianCode})" : '',
                             link      : it.detailsUrl
                     ]
@@ -214,7 +214,7 @@ class DashboardService {
                             id        : "announcement${it.id}",
                             title     : it.title,
                             time      : it.date.time,
-                            dateString: new PrettyTime(new Locale('fa')).format(it.date)
+                            dateString: jalaliDate(it.date)
                     ]
                 }
         ]
@@ -245,21 +245,35 @@ class DashboardService {
 
         [
                 currency    : currency,
-                currencyDate: new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                currencyDate: jalaliDate(currency.values().collect {
                     it.date
                 }.max() as Date),
                 gold        : gold,
-                goldDate    : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                goldDate    : jalaliDate(currency.values().collect {
                     it.date
                 }.max() as Date),
                 metal       : metal,
-                metalDate   : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                metalDate   : jalaliDate(currency.values().collect {
                     it.date
                 }.max() as Date),
                 oil         : oil,
-                oilDate     : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                oilDate     : jalaliDate(currency.values().collect {
                     it.date
                 }.max() as Date)
         ]
+    }
+
+    def jalaliDate(Date date) {
+        def cal = Calendar.getInstance()
+        cal.setTime(date)
+
+        def result = ''
+        def jc = new JalaliCalendar(cal)
+        result += String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+        if(date < new Date().clearTime()) {
+            result += ' '
+            result += String.format("%04d/%02d/%02d", jc.getYear(), jc.getMonth(), jc.getDay())
+        }
+        result
     }
 }

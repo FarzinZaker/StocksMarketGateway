@@ -1,5 +1,5 @@
 
-<div id="bourse_lastUpdatedFlag" class="lastUpdatedFlag"></div>
+<div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="bourse_lastUpdatedFlag"></span></div>
 <div class="marketViewItem odd" id="marketView_totalIndex">
     <span class="marketViewItem_label"><g:message code="marketView.totalIndex"/></span>
     <span class="marketViewItem_value">-</span>

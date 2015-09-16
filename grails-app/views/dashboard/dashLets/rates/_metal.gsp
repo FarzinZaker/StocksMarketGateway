@@ -1,5 +1,5 @@
 <%@ page import="stocks.RateHelper" %>
-<div id="metal_lastUpdatedFlag" class="lastUpdatedFlag"></div>
+<div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="metal_lastUpdatedFlag"></span></div>
 <g:each in="${['copper', 'aluminium', 'nickel', 'tin', 'zinc']}" var="metal" status="indexer">
     <div class="marketViewItem ${indexer % 2 ? 'even' : 'odd'}" id="rate_metal_${metal}">
         <span class="marketViewItem_label">${RateHelper.METALS."${metal}"?.name}</span>

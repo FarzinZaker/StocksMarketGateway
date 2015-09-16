@@ -1,5 +1,5 @@
 
-<div id="future_lastUpdatedFlag" class="lastUpdatedFlag"></div>
+<div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="future_lastUpdatedFlag"></span></div>
 
 <div class="marketViewItem odd" id="marketView_future_tradeVolume">
     <span class="marketViewItem_label"><g:message code="marketView.future.tradeVolume"/></span>

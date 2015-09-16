@@ -1,5 +1,5 @@
 <%@ page import="stocks.RateHelper" %>
-<div id="gold_lastUpdatedFlag" class="lastUpdatedFlag"></div>
+<div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="gold_lastUpdatedFlag"></span></div>
 <g:each in="${['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18']}" var="gold" status="indexer">
     <div class="marketViewItem ${indexer % 2 ? 'even' : 'odd'}" id="rate_gold_${gold}">
         <span class="marketViewItem_label">${RateHelper.COINS."${gold}"?.name}</span>
