@@ -86,7 +86,7 @@ class OilDataService {
         def dateParts = date.split("/").collect { it as Integer }
         def cal = Calendar.instance
         cal.set(Calendar.YEAR, dateParts[2])
-        cal.set(Calendar.MONTH, dateParts[0])
+        cal.set(Calendar.MONTH, dateParts[0] - 1)
         cal.set(Calendar.DAY_OF_MONTH, dateParts[1])
         def timeParts = time.split(":")
         cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
