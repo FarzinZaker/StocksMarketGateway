@@ -21,6 +21,8 @@ class OilPersistService {
         oil.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+//        if (result)
+        oil.modificationDate = new Date()
         bulkDataGateway.save(oil)
         afterUpdate(event, oil)
         result

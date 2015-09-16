@@ -1,4 +1,5 @@
 
+<div id="future_lastUpdatedFlag" class="lastUpdatedFlag"></div>
 
 <div class="marketViewItem odd" id="marketView_future_tradeVolume">
     <span class="marketViewItem_label"><g:message code="marketView.future.tradeVolume"/></span>
@@ -22,13 +23,12 @@
 
 <script language="javascript" type="text/javascript">
 
-    function fillFutureData(data) {
+    function fillFutureData(data, date) {
 
         $('#marketView_future_tradeVolume').find('.marketViewItem_value').html(formatNumber(data.future.tradeVolume));
         $('#marketView_future_tradeValue').find('.marketViewItem_value').html(formatNumber(data.future.tradeValue));
         $('#marketView_future_openInterests').find('.marketViewItem_value').html(formatNumber(data.future.openInterests));
         $('#marketView_future_tradeCount').find('.marketViewItem_value').html(formatNumber(data.future.tradeCount));
-
-
+        $('#future_lastUpdatedFlag').html(data.future.date);
     }
 </script>

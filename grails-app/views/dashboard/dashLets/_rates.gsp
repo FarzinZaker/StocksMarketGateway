@@ -48,10 +48,10 @@
             url: '${createLink(action: 'rates')}?t=' + new Date().getTime()
         }).done(function (data) {
             $('#ratesTimer').timer('start');
-            fillCurrencyData(data.currency);
-            fillGoldData(data.gold);
-            fillMetalData(data.metal);
-            fillOilData(data.oil);
+            fillCurrencyData(data.currency, data.currencyDate);
+            fillGoldData(data.gold, data.goldDate);
+            fillMetalData(data.metal, data.metalDate);
+            fillOilData(data.oil, data.oilDate);
         });
     }
 

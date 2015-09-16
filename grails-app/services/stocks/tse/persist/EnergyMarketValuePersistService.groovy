@@ -13,6 +13,7 @@ class EnergyMarketValuePersistService {
         energyMarketValue.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+        energyMarketValue.modificationDate = new Date()
         bulkDataGateway.save(energyMarketValue)
         afterUpdate(event, energyMarketValue)
         false

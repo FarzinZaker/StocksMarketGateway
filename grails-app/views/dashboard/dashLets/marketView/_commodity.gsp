@@ -1,4 +1,5 @@
 
+<div id="commodity_lastUpdatedFlag" class="lastUpdatedFlag"></div>
 
 <div class="marketViewItem odd" id="marketView_commodity_totalValue">
     <span class="marketViewItem_label"><g:message code="marketView.commodity.totalValue"/></span>
@@ -87,7 +88,6 @@
         $('#marketView_commodity_secondaryValue').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.value));
         $('#marketView_commodity_secondaryVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.volume));
         $('#marketView_commodity_secondaryCount').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.count));
-
-
+        $('#commodity_lastUpdatedFlag').html(data.commodity.date);
     }
 </script>

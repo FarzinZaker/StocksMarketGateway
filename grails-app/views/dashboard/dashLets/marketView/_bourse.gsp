@@ -1,3 +1,5 @@
+
+<div id="bourse_lastUpdatedFlag" class="lastUpdatedFlag"></div>
 <div class="marketViewItem odd" id="marketView_totalIndex">
     <span class="marketViewItem_label"><g:message code="marketView.totalIndex"/></span>
     <span class="marketViewItem_value">-</span>
@@ -15,6 +17,8 @@
 <div class="marketViewItem odd" id="marketView_otcTotalIndex">
     <span class="marketViewItem_label"><g:message code="marketView.otcTotalIndex"/></span>
     <span class="marketViewItem_value">-</span>
+    <span class="marketViewItem_change"></span>
+    <span class="marketViewItem_changePercent"></span>
 </div>
 
 <div class="marketViewItem even" id="marketView_tradeValue">
@@ -110,6 +114,8 @@
         priceIndex.find('.marketViewItem_changePercent').html(formatNumber(data.bourse.priceIndex.changePercent) + '%').addChangeClass(data.bourse.priceIndex.changePercent);
         var otcTotalIndex = $('#marketView_otcTotalIndex');
         otcTotalIndex.find('.marketViewItem_value').html(formatNumber(data.bourse.otcTotalIndex.value));
+        otcTotalIndex.find('.marketViewItem_change').html(formatNumber(data.bourse.otcTotalIndex.change)).addChangeClass(data.bourse.otcTotalIndex.change);
+        otcTotalIndex.find('.marketViewItem_changePercent').html(formatNumber(data.bourse.otcTotalIndex.changePercent) + '%').addChangeClass(data.bourse.otcTotalIndex.changePercent);
         $('#marketView_totalBuyVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualBuyVolume + data.bourse.clientTypes.totalLegalBuyVolume));
         $('#marketView_totalSellVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualSellVolume + data.bourse.clientTypes.totalLegalSellVolume));
         $('#marketView_totalIndividualBuyVolume').find('.marketViewItem_value').html(formatNumber(data.bourse.clientTypes.totalIndividualBuyVolume));
@@ -129,6 +135,6 @@
         otcMarketValue.find('.marketViewItem_value').html(formatNumber(data.bourse.otcMarket.value));
         otcMarketValue.find('.marketViewItem_change').html(formatNumber(data.bourse.otcMarket.change)).addChangeClass(data.bourse.otcMarket.change);
         otcMarketValue.find('.marketViewItem_changePercent').html(formatNumber(data.bourse.otcMarket.changePercent) + '%').addChangeClass(data.bourse.otcMarket.changePercent);
-
+        $('#bourse_lastUpdatedFlag').html(data.bourse.date);
     }
 </script>

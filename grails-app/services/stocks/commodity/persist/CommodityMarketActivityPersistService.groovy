@@ -21,6 +21,8 @@ class CommodityMarketActivityPersistService {
         marketActivity.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+//        if (result)
+        marketActivity.modificationDate = new Date()
         bulkDataGateway.save(marketActivity)
         afterUpdate(event, marketActivity)
         result

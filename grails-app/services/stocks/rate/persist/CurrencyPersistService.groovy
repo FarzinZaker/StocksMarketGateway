@@ -21,6 +21,8 @@ class CurrencyPersistService {
         currency.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+//        if (result)
+        currency.modificationDate = new Date()
         bulkDataGateway.save(currency)
         afterUpdate(event, currency)
         result

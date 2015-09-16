@@ -68,7 +68,7 @@
     }
 
     function formatInteger(data) {
-        return (Math.round(data * 100) / 100).toString().replace(/./g, function (c, i, a) {
+        return (Math.round(Math.abs(data) * 100) / 100).toString().replace(/./g, function (c, i, a) {
             return i && c !== "\." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         });
     }
@@ -101,6 +101,7 @@
             autostart: false,
             callback: function (index) {
                 $('#marketViewTimer').timer('stop');
+                loadMarketView();
             }
         });
         loadMarketView();

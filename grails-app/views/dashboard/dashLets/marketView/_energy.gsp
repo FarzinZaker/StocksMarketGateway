@@ -1,4 +1,5 @@
 
+<div id="energy_lastUpdatedFlag" class="lastUpdatedFlag"></div>
 
 <div class="marketViewItem odd" id="marketView_energy_power_tradeValue">
     <span class="marketViewItem_label"><g:message code="marketView.energy.power.tradeValue"/></span>
@@ -36,6 +37,6 @@
         $('#marketView_energy_power_tradeCount').find('.marketViewItem_value').html(formatNumber(data.energy.power.tradeCount));
         $('#marketView_energy_physical_tradeValue').find('.marketViewItem_value').html(formatNumber(data.energy.physical.tradeValue));
         $('#marketView_energy_physical_tradeCount').find('.marketViewItem_value').html(formatNumber(data.energy.physical.tradeCount));
-
+        $('#energy_lastUpdatedFlag').html(data.energy.date);
     }
 </script>

@@ -1,5 +1,6 @@
 package stocks
 
+import fi.joensuu.joyds1.calendar.JalaliCalendar
 import groovy.time.TimeCategory
 import org.ocpsoft.prettytime.PrettyTime
 import org.springframework.cache.annotation.Cacheable
@@ -90,7 +91,9 @@ class DashboardService {
                                 changePercent: priceIndex.todayIndexChangePercentTowardYesterday
                         ],
                         otcTotalIndex: [
-                                value: otcTotalIndex.finalIndexValue
+                                value        : otcTotalIndex.finalIndexValue,
+                                change       : otcTotalIndex.finalIndexValue - (100 - otcTotalIndex.todayIndexChangePercentTowardYesterday) * otcTotalIndex.finalIndexValue / 100,
+                                changePercent: otcTotalIndex.todayIndexChangePercentTowardYesterday
                         ],
                         clientTypes  : [
                                 totalIndividualBuyVolume : clientTypes[0] ?: 0,
@@ -109,7 +112,8 @@ class DashboardService {
                                 change       : otcMarketValue.valueChange,
                                 changePercent: otcMarketValue.valueChange / ((otcMarketValue.value - otcMarketValue.valueChange) ?: 1),
                                 tradeValue   : otcMarketValue.tradeValue
-                        ]
+                        ],
+                        date         : new PrettyTime(new Locale('fa')).format([totalIndex.modificationDate, priceIndex.modificationDate, otcTotalIndex.modificationDate].max())
                 ],
                 commodity: [
                         total      : commodityMarketActivities.findAll { it.marketIdentifier == 0 }?.collect {
@@ -146,13 +150,19 @@ class DashboardService {
                                     count : it.tradeCount,
                                     volume: it.volume
                             ]
-                        }?.find() ?: [value: 0, count: 0, volume: 0]
+                        }?.find() ?: [value: 0, count: 0, volume: 0],
+                        date       : new PrettyTime(new Locale('fa')).format(commodityMarketActivities.collect {
+                            it.modificationDate
+                        }.max())
                 ],
                 future   : [
                         tradeVolume  : futureContracts.sum { CoinFuture contract -> contract.tradesVolume },
                         tradeValue   : futureContracts.sum { CoinFuture contract -> contract.tradesValue },
                         openInterests: futureContracts.sum { CoinFuture contract -> contract.openInterests },
-                        tradeCount   : futureContracts.sum { CoinFuture contract -> contract.tradesCount }
+                        tradeCount   : futureContracts.sum { CoinFuture contract -> contract.tradesCount },
+                        date         : new PrettyTime(new Locale('fa')).format(futureContracts.collect {
+                            it.modificationDate
+                        }.max())
                 ],
                 energy   : [
                         power   : [
@@ -163,12 +173,20 @@ class DashboardService {
                         physical: [
                                 tradeValue: physicalMarketValue.tradeValue,
                                 tradeCount: physicalMarketValue.tradeCount
-                        ]
+                        ],
+                        date    : new PrettyTime(new Locale('fa')).format([
+                                powerMarketValue.collect {
+                                    it.modificationDate
+                                }.max(),
+                                physicalMarketValue.collect {
+                                    it.modificationDate
+                                }.max()
+                        ].max())
                 ]
         ]
     }
 
-    @Cacheable('announcementsCache')
+//    @Cacheable('announcementsCache')
     def announcements() {
         [
                 codal             : Announcement.createCriteria().list {
@@ -202,31 +220,46 @@ class DashboardService {
         ]
     }
 
-    @Cacheable('ratesCache')
+//    @Cacheable('ratesCache')
     def rates() {
         def currency = [:]
         ['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
-            currency.put(it.replace('-', '_'), [price: Currency.findBySymbol(it)?.price, unit: messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
+            def item = Currency.findBySymbol(it)
+            currency.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }
         def gold = [:]
         ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18'].each {
-            gold.put(it.replace('-', '_'), [price: Coin.findBySymbol(it)?.price, unit: ['ons'].contains(it) ? messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH) : messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
+            def item = Coin.findBySymbol(it)
+            gold.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: ['ons'].contains(it) ? messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH) : messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }
         def metal = [:]
         ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
-            metal.put(it.replace('-', '_'), [price: Metal.findBySymbol(it)?.price, unit: messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH)])
+            def item = Metal.findBySymbol(it)
+            metal.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH)])
         }
         def oil = [:]
         ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex'].each {
             def item = Oil.findBySymbol(it)
-            oil.put(it.replace('-', '_'), [price: item?.price, unit: item.unit])
+            oil.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: item.unit])
         }
 
         [
-                currency: currency,
-                gold    : gold,
-                metal   : metal,
-                oil     : oil
+                currency    : currency,
+                currencyDate: new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                    it.date
+                }.max() as Date),
+                gold        : gold,
+                goldDate    : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                    it.date
+                }.max() as Date),
+                metal       : metal,
+                metalDate   : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                    it.date
+                }.max() as Date),
+                oil         : oil,
+                oilDate     : new PrettyTime(new Locale('fa')).format(currency.values().collect {
+                    it.date
+                }.max() as Date)
         ]
     }
 }

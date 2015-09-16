@@ -21,6 +21,8 @@ class MetalPersistService {
         metal.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+//        if (result)
+        metal.modificationDate = new Date()
         bulkDataGateway.save(metal)
         afterUpdate(event, metal)
         result

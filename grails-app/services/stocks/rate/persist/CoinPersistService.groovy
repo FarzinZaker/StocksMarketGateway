@@ -21,6 +21,8 @@ class CoinPersistService {
         coin.properties = event.properties.findAll {
             !(it.key.toString() in ['creationDate']) && !it.key.toString().endsWith('Id')
         }
+//        if (result)
+        coin.modificationDate = new Date()
         bulkDataGateway.save(coin)
         afterUpdate(event, coin)
         result
