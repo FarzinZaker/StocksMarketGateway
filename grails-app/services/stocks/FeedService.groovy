@@ -47,7 +47,17 @@ class FeedService {
 
     def refresh() {
 
-        def feeds = farsNews() + asrIran() + bourseNews() + tabnak() + tasnim() + irna() + isna() + sena() + boursePress() + mellatBazar()
+        def feeds = []
+        try{feeds.addAll farsNews()}catch(ignored){}
+        try{feeds.addAll asrIran()}catch(ignored){}
+        try{feeds.addAll bourseNews()}catch(ignored){}
+        try{feeds.addAll tabnak()}catch(ignored){}
+        try{feeds.addAll tasnim()}catch(ignored){}
+        try{feeds.addAll irna()}catch(ignored){}
+        try{feeds.addAll isna()}catch(ignored){}
+//        try{feeds.addAll sena()}catch(ignored){}
+        try{feeds.addAll boursePress()}catch(ignored){}
+        try{feeds.addAll mellatBazar()}catch(ignored){}
         feeds = feeds.findAll { it.date }
         feeds.each {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
@@ -211,8 +221,20 @@ class FeedService {
         readRSS(
                 [
                         [
-                                url     : 'http://mellatbazar.ir/fa/rss/allnews',
+                                url     : 'http://mellatbazar.ir/fa/rss/2',
                                 category: ECONOMIC
+                        ],
+                        [
+                                url     : 'http://mellatbazar.ir/fa/rss/3',
+                                category: ECONOMIC
+                        ],
+                        [
+                                url     : 'http://mellatbazar.ir/fa/rss/8',
+                                category: ECONOMIC
+                        ],
+                        [
+                                url     : 'http://mellatbazar.ir/fa/rss/9',
+                                category: POLITICAL
                         ]
                 ], 'mellatBazar')
     }

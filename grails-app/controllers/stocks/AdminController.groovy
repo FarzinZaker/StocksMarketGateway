@@ -82,7 +82,7 @@ class AdminController {
     def test() {
 
 //        symbolClientTypeDataService.importData()
-        render feedService.mellatBazar()
+        render feedService.refresh()
     }
 
 
