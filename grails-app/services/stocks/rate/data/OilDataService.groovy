@@ -68,12 +68,12 @@ class OilDataService {
                     oilEvent.high = dayRangeParts[1].replace(',', '') as Double
                 }
             }
+            oilEvent.data = find(oilEvent)
             rateEventGateway.send(oilEvent, this.class.name)
             logState([status: 'successful'])
         }
         catch (ex) {
             throw ex
-            ex.printStackTrace()
             logState([status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
         }
     }
