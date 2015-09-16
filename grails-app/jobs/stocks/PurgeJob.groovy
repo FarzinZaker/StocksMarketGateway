@@ -12,6 +12,8 @@ class PurgeJob {
 
     def execute() {
 
+        return //temporary disabled
+
         if (grailsApplication.config.jobsDisabled)
             return
 
