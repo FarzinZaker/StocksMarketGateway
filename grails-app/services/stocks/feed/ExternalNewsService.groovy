@@ -1,12 +1,11 @@
-package stocks
+package stocks.feed
 
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import org.ocpsoft.prettytime.PrettyTime
-import stocks.feed.News
 import stocks.util.EncodingHelper
 
-class FeedService {
+class ExternalNewsService {
 
     private static String POLITICAL = 'political'
     private static String ECONOMIC = 'economic'
@@ -17,7 +16,7 @@ class FeedService {
     @Cacheable('newsCache')
     def news() {
 
-        def feeds = News.createCriteria().list {
+        def feeds = ExternalNews.createCriteria().list {
             order('date', ORDER_DESCENDING)
             maxResults(100)
         }.collect {
@@ -63,7 +62,7 @@ class FeedService {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
             def item = News.findByIdentifier(it.identifier as String)
             if (!item) {
-                item = new News()
+                item = new ExternalNews()
                 item.properties = it
                 item.save(flush: true)
             }

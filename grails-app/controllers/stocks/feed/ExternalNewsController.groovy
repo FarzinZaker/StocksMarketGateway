@@ -2,18 +2,16 @@ package stocks.feed
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
-import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import org.ocpsoft.prettytime.PrettyTime
-import stocks.FeedService
 
-class NewsController {
+class ExternalNewsController {
 
     def index() {}
 
     def view() {
 
-        def news = News.findByIdentifier(params.id as String)
+        def news = ExternalNews.findByIdentifier(params.id as String)
         if (news) {
 //        if (!session["linkClick_${params.id}"]) {
             try {
@@ -22,7 +20,7 @@ class NewsController {
             }
             catch (ignored) {
                 try {
-                    News.executeUpdate("update News n set n.clickCount = n.clickCount + 1 where n.identifier = :identifier", [identifier: params.id as String])
+                    ExternalNews.executeUpdate("update ExternalNews n set n.clickCount = n.clickCount + 1 where n.identifier = :identifier", [identifier: params.id as String])
                 } catch (ignore) {
                 }
             }
@@ -30,7 +28,7 @@ class NewsController {
 //        }
             redirect(url: news.link)
         } else {
-            redirect(url: News.search("identifier:${params.id}")?.results?.find()?.link)
+            redirect(url: ExternalNews.search("identifier:${params.id}")?.results?.find()?.link)
         }
 //        if (!session["linkClick_${params.id}"]) {
 //        News.executeUpdate("update News n set n.clickCount = n.clickCount + 1 where n.identifier = :identifier", [identifier: params.id as String])
@@ -43,7 +41,7 @@ class NewsController {
     def archive() {
         [
                 sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna', /*'sena', */'boursePress', 'mellatBazar'],
-                categories: FeedService.categoryList
+                categories: ExternalNewsService.categoryList
         ]
     }
 
@@ -64,7 +62,7 @@ class NewsController {
         Calendar calendar = Calendar.instance
         if (date)
             calendar.setTime(date)
-        def feeds = News.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: "date", order: "desc", max: 1000).results.collect {
+        def feeds = ExternalNews.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: "date", order: "desc", max: 1000).results.collect {
             [
                     identifier  : it.identifier,
                     title       : it.title,
@@ -80,7 +78,7 @@ class NewsController {
         }
         render([
                 data      : feeds,
-                categories: FeedService.categoryList.collect {
+                categories: ExternalNewsService.categoryList.collect {
                     [
                             value: it,
                             text : message(code: "newsCategory.${it}")

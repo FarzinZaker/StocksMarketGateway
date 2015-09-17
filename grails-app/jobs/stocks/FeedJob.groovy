@@ -7,7 +7,7 @@ class FeedJob {
     def timeout = 60000l
     static concurrent = false
 
-    def feedService
+    def externalNewsService
     def grailsApplication
 
     def execute() {
@@ -15,6 +15,6 @@ class FeedJob {
         if (grailsApplication.config.jobsDisabled)
             return
 
-        feedService.refresh()
+        externalNewsService.refresh()
     }
 }

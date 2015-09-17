@@ -39,7 +39,7 @@
     </div>
 
     <div class="dashletFooter">
-        <a href="${createLink(controller: 'news', action: 'archive')}"><g:message code="newsFeed.archive"/></a>
+        <a href="${createLink(controller: 'externalNews', action: 'archive')}"><g:message code="newsFeed.archive"/></a>
     </div>
 </div>
 <script language="javascript" type="text/javascript">

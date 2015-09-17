@@ -1,16 +1,8 @@
 package stocks
 
-import grails.plugins.springsecurity.Secured
-import stocks.alerting.ParameterValue
 import stocks.alerting.QueryInstance
-import stocks.indicators.symbol.oscillator.RSIService
-import stocks.messaging.PushUtil
-import stocks.tse.AdjustmentHelper
-import stocks.tse.SymbolAdjustedDailyTrade
-import stocks.tse.SymbolDailyTrade
 import stocks.tse.Symbol
-import static groovyx.gpars.GParsPool.withPool
-import stocks.feed.News
+import stocks.feed.ExternalNews
 
 //@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -69,7 +61,7 @@ class AdminController {
     def RSIService
     def mailService
 
-    def feedService
+    def externalNewsService
 
     def index() {
         def admin = User.get(5)
@@ -82,7 +74,8 @@ class AdminController {
     def test() {
 
 //        symbolClientTypeDataService.importData()
-        render feedService.refresh()
+        render externalNewsService.refresh()
+//        render oilDataService.importData()
     }
 
 
@@ -107,7 +100,7 @@ class AdminController {
     }
 
     def reindexNews() {
-        News.reindexAll()
+        ExternalNews.reindexAll()
         render 'done'
     }
 

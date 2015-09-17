@@ -1,8 +1,6 @@
 package stocks.feed
 
-import stocks.FeedService
-
-class News {
+class ExternalAnalysis {
 
     static searchable = true
 
@@ -13,6 +11,7 @@ class News {
     String category
     String source
     Integer clickCount = 0
+    String imageUrl
 
     public transient String getDay(){
         if (date) {
@@ -26,12 +25,13 @@ class News {
     }
 
     static mapping = {
-        table 'feed_news'
+        table 'feed_analysis'
         date column: 'dat'
         identifier unique: true
     }
 
     static constraints = {
-        category inList: FeedService.categoryList
+        category inList: ExternalNewsService.categoryList
+        imageUrl nullable: true
     }
 }
