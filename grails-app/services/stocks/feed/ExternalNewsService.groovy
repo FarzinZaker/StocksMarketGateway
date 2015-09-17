@@ -60,7 +60,7 @@ class ExternalNewsService {
         feeds = feeds.findAll { it.date }
         feeds.each {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
-            def item = News.findByIdentifier(it.identifier as String)
+            def item = ExternalNews.findByIdentifier(it.identifier as String)
             if (!item) {
                 item = new ExternalNews()
                 item.properties = it
