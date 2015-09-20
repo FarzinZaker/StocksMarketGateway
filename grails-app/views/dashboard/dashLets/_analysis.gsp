@@ -23,9 +23,9 @@
 
         <span style="font-size:12px;color: dimgrey"><g:message code="analysisFeed.sortText"/></span>
 
-        <div class="sort active" data-sort="time:desc"><g:message code="analysisFeed.newest"/></div>
+        <div class="sort analysisSort active" data-sort="time:desc"><g:message code="analysisFeed.newest"/></div>
 
-        <div class="sort" data-sort="click:desc"><g:message code="analysisFeed.mostClicked"/></div>
+        <div class="sort analysisSort" data-sort="click:desc"><g:message code="analysisFeed.mostClicked"/></div>
 
         %{--<div class="sort" data-sort="random"><g:message code="analysisFeed.random"/></div>--}%
     </div>
@@ -66,9 +66,9 @@
 
                 var filtersContainer = $('#analysisFeedFilters');
                 if (filtersContainer.text() == '') {
-                    filtersContainer.append($('<div/>').addClass('filter').attr('data-filter', 'all').html('${message(code:'analysisFeed.all')}'));
+                    filtersContainer.append($('<div/>').addClass('analysisFilter').addClass('filter').attr('data-filter', 'all').html('${message(code:'analysisFeed.all')}'));
                     $.each(response.categories, function () {
-                        var filterItem = $('<div/>').addClass('filter').attr('data-filter', '.' + this.value).html(this.text);
+                        var filterItem = $('<div/>').addClass('analysisFilter').addClass('filter').attr('data-filter', '.' + this.value).html(this.text);
                         filtersContainer.append(filterItem);
                     });
                     $('#analysisFeedSort').fadeIn(500);
@@ -86,9 +86,9 @@
                     }
                     else {
 
-                        var itemByTimeContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+                        var itemByTimeContainer = $('<div/>').addClass('analysisMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
                         var imageByTimeContainer = $('<div/>').addClass('analysisFeedImageContainer');
-                        imageByTimeContainer.append($('<img/>').attr('src', this.imageUrl?this.imageUrl:'/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('width', '40px'));
+                        imageByTimeContainer.append($('<img/>').attr('src', this.imageUrl ? this.imageUrl : '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('width', '40px'));
                         itemByTimeContainer.append(imageByTimeContainer);
                         var titleByTimeContainer = $('<div/>').addClass('analysisFeedTitleContainer');
                         var title = $('<a/>').addClass('analysisFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
@@ -104,7 +104,7 @@
                             feedContainer.append(itemByTimeContainer);
                         }
                         else {
-                            $('#analysisFeedContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                            $('#analysisFeedContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', $('.analysisSort.active').attr('data-sort'), true);
                         }
                     }
 
@@ -129,6 +129,11 @@
                         controls: {
 //                            live: true,
                             toggleFilterButtons: false
+                        },
+                        selectors: {
+                            filter: '.analysisFilter',
+                            sort: '.analysisSort',
+                            target: '.analysisMix'
                         }
                     });
 
@@ -139,7 +144,7 @@
 
                 }
                 else {
-                    $('#analysisFeedContainer').mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                    $('#analysisFeedContainer').mixItUp('sort', $('#analysisFeedContainer').find('.sort.active').attr('data-sort'), true);
                 }
 
                 $('.analysisFeedItems a').unbind('click').click(function (event) {

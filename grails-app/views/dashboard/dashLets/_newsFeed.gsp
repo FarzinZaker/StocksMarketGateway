@@ -23,9 +23,9 @@
 
         <span style="font-size:12px;color: dimgrey"><g:message code="newsFeed.sortText"/></span>
 
-        <div class="sort active" data-sort="time:desc"><g:message code="newsFeed.newest"/></div>
+        <div class="sort newsSort active" data-sort="time:desc"><g:message code="newsFeed.newest"/></div>
 
-        <div class="sort" data-sort="click:desc"><g:message code="newsFeed.mostClicked"/></div>
+        <div class="sort newsSort" data-sort="click:desc"><g:message code="newsFeed.mostClicked"/></div>
 
         %{--<div class="sort" data-sort="random"><g:message code="newsFeed.random"/></div>--}%
     </div>
@@ -65,9 +65,9 @@
 
                 var filtersContainer = $('#newsFeedFilters');
                 if (filtersContainer.text() == '') {
-                    filtersContainer.append($('<div/>').addClass('filter').attr('data-filter', 'all').html('${message(code:'newsFeed.all')}'));
+                    filtersContainer.append($('<div/>').addClass('newsFilter').addClass('filter').attr('data-filter', 'all').html('${message(code:'newsFeed.all')}'));
                     $.each(response.categories, function () {
-                        var filterItem = $('<div/>').addClass('filter').attr('data-filter', '.' + this.value).html(this.text);
+                        var filterItem = $('<div/>').addClass('newsFilter').addClass('filter').attr('data-filter', '.' + this.value).html(this.text);
                         filtersContainer.append(filterItem);
                     });
                     $('#newsFeedSort').fadeIn(500);
@@ -85,7 +85,7 @@
                     }
                     else {
 
-                        var itemByTimeContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+                        var itemByTimeContainer = $('<div/>').addClass('newsMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
                         var imageByTimeContainer = $('<div/>').addClass('newsFeedImageContainer');
                         imageByTimeContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
                         itemByTimeContainer.append(imageByTimeContainer);
@@ -103,7 +103,7 @@
                             feedContainer.append(itemByTimeContainer);
                         }
                         else {
-                            $('#newsFeedContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                            $('#newsFeedContainer').mixItUp('prepend', itemByTimeContainer, {}).mixItUp('sort', $('#newsFeedContainer').find('.sort.active').attr('data-sort'), true);
                         }
                     }
 
@@ -128,6 +128,11 @@
                         controls: {
 //                            live: true,
                             toggleFilterButtons: false
+                        },
+                        selectors: {
+                            filter: '.newsFilter',
+                            sort: '.newsSort',
+                            target: '.newsMix'
                         }
                     });
 
@@ -138,7 +143,7 @@
 
                 }
                 else {
-                    $('#newsFeedContainer').mixItUp('sort', $('.sort.active').attr('data-sort'), true);
+                    $('#newsFeedContainer').mixItUp('sort', $('.newsSort.active').attr('data-sort'), true);
                 }
 
                 $('.newsFeedItems a').unbind('click').click(function (event) {
