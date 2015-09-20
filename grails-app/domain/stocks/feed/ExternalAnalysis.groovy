@@ -31,7 +31,7 @@ class ExternalAnalysis {
     }
 
     static constraints = {
-        category inList: ExternalNewsService.categoryList
+        category inList: ExternalAnalysisService.categoryList
         imageUrl nullable: true
     }
 }

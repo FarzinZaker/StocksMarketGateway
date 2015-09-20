@@ -14,7 +14,7 @@ class ExternalNewsService {
     def messageSource
 
     @Cacheable('newsCache')
-    def news() {
+    def newsList() {
 
         def feeds = ExternalNews.createCriteria().list {
             order('date', ORDER_DESCENDING)

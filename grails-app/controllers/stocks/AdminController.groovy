@@ -3,6 +3,7 @@ package stocks
 import stocks.alerting.QueryInstance
 import stocks.tse.Symbol
 import stocks.feed.ExternalNews
+import stocks.feed.ExternalAnalysis
 
 //@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -62,6 +63,7 @@ class AdminController {
     def mailService
 
     def externalNewsService
+    def externalAnalysisService
 
     def index() {
         def admin = User.get(5)
@@ -74,7 +76,7 @@ class AdminController {
     def test() {
 
 //        symbolClientTypeDataService.importData()
-        render externalNewsService.refresh()
+        render externalAnalysisService.refresh()
 //        render oilDataService.importData()
     }
 
@@ -101,6 +103,11 @@ class AdminController {
 
     def reindexNews() {
         ExternalNews.reindexAll()
+        render 'done'
+    }
+
+    def reindexAnalysis() {
+        ExternalAnalysis.reindexAll()
         render 'done'
     }
 

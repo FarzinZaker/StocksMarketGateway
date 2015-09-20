@@ -13,6 +13,18 @@ grails.cache.config = {
         memoryStoreEvictionPolicy 'LRU'
     }
     cache {
+        name 'analysisCache'
+        maxElementsInMemory 10000
+        eternal false
+        timeToIdleSeconds 60
+        timeToLiveSeconds 60
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
+    cache {
         name 'sparkLine'
         maxElementsInMemory 10000
         eternal false

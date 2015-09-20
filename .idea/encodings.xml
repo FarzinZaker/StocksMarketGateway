@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/grails-app/conf/ConfigBanks.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/conf/stocks/InvitationFilters.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/services/stocks/DashboardService.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grails-app/services/stocks/feed/ExternalAnalysisService.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/MarketValueDataService.groovy" charset="UTF-8" />
   </component>
 </project>

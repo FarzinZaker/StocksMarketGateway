@@ -44,14 +44,18 @@
 </div>
 <script language="javascript" type="text/javascript">
     function newsLinkClick(item) {
-        var win = window.open('${createLink(controller: 'news', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(), '_blank');
-        if (win) {
-            win.focus();
-        } else {
-            window.location.href = '${createLink(controller: 'news', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime();
-        }
-        %{--$.ajax({url: '${createLink(controller: 'news', action: 'click')}/' + $(item).parent().attr('data-id') + '?t=' + new Date().getTime()});--}%
-        $(item).parent().attr('data-click', parseInt($(item).parent().attr('data-click')));
+        $.ajax({
+            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(),
+            success: function (response) {
+                var win = window.open($(item).attr('href'), '_blank');
+                if (win) {
+                    win.focus();
+                } else {
+                    window.location.href = $(item).attr('href');
+                }
+                $(item).parent().attr('data-click', parseInt($(item).parent().attr('data-click')));
+            }
+        });
     }
 
     function parseRSS(setupMixItUp) {

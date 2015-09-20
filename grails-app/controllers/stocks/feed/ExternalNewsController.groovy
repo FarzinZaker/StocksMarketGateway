@@ -26,27 +26,22 @@ class ExternalNewsController {
             }
 //            session["linkClick_${params.id}"] = 1
 //        }
-            redirect(url: news.link)
-        } else {
-            redirect(url: ExternalNews.search("identifier:${params.id}")?.results?.find()?.link)
+//            redirect(url: news.link)
         }
-//        if (!session["linkClick_${params.id}"]) {
-//        News.executeUpdate("update News n set n.clickCount = n.clickCount + 1 where n.identifier = :identifier", [identifier: params.id as String])
-//            session["linkClick_${params.id}"] = 1
+//        else {
+//            redirect(url: ExternalNews.search("identifier:${params.id}")?.results?.find()?.link)
 //        }
-
-//        redirect(url: News.executeQuery("select n.link from News n where n.identifier = :identifier", [identifier: params.id as String])?.find())
+        render '1'
     }
 
     def archive() {
         [
-                sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna', /*'sena', */'boursePress', 'mellatBazar'],
+                sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna', /*'sena', */ 'boursePress', 'mellatBazar'],
                 categories: ExternalNewsService.categoryList
         ]
     }
 
     def jsonList() {
-
         def categoryFilter = params.findAll { it.key.startsWith('category') && it.value == 'on' }.collect {
             "category:${it.key.toString().replace('category_', '')}"
         }.join(' OR ')
@@ -62,28 +57,23 @@ class ExternalNewsController {
         Calendar calendar = Calendar.instance
         if (date)
             calendar.setTime(date)
-        def feeds = ExternalNews.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: "date", order: "desc", max: 1000).results.collect {
-            [
-                    identifier  : it.identifier,
-                    title       : it.title,
-                    time        : it.date.time,
-                    link        : it.link,
-                    category    : it.category,
-                    source      : it.source,
-                    sourceString: message(code: "newsSource.${it.source}"),
-                    dateString  : it.date < yesterday ? format.jalaliDate(date: it.date, hm: true) : new PrettyTime(new Locale('fa')).format(it.date),
-                    clickCount  : it.clickCount
-
-            ]
-        }
+        def feeds = ExternalNews.search("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''} ${date ? "AND (day:${calendar.get(Calendar.YEAR)}${(calendar.get(Calendar.MONTH) + 1).toString().padLeft(2, '0')}${calendar.get(Calendar.DAY_OF_MONTH).toString().padLeft(2, '0')})" : ''}", sort: params.sort?.toString(), order: params.order?.toString(), max: params.pageSize.toInteger(), offset:params.skip.toInteger())
         render([
-                data      : feeds,
-                categories: ExternalNewsService.categoryList.collect {
+                data : feeds.results.collect {
                     [
-                            value: it,
-                            text : message(code: "newsCategory.${it}")
+                            identifier  : it.identifier,
+                            title       : it.title,
+                            time        : it.date.time,
+                            link        : it.link,
+                            category    : it.category,
+                            source      : it.source,
+                            sourceString: message(code: "newsSource.${it.source}"),
+                            dateString  : it.date < yesterday ? format.jalaliDate(date: it.date, hm: true) : new PrettyTime(new Locale('fa')).format(it.date),
+                            clickCount  : it.clickCount
+
                     ]
-                }
+                },
+                total: feeds.total
         ] as JSON)
     }
 

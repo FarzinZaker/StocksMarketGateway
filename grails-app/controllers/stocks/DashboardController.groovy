@@ -5,6 +5,7 @@ import grails.converters.JSON
 class DashboardController {
 
     def externalNewsService
+    def externalAnalysisService
     def dashboardService
 
     def index() {
@@ -15,7 +16,11 @@ class DashboardController {
     }
 
     def news() {
-        render(externalNewsService.news() as JSON)
+        render(externalNewsService.newsList() as JSON)
+    }
+
+    def analysis() {
+        render(externalAnalysisService.analysisList() as JSON)
     }
 
     def announcements() {

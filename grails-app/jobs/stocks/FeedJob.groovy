@@ -8,6 +8,7 @@ class FeedJob {
     static concurrent = false
 
     def externalNewsService
+    def externalAnalysisService
     def grailsApplication
 
     def execute() {
@@ -15,6 +16,7 @@ class FeedJob {
         if (grailsApplication.config.jobsDisabled)
             return
 
+        externalAnalysisService.refresh()
         externalNewsService.refresh()
     }
 }

@@ -9,20 +9,20 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title><g:message code="newsFeed.archive"/></title>
+    <title><g:message code="analysisFeed.archive"/></title>
     <asset:javascript src="jquery.plugin.js"/>
     <asset:javascript src="jquery.timer.js"/>
 </head>
 
 <body>
-<div id="newsFeedTimer"></div>
+<div id="analysisFeedTimer"></div>
 
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
-                    [text: message(code: 'newsFeed.archive'), url: createLink(action: 'archive')]
+                    [text: message(code: 'analysisFeed.archive'), url: createLink(action: 'archive')]
             ]}"/>
         </div>
     </div>
@@ -34,56 +34,56 @@
 
         <div class="col-xs-5 ">
             <div class="dashLet cyan k-rtl">
-                <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="newsFeed.byTime.title"/></h2>
+                <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="analysisFeed.byTime.title"/></h2>
 
-                <div class="newsFeedContainer">
-                    <div id="newsByTimeListView" class="newsFeedItems"></div>
+                <div class="analysisFeedContainer">
+                    <div id="analysisByTimeListView" class="analysisFeedItems"></div>
                 </div>
 
-                <div id="newsByTimePager" class="k-pager-wrap"></div>
+                <div id="analysisByTimePager" class="k-pager-wrap"></div>
             </div>
         </div>
 
         <div class="col-xs-5">
             <div class="dashLet green k-rtl">
-                <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="newsFeed.byClick.title"/></h2>
+                <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="analysisFeed.byClick.title"/></h2>
 
 
-                <div class="newsFeedContainer">
-                    <div id="newsByClickListView" class="newsFeedItems"></div>
+                <div class="analysisFeedContainer">
+                    <div id="analysisByClickListView" class="analysisFeedItems"></div>
                 </div>
 
-                <div id="newsByClickPager" class="k-pager-wrap"></div>
+                <div id="analysisByClickPager" class="k-pager-wrap"></div>
             </div>
         </div>
     </div>
 </div>
 
 
-<script type="text/x-kendo-tmpl" id="newsByTimeTemplate">
+<script type="text/x-kendo-tmpl" id="analysisByTimeTemplate">
 <div class="mix">
-    <div class="newsFeedImageContainer">
+    <div class="analysisFeedImageContainer">
         <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
     </div>
-    <div class="newsFeedTitleContainer">
-        <a class="newsFeedItemTitle" target="_blank" href="#:link#">#:title#</a>
-        <div class="newsFeedItemSource">#:sourceString#</div>
+    <div class="analysisFeedTitleContainer">
+        <a class="analysisFeedItemTitle" target="_blank" href="#:link#">#:title#</a>
+        <div class="analysisFeedItemSource">#:sourceString#</div>
     </div>
-    <div class="newsFeedItemDate">15 ساعت پیش</div>
+    <div class="analysisFeedItemDate">15 ساعت پیش</div>
     <div class="clear-fix"></div>
 </div>
 </script>
 
-<script type="text/x-kendo-tmpl" id="newsByClickTemplate">
+<script type="text/x-kendo-tmpl" id="analysisByClickTemplate">
 <div class="mix">
-    <div class="newsFeedImageContainer">
+    <div class="analysisFeedImageContainer">
         <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
     </div>
-    <div class="newsFeedTitleContainer">
-        <a class="newsFeedItemTitle" target="_blank" data-id="#:identifier#" href="#:link#">#:title#</a>
-        <div class="newsFeedItemSource">#:sourceString#</div>
+    <div class="analysisFeedTitleContainer">
+        <a class="analysisFeedItemTitle" target="_blank" data-id="#:identifier#" href="#:link#">#:title#</a>
+        <div class="analysisFeedItemSource">#:sourceString#</div>
     </div>
-    <div class="newsFeedItemClick">#:clickCount# ${message(code: 'visit')}</div>
+    <div class="analysisFeedItemClick">#:clickCount# ${message(code: 'visit')}</div>
     <div class="clear-fix"></div>
 </div>
 </script>
@@ -91,9 +91,9 @@
 
 <script>
 
-    function newsLinkClick(item) {
+    function analysisLinkClick(item) {
         $.ajax({
-            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).attr('data-id') + '?t=' + new Date().getTime(),
+            url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).attr('data-id') + '?t=' + new Date().getTime(),
             success: function (response) {
                 var win = window.open($(item).attr('href'), '_blank');
                 if (win) {
@@ -106,25 +106,25 @@
     }
 
     function refreshData() {
-        var newsByTimeListView = $('#newsByTimeListView').data('kendoListView');
-        newsByTimeListView.dataSource.read();   // added line
-        newsByTimeListView.refresh();
-        var newsByClickListView = $('#newsByClickListView').data('kendoListView');
-        newsByClickListView.dataSource.read();   // added line
-        newsByClickListView.refresh();
+        var analysisByTimeListView = $('#analysisByTimeListView').data('kendoListView');
+        analysisByTimeListView.dataSource.read();   // added line
+        analysisByTimeListView.refresh();
+        var analysisByClickListView = $('#analysisByClickListView').data('kendoListView');
+        analysisByClickListView.dataSource.read();   // added line
+        analysisByClickListView.refresh();
         replaceClickEvents();
-        $('#newsFeedTimer').timer('start');
+        $('#analysisFeedTimer').timer('start');
     }
 
     function replaceClickEvents() {
         $('.mix a').unbind('click').click(function (event) {
             event.preventDefault();
-            newsLinkClick(this);
+            analysisLinkClick(this);
         });
     }
 
     $(document).ready(function () {
-        var newsByTimeDataSource = new kendo.data.DataSource({
+        var analysisByTimeDataSource = new kendo.data.DataSource({
             transport: {
                 type: 'odata',
                 read: {
@@ -149,7 +149,7 @@
             serverPaging: true,
             pageSize: 10
         });
-        var newsByClickDataSource = new kendo.data.DataSource({
+        var analysisByClickDataSource = new kendo.data.DataSource({
             transport: {
                 type: 'odata',
                 read: {
@@ -175,36 +175,36 @@
             pageSize: 10
         });
 
-        $("#newsByTimePager").kendoPager({
-            dataSource: newsByTimeDataSource
+        $("#analysisByTimePager").kendoPager({
+            dataSource: analysisByTimeDataSource
         });
 
-        $("#newsByClickPager").kendoPager({
-            dataSource: newsByClickDataSource
+        $("#analysisByClickPager").kendoPager({
+            dataSource: analysisByClickDataSource
         });
 
-        $("#newsByTimeListView").kendoListView({
-            dataSource: newsByTimeDataSource,
-            template: kendo.template($("#newsByTimeTemplate").html()),
+        $("#analysisByTimeListView").kendoListView({
+            dataSource: analysisByTimeDataSource,
+            template: kendo.template($("#analysisByTimeTemplate").html()),
             dataBound: function () {
                 replaceClickEvents();
             }
         });
 
-        $("#newsByClickListView").kendoListView({
-            dataSource: newsByClickDataSource,
-            template: kendo.template($("#newsByClickTemplate").html()),
+        $("#analysisByClickListView").kendoListView({
+            dataSource: analysisByClickDataSource,
+            template: kendo.template($("#analysisByClickTemplate").html()),
             dataBound: function () {
                 replaceClickEvents();
             }
         });
 
-        $('#newsFeedTimer').timer({
+        $('#analysisFeedTimer').timer({
             delay: 10000,
             repeat: true,
             autostart: true,
             callback: function (index) {
-                $('#newsFeedTimer').timer('stop');
+                $('#analysisFeedTimer').timer('stop');
                 refreshData();
             }
         });
