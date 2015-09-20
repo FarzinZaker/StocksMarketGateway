@@ -1,13 +1,12 @@
 package stocks
 
 
-class FeedJob {
+class ExternalAnalysisJob {
 
     static startDelay = 60000
-    def timeout = 60000l
+    def timeout = 600000l
     static concurrent = false
 
-    def externalNewsService
     def externalAnalysisService
     def grailsApplication
 
@@ -17,6 +16,5 @@ class FeedJob {
             return
 
         externalAnalysisService.refresh()
-        externalNewsService.refresh()
     }
 }
