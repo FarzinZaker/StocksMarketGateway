@@ -40,19 +40,22 @@ class NewsLetterService {
 
     def executeLogs() {
         def newsLetterLogs = NewsLetterLog.createCriteria().list {
-
+            eq('status', 'scheduled')
             order('scheduleDate', ORDER_ASCENDING)
             maxResults(10)
         }
+
         newsLetterLogs.each { newsLetterLog ->
             newsLetterLog.sendDate = new Date()
             try {
                 mailService.sendMail {
                     to newsLetterLog.customer.email
-                    subject newsLetterInstance.newsLetter.subject
-                    html newsLetterInstance.newsLetter.body
+                    subject newsLetterLog.newsLetterInstance.newsLetter.subject
+                    html newsLetterLog.newsLetterInstance.newsLetter.body
                 }
                 newsLetterLog.status = 'sent'
+                newsLetterLog.errorMessage = ''
+                newsLetterLog.stackTrace = ''
             }
             catch (exception) {
                 newsLetterLog.status = 'error'
@@ -65,6 +68,5 @@ class NewsLetterService {
 
     def updateNewsLetters() {
         NewsLetterInstance.executeUpdate("update NewsLetterInstance i set i.status = 'finished', i.finishDate = :finishDate where i.status = 'started' and not exists (from NewsLetterLog l where l.status <> 'scheduled' and l.newsLetterInstance = i)", [finishDate: new Date()])
-
     }
 }

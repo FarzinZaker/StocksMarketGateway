@@ -12,9 +12,14 @@ class NewsLetterJob {
     static timeout = 5000l
     static concurrent = false
 
+    def grailsApplication
     def newsLetterService
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
+
         newsLetterService.createLogs()
         newsLetterService.executeLogs()
         newsLetterService.updateNewsLetters()
