@@ -5,12 +5,11 @@
   Time: 2:38 PM
 --%>
 
-<g:javascript library="jquery" plugin="jquery"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common-bootstrap.min.css')}"/>
+<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.common.min.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.metro.min.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.rtl.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.menu.min.css')}"/>
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/kendo.ui', file: 'kendo.all.min.css')}"/>
+<g:javascript library="jquery" plugin="jquery"/>
+<script language="javascript" type="text/javascript" src="${resource(dir:'js/kendo.ui', file:'kendo.web.min.js')}"></script>
 <asset:stylesheet src="kendo.corrections.less"/>
 <asset:stylesheet src="common.less"/>
 <div class="k-rtl" id="imgBrowser" style="margin:10px;"></div>

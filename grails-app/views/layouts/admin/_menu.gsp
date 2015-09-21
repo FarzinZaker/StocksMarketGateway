@@ -26,6 +26,15 @@
         <ul>
             <li><a href="${createLink(controller: 'user', action: 'build')}"><g:message code="menu.users.add"/></a></li>
             <li><a href="${createLink(controller: 'user', action: 'list')}"><g:message code="menu.users.list"/></a></li>
+            <li>
+                <g:message code="menu.users.newsletter"/>
+                <ul>
+                    <li><a href="${createLink(controller: 'newsLetterCategory', action: 'list')}"><g:message
+                            code="menu.users.newsletter.categoryList"/></a></li>
+                    <li><a href="${createLink(controller: 'newsLetter', action: 'list')}"><g:message
+                            code="menu.users.newsletter.list"/></a></li>
+                </ul>
+            </li>
         </ul>
     </li>
     <li>

@@ -36,6 +36,15 @@
                 <div class="clear-fix"></div>
             </a>
         </li>
+        <li class="${params.action == 'newsLetterSubscription' ? 'active' : ''}">
+            <a href="${createLink(controller: 'profile', action: 'newsLetterSubscription')}">
+                <i class="fa fa-bullhorn"></i>
+                <span>
+                    <g:message code="user.profile.newsLetterSubscription"/>
+                </span>
+                <div class="clear-fix"></div>
+            </a>
+        </li>
         <li class="${params.action == 'invite' || params.controller == 'invitation' ? 'active' : ''}">
             <a href="${createLink(controller: 'profile', action: 'invite')}">
                 <i class="fa fa-envelope"></i>

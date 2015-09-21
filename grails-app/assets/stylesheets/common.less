@@ -1522,6 +1522,7 @@ h1, h2, h3, h4 {
   margin-left: 10px;
   ul {
     margin: 0;
+    background-color: white;
     padding: 10px 0 0;
     li {
       background-color: white;
@@ -1717,5 +1718,207 @@ h1, h2, h3, h4 {
 .lastUpdatedFlag{
   font-size: 10px;
   float: left;
+}
+
+
+
+.newsFeedContainer {
+
+  margin-top: 20px;
+
+  #newsFeedSort {
+    display: none;
+    margin-bottom: 5px;
+    float: left;
+    .sort {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  #newsFeedFilters {
+    display: none;
+    .filter {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  .newsFeedItems {
+
+    border-width: 0;
+    clear: both;
+
+    div:last-of-type{
+      border-bottom-width: 0 !important;
+    }
+    .mix {
+      //background: #fafafa none repeat scroll 0 0;
+      border-bottom: 1px dashed #dadada;
+      margin-right: 10px;
+      margin-top: 5px;
+      margin-left: 10px;
+      padding: 3px 3px 9px 10px;
+
+      .newsFeedImageContainer {
+        float: right;
+        border: 1px solid #f4f4f4;
+        background: white;
+        padding: 2px;
+        margin-left: 8px;
+        font-size:10px;
+      }
+      .newsFeedTitleContainer {
+        //margin-right:65px;
+        float:right;
+        .newsFeedItemTitle {
+          display: block;
+          margin-left: 10px;
+          float:right;
+        }
+        .newsFeedItemSource {
+          font-size: 12px;
+          display: block;
+          margin-left: 5px;
+          float: right;
+          clear: both;
+        }
+      }
+      .newsFeedItemDate, .newsFeedItemClick {
+        font-size: 10px;
+        color: dimgrey;
+        display: block;
+        float: left;
+      }
+    }
+  }
+}
+
+
+.analysisFeedContainer {
+
+  margin-top: 20px;
+
+  #analysisFeedSort {
+    display: none;
+    margin-bottom: 5px;
+    float: left;
+    .sort {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  #analysisFeedFilters {
+    display: none;
+    .filter {
+      display: inline-block;
+      background-color: white;
+      padding: 3px 5px;
+      margin: 2px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: @main-color;
+        color: white;
+      }
+    }
+  }
+
+  .analysisFeedItems {
+
+    border-width: 0;
+    clear: both;
+
+    div:last-of-type{
+      border-bottom-width: 0 !important;
+    }
+    .mix {
+      //background: #fafafa none repeat scroll 0 0;
+      border-bottom: 1px dashed #dadada;
+      margin-right: 10px;
+      margin-top: 5px;
+      margin-left: 10px;
+      padding: 3px 3px 9px 10px;
+
+      .analysisFeedImageContainer {
+        float: right;
+        border: 1px solid #f4f4f4;
+        background: white;
+        padding: 2px;
+        margin-left: 8px;
+        font-size:10px;
+      }
+      .analysisFeedTitleContainer {
+        //margin-right:65px;
+        float:right;
+        .analysisFeedItemTitle {
+          display: block;
+          margin-left: 10px;
+          float:right;
+        }
+        .analysisFeedItemSource {
+          font-size: 12px;
+          display: block;
+          margin-left: 5px;
+          float: right;
+          clear: both;
+        }
+      }
+      .analysisFeedItemDate, .analysisFeedItemClick {
+        font-size: 10px;
+        color: dimgrey;
+        display: block;
+        float: left;
+      }
+    }
+  }
+}
+
+
+.announcementFeedContainer {
+
+  .announcementFeedItems {
+    height: auto !important;
+    .mix {
+      margin-bottom: 10px;
+      .announcementFeedItemTitle {
+        display: inline;
+        margin-left: 10px;
+        //color:black;
+      }
+      .announcementFeedItemSource {
+        font-size: 12px;
+        display: inline-block;
+        margin-left: 5px;
+        color: black;
+      }
+      .announcementFeedItemDate {
+        font-size: 10px;
+        color: dimgrey;
+        display: inline-block;
+      }
+    }
+  }
 }
 

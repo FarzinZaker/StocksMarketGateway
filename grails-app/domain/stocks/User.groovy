@@ -1,5 +1,7 @@
 package stocks
 
+import stocks.messaging.NewsLetterCategory
+
 class User {
 
     static auditable = true
@@ -27,7 +29,7 @@ class User {
     String externalImageUrl
     User referer
 
-    static hasMany = [followList: User]
+    static hasMany = [followList: User, newsLetterCategories: NewsLetterCategory]
 
     static transients = ['springSecurityService']
 
@@ -50,6 +52,7 @@ class User {
     static mapping = {
         table 'usersacc'
         password column: '`password`'
+        newsLetterCategories joinTable: [name: 'msg_mm_user_category', key: 'user_id', column: 'category_id']
     }
 
     Set<Role> getAuthorities() {

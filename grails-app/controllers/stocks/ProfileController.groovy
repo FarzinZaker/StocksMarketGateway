@@ -45,6 +45,11 @@ class ProfileController {
     }
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
+    def newsLetterSubscription() {
+        [user: springSecurityService.currentUser as User]
+    }
+
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def invite() {
         [user: springSecurityService.currentUser as User]
     }
