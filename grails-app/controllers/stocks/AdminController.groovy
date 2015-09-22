@@ -76,8 +76,10 @@ class AdminController {
     def test() {
 
 //        symbolClientTypeDataService.importData()
-        render externalAnalysisService.refresh()
+//        render externalAnalysisService.refresh()
 //        render oilDataService.importData()
+
+        announcementDataService.importData()
     }
 
 

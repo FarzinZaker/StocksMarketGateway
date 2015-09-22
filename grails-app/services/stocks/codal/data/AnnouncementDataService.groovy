@@ -56,8 +56,6 @@ class AnnouncementDataService {
                 def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
             def rows = containerDiv?.'**'?.findAll { it?.name() == 'tr' }
             rows?.remove(0)
-            rows?.remove(0)
-            rows?.remove(0)
             rows?.each { row ->
                 def announcementEvent = new AnnouncementEvent()
                 def cells = row.children()
