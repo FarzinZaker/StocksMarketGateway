@@ -50,7 +50,6 @@ class InvitationController {
                 invitation.sendDate = new Date()
                 invitation.provider = params.provider
                 invitation.sender = springSecurityService.currentUser as User
-                invitation.identifier = UUID.randomUUID().toString()
                 invitation.receiverAddress = address
                 invitation.save()
 
