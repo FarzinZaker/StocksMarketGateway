@@ -28,15 +28,15 @@
 
 <p align="center" class="footer" style="direction: rtl;font-family: Tahoma,Arial,serif;font-size: 11px;margin-bottom: 5px;margin-top: 30px;color:grey;">
     اگر مایل به دریافت نامه از
-    <a href="${createLink(uri: '/', absolute: true)}">4تابلو</a>
+    <a href="http://4tablo.ir">4تابلو</a>
     نیستید روی لینک
-    <a href="${createLink(controller: 'subscription', action: 'remove', params: [email: email, source: source, token: AuthenticationProvider.md5("unsubscribe ${email} from ${source} of 4tablo")], absolute: true)}">درخواست عدم دریافت نامه</a>
+    <a href="http://localhost/subscription/remove?email=${URLEncoder.encode(email)}&source=${source}&token=${AuthenticationProvider.md5("unsubscribe ${email} from ${source} of 4tablo")}">درخواست عدم دریافت نامه</a>
     کلیک کنید.
 </p>
 
 <p align="center" class="footer" style="font-size: 11px;font-family: times, Arial,serif;margin-top:0;color:grey;">
     Don't want this? safely
-    <a href="${createLink(controller: 'subscription', action: 'remove', params: [email: email, source: source, token: AuthenticationProvider.md5("unsubscribe ${email} from ${source} of 4tablo")], absolute: true)}">unsubscribe</a>
+    <a href="http://localhost/subscription/remove?email=${URLEncoder.encode(email)}&source=${source}&token=${AuthenticationProvider.md5("unsubscribe ${email} from ${source} of 4tablo")}">unsubscribe</a>
 </p>
 </body>
 </html>
