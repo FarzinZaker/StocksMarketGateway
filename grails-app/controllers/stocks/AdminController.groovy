@@ -60,7 +60,6 @@ class AdminController {
 
     def priceSeriesAdjustmentService
     def RSIService
-    def mailService
 
     def externalNewsService
     def externalAnalysisService

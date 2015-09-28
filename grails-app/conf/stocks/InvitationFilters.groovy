@@ -1,6 +1,7 @@
 package stocks
 
 import stocks.accounting.Transaction
+import stocks.messaging.Invitation
 
 class InvitationFilters {
 

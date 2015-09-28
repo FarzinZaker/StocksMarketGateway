@@ -1,4 +1,6 @@
-package stocks
+package stocks.messaging
+
+import stocks.User
 
 class Invitation {
     static auditable = true
@@ -14,6 +16,7 @@ class Invitation {
     User sender
 
     static mapping = {
+        table 'msg_invitation'
         body type: "text"
     }
 

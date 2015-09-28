@@ -2,6 +2,7 @@ package stocks
 
 import stocks.messaging.NewsLetterInstance
 import stocks.messaging.NewsLetterLog
+import stocks.messaging.Unsubscribe
 
 class NewsLetterService {
 
@@ -48,14 +49,26 @@ class NewsLetterService {
         newsLetterLogs.each { newsLetterLog ->
             newsLetterLog.sendDate = new Date()
             try {
-                mailService.sendMail {
-                    to newsLetterLog.customer.email
-                    subject newsLetterLog.newsLetterInstance.newsLetter.subject
-                    html newsLetterLog.newsLetterInstance.newsLetter.body
+                def unsubscribe = Unsubscribe.findByEmailAndRemoved(newsLetterLog.customer.email.toLowerCase(), false)
+                if (unsubscribe){
+                    newsLetterLog.status = 'skip'
+                    newsLetterLog.errorMessage = "user unsubscribed: #${unsubscribe.id}"
+                    newsLetterLog.stackTrace = ''
                 }
-                newsLetterLog.status = 'sent'
-                newsLetterLog.errorMessage = ''
-                newsLetterLog.stackTrace = ''
+                else {
+                    mailService.sendMail {
+                        from '4tablo Newsletter <newsletter@4tablo.ir>'
+                        to newsLetterLog.customer.email
+                        subject newsLetterLog.newsLetterInstance.newsLetter.subject
+                        html(view: "/messageTemplates/email_template",
+                                model: [message: newsLetterLog.newsLetterInstance.newsLetter.body,
+                                        source : 'registration',
+                                        email  : newsLetterLog.customer.email])
+                    }
+                    newsLetterLog.status = 'sent'
+                    newsLetterLog.errorMessage = ''
+                    newsLetterLog.stackTrace = ''
+                }
             }
             catch (exception) {
                 newsLetterLog.status = 'error'

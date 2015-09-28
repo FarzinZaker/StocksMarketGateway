@@ -1,6 +1,7 @@
-package stocks
+package stocks.messaging
 
 import org.scribe.model.Token
+import stocks.User
 
 class InvitationController {
 
@@ -43,7 +44,7 @@ class InvitationController {
         def result = []
         params.addresses.split(',').each { address ->
 
-            if (!User.findByEmail(address?.toString()?.trim()?.toLowerCase())) {
+            if (!stocks.User.findByEmail(address?.toString()?.trim()?.toLowerCase())) {
                 def invitation = new Invitation()
                 invitation.subject = params.subject
                 invitation.body = params.message
@@ -53,16 +54,24 @@ class InvitationController {
                 invitation.receiverAddress = address
                 invitation.save()
 
-                mailService.sendMail {
-                    to address
-                    subject params.subject
-                    html(view: "/messageTemplates/email_template",
-                            model: [message: g.render(template: '/invitation/templates/email', model: [
-                                    inviter   : invitation.sender,
-                                    message   : params.message.toString().replace('\n', '<br/>'),
-                                    identifier: invitation.identifier]).toString()])
+                def unsubscribe = Unsubscribe.findByEmailAndRemoved(address?.toString()?.toLowerCase(), false)
+                if (!unsubscribe) {
+                    mailService.sendMail {
+                        from '4tablo Invitation <invitation@4tablo.ir>'
+                        to address
+                        subject params.subject
+                        html(view: "/messageTemplates/email_template",
+                                model: [message: g.render(template: '/invitation/templates/email', model: [
+                                        inviter   : invitation.sender,
+                                        message   : params.message.toString().replace('\n', '<br/>'),
+                                        identifier: invitation.identifier]).toString(),
+                                        source : 'invitation',
+                                        email  : address])
+                    }
+                    result << [address: address, state: 'yes', description: message(code: 'invitation.status.succeed')]
+                } else {
+                    result << [address: address, state: 'no', description: message(code: 'invitation.status.unsubscribe')]
                 }
-                result << [address: address, state: 'yes', description: message(code: 'invitation.status.succeed')]
             } else
                 result << [address: address, state: 'no', description: message(code: 'invitation.status.repetitive')]
         }

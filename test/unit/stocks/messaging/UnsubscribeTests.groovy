@@ -1,14 +1,14 @@
-package stocks
+package stocks.messaging
 
 
 import grails.test.mixin.*
-import stocks.messaging.Invitation
+import org.junit.*
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Invitation)
-class InvitationTests {
+@TestFor(Unsubscribe)
+class UnsubscribeTests {
 
     void testSomething() {
         fail "Implement me"

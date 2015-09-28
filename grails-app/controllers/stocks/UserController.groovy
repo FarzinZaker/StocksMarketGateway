@@ -3,8 +3,8 @@ package stocks
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.apache.lucene.search.BooleanQuery
-import stocks.User
 import stocks.accounting.Transaction
+import stocks.messaging.Unsubscribe
 
 class UserController {
 
@@ -17,7 +17,7 @@ class UserController {
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
 
-        def invitation = Invitation.findByIdentifier(params.invitation as String)
+        def invitation = stocks.messaging.Invitation.findByIdentifier(params.invitation as String)
         if (!invitation) {
             render "code error"
             return
@@ -76,12 +76,17 @@ class UserController {
 
         if (user.validate() && user.save()) {
 
+//            def unsubscribe = Unsubscribe.findByEmailAndRemoved(user.email.toLowerCase(), false)
+//            if (!unsubscribe) {
             mailService.sendMail {
                 to user.email
                 subject message(code: 'emailTemplates.email_verification.subject')
                 html(view: "/messageTemplates/email_template",
-                        model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString()])
+                        model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString(),
+                                source : 'registration',
+                                email  : user?.email])
             }
+//            }
             render '1'
         } else
             render '-1'
@@ -118,7 +123,7 @@ class UserController {
                 transaction.description = message(code: 'transaction.description.gift.register', args: [user.toString()])
                 transaction.save()
 
-                Invitation.findAllByReceiverAddress(user.email).each {
+                stocks.messaging.Invitation.findAllByReceiverAddress(user.email).each {
                     it.registrationRecorded = true
                     it.save(flush: true)
                 }
@@ -243,13 +248,17 @@ class UserController {
             user.enabled = true
             user.save()
 
-
+//            def unsubscribe = Unsubscribe.findByEmailAndRemoved(user.email.toLowerCase(), false)
+//            if (!unsubscribe) {
             mailService.sendMail {
                 to user.email
                 subject message(code: 'emailTemplates.activation_result.subject')
                 html(view: "/messageTemplates/email_template",
-                        model: [message: g.render(template: '/messageTemplates/mail/activation_result', model: [user: user]).toString()])
+                        model: [message: g.render(template: '/messageTemplates/mail/activation_result', model: [user: user]).toString(),
+                                source : 'activation',
+                                email  : user?.email])
             }
+//            }
 
             flash.info = message(code: 'accountEnabled')
             redirect(controller: 'login', action: 'auth')

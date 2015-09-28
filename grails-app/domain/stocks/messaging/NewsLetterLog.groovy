@@ -20,7 +20,7 @@ class NewsLetterLog {
     static constraints = {
         customer()
         sendDate nullable: true
-        status inList: ['scheduled', 'sent', 'error']
+        status inList: ['scheduled', 'sent', 'error', 'skip']
         errorMessage nullable: true
         stackTrace nullable: true
         newsLetterInstance()

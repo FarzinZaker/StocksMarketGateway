@@ -1,14 +1,14 @@
-package stocks
+package stocks.messaging
 
 
 import grails.test.mixin.*
-import stocks.messaging.InvitationController
+import org.junit.*
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(InvitationController)
-class InvitationControllerTests {
+@TestFor(SubscriptionController)
+class SubscriptionControllerTests {
 
     void testSomething() {
         fail "Implement me"
