@@ -1,3 +1,4 @@
+import org.apache.tomcat.jni.Global
 import stocks.*
 import stocks.tse.SymbolDailyTrade
 
@@ -38,6 +39,17 @@ class BootStrap {
         dataStateService.initializeStateLogging()
         if (!grailsApplication.config.jobsDisabled)
             dataService.initializeJobs()
+
+        //check global settings
+        GlobalSettingHelper.items.each {
+            if(!GlobalSetting.findByName(it.name))
+            {
+                def setting = new GlobalSetting()
+                setting.name = it.name
+                setting.value = it.defaultValue
+                setting.save()
+            }
+        }
 
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')

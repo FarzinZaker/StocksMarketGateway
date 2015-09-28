@@ -275,6 +275,14 @@
 //                                format: '{0:n0}'
                             },
                             {
+                                field: "priceChange",
+                                title: "${message(code:'symbol.priceChange.label')}",
+                                template: "#= formatPriceChange(data) #",
+                                attributes: {style: "text-align: center"},
+                                headerAttributes: {style: "text-align: center"},
+                                width: "120px"
+                            },
+                            {
                                 field: "closingPrice",
                                 title: "${message(code:'symbol.closingPrice.label')}",
                                 template: "#=formatNumericField(data, 'closingPrice')#",
@@ -282,14 +290,6 @@
                                 headerAttributes: {style: "text-align: center"},
                                 width: "100px"
 //                                format: '{0:n0}'
-                            },
-                            {
-                                field: "priceChange",
-                                title: "${message(code:'symbol.priceChange.label')}",
-                                template: "#= formatPriceChange(data) #",
-                                attributes: {style: "text-align: center"},
-                                headerAttributes: {style: "text-align: center"},
-                                width: "120px"
                             },
                             {
                                 field: "firstTradePrice",
