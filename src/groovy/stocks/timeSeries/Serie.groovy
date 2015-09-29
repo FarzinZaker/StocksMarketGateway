@@ -106,7 +106,7 @@ public class Serie {
         result
     }
 
-    public String toCSV(Integer page = 1, Integer pageSize = Integer.MAX_VALUE) {
+    public String toCSV(page = 1, pageSize = Integer.MAX_VALUE) {
         if(!pointList.size())
             return ""
 
