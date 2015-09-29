@@ -1,13 +1,29 @@
 package stocks.commodity.data
 
+import com.google.gdata.util.ContentType
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import grails.util.Environment
 import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.Method
+import org.apache.http.client.ResponseHandler
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpHead
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.BasicResponseHandler
+import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.protocol.DefaultedHttpContext
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.commodity.event.CommodityMarketActivityEvent
 import stocks.tse.MarketActivity
+import groovyx.net.http.HTTPBuilder
+import org.cyberneko.html.parsers.SAXParser
+
+import static groovyx.net.http.Method.GET
+import static groovyx.net.http.Method.HEAD
+import static groovyx.net.http.ContentType.TEXT
 
 import java.nio.charset.StandardCharsets
 
@@ -27,54 +43,48 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
+        def client = new DefaultHttpClient()
+        def get = new HttpHead("http://www.ime.co.ir")
+        def response = client.execute(get)
+        def sessionId = response.headergroup.headers.find{it.name?.toLowerCase() == 'set-cookie'}.buffer.toString().split(';').find().split('=').last()
 
-        String urlParameters = [
-                ObjectId: 'MarketTotalToday'
-        ].collect { "${it.key}=${it.value}" }.join('&');
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-        int postDataLength = postData.length;
-        String request = "http://www.ime.co.ir/SubSystems/IME/Services/MarketTotal/MarketTotal.asmx/GetTodayGrid";
-        URL url = new URL(request);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setInstanceFollowRedirects(false);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("charset", "utf-8");
-        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
-        conn.setUseCaches(false);
-        DataOutputStream wr = new DataOutputStream(conn.getOutputStream())
-        wr.write(postData);
-        def data = JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
+        client = new DefaultHttpClient()
+        def post = new HttpPost("http://www.ime.co.ir/SubSystems/IME/Services/MarketTotal/MarketTotal.asmx/GetTodayGrid")
+        StringEntity se = new StringEntity('{"ObjectId":"MarketTotalToday"}');
+        post.setEntity(se);
+        post.addHeader("Content-Type", "application/json; charset=utf-8")
+        post.addHeader("Cookie", "ASP.NET_SessionId=${sessionId}")
+        def responseHandler = new BasicResponseHandler();
+        response = client.execute(post, responseHandler)
+        def result = JSON.parse(response)
 
-        return
+        def date = parseDate(result.d.Title.split(' ').last() as String)
+        def parser = new SAXParser()
+        def html = new XmlSlurper(parser).parseText(result.d.Markup)
 
-        def http = new HTTPBuilder("http://www.ime.co.ir/auction-total-report.html")
-        def html = http.get([:])
-//        def date = parseDate(html?.'**'?.find { it?.@class == 'selectedDate' }?.text()?.toString())
-
-        def rows = html?.'**'?.find { it?.@id == 'TotalMarketTbl' }?.'**'?.findAll {
-            it?.name() == 'TR' && it.@class.toString().startsWith('report')
+        def rows = html?.'**'?.findAll {
+            it?.name() == 'TR'
         }
-
+        rows.remove(0)
+        rows.remove(0)
+        rows.remove(rows.size() -1)
         rows.each { row ->
             def marketActivity = new CommodityMarketActivityEvent()
             marketActivity.date = date
             marketActivity.marketIdentifier = CommodityMarketHelper.marketIdentifier(row.children()[0].text()?.trim())
-            marketActivity.internalVolume = row.children()[1].text()?.trim()?.replace(',', '') as Double
-            marketActivity.exportVolume = row.children()[2].text()?.trim()?.replace(',', '') as Double
-            marketActivity.internalValue = row.children()[3].text()?.trim()?.replace(',', '') as Double
-            marketActivity.exportValue = row.children()[4].text()?.trim()?.replace(',', '') as Double
-            marketActivity.internalBuyersCount = row.children()[5].text()?.trim()?.replace(',', '') as Integer
-            marketActivity.exportBuyersCount = row.children()[6].text()?.trim()?.replace(',', '') as Integer
-            marketActivity.internalSellersCount = row.children()[7].text()?.trim()?.replace(',', '') as Integer
-            marketActivity.exportSellersCount = row.children()[8].text()?.trim()?.replace(',', '') as Integer
-            marketActivity.internalTradeCount = row.children()[9].text()?.trim()?.replace(',', '') as Integer
-            marketActivity.exportTradeCount = row.children()[10].text()?.trim()?.replace(',', '') as Integer
+            marketActivity.internalVolume = ('0' + row.children()[1].text()?.trim()?.replace(',', '')) as Double
+            marketActivity.exportVolume = ('0' + row.children()[2].text()?.trim()?.replace(',', '')) as Double
+            marketActivity.internalValue = ('0' + row.children()[3].text()?.trim()?.replace(',', '')) as Double
+            marketActivity.exportValue = ('0' + row.children()[4].text()?.trim()?.replace(',', '')) as Double
+            marketActivity.internalBuyersCount = ('0' + row.children()[5].text()?.trim()?.replace(',', '')) as Integer
+            marketActivity.exportBuyersCount = ('0' + row.children()[6].text()?.trim()?.replace(',', '')) as Integer
+            marketActivity.internalSellersCount = ('0' + row.children()[7].text()?.trim()?.replace(',', '')) as Integer
+            marketActivity.exportSellersCount = ('0' + row.children()[8].text()?.trim()?.replace(',', '')) as Integer
+            marketActivity.internalTradeCount = ('0' + row.children()[9].text()?.trim()?.replace(',', '')) as Integer
+            marketActivity.exportTradeCount = ('0' + row.children()[10].text()?.trim()?.replace(',', '')) as Integer
 
             marketActivity.data = CommodityMarketActivity.findByMarketIdentifierAndDate(marketActivity.marketIdentifier, marketActivity.date)
             commodityEventGateway.send(marketActivity)
-//            println(marketActivity)
         }
 
     }
