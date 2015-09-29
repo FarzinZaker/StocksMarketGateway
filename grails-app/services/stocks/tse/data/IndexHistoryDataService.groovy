@@ -32,7 +32,7 @@ class IndexHistoryDataService extends TSEDataService<IndexHistory, IndexHistoryE
 
     @Override
     protected IndexHistory find(IndexHistoryEvent object) {
-        IndexHistory.findByInternalCodeAndDailySnapshot(object.internalCode, object.date)
+        IndexHistory.findByInternalCodeAndDate(object.internalCode, object.date.clearTime())
     }
 
     public void importData() {

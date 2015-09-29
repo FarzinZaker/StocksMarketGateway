@@ -83,36 +83,6 @@
 
             <table class="advancedParameters">
                 <tr>
-                    <td style="padding-left: 10px;">
-                        <label>
-                            <g:message code="tools.calculator.margin"/></label>
-                        <input id="margin" type="number" ng-model="margin" style="width: 140px;"/>
-                        <script language="javascript" type="text/javascript">
-                            $(document).ready(function () {
-                                $('#margin').kendoNumericTextBox({
-                                    format: "##,# ریال",
-                                    step: 1000000
-                                });
-                            });
-                        </script>
-                    </td>
-                    <td>
-                        <label>
-                            <g:message code="tools.calculator.multiplicationCost"/>
-                        </label>
-                        <input id="multiplicationCost" type="number" ng-model="multiplicationCost"
-                               style="width: 140px;"/>
-                        <script language="javascript" type="text/javascript">
-                            $(document).ready(function () {
-                                $('#multiplicationCost').kendoNumericTextBox({
-                                    format: "##,# ریال",
-                                    step: 5000
-                                });
-                            });
-                        </script>
-                    </td>
-                </tr>
-                <tr>
                     <td>
                         <label>
                             <g:message code="tools.calculator.addedValueTax"/>
@@ -143,6 +113,36 @@
                                 });
                             });
                         </script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            <g:message code="tools.calculator.multiplicationCost"/>
+                        </label>
+                        <input id="multiplicationCost" type="number" ng-model="multiplicationCost"
+                               style="width: 140px;"/>
+                        <script language="javascript" type="text/javascript">
+                            $(document).ready(function () {
+                                $('#multiplicationCost').kendoNumericTextBox({
+                                    format: "##,# ریال",
+                                    step: 5000
+                                });
+                            });
+                        </script>
+                    </td>
+                    <td style="padding-left: 10px;">
+                        %{--<label>--}%
+                            %{--<g:message code="tools.calculator.margin"/></label>--}%
+                        %{--<input id="margin" type="number" ng-model="margin" style="width: 140px;"/>--}%
+                        %{--<script language="javascript" type="text/javascript">--}%
+                            %{--$(document).ready(function () {--}%
+                                %{--$('#margin').kendoNumericTextBox({--}%
+                                    %{--format: "##,# ریال",--}%
+                                    %{--step: 1000000--}%
+                                %{--});--}%
+                            %{--});--}%
+                        %{--</script>--}%
                     </td>
                 </tr>
             </table>

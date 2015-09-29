@@ -24,7 +24,7 @@ class PriceAdjustmentService {
         if (priceList && priceList.size()) {
 
             for (def i = 1; i < priceList.size(); i++) {
-                def list = priceList.findAll { it.dailySnapshot == priceList[i].dailySnapshot }
+                def list = priceList.findAll { it.date.clearTime() == priceList[i].date.clearTime() }
                 for (def j = 0; j < list.size(); j++)
                     adjustDailyTrade(list[j], priceList[i - 1].yesterdayPrice)
                 i += list.size() - 1

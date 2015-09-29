@@ -2,17 +2,16 @@ package stocks
 
 import grails.converters.JSON
 import grails.util.Environment
-import stocks.tse.AdjustmentHelper
-import stocks.tse.SymbolDailyTrade
+import stocks.rate.event.CoinEvent
 
 
-class DailyTradesToTimeSeriesJob {
+class CoinToTimeSeries9Job {
 
     static startDelay = 60000
     static timeout = 100l
     static concurrent = false
 
-    def adjustedPriceSeriesService
+    def coinSeries9Service
     def grailsApplication
 
     def execute() {
@@ -24,29 +23,30 @@ class DailyTradesToTimeSeriesJob {
             return
 
         def lastState = getLastState()
-        def count = SymbolDailyTrade.createCriteria().count {
-            gt('id', lastState)
-        }
-        if (count > 1)
-            println "remaining daily trades: ${count}"
+        def count =
+                CoinEvent.createCriteria().count {
+                    gt('id', lastState)
+                }
+        if (count > 0)
+            log.error "[9] remaining coins: ${count}"
 
 
-        def list = SymbolDailyTrade.createCriteria().list {
+        def list = CoinEvent.createCriteria().list {
             gt('id', lastState)
             order('id', ORDER_ASCENDING)
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeriesService.write(list, AdjustmentHelper.TYPES)
+            coinSeries9Service.write(list)
             logState(list.collect { it.id }.max())
         }
-//        else
-//            println "no daily trade to import to time series"
+        else
+            log.error "[9] no coin to import to time series"
     }
 
     def logState(Long lastId) {
         def data = [lastId: lastId]
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'CoinToTimeSeries92'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -56,7 +56,7 @@ class DailyTradesToTimeSeriesJob {
     }
 
     Long getLastState() {
-        def serviceName = 'DailyTradesToTimeSeries'
+        def serviceName = 'CoinToTimeSeries92'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
         data ? JSON.parse(data)?.lastId ?: 0 : 0
     }

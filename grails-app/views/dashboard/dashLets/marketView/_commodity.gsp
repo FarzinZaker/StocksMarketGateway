@@ -74,19 +74,19 @@
 
     function fillCommodityData(data) {
 
-        $('#marketView_commodity_totalValue').find('.marketViewItem_value').html(formatNumber(data.commodity.total.value));
-        $('#marketView_commodity_totalVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.total.volume));
-        $('#marketView_commodity_petroValue').find('.marketViewItem_value').html(formatNumber(data.commodity.petro.value));
-        $('#marketView_commodity_petroVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.petro.volume));
+        $('#marketView_commodity_totalValue').find('.marketViewItem_value').html(formatNumber(data.commodity.total.value) + (data.commodity.total.value > 0 ? ' M' : ''));
+        $('#marketView_commodity_totalVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.total.volume) + (data.commodity.total.value > 0 ? ' Ton' : ''));
+        $('#marketView_commodity_petroValue').find('.marketViewItem_value').html(formatNumber(data.commodity.petro.value) + (data.commodity.petro.value > 0 ? ' M' : ''));
+        $('#marketView_commodity_petroVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.petro.volume) + (data.commodity.petro.volume > 0 ? ' Ton' : ''));
         $('#marketView_commodity_petroCount').find('.marketViewItem_value').html(formatNumber(data.commodity.petro.count));
-        $('#marketView_commodity_industryValue').find('.marketViewItem_value').html(formatNumber(data.commodity.industry.value));
-        $('#marketView_commodity_industryVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.industry.volume));
+        $('#marketView_commodity_industryValue').find('.marketViewItem_value').html(formatNumber(data.commodity.industry.value) + (data.commodity.industry.value > 0 ? ' M' : ''));
+        $('#marketView_commodity_industryVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.industry.volume) + (data.commodity.industry.volume > 0 ? ' Ton' : ''));
         $('#marketView_commodity_industryCount').find('.marketViewItem_value').html(formatNumber(data.commodity.industry.count));
-        $('#marketView_commodity_agricultureValue').find('.marketViewItem_value').html(formatNumber(data.commodity.agriculture.value));
-        $('#marketView_commodity_agricultureVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.agriculture.volume));
+        $('#marketView_commodity_agricultureValue').find('.marketViewItem_value').html(formatNumber(data.commodity.agriculture.value) + (data.commodity.agriculture.value > 0 ? ' M' : ''));
+        $('#marketView_commodity_agricultureVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.agriculture.volume) + (data.commodity.agriculture.volume > 0 ? ' Ton' : ''));
         $('#marketView_commodity_agricultureCount').find('.marketViewItem_value').html(formatNumber(data.commodity.agriculture.count));
-        $('#marketView_commodity_secondaryValue').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.value));
-        $('#marketView_commodity_secondaryVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.volume));
+        $('#marketView_commodity_secondaryValue').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.value) + (data.commodity.secondary.value > 0 ? ' M' : ''));
+        $('#marketView_commodity_secondaryVolume').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.volume) + (data.commodity.secondary.volume > 0 ? ' Ton' : ''));
         $('#marketView_commodity_secondaryCount').find('.marketViewItem_value').html(formatNumber(data.commodity.secondary.count));
         $('#commodity_lastUpdatedFlag').html(data.commodity.date);
     }

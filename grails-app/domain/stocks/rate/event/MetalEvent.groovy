@@ -12,13 +12,6 @@ class MetalEvent {
     Double high
     Date time
 
-    static snapshotGroupProperty = 'symbol'
-    static snapshotDateProperty = 'time'
-
-    Date dailySnapshot
-    Date weeklySnapshot
-    Date monthlySnapshot
-
     Date creationDate
     Metal data
 
@@ -35,10 +28,6 @@ class MetalEvent {
         low nullable: true
         high nullable: true
         time nullable: true
-
-        dailySnapshot nullable: true
-        weeklySnapshot nullable: true
-        monthlySnapshot nullable: true
 
         data nullable: true
     }

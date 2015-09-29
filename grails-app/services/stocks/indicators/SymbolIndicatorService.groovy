@@ -16,6 +16,8 @@ class SymbolIndicatorService {
     def tradesDataService
 
     def calculateIndicators(SymbolDailyTrade dailyTrade){
+        return
+
         if(dailyTrade.symbol) {
 
 

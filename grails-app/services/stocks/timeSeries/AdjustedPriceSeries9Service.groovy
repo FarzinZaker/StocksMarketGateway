@@ -53,7 +53,7 @@ class AdjustedPriceSeries9Service {
                             'yesterdayPrice',
                             'priceChange'
                     ].each { property ->
-                        serie.addPoint(new Point("${property}")
+                        serie.addPoint(new Point("symbol_${property}")
                                 .tags([symbolId: dailyTrade.symbolId?.toString(), adjustmentType: adjustmentType])
                                 .time(dailyTrade.date)
                                 .value(dailyTrade."${property}"))
@@ -178,9 +178,9 @@ class AdjustedPriceSeries9Service {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
@@ -229,9 +229,9 @@ class AdjustedPriceSeries9Service {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('lastTradePrice') }
         if (!closingPriceSerie)
@@ -274,9 +274,9 @@ class AdjustedPriceSeries9Service {
             adjustmentType = AdjustmentHelper.defaultType
         def values
         if (groupingMode == '')
-            values = timeSeriesDB9Service.query("SELECT value FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT value FROM symbol_${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series?.values
         else
-            values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
+            values = timeSeriesDB9Service.query("SELECT LAST(value) FROM symbol_${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
             [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
         }.findAll { it.value } : []
@@ -303,7 +303,7 @@ class AdjustedPriceSeries9Service {
                 'yesterdayPrice',
                 'priceChange'
         ]
-        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series
+        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
             return null
@@ -327,7 +327,7 @@ class AdjustedPriceSeries9Service {
 
         if (!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
-        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
+        def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM symbol_${property} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
         values ? values[0].find()[1] as Double : null
     }
 

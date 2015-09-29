@@ -18,20 +18,9 @@ class IndexHistoryPersistService extends TSEPersistService<IndexHistory, IndexHi
 
     @Override
     protected void afterCreate(IndexHistoryEvent event, IndexHistory data) {
-        def date = data.date
-        date = date.clearTime()
-        data.dailySnapshot = date
-        def calendar = Calendar.getInstance() as GregorianCalendar
-        calendar.setTime(date)
-        def jc = new JalaliCalendar(calendar)
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-            data.weeklySnapshot = date
-        if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-            data.monthlySnapshot = date
+        data.date = data.date.clearTime()
         IndexHistory.withTransaction {
             data.save(flush: true)
-//            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-//            println data.weeklySnapshot
         }
     }
 

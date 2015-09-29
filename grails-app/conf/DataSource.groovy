@@ -19,18 +19,18 @@ environments {
 
         timeSeries {
 
-            dataSource {
-//                host = '192.168.0.3'
-                host = '91.98.102.75'
-                port = 8086
-                username = 'root'
-                password = 'root'
-                db = 'stock'
-            }
+//            dataSource {
+////                host = '192.168.0.3'
+//                host = '91.98.102.75'
+//                port = 8086
+//                username = 'root'
+//                password = 'root'
+//                db = 'stock'
+//            }
 
             dataSource9 {
 //                host = '192.168.0.3'
-                host = '91.98.102.76'
+                host = '82.99.217.213'
                 port = 8086
                 username = 'root'
                 password = 'root'
@@ -82,13 +82,13 @@ environments {
 
         timeSeries {
 
-            dataSource {
-                host = '192.168.64.2'
-                port = 8086
-                username = 'root'
-                password = 'root'
-                db = 'stock'
-            }
+//            dataSource {
+//                host = '192.168.64.2'
+//                port = 8086
+//                username = 'root'
+//                password = 'root'
+//                db = 'stock'
+//            }
 
             dataSource9 {
 //                host = '192.168.0.3'

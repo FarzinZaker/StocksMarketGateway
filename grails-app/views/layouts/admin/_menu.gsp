@@ -8,8 +8,12 @@
                     code="menu.basicInfo.province.list"/></a></li>
             <li><a href="${createLink(controller: 'city', action: 'build')}"><g:message
                     code="menu.basicInfo.city.add"/></a></li>
-            <li><a href="${createLink(controller: 'city', action: 'list')}"><g:message
+            <li ><a href="${createLink(controller: 'city', action: 'list')}"><g:message
                     code="menu.basicInfo.city.list"/></a></li>
+            <li class="k-separator">
+            </li>
+            <li><a href="${createLink(controller: 'globalSetting', action: 'list')}"><g:message
+                    code="menu.basicInfo.globalSetting.list"/></a></li>
         </ul>
     </li>
     <li>

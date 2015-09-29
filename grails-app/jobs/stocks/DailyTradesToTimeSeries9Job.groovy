@@ -20,8 +20,8 @@ class DailyTradesToTimeSeries9Job {
         if (grailsApplication.config.jobsDisabled)
             return
 
-        if (Environment.current == Environment.DEVELOPMENT)
-            return
+//        if (Environment.current == Environment.DEVELOPMENT)
+//            return
 
         def lastState = getLastState()
         def count = SymbolDailyTrade.createCriteria().count {
@@ -40,8 +40,8 @@ class DailyTradesToTimeSeries9Job {
             adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES)
             logState(list.collect { it.id }.max())
         }
-//        else
-//            log.error "[9] no daily trade to import to time series"
+        else
+            log.error "[9] no daily trade to import to time series"
     }
 
     def logState(Long lastId) {

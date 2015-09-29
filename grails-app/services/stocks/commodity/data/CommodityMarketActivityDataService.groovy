@@ -23,12 +23,12 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
-
-        def http = new HTTPBuilder("http://www.ime.co.ir/report.dispatcher?lang=fa&reportId=rep9&randomId=rep9&pageNumber=1&pageSize=10")
+return
+        def http = new HTTPBuilder("http://www.ime.co.ir/auction-total-report.html")
         def html = http.get([:])
-        def date = parseDate(html?.'**'?.find { it?.@class == 'selectedDate' }?.text()?.toString())
+//        def date = parseDate(html?.'**'?.find { it?.@class == 'selectedDate' }?.text()?.toString())
 
-        def rows = html?.'**'?.find { it?.@id == 'loadAndDemand' }?.'**'?.findAll {
+        def rows = html?.'**'?.find { it?.@id == 'TotalMarketTbl' }?.'**'?.findAll {
             it?.name() == 'TR' && it.@class.toString().startsWith('report')
         }
 

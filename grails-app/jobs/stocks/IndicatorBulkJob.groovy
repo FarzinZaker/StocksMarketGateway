@@ -16,7 +16,7 @@ class IndicatorBulkJob {
     def smsService
 
     def execute() {
-
+return
         if (grailsApplication.config.jobsDisabled)
             return
 

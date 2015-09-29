@@ -12,13 +12,6 @@ class CoinEvent {
     Double high
     Date time
 
-    static snapshotGroupProperty = 'symbol'
-    static snapshotDateProperty = 'time'
-
-    Date dailySnapshot
-    Date weeklySnapshot
-    Date monthlySnapshot
-
     Date creationDate
     Coin data
 
@@ -37,9 +30,5 @@ class CoinEvent {
         time nullable: true
 
         data nullable: true
-
-        dailySnapshot nullable: true
-        weeklySnapshot nullable: true
-        monthlySnapshot nullable: true
     }
 }

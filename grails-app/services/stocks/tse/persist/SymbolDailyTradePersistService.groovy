@@ -94,19 +94,7 @@ class SymbolDailyTradePersistService extends TSEPersistService<SymbolDailyTrade,
             adjustedDailyTrade.totalTradeVolume = data.totalTradeVolume
             adjustedDailyTrade.yesterdayPrice = data.yesterdayPrice
 
-            adjustedDailyTrade.dailySnapshot = date
-            def calendar = Calendar.getInstance() as GregorianCalendar
-            calendar.setTime(date)
-            def jc = new JalaliCalendar(calendar)
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY)
-                adjustedDailyTrade.weeklySnapshot = date
-            if (jc.getDay() == jc.getLastDayOfMonth(jc.getYear(), jc.getMonth()))
-                adjustedDailyTrade.monthlySnapshot = date
             bulkDataService.save(adjustedDailyTrade)
-//            SymbolDailyTrade.withTransaction {
-//                adjustedDailyTrade.save(flush: true)
-//            }
-//            println('adjusted daily trade saved')
         }
     }
 

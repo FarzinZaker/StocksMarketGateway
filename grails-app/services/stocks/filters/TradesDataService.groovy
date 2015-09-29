@@ -10,21 +10,6 @@ class TradesDataService {
     def adjustedPriceSeries9Service
     def indicatorSeries9Service
 
-    List getPriceSeries(Symbol symbol, String adjustmentType, Integer daysCount = 200, Date maxDate = null) {
-
-        maxDate = maxDate?.clearTime()
-        SymbolAdjustedDailyTrade.createCriteria().list {
-            eq('symbol', symbol)
-            eq('adjustmentType', adjustmentType)
-            isNotNull('dailySnapshot')
-            if (maxDate) {
-                lte('dailySnapshot', maxDate)
-            }
-            order('dailySnapshot', ORDER_DESCENDING)
-            maxResults(daysCount)
-        }.sort { it.dailySnapshot }
-    }
-
     List getAllPriceSeries(Symbol symbol, String adjustmentType, Date maxDate = null) {
         adjustedPriceSeries9Service.dailyTradeList(symbol.id, null, maxDate, '', adjustmentType)
     }

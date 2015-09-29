@@ -12,13 +12,6 @@ class CurrencyEvent {
     Double high
     Date time
 
-    static snapshotGroupProperty = 'symbol'
-    static snapshotDateProperty = 'time'
-
-    Date dailySnapshot
-    Date weeklySnapshot
-    Date monthlySnapshot
-
     Date creationDate
     Currency data
 
@@ -37,9 +30,5 @@ class CurrencyEvent {
         time nullable: true
 
         data nullable: true
-
-        dailySnapshot nullable: true
-        weeklySnapshot nullable: true
-        monthlySnapshot nullable: true
     }
 }

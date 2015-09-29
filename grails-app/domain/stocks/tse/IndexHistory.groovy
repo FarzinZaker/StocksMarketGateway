@@ -21,13 +21,6 @@ class IndexHistory {
     Double baseInvestmentAdjustmentFactor
     Double netCashReturnIndex
 
-    static snapshotGroupProperty = 'index'
-    static snapshotDateProperty = 'date'
-
-    Date dailySnapshot
-    Date weeklySnapshot
-    Date monthlySnapshot
-
 
     Date creationDate
     Date modificationDate
@@ -61,9 +54,5 @@ class IndexHistory {
         yesterdayInvestment nullable: true
         baseInvestmentAdjustmentFactor nullable: true
         netCashReturnIndex nullable: true
-
-        dailySnapshot nullable: true
-        weeklySnapshot nullable: true
-        monthlySnapshot nullable: true
     }
 }

@@ -21,15 +21,8 @@ class SymbolAdjustedDailyTrade {
 
     String adjustmentType
 
-    Date dailySnapshot
-    Date weeklySnapshot
-    Date monthlySnapshot
-
     Date creationDate
     Date modificationDate
-
-    static snapshotGroupProperty = ['symbol', 'adjustmentType']
-    static snapshotDateProperty = 'date'
 
     static mapping = {
         table 'tse_symbol_adj_daily_trade'
@@ -54,9 +47,5 @@ class SymbolAdjustedDailyTrade {
         yesterdayPrice nullable: true
 
         adjustmentType inList: AdjustmentHelper.TYPES
-
-        dailySnapshot nullable: true
-        weeklySnapshot nullable: true
-        monthlySnapshot nullable: true
     }
 }
