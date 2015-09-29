@@ -94,7 +94,7 @@ grails.project.dependency.resolution = {
         compile 'com.google.oauth-client:google-oauth-client:1.20.0'
         compile 'com.google.gdata:core:1.47.1'
 
-        compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
+//        compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
     }
 
     plugins {

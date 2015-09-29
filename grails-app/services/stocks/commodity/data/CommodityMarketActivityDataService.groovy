@@ -1,31 +1,16 @@
 package stocks.commodity.data
 
-import com.google.gdata.util.ContentType
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
-import grails.util.Environment
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
-import org.apache.http.client.ResponseHandler
-import org.apache.http.client.methods.HttpGet
+import groovy.grape.Grape
 import org.apache.http.client.methods.HttpHead
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.BasicResponseHandler
 import org.apache.http.impl.client.DefaultHttpClient
-import org.apache.http.protocol.DefaultedHttpContext
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.commodity.event.CommodityMarketActivityEvent
-import stocks.tse.MarketActivity
-import groovyx.net.http.HTTPBuilder
-import org.cyberneko.html.parsers.SAXParser
-
-import static groovyx.net.http.Method.GET
-import static groovyx.net.http.Method.HEAD
-import static groovyx.net.http.ContentType.TEXT
-
-import java.nio.charset.StandardCharsets
 
 class CommodityMarketActivityDataService {
 
@@ -43,6 +28,8 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
+//        Grape.grab(group:'net.sourceforge.nekohtml', module:'nekohtml', version:'1.9.18')
+
         def client = new DefaultHttpClient()
         def get = new HttpHead("http://www.ime.co.ir")
         def response = client.execute(get)
@@ -59,7 +46,7 @@ class CommodityMarketActivityDataService {
         def result = JSON.parse(response)
 
         def date = parseDate(result.d.Title.split(' ').last() as String)
-        def parser = new SAXParser()
+        def parser = new org.cyberneko.html.parsers.SAXParser()
         def html = new XmlSlurper(parser).parseText(result.d.Markup)
 
         def rows = html?.'**'?.findAll {
