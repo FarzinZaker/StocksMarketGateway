@@ -12,8 +12,6 @@ class PriceSeriesAdjustmentService {
 
     def apply(String type, List args) {
 
-        return
-
         switch (type) {
             case AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT:
                 applyCapitalIncreasePlusBrought(args[0] as Long)

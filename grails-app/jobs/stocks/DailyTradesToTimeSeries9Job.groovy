@@ -20,8 +20,8 @@ class DailyTradesToTimeSeries9Job {
         if (grailsApplication.config.jobsDisabled)
             return
 
-//        if (Environment.current == Environment.DEVELOPMENT)
-//            return
+        if (Environment.current == Environment.DEVELOPMENT)
+            return
 
         def lastState = getLastState()
         def count = SymbolDailyTrade.createCriteria().count {

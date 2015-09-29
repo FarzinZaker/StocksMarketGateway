@@ -1,11 +1,15 @@
 package stocks.commodity.data
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import grails.converters.JSON
+import grails.util.Environment
 import groovyx.net.http.HTTPBuilder
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.commodity.event.CommodityMarketActivityEvent
 import stocks.tse.MarketActivity
+
+import java.nio.charset.StandardCharsets
 
 class CommodityMarketActivityDataService {
 
@@ -23,7 +27,28 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
-return
+
+        String urlParameters = [
+                ObjectId: 'MarketTotalToday'
+        ].collect { "${it.key}=${it.value}" }.join('&');
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        String request = "http://www.ime.co.ir/SubSystems/IME/Services/MarketTotal/MarketTotal.asmx/GetTodayGrid";
+        URL url = new URL(request);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("charset", "utf-8");
+        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        conn.setUseCaches(false);
+        DataOutputStream wr = new DataOutputStream(conn.getOutputStream())
+        wr.write(postData);
+        def data = JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
+
+        return
+
         def http = new HTTPBuilder("http://www.ime.co.ir/auction-total-report.html")
         def html = http.get([:])
 //        def date = parseDate(html?.'**'?.find { it?.@class == 'selectedDate' }?.text()?.toString())

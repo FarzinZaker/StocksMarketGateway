@@ -78,7 +78,9 @@ class AdminController {
 //        render externalAnalysisService.refresh()
 //        render oilDataService.importData()
 
-        announcementDataService.importData()
+//        announcementDataService.importData()
+
+        commodityMarketActivityDataService.importData()
     }
 
 
