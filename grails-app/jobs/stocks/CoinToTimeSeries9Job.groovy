@@ -40,8 +40,8 @@ class CoinToTimeSeries9Job {
             coinSeries9Service.write(list)
             logState(list.collect { it.id }.max())
         }
-        else
-            log.error "[9] no coin to import to time series"
+//        else
+//            log.error "[9] no coin to import to time series"
     }
 
     def logState(Long lastId) {
