@@ -35,6 +35,7 @@ class CommodityMarketActivityDataService {
         def response = client.execute(get)
         def sessionId = response.headergroup.headers.find{it.name?.toLowerCase() == 'set-cookie'}.buffer.toString().split(';').find{it.contains('Cookie')}.split('=').last()
 
+        log.error "headers: ${response.headergroup.headers.find{it.name?.toLowerCase() == 'set-cookie'}.buffer.toString()}"
         log.error "commodity market status, sessionId: ${sessionId}"
         client = new DefaultHttpClient()
         def post = new HttpPost("http://www.ime.co.ir/SubSystems/IME/Services/MarketTotal/MarketTotal.asmx/GetTodayGrid")
