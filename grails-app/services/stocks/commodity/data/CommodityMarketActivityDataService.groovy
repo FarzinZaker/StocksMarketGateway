@@ -1,13 +1,12 @@
 package stocks.commodity.data
-
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
-import groovy.grape.Grape
 import org.apache.http.client.methods.HttpHead
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.BasicResponseHandler
 import org.apache.http.impl.client.DefaultHttpClient
+import org.cyberneko.html.parsers.SAXParser
 import stocks.commodity.CommodityMarketActivity
 import stocks.commodity.CommodityMarketHelper
 import stocks.commodity.event.CommodityMarketActivityEvent
@@ -28,25 +27,14 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
-//        Grape.grab(group:'net.sourceforge.nekohtml', module:'nekohtml', version:'1.9.18')
 
         def client = new DefaultHttpClient()
         def get = new HttpHead("http://www.ime.co.ir")
-//        get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0")
-//        get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-//        get.setHeader("Accept-Encoding", "gzip, deflate")
-//        get.setHeader("Accept-Language", "en-US,en;q=0.5")
-//        get.setHeader("Cookie", "ASP.NET_SessionId=fbw4uacvssm2afrgwuiarmjh")
-//        get.setHeader("Host", "www.ime.co.ir")
-//        get.setHeader("Referer", "http://www.ime.co.ir/auction-total-report.html")
-//        get.setHeader("Content-Type", "application/json; charset=utf-8")
         def response = client.execute(get)
         def sessionId = response.headergroup.headers.find {
             it.name?.toLowerCase() == 'set-cookie'
         }.buffer.toString().split(';').find { it.contains('Cookie') }.split('=').last()
 
-        log.error "headers: ${response.headergroup.headers.find { it.name?.toLowerCase() == 'set-cookie' }.buffer.toString()}"
-        log.error "commodity market status, sessionId: ${sessionId}"
         client = new DefaultHttpClient()
         def post = new HttpPost("http://www.ime.co.ir/SubSystems/IME/Services/MarketTotal/MarketTotal.asmx/GetTodayGrid")
         StringEntity se = new StringEntity('{"ObjectId":"MarketTotalToday"}');
@@ -58,7 +46,7 @@ class CommodityMarketActivityDataService {
         def result = JSON.parse(response)
 
         def date = parseDate(result.d.Title.split(' ').last() as String)
-        def parser = new org.cyberneko.html.parsers.SAXParser()
+        def parser = new SAXParser()
         def html = new XmlSlurper(parser).parseText(result.d.Markup)
 
         def rows = html?.'**'?.findAll {

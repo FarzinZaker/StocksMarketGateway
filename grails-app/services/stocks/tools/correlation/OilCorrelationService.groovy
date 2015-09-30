@@ -1,25 +1,24 @@
 package stocks.tools.correlation
 
 import stocks.RateHelper
-import stocks.rate.Currency
-import stocks.rate.event.CurrencyEvent
+import stocks.rate.Oil
 import stocks.tools.CorrelationServiceBase
 
-class CurrencyCorrelationService extends CorrelationServiceBase {
+class OilCorrelationService extends CorrelationServiceBase {
 
-    def currencySeries9Service
+    def oilSeries9Service
 
     @Override
     List searchItems(String term) {
 
-        RateHelper.CURRENCIES.findAll {
-            ['us-dollar'].contains(it.key) &&
+        RateHelper.OILS.findAll {
+            ['WTI-Crude-Oil-Nymex'].contains(it.key) &&
                     it.value.name.toLowerCase().contains(term.toLowerCase())
         }.collect {
             def symbol = it.key
             [
                     text : it.value.name,
-                    value: Currency.createCriteria().list {
+                    value: Oil.createCriteria().list {
                         eq('symbol', symbol)
                         projections {
                             property('id')
@@ -31,13 +30,13 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
 
     @Override
     String getItemName(String item) {
-        RateHelper.CURRENCIES."${Currency.get(item as Long)?.symbol}".name
+        RateHelper.OILS."${Oil.get(item as Long)?.symbol}".name
     }
 
     @Override
     def all() {
-        Currency.createCriteria().list {
-            'in'('symbol', ['us-dollar'])
+        Oil.createCriteria().list {
+            'in'('symbol', ['WTI-Crude-Oil-Nymex'])
             projections {
                 property('id')
             }
@@ -62,7 +61,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
 
         def result = [:]
         items.each { itemId ->
-            result.put(itemId?.toString(), currencySeries9Service.priceList(itemId as Long, startDate, endDate, groupingMode).collect {
+            result.put(itemId?.toString(), oilSeries9Service.priceList(itemId as Long, startDate, endDate, groupingMode).collect {
                 [
                         date : it.date,
                         value: it.value
@@ -88,19 +87,19 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
                 groupingMode = '30d'
                 break
         }
-        currencySeries9Service.priceList(item as Long, startDate, endDate, groupingMode)
+        oilSeries9Service.priceList(item as Long, startDate, endDate, groupingMode)
     }
 
     @Override
     Double getBaseValue(String item, Date startDate, String adjustmentType) {
-        currencySeries9Service.lastPrice(item as Long, startDate) ?: 0
+        oilSeries9Service.lastPrice(item as Long, startDate) ?: 0
     }
 
     @Override
     Map<String, Double> getBaseValueCache(List<String> items, Date startDate, String adjustmentType) {
         def result = [:]
         items.each { itemId ->
-            result.put(itemId, currencySeries9Service.lastPrice(itemId as Long, startDate))
+            result.put(itemId, oilSeries9Service.lastPrice(itemId as Long, startDate))
         }
         result
     }
