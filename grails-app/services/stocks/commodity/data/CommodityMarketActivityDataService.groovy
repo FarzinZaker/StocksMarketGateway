@@ -33,7 +33,7 @@ class CommodityMarketActivityDataService {
         def client = new DefaultHttpClient()
         def get = new HttpHead("http://www.ime.co.ir")
         def response = client.execute(get)
-        def sessionId = response.headergroup.headers.find{it.name?.toLowerCase() == 'set-cookie'}.buffer.toString().split(';').find().split('=').last()
+        def sessionId = response.headergroup.headers.find{it.name?.toLowerCase() == 'set-cookie'}.buffer.toString().split(';').find{it.contains('Cookie')}.split('=').last()
 
         log.error "commodity market status, sessionId: ${sessionId}"
         client = new DefaultHttpClient()
