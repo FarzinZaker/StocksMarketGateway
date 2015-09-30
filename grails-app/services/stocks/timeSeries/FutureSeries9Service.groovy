@@ -87,7 +87,7 @@ class FutureSeries9Service {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? values[0].find()[1] as Double : null
+        values && values?.getAt(0)?.find()?.getAt(1) ? values[0].find()[1] as Double : null
     }
 
     Date firstFutureDate(Long futureId) {
