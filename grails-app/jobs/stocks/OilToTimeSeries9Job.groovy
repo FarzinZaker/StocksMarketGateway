@@ -40,8 +40,8 @@ class OilToTimeSeries9Job {
             oilSeries9Service.write(list)
             logState(list.collect { it.id }.max())
         }
-        else
-            log.error "[9] no oil to import to time series"
+//        else
+//            log.error "[9] no oil to import to time series"
     }
 
     def logState(Long lastId) {

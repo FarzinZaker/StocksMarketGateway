@@ -40,8 +40,8 @@ class CurrencyToTimeSeries9Job {
             currencySeries9Service.write(list)
             logState(list.collect { it.id }.max())
         }
-        else
-            log.error "[9] no currency to import to time series"
+//        else
+//            log.error "[9] no currency to import to time series"
     }
 
     def logState(Long lastId) {
