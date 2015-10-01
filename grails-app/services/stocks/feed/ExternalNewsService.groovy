@@ -13,12 +13,14 @@ class ExternalNewsService {
 
     def messageSource
 
-    @Cacheable('newsCache')
-    def newsList() {
+//    @Cacheable('newsCache')
+    def newsList(String type) {
 
         def feeds = ExternalNews.createCriteria().list {
+            if(type != 'all')
+                eq('category', type)
             order('date', ORDER_DESCENDING)
-            maxResults(100)
+            maxResults(10)
         }.collect {
             [
                     identifier  : it.identifier,

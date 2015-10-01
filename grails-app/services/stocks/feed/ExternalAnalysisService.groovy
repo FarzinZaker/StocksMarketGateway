@@ -18,9 +18,11 @@ class ExternalAnalysisService {
     def messageSource
 
 //    @Cacheable('analysisCache')
-    def analysisList() {
+    def analysisList(String type) {
 
         def feeds = ExternalAnalysis.createCriteria().list {
+            if(type != 'all')
+                eq('category', type)
             order('date', ORDER_DESCENDING)
             maxResults(100)
         }.collect {

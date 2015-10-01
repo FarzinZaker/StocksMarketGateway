@@ -29,7 +29,8 @@
 
         <div class="subPanel">
             <form:datePickerResources/>
-            <form:datePicker name="date" value="${format.jalaliDate(date: new Date())}" style="width: 100%"/>
+            <label><g:message code="fromDate"/></label> <form:datePicker name="fromDate" value="${format.jalaliDate(date: new Date() - 7)}" style="width: 100%"/>
+            <label style="margin-top:10px;"><g:message code="toDate"/></label> <form:datePicker name="toDate" value="${format.jalaliDate(date: new Date())}" style="width: 100%"/>
         </div>
 
         <h3><g:message code="analysisFeed.search"/></h3>

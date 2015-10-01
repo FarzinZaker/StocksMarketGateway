@@ -1,4 +1,4 @@
-<div class="dashLet crimson">
+<div class="dashLet pink">
     <h2 style="float:right"><i class="fa fa-bullhorn"></i> <g:message code="announcements.title"/></h2>
 
     <div id="announcementsTimer"></div>
@@ -28,7 +28,6 @@
 <script language="javascript" type="text/javascript">
 
     function loadAnnouncements(){
-
         $.ajax({
             type: "POST",
             url: '${createLink(action: 'announcements')}?t=' + new Date().getTime()
@@ -45,6 +44,14 @@
                 open: {
                     effects: "fadeIn"
                 }
+            },
+            show: function (e) {
+                var container = $('#' + $(e.item).attr('aria-controls')).find('.announcementFeedItems');
+                container.find('.mix').css('opacity', 0).animate({'opacity': 1}, 700);
+                container.animatedSort();
+                $('html, body').stop().animate({
+                    scrollTop: container.parent().parent().parent().parent().parent().offset().top - 10
+                }, 1000);
             }
         });
         $('#announcementsTimer').timer({

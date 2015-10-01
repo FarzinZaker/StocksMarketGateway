@@ -69,7 +69,7 @@
         <a class="analysisFeedItemTitle" target="_blank" href="#:link#">#:title#</a>
         <div class="analysisFeedItemSource">#:sourceString#</div>
     </div>
-    <div class="analysisFeedItemDate">15 ساعت پیش</div>
+    <div class="analysisFeedItemDate">#:dateString#</div>
     <div class="clear-fix"></div>
 </div>
 </script>

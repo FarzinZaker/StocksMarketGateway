@@ -16,11 +16,11 @@ class DashboardController {
     }
 
     def news() {
-        render(externalNewsService.newsList() as JSON)
+        render(externalNewsService.newsList(params.id) as JSON)
     }
 
     def analysis() {
-        render(externalAnalysisService.analysisList() as JSON)
+        render(externalAnalysisService.analysisList(params.id) as JSON)
     }
 
     def announcements() {

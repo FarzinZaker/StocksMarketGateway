@@ -49,26 +49,34 @@ class ExternalAnalysisController {
         def sourceFilter = params.findAll { it.key.startsWith('source') && it.value == 'on' }.collect {
             "source:${it.key.toString().replace('source_', '')}"
         }.join(' OR ')
-        def date = parseDate(params.date as String)
+        def toDate = parseDate(params.toDate as String)
+        def fromDate = parseDate(params.fromDate as String)
         def searchPhrase = params.search as String
 
         def yesterday = new Date().clearTime()
-        def nextDate = date
-        use(TimeCategory){
-            nextDate = nextDate + 1.days
+        use(TimeCategory) {
+            if (toDate)
+                toDate = toDate + 1.days
+            if (fromDate)
+                fromDate = fromDate - 1.days
         }
 
         BooleanQuery.setMaxClauseCount(1000000)
         Calendar calendar = Calendar.instance
-        if (date)
-            calendar.setTime(date)
-        def feeds = ExternalAnalysis.search(sort: params.sort?.toString(), order: params.order?.toString(), max: params.pageSize.toInteger(), offset:params.skip.toInteger()) {
+        if (toDate)
+            calendar.setTime(toDate)
+        def feeds = ExternalAnalysis.search(sort: params.sort?.toString(), order: params.order?.toString(), max: params.pageSize.toInteger(), offset: params.skip.toInteger()) {
             must {
                 queryString("*${searchPhrase}* ${categoryFilter != '' ? "AND (${categoryFilter})" : ''} ${sourceFilter != '' ? "AND (${sourceFilter})" : ''}")
             }
-            if (date) {
+            if (toDate) {
                 must {
-                    lt('date', nextDate)
+                    lt('date', toDate)
+                }
+            }
+            if (fromDate) {
+                must {
+                    gt('date', fromDate)
                 }
             }
         }
@@ -82,7 +90,7 @@ class ExternalAnalysisController {
                             category    : it.category,
                             source      : it.source,
                             sourceString: message(code: "analysisSource.${it.source}"),
-                            dateString  : it.date < yesterday ? format.jalaliDate(date: it.date, hm: true) : new PrettyTime(new Locale('fa')).format(it.date),
+                            dateString  : it.date < yesterday ? format.jalaliDate(date: it.date, hm: it.date.hours > 0) : new PrettyTime(new Locale('fa')).format(it.date),
                             clickCount  : it.clickCount
 
                     ]

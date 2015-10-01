@@ -211,7 +211,7 @@ class DashboardService {
                     maxResults(10)
                 }.collect {
                     [
-                            id        : "announcement${it.id}",
+                            id        : "supervisorMessage${it.id}",
                             title     : it.title,
                             time      : it.date.time,
                             dateString: jalaliDate(it.date)
@@ -270,7 +270,7 @@ class DashboardService {
         def result = ''
         def jc = new JalaliCalendar(cal)
         result += String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
-        if(date < new Date().clearTime()) {
+        if (date < new Date().clearTime()) {
             result += ' '
             result += String.format("%04d/%02d/%02d", jc.getYear(), jc.getMonth(), jc.getDay())
         }
