@@ -60,7 +60,7 @@ class PriceSeriesAdjustmentService {
         def dailyTrades = adjustedPriceSeries9Service.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_NONE)
         adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
-//            symbolIndicatorBulkService.recalculateIndicators(symbol)
+//        symbolIndicatorBulkService.recalculateIndicators(symbol)
     }
 
 }

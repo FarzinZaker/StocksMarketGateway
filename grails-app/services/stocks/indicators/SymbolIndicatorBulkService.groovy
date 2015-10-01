@@ -17,8 +17,6 @@ class SymbolIndicatorBulkService {
 
     def bulkCalculateIndicator(Symbol symbol, IndicatorServiceBase serviceClass, parameter, seriesMap) {
 
-        return
-
         def className = serviceClass.class.canonicalName.substring(0, serviceClass.class.canonicalName.indexOf('Service'))
         def clazz = ClassResolver.loadDomainClassByName(className)
         def parameterString = parameter.class == ArrayList ? parameter.join(',') : parameter

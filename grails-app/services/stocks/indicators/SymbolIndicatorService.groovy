@@ -15,10 +15,9 @@ class SymbolIndicatorService {
     def indicatorSeries9Service
     def tradesDataService
 
-    def calculateIndicators(SymbolDailyTrade dailyTrade){
-        return
+    def calculateIndicators(SymbolDailyTrade dailyTrade) {
 
-        if(dailyTrade.symbol) {
+        if (dailyTrade.symbol) {
 
 
             def seriesMap = [:]

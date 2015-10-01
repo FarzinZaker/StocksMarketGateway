@@ -3,6 +3,7 @@ package stocks
 import grails.converters.JSON
 import grails.util.Environment
 import stocks.tse.AdjustmentHelper
+import stocks.tse.SymbolAdjustmentQueue
 import stocks.tse.SymbolDailyTrade
 
 
@@ -14,7 +15,6 @@ class PriceTimeSeriesAdjustmentJob {
 
     def priceSeriesAdjustmentService
     def grailsApplication
-    def smsService
 
 
     def execute() {
@@ -25,50 +25,21 @@ class PriceTimeSeriesAdjustmentJob {
         if (Environment.current == Environment.DEVELOPMENT)
             return
 
-        def lastState = getLastState()
+        def count = SymbolAdjustmentQueue.countByApplied(false)
+        if (count > 0) {
+            log.error "[9] remaining adjustments: ${count}"
 
-        def list = SymbolDailyTrade.createCriteria().list {
-            symbol {
-                gt('id', lastState)
-            }
-            not {
-                like('symbolPersianCode', '%تسه')
-            }
-            projections {
-                symbol {
-                    distinct('id')
-                    order('id', ORDER_ASCENDING)
-                }
+            def symbolAdjustmentQueue = SymbolAdjustmentQueue.createCriteria().list {
+                eq('applied', false)
+                order('lastUpdated', ORDER_ASCENDING)
+                maxResults(1)
+            }?.find()
+            if (symbolAdjustmentQueue) {
+                priceSeriesAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [symbolAdjustmentQueue.symbolId])
+                symbolAdjustmentQueue.applied = true
+                symbolAdjustmentQueue.save(flush: true)
             }
         }
-        if (list && list?.size() >= 1) {
-            log.error "[9] remaining adjustments: ${list.size()}"
-            def id = list && list.size() ? list.first() : null
-            priceSeriesAdjustmentService.apply(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [id])
-            logState(id as Long)
-        } else {
-            smsService.sendCustomMessage('09122110811', 'adjustment cycle completed')
-            log.error "[9] no adjustment"
-            logState(0)
-        }
-
-    }
-
-    def logState(Long lastId) {
-        def data = [lastId: lastId]
-        def serviceName = 'PriceTimeSeriesAdjustment9'
-        DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
-
-        DataServiceState state = new DataServiceState()
-        state.serviceName = serviceName
-        state.data = data as JSON
-        state.save(flush: true)
-    }
-
-    Long getLastState() {
-        def serviceName = 'PriceTimeSeriesAdjustment9'
-        def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
-        data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
 
 }
