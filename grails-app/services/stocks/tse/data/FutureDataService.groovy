@@ -6,6 +6,8 @@ import stocks.tse.event.FutureEvent
 
 class FutureDataService extends TSEDataService<Future, FutureEvent> {
     static transactional = false
+    def marketStatusService
+
     @Override
     protected FutureEvent getSampleEventObject() {
         new FutureEvent()
@@ -17,6 +19,10 @@ class FutureDataService extends TSEDataService<Future, FutureEvent> {
     }
 
     public void importData(Date date){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_FUTURE))
+            return
+
         importData('futureInformation',[[date.format('yyyyMMdd').toInteger()]])
     }
 }

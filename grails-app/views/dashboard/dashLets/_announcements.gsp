@@ -50,7 +50,7 @@
                 container.find('.mix').css('opacity', 0).animate({'opacity': 1}, 700);
                 container.animatedSort();
                 $('html, body').stop().animate({
-                    scrollTop: container.parent().parent().parent().parent().parent().offset().top - 10
+                    scrollTop: container.parent().parent().parent().parent().parent().offset().top - 120
                 }, 1000);
             }
         });

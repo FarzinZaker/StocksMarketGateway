@@ -7,6 +7,9 @@ import stocks.tse.event.SymbolStateEvent
 
 class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEvent> {
     static transactional = false
+
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -28,6 +31,10 @@ class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEven
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         importData('instrumentsState',
                 [
                         [new UnsignedByte(0)],

@@ -7,6 +7,9 @@ import stocks.tse.event.SymbolDailyTradeEvent
 
 class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, SymbolDailyTradeEvent> {
     static transactional = false
+
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -29,6 +32,10 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         importData('tradeLastDay',
                 [
                         [new UnsignedByte(0)],

@@ -7,6 +7,7 @@ import stocks.tse.event.EnergyMarketValueEvent
 class EnergyMarketValueDataService {
     static transactional = false
     def tseEventGateway
+    def marketStatusService
 
     static schedules = [
             [
@@ -20,6 +21,10 @@ class EnergyMarketValueDataService {
 
 
     void importData() {
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_ENERGY))
+            return
+
         def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15131R")
         def html = http.get([:])
         def energyMarketValueEvent = new EnergyMarketValueEvent()

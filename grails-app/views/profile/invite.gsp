@@ -49,18 +49,18 @@
                     <i class="fa fa-yahoo" style="background-color:#400191;"></i>
                     <span>Yahoo</span>
                 </iv:invitationLink>
-                %{--<iv:invitationLink provider="linkedin">--}%
-                    %{--<i class="fa fa-linkedin" style="background-color:#0097bd;"></i>--}%
-                    %{--<span>LinkedIn</span>--}%
-                %{--</iv:invitationLink>--}%
-                %{--<iv:invitationLink provider="twitter">--}%
-                    %{--<i class="fa fa-twitter" style="background-color:#43b3e5;"></i>--}%
-                    %{--<span>Twitter</span>--}%
-                %{--</iv:invitationLink>--}%
-                %{--<iv:invitationLink provider="facebook">--}%
-                    %{--<i class="fa fa-facebook" style="background-color:#1f69b3;"></i>--}%
-                    %{--<span>Facebook</span>--}%
-                %{--</iv:invitationLink>--}%
+            %{--<iv:invitationLink provider="linkedin">--}%
+            %{--<i class="fa fa-linkedin" style="background-color:#0097bd;"></i>--}%
+            %{--<span>LinkedIn</span>--}%
+            %{--</iv:invitationLink>--}%
+            %{--<iv:invitationLink provider="twitter">--}%
+            %{--<i class="fa fa-twitter" style="background-color:#43b3e5;"></i>--}%
+            %{--<span>Twitter</span>--}%
+            %{--</iv:invitationLink>--}%
+            %{--<iv:invitationLink provider="facebook">--}%
+            %{--<i class="fa fa-facebook" style="background-color:#1f69b3;"></i>--}%
+            %{--<span>Facebook</span>--}%
+            %{--</iv:invitationLink>--}%
 
             </div>
 
@@ -75,6 +75,14 @@
                         <form:submitButton text="${message(code: 'send')}"/>
                     </div>
                 </form:form>
+            </div>
+
+            <div class="form-field">
+                <div class="help">
+                    <label>
+                        <g:message code="profile.invite.help"/>
+                    </label>
+                </div>
             </div>
         </div>
     </div>

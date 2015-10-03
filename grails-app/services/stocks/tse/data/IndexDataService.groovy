@@ -7,6 +7,9 @@ import stocks.tse.event.IndexEvent
 
 class IndexDataService extends TSEDataService<Index, IndexEvent> {
     static transactional = false
+
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -28,6 +31,10 @@ class IndexDataService extends TSEDataService<Index, IndexEvent> {
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         importData('indexB1LastDayLastData',
                 [
                         [new UnsignedByte(0)],

@@ -7,6 +7,9 @@ import stocks.tse.event.SymbolClientTypeEvent
 class SymbolClientTypeDataService extends TSEDataService<SymbolClientType, SymbolClientTypeEvent> {
 
     static transactional = false
+
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -28,6 +31,10 @@ class SymbolClientTypeDataService extends TSEDataService<SymbolClientType, Symbo
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         if(Calendar.instance.get(Calendar.HOUR_OF_DAY) < 7)
             return
         importData('clientType', [[]])

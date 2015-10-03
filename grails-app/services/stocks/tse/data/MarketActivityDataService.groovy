@@ -7,6 +7,9 @@ import stocks.tse.event.MarketActivityEvent
 
 class MarketActivityDataService extends TSEDataService<MarketActivity, MarketActivityEvent> {
     static transactional = false
+
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -29,6 +32,10 @@ class MarketActivityDataService extends TSEDataService<MarketActivity, MarketAct
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         importData('marketActivityLast',
                 [
                         [new UnsignedByte(0)],

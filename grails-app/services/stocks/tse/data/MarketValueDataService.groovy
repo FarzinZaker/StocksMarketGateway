@@ -17,6 +17,7 @@ import stocks.util.ByteUtils
 class MarketValueDataService {
     static transactional = false
     def tseEventGateway
+    def marketStatusService
 
     static schedules = [
             [
@@ -30,6 +31,10 @@ class MarketValueDataService {
 
 
     void importData() {
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15")
         def html = http.get([:])
         def marketValueEvent = new MarketValueEvent()

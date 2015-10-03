@@ -20,6 +20,7 @@ import stocks.tse.SymbolClientType
 class DashboardService {
 
     def messageSource
+    def marketStatusService
 
 //    @Cacheable('marketViewCache')
     def marketView() {
@@ -113,7 +114,7 @@ class DashboardService {
                                 changePercent: otcMarketValue.valueChange / ((otcMarketValue.value - otcMarketValue.valueChange) ?: 1),
                                 tradeValue   : otcMarketValue.tradeValue
                         ],
-                        date         : jalaliDate([totalIndex.modificationDate, priceIndex.modificationDate, otcTotalIndex.modificationDate].max())
+                        date         : jalaliDate(marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_STOCK, [totalIndex.modificationDate, priceIndex.modificationDate, otcTotalIndex.modificationDate].max()))
                 ],
                 commodity: [
                         total      : commodityMarketActivities.findAll { it.marketIdentifier == 0 }?.collect {
@@ -151,18 +152,18 @@ class DashboardService {
                                     volume: it.volume
                             ]
                         }?.find() ?: [value: 0, count: 0, volume: 0],
-                        date       : jalaliDate(commodityMarketActivities.collect {
+                        date       : jalaliDate(marketStatusService.correctMarketLastDataUpdateTime(MarketStatusService.MARKET_COMMODITY, commodityMarketActivities.collect {
                             it.modificationDate
-                        }.max())
+                        }.max()))
                 ],
                 future   : [
                         tradeVolume  : futureContracts.sum { CoinFuture contract -> contract.tradesVolume },
                         tradeValue   : futureContracts.sum { CoinFuture contract -> contract.tradesValue },
                         openInterests: futureContracts.sum { CoinFuture contract -> contract.openInterests },
                         tradeCount   : futureContracts.sum { CoinFuture contract -> contract.tradesCount },
-                        date         : jalaliDate(futureContracts.collect {
+                        date         : jalaliDate(marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_FUTURE, futureContracts.collect {
                             it.modificationDate
-                        }.max())
+                        }.max()))
                 ],
                 energy   : [
                         power   : [
@@ -174,14 +175,14 @@ class DashboardService {
                                 tradeValue: physicalMarketValue.tradeValue,
                                 tradeCount: physicalMarketValue.tradeCount
                         ],
-                        date    : jalaliDate([
+                        date    : jalaliDate(marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_ENERGY, [
                                 powerMarketValue.collect {
                                     it.modificationDate
                                 }.max(),
                                 physicalMarketValue.collect {
                                     it.modificationDate
                                 }.max()
-                        ].max())
+                        ].max()))
                 ]
         ]
     }

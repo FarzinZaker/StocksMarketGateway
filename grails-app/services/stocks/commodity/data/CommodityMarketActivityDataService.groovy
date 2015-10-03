@@ -13,6 +13,8 @@ import stocks.commodity.event.CommodityMarketActivityEvent
 
 class CommodityMarketActivityDataService {
 
+    def marketStatusService
+
     static schedules = [
             [
                     method : 'importData',
@@ -27,6 +29,9 @@ class CommodityMarketActivityDataService {
     def commodityEventGateway
 
     def importData() {
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_COMMODITY))
+            return
 
         def client = new DefaultHttpClient()
         def get = new HttpHead("http://www.ime.co.ir")

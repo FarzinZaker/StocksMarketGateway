@@ -7,6 +7,7 @@ import stocks.tse.event.SymbolBestOrderEvent
 
 class SymbolBestOrderDataService extends TSEDataService<SymbolBestOrder, SymbolBestOrderEvent> {
     static transactional = false
+    def marketStatusService
     static schedules = [
             [
                     method : 'importData',
@@ -28,6 +29,10 @@ class SymbolBestOrderDataService extends TSEDataService<SymbolBestOrder, SymbolB
     }
 
     public void importData(){
+
+        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+            return
+
         importData('bestLimitsAllIns',
                 [
                         [new UnsignedByte(0)],
