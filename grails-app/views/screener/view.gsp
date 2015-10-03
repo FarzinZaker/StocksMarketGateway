@@ -362,7 +362,7 @@
                                 template: "#=formatNumericFieldIndicator(data, '${indicatorColumn.key.replace(',', '_')}')#",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"},
-                                width: "120px"
+                                width: "150px"
 //                                format: '{0:n0}'
                             },
                             </g:each>

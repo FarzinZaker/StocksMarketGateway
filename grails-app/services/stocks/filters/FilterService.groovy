@@ -169,12 +169,17 @@ class FilterService {
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',', '_')}"
-
-            def value = JSON.parse(rule.value)?.first()
-            if (value instanceof JSONArray) {
-                indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
-                if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.last()?.toString()?.replace(',', '_')}"
+            if(indicatorName.endsWith('MACD')){
+                if(!JSON.parse(rule.value).contains('constant_switch'))
+                    indicatorColumns << "trend_MACDSignal_${rule.inputType.replace(',', '_')}"
+            }
+            else {
+                def value = JSON.parse(rule.value).find{it.sort().last().startsWith('stocks')}.sort()
+                if (value && value instanceof JSONArray) {
+                    indicatorName = value?.last()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+                    if (ClassResolver.serviceExists(indicatorName + "Service"))
+                        indicatorColumns << "${indicatorName.replace('.', '_')}_${value?.first()}".replace('stocks_indicators_symbol_', '')
+                }
             }
         }
         indicatorColumns = indicatorColumns.unique()

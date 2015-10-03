@@ -147,11 +147,18 @@ class ScreenerController {
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicatorColumns.put("${indicatorName.replace('.', '_')}_${rule.inputType}".replace('stocks_indicators_symbol_', ''), "(${message(code: rule.field)} (${rule.inputType}")
 
-            def value = JSON.parse(rule.value)?.first()
-            if (value instanceof JSONArray) {
-                indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
-                if (ClassResolver.serviceExists(indicatorName + "Service"))
-                    indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.last()}".replace('stocks_indicators_symbol_', ''), "(${message(code: value?.first())} (${value?.last()}")
+
+            if(indicatorName.endsWith('MACD')){
+                if(!JSON.parse(rule.value).contains('constant_switch'))
+                    indicatorColumns.put("trend_MACDSignal_${rule.inputType.replace(',', '_')}", "(${message(code: 'MACDSignal')} (${rule.inputType}")
+            }
+            else {
+                def value = JSON.parse(rule.value).find{it.sort().last().startsWith('stocks')}.sort()
+                if (value && value instanceof JSONArray) {
+                    indicatorName = value?.last()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
+                    if (ClassResolver.serviceExists(indicatorName + "Service"))
+                        indicatorColumns.put("${indicatorName.replace('.', '_')}_${value?.first()}".replace('stocks_indicators_symbol_', ''), "(${message(code: value?.last())} (${value?.first()}")
+                }
             }
         }
         [
