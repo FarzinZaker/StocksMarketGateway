@@ -37,14 +37,15 @@ class PriceSeriesAdjustmentService {
                     dailyTrades[i].minPrice = Math.round((dailyTrades[i].minPrice * adjustmentRate) as Double)
                     dailyTrades[i].yesterdayPrice = Math.round((dailyTrades[i].yesterdayPrice * adjustmentRate) as Double)
 
-//                    finalList << dailyTrades[i]
+                    finalList << dailyTrades[i]
                 }
             }
 
-//            if (finalList?.size())
-            adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
+            if (finalList?.size()) {
+                adjustedPriceSeries9Service.write(finalList, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
-            symbolIndicatorBulkService.recalculateIndicators(Symbol.get(symbolId))
+                symbolIndicatorBulkService.recalculateIndicators(Symbol.get(symbolId))
+            }
         }
     }
 

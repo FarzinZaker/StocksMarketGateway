@@ -10,6 +10,10 @@ class SymbolAdjustmentQueue {
 
     Boolean applied = false
 
+    static mapping = {
+        table 'tse_symbol_adjustment_queue'
+    }
+
     static constraints = {
         adjustmentType inList: AdjustmentHelper.TYPES
     }

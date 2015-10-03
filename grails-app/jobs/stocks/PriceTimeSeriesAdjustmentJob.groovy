@@ -22,8 +22,8 @@ class PriceTimeSeriesAdjustmentJob {
         if (grailsApplication.config.jobsDisabled)
             return
 
-        if (Environment.current == Environment.DEVELOPMENT)
-            return
+//        if (Environment.current == Environment.DEVELOPMENT)
+//            return
 
         def count = SymbolAdjustmentQueue.countByApplied(false)
         if (count > 0) {
