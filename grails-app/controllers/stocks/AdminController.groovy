@@ -80,7 +80,9 @@ class AdminController {
 
 //        announcementDataService.importData()
 
-        commodityMarketActivityDataService.importData()
+//        commodityMarketActivityDataService.importData()
+
+        indexDataService.importData()
     }
 
 

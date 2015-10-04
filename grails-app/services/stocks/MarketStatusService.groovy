@@ -98,7 +98,7 @@ class MarketStatusService {
 
         def closeDate = date
         use(TimeCategory) {
-            openDate = date.clone() + 30.minutes
+            closeDate = date.clone() + 30.minutes
         }
         def closeCalendar = Calendar.instance
         closeCalendar.setTime(closeDate)
