@@ -138,7 +138,7 @@ function jd_to_persian(jd)
     return new Array(year, month, day);
 }
 
-function JalaliDate(p0, p1, p2) {
+function JalaliDate2(p0, p1, p2) {
     var gregorianDate;
     var jalaliDate;
 
@@ -221,7 +221,7 @@ function JalaliDate(p0, p1, p2) {
 
 jQuery(function($){
 	$.datepicker.regional['fa'] = {
-		calendar: JalaliDate,
+		calendar: JalaliDate2,
 		closeText: 'بستن',
 		prevText: 'قبل',
 		nextText: 'بعد',
@@ -238,8 +238,8 @@ jQuery(function($){
 		showMonthAfterYear: false,
 		yearSuffix: '',
 		calculateWeek: function(date) {
-			var checkDate = new JalaliDate(date.getFullYear(), date.getMonth(), date.getDate() + (date.getDay() || 7) - 3);
-			return Math.floor(Math.round((checkDate.getTime() - new JalaliDate(checkDate.getFullYear(), 0, 1).getTime()) / 86400000) / 7) + 1;
+			var checkDate = new JalaliDate2(date.getFullYear(), date.getMonth(), date.getDate() + (date.getDay() || 7) - 3);
+			return Math.floor(Math.round((checkDate.getTime() - new JalaliDate2(checkDate.getFullYear(), 0, 1).getTime()) / 86400000) / 7) + 1;
 		}};
 	$.datepicker.setDefaults($.datepicker.regional['fa']);
 });

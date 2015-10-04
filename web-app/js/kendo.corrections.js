@@ -34,8 +34,13 @@ function formatPersianDate(format, value) {
         value = new Date();
     if (typeof(value) == 'string')
         value = new Date(value);
-    var persianDate = new JalaliDate().gregorianToJalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
-        return (persianDate[0] + "/" + persianDate[1] + "/" + persianDate[2]);
+    var persianDate;
+    if (typeof new JalaliDate().gregorianToJalali == 'function')
+        persianDate = new JalaliDate().gregorianToJalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
+    else
+        persianDate = new JalaliDate().gregorian_to_jalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
+
+    return (persianDate[0] + "/" + persianDate[1] + "/" + persianDate[2]);
 }
 
 function getJalaliDate(value) {
@@ -43,7 +48,12 @@ function getJalaliDate(value) {
         value = new Date();
     if (typeof(value) == 'string')
         value = new Date(value);
-    var persianDate = new JalaliDate().gregorianToJalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
+    var persianDate;
+    if (typeof new JalaliDate().gregorianToJalali == 'function')
+        persianDate = new JalaliDate().gregorianToJalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
+    else
+        persianDate = new JalaliDate().gregorian_to_jalali(value.getFullYear(), (value.getMonth() == 12 ? value.getMonth() : value.getMonth() + 1), value.getDate());
+
     return (persianDate[0] + "/" + (persianDate[1] < 10 ? '0' : '') + persianDate[1] + "/" + persianDate[2]);
 }
 

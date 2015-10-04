@@ -4,6 +4,8 @@
     <meta name="layout" content="main"/>
     <title><g:message code="portfolio.manage"/></title>
     <asset:stylesheet src="portfolioManagement.less"/>
+    <script language="javascript" type="text/javascript"
+            src="${resource(dir: 'js/kendo.ui/jalali', file: 'JalaliDate.js')}"></script>
 </head>
 
 <body>

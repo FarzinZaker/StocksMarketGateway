@@ -83,7 +83,7 @@ class PortfolioActionController {
                         actionTypeId   : it.actionType,
                         actionTypeTitle: message(code: "portfolioAction.actionType.${it.actionType}")
                 ],
-                actionDate: df.format(it.actionDate),
+                actionDate: format.jalaliDate(date:it.actionDate),
                 actionDateNumber:it.actionDate.time,
                 sharePrice: it.sharePrice,
                 shareCount: ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem', 'portfolioImmovableItem'].contains(clazz) ? null : it.shareCount,

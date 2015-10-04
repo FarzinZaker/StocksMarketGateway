@@ -6,7 +6,8 @@
         </div>
     </form:field>
     <form:field fieldName="portfolioAction.actionDate" showHelp="0">
-        <input id="actionDate" style="width: 300px">
+        <form:datePickerResources/>
+        <form:datePicker name="actionDate" style="width: 300px" />
     </form:field>
     <form:field id="sharepricecontainer" fieldName="portfolioAction.sharePrice" showHelp="0">
         <input id="sharePrice" style="width: 300px">
@@ -39,7 +40,7 @@
                                 itemType:{clazz:currenctType},
                                 property:{propertyId:propertyId.data('kendoComboBox').value()},
                                 actionType:{actionTypeId:currenctAction},
-                                actionDate:actionDate.data('kendoDatePicker').value().gregoriandate.toString(),
+                                actionDate:$('#actionDate').val(),
                                 sharePrice:sharePrice.data('kendoNumericTextBox').value(),
                                 shareCount:shareCount.data('kendoNumericTextBox').value(),
                                 <g:if test="${portfolio.useBroker}">
@@ -166,7 +167,6 @@
             }
         }
     });
-    actionDate.kendoDatePicker();
     sharePrice.kendoNumericTextBox({
         format: 'n0',
         step: 1000
@@ -219,7 +219,7 @@
         ].indexOf(dataItem.itemType.clazz)<0);
         propertyId.data("kendoComboBox").dataSource.read();
         propertyId.data("kendoComboBox").value(dataItem.property.propertyId);
-        actionDate.data('kendoDatePicker').value(getJalaliDate(new Date(dataItem.actionDateNumber)));
+        actionDate.val(dataItem.actionDate);
         sharePrice.data('kendoNumericTextBox').value(dataItem.sharePrice);
         shareCount.data('kendoNumericTextBox').value(dataItem.shareCount);
         <g:if test="${portfolio.useBroker}">
@@ -261,7 +261,7 @@
         currentModifiable=modifiable;
         propertyId.data("kendoComboBox").dataSource.read();
         propertyId.data("kendoComboBox").value('');
-        actionDate.data('kendoDatePicker').value('');
+        actionDate.val('');
         sharePrice.data('kendoNumericTextBox').value('');
         shareCount.data('kendoNumericTextBox').value('');
         <g:if test="${portfolio.useBroker}">
@@ -296,7 +296,7 @@
     }
     function validate(){
         propertyId.data("kendoComboBox").value('');
-        actionDate.data('kendoDatePicker').value('');
+        actionDate.val('');
         sharePrice.data('kendoNumericTextBox').value('');
         shareCount.data('kendoNumericTextBox').value('');
         <g:if test="${portfolio.useBroker}">

@@ -1,5 +1,6 @@
 package stocks.portfolio
 
+import fi.joensuu.joyds1.calendar.JalaliCalendar
 import stocks.Broker
 import stocks.portfolio.basic.BankAccount
 import stocks.portfolio.basic.BusinessPartner
@@ -93,7 +94,7 @@ class PortfolioActionManagementService {
         portfolioItem.save(flush: true)
 
         // date sample: Mon Dec 01 2014 01:00:00 GMT+0330 (IRST)
-        action.actionDate = parentAction ? parentAction.actionDate : df.parse(model.actionDate);
+        action.actionDate = parentAction ? parentAction.actionDate : parseDate(model.actionDate);
         action.actionType = model.actionType.actionTypeId
         action.shareCount = model.shareCount ?: 1
         action.sharePrice = model.sharePrice
@@ -451,5 +452,12 @@ class PortfolioActionManagementService {
         portfolioItem.cost += signedCost
 
         portfolioItem
+    }
+
+    private static Date parseDate(String date) {
+        if (!date || date.trim() == '' || date.trim() == 'null')
+            return null
+        def dateParts = date.split("/").collect { it as Integer }
+        new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2]).toJavaUtilGregorianCalendar().time
     }
 }

@@ -223,25 +223,51 @@
 //                    }
                 });
     }
+
+    var dateFilterCounter = 0;
     function dateFilter(container) {
-        container.hide()
-        var type=container.prev()
-        $('<div><input class="datePicker"/></div>')
+        container.hide();
+        var type = container.prev();
+//        container.parent().parent().find('.k-dropdown').hide();
+        $('<div><div class="k-filter-help-text">' + (dateFilterCounter % 2 == 0 ? 'از تاریخ' : 'تا تاریخ') + '</div><input class="k-textbox" data-filter-operator="lte" data-operator="' + (dateFilterCounter++ % 2 == 0 ? 'gte' : 'lte') + '"/></div>')
                 .insertAfter(container)
                 .find('input')
-                .kendoDatePicker({
-                    change: function (e) {
-                        applyFilter('actionDateNumber',e.sender.value().gregoriandate.getTime(),type.val())
+                .change(function () {
+                    var date = JalaliDate.parse($(this).val()).gregoriandate;
+                    if($(this).attr('data-operator') == 'gte'){
+                        date.setDate(date.getDate() - 1);
                     }
+                    var value = date.getTime();
+                    $(this).parent().prev().find('[data-role=dropdownlist]').val($(this).attr('data-operator'));
+                    $(this).parent().prev().val(value);
+                    applyFilter('actionDateNumber', value, $(this).attr('data-operator'))
+                })
+                .datepicker({
                 });
-
     }
-    function applyFilter(filterField, filterValue,filterType) {
+
+    function filterMenuInit(e) {
+        if (e.field == "actionDateNumber") {
+            var operator = e.container
+                    .find("[data-role=dropdownlist]:eq(2)").data("kendoDropDownList");
+            operator.value("lte");
+            operator.trigger("change");
+            e.container
+                    .find("[data-role=dropdownlist]:eq(1)").data("kendoDropDownList").wrapper.hide();
+            e.container
+                    .find("[data-role=dropdownlist]:eq(0)").data("kendoDropDownList").wrapper.hide();
+            e.container
+                    .find("[data-role=dropdownlist]:eq(2)").data("kendoDropDownList").wrapper.hide();
+            e.container.find('.k-filter-help-text:eq(0)').hide();
+        }
+    }
+
+    function applyFilter(filterField, filterValue, filterType) {
         var currFilterObj = dataSource.filter();
         var currentFilters = currFilterObj ? currFilterObj.filters : [];
         if (currentFilters && currentFilters.length > 0) {
             for (var i = 0; i < currentFilters.length; i++) {
-                if (currentFilters[i].field == filterField && currentFilters[i].operator==filterType) {
+                if (currentFilters[i].field == filterField && currentFilters[i].operator == filterType) {
                     currentFilters.splice(i, 1);
                     break;
                 }

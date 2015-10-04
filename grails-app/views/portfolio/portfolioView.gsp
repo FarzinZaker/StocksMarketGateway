@@ -47,7 +47,7 @@
                 <div id="shareChart" class="chart"/>
             </div>
         </div>
-        <pre id="chartData"></pre>
+        %{--<pre id="chartData"></pre>--}%
     </div>
 </div>
 

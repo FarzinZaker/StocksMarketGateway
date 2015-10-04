@@ -19,7 +19,7 @@
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
                     [text: message(code: 'menu.portfolios'), url: createLink(controller: 'portfolio')],
-                    [text: '<i class="fa fa-shopping-cart"></i> ' + message(code: 'menu.portfolios.list'), url: createLink(controller: 'portfolio', action: 'list', id: params.id)]
+                    [text: '<i class="fa fa-shopping-cart"></i> ' + message(code: 'portfolio.build.title'), url: createLink(controller: 'portfolio', action: 'build', id: params.id)]
             ]}"/>
         </div>
     </div>
@@ -42,6 +42,7 @@
                                   value="${flash.data ?: portfolio?.name ?: ''}"/>
                 </form:field>
                 <form:field fieldName="portfolio.advanced">
+                    <div style="width: 500px">
                     <form:checkbox name="defaultItems" text="${message(code: 'portfolio.defaultItems.label')}"
                                    style="width:132px" entity="${portfolio}" onchange="showHideItems()"
                                    checked="${portfolio?.defaultItems != null ? portfolio?.defaultItems : true}"/>
@@ -57,6 +58,7 @@
                                    entity="${portfolio}"
                                    onchange="showHideBrokers()"
                                    checked="${portfolio?.useBroker ?: false}"/>
+                    </div>
                 </form:field>
                 <div id="portfolioItems">
                     <form:field fieldName="portfolio.items">

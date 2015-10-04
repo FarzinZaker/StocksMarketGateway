@@ -169,11 +169,11 @@
                     },
                     date: {
                         gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
-                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}"
                     },
                     number: {
                         gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
-                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                        lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}"
                     }
                 }
             },
@@ -200,7 +200,7 @@
                                 neq: "${message(code:'stocks.filters.operators.not-equal')}",
                             }
                         }
-                    },
+                    }
                 },
                 {
                     field: "property.propertyTitle",
@@ -242,7 +242,7 @@
                         operators: {
                             number: {
                                 gte: "${message(code:'stocks.filters.operators.greater-than-or-equal')}",
-                                lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}",
+                                lte: "${message(code:'stocks.filters.operators.less-than-or-equal')}"
                             }
                         }
                     },
@@ -326,7 +326,8 @@
                     }
                     //this.refresh();
                 }
-            }
+            },
+            filterMenuInit: filterMenuInit
         });
         $('#gridtoolbar').kendoMenu();
     });
@@ -357,11 +358,11 @@
                 if(data.error)
                     alert(data.error);
                 else
-                    dataSource.read()
+                    dataSource.read();
                 confirmWindow.close();
             }});
 
-        })
+        });
         $("#noButton").click(function () {
             confirmWindow.close();
         })

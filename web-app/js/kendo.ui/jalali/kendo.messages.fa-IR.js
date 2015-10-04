@@ -130,7 +130,7 @@ if (kendo.ui.FilterMenu) {
         "isFalse": "نادرست است",
         "filter": "فیلتر",
         "clear": "پاک کردن",
-        "and": "همه موارد",
+        "and": "همه",
         "or": "هر یک",
         "selectValue": "-یک مقدار انتخاب کنید-",
         "operator": "عملگر",
