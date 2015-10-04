@@ -164,17 +164,22 @@ class FilterService {
             }
         })
 
+        def calculatedColumns = [:]
         def indicatorColumns = []
         rules.each { rule ->
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',', '_')}"
-            if(indicatorName.endsWith('MACD')){
-                if(!JSON.parse(rule.value).contains('constant_switch'))
+            if (indicatorName.endsWith('.Volume')) {
+                if (rule.operator.contains('average')) {
+                    def daysCount = JSON.parse(rule.value).find().find { !it.contains('.') }
+                    calculatedColumns.put("SYM_VOL_AVG", [daysCount])
+                }
+            } else if (indicatorName.endsWith('MACD')) {
+                if (!JSON.parse(rule.value).contains('constant_switch'))
                     indicatorColumns << "trend_MACDSignal_${rule.inputType.replace(',', '_')}"
-            }
-            else {
-                def value = JSON.parse(rule.value).find{it.sort().last().startsWith('stocks')}.sort()
+            } else if (JSON.parse(rule.value).any { it.any { it.startsWith('stocks') } }) {
+                def value = JSON.parse(rule.value).find { it.sort().last().startsWith('stocks') }.sort()
                 if (value && value instanceof JSONArray) {
                     indicatorName = value?.last()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                     if (ClassResolver.serviceExists(indicatorName + "Service"))
@@ -185,7 +190,7 @@ class FilterService {
         indicatorColumns = indicatorColumns.unique()
         def result = lowLevelDataService.executeFunction('SYM_SEL_SCREENER', [idList: items.join(','), adjustmentType: adjustmentType, cols: indicatorColumns.collect {
             "'" + it.replace('stocks_indicators_symbol_', '') + "'"
-        }.join(',')])
+        }.join(','), funcs: calculatedColumns.collect{"${it.key}(${(['tot.id', "'${adjustmentType}'"] + it.value).join(', ')}) as ${it.key}_${it.value.join('_')}, "}.join((''))])
         for (def i = 0; i < result.size(); i++) {
             def row = result[i] as LinkedHashMap
             def keys = row.keySet().toList()

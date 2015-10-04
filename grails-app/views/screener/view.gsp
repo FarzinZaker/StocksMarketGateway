@@ -232,7 +232,7 @@
                             }
 //                            pageSize: 10
                         },
-                        height: $(window).height() - 310,
+                        height: $(window).height() - 260,
                         filterable: false,
                         sortable: true,
                         scrollable: true,
