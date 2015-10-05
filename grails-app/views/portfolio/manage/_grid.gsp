@@ -226,7 +226,7 @@
                         operators: {
                             string: {
                                 eq: "${message(code:'stocks.filters.operators.equal')}",
-                                neq: "${message(code:'stocks.filters.operators.not-equal')}",
+                                neq: "${message(code:'stocks.filters.operators.not-equal')}"
                             }
                         }
                     },

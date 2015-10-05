@@ -9,7 +9,7 @@
         $scope.expectedReturn = 0.30;
         $scope.borrowingRate = 0.25;
         $scope.lendingRate = 0.20;
-        $scope.margin = 22000000.0;
+        $scope.margin = margin;
         $scope.marginChanges = 0.0;
 
         $scope.$watch('multiplicationCost', onScopeChange);

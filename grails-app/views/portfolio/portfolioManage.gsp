@@ -6,6 +6,35 @@
     <asset:stylesheet src="portfolioManagement.less"/>
     <script language="javascript" type="text/javascript"
             src="${resource(dir: 'js/kendo.ui/jalali', file: 'JalaliDate.js')}"></script>
+    <style>
+        #itemDialog{
+            padding: 0;
+        }
+        #itemDialog .container-fluid{
+            width: 630px;
+            padding-top:20px;
+        }
+        #itemDialog .row-fluid{
+            clear:both;
+        }
+
+        #itemDialog .col-xs-6{
+            width:290px !important;
+            padding-right:10px;
+            padding-left:10px;
+        }
+
+        #itemDialog .col-xs-12{
+            width:620px !important;
+            padding-right:10px;
+            padding-left:10px;
+        }
+
+        #itemDialog .toolbar{
+            padding-top:0px;
+            padding-bottom:10px;
+        }
+    </style>
 </head>
 
 <body>

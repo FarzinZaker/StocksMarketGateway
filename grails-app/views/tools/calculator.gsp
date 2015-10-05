@@ -22,6 +22,7 @@
         var onsPrice = ${onsPrice};
         var coinPrice = ${coinPrice};
         var contracts = <format:html value="${contracts as JSON}"/>;
+        var margin = <gs:value name="tools.calculator.margin" />;
     </script>
     <script language="javascript" type="text/javascript"
             src="${resource(dir: 'js', file: 'tools.calculator.controller.js')}"></script>
@@ -74,6 +75,7 @@
                         <div class="whitePanel smallPadding calculator">
                             <g:render template="calculator/grid"/>
                         </div>
+
                         <div class="baseInfo">
                             <g:render template="calculator/baseInfo"/>
                         </div>

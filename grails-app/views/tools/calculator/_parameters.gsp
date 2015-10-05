@@ -83,7 +83,7 @@
 
             <table class="advancedParameters">
                 <tr>
-                    <td>
+                    <td style="padding-left: 10px;">
                         <label>
                             <g:message code="tools.calculator.addedValueTax"/>
                         </label>
@@ -131,7 +131,7 @@
                             });
                         </script>
                     </td>
-                    <td style="padding-left: 10px;">
+                    <td>
                         %{--<label>--}%
                             %{--<g:message code="tools.calculator.margin"/></label>--}%
                         %{--<input id="margin" type="number" ng-model="margin" style="width: 140px;"/>--}%

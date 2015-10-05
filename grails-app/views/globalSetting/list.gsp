@@ -78,7 +78,8 @@
                             {
                                 field: "id",
                                 title: "${message(code:'globalSetting.id.label')}",
-                                width: "90px"
+                                width: "90px",
+                                editable: false
                             },
                             {
                                 field: "name",

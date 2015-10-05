@@ -1,7 +1,9 @@
 package stocks.portfolio
 
+import com.google.common.base.CaseFormat
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import stocks.Broker
+import stocks.GlobalSetting
 import stocks.portfolio.basic.BankAccount
 import stocks.portfolio.basic.BusinessPartner
 import stocks.portfolio.basic.CustomBonds
@@ -100,7 +102,7 @@ class PortfolioActionManagementService {
         action.sharePrice = model.sharePrice
         action.broker = model.broker?.brokerId ? Broker.get(model.broker?.brokerId as Long) : null
         action.discount = model.discount ? model.discount as Float : null
-        action.wage = model.wage ? model.wage as Float : null
+        action.wage = GlobalSetting.findByName("portfolio.${CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, portfolioItem.class.simpleName.replace('Portfolio', '').replace('Item', ''))}.${model.actionType.actionTypeId == 'b' ? 'buy' : 'sell'}.wage").value as Float
         action.actionDescription = "-" // todo
         action.portfolioItem = portfolioItem
         action.portfolio = portfolio
@@ -117,7 +119,7 @@ class PortfolioActionManagementService {
     def delete(Long actionId) {
         def item = PortfolioAction.get(actionId)
         if (item) {
-            def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id,item.portfolioItem, item.actionDate)
+            def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id, item.portfolioItem, item.actionDate)
             if ((items?.sum { it.signedShareCount } ?: 0) < 0)
                 return [error: 'countLessThanZero']
             PortfolioAction.findAllByParentAction(item).each { childAction ->

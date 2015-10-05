@@ -150,11 +150,11 @@ button {
       padding-top: 55px;
     }
 
-    #logo{
-      margin-top:5px;
-      margin-left:27px;
-      img{
-        height:42px;
+    #logo {
+      margin-top: 5px;
+      margin-left: 27px;
+      img {
+        height: 42px;
       }
     }
   }
@@ -630,13 +630,13 @@ span.has-error {
   .btn.ui-datepicker-next, .btn.ui-datepicker-prev {
     border-width: 0 !important;
   }
-  .btn.ui-datepicker-next i {
-    content: '<' !important;
-  }
-
-  .btn.ui-datepicker-prev i {
-    content: '>' !important;
-  }
+  //.btn.ui-datepicker-next i {
+  //  content: '<' !important;
+  //}
+  //
+  //.btn.ui-datepicker-prev i {
+  //  content: '>' !important;
+  //}
 }
 
 .ui-widget-content {
@@ -816,7 +816,7 @@ span.has-error {
 .k-toolbar {
   margin-bottom: 5px;
   padding-right: 2px;
-  padding-bottom:2px;
+  padding-bottom: 2px;
   .k-button {
     margin-top: 3px;
     &.k-overflow-anchor {
@@ -828,12 +828,12 @@ span.has-error {
   }
 }
 
-.k-grid-toolbar{
-  padding:4px !important;
-  .k-link{
-    padding:8px !important;
-    padding-right:12px !important;
-    padding-left:12px !important;
+.k-grid-toolbar {
+  padding: 4px !important;
+  .k-link {
+    padding: 8px !important;
+    padding-right: 12px !important;
+    padding-left: 12px !important;
   }
 }
 
@@ -849,8 +849,7 @@ span.has-error {
   //  text-align: left;
 }
 
-
-.k-primary, .k-overflow-container .k-primary{
+.k-primary, .k-overflow-container .k-primary {
   background-color: #7ea700 !important;
 }
 
@@ -2096,3 +2095,12 @@ h1, h2, h3, h4 {
   line-height: 30px;
 }
 
+.ui-datepicker {
+  .btn-link {
+    background-color: transparent !important;
+    &:hover {
+      background-color: transparent !important;
+      color: @main-color !important;
+    }
+  }
+}
