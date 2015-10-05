@@ -31,9 +31,9 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
         SymbolDailyTrade.findByDateGreaterThanEqualsAndSymbolInternalCode(object.date?.clearTime(), object.symbolInternalCode)
     }
 
-    public void importData(){
+    public void importData(Boolean ignoreMarketStatus = false){
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
         importData('tradeLastDay',

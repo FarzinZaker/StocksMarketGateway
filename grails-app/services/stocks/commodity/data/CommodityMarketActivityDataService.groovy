@@ -28,9 +28,9 @@ class CommodityMarketActivityDataService {
 
     def commodityEventGateway
 
-    def importData() {
+    def importData(Boolean ignoreMarketStatus = false) {
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_COMMODITY))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_COMMODITY))
             return
 
         def client = new DefaultHttpClient()

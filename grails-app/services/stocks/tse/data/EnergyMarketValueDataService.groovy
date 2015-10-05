@@ -20,9 +20,9 @@ class EnergyMarketValueDataService {
     ]
 
 
-    void importData() {
+    void importData(Boolean ignoreMarketStatus = false) {
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_ENERGY))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_ENERGY))
             return
 
         def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15131R")

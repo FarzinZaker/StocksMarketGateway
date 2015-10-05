@@ -30,9 +30,9 @@ class MarketValueDataService {
     ]
 
 
-    void importData() {
+    void importData(Boolean ignoreMarketStatus = false) {
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
         def http = new HTTPBuilder("http://www.tsetmc.com/Loader.aspx?ParTree=15")

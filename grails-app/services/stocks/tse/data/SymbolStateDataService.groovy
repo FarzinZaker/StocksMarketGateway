@@ -30,9 +30,9 @@ class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEven
         SymbolState.findBySymbolInternalCode(object.symbolInternalCode)
     }
 
-    public void importData(){
+    public void importData(Boolean ignoreMarketStatus = false){
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
         importData('instrumentsState',

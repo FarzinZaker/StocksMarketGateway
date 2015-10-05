@@ -4,6 +4,8 @@ import stocks.alerting.QueryInstance
 import stocks.tse.Symbol
 import stocks.feed.ExternalNews
 import stocks.feed.ExternalAnalysis
+import stocks.tse.SymbolClientType
+import stocks.tse.data.SymbolClientTypeDataService
 
 //@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -63,6 +65,7 @@ class AdminController {
 
     def externalNewsService
     def externalAnalysisService
+    def marketValueDataService
 
     def index() {
         def admin = User.get(5)
@@ -82,7 +85,16 @@ class AdminController {
 
 //        commodityMarketActivityDataService.importData()
 
-        indexDataService.importData()
+        indexDataService.importData(true)
+        symbolDailyTradeDataService.importData(true)
+        commodityMarketActivityDataService.importData(true)
+        marketActivityDataService.importData(true)
+        marketValueDataService.importData(true)
+        energyMarketValueDataService.importData(true)
+        symbolBestOrderDataService.importData(true)
+        symbolClientTypeDataService.importData(true)
+        symbolStateDataService.importData(true)
+
     }
 
 

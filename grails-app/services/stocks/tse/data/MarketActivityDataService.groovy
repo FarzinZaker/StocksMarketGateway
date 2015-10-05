@@ -31,9 +31,9 @@ class MarketActivityDataService extends TSEDataService<MarketActivity, MarketAct
         MarketActivity.findByMarketIdentifierAndDate(object.marketIdentifier, object.date)
     }
 
-    public void importData(){
+    public void importData(Boolean ignoreMarketStatus = false){
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
         importData('marketActivityLast',

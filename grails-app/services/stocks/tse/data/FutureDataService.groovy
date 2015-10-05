@@ -18,9 +18,9 @@ class FutureDataService extends TSEDataService<Future, FutureEvent> {
         Future.findByCode(object.code)
     }
 
-    public void importData(Date date){
+    public void importData(Date date, Boolean ignoreMarketStatus = false){
 
-        if(marketStatusService.isCloseWithMargin(marketStatusService.MARKET_FUTURE))
+        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_FUTURE))
             return
 
         importData('futureInformation',[[date.format('yyyyMMdd').toInteger()]])
