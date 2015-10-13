@@ -28,7 +28,7 @@ class FormTagLib {
     def field = { attrs, body ->
         out << """
 
-            <div ${attrs.id?"id='${attrs.id}'":''} class='form-field ${attrs.border == '0' ? 'borderless' : ''}'>
+            <div ${attrs.id ? "id='${attrs.id}'" : ''} class='form-field ${attrs.border == '0' ? 'borderless' : ''}'>
                 <div class='main'>
                     ${
             (attrs.fieldName || attrs.label) && attrs.showLabel != '0' ? "<label>${attrs.label ?: message(code: "${attrs.fieldName}.label")}</label>" : ''
@@ -162,7 +162,9 @@ class FormTagLib {
     def checkbox = { attrs, body ->
 
         out << """
-                ${g.checkBox(class: 'css-checkbox',id:attrs.id ?: attrs.name,name:attrs.name,value: attrs.checked,onchange: attrs.onchange)}
+                ${
+            g.checkBox(class: 'css-checkbox', id: attrs.id ?: attrs.name, name: attrs.name, value: attrs.checked, onchange: attrs.onchange)
+        }
                 <label class="css-label" for="${attrs.id ?: attrs.name}" style="${attrs.style}">
                     ${attrs.text}
                 </label>
@@ -176,8 +178,7 @@ class FormTagLib {
                 <input class="k-textbox" name='${attrs.name}' id="${attrs.id ?: attrs.name}" ${
             attrs.style ? "style='${attrs.style}'" : ''
         } data-validation="${attrs.validation ?: ''}" ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} ${
-            attrs.value ? "value='${attrs.value}'" : ''
-        } />
+            attrs.value ? "value='${attrs.value}'" : (attrs.entity ? ("value='${attrs.entity?."${attrs.name}"}' " ?: '') : '' )} />
             </span>
             <script>
                 \$(document).ready(function() {

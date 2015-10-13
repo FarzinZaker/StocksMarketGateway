@@ -14,6 +14,7 @@ class InitGraphDBService {
             initGroup()
             initProperty()
             initMaterial()
+            initSharing()
             initComment()
             initRate()
             initLike()
@@ -41,11 +42,20 @@ class InitGraphDBService {
     def initGroup() {
         def personClass = graphDBService.ensureVertexClass('Group')
         graphDBService.ensureProperty(personClass, 'title', OType.STRING, true)
+        graphDBService.ensureProperty(personClass, 'description', OType.STRING, true)
+        graphDBService.ensureProperty(personClass, 'imageId', OType.LONG, true)
         graphDBService.ensureProperty(personClass, 'membershipType', OType.STRING, true)
-        graphDBService.ensureProperty(personClass, 'membershipPeriod', OType.STRING, true)
-        graphDBService.ensureProperty(personClass, 'membershipPrice', OType.INTEGER, true)
+//        graphDBService.ensureProperty(personClass, 'membershipPeriod', OType.STRING, true)
+        graphDBService.ensureProperty(personClass, 'membership1MonthPrice', OType.INTEGER, true)
+        graphDBService.ensureProperty(personClass, 'membership3MonthPrice', OType.INTEGER, true)
+        graphDBService.ensureProperty(personClass, 'membership6MonthPrice', OType.INTEGER, true)
+        graphDBService.ensureProperty(personClass, 'membership12MonthPrice', OType.INTEGER, true)
         graphDBService.ensureProperty(personClass, 'allowExceptionalUsers', OType.BOOLEAN, true)
         graphDBService.ensureProperty(personClass, 'ownerType', OType.STRING, true)
+
+        graphDBService.ensureEdgeClass('Own')
+        graphDBService.ensureEdgeClass('Editor')
+        graphDBService.ensureEdgeClass('Author')
 
         def publicGroup = commonGraphService.publicGroup
         if (!publicGroup)
@@ -63,6 +73,7 @@ class InitGraphDBService {
         def materialClass = graphDBService.ensureVertexClass('Material', null, true)
         graphDBService.ensureProperty(materialClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(materialClass, 'publishDate', OType.DATETIME, true)
+        graphDBService.ensureProperty(materialClass, 'title', OType.STRING, true)
         [
                 'Article',
                 'Portfolio',
@@ -90,6 +101,11 @@ class InitGraphDBService {
             clazz ->
                 graphDBService.ensureVertexClass(clazz, propertyClass)
         }
+    }
+
+    def initSharing(){
+        graphDBService.ensureEdgeClass('About')
+        graphDBService.ensureEdgeClass('Share')
     }
 
     def initComment(){
@@ -134,5 +150,6 @@ class InitGraphDBService {
         graphDBService.ensureProperty(memberClass, 'type', OType.STRING, true)
         graphDBService.ensureProperty(memberClass, 'startDate', OType.DATETIME, true)
         graphDBService.ensureProperty(memberClass, 'endDate', OType.DATETIME, false)
+        graphDBService.ensureProperty(memberClass, 'autoExtend', OType.INTEGER, false)
     }
 }

@@ -58,7 +58,7 @@ class ToolsController {
 
         render([
                 dollarPrice: Currency.findBySymbol('us-dollar')?.price,
-                onsPrice   : Metal.findBySymbol('ons')?.price,
+                onsPrice   : Coin.findBySymbol('ons')?.price,
                 coinPrice  : Coin.findBySymbol('o-coin')?.price,
                 contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).sort {
                     it.lastTradingDate

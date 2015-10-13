@@ -1,5 +1,4 @@
-package stocks.graph
-
+package stocks.twitter
 
 
 import grails.test.mixin.*
@@ -8,8 +7,8 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(PropertyGraphService)
-class PropertyGraphServiceTests {
+@TestFor(SharingService)
+class SharingServiceTests {
 
     void testSomething() {
         fail "Implement me"

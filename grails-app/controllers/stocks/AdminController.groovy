@@ -67,6 +67,8 @@ class AdminController {
     def externalAnalysisService
     def marketValueDataService
 
+    def groupGraphService
+
     def index() {
         def admin = User.get(5)
         admin.username = 'admin'
@@ -85,15 +87,17 @@ class AdminController {
 
 //        commodityMarketActivityDataService.importData()
 
-        indexDataService.importData(true)
-        symbolDailyTradeDataService.importData(true)
-        commodityMarketActivityDataService.importData(true)
-        marketActivityDataService.importData(true)
-        marketValueDataService.importData(true)
-        energyMarketValueDataService.importData(true)
-        symbolBestOrderDataService.importData(true)
-        symbolClientTypeDataService.importData(true)
-        symbolStateDataService.importData(true)
+//        indexDataService.importData(true)
+//        symbolDailyTradeDataService.importData(true)
+//        commodityMarketActivityDataService.importData(true)
+//        marketActivityDataService.importData(true)
+//        marketValueDataService.importData(true)
+//        energyMarketValueDataService.importData(true)
+//        symbolBestOrderDataService.importData(true)
+//        symbolClientTypeDataService.importData(true)
+//        symbolStateDataService.importData(true)
+
+        groupGraphService.membershipPurge()
 
     }
 

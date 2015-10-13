@@ -39,7 +39,7 @@
 </form:field>
 
 <form:field fieldName="userInfo.password">
-    <form:password name="password" style="width:500px" entity="${user}" validation="required"/>
+    <form:password name="password" style="width:500px"/>
 </form:field>
 
 <form:field fieldName="userInfo.status">

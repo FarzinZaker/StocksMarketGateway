@@ -1,6 +1,7 @@
 package stocks.graph
 
 import com.tinkerpop.blueprints.Vertex
+import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import stocks.User
 
 class PersonGraphService {
@@ -8,13 +9,13 @@ class PersonGraphService {
     def graphDBService
     def commonGraphService
 
-    Vertex getSystemUser() {
-        graphDBService.getVertex("SELECT FROM Person WHERE identifier = 0")
+    OrientVertex getSystemUser() {
+        graphDBService.findVertex("SELECT FROM Person WHERE identifier = 0")
     }
 
-    Vertex ensurePerson(User user) {
+    OrientVertex ensurePerson(User user) {
 
-        def person = graphDBService.getVertex("SELECT FROM Person WHERE identifier = ${user?.id}")
+        def person = graphDBService.findVertex("SELECT FROM Person WHERE identifier = ${user?.id}")
         if (!person) {
             person = graphDBService.addVertex('Person', [
                     identifier: user.id,

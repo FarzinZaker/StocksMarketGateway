@@ -4,6 +4,7 @@ import grails.plugins.springsecurity.Secured
 import stocks.RoleHelper
 import stocks.User
 import stocks.Image
+import stocks.graph.MaterialGraphService
 import stocks.twitter.Article
 
 //import stocks.twitter.Tag
@@ -12,6 +13,7 @@ import grails.converters.JSON
 class ArticleController {
 
     def springSecurityService
+    def sharingService
 
     @Secured([RoleHelper.ROLE_USER])
     def create() {
@@ -39,9 +41,14 @@ class ArticleController {
         article.image = Image.get(params.image?.id as Long)
         article.author = User.get(springSecurityService.currentUser?.id as Long)
 
-        if (article.validate() && article.save(flush: true))
+        if (article.validate() && article.save(flush: true)) {
+            sharingService.shareMaterial(MaterialGraphService.TYPE_ARTICLE, article.id, article.title, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
+                [title: it.text, identifier: it.value as Long, type: it.type]
+            } : [], params.findAll { it.key.toString().startsWith('share_group_') }.collect {
+                it.key.toString().replace('share_group_#', '')
+            })
             redirect(action: 'list')
-        else
+        } else
             render view: 'create', model: [article: article]
 
     }
@@ -67,7 +74,9 @@ class ArticleController {
                                 imageId  : it.image?.id
                         ]
                     }
-            value.total = Article.countByAuthorAndIdInList(springSecurityService.currentUser as User, searchResult.results.collect {it.id})?.toString()
+            value.total = Article.countByAuthorAndIdInList(springSecurityService.currentUser as User, searchResult.results.collect {
+                it.id
+            })?.toString()
         } else {
             value.data =
                     Article.findAllByAuthor(springSecurityService.currentUser as User, parameters).collect {
@@ -87,12 +96,12 @@ class ArticleController {
 
     @Secured([RoleHelper.ROLE_USER])
     def delete() {
-//        def article = Article.get(params.id)
-//        article.tags?.clear()
-//        article.save(flush: true)
-//        if (article.delete())
-//            render '1'
-//        else render '0'
+        def article = Article.get(params.idparams.id as Long)
+        if (article.delete()) {
+            sharingService.removeMaterial(params.id as Long)
+            render '1'
+        }
+        else render '0'
     }
 
     @Secured([RoleHelper.ROLE_USER])

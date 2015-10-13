@@ -1,12 +1,11 @@
 package stocks.graph
 
-import com.jniwrapper.Bool
 import com.orientechnologies.orient.core.metadata.schema.OClass
 import com.orientechnologies.orient.core.metadata.schema.OProperty
 import com.orientechnologies.orient.core.metadata.schema.OType
 import com.orientechnologies.orient.core.sql.OCommandSQL
-import com.tinkerpop.blueprints.Edge
-import com.tinkerpop.blueprints.Vertex
+import com.tinkerpop.blueprints.Direction
+import com.tinkerpop.blueprints.impls.orient.OrientEdge
 import com.tinkerpop.blueprints.impls.orient.OrientGraph
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
@@ -14,14 +13,6 @@ import com.tinkerpop.blueprints.impls.orient.OrientVertex
 class GraphDBService {
 
     def grailsApplication
-//
-//    private OrientGraphFactory factory
-//
-//    OrientGraph getGraphDB() {
-//        if (!factory)
-//            factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
-//        factory.getTx();
-//    }
 
     def doWithGraph(Closure closure) {
         def factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
@@ -84,16 +75,40 @@ class GraphDBService {
         property
     }
 
-    Vertex getVertex(String queryString) {
-        Vertex vertex = null
+    OrientVertex findVertex(String queryString) {
+        OrientVertex vertex = null
         doWithGraph { OrientGraph graph ->
-            vertex = query(queryString)?.find() as Vertex
+            vertex = queryVertex(queryString)?.find() as OrientVertex
         }
         vertex
     }
 
-    Vertex addVertex(String clazz = 'V', Map properties = [:]) {
-        Vertex vertex = null
+    OrientVertex getVertex(String id) {
+        OrientVertex result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.getVertex(id)
+        }
+        result
+    }
+
+    OrientEdge getEdge(String id) {
+        OrientEdge result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.getEdge(id)
+        }
+        result
+    }
+
+    Map getAndUnwrapVertex(String id) {
+        OrientVertex result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.getVertex(id)
+        }
+        unwrapVertex(result)
+    }
+
+    OrientVertex addVertex(String clazz = 'V', Map properties = [:]) {
+        OrientVertex vertex = null
         doWithGraph { OrientGraph graph ->
             vertex = graph.addVertex("class:${clazz}".toString());
             properties.keySet().each { property ->
@@ -104,10 +119,29 @@ class GraphDBService {
         vertex
     }
 
-    Edge addEdge(String clazz = 'E', Vertex from, Vertex to, Map properties = [:], String label = null) {
-        Edge edge = null
+    OrientVertex editVertex(String id, Map properties = [:]) {
+        OrientVertex vertex = getVertex(id)
         doWithGraph { OrientGraph graph ->
-            edge = graph.addEdge("class:${clazz}".toString(), from, to, label);
+            properties.keySet().each { property ->
+                vertex.setProperty(property?.toString(), properties[property])
+            }
+            graph.commit()
+        }
+        vertex
+    }
+
+    def deleteVertex(String id) {
+        OrientVertex vertex = getVertex(id)
+        doWithGraph { OrientGraph graph ->
+            vertex.remove()
+            graph.commit()
+        }
+    }
+
+    OrientEdge addEdge(String clazz = 'E', OrientVertex from, OrientVertex to, Map properties = [:], String label = null) {
+        OrientEdge edge = null
+        doWithGraph { OrientGraph graph ->
+            edge = graph.addEdge("class:${clazz}".toString(), from, to, label ?: clazz);
             properties.keySet().each { property ->
                 edge.setProperty(property?.toString(), properties[property])
             }
@@ -116,17 +150,80 @@ class GraphDBService {
         edge
     }
 
-    List query(String queryString) {
+    def deleteEdge(OrientEdge edge) {
+        doWithGraph { OrientGraph graph ->
+            edge.remove()
+            graph.commit()
+        }
+    }
+
+    OrientEdge findEdgeByLabel(OrientVertex from, OrientVertex to, String label = null) {
+        from.getEdges(to, Direction.OUT, label)?.find() as OrientEdge
+    }
+
+    List<OrientVertex> queryVertex(String queryString) {
         List result = null
         doWithGraph { OrientGraph graph ->
             result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
         }
-        result.collect { OrientVertex vertex ->
-            def item = [id: vertex.id?.toString()]
-            vertex.propertyKeys.each { propertyKey ->
-                item.put(propertyKey, vertex.getProperty(propertyKey))
-            }
-            item
+        result
+    }
+
+    List<OrientEdge> queryEdge(String queryString) {
+        List result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
         }
+        result
+    }
+
+    void executeCommand(String command) {
+        doWithGraph { OrientGraph graph ->
+            graph.command(new OCommandSQL(command)).execute().iterator()?.toList()
+        }
+    }
+
+    Long count(String queryString) {
+        Long result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()?.find()?.getProperty('COUNT') as Long
+        }
+        result
+    }
+
+    List<Map> queryAndUnwrapVertex(String queryString) {
+        List result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
+        }
+        result.collect { OrientVertex vertex -> unwrapVertex(vertex) }
+    }
+
+    List<Map> queryAndUnwrapEdge(String queryString) {
+        List result = null
+        doWithGraph { OrientGraph graph ->
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
+        }
+        result.collect { OrientEdge edge -> unwrapEdge(edge) }
+    }
+
+    Map unwrapVertex(OrientVertex vertex) {
+        def result = [:]
+        result.id = vertex.id?.toString()
+        result.label = vertex.label?.toString()
+        vertex.propertyKeys.each {
+            result.put(it, vertex.getProperty(it))
+        }
+        result
+    }
+
+    Map unwrapEdge(OrientEdge edge) {
+        def result = [:]
+        result.id = edge.id?.toString()
+        result.label = vertex.label?.toString()
+        edge.propertyKeys.each {
+            result.put(it, edge.getProperty(it))
+        }
+        result
     }
 }

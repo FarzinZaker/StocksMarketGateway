@@ -5,6 +5,7 @@ import grails.plugins.springsecurity.Secured
 import org.apache.lucene.search.BooleanQuery
 import stocks.accounting.Transaction
 import stocks.messaging.Unsubscribe
+import stocks.messaging.Invitation
 
 class UserController {
 
@@ -17,7 +18,7 @@ class UserController {
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
 
-        def invitation = stocks.messaging.Invitation.findByIdentifier(params.invitation as String)
+        def invitation = Invitation.findByIdentifier(params.invitation as String)
         if (!invitation) {
             render "code error"
             return
@@ -123,7 +124,7 @@ class UserController {
                 transaction.description = message(code: 'transaction.description.gift.register', args: [user.toString()])
                 transaction.save()
 
-                stocks.messaging.Invitation.findAllByReceiverAddress(user.email).each {
+                Invitation.findAllByReceiverAddress(user.email).each {
                     it.registrationRecorded = true
                     it.save(flush: true)
                 }
@@ -197,8 +198,8 @@ class UserController {
         def user
         if (params.id) {
             user = User.get(params.id)
-            def oldPassword = user.password
-            user.properties = params
+//            def oldPassword = user.password
+//            user.properties = params
 //            if (oldPassword != user.password)
 //                user.password = springSecurityService.encodePassword(user.password)
         } else {
@@ -209,8 +210,21 @@ class UserController {
                 return
             }
 
-            user = new User(params)
+            user = new User()
         }
+
+        user.firstName = params.firstName
+        user.lastName = params.lastName
+        user.sex = params.sex
+        user.mobile = params.mobile
+        user.nationalCode = params.nationalCode
+        user.email = params.email
+
+        if(!params.id || (params.password && params.password?.trim() != ''))
+            user.password = params.password
+
+        if(params.maxDept)
+            user.maxDept = params.maxDept as Integer
 
         user.enabled = params.enabled ? true : false
         user.accountExpired = params.accountExpired ? true : false

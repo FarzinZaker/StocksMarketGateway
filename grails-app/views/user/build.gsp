@@ -34,6 +34,11 @@
 
                 <g:render template="/user/form"/>
 
+
+                <form:field fieldName="userInfo.maxDept">
+                    <form:numericTextBox name="maxDept" style="width:500px" value="${user?.maxDept ?: 0}"/>
+                </form:field>
+
                 <div class="toolbar">
                     <input type="submit" value="${message(code: 'user.build.button')}" class="k-button"/>
                 </div>

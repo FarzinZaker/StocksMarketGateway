@@ -1,0 +1,40 @@
+package stocks.twitter
+
+import com.tinkerpop.blueprints.impls.orient.OrientVertex
+
+class SharingService {
+
+    def graphDBService
+    def materialGraphService
+    def propertyGraphService
+
+    void shareMaterial(String type, Long identifier, String title, List<Map> properties, List<String> groups) {
+        graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
+        graphDBService.executeCommand("DELETE EDGE Share WHERE out.identifier = ${identifier}")
+
+        def materialVertex = materialGraphService.ensureMaterial(type, identifier, title)
+
+        properties.each { property ->
+            def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
+            graphDBService.addEdge('About', materialVertex, propertyVertex)
+        }
+
+        groups.each { groupId ->
+            def groupVertex = graphDBService.getVertex(groupId)
+            graphDBService.addEdge('Share', materialVertex, groupVertex)
+        }
+    }
+
+    void removeMaterial(Long identifier){
+        materialGraphService.removeMaterial(identifier)
+    }
+
+    List<Map> materialShareGroups(Long identifier){
+        graphDBService.queryAndUnwrapVertex("SELECT FROM Group WHERE @rid in (SELECT DISTINCT(in.@rid) FROM Share WHERE out.identifier = ${identifier})")
+    }
+
+    List<Map> materialAboutProperties(Long identifier){
+        graphDBService.queryAndUnwrapVertex("SELECT FROM Property WHERE @rid in (SELECT DISTINCT(in.@rid) FROM About WHERE out.identifier = ${identifier})")
+    }
+
+}

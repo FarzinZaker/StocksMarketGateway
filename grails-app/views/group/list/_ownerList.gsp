@@ -1,17 +1,17 @@
-<div class="authorGridContainer k-rtl">
+<div class="ownerGridContainer k-rtl">
 
-    <div id="authorGrid"></div>
+    <div id="ownerGrid"></div>
 </div>
 
 <script>
     $(document).ready(function () {
-        $("#authorGrid").kendoGrid({
+        $("#ownerGrid").kendoGrid({
 
             dataSource: {
                 transport: {
                     type: 'odata',
                     read: {
-                        url: "${createLink(action: 'authorJsonList')}",
+                        url: "${createLink(action: 'ownerJsonList')}",
                         dataType: "json",
                         type: "POST"
 
@@ -41,6 +41,11 @@
             filterable: false,
             sortable: true,
             pageable: true,
+            toolbar: [
+                {
+                    template: "<a class='k-button k-button-icontext k-grid-add' href='${createLink(action: 'build')}'>${message(code: 'twitter.group.create')}</a>"
+                }
+            ],
             columns: [
                 %{--{--}%
                 %{--field: "id",--}%
@@ -107,7 +112,40 @@
                     headerAttributes: {style: "text-align: center"}
                 },
                 {
-                    command: {text: "${message(code:'cancelMembership')}", click: cancelAuthorGridItem},
+                    command: {
+                        text: "${message(code:'twitter.group.manageEditors.button')}",
+                        click: manageOwnerGridItemEditors
+                    },
+                    title: "",
+                    width: "105px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
+                    command: {
+                        text: "${message(code:'twitter.group.manageAuthors.button')}",
+                        click: manageOwnerGridItemAuthors
+                    },
+                    title: "",
+                    width: "107px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
+                    command: {
+                        text: "${message(code:'twitter.group.manageMembers.button')}",
+                        click: manageOwnerGridItemMembers
+                    },
+                    title: "",
+                    width: "87px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
+                    command: {text: "${message(code:'edit')}", click: editOwnerGridItem},
+                    title: "",
+                    width: "90px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
+                    command: {text: "${message(code:'remove')}", click: removeOwnerGridItem},
                     title: "",
                     width: "85px",
                     headerAttributes: {style: "text-align: center"}
@@ -116,40 +154,52 @@
         });
     });
 
-    function editAuthorGridItem(e) {
+    function manageOwnerGridItemEditors(e) {
+        window.location.href = "${createLink(action: 'manageEditors')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+    }
+
+    function manageOwnerGridItemAuthors(e) {
+        window.location.href = "${createLink(action: 'manageAuthors')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+    }
+
+    function manageOwnerGridItemMembers(e) {
+        window.location.href = "${createLink(action: 'manageMembers')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+    }
+
+    function editOwnerGridItem(e) {
         window.location.href = "${createLink(action: 'build')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
     }
 
-    var authorIdForDelete = 0;
-    function cancelAuthorGridItem(e) {
-        if (authorIdForDelete == 0) {
-            authorIdForDelete = this.dataItem($(e.currentTarget).closest("tr")).id;
-            confirm('${message(code:'twitter.group.cancel.confirm')}', deleteAuthorItem, cancelAuthorDelete);
+    var ownerIdForDelete = 0;
+    function removeOwnerGridItem(e) {
+        if (ownerIdForDelete == 0) {
+            ownerIdForDelete = this.dataItem($(e.currentTarget).closest("tr")).id;
+            confirm('${message(code:'twitter.group.delete.confirm')}', deleteOwnerItem, cancelOwnerDelete);
         }
 
     }
 
-    function cancelAuthorDelete() {
-        authorIdForDelete = 0;
+    function cancelOwnerDelete() {
+        ownerIdForDelete = 0;
     }
 
-    function deleteAuthorItem() {
-        if (authorIdForDelete != 0) {
+    function deleteOwnerItem() {
+        if (ownerIdForDelete != 0) {
             $.ajax({
                 type: "POST",
-                url: '${createLink(action: 'authorDelete')}',
-                data: {id: authorIdForDelete}
+                url: '${createLink(action: 'ownerDelete')}',
+                data: {id: ownerIdForDelete}
             }).done(function (response) {
                 if (response == "1") {
-                    var documentListView = $('#authorGrid').data('kendoGrid');
+                    var documentListView = $('#ownerGrid').data('kendoGrid');
                     documentListView.dataSource.read();   // added line
                     documentListView.refresh();
                 }
                 else {
-                    window.alert('${message(code:'twitter.group.cancel.error')}');
+                    window.alert('${message(code:'twitter.group.delete.error')}');
                 }
             });
-            authorIdForDelete = 0;
+            ownerIdForDelete = 0;
         }
     }
 </script>

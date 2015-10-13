@@ -19,6 +19,8 @@ class ImageController {
             content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
         else if (params.default)
             content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+        if(!content)
+            content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
         if (!content) {
             render ''
             return

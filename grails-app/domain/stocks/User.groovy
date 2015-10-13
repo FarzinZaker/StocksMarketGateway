@@ -27,6 +27,7 @@ class User {
     Boolean useMobilePushNotification = false
     Image image
     String externalImageUrl
+    Integer maxDept = 0
     User referer
 
     static hasMany = [followList: User, newsLetterCategories: NewsLetterCategory]
@@ -47,6 +48,7 @@ class User {
         city nullable: true
         externalImageUrl nullable: true
         referer nullable: true
+        maxDept nullable: true
     }
 
     static mapping = {

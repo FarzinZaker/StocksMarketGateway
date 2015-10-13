@@ -1,6 +1,7 @@
 accounts = [
         [
                 id                        : 1,
+                default                   : true,
                 giftAccount               : true,
                 bankName                  : 'saman',
                 type                      : 'legal',

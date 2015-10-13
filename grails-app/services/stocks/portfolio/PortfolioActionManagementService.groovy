@@ -54,7 +54,7 @@ class PortfolioActionManagementService {
         def portfolioItem = getPortfolioItem(portfolio, model)
         if (model.actionType.actionTypeId in ['s', 'w']) {
 
-            def actionDate = df.parse(model.actionDate);
+            def actionDate = parseDate(model.actionDate);
             def prevAmount = PortfolioAction.createCriteria().list {
                 eq('portfolioItem', portfolioItem)
                 le('actionDate', actionDate)

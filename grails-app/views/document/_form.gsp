@@ -9,7 +9,7 @@
 </form:field>
 
 <form:field fieldName="document.body">
-    <form:editor name="body" width="900" entity="${document}" mode="full"/>
+    <form:editor name="body" width="900" height="400" entity="${document}" mode="full"/>
 </form:field>
 
 <form:field fieldName="document.image">
@@ -18,6 +18,13 @@
 </form:field>
 
 %{--<form:field fieldName="document.tags">--}%
-    %{--<form:multiSelect name="tags" style="width:900px;" entity="${document}"--}%
-                      %{--dataSourceUrl="${createLink(controller: 'tag', action: 'jsonSearch')}"/>--}%
+%{--<form:multiSelect name="tags" style="width:900px;" entity="${document}"--}%
+%{--dataSourceUrl="${createLink(controller: 'tag', action: 'jsonSearch')}"/>--}%
 %{--</form:field>--}%
+
+<form:field fieldName="document.shareGroups">
+    <twitter:shareGroups name="share" style="width:900px;" materialId="${document?.id}"/>
+</form:field>
+<form:field fieldName="document.shareTags">
+    <twitter:shareTags name="shareTags" style="width:900px;" groupSelectorWidth="350" itemSelectorWidth="510" materialId="${document?.id}"/>
+</form:field>

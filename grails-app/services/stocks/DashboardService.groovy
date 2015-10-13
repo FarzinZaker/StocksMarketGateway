@@ -204,7 +204,7 @@ class DashboardService {
                             time      : it.publishDate.time,
                             dateString: jalaliDate(date),
                             source    : it.symbol ? "${it.symbol?.persianName} (${it.symbol?.persianCode})" : '',
-                            link      : it.detailsUrl
+                            link      : 'http://www.codal.ir/' + it.detailsUrl
                     ]
                 },
                 supervisorMessages: SupervisorMessage.createCriteria().list {
