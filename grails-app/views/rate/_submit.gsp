@@ -1,7 +1,7 @@
 <layout:panel title="${message(code: 'article.rate.title')}" class="rating" contentClass="ratingContent" header="h3"
               loginRequiredAction="${message(code: 'article.rate.loginRequired')}">
     <form id="ratingForm">
-        <form:hidden name="id" entity="${document}"/>
+        <form:hidden name="id" value="${materialId}"/>
         <div class="rating-options">
             <g:each in="${5..1}" var="rate">
                 <input type="radio" class="css-checkbox" id="rating-options-${rate}" name="rating" value="${rate}"/>

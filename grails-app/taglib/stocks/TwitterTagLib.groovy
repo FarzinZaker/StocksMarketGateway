@@ -7,11 +7,16 @@ class TwitterTagLib {
 
     static namespace = "twitter"
 
+    def graphDBService
     def commonGraphService
     def groupGraphService
     def springSecurityService
     def sharingService
-    def graphDBService
+    def propertyGraphService
+    def materialGraphService
+    def rateGraphService
+    def likeGraphService
+    def commentGraphService
 
     def shareGroups = { attrs, body ->
         def name = attrs.name
@@ -217,6 +222,119 @@ class TwitterTagLib {
                 \$('#${id}').val(JSON.stringify(list));
             }
         </script>
+"""
+    }
+
+    def tagCloud = { attrs, body ->
+
+        out << asset.javascript(src: 'tagcloud.js')
+        out << """
+        <div class="tagCloud">
+        """
+
+        def tags = []
+
+        if (attrs.groupId)
+            tags = groupGraphService.propertyCloud(attrs.groupId as String)
+        else
+            tags = propertyGraphService.propertyCloud()
+
+        Collections.shuffle(tags)
+        tags.each {
+            def tag = it.title
+            def count = it.count
+            out << """
+            <a href="${createLink(controller: "twitter", action: it.label, id: it.identifier)}" rel="${
+                count
+            }">${
+                tag
+            }</a>
+        """
+        }
+
+        out << """
+        </div>
+        <script language="javascript" type="text/javascript">
+            \$(".tagCloud a").tagcloud({
+                size: {
+                    start: 12,
+                    end: 24,
+                    unit: 'px'
+                },
+                color: {
+                    start: "#007cbc",
+                    end: "#8ebc00"
+                }
+            });
+        </script>
+        """
+    }
+
+    def relatedMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.getRelatedMaterials(attrs.id as String).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
+    def newMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.getNewMaterials(attrs.id as String).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
+    def rating = { attrs, body ->
+        def rate = rateGraphService.getPersonRateForMaterial(springSecurityService.currentUser as User, attrs.material as OrientVertex)
+        if (rate)
+            out << render(template: '/rate/result', model: [rateValue: rate?.value])
+        else
+            out << render(template: '/rate/submit', model: [materialId: attrs.material?.id?.toString()?.replace('#', '')])
+    }
+
+    def commentList = { attrs, body ->
+        if (attrs.materialId) {
+            out << "<div id='cd_${attrs.materialId}'></div>"
+            out << commentList(commentGraphService.getCommentList(attrs.materialId as String), "<div id='ed_${attrs.materialId}'>${attrs.emptyMessage}</div>" ?: '')
+        }
+        if (attrs.commentId) {
+            out << "<div id='cc_${attrs.commentId}'></div>"
+            out << commentList(commentGraphService.getChildCommentList(attrs.commentId as String))
+        }
+    }
+
+    def commentList(List<Map> commentList, def emptyMessage = '') {
+        if (commentList && commentList.size() > 0) {
+            def result = ""
+            commentList.each {
+                result += render template: '/comment/view', model: [comment: it]
+            }
+            result
+        } else
+            emptyMessage
+    }
+
+
+    def like = { attrs, body ->
+        def likesCount = likeGraphService.getLikesCount(params.commentId as String)
+        def dislikesCount = likeGraphService.getDislikesCount(params.commentId as String)
+        def hasLiked = likeGraphService.hasLiked(springSecurityService.currentUser as User, params.commentId as String)
+        def hasDisliked = likeGraphService.hasDisliked(springSecurityService.currentUser as User, params.commentId as String)
+        out << """
+            <div class="rateWrapper">
+                <span class="rate rateUp ${hasLiked ? 'active' : ''}" data-item="${attrs.comment?.id}">
+                    <span class="rateUpN">${likesCount}</span>
+                </span>
+                <span class="rate rateDown ${hasDisliked ? 'active' : ''}" data-item="${attrs.comment?.id}">
+                    <span class="rateDownN">${dislikesCount}</span>
+                </span>
+            </div>
 """
     }
 }

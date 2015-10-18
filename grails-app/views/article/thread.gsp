@@ -13,30 +13,57 @@
 </head>
 
 <body>
-<g:render template="/article/menu" model="${[document: article]}"/>
+%{--<g:render template="/article/menu" model="${[document: article]}"/>--}%
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-xs-9">
-            <g:render template="/document/view" model="${[document: article]}"/>
-            %{--<g:render template="/document/tags" model="${[document: article]}"/>--}%
-            <stocks:rating document="${article}"/>
-            <g:render template="/comment/submit" model="${[document: article]}"/>
-            <layout:panel title="${message(code: 'comment.list.title')}" header="h3">
-                <stocks:commentList document="${article}" emptyMessage="${message(code: 'article.comments.emptyMessage')}"/>
-            </layout:panel>
+            <div class="dashLet darkBlue">
+                <h2 style="float:right"><i class="fa fa-file-text"></i> ${article.title}</h2>
+
+                <div class="clear-fix" style="padding:10px;">
+                    <g:render template="thread/view"/>
+                    <twitter:rating material="${vertex}"/>
+                </div>
+
+                <div class="clear-fix"></div>
+            </div>
+
+            <div class="dashLet crimson">
+                <h2><i class="fa fa-comment"></i> <g:message code="twitter.material.comment.title"/></h2>
+
+                <div style="padding:10px;">
+                    <g:render template="/comment/submit" model="${[materialId: vertexId]}"/>
+                </div>
+            </div>
+
+            <div class="dashLet crimson">
+                <h2><i class="fa fa-comments"></i> <g:message code="comment.list.title"/></h2>
+
+                <div style="padding: 10px;">
+                    <twitter:commentList materialId="${vertexId}"/>
+                </div>
+            </div>
         </div>
 
         <div class="col-xs-3">
-            <g:render template="/user/card" model="${[user: article.author]}"/>
-            <layout:panel title="${message(code: 'relatedArticles.title')}">
-                <stocks:relatedArticles id="${article.id}"/>
-            </layout:panel>
-            <layout:panel title="${message(code: 'newErticles.title')}">
-                <stocks:newArticles/>
-            </layout:panel>
-            <layout:panel title="${message(code: 'tagCloud.title')}">
-                <stocks:tagCloud type="${params.controller}"/>
-            </layout:panel>
+            <g:render template="thread/author"/>
+            <div class="dashLet orange">
+                <h2><i class="fa fa-link"></i> <g:message code="twitter.article.relatedMaterials.title"/></h2>
+                <twitter:relatedMaterials id="${vertexId}"/>
+            </div>
+
+            <div class="dashLet cyan">
+                <h2><i class="fa fa-clock-o"></i> <g:message code="twitter.article.newMaterials.title"/></h2>
+                <twitter:newMaterials id="${vertexId}"/>
+            </div>
+
+            <div class="dashLet magenta">
+                <h2 style="float:right"><i class="fa fa-tags"></i> <g:message code="twitter.tags.title"/></h2>
+
+                <div class="clear-fix center">
+                    <twitter:tagCloud/>
+                </div>
+            </div>
         </div>
     </div>
 </div>

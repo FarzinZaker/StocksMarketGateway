@@ -15,6 +15,7 @@ class GroupController {
     def commonGraphService
     def springSecurityService
     def accountingService
+    def materialGraphService
 
     def index() {
         redirect(action: 'list')
@@ -299,8 +300,20 @@ class GroupController {
         render '1'
     }
 
-    def home(){
+    def home() {
+        def group = params.id ? commonGraphService.getAndUnwrap(params.id as String) : null
+        def user = springSecurityService.currentUser as User
+        group.image = Image.get(group.imageId as Long)
+        [
+                group     : group,
+                membership: groupGraphService.getUserMembershipInGroup(params.id as String, user?.id),
+                authorList: groupGraphService.authorList(params.id as String)
+        ]
+    }
 
+    def homeJson() {
+        def list = materialGraphService.listByGroup(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it]) } as JSON)
     }
 
     private static Date parseDate(String date) {

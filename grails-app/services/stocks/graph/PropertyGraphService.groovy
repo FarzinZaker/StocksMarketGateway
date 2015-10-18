@@ -24,4 +24,8 @@ class PropertyGraphService {
         }
         material
     }
+
+    List<Map> propertyCloud(){
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property GROUP BY @rid ORDER BY count DESC")
+    }
 }

@@ -61,6 +61,8 @@ class StocksTagLib {
 
     def relatedArticles = { attrs, body ->
 
+        out << getRelatedMaterials()
+
 //        def article = Article.get(attrs.id)
 //
 //        def items = Article.createCriteria().listDistinct {

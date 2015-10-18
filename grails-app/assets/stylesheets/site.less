@@ -126,16 +126,24 @@ ul.linkList {
   margin-top: 7px;
 }
 
-.comment {
+div.comment {
   margin-bottom: 20px;
+  &:last-of-type{
+    margin-bottom: 0;
+
+    .clear-fix{
+      border-width: 0 !important;
+    }
+  }
   .meta {
     float: right;
     .avatar {
       border: 1px solid @image-border-color;
-      background: @summary-back-color;
+      background: white;
       border-radius: 2px;
       display: block;
       margin-bottom: 10px;
+      width: 100px;
     }
     .author {
       display: block;

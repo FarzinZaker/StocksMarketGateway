@@ -203,4 +203,16 @@ class GroupGraphService {
         graphDBService.count("SELECT COUNT(*) FROM Group WHERE membershipType = 'open' AND ownerType <> 'system'")
     }
 
+    Map getUserMembershipInGroup(String groupId, Long userId){
+        graphDBService.queryAndUnwrapEdge("SELECT * FROM Member WHERE in.@rid = #${groupId} AND out.identifier = ${userId}")?.find()
+    }
+
+    List<Map> groupMaterialList(String groupId, Integer skip = 0, Integer limit = 20) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) SKIP ${skip} LIMIT ${limit}")
+    }
+
+    List<Map> propertyCloud(String groupId){
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId})) GROUP BY @rid ORDER BY count DESC")
+    }
+
 }

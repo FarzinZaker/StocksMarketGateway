@@ -60,7 +60,7 @@ class InitGraphDBService {
         def publicGroup = commonGraphService.publicGroup
         if (!publicGroup)
             graphDBService.addVertex('Group', [
-                    title                :  messageSource.getMessage('twitter.publicGroup', null, '??? ???????', Locale.ENGLISH),
+                    title                :  messageSource.getMessage('twitter.publicGroup', null, 'همه کاربران', Locale.ENGLISH),
                     membershipType       : 'open',
                     membershipPeriod     : 'unlimited',
                     membershipPrice      : 0,
@@ -74,6 +74,8 @@ class InitGraphDBService {
         graphDBService.ensureProperty(materialClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(materialClass, 'publishDate', OType.DATETIME, true)
         graphDBService.ensureProperty(materialClass, 'title', OType.STRING, true)
+        graphDBService.ensureProperty(materialClass, 'imageId', OType.LONG, true)
+        graphDBService.ensureProperty(materialClass, 'description', OType.STRING, true)
         [
                 'Article',
                 'Portfolio',
@@ -113,6 +115,7 @@ class InitGraphDBService {
         graphDBService.ensureProperty(commentClass, 'body', OType.STRING, true)
         graphDBService.ensureProperty(commentClass, 'dateCreated', OType.DATETIME, true)
         graphDBService.ensureProperty(commentClass, 'lastUpdated', OType.DATETIME, true)
+        graphDBService.ensureEdgeClass('RelatedTo')
     }
 
     def initRate(){

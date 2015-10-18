@@ -8,11 +8,11 @@ class SharingService {
     def materialGraphService
     def propertyGraphService
 
-    void shareMaterial(String type, Long identifier, String title, List<Map> properties, List<String> groups) {
+    void shareMaterial(String type, Long identifier, String title, String description, Long imageId, List<Map> properties, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
         graphDBService.executeCommand("DELETE EDGE Share WHERE out.identifier = ${identifier}")
 
-        def materialVertex = materialGraphService.ensureMaterial(type, identifier, title)
+        def materialVertex = materialGraphService.ensureMaterial(type, identifier, title, description, imageId)
 
         properties.each { property ->
             def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)

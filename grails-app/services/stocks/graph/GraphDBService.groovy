@@ -210,6 +210,7 @@ class GraphDBService {
     Map unwrapVertex(OrientVertex vertex) {
         def result = [:]
         result.id = vertex.id?.toString()
+        result.idNumber = vertex.id?.toString()?.replace('#', '')
         result.label = vertex.label?.toString()
         vertex.propertyKeys.each {
             result.put(it, vertex.getProperty(it))
@@ -220,7 +221,8 @@ class GraphDBService {
     Map unwrapEdge(OrientEdge edge) {
         def result = [:]
         result.id = edge.id?.toString()
-        result.label = vertex.label?.toString()
+        result.idNumber = edge.id?.toString()?.replace('#', '')
+        result.label = edge.label?.toString()
         edge.propertyKeys.each {
             result.put(it, edge.getProperty(it))
         }

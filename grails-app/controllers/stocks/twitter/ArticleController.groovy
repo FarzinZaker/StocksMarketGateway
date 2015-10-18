@@ -14,6 +14,7 @@ class ArticleController {
 
     def springSecurityService
     def sharingService
+    def materialGraphService
 
     @Secured([RoleHelper.ROLE_USER])
     def create() {
@@ -31,7 +32,7 @@ class ArticleController {
         if (params.id) {
             article = Article.get(params.id)
             if (article.authorId != springSecurityService.currentUser?.id)
-                redirect('/denied')
+                redirect(uri: '/denied')
         } else
             article = new Article()
 
@@ -42,7 +43,7 @@ class ArticleController {
         article.author = User.get(springSecurityService.currentUser?.id as Long)
 
         if (article.validate() && article.save(flush: true)) {
-            sharingService.shareMaterial(MaterialGraphService.TYPE_ARTICLE, article.id, article.title, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
+            sharingService.shareMaterial(MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
                 [title: it.text, identifier: it.value as Long, type: it.type]
             } : [], params.findAll { it.key.toString().startsWith('share_group_') }.collect {
                 it.key.toString().replace('share_group_#', '')
@@ -100,8 +101,7 @@ class ArticleController {
         if (article.delete()) {
             sharingService.removeMaterial(params.id as Long)
             render '1'
-        }
-        else render '0'
+        } else render '0'
     }
 
     @Secured([RoleHelper.ROLE_USER])
@@ -110,7 +110,8 @@ class ArticleController {
     }
 
     def thread() {
-        [article: Article.get(params.id as Long)]
+        def vertex = materialGraphService.getByIdentifier(params.id as Long)
+        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertex.id?.toString()?.replace('#', '')]
     }
 }
 
