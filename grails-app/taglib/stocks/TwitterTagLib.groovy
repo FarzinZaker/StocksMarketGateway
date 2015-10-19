@@ -300,11 +300,11 @@ class TwitterTagLib {
 
     def commentList = { attrs, body ->
         if (attrs.materialId) {
-            out << "<div id='cd_${attrs.materialId}'></div>"
-            out << commentList(commentGraphService.getCommentList(attrs.materialId as String), "<div id='ed_${attrs.materialId}'>${attrs.emptyMessage}</div>" ?: '')
+            out << "<div class='newComments' id='cd_${attrs.materialId?.replace(':', '_')}'></div>"
+            out << commentList(commentGraphService.getCommentList(attrs.materialId as String), "<div id='ed_${attrs.materialId?.replace(':', '_')}'>${attrs.emptyMessage}</div>" ?: '')
         }
         if (attrs.commentId) {
-            out << "<div id='cc_${attrs.commentId}'></div>"
+            out << "<div class='newComments' id='cc_${attrs.commentId?.replace(':', '_')}'></div>"
             out << commentList(commentGraphService.getChildCommentList(attrs.commentId as String))
         }
     }
@@ -322,16 +322,16 @@ class TwitterTagLib {
 
 
     def like = { attrs, body ->
-        def likesCount = likeGraphService.getLikesCount(params.commentId as String)
-        def dislikesCount = likeGraphService.getDislikesCount(params.commentId as String)
-        def hasLiked = likeGraphService.hasLiked(springSecurityService.currentUser as User, params.commentId as String)
-        def hasDisliked = likeGraphService.hasDisliked(springSecurityService.currentUser as User, params.commentId as String)
+        def likesCount = likeGraphService.getLikesCount(attrs.commentId as String)
+        def dislikesCount = likeGraphService.getDislikesCount(attrs.commentId as String)
+        def hasLiked = likeGraphService.hasLiked(springSecurityService.currentUser as User, attrs.commentId as String)
+        def hasDisliked = likeGraphService.hasDisliked(springSecurityService.currentUser as User, attrs.commentId as String)
         out << """
             <div class="rateWrapper">
-                <span class="rate rateUp ${hasLiked ? 'active' : ''}" data-item="${attrs.comment?.id}">
+                <span class="rate rateUp ${hasLiked ? 'active' : ''}" data-item="${attrs.commentId}">
                     <span class="rateUpN">${likesCount}</span>
                 </span>
-                <span class="rate rateDown ${hasDisliked ? 'active' : ''}" data-item="${attrs.comment?.id}">
+                <span class="rate rateDown ${hasDisliked ? 'active' : ''}" data-item="${attrs.commentId}">
                     <span class="rateDownN">${dislikesCount}</span>
                 </span>
             </div>

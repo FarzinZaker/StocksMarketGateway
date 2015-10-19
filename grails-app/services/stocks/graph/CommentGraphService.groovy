@@ -37,13 +37,13 @@ class CommentGraphService {
     }
 
     List<Map> getCommentList(String materialId){
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Material WHERE @rid = #${materialId}) WHERE @class = 'Comment'").each {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Material WHERE @rid = #${materialId}) WHERE @class = 'Comment' ORDER BY dateCreated DESC").each {
             it.author = getCommentAuthor(it.idNumber as String)
         }
     }
 
     List<Map> getChildCommentList(String commentId){
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Comment WHERE @rid = #${commentId}) WHERE @class = 'Comment'").each {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Comment WHERE @rid = #${commentId}) WHERE @class = 'Comment' ORDER BY dateCreated DESC").each {
             it.author = getCommentAuthor(it.idNumber as String)
         }
     }

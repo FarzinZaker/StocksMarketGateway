@@ -36,11 +36,11 @@
                 </div>
             </div>
 
-            <div class="dashLet crimson">
+            <div class="dashLet steel">
                 <h2><i class="fa fa-comments"></i> <g:message code="comment.list.title"/></h2>
 
                 <div style="padding: 10px;">
-                    <twitter:commentList materialId="${vertexId}"/>
+                    <twitter:commentList materialId="${vertexId}" emptyMessage="${message(code:'twitter.notComment')}"/>
                 </div>
             </div>
         </div>

@@ -23,7 +23,8 @@ class GroupController {
 
     def build() {
         def group = params.id ? commonGraphService.getAndUnwrap(params.id as String) : null
-        group.image = Image.get(group.imageId as Long)
+        if (group)
+            group.image = Image.get(group.imageId as Long)
         [
                 group: group
         ]
@@ -150,7 +151,7 @@ class GroupController {
     }
 
     def memberDelete() {
-        groupGraphService.deleteMember(params.id as String, springSecurityService.currentUser as User)
+        groupGraphService.deleteMember(params.id as String)
         render 1
     }
 
@@ -234,7 +235,7 @@ class GroupController {
     }
 
     def deleteMember() {
-        groupGraphService.deleteMember(params.id as String, params.memberId as String)
+        groupGraphService.deleteMember(params.memberId as String)
         render '1'
     }
 
@@ -265,7 +266,8 @@ class GroupController {
         def user = springSecurityService.currentUser as User
         def group = params.id ? commonGraphService.getAndUnwrap(params.id as String) : null
         def balance = accountingService.userBalance(user?.id)
-        group.image = Image.get(group.imageId as Long)
+        if (group)
+            group.image = Image.get(group.imageId as Long)
         [
                 group  : group,
                 balance: balance,

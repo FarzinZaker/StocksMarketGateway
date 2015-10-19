@@ -21,7 +21,7 @@
     <div class="clear-fix"></div>
 
     <div class="responses">
-        <stocks:commentList comment="${comment}"/>
+        <twitter:commentList commentId="${comment?.idNumber}"/>
     </div>
 </div>
 

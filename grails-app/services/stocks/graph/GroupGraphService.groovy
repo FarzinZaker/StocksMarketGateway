@@ -172,17 +172,8 @@ class GroupGraphService {
         graphDBService.count("SELECT COUNT(*) FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId}) WHERE @class = 'Person'")
     }
 
-    List<Map> deleteMember(String groupId, User user) {
-        def group = graphDBService.getVertex(groupId)
-        def person = personGraphService.ensurePerson(user)
-        def edge = getMemberEdge(group, person)
-        graphDBService.deleteEdge(edge)
-    }
-
-    List<Map> deleteMember(String groupId, String userId) {
-        def group = graphDBService.getVertex(groupId)
-        def person = graphDBService.getVertex(userId)
-        def edge = getMemberEdge(group, person)
+    List<Map> deleteMember(String membershipId) {
+        def edge = graphDBService.getEdge(membershipId)
         graphDBService.deleteEdge(edge)
     }
 

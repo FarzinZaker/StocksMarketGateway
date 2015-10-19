@@ -126,15 +126,23 @@ ul.linkList {
   margin-top: 7px;
 }
 
+.newComments div.comment:last-of-type, .responses div.comment:last-of-type {
+  .clear-fix {
+    border-bottom: 1px dashed !important;
+  }
+  margin-bottom: 20px !important;
+}
+
 div.comment {
   margin-bottom: 20px;
-  &:last-of-type{
+  &:last-of-type {
     margin-bottom: 0;
 
-    .clear-fix{
+    .clear-fix {
       border-width: 0 !important;
     }
   }
+
   .meta {
     float: right;
     .avatar {
@@ -472,7 +480,7 @@ div.comment {
       background: white;
       padding: 5px 5px 5px 10px;
       margin-left: 5px;
-      margin-bottom:5px;
+      margin-bottom: 5px;
       float: right;
       display: block;
       i {
