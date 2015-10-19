@@ -400,7 +400,7 @@ class MobileController {
         ]
     }
 
-    def jalaliDate(Date date) {
+    private static jalaliDate = { Date date ->
         def cal = Calendar.getInstance()
         cal.setTime(date)
 
