@@ -271,7 +271,7 @@ class GroupController {
         [
                 group  : group,
                 balance: balance,
-                maxDept: user.maxDept ?: 0
+                maxDept: user?.maxDept ?: 0
         ]
     }
 
@@ -315,7 +315,7 @@ class GroupController {
 
     def homeJson() {
         def list = materialGraphService.listByGroup(params.id as String, params.skip as Integer, params.limit as Integer)
-        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it]) } as JSON)
+        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true]) } as JSON)
     }
 
     private static Date parseDate(String date) {

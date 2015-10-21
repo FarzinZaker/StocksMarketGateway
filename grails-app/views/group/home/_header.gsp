@@ -25,8 +25,9 @@
                 <span>
                     <label><g:message code="twitter.group.membershipPeriod.1Month"/></label>
                     <g:if test="${group.membership1MonthPrice}">
-                        <g:formatNumber number="${group.membership1MonthPrice}" type="number"/> <g:message
-                            code="rial"/>
+                        <span class="text-nowrap"><g:formatNumber number="${group.membership1MonthPrice}"
+                                                                  type="number"/> <g:message
+                                code="rial"/></span>
                     </g:if>
                     <g:else>
                         <g:message code="free"/>
@@ -34,8 +35,9 @@
                 </span><span>
                 <label><g:message code="twitter.group.membershipPeriod.3Month"/></label>
                 <g:if test="${group.membership3MonthPrice}">
-                    <g:formatNumber number="${group.membership3MonthPrice}" type="number"/> <g:message
-                        code="rial"/>
+                    <span class="text-nowrap"><g:formatNumber number="${group.membership3MonthPrice}"
+                                                              type="number"/> <g:message
+                            code="rial"/></span>
                 </g:if>
                 <g:else>
                     <g:message code="free"/>
@@ -47,8 +49,10 @@
                 <span>
                     <label><g:message code="twitter.group.membershipPeriod.6Month"/></label>
                     <g:if test="${group.membership6MonthPrice}">
-                        <g:formatNumber number="${group.membership6MonthPrice}" type="number"/>
-                        <g:message code="rial"/>
+                        <span class="text-nowrap">
+                            <g:formatNumber number="${group.membership6MonthPrice}" type="number"/>
+                            <g:message code="rial"/>
+                        </span>
                     </g:if>
                     <g:else>
                         <g:message code="free"/>
@@ -56,8 +60,10 @@
                 </span><span>
                 <label><g:message code="twitter.group.membershipPeriod.12Month"/></label>
                 <g:if test="${group.membership12MonthPrice}">
-                    <g:formatNumber number="${group.membership12MonthPrice}" type="number"/>
-                    <g:message code="rial"/>
+                    <span class="text-nowrap">
+                        <g:formatNumber number="${group.membership12MonthPrice}" type="number"/>
+                        <g:message code="rial"/>
+                    </span>
                 </g:if>
                 <g:else>
                     <g:message code="free"/>
@@ -68,9 +74,16 @@
 
         <div class='toolbar' style="text-align: left">
 
-            <span class="btn k-button" style="width: 120px"
-                  onclick='registerInGroup("${group.idNumber}", "${group.title}")'><g:message
-                    code="twitter.group.register.button"/></span>
+            <sec:ifLoggedIn>
+                <span class="btn k-button" style="width: 120px"
+                      onclick='registerInGroup("${group.idNumber}", "${group.title}")'><g:message
+                        code="twitter.group.register.button"/></span>
+            </sec:ifLoggedIn>
+            <sec:ifNotLoggedIn>
+                <div class="info-small" style="text-align: right">
+                    <g:message code="twitter.group.register.loginRequired"/>
+                </div>
+            </sec:ifNotLoggedIn>
         </div>
     </g:else>
 </div>

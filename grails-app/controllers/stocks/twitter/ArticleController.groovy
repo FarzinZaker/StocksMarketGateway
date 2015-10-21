@@ -28,6 +28,7 @@ class ArticleController {
     @Secured([RoleHelper.ROLE_USER])
     def save() {
         Article article
+        def owner = springSecurityService.currentUser as User
 
         if (params.id) {
             article = Article.get(params.id)
@@ -40,10 +41,10 @@ class ArticleController {
         article.summary = params.summary
         article.body = params.body
         article.image = Image.get(params.image?.id as Long)
-        article.author = User.get(springSecurityService.currentUser?.id as Long)
+        article.author = owner
 
         if (article.validate() && article.save(flush: true)) {
-            sharingService.shareMaterial(MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
+            sharingService.shareMaterial(owner, MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
                 [title: it.text, identifier: it.value as Long, type: it.type]
             } : [], params.findAll { it.key.toString().startsWith('share_group_') }.collect {
                 it.key.toString().replace('share_group_#', '')

@@ -42,11 +42,18 @@ html, body {
   }
   .image {
     margin-bottom: 10px;
-    border: 1px solid @image-border-color;
-    padding: 4px;
-    border-radius: 2px;
+    float:right;
     margin-left: 15px;
-    width: 350px;
+    img {
+      border: 1px solid @image-border-color;
+      padding: 4px;
+      border-radius: 2px;
+      width: 350px;
+    }
+
+    .rateGage{
+      margin-top:10px;
+    }
   }
   .summary {
     background: @summary-back-color;

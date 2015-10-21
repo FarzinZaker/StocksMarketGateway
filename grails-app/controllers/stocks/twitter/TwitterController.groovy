@@ -13,6 +13,8 @@ import stocks.rate.CoinFuture
 
 class TwitterController {
 
+    def materialGraphService
+
     def propertyAutoComplete() {
 
         def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
@@ -148,5 +150,11 @@ class TwitterController {
                     value: it.id
             ]
         }
+    }
+
+    def propertyList(){
+        [
+                propertyList : materialGraphService.getPropertyList(params.id as String)
+        ]
     }
 }

@@ -196,6 +196,13 @@ class OAuth2Controller {
 
     private def loginUser(User user) {
 
+
+        def userRole = Role.findByAuthority(RoleHelper.ROLE_USER)
+
+        if (!user.authorities.contains(userRole)) {
+            UserRole.create user, userRole
+        }
+
         session['oAuthLogin'] = user
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken('oAuthLogin', '');

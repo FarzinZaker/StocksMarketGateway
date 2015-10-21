@@ -20,4 +20,8 @@ class RateGraphService {
                 date : new Date()
         ])
     }
+
+    Double getAverageRate(String materialId){
+        graphDBService.queryVertex("SELECT AVG(value.asFloat()) FROM Rate WHERE in.@rid=#${materialId}")?.find()?.getProperty('AVG') as Double
+    }
 }

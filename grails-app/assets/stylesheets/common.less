@@ -2308,8 +2308,11 @@ h1, h2, h3, h4 {
       color: @error-color;
       label {
         font-weight: normal;
-        margin: 5px 10px 5px 5px;
+        margin: 5px 10px 5px 0;
         color: black;
+        & + span{
+          margin-right:10px;
+        }
       }
     }
   }
@@ -2372,11 +2375,17 @@ h1, h2, h3, h4 {
 
     .image {
       float: right;
-      border: 1px solid #dadada;
-      padding: 2px;
-      margin-left:10px;
-      margin-bottom:5px;
-      background: white;
+      margin-left: 10px;
+      margin-bottom: 5px;
+      img {
+        border: 1px solid #dadada;
+        padding: 2px;
+        background: white;
+      }
+
+      .rateGage{
+        margin-top:5px;
+      }
     }
 
     .description {
@@ -2450,5 +2459,18 @@ h1, h2, h3, h4 {
     display: auto;
     float: none;
     margin-right: 520px;
+  }
+}
+
+.rateGage{
+  background: #f4f4f4;
+  div{
+    color: #ffffff;
+    font-size:11px;
+    font-weight: bold;
+    padding-top:2px;
+    padding-right:5px;
+    padding-left:5px;
+    min-height: 5px;
   }
 }

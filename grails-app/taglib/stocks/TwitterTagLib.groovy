@@ -17,6 +17,7 @@ class TwitterTagLib {
     def rateGraphService
     def likeGraphService
     def commentGraphService
+    def personGraphService
 
     def shareGroups = { attrs, body ->
         def name = attrs.name
@@ -236,6 +237,8 @@ class TwitterTagLib {
 
         if (attrs.groupId)
             tags = groupGraphService.propertyCloud(attrs.groupId as String)
+        else if (attrs.authorId)
+            tags = personGraphService.propertyCloud(attrs.authorId as String)
         else
             tags = propertyGraphService.propertyCloud()
 
@@ -290,6 +293,26 @@ class TwitterTagLib {
         out << '</ul>'
     }
 
+    def topAuthorMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.topByAuthor(attrs.id as String).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
+    def topGroupMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.topByGroup(attrs.id as String).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
     def rating = { attrs, body ->
         def rate = rateGraphService.getPersonRateForMaterial(springSecurityService.currentUser as User, attrs.material as OrientVertex)
         if (rate)
@@ -336,5 +359,65 @@ class TwitterTagLib {
                 </span>
             </div>
 """
+    }
+
+    def rateGage = { attrs, body ->
+        def value = rateGraphService.getAverageRate(attrs.materialId as String)
+
+        if (!value)
+            return
+
+        def percent = (value as Double) * 100 / 5
+
+        def displayValue = message(code: "rating.display.${Math.round(value)}")
+
+        value = value - 3
+
+        if (value > 2)
+            value = 2
+        else if (value < -2)
+            value = -2
+        def val = ((-value + 2) * 100 / 5) as Double
+        def red = [246, 53, 56]
+        def white = [65, 69, 84]
+        def green = [48, 204, 90]
+        def start = green
+        def end = white
+
+        if (val > 50) {
+            start = white;
+            end = red;
+            val = val % 51;
+        }
+        def r = Interpolate(start[0], end[0], 50, val);
+        def g = Interpolate(start[1], end[1], 50, val);
+        def b = Interpolate(start[2], end[2], 50, val);
+
+        def bg = "rgb(${r}, ${g}, ${b})"
+
+        def id = UUID.randomUUID().toString()?.replace('-', '_')
+
+        out << """
+            <div class="rateGage" id="gage_${id}">
+                <div style="width: ${percent}%;background:${bg};">${attrs.showLabel ? displayValue : ''}</div>
+            </div>
+"""
+
+//        out << """
+//            <script language="javascript" type="text/javascript">
+//                \$('#gage_${id}').kendoTooltip({
+//                content: '${displayValue}',
+//                width: 120,
+//                position: "top"
+//            });
+//            </script>
+//"""
+    }
+
+    private Integer Interpolate(start, end, steps, count) {
+        def s = start
+        def e = end
+        def last = s + (((e - s) / steps) * count);
+        Math.round(Math.floor(last));
     }
 }

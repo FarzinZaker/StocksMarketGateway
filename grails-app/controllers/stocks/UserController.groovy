@@ -12,6 +12,9 @@ class UserController {
     def simpleCaptchaService
     def mailService
     def springSecurityService
+    def personGraphService
+    def materialGraphService
+    def groupGraphService
 
     def registerInvited() {
 
@@ -220,10 +223,10 @@ class UserController {
         user.nationalCode = params.nationalCode
         user.email = params.email
 
-        if(!params.id || (params.password && params.password?.trim() != ''))
+        if (!params.id || (params.password && params.password?.trim() != ''))
             user.password = params.password
 
-        if(params.maxDept)
+        if (params.maxDept)
             user.maxDept = params.maxDept as Integer
 
         user.enabled = params.enabled ? true : false
@@ -336,20 +339,19 @@ class UserController {
     }
 
     def wall() {
-        [user: User.get(params.id)]
+        def user = User.get(params.id)
+        def vertex =  personGraphService.ensureAndUnwrapPerson(user)
+        [
+                user: user,
+                vertex: vertex,
+                groupList: groupGraphService.listForAuthor(user),
+                authorInfo: personGraphService.authorInfo(vertex.idNumber)
+        ]
     }
 
-    def synchronized wallJson() {
-        def parameters = [offset: params.skip, max: 10, sort: "lastUpdated", order: "desc"]
-        def documents = stocks.twitter.Document.createCriteria().list(parameters, {
-            author {
-                eq('id', params.id?.toLong())
-            }
-        })
-        documents.each {
-            render template: '/document/card', model: [document: it]
-        }
-        render ''
+    def wallJson() {
+        def list = materialGraphService.listByAuthor(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true]) } as JSON)
     }
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
