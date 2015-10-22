@@ -2,6 +2,7 @@ package stocks.twitter
 
 import grails.converters.JSON
 import org.apache.lucene.search.BooleanQuery
+import stocks.User
 import stocks.tse.Symbol
 import stocks.RateHelper
 import stocks.rate.Coin
@@ -10,10 +11,15 @@ import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Oil
 import stocks.rate.CoinFuture
+import stocks.tse.SymbolDailyTrade
 
 class TwitterController {
 
     def materialGraphService
+    def propertyGraphService
+    def springSecurityService
+    def priceService
+    def followGraphService
 
     def propertyAutoComplete() {
 
@@ -152,9 +158,60 @@ class TwitterController {
         }
     }
 
-    def propertyList(){
+    def propertyList() {
         [
-                propertyList : materialGraphService.getPropertyList(params.id as String)
+                propertyList: materialGraphService.getPropertyList(params.id as String)
         ]
+    }
+
+    def property() {
+        def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
+        def user = springSecurityService.currentUser as User
+        def propertyInfo = null
+        switch (propertyVertex.label) {
+            case 'Symbol':
+                propertyInfo = priceService.lastDailyTrade(Symbol.get(params.id as Long))
+                break
+            case 'Index':
+                propertyInfo = Index.get(params.id as Long)
+                break
+            case 'Coin':
+                propertyInfo = Coin.get(params.id as Long)
+                break
+            case 'Currency':
+                propertyInfo = Currency.get(params.id as Long)
+                break
+            case 'Metal':
+                propertyInfo = Metal.get(params.id as Long)
+                break
+            case 'Future':
+                propertyInfo = CoinFuture.get(params.id as Long)
+                break
+            case 'Oil':
+                propertyInfo = Oil.get(params.id as Long)
+                break
+        }
+        [
+                property    : propertyVertex,
+                authorList  : propertyGraphService.authorList(propertyVertex.idNumber as String),
+                propertyInfo: propertyInfo
+        ]
+    }
+
+    def propertyJson() {
+        def list = materialGraphService.listByProperty(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect {
+            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+        } as JSON)
+    }
+
+    def follow() {
+        followGraphService.follow(springSecurityService.currentUser as User, params.id as String)
+        render twitter.followButton(itemId: params.id)
+    }
+
+    def unfollow() {
+        followGraphService.unfollow((springSecurityService.currentUser as User)?.id, params.id as String)
+        render twitter.followButton(itemId: params.id)
     }
 }

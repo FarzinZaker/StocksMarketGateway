@@ -98,7 +98,8 @@ class InitGraphDBService {
                 'Coin',
                 'Metal',
                 'Oil',
-                'Future'
+                'Future',
+                'Index'
         ].each {
             clazz ->
                 graphDBService.ensureVertexClass(clazz, propertyClass)
@@ -132,20 +133,20 @@ class InitGraphDBService {
     }
 
     def initFollow(){
-        def followClass = graphDBService.ensureEdgeClass('Follow', null, true)
-        graphDBService.ensureProperty(followClass, 'startDate', OType.DATETIME, true)
-        [
-                'FollowArticle',
-                'FollowBackTest',
-                'FollowScreener',
-                'FollowPortfolio',
-                'FollowAnalysis'
-        ].each {
-            clazz ->
-                graphDBService.ensureEdgeClass(clazz, followClass)
-                graphDBService.ensureProperty(followClass, 'properties', OType.LINKSET, false, 'Property')
-
-        }
+        def followClass = graphDBService.ensureEdgeClass('Follow')
+//        graphDBService.ensureProperty(followClass, 'startDate', OType.DATETIME, true)
+//        [
+//                'FollowArticle',
+//                'FollowBackTest',
+//                'FollowScreener',
+//                'FollowPortfolio',
+//                'FollowAnalysis'
+//        ].each {
+//            clazz ->
+//                graphDBService.ensureEdgeClass(clazz, followClass)
+//                graphDBService.ensureProperty(followClass, 'properties', OType.LINKSET, false, 'Property')
+//
+//        }
     }
 
     def initMembership(){

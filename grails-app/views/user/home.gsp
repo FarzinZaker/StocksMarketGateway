@@ -24,11 +24,11 @@
     <div class="row-fluid">
         <div class="col-xs-3">
             <layout:panel title="${message(code: 'topArticles.title')}">
-                <stocks:userTopArticles user="${user}"/>
+                <twitter:topAuthorMaterials id="${user?.id}"/>
             </layout:panel>
             <g:render template="/user/followingList" model="${[user: user]}"/>
             <layout:panel title="${message(code: 'tagCloud.title')}">
-                <stocks:tagCloud/>
+                <twitter:tagCloud/>
             </layout:panel>
         </div>
 

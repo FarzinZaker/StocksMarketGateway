@@ -59,10 +59,10 @@ class OilDataService {
             use(TimeCategory){
                 oilEvent.time += 8.hours + 30.minutes
             }
-            html.'**'.find { it.@class.toString().contains('data-table_detailed') }.'**'.findAll{it.@class.toString() == 'cell'}.collect{it.text().trim().split('\n').findAll{it.trim()}.collect{it.trim()}}.each(){
-                if(it[0] == 'Open')
+            html.'**'.find { it.@class.toString().contains('data-table_detailed') }.'**'.findAll{it.@class.toString().contains('cell')}.collect{it.text().trim().split('\n').findAll{it.trim()}.collect{it.trim()}}.each(){
+                if(it[0]?.trim() == 'Open' && it.size() > 1)
                     oilEvent.open = it[1].replace(',', '') as Double
-                else if(it[0] == 'Day Range'){
+                else if(it[0]?.trim() == 'Day Range' && it.size() > 1){
                     def dayRangeParts = it[1].split('-').collect{it.trim()}
                     oilEvent.low = dayRangeParts[0].replace(',', '') as Double
                     oilEvent.high = dayRangeParts[1].replace(',', '') as Double

@@ -7,7 +7,7 @@
     <p><format:html value="${group.description}"/></p>
 
     <g:if test="${membership}">
-        <div class="info">
+        <div class="info-small">
             <g:if test="${membership.endDate}">
                 <g:message code="twitter.group.membership.timedStatusMessage"
                            args="${[format.jalaliDate(date: membership.endDate, hm: true)]}"/>

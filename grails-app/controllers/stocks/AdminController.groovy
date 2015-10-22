@@ -97,7 +97,9 @@ class AdminController {
 //        symbolClientTypeDataService.importData(true)
 //        symbolStateDataService.importData(true)
 
-        groupGraphService.membershipPurge()
+        render oilDataService.importData()
+
+        render 'ok'
 
     }
 

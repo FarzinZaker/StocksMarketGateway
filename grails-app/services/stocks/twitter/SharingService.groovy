@@ -38,4 +38,6 @@ class SharingService {
         graphDBService.queryAndUnwrapVertex("SELECT FROM Property WHERE @rid in (SELECT DISTINCT(in.@rid) FROM About WHERE out.identifier = ${identifier})")
     }
 
+
+
 }

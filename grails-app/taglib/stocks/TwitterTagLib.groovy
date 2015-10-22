@@ -18,6 +18,7 @@ class TwitterTagLib {
     def likeGraphService
     def commentGraphService
     def personGraphService
+    def followGraphService
 
     def shareGroups = { attrs, body ->
         def name = attrs.name
@@ -239,6 +240,8 @@ class TwitterTagLib {
             tags = groupGraphService.propertyCloud(attrs.groupId as String)
         else if (attrs.authorId)
             tags = personGraphService.propertyCloud(attrs.authorId as String)
+        else if (attrs.propertyId)
+            tags = propertyGraphService.propertyCloud(attrs.propertyId as String)
         else
             tags = propertyGraphService.propertyCloud()
 
@@ -247,7 +250,7 @@ class TwitterTagLib {
             def tag = it.title
             def count = it.count
             out << """
-            <a href="${createLink(controller: "twitter", action: it.label, id: it.identifier)}" rel="${
+            <a href="${createLink(controller: "twitter", action: 'property', id: it.identifier)}" rel="${
                 count
             }">${
                 tag
@@ -308,6 +311,16 @@ class TwitterTagLib {
         out << '<ul id="material-list" class="clear-fix materialList sm">'
         def indexer = 0
         out << materialGraphService.topByGroup(attrs.id as String).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
+    def topPropertyMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.topByProperty(attrs.id as String).collect {
             "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
         }.join('\n')
         out << '</ul>'
@@ -412,6 +425,55 @@ class TwitterTagLib {
 //            });
 //            </script>
 //"""
+    }
+
+    def followScript = { attrs, body ->
+        out << """
+            <script language="javascript" type="text/javascript">
+                function follow(btn, id){
+                    \$(btn).hide();
+                    \$('#loading_' + \$(btn).attr('id')).show();
+                    \$.ajax({
+                        type: "POST",
+                        url: '${createLink(controller: 'twitter', action: 'follow')}',
+                        data: { id: id }
+                    }).done(function (response) {
+                        \$(btn).replaceWith(response);
+                        \$('#loading_' + \$(btn).attr('id')).hide();
+                    });
+                }
+
+                function unfollow(btn, id){
+                    \$(btn).hide();
+                    \$('#loading_' + \$(btn).attr('id')).show();
+                    \$.ajax({
+                        type: "POST",
+                        url: '${createLink(controller: 'twitter', action: 'unfollow')}',
+                        data: { id: id }
+                    }).done(function (response) {
+                        \$(btn).replaceWith(response);
+                        \$('#loading_' + \$(btn).attr('id')).hide();
+                    });
+                }
+            </script>
+"""
+    }
+
+    def followButton = { attrs, body ->
+        def itemId = attrs.itemId?.toString()
+        def id = UUID.randomUUID().toString().replace('-', '_')
+        def user = springSecurityService.currentUser as User
+
+        def followship = followGraphService.getUserFollowshipForItem(itemId, user?.id)
+        out << """
+            <span name="follow_${itemId.replace(':', '_')}" id="${id}" class="btn${followship ? 'Unfollow' : 'Follow'}"
+                onclick="${followship ? 'unfollow' : 'follow'}(this, '${itemId}');">
+                <i class='fa fa-${followship ? 'minus' : 'plus'}'></i>
+                <span> ${message(code: "user.followList.${followship ? 'remove' : 'add'}")} </span>
+                <div class='clear-fix'></div>
+            </span>
+"""
+        out << form.loading(id: "loading_${id}")
     }
 
     private Integer Interpolate(start, end, steps, count) {

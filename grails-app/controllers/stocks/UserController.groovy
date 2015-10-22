@@ -345,7 +345,8 @@ class UserController {
                 user: user,
                 vertex: vertex,
                 groupList: groupGraphService.listForAuthor(user),
-                authorInfo: personGraphService.authorInfo(vertex.idNumber)
+                authorInfo: personGraphService.authorInfo(vertex.idNumber),
+                ownPage: user?.id == springSecurityService.currentUser?.id
         ]
     }
 

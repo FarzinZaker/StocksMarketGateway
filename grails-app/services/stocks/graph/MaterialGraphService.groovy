@@ -59,6 +59,14 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE @class = 'Article' GROUP BY identifier ORDER BY rate DESC SKIP ${skip} LIMIT ${limit}")
     }
 
+    List<Map> listByProperty(String propertyId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('About')).@rid FROM Property WHERE @rid = #${propertyId}) WHERE @class = 'Article' ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
+    List<Map> topByProperty(String groupId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('About')) FROM Property WHERE @rid = #${groupId}) WHERE @class = 'Article' GROUP BY identifier ORDER BY rate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
     List<Map> getPropertyList(String materialId) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('About')) FROM Material WHERE @rid = #${materialId})")
     }
