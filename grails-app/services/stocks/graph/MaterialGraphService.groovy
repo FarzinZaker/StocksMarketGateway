@@ -59,6 +59,14 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE @class = 'Article' GROUP BY identifier ORDER BY rate DESC SKIP ${skip} LIMIT ${limit}")
     }
 
+    List<Map> listForHome(Long userId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE @class = 'Article' ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
+    List<Map> topForHome(Long userId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE @class = 'Article' GROUP BY identifier ORDER BY rate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
     List<Map> listByProperty(String propertyId, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('About')).@rid FROM Property WHERE @rid = #${propertyId}) WHERE @class = 'Article' ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
     }
@@ -85,5 +93,9 @@ class MaterialGraphService {
 
     List<Map> getNewMaterials(String id, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM Material WHERE @rid <> #${id} ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
+    List<Map> getFollowList(Long userId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT EXPAND(OUT('Follow')) FROM Person WHERE identifier = ${userId} SKIP ${skip} LIMIT ${limit}")
     }
 }

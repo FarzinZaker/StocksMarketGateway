@@ -33,12 +33,12 @@
             <g:render template="property/materialList"/>
         </div>
         <div class="col-xs-3 k-rtl">
-            <g:render template="property/authorList"/>
             <div class="dashLet cyan">
-                <h2><i class="fa fa-clock-o"></i> <g:message code="twitter.property.topMaterial.title"/></h2>
+                <h2><i class="fa fa-star"></i> <g:message code="twitter.property.topMaterial.title"/></h2>
                 <twitter:topPropertyMaterials id="${property.idNumber}"/>
             </div>
             <g:render template="property/tagCloud"/>
+            <g:render template="property/authorList"/>
         </div>
     </div>
 </div>

@@ -64,6 +64,10 @@ class GroupGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Author')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
     }
 
+    List<Map> listForHome(User user) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Member')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group' AND ownerType <> 'system'")
+    }
+
     List<Map> listForMember(User user) {
         def person = personGraphService.ensurePerson(user)
         def list = graphDBService.queryVertex("SELECT * FROM (SELECT EXPAND(OUT('Member')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")

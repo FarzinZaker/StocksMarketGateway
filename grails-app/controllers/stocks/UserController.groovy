@@ -340,24 +340,42 @@ class UserController {
 
     def wall() {
         def user = User.get(params.id)
-        def vertex =  personGraphService.ensureAndUnwrapPerson(user)
+        def vertex = personGraphService.ensureAndUnwrapPerson(user)
         [
-                user: user,
-                vertex: vertex,
-                groupList: groupGraphService.listForAuthor(user),
+                user      : user,
+                vertex    : vertex,
+                groupList : groupGraphService.listForAuthor(user),
                 authorInfo: personGraphService.authorInfo(vertex.idNumber),
-                ownPage: user?.id == springSecurityService.currentUser?.id
+                ownPage   : user?.id == springSecurityService.currentUser?.id
         ]
     }
 
     def wallJson() {
         def list = materialGraphService.listByAuthor(params.id as String, params.skip as Integer, params.limit as Integer)
-        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true]) } as JSON)
+        render(list.collect {
+            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+        } as JSON)
     }
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def home() {
-        [user: springSecurityService.currentUser as User]
+        def user = springSecurityService.currentUser as User
+        def vertex = personGraphService.ensureAndUnwrapPerson(user)
+        [
+                user      : user,
+                vertex    : vertex,
+                groupList : groupGraphService.listForHome(user),
+                followList: materialGraphService.getFollowList(user?.id),
+                ownPage   : true
+        ]
+    }
+
+    def homeJson() {
+        def user = springSecurityService.currentUser as User
+        def list = materialGraphService.listForHome(user?.id, params.skip as Integer, params.limit as Integer)
+        render(list.collect {
+            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+        } as JSON)
     }
 
 

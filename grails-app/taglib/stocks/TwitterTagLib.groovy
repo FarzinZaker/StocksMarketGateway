@@ -326,6 +326,16 @@ class TwitterTagLib {
         out << '</ul>'
     }
 
+    def topFollowedMaterials = { attrs, body ->
+
+        out << '<ul id="material-list" class="clear-fix materialList sm">'
+        def indexer = 0
+        out << materialGraphService.topForHome(attrs.id as Long).collect {
+            "<li class='${indexer++ % 2 ? 'even' : 'odd'}'>" + g.render(template: "/twitter/material/${it.label}", model: [material: it, imageSize: 60]) + '</li>'
+        }.join('\n')
+        out << '</ul>'
+    }
+
     def rating = { attrs, body ->
         def rate = rateGraphService.getPersonRateForMaterial(springSecurityService.currentUser as User, attrs.material as OrientVertex)
         if (rate)

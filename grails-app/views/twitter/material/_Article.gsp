@@ -1,7 +1,13 @@
+<%@ page import="org.ocpsoft.prettytime.PrettyTime" %>
 <div class="image">
     <img src="${createLink(controller: 'image', params: [id: material.imageId, size: imageSize ?: 100])}"/>
 
+    <span class="date">
+        ${new PrettyTime(new Locale('fa')).format(material.publishDate)}
+    </span>
+
     <twitter:rateGage materialId="${material.idNumber}"/>
+
 </div>
 
 <div class="description">

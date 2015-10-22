@@ -1,6 +1,6 @@
 <asset:javascript src="scroll-pagination.js"/>
-<div class="dashLet darkBlue">
-    <h2 style="float:right"><i class="fa fa-book"></i> <g:message code="twitter.property.materialList.title"/></h2>
+<div class="dashLet magenta">
+    <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="twitter.property.materialList.title"/></h2>
     <ul class="clear-fix materialList" id="material-list">
 
     </ul>

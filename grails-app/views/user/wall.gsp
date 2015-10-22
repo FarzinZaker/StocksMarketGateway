@@ -33,12 +33,12 @@
             <g:render template="wall/materialList"/>
         </div>
         <div class="col-xs-3 k-rtl">
-            <g:render template="wall/groupList"/>
             <div class="dashLet cyan">
-                <h2><i class="fa fa-clock-o"></i> <g:message code="twitter.author.topMaterial.title"/></h2>
+                <h2><i class="fa fa-star"></i> <g:message code="twitter.author.topMaterial.title"/></h2>
                 <twitter:topAuthorMaterials id="${vertex.idNumber}"/>
             </div>
             <g:render template="wall/tagCloud"/>
+            <g:render template="wall/groupList"/>
         </div>
     </div>
 </div>

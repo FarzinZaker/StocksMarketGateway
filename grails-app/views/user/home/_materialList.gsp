@@ -1,6 +1,6 @@
 <asset:javascript src="scroll-pagination.js"/>
 <div class="dashLet magenta">
-    <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="twitter.author.materialList.title"/></h2>
+    <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="twitter.home.materialList.title"/></h2>
     <ul class="clear-fix materialList" id="material-list">
 
     </ul>
@@ -22,7 +22,7 @@
             $('#materialLoading').show();
             $.ajax({
                 type: "POST",
-                url: '${createLink(action: 'wallJson', id:vertex.idNumber)}',
+                url: '${createLink(action: 'homeJson')}',
                 data: {skip: (materialListCurrentPage++) * materialListPageSize, limit: materialListPageSize}
             }).done(function (response) {
                 $('#materialLoading').hide();
