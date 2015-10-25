@@ -20,6 +20,7 @@ class TwitterController {
     def springSecurityService
     def priceService
     def followGraphService
+    def sharingService
 
     def propertyAutoComplete() {
 
@@ -213,5 +214,13 @@ class TwitterController {
     def unfollow() {
         followGraphService.unfollow((springSecurityService.currentUser as User)?.id, params.id as String)
         render twitter.followButton(itemId: params.id)
+    }
+
+    def suggest() {
+        def skip = params.skip?.toInteger() ?: 0
+        def limit = params.limit?.toInteger() ?: 10
+        render(sharingService.suggestFollowList(springSecurityService.currentUser?.id, skip, limit).collect {
+            g.render(template: '/twitter/followable', model: [item: it]) as String
+        } as JSON)
     }
 }

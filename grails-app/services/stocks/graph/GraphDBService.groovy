@@ -14,8 +14,12 @@ class GraphDBService {
 
     def grailsApplication
 
+    static def factory
+
     def doWithGraph(Closure closure) {
-        def factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
+        if(!factory) {
+            factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
+        }
         def graph = factory.getTx()
         try {
             closure(graph)

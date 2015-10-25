@@ -26,6 +26,12 @@
     </div>
 
     <div class="row-fluid">
+        <div class="col-xs-12">
+            <g:render template="home/suggestList"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
         %{--<div class="col-xs-2 k-rtl">--}%
         %{--<g:render template="home/header"/>--}%
         %{--</div>--}%

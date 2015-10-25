@@ -1,5 +1,7 @@
 package stocks
 
+import grails.util.Environment
+
 
 class DashboardJob {
 
@@ -9,6 +11,10 @@ class DashboardJob {
 
     def dashboardService
     def execute() {
+
+        if(Environment.isDevelopmentMode())
+            return
+
         dashboardService.rates()
         dashboardService.announcements()
         dashboardService.marketView()

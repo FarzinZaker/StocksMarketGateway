@@ -2387,12 +2387,12 @@ h1, h2, h3, h4 {
         margin-top: 5px;
       }
 
-      .date{
+      .date {
         display: block;
         text-align: right;
-        margin-top:5px;
-        color:@summary-color;
-        font-size:10px;
+        margin-top: 5px;
+        color: @summary-color;
+        font-size: 10px;
       }
     }
 
@@ -2545,16 +2545,16 @@ ul.twitterAuthorInfo {
     padding: 8px 6px 7px 7px;
   }
 
-  span{
+  span {
     display: block;
     float: right;
     padding: 5px 7px 4px 14px;
   }
 
-  &:hover{
-    border-color:@main-color;
-    color:@main-color;
-    i{
+  &:hover {
+    border-color: @main-color;
+    color: @main-color;
+    i {
       background-color: @main-color;
     }
   }
@@ -2574,17 +2574,86 @@ ul.twitterAuthorInfo {
     padding: 8px 6px 7px 7px;
   }
 
-  span{
+  span {
     display: block;
     float: right;
     padding: 5px 7px 4px 14px;
   }
 
-  &:hover{
-    border-color:@error-color;
-    color:@error-color;
-    i{
+  &:hover {
+    border-color: @error-color;
+    color: @error-color;
+    i {
       background-color: @error-color;
+    }
+  }
+}
+
+.followable {
+  text-align: center;
+
+  background: white none repeat scroll 0 0;
+  border-bottom: 3px solid #dddddd;
+  box-shadow: 2px 2px 2px #aaa;
+  padding: 10px 5px;
+
+  .btnFollow {
+    span {
+      padding-right: 3px;
+      padding-left: 3px;
+    }
+  }
+
+  h4 {
+    font-size: 16px;
+    a {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+  }
+
+  .depth {
+    color: @summary-color;
+    font-size: 12px;
+    line-height: 24px;
+    height: 24px;
+    border-bottom: 1px dashed #dadada;
+    //    background-color:#fcfcfc;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    span {
+      display: block;
+      float: right;
+      & + span {
+        float: left;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .followersCount {
+    color: @summary-color;
+    font-size: 12px;
+    height: 24px;
+    //    background-color:#fcfcfc;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    span {
+      display: block;
+      float: right;
+      & + span {
+        float: left;
+        font-weight: bold;
+      }
     }
   }
 }

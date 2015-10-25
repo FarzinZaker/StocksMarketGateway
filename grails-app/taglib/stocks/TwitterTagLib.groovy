@@ -440,7 +440,7 @@ class TwitterTagLib {
     def followScript = { attrs, body ->
         out << """
             <script language="javascript" type="text/javascript">
-                function follow(btn, id){
+                function follow(btn, id, callback){
                     \$(btn).hide();
                     \$('#loading_' + \$(btn).attr('id')).show();
                     \$.ajax({
@@ -450,10 +450,12 @@ class TwitterTagLib {
                     }).done(function (response) {
                         \$(btn).replaceWith(response);
                         \$('#loading_' + \$(btn).attr('id')).hide();
+                        if(callback)
+                            callback(btn, id);
                     });
                 }
 
-                function unfollow(btn, id){
+                function unfollow(btn, id, callback){
                     \$(btn).hide();
                     \$('#loading_' + \$(btn).attr('id')).show();
                     \$.ajax({
@@ -463,6 +465,8 @@ class TwitterTagLib {
                     }).done(function (response) {
                         \$(btn).replaceWith(response);
                         \$('#loading_' + \$(btn).attr('id')).hide();
+                        if(callback)
+                            callback(btn, id);
                     });
                 }
             </script>
@@ -477,7 +481,7 @@ class TwitterTagLib {
         def followship = followGraphService.getUserFollowshipForItem(itemId, user?.id)
         out << """
             <span name="follow_${itemId.replace(':', '_')}" id="${id}" class="btn${followship ? 'Unfollow' : 'Follow'}"
-                onclick="${followship ? 'unfollow' : 'follow'}(this, '${itemId}');">
+                onclick="${followship ? 'unfollow' : 'follow'}(this, '${itemId}'${attrs.callback? ", ${attrs.callback}" : ''});">
                 <i class='fa fa-${followship ? 'minus' : 'plus'}'></i>
                 <span> ${message(code: "user.followList.${followship ? 'remove' : 'add'}")} </span>
                 <div class='clear-fix'></div>
