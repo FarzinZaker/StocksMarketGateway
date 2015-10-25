@@ -21,6 +21,7 @@ class TwitterController {
     def priceService
     def followGraphService
     def sharingService
+    def groupGraphService
 
     def propertyAutoComplete() {
 
@@ -162,6 +163,21 @@ class TwitterController {
     def propertyList() {
         [
                 propertyList: materialGraphService.getPropertyList(params.id as String)
+        ]
+    }
+
+    def meta() {
+        def meta = materialGraphService.getMeta(params.id as String)
+        def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+        def hasAccess = meta.any { it.label == 'Group' && it.ownerType != 'user' }
+        if (!hasAccess) {
+            def userGroups = groupGraphService.listForMember(springSecurityService.currentUser as User)
+            hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
+        }
+        [
+                author   : meta.find { it.label == 'Person' },
+                groups   : groups,
+                hasAccess: hasAccess
         ]
     }
 

@@ -9,6 +9,7 @@ import com.tinkerpop.blueprints.impls.orient.OrientEdge
 import com.tinkerpop.blueprints.impls.orient.OrientGraph
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import grails.converters.JSON
 
 class GraphDBService {
 
@@ -17,7 +18,7 @@ class GraphDBService {
     static def factory
 
     def doWithGraph(Closure closure) {
-        if(!factory) {
+        if (!factory) {
             factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
         }
         def graph = factory.getTx()
@@ -217,7 +218,10 @@ class GraphDBService {
         result.idNumber = vertex.id?.toString()?.replace('#', '')
         result.label = vertex.label?.toString()
         vertex.propertyKeys.each {
-            result.put(it, vertex.getProperty(it))
+            if (it.endsWith('List'))
+                result.put(it, JSON.parse(vertex.getProperty(it)?.toString()).collect{it.replace('"', '')})
+            else
+                result.put(it, vertex.getProperty(it))
         }
         result
     }

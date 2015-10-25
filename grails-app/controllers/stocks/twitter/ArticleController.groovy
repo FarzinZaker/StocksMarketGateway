@@ -15,6 +15,7 @@ class ArticleController {
     def springSecurityService
     def sharingService
     def materialGraphService
+    def groupGraphService
 
     @Secured([RoleHelper.ROLE_USER])
     def create() {
@@ -112,7 +113,16 @@ class ArticleController {
 
     def thread() {
         def vertex = materialGraphService.getByIdentifier(params.id as Long)
-        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertex.id?.toString()?.replace('#', '')]
+
+        def meta = materialGraphService.getMeta(vertex.id?.toString()?.replace('#', '') as String)
+        def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+        def hasAccess = meta.any { it.label == 'Group' && it.ownerType != 'user' }
+        if (!hasAccess) {
+            def userGroups = groupGraphService.listForMember(springSecurityService.currentUser as User)
+            hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
+        }
+
+        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertex.id?.toString()?.replace('#', ''), hasAccess: hasAccess, groupList: groups]
     }
 }
 

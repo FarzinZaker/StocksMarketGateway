@@ -98,4 +98,8 @@ class MaterialGraphService {
     List<Map> getFollowList(Long userId, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(OUT('Follow')) FROM Person WHERE identifier = ${userId} SKIP ${skip} LIMIT ${limit}")
     }
+
+    List<Map> getMeta(String id){
+        graphDBService.queryAndUnwrapVertex("SELECT EXPAND(UNIONALL(IN('Own'), OUT('Share'))) FROM #${id}")
+    }
 }

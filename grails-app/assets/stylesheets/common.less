@@ -2128,7 +2128,7 @@ h1, h2, h3, h4 {
     text-align: center;
     .group {
       background-color: white;
-      border: 1px solid #dadada;
+      border: 1px solid #dadada !important;
       width: 250px;
       padding: 10px;
       display: inline-block;
@@ -2149,6 +2149,7 @@ h1, h2, h3, h4 {
         //padding: 5px;
         img {
           height: 250px;
+          width: auto;
         }
       }
 
@@ -2552,7 +2553,7 @@ ul.twitterAuthorInfo {
   }
 
   &:hover {
-    border-color: @main-color;
+    border-color: @main-color !important;
     color: @main-color;
     i {
       background-color: @main-color;
@@ -2653,6 +2654,73 @@ ul.twitterAuthorInfo {
       & + span {
         float: left;
         font-weight: bold;
+      }
+    }
+  }
+}
+
+.meta {
+  font-size: 11px;
+  .author {
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 3px;
+    a {
+      width: 100%;
+      display: block;
+      text-align: right;
+      padding-left: 7px;
+      padding-right: 7px;
+    }
+  }
+
+  .groups {
+    margin-bottom: 10px;
+    display: block;
+    a {
+      width: 100%;
+      display: block;
+      text-align: right;
+      padding-left: 7px;
+      padding-right: 7px;
+      i {
+      }
+    }
+  }
+
+  .fa-lock {
+    display: block;
+    font-size: 30px;
+    color: @error-color;
+  }
+}
+
+.article {
+  .body {
+    .groupListContainer {
+      //clear: both;
+      #groupListView {
+        padding:20px;
+        background: #eaeaea;
+        text-align: right;
+        .group {
+          text-align: center;
+          width: 272px !important;
+          .image {
+            margin-left: 0;
+            float: none;
+            border-width: 0 !important;
+            img {
+              border-width: 0 !important;
+            }
+          }
+          h3 {
+            margin-right: 0;
+            margin-left: 0;
+            font-size: 16px;
+            background: transparent;
+          }
+        }
       }
     }
   }

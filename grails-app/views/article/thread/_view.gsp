@@ -6,5 +6,20 @@
 
     <div class="summary"><format:html value="${article.summary}"/></div>
 
-    <div class="body"><format:html value="${article.body}"/></div>
+    <div class="body">
+        <g:if test="${hasAccess}">
+            <format:html value="${article.body}"/>
+        </g:if>
+        <g:else>
+            <div class="info-small" style="margin-right: 360px;">
+                <g:message code="twitter.material.accessDenied"/>
+            </div>
+
+            <div class="groupListContainer">
+                <div id="groupListView">
+                    <g:render template="thread/groupList"/>
+                </div>
+            </div>
+        </g:else>
+    </div>
 </div>
