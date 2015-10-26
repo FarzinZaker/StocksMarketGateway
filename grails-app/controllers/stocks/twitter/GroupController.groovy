@@ -245,7 +245,7 @@ class GroupController {
 
     def publicUnregisteredList() {
         def user = springSecurityService.currentUser as User
-        def result = groupGraphService.publicUnregisteredList(user.id, params.skip as Integer, params.take as Integer)
+        def result = groupGraphService.publicUnregisteredList(user?.id, params.skip as Integer, params.take as Integer)
                 .collect {
             [
                     id                    : it.id.replace('#', ''),

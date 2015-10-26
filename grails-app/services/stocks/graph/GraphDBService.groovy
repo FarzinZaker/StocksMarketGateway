@@ -14,14 +14,16 @@ import grails.converters.JSON
 class GraphDBService {
 
     def grailsApplication
+    def graphConnectionPoolService
 
     static def factory
 
     def doWithGraph(Closure closure) {
-        if (!factory) {
-            factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
-        }
-        def graph = factory.getTx()
+//        if (!factory) {
+//            factory = new OrientGraphFactory("remote:${grailsApplication.config.graph.dataSource.host}/${grailsApplication.config.graph.dataSource.db}", grailsApplication.config.graph.dataSource.username?.toString(), grailsApplication.config.graph.dataSource.password?.toString())
+//            .setupPool(1, 20)
+//        }
+        def graph = graphConnectionPoolService.get()// factory.getTx()
         try {
             closure(graph)
         }
@@ -29,7 +31,11 @@ class GraphDBService {
             ignored.printStackTrace()
         }
         finally {
-            factory.close()
+//            println 'created:' + factory.createdInstancesInPool
+//            println 'available:' + factory.availableInstancesInPool
+//            graph.shutdown()
+//            factory.close()
+            graphConnectionPoolService.release(graph)
         }
     }
 
@@ -199,17 +205,17 @@ class GraphDBService {
     List<Map> queryAndUnwrapVertex(String queryString) {
         List result = null
         doWithGraph { OrientGraph graph ->
-            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()?.collect { OrientVertex vertex -> unwrapVertex(vertex) }
         }
-        result.collect { OrientVertex vertex -> unwrapVertex(vertex) }
+        result
     }
 
     List<Map> queryAndUnwrapEdge(String queryString) {
         List result = null
         doWithGraph { OrientGraph graph ->
-            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()
+            result = graph.command(new OCommandSQL(queryString)).execute().iterator()?.toList()?.collect { OrientEdge edge -> unwrapEdge(edge) }
         }
-        result.collect { OrientEdge edge -> unwrapEdge(edge) }
+        result
     }
 
     Map unwrapVertex(OrientVertex vertex) {
@@ -219,7 +225,7 @@ class GraphDBService {
         result.label = vertex.label?.toString()
         vertex.propertyKeys.each {
             if (it.endsWith('List'))
-                result.put(it, JSON.parse(vertex.getProperty(it)?.toString()).collect{it.replace('"', '')})
+                result.put(it, JSON.parse(vertex.getProperty(it)?.toString()).collect { it.replace('"', '') })
             else
                 result.put(it, vertex.getProperty(it))
         }

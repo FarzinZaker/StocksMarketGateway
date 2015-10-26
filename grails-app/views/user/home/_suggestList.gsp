@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="padding:0">
     <div class="row-fluid" id="suggestListContainer">
 
     </div>
@@ -34,11 +34,11 @@
         $.ajax({
             type: "POST",
             url: '${createLink(controller: 'twitter', action: 'suggest')}',
-            data: {skip: suggestListSkip, limit: 6},
+            data: {skip: suggestListSkip, limit: 3},
             dataType: 'json'
         }).done(function (response) {
             $.each(response, function () {
-                $('#suggestListContainer').append('<div class="col-sm-2">' + this + '</div>');
+                $('#suggestListContainer').append('<div class="col-sm-4">' + this + '</div>');
             });
             suggestListSkip += response.length;
         });

@@ -9,6 +9,9 @@ class InitGraphDBService {
     def commonGraphService
 
     def init() {
+
+        return
+
         try {
             initPerson()
             initGroup()
