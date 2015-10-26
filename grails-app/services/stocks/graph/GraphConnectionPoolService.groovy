@@ -17,13 +17,13 @@ class GraphConnectionPoolService {
 
     static OrientGraphFactory factory
 
-    private static ArrayBlockingQueue<OrientGraph> freeQueue = new ArrayBlockingQueue<OrientGraph>(5)
+    private static ArrayBlockingQueue<OrientGraph> freeQueue = new ArrayBlockingQueue<OrientGraph>(500)
     private static CopyOnWriteArrayList<OrientGraph> inUseQueue = new CopyOnWriteArrayList<OrientGraph>()
 
     private static AtomicInteger servedRequests = new AtomicInteger(0)
 
     public OrientGraph get() {
-        if (freeQueue.isEmpty() && inUseQueue.size() < 5) {
+        if (freeQueue.isEmpty() && inUseQueue.size() < 500) {
             freeQueue.put(createNew())
         }
         def item = freeQueue.take()
