@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-sm-6">
-            <g:render template="dashLets/twits"/>
+            %{--<g:render template="dashLets/twits"/>--}%
             <g:render template="dashLets/newsFeed"/>
             <g:render template="dashLets/analysis"/>
         </div>
