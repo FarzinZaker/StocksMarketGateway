@@ -122,7 +122,11 @@ class ArticleController {
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
         }
 
-        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertex.id?.toString()?.replace('#', ''), hasAccess: hasAccess, groupList: groups]
+        def vertexId = vertex.id?.toString()?.replace('#', '')
+
+        materialGraphService.recordVisit(vertexId)
+
+        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertexId, hasAccess: hasAccess, groupList: groups]
     }
 }
 

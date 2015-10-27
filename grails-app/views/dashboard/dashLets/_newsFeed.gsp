@@ -13,7 +13,7 @@
 
 <div id="newsFeedTimer" style="display: none"></div>
 
-<div id="newsFeedContainer" class="dashLet darkBlue newsFeedContainer k-rtl">
+<div id="newsFeedContainer" class="dashLet green newsFeedContainer k-rtl">
     <h2><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
 
 

@@ -1,6 +1,7 @@
 package stocks.graph
 
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import org.ocpsoft.prettytime.PrettyTime
 import stocks.User
 
 class MaterialGraphService {
@@ -13,6 +14,9 @@ class MaterialGraphService {
     public static String TYPE_BACKTEST = 'BackTest'
     public static String TYPE_PORTFOLIO = 'Portfolio'
     public static String TYPE_ANALYSIS = 'Analysis'
+
+    public static TYPES = [TYPE_ARTICLE, TYPE_SCREENER, TYPE_BACKTEST, TYPE_PORTFOLIO, TYPE_ANALYSIS]
+    public static ENABLED_TYPES = [TYPE_ARTICLE]
 
     OrientVertex ensureMaterial(User owner, String type, Long identifier, String title, String description, Long imageId) {
 
@@ -27,7 +31,8 @@ class MaterialGraphService {
                     publishDate: new Date(),
                     title      : title,
                     description: description?.replaceAll("<(.|\n)*?>", '') ?: '-',
-                    imageId    : imageId ?: 0
+                    imageId    : imageId ?: 0,
+                    visitCount : 0
             ])
         }
 
@@ -99,7 +104,28 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(OUT('Follow')) FROM Person WHERE identifier = ${userId} SKIP ${skip} LIMIT ${limit}")
     }
 
-    List<Map> getMeta(String id){
+    List<Map> getMeta(String id) {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(UNIONALL(IN('Own'), OUT('Share'))) FROM #${id}")
+    }
+
+    void recordVisit(String id) {
+        graphDBService.executeCommand("UPDATE Material INCREMENT visitCount = 1 WHERE @rid = #${id}")
+    }
+
+    def twitList(String type) {
+
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM ${type} ORDER BY publishDate DESC SKIP 0 LIMIT 10").collect {
+            [
+                    identifier : it.identifier,
+                    title      : it.title,
+                    time       : it.publishDate.time,
+                    link       : "/${it.lable}/thread/${it.identifier}",
+                    dateString : new PrettyTime(new Locale('fa')).format(it.publishDate as Date),
+                    clickCount : it.visitCount,
+                    description: it.description,
+                    imageId    : it.imageId
+
+            ]
+        }
     }
 }

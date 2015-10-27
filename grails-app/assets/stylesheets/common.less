@@ -1877,6 +1877,63 @@ h1, h2, h3, h4 {
   float: left;
 }
 
+.twitsFeedContainer {
+
+  margin-top: 20px;
+
+  .twitsFeedItems {
+
+    border-width: 0;
+    clear: both;
+    position: relative;
+
+    .mix {
+      //background: #fafafa none repeat scroll 0 0;
+      border-bottom: 1px dashed #dadada;
+      //margin-right: 10px;
+      //margin-left: 10px;
+
+      &.noBorder {
+        border-width: 0 !important;
+      }
+
+      .twitsFeedImageContainer {
+        float: right;
+        border: 1px solid #f4f4f4;
+        background: white;
+        padding: 2px;
+        margin-left: 8px;
+        font-size: 10px;
+      }
+      .twitsFeedTitleContainer {
+        //margin-right:65px;
+        //float: right;
+        margin-left:50px;
+        .twitsFeedItemTitle {
+          display: block;
+          margin-left: 10px;
+          float: right;
+        }
+        .twitsFeedItemSource {
+          font-size: 12px;
+          display: block;
+          margin-left: 5px;
+          float: right;
+          clear: both;
+          margin-right:54px;
+          margin-top:-10px;
+        }
+      }
+      .twitsFeedItemDate, .twitsFeedItemClick {
+        font-size: 10px;
+        color: dimgrey;
+        display: block;
+        float: left;
+      }
+    }
+  }
+}
+
 .newsFeedContainer {
 
   margin-top: 20px;
@@ -2700,7 +2757,7 @@ ul.twitterAuthorInfo {
     .groupListContainer {
       //clear: both;
       #groupListView {
-        padding:20px;
+        padding: 20px;
         background: #eaeaea;
         text-align: right;
         .group {

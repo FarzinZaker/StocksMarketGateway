@@ -7,12 +7,17 @@ class DashboardController {
     def externalNewsService
     def externalAnalysisService
     def dashboardService
+    def materialGraphService
 
     def index() {
     }
 
     def marketView() {
         render(dashboardService.marketView() as JSON)
+    }
+
+    def twits() {
+        render(materialGraphService.twitList(params.id as String) as JSON)
     }
 
     def news() {

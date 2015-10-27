@@ -2,7 +2,7 @@
 
 <div id="analysisFeedTimer" style="display: none"></div>
 
-<div id="analysisFeedContainer" class="dashLet green analysisFeedContainer k-rtl">
+<div id="analysisFeedContainer" class="dashLet orange analysisFeedContainer k-rtl">
     <h2><i class="fa fa-bullseye"></i> <g:message code="analysisFeed.title"/></h2>
 
 

@@ -52,7 +52,7 @@ $.fn.animatedSort = function () {
         if (indexer++ < 10)
             totalHeight += this.height() + 13;
 
-        if (indexer < 10) {
+        if (indexer < 10 && indexer < sortedList.length) {
             this.removeClass('noBorder');
         }
         else {

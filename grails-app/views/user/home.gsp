@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>${user}</title>
+    <title><g:message code="twitter.title"/></title>
 </head>
 
 <body>
@@ -19,8 +19,7 @@
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
-                    [text: message(code: 'twitter.title'), url: ''],
-                    [text: '<i class="fa fa-user"></i> ' + user, url: createLink(controller: 'user', action: 'wall', id: params.id)]
+                    [text: '<i class="fa fa-twitter"></i> ' + message(code: 'twitter.title'), url: createLink(controller: 'user', action: 'wall', id: params.id)]
             ]}"/>
         </div>
     </div>

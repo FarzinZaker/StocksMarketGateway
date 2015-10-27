@@ -10,8 +10,6 @@ class InitGraphDBService {
 
     def init() {
 
-        return
-
         try {
             initPerson()
             initGroup()
@@ -79,6 +77,7 @@ class InitGraphDBService {
         graphDBService.ensureProperty(materialClass, 'title', OType.STRING, true)
         graphDBService.ensureProperty(materialClass, 'imageId', OType.LONG, true)
         graphDBService.ensureProperty(materialClass, 'description', OType.STRING, true)
+        graphDBService.ensureProperty(materialClass, 'visitCount', OType.LONG, true)
         [
                 'Article',
                 'Portfolio',
