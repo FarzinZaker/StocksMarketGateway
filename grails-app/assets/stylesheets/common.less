@@ -1162,15 +1162,19 @@ h1, h2, h3, h4 {
 .symbolSearchBox {
   float: left;
   margin-top: 10px;
-  .k-dropdown-wrap {
-    padding: 0 !important;
+  padding: 0 !important;
+  #symbolSearch {
+    border: 1px solid #dadada;
     border-right: 4px solid #f472d0;
-    &.k-state-focused {
-      //border-right:4px solid #3b5998;
-    }
-    .k-select {
-      display: none;
-    }
+    padding: 4px 10px 6px;
+    min-width: 250px;
+  }
+  #symbolSearchResults {
+    display: none;
+    position: absolute;
+    //border:1px solid #dadada;
+    //background: white;
+    width: 300px;
   }
 }
 
@@ -1908,7 +1912,7 @@ h1, h2, h3, h4 {
       .twitsFeedTitleContainer {
         //margin-right:65px;
         //float: right;
-        margin-left:50px;
+        margin-left: 50px;
         .twitsFeedItemTitle {
           display: block;
           margin-left: 10px;
@@ -1920,8 +1924,8 @@ h1, h2, h3, h4 {
           margin-left: 5px;
           float: right;
           clear: both;
-          margin-right:54px;
-          margin-top:-10px;
+          margin-right: 54px;
+          margin-top: -10px;
         }
       }
       .twitsFeedItemDate, .twitsFeedItemClick {
@@ -2777,6 +2781,65 @@ ul.twitterAuthorInfo {
             font-size: 16px;
             background: transparent;
           }
+        }
+      }
+    }
+  }
+}
+
+#symbolSearchResultsTab {
+  border: 1px solid #dadada !important;
+  box-shadow: 2px 2px 2px #dadada;
+  ul {
+    //text-align: left;
+    display: block;
+    border-bottom: 3px solid #dadada;
+    background: white;
+    li {
+      border-width: 0 !important;
+      padding-bottom: 1px !important;
+      margin-bottom: -3px;
+      border-bottom: 3px solid #dadada !important;
+      span {
+        border-width: 0 !important;
+      }
+      &.k-state-active, &.k-state-hover {
+        border-color: @main-color !important;
+        background: white !important;
+        a {
+          color: #787878 !important;
+        }
+      }
+    }
+  }
+
+  .k-content {
+    border-width: 0 !important;
+    max-height: 330px;
+    overflow: auto;
+
+    .symbolSearchResult {
+      a {
+        display: block;
+
+        margin-right: -13px;
+        margin-left: -13px;
+        padding: 5px 15px;
+        color: #787878;
+
+        &:hover {
+          background: @main-color;
+          color: white;
+          span{
+            color:white;
+          }
+        }
+
+        span{
+          padding-top:3px;
+          color:@summary-color;
+          font-size:11px;
+          float: left;
         }
       }
     }

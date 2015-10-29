@@ -27,7 +27,7 @@ class AdjustedPriceSeries9Service {
                     'yesterdayPrice',
                     'priceChange'
             ].each { property ->
-                timeSeriesDB9Service.dropSerie("${property}")
+                timeSeriesDB9Service.dropSerie("symbol_${property}")
             }
 
         }

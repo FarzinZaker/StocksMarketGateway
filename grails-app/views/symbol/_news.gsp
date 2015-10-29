@@ -4,7 +4,7 @@
     <div id="newsPager" class="k-pager-wrap" style="margin-top:20px;"></div>
 </div>
 
-<script type="text/x-kendo-template" id="template">
+<script type="text/x-kendo-template" id="newsTemplate">
 <div class="symbolNewsItem">
     <div><span class="#:color#">#:type#</span> #=linkStart(link)##:title##=linkEnd(link)#</div>
     <span class="itemDate">#:date#</span>
@@ -45,7 +45,7 @@
 
         $("#newsList").kendoListView({
             dataSource: newsDataSource,
-            template: kendo.template($("#template").html())
+            template: kendo.template($("#newsTemplate").html())
         });
     });
 </script>

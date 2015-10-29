@@ -1,16 +1,15 @@
-package stocks
+package stocks.chart
 
 import grails.converters.JSON
-import grails.plugin.cache.CachePut
-import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
-import stocks.tse.Symbol
+import stocks.FarsiNormalizationFilter
 import stocks.tse.Index
+import stocks.tse.Symbol
 
-class ChartController {
+class IndexChartController {
 
-    def adjustedPriceSeries9Service
+    def indexSeries9Service
 
     def config() {
 
@@ -51,9 +50,9 @@ class ChartController {
     }
 
     def symbols() {
-        def symbol = Symbol.findByPersianCode(params.symbol?.toString())
+        def symbol = Index.findByPersianName(params.symbol?.toString())
         render([
-                name                 : symbol.persianCode,
+                name                 : symbol.persianName,
                 "exchange-traded"    : message(code: "market.${symbol.marketIdentifier}"),
                 "exchange-listed"    : message(code: "market.${symbol.marketIdentifier}"),
                 timezone             : "Asia/Tehran",
@@ -64,7 +63,7 @@ class ChartController {
                 session              : "0930-1630",
                 has_intraday         : false,
                 has_no_volume        : false,
-                ticker               : symbol.persianCode,
+                ticker               : symbol.persianName,
                 description          : symbol.persianName,
                 type                 : "stock",
                 supported_resolutions: ["D", "2D", "3D", "W", "3W", "M", "6M"]] as JSON)
@@ -94,25 +93,25 @@ class ChartController {
 
         }
 
-        def trades = adjustedPriceSeries9Service.dailyTradeList(Symbol.findByPersianCode(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode, params.adjustmentType?.toString())
+        def trades = indexSeries9Service.indexHistoryList(Index.findByPersianName(params.symbol?.toString()).id, new Date((params.from as Long) * 1000), new Date((params.to as Long) * 1000), groupingMode)
 
         render(
                 [
-                t: trades.collect {
+                        t: trades.collect {
 
-                    def date = it.date
-                    use(TimeCategory){
-                        date = date + 2.days
-                    }
-                    date.time / 1000
-                },
-                c: trades.collect { it.lastTradePrice },
-                o: trades.collect { it.firstTradePrice },
-                h: trades.collect { it.maxPrice },
-                l: trades.collect { it.minPrice },
-                v: trades.collect { it.totalTradeVolume },
-                s: 'ok'
-        ] as JSON)
+                            def date = it.date
+                            use(TimeCategory){
+                                date = date + 2.days
+                            }
+                            date.time / 1000
+                        },
+                        c: trades.collect { it.finalIndexValue },
+                        o: trades.collect { it.firstIndexValue },
+                        h: trades.collect { it.highestIndexValue },
+                        l: trades.collect { it.lowestIndexValue },
+                        v: trades.collect { 0 },
+                        s: 'ok'
+                ] as JSON)
     }
 
     def search() {
@@ -124,11 +123,11 @@ class ChartController {
 
         def symbols = []
         if (!params.type || params.type == '' || params.type == 'stock')
-            symbols = Symbol.search("*${phrase}* ${market ? "AND marketIdentifier:${market}" : ''}", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
+            symbols = Symbol.search("*${phrase}*", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
                 [
-                        symbol     : it.persianCode,
-                        full_name  : it.persianCode,
-                        description: '',
+                        symbol     : it.persianName,
+                        full_name  : it.persianName,
+                        description: it.persianName,
                         exchange   : it.marketIdentifier,
                         type       : 'stock'
                 ]
@@ -140,16 +139,12 @@ class ChartController {
                 [
                         symbol     : it.persianName,
                         full_name  : it.persianName,
-                        description: '',
+                        description: it.persianName,
                         exchange   : it.marketIdentifier,
                         type       : 'index'
                 ]
             }
 
         render((symbols + indexes) as JSON)
-    }
-    def sparkLine(Long id){
-        def list = adjustedPriceSeries9Service.sparkLIine(id, 30)
-        render ([id: id, value: list] as JSON)
     }
 }

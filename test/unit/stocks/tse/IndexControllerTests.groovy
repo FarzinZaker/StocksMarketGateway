@@ -1,14 +1,14 @@
-package stocks
+package stocks.tse
 
 
 import grails.test.mixin.*
-import stocks.tse.SymbolController
+import org.junit.*
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(SymbolController)
-class SymbolControllerTests {
+@TestFor(IndexController)
+class IndexControllerTests {
 
     void testSomething() {
         fail "Implement me"

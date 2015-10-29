@@ -7,6 +7,25 @@ class IndexSeries9Service {
 
     def timeSeriesDB9Service
 
+    def clear() {
+
+        [
+                "finalIndexValue",
+                "firstIndexValue",
+                "highestIndexValue",
+                "lowestIndexValue",
+                "changePercentOfHighestValueTowardYesterday",
+                "changePercentOfLowestValueTowardYesterday",
+                "decreasedSymbolsChangePercent",
+                "netPaidBenefit",
+                "yesterdayInvestment",
+                "baseInvestmentAdjustmentFactor",
+                "netCashReturnIndex"
+        ].each { property ->
+            timeSeriesDB9Service.dropSerie("index_${property}")
+        }
+    }
+
     def write(List<IndexHistory> indexHistories) {
 
         def serie = new Serie()
@@ -132,7 +151,7 @@ class IndexSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def propertyList = [
@@ -155,7 +174,8 @@ class IndexSeries9Service {
             item.indexId = indexId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", series[0].values[i][0])
             series.each { serie ->
-                item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
+                def value = serie.values[i][1]
+                item."${serie.name.split('_').last()}" = value ? value as Double : 0
             }
             if (item.finalIndexValue)
                 list << item
@@ -171,7 +191,7 @@ class IndexSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM index_${property} WHERE indexId = '${indexId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
@@ -183,7 +203,7 @@ class IndexSeries9Service {
     Double lastValue(Long indexId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM index_${property} WHERE indexId = '${indexId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values

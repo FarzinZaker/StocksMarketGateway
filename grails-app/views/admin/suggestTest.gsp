@@ -13,6 +13,6 @@
 </head>
 
 <body>
-<g:render template="/user/home/suggestList"/>
+%{--<g:render template="/user/home/suggestList"/>--}%
 </body>
 </html>

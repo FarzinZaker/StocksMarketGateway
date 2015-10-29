@@ -433,7 +433,7 @@
                     result += '</div>';
                     $.ajax({
                         type: "POST",
-                        url: '${createLink(controller: 'chart', action: 'sparkLine')}',
+                        url: '${createLink(controller: 'symbolChart', action: 'sparkLine')}',
                         data: {id: c.id}
                     }).done(function (response) {
                         renderSparkLine(response, 'other');

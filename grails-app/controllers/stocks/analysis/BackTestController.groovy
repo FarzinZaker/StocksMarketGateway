@@ -262,7 +262,7 @@ class BackTestController {
         //holding condition
         def hcStockCount = openDays.size() > 0 ? backTest.outlay / (openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax)) : 0
         def hcBuyValue = openDays.size() > 0 ? hcStockCount * openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax) : 0
-        def hcSellValue = openDays.size() > 0 ? hcStockCount * openDays.last()?.closingPrice * (1 - backTest.sellWage + backTest.sellTax) : 0
+        def hcSellValue = openDays.size() > 0 ? hcStockCount * openDays.last()?.closingPrice * (1 - backTest.sellWage - backTest.sellTax) : 0
         def hcPerformance = indexLastValue?.finalIndexValue / indexFirstValue?.finalIndexValue
 
         [
@@ -277,10 +277,10 @@ class BackTestController {
                 totalWage                           : signals.sum { it.wage } ?: 0,
                 totalTax                            : signals.sum { it.tax } ?: 0,
                 maxDrawDown                         : Math.abs(maxDrawDown * 100),
-                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / openDays.size() / 2,
+                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / openDays.size(),
                 indexDailyBenefit                   : (hcPerformance - 1) * 100 / openDays.size(),
-                performanceCompareToIndex           : performance - hcPerformance,
-                dailyBenefitInSimpleHoldingCondition: (backTest.outlay - hcBuyValue + hcSellValue) * 100 / backTest.outlay - 100
+                performanceCompareToIndex           : (performance - (hcPerformance - 1)) * 100,
+                dailyBenefitInSimpleHoldingCondition: (performance - ((backTest.outlay - hcBuyValue + hcSellValue) / backTest.outlay - 1)) * 100
         ]
     }
 

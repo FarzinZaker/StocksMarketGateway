@@ -1,6 +1,7 @@
-package stocks
+package stocks.chart
 
 import groovyx.net.http.HTTPBuilder
+import stocks.Chart
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat

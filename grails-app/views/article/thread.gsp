@@ -22,15 +22,15 @@
 
                 <div class="clear-fix" style="padding:10px;">
                     <g:render template="thread/view"/>
-                    <g:if test="${hasAccess}">
+                    %{--<g:if test="${hasAccess}">--}%
                         <twitter:rating material="${vertex}"/>
-                    </g:if>
+                    %{--</g:if>--}%
                 </div>
 
                 <div class="clear-fix"></div>
             </div>
 
-            <g:if test="${hasAccess}">
+            %{--<g:if test="${hasAccess}">--}%
                 <div class="dashLet crimson">
                     <h2><i class="fa fa-comment"></i> <g:message code="twitter.material.comment.title"/></h2>
 
@@ -38,7 +38,7 @@
                         <g:render template="/comment/submit" model="${[materialId: vertexId]}"/>
                     </div>
                 </div>
-            </g:if>
+            %{--</g:if>--}%
 
             <div class="dashLet steel">
                 <h2><i class="fa fa-comments"></i> <g:message code="comment.list.title"/></h2>

@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>${symbol.persianCode} - ${symbol.persianName}</title>
+    <title>${index.persianName}</title>
 
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'charting_library.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'chartingLibrary/datafeed/udf', file: 'datafeed.js')}"></script>
@@ -20,17 +20,17 @@
 
         var adjustmentTypes = <format:html value="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect{[text:message(code:"priceAdjustment.types.${it}"), value: it]} as JSON}"/>;
         var defaultAdjustmentType = "${stocks.tse.AdjustmentHelper.defaultType}";
-        var symbolName = '${symbol.persianCode}';
+        var symbolName = '${index.persianName}';
 
         TradingView.onready(function () {
 
             var widget = new TradingView.widget({
                 fullscreen: true,
-                symbol: '${symbol.persianCode}',
+                symbol: '${index.persianName}',
                 interval: 'D',
                 container_id: "tv_chart_container",
                 //	BEWARE: no trailing slash is expected in feed URL
-                datafeed: new Datafeeds.UDFCompatibleDatafeed("${createLink(uri: '/symbolChart')}"),
+                datafeed: new Datafeeds.UDFCompatibleDatafeed("${createLink(uri: '/indexChart')}"),
                 library_path: "../../chartingLibrary/",
                 locale: "fa_IR",
                 //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
@@ -42,7 +42,7 @@
             });
 
             widget.onChartReady(function () {
-                setupAdjustmentButton(this);
+//                setupAdjustmentButton(this);
             });
             %{--$(frames[0]).load(function(){--}%
 
@@ -64,43 +64,31 @@
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
-                    [text: message(code: 'symbol.info'), url: createLink(controller: 'symbol')],
-                    [text: "<i class=\"fa fa-line-chart\"></i> ${symbol.persianCode} (${symbol.persianName})", url: createLink(controller: 'symbol', action: 'info', id: params.id)]
+                    [text: message(code: 'index.info'), url: createLink(controller: 'index')],
+                    [text: "<i class=\"fa fa-line-chart\"></i> ${index.persianName}", url: createLink(controller: 'index', action: 'info', id: params.id)]
             ]}"/>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-xs-3">
-            %{--<h1 class="pink">--}%
-                %{--<i class="fa fa-line-chart"></i>--}%
-                %{--${symbol.persianCode} (${symbol.persianName})--}%
-            %{--</h1>--}%
 
-            <g:if test="${lastDailyTrade}">
+            <g:if test="${index}">
                 <div style="line-height: 30px;">
-                    <span><g:message code="symbol.info.lastPrice"/>:</span>
-                    <span style="margin-right:30px;font-size:20px;font-weight: bold"><g:formatNumber
-                            number="${lastDailyTrade.lastTradePrice}" type="number"/></span>
-                    <g:set var="lastTradePriceChangePercent"
-                           value="${Math.round(lastDailyTrade.priceChange * 10000 / (lastDailyTrade.lastTradePrice - lastDailyTrade.priceChange)) / 100}"/>
-                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                            number="${lastDailyTrade.priceChange}" type="number"/></span>
-                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                            number="${lastTradePriceChangePercent}" type="number"/></span>
-                </div>
-
-                <div style="line-height: 30px;">
-                    <span><g:message code="symbol.info.closingPrice"/>:</span>
-                    <span style="margin-right:30px;"><g:formatNumber number="${lastDailyTrade.closingPrice}"
-                                                                     type="number"/></span>
-                    <g:set var="closingPriceChangePercent"
-                           value="${Math.round((lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice) * 10000 / (lastDailyTrade.closingPrice - (lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice))) / 100}"/>
-                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                            number="${lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice}"
-                            type="number"/></span>
-                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                            number="${closingPriceChangePercent}" type="number"/></span>
+                    <span style="margin-left:30px;"><g:message code="symbol.info.lastPrice"/>:</span>
+                    <span style="white-space: nowrap">
+                        <span style="margin-left:30px;font-size:20px;font-weight: bold">
+                            <g:formatNumber number="${index.finalIndexValue}" type="number"/>
+                        </span>
+                        <g:set var="todayIndexChangeValue"
+                               value="${Math.round(index.todayIndexChangePercent / (index.finalIndexValue / 100 + 1))}"/>
+                        <span style="margin-left:30px;color:${todayIndexChangeValue > 0 ? 'green' : 'red'}">
+                            <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
+                        </span>
+                        <span style="color:${index.todayIndexChangePercent > 0 ? 'green' : 'red'}">
+                            %<g:formatNumber number="${index.todayIndexChangePercent}" type="number"/>
+                        </span>
+                    </span>
                 </div>
             </g:if>
 
@@ -108,28 +96,21 @@
             <div class="k-rtl" style="margin-top:20px;">
                 <div id="tabstrip">
                     <ul>
-                        <g:if test="${lastDailyTrade}">
+                        <g:if test="${index}">
                             <li class="k-state-active">
-                                <g:message code="symbol.into.status.title"/>
+                                <g:message code="index.info.status.title"/>
                             </li>
                         </g:if>
-                        <li class="${!lastDailyTrade? 'k-state-active' : ''}">
-                            <g:message code="symbol.into.news.title"/>
-                        </li>
-                        <li>
-                            <g:message code="symbol.into.chat.title"/>
+                        <li class="${!index? 'k-state-active' : ''}">
+                            <g:message code="index.info.chat.title"/>
                         </li>
                     </ul>
 
-                    <g:if test="${lastDailyTrade}">
+                    <g:if test="${index}">
                         <div>
-                            <g:render template="status" model="${[lastDailyTrade: lastDailyTrade]}"/>
+                            <g:render template="status" model="${[index: index]}"/>
                         </div>
                     </g:if>
-
-                    <div>
-                        <g:render template="news"/>
-                    </div>
 
                     <div>
                         <g:message code="underConstruction"/>

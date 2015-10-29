@@ -2,13 +2,13 @@ package stocks
 
 
 import grails.test.mixin.*
-import stocks.tse.SymbolController
+import stocks.chart.SymbolChartController
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(SymbolController)
-class SymbolControllerTests {
+@TestFor(SymbolChartController)
+class SymbolChartControllerTests {
 
     void testSomething() {
         fail "Implement me"

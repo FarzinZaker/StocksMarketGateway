@@ -93,3 +93,11 @@ function onVisibilityChange(el, callback) {
     if (isElementInViewport(el))
         callback();
 }
+
+function compareSearchResults(a,b) {
+    if (a.score < b.score)
+        return 1;
+    if (a.score > b.score)
+        return -1;
+    return 0;
+}

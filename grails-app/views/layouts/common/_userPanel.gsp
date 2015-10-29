@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<script id="template" type="text/x-kendo-template">
+<script id="userPanelTemplate" type="text/x-kendo-template">
 <ul>
     <li>
         <a href="${createLink(uri: '/profile')}">
@@ -51,7 +51,7 @@
         var userInfoLink = $("#userInfoLink");
         userInfoLink.kendoTooltip({
             filter: "a",
-            content: kendo.template($("#template").html()),
+            content: kendo.template($("#userPanelTemplate").html()),
             width: 120,
 //            height: 100,
             position: "top",
