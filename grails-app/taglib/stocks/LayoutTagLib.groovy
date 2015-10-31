@@ -144,10 +144,14 @@ class LayoutTagLib {
         }
 
         out << """
+                var lastGlobalSearchTerm;
                 function showSymbolSearchResults(){
                     var searchBox = \$("#symbolSearch");
                     var resultsPane = \$('#symbolSearchResults');
                     resultsPane.css('top', searchBox.offset().top + 35).css('left', searchBox.offset().left).width(searchBox.width() + 200).fadeIn(200).slideDown();
+                    if(searchBox.val() == lastGlobalSearchTerm)
+                        return;
+                    lastGlobalSearchTerm = searchBox.val();
                     \$('#symbolSearchResult_all').find('.loading').show();
 """
 
