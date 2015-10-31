@@ -13,7 +13,7 @@ var rateObject = {
                 if (!data.error) {
                     thisObj.parent('.rateWrapper').find('.rateUpN').html(data.likes);
                     thisObj.parent('.rateWrapper').find('.rateDownN').html(data.dislikes);
-                    thisObj.parent('.rateWrapper').find('.active').removeClass('active')
+                    thisObj.parent('.rateWrapper').find('.active').removeClass('active');
                     if(data.type == 'LIKE')
                         thisObj.parent('.rateWrapper').find('.rateUp').addClass('active');
                     if(data.type == 'DISLIKE')
@@ -24,9 +24,9 @@ var rateObject = {
         });
     }
 };
-$(function() {
-
-    jQuery.ajaxSetup({ cache:false });
-    rateObject.rate($('.rate'));
-
-});
+//$(function() {
+//
+//    jQuery.ajaxSetup({ cache:false });
+//    rateObject.rate($('.rate'));
+//
+//});

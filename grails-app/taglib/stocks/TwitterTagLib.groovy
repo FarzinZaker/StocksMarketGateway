@@ -373,7 +373,7 @@ class TwitterTagLib {
         def hasLiked = likeGraphService.hasLiked(springSecurityService.currentUser as User, attrs.commentId as String)
         def hasDisliked = likeGraphService.hasDisliked(springSecurityService.currentUser as User, attrs.commentId as String)
         out << """
-            <div class="rateWrapper">
+            <div class="rateWrapper" id="rate_${attrs.commentId?.replace(':', '_')}">
                 <span class="rate rateUp ${hasLiked ? 'active' : ''}" data-item="${attrs.commentId}">
                     <span class="rateUpN">${likesCount}</span>
                 </span>
@@ -381,6 +381,13 @@ class TwitterTagLib {
                     <span class="rateDownN">${dislikesCount}</span>
                 </span>
             </div>
+
+            <script language="javascript" type="text/javascript">
+                \$(function() {
+                    jQuery.ajaxSetup({ cache:false });
+                    rateObject.rate(\$('#rate_${attrs.commentId?.replace(':', '_')} .rate'));
+                });
+            </script>
 """
     }
 

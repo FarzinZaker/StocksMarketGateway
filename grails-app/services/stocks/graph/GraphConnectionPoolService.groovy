@@ -53,6 +53,9 @@ class GraphConnectionPoolService {
     }
 
     private static void showStatus(){
+
+        return
+
         println()
         println "total:\t${freeQueue.size() + inUseQueue.size()}"
         println "free:\t${freeQueue.size()}"

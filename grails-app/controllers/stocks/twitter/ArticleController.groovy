@@ -118,7 +118,7 @@ class ArticleController {
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
         def hasAccess = meta.any { it.label == 'Group' && it.ownerType != 'user' }
         if (!hasAccess) {
-            def userGroups = groupGraphService.listForMember(springSecurityService.currentUser as User)
+            def userGroups = groupGraphService.memberGroups(springSecurityService.currentUser as User)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
         }
 
@@ -126,7 +126,14 @@ class ArticleController {
 
         materialGraphService.recordVisit(vertexId)
 
-        [article: Article.get(params.id as Long), vertex: vertex, vertexId: vertexId, hasAccess: hasAccess, groupList: groups]
+        [
+                article     : Article.get(params.id as Long),
+                vertex      : vertex,
+                vertexId    : vertexId,
+                hasAccess   : hasAccess,
+                groupList   : groups,
+                propertyList: materialGraphService.getPropertyList(vertexId)
+        ]
     }
 }
 

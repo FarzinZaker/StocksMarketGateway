@@ -80,6 +80,11 @@ class GroupGraphService {
         }
     }
 
+    List<Map> memberGroups(User user) {
+        def person = personGraphService.ensurePerson(user)
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Member')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
+    }
+
     OrientEdge getEditorEdge(OrientVertex group, OrientVertex person) {
         graphDBService.findEdgeByLabel(person, group, 'Editor')
     }
