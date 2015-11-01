@@ -3,11 +3,14 @@ package stocks.graph
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import org.ocpsoft.prettytime.PrettyTime
 import stocks.User
+import stocks.twitter.Search.TwitterMaterial
+import stocks.twitter.Search.TwitterProperty
 
 class MaterialGraphService {
 
     def graphDBService
     def personGraphService
+    def messageSource
 
     public static String TYPE_ARTICLE = 'Article'
     public static String TYPE_SCREENER = 'Screener'
@@ -38,6 +41,19 @@ class MaterialGraphService {
 
         def person = personGraphService.ensurePerson(owner)
         graphDBService.addEdge('Own', person, material)
+
+        def rid = material?.id?.toString()
+        def searchData = TwitterMaterial.findByRid(rid)
+        if (!searchData)
+            searchData = new TwitterMaterial(rid: rid)
+        searchData.title = title
+        searchData.summary = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.identifier = identifier
+        searchData.type = messageSource.getMessage("twitter.search.type.${type}", null, '', Locale.ENGLISH)
+        searchData.imageId = imageId
+        searchData.authorRid = person.id?.toString()
+        searchData.save()
+
         material
     }
 

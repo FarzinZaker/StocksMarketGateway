@@ -6,6 +6,7 @@ import stocks.feed.ExternalNews
 import stocks.feed.ExternalAnalysis
 import stocks.tse.SymbolClientType
 import stocks.tse.data.SymbolClientTypeDataService
+import stocks.twitter.Search.*
 
 //@Secured([RoleHelper.ROLE_ADMIN])
 class AdminController {
@@ -132,6 +133,14 @@ class AdminController {
 
     def reindexNews() {
         ExternalNews.reindexAll()
+        render 'done'
+    }
+
+    def reindexTwitter() {
+        TwitterGroup.reindexAll()
+        TwitterPerson.reindexAll()
+        TwitterProperty.reindexAll()
+        TwitterMaterial.reindexAll()
         render 'done'
     }
 

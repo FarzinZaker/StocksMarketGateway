@@ -4,6 +4,8 @@ import com.tinkerpop.blueprints.Vertex
 import com.tinkerpop.blueprints.impls.orient.OrientEdge
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import stocks.User
+import stocks.twitter.Search.TwitterGroup
+import stocks.twitter.Search.TwitterMaterial
 
 class GroupGraphService {
 
@@ -30,11 +32,21 @@ class GroupGraphService {
 
         Vertex person = personGraphService.ensurePerson(owner)
         graphDBService.addEdge('Own', person, groupVertex, [:])
+
+        def rid = groupVertex?.id?.toString()
+        def searchData = TwitterGroup.findByRid(rid)
+        if (!searchData)
+            searchData = new TwitterGroup(rid: rid)
+        searchData.title = title
+        searchData.description = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.imageId = imageId
+        searchData.save()
+
         groupVertex
     }
 
     OrientVertex update(String id, String title, String description, Long imageId, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers) {
-        graphDBService.editVertex(id, [
+        def groupVertex = graphDBService.editVertex(id, [
                 title                 : title,
                 description           : description,
                 imageId               : imageId,
@@ -46,6 +58,17 @@ class GroupGraphService {
                 allowExceptionalUsers : allowExceptionalUsers,
                 ownerType             : 'user'
         ])
+
+        def rid = groupVertex?.id?.toString()
+        def searchData = TwitterGroup.findByRid(rid)
+        if (!searchData)
+            searchData = new TwitterGroup(rid: rid)
+        searchData.title = title
+        searchData.description = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.imageId = imageId
+        searchData.save()
+
+        groupVertex
     }
 
     OrientVertex delete(String id) {

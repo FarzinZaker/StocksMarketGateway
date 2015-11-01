@@ -2790,6 +2790,7 @@ ul.twitterAuthorInfo {
 #symbolSearchResultsTab {
   border: 1px solid #dadada !important;
   box-shadow: 2px 2px 2px #dadada;
+  background: white;
   ul {
     //text-align: left;
     display: block;
@@ -2815,8 +2816,50 @@ ul.twitterAuthorInfo {
 
   .k-content {
     border-width: 0 !important;
-    max-height: 330px;
     overflow: auto;
+    padding:0;
+    padding-top:5px !important;
+    background: white;
+
+    .noSearchResult{
+      color:@summary-color;
+      font-size: 11px;
+      padding-bottom: 15px;
+      display: block;
+      text-align: center;
+      padding-top: 10px;
+    }
+
+    ul {
+      //text-align: left;
+      display: block;
+      border-bottom: 3px solid #dadada;
+      background: white;
+      li {
+        border-width: 0 !important;
+        padding-bottom: 1px !important;
+        margin-bottom: -3px;
+        border-bottom: 3px solid #dadada !important;
+        padding-right:13px;
+        padding-left:13px;
+        span {
+          border-width: 0 !important;
+        }
+        &.k-state-active, &.k-state-hover, &:hover, &:focus {
+          border-color: @main-color !important;
+          background: white !important;
+          a {
+            background: white !important;
+            color: #787878 !important;
+          }
+        }
+      }
+    }
+    .k-content{
+      padding: 0.3em 0.92em;
+      max-height: 330px;
+      padding-top:10px !important;
+    }
 
     .symbolSearchResult {
       a {
@@ -2830,15 +2873,15 @@ ul.twitterAuthorInfo {
         &:hover {
           background: @main-color;
           color: white;
-          span{
-            color:white;
+          span {
+            color: white;
           }
         }
 
-        span{
-          padding-top:3px;
-          color:@summary-color;
-          font-size:11px;
+        span {
+          padding-top: 3px;
+          color: @summary-color;
+          font-size: 11px;
           float: left;
         }
       }

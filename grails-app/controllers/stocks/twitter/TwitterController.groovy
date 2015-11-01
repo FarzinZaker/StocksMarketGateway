@@ -11,7 +11,7 @@ import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Oil
 import stocks.rate.CoinFuture
-import stocks.tse.SymbolDailyTrade
+import stocks.twitter.Search.*
 
 class TwitterController {
 
@@ -238,5 +238,85 @@ class TwitterController {
         render(sharingService.suggestFollowList(springSecurityService.currentUser?.id, skip, limit).collect {
             g.render(template: '/twitter/followable', model: [item: it]) as String
         } as JSON)
+    }
+
+    def globalAuthorSearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = TwitterPerson.search("${queryStr}", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : "${item.title}",
+                    link : createLink(controller: 'user', action: 'wall', id: item.identifier),
+                    score: searchResult.scores[index] / maxScore,
+                    type : message(code: 'globalSearch.author')
+            ]
+        }
+        render(result.sort { -it.score } as JSON)
+    }
+
+    def globalPropertySearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = TwitterProperty.search("${queryStr}", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : "${item.title}",
+                    link : createLink(controller: 'twitter', action: 'property', id: item.identifier),
+                    score: searchResult.scores[index] / maxScore,
+                    type : message(code: 'globalSearch.tag')
+            ]
+        }
+        render(result.sort { -it.score } as JSON)
+    }
+
+    def globalMaterialSearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = TwitterMaterial.search("${queryStr}", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : "${item.title}",
+                    link : createLink(controller: 'article', action: 'thread', id: item.identifier),
+                    score: searchResult.scores[index] / maxScore,
+                    type : message(code: 'globalSearch.material')
+            ]
+        }
+        render(result.sort { -it.score } as JSON)
+    }
+
+    def globalGroupSearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = TwitterGroup.search("${queryStr}", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : "${item.title}",
+                    link : createLink(controller: 'group', action: 'home', id: item.rid?.replace('#', '')),
+                    score: searchResult.scores[index] / maxScore,
+                    type : message(code: 'globalSearch.group')
+            ]
+        }
+        render(result.sort { -it.score } as JSON)
     }
 }
