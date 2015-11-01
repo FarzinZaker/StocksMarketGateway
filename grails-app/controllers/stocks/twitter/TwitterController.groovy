@@ -244,7 +244,7 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterPerson.search("${queryStr}", max: 50)
+        def searchResult = TwitterPerson.search("${queryStr ?: '**'}", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -264,7 +264,7 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterProperty.search("${queryStr}", max: 50)
+        def searchResult = TwitterProperty.search("${queryStr ?: '**'}", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -284,7 +284,7 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterMaterial.search("${queryStr}", max: 50)
+        def searchResult = TwitterMaterial.search("${queryStr ?: '**'}", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -304,7 +304,7 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterGroup.search("${queryStr}", max: 50)
+        def searchResult = TwitterGroup.search("${queryStr ?: '**'}", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
