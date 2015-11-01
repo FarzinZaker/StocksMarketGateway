@@ -73,7 +73,7 @@
     $(document).ready(function () {
         if (!loginPanel.data("kendoWindow")) {
             loginPanel.kendoWindow({
-                width: "750px",
+                width: "780px",
                 title: false,
                 modal: true,
                 visible: false,

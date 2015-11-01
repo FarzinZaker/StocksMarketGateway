@@ -70,6 +70,10 @@ class OAuth2Controller {
         def user = User.findByEmail(profile.email as String)
         def newUser = false
         if (!user) {
+
+            if(grailsApplication.config.registrationDisabled)
+                redirect(controller: 'user', action: 'registrationDisabled')
+
             newUser = true
             user = new User()
             user.email = profile.email
@@ -165,6 +169,10 @@ class OAuth2Controller {
         def user = User.findByEmail(email as String)
         def newUser = false
         if (!user) {
+
+            if(grailsApplication.config.registrationDisabled)
+                redirect(controller: 'user', action: 'registrationDisabled')
+
             newUser = true
             user = new User()
             user.email = email

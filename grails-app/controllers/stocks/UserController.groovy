@@ -9,14 +9,21 @@ import stocks.messaging.Invitation
 
 class UserController {
 
-    def simpleCaptchaService
+    def grailsApplication
     def mailService
     def springSecurityService
     def personGraphService
     def materialGraphService
     def groupGraphService
 
+    def registrationDisabled(){
+
+    }
+
     def registerInvited() {
+
+        if(grailsApplication.config.registrationDisabled)
+            redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
@@ -36,6 +43,9 @@ class UserController {
 
     def completeRegistration() {
 
+        if(grailsApplication.config.registrationDisabled)
+            redirect(controller: 'user', action: 'registrationDisabled')
+
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
 
@@ -48,6 +58,11 @@ class UserController {
     }
 
     def saveInitialRegistration() {
+
+        if(grailsApplication.config.registrationDisabled) {
+            render message(code: 'registration.disabled.message')
+            return
+        }
 
         if (springSecurityService.loggedIn) {
             render '0'
@@ -98,6 +113,9 @@ class UserController {
 
     def saveRegistration() {
 
+        if(grailsApplication.config.registrationDisabled)
+            redirect(controller: 'user', action: 'registrationDisabled')
+
         if (springSecurityService.loggedIn)
             redirect(uri: '/')
 
@@ -144,6 +162,9 @@ class UserController {
     }
 
     def checkForActivationMail() {
+
+        if(grailsApplication.config.registrationDisabled)
+            redirect(controller: 'user', action: 'registrationDisabled')
 
     }
 
@@ -254,7 +275,8 @@ class UserController {
 
     def activate() {
 
-        return
+        if(grailsApplication.config.registrationDisabled)
+            redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
             redirect(uri: '/')

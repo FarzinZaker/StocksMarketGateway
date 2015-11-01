@@ -1597,6 +1597,14 @@ h1, h2, h3, h4 {
     }
   }
 
+  .oAuthToolbar {
+    text-align: center !important;
+    .oAuthButton {
+      display: inline-block;
+      float: none;
+    }
+  }
+
   .clear-fix {
     margin: 0 !important;
   }
@@ -1661,7 +1669,7 @@ h1, h2, h3, h4 {
             margin-right: 5px;
             overflow: hidden;
             padding-right: 0;
-            width: 230px;
+            width: 240px;
             h3 {
               margin-right: 5px;
             }
@@ -2817,12 +2825,12 @@ ul.twitterAuthorInfo {
   .k-content {
     border-width: 0 !important;
     overflow: auto;
-    padding:0;
-    padding-top:5px !important;
+    padding: 0;
+    padding-top: 5px !important;
     background: white;
 
-    .noSearchResult{
-      color:@summary-color;
+    .noSearchResult {
+      color: @summary-color;
       font-size: 11px;
       padding-bottom: 15px;
       display: block;
@@ -2840,8 +2848,8 @@ ul.twitterAuthorInfo {
         padding-bottom: 1px !important;
         margin-bottom: -3px;
         border-bottom: 3px solid #dadada !important;
-        padding-right:13px;
-        padding-left:13px;
+        padding-right: 13px;
+        padding-left: 13px;
         span {
           border-width: 0 !important;
         }
@@ -2855,10 +2863,10 @@ ul.twitterAuthorInfo {
         }
       }
     }
-    .k-content{
+    .k-content {
       padding: 0.3em 0.92em;
       max-height: 330px;
-      padding-top:10px !important;
+      padding-top: 10px !important;
     }
 
     .symbolSearchResult {
@@ -2886,5 +2894,16 @@ ul.twitterAuthorInfo {
         }
       }
     }
+  }
+}
+
+#loginForm + .oAuthToolbar {
+  margin-top:25px !important;
+  .oAuthButton {
+    padding: 10px 20px;
+    margin-right:0 !important;
+    margin-left:10px !important;
+    display: inline-block !important;
+    float:none !important;
   }
 }
