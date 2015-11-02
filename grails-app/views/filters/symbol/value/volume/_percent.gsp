@@ -12,14 +12,17 @@
         });
     </script>
     <div style="height: 10px;"></div>
-    <input id="valueDays" name="value" type="number" value="${days}"/>
-    <script language="javascript" type="text/javascript">
-        $(document).ready(function () {
-            $('#valueDays').kendoNumericTextBox({
-                format: "میانیگین ##,# روزه",
-                step: 1,
-                min: 1
-            });
-        });
-    </script>
+
+    <form:select items="${[5, 10, 30, 90, 365].collect { [text: "میانگین ${it} روزه", value: it] }}" name="value"
+                 id="valueDays" value="${days}"/>
+    %{--<input id="valueDays" name="value" type="number" value="${days}"/>--}%
+    %{--<script language="javascript" type="text/javascript">--}%
+        %{--$(document).ready(function () {--}%
+            %{--$('#valueDays').kendoNumericTextBox({--}%
+                %{--format: "میانیگین ##,# روزه",--}%
+                %{--step: 1,--}%
+                %{--min: 1--}%
+            %{--});--}%
+        %{--});--}%
+    %{--</script>--}%
 </div>

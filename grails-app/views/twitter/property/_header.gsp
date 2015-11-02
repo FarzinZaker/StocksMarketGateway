@@ -9,5 +9,5 @@
         <twitter:followButton itemId="${property.idNumber}" />
     </div>
 
-    <g:render template="property/info/${property.label}" model="${propertyInfo}"/>
+    <g:render template="property/info/${property.label?.toString()?.toLowerCase()}" model="${propertyInfo}"/>
 </div>

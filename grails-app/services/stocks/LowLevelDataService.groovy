@@ -17,7 +17,7 @@ class LowLevelDataService {
     def grailsApplication
     SessionFactory sessionFactory
 
-    Connection getConnection(){
+    Connection getConnection() {
         sessionFactory.currentSession.connection()
     }
 
@@ -27,26 +27,27 @@ class LowLevelDataService {
 
         def sqlCall = "{call ${spName}(${parameters.collect { "?" }.join(', ')})}"
         try {
-            sql.call(sqlCall , parameters.collect{it.value})
+            sql.call(sqlCall, parameters.collect { it.value })
         } catch (Exception e) {
             println()
             "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
         }
     }
+
     def executeFunction(String spName, Map parameters) {
 
         def sql = new Sql(connection)
 
-            def sqlCall = "{? = call ${spName}(${parameters.collect { "?" }.join(', ')})}"
+        def sqlCall = "{? = call ${spName}(${parameters.collect { "?" }.join(', ')})}"
         def rows = []
         try {
 //            rows = sql.call(sqlCall, [rows] + parameters.collect{it.value})
-            sql.call(sqlCall, [Sql.resultSet(OracleTypes.CURSOR)] + parameters.collect{it.value}) { result ->
+            sql.call(sqlCall, [Sql.resultSet(OracleTypes.CURSOR)] + parameters.collect { it.value }) { result ->
 
                 def resultSet = result as GroovyResultSet
                 def meta = resultSet.getMetaData()
                 def columns = []
-                for(def i = 1; i <= meta.columnCount; i++)
+                for (def i = 1; i <= meta.columnCount; i++)
                     columns << meta.getColumnName(i)
 
                 resultSet.eachRow { row ->
@@ -65,5 +66,24 @@ class LowLevelDataService {
             "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
         }
         rows
+    }
+
+    def executeFunctionWithNumericReturnValue(String spName, Map parameters) {
+
+        def sql = new Sql(connection)
+
+        def sqlCall = "{? = call ${spName}(${parameters.collect { "?" }.join(', ')})}"
+        def returnValue
+        try {
+//            rows = sql.call(sqlCall, [rows] + parameters.collect{it.value})
+            sql.call(sqlCall, [Sql.NUMERIC] + parameters.collect { it.value }) { result ->
+
+                returnValue = result
+            }
+        } catch (Exception e) {
+            println()
+            "Could not execute ${sqlCall} with params ${parameters}: ${e.getMessage()} ${e.stackTrace}"
+        }
+        returnValue
     }
 }

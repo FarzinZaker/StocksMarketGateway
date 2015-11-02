@@ -73,6 +73,8 @@ class AdminController {
     def sharingService
     def springSecurityService
 
+    def symbolAverageTradeDataService
+
     def index() {
         def admin = User.get(5)
         admin.username = 'admin'
@@ -104,8 +106,9 @@ class AdminController {
 //        symbolClientTypeDataService.importData(true)
 //        symbolStateDataService.importData(true)
 
-        render oilDataService.importData()
+//        render oilDataService.importData()
 
+        symbolAverageTradeDataService.importData()
         render 'ok'
 
     }
