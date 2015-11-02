@@ -4,7 +4,7 @@
         <div>
 
             <a class="tilt tilt-tile tilt-tile-orange tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'create')}">
-                <i class="fa fa-file"></i><span><g:message code="menu.articles.add"/></span>
+                <i class="fa fa-file"></i><span><g:message code="menu.twitter.articles.add"/></span>
             </a>
 
         </div>
@@ -16,7 +16,7 @@
         <div>
 
             <a class="tilt tilt-tile tilt-tile-orange tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'article', action: 'list')}">
-                <i class="fa fa-file"></i><span><g:message code="menu.articles.list"/></span>
+                <i class="fa fa-file"></i><span><g:message code="menu.twitter.articles.list"/></span>
             </a>
 
         </div>

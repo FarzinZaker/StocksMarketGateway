@@ -18,8 +18,8 @@
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
-                    [text: message(code:'menu.articles'), url:createLink(controller: 'article')],
-                    [text: '<i class="fa fa-file"></i> ' + message(code:'menu.articles.add'), url:createLink(controller: 'article', action: 'create')]
+                    [text: message(code:'menu.twitter.articles'), url:createLink(controller: 'article')],
+                    [text: '<i class="fa fa-file"></i> ' + message(code:'menu.twitter.articles.add'), url:createLink(controller: 'article', action: 'create')]
             ]}"/>
         </div>
     </div>
