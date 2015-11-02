@@ -1,11 +1,28 @@
 <ul id="menu">
     <li>
-        <g:message code="menu.articles"/>
+        <g:message code="menu.twitter"/>
         <ul>
+            <li>
+                <a href="${createLink(controller: 'user', action: 'home')}"><g:message
+                        code="menu.twitter.home"/></a>
+            </li>
+            <li class="k-separator">
+            </li>
             <li><a href="${createLink(controller: 'article', action: 'create')}"><g:message
-                    code="menu.articles.add"/></a></li>
+                    code="menu.twitter.articles.add"/></a></li>
             <li><a href="${createLink(controller: 'article', action: 'list')}"><g:message
-                    code="menu.articles.list"/></a></li>
+                    code="menu.twitter.articles.list"/></a></li>
+            <li class="k-separator">
+            </li>
+            <li>
+                <a href="${createLink(controller: 'group', action: 'list')}"><g:message
+                        code="menu.twitter.groups"/></a>
+            </li>
+            <li>
+                <a href="${createLink(controller: 'group', action: 'select')}"><g:message
+                        code="menu.twitter.groupSelect"/></a>
+            </li>
+
         </ul>
     </li>
     <li>
