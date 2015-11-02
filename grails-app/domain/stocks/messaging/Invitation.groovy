@@ -32,7 +32,7 @@ class Invitation {
         registrationRecorded nullable: true
     }
 
-    def beforeInsert(){
-        identifier = UUID.randomUUID().toString()
-    }
+//    def beforeInsert(){
+//        identifier = UUID.randomUUID().toString()
+//    }
 }

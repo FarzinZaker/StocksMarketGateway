@@ -52,6 +52,7 @@ class InvitationController {
                 invitation.provider = params.provider
                 invitation.sender = springSecurityService.currentUser as User
                 invitation.receiverAddress = address
+                invitation.identifier = UUID.randomUUID().toString()
                 invitation.save()
 
                 def unsubscribe = Unsubscribe.findByEmailAndRemoved(address?.toString()?.toLowerCase(), false)
