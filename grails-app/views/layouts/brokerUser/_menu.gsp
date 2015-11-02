@@ -40,6 +40,7 @@
         <ul>
             <li><a href="${createLink(controller: 'portfolio', action: 'list')}"><g:message
                     code="menu.portfolios.list"/></a></li>
+            <portfolio:menu/>
         </ul>
     </li>
     <li>
