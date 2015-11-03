@@ -1,4 +1,4 @@
 
 jobsDisabled = false
-registrationDisabled = false
+registrationDisabled = true
 timeSeriesDisabled = false
