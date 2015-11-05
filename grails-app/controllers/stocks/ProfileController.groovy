@@ -1,6 +1,7 @@
 package stocks
 
 import grails.plugins.springsecurity.Secured
+import stocks.util.EncodingHelper
 
 class ProfileController {
 
@@ -52,5 +53,15 @@ class ProfileController {
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def invite() {
         [user: springSecurityService.currentUser as User]
+    }
+
+    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
+    def social() {
+        def user = springSecurityService.currentUser as User
+        [
+                user        : user,
+                telegramUser: user.telegramUser,
+                key: "${user?.id}:${EncodingHelper.MD5("connect_${user?.id}_to_telgram")}"
+        ]
     }
 }

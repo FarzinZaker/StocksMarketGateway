@@ -144,7 +144,7 @@ class MarketStatusService {
         def dayTimes = marketOpenTimes."${calendar.get(Calendar.DAY_OF_WEEK)}"
         if (!dayTimes) {
             use(TimeCategory) {
-                date = date.clone() - (calendar.get(Calendar.DAY_OF_WEEK) - marketOpenTimes.last().key.toInteger()).days
+                date = date.clone() - (calendar.get(Calendar.DAY_OF_WEEK) - marketOpenTimes.keySet().last().toInteger()).days
                 calendar.setTime(date)
             }
             calendar.set(calendar.HOUR_OF_DAY, 23)

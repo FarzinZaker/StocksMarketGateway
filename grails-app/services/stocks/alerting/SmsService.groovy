@@ -19,6 +19,7 @@ import stocks.tse.SupervisorMessage
 class SmsService {
     static transactional = false
     def grailsApplication
+    def telegramService
 
     static parameters = [
             agah: [
@@ -114,8 +115,11 @@ class SmsService {
 
     def sendMessage(QueuedMessage message) {
         if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH) {
-            if (message.status == MessageHelper.STATUS_WAITING)
+            if (message.status == MessageHelper.STATUS_WAITING) {
+                if (message.user?.telegramUser?.chatId)
+                    telegramService.sendMessage(message.user, message.body)
                 sendMessageViaMobilePush(message)
+            }
             if (message.status == MessageHelper.STATUS_SENT) {
                 def expireTime = message.lastUpdated
                 use(TimeCategory) {

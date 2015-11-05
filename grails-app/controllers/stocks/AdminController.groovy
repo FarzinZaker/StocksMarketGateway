@@ -75,6 +75,8 @@ class AdminController {
 
     def symbolAverageTradeDataService
 
+    def telegramService
+
     def index() {
         def admin = User.get(5)
         admin.username = 'admin'
@@ -83,7 +85,7 @@ class AdminController {
         admin.save(flush: true)
     }
 
-    def suggestTest(){
+    def suggestTest() {
     }
 
     def test() {
@@ -108,11 +110,11 @@ class AdminController {
 
 //        render oilDataService.importData()
 
-        symbolAverageTradeDataService.importData()
+//        symbolAverageTradeDataService.importData()
+        telegramService.dispatchUpdates()
         render 'ok'
 
     }
-
 
 
     def throwException() {

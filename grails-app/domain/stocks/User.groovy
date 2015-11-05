@@ -1,6 +1,7 @@
 package stocks
 
 import stocks.messaging.NewsLetterCategory
+import stocks.social.TelegramUser
 
 class User {
 
@@ -30,6 +31,8 @@ class User {
     Integer maxDept = 0
     User referer
 
+    TelegramUser telegramUser
+
     static hasMany = [followList: User, newsLetterCategories: NewsLetterCategory]
 
     static transients = ['springSecurityService']
@@ -49,6 +52,7 @@ class User {
         externalImageUrl nullable: true
         referer nullable: true
         maxDept nullable: true
+        telegramUser nullable: true
     }
 
     static mapping = {

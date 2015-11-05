@@ -54,6 +54,15 @@
                 <div class="clear-fix"></div>
             </a>
         </li>
+        <li class="${params.action == 'social' ? 'active' : ''}">
+            <a href="${createLink(controller: 'profile', action: 'social')}">
+                <i class="fa fa-share-square-o"></i>
+                <span>
+                    <g:message code="user.profile.social"/>
+                </span>
+                <div class="clear-fix"></div>
+            </a>
+        </li>
     </ul>
 </div>
 <script language="javascript" type="text/javascript">
