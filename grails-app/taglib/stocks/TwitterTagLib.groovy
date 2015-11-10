@@ -488,7 +488,9 @@ class TwitterTagLib {
         def followship = followGraphService.getUserFollowshipForItem(itemId, user?.id)
         out << """
             <span name="follow_${itemId.replace(':', '_')}" id="${id}" class="btn${followship ? 'Unfollow' : 'Follow'}"
-                onclick="${followship ? 'unfollow' : 'follow'}(this, '${itemId}'${attrs.callback? ", ${attrs.callback}" : ''});">
+                onclick="${followship ? 'unfollow' : 'follow'}(this, '${itemId}'${
+            attrs.callback ? ", ${attrs.callback}" : ''
+        });">
                 <i class='fa fa-${followship ? 'minus' : 'plus'}'></i>
                 <span> ${message(code: "user.followList.${followship ? 'remove' : 'add'}")} </span>
                 <div class='clear-fix'></div>
@@ -503,4 +505,166 @@ class TwitterTagLib {
         def last = s + (((e - s) / steps) * count);
         Math.round(Math.floor(last));
     }
+
+    def tagSearch = {
+
+        def config = [
+                [
+                        id   : 'symbol',
+                        title: message(code: 'globalSearch.symbol'),
+                        link : createLink(controller: 'symbol', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'index',
+                        title: message(code: 'globalSearch.index'),
+                        link : createLink(controller: 'index', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'currency',
+                        title: message(code: 'globalSearch.currency'),
+                        link : createLink(controller: 'currency', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'coin',
+                        title: message(code: 'globalSearch.coin'),
+                        link : createLink(controller: 'coin', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'metal',
+                        title: message(code: 'globalSearch.metal'),
+                        link : createLink(controller: 'metal', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'oil',
+                        title: message(code: 'globalSearch.oil'),
+                        link : createLink(controller: 'oil', action: 'hashTagSearch')
+                ],
+                [
+                        id   : 'future',
+                        title: message(code: 'globalSearch.future'),
+                        link : createLink(controller: 'future', action: 'hashTagSearch')
+                ]
+        ]
+
+        out << """
+        <div id="tagSearchResults" class="k-rtl">
+            <div id="tagSearchResultsTab">
+                <ul>
+                    <li class='k-state-active'>
+                        ${message(code: 'all')}
+                    </li>
+"""
+        config.each { item ->
+            out << """
+                    <li>
+                    ${item.title}
+                    </li>
+"""
+        }
+        out << """
+                </ul>
+"""
+
+        out << """
+                <div>
+                    <div id="tagSearchResult_all" class="tagSearchResult">
+"""
+        out << form.loading()
+        out << """
+                    </div>
+                </div>
+"""
+        config.each {
+            out << """
+                <div>
+                    <div id="tagSearchResult_${it.id}" class="tagSearchResult">
+"""
+            out << form.loading()
+            out << """
+                    </div>
+                </div>
+"""
+        }
+
+        out << """
+            </div>
+        </div>
+        <script language='javascript' type='text/javascript'>
+"""
+        config.each { item ->
+            out << """
+            var tagSearchResultLoaded_${item.id} = false;
+            var tagSearchResultList_${item.id} = [];
+"""
+        }
+
+        out << """
+            var lastGlobalSearchTerm;
+            var currentHashTagEditor;
+            function showTagSearchResults(ed, phrase){
+                currentHashTagEditor = ed;
+                var resultsPane = \$('#tagSearchResults');
+                if(phrase == lastGlobalSearchTerm)
+                    return;
+                lastGlobalSearchTerm = phrase;
+                \$('#tagSearchResult_all').find('.loading').show();
+"""
+
+        config.each { item ->
+            out << """
+                tagSearchResultLoaded_${item.id} = false;
+                \$('#tagSearchResult_${item.id}').find('.loading').show();
+                \$.ajax({
+                    type: "POST",
+                    url: '${item.link}',
+                    data: {term: phrase}
+                }).done(function (response) {
+                    var container = \$('#tagSearchResult_${item.id}');
+                    container.html('');
+                    var indexer_${item.id} = 0;
+                    \$.each(response, function(){
+                        container.append('<a data-tag="' + this.tag + '" data-link="' + this.link + '" href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        indexer_${item.id}++;
+                    });
+                    if(response.length == 0){
+                        container.html('<span class="noSearchResult">${message(code: 'tagSearch.noResult')}</span>');
+                    }
+                    tagSearchResultList_${item.id} = response;
+                    tagSearchResultLoaded_${item.id} = true;
+"""
+            out << """
+                    if(${config.collect { "tagSearchResultLoaded_${it.id}" }.join(' && ')}){
+                        var total = [];
+"""
+            out << config.collect {
+                """
+                    total = total.concat(tagSearchResultList_${it.id});
+"""
+            }.join('\r\n')
+            out << """
+                    total.sort(compareSearchResults)
+                    var allContainer = \$('#tagSearchResult_all');
+                    allContainer.html('')
+                    var totalIndexer = 0;
+                    \$.each(total, function(){
+                        allContainer.append('<a data-tag="' + this.tag + '" data-link="' + this.link + '" href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        totalIndexer++;
+                    });
+                    if(total.length == 0){
+                        allContainer.html('<span class="noSearchResult">${message(code: 'tagSearch.noResult')}</span>');
+                            }
+                        }
+                    });
+"""
+        }
+
+        out << """
+            }
+            \$(document).ready(function () {
+                \$("#tagSearchResultsTab").kendoTabStrip();
+            });
+        </script>
+"""
+    }
+
 }

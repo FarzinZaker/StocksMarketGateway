@@ -9,7 +9,8 @@
 </form:field>
 
 <form:field fieldName="document.body">
-    <form:editor name="body" width="900" height="400" entity="${document}" mode="full"/>
+    <twitter:tagSearch/>
+    <form:editor name="body" width="900" height="400" entity="${document}" mode="full" hashTag="true"/>
 </form:field>
 
 <form:field fieldName="document.image">

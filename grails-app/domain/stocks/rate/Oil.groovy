@@ -40,4 +40,9 @@ class Oil {
         high nullable: true
         time nullable: true
     }
+
+    @Override
+    String toString(){
+        name
+    }
 }

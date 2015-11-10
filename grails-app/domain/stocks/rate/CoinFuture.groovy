@@ -152,4 +152,9 @@ class CoinFuture {
         lastUpdate nullable: true
         expired nullable: true
     }
+
+    @Override
+    String toString(){
+        contractDescription
+    }
 }

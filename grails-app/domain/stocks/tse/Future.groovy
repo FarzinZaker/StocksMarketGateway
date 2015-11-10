@@ -53,4 +53,9 @@ class Future {
         companyCode nullable: true
         maxOrderCount nullable: true
     }
+
+    @Override
+    String toString(){
+        description
+    }
 }

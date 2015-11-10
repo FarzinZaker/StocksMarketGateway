@@ -125,7 +125,28 @@ class SymbolController {
                     text : "${item.persianCode} - ${item.persianName}",
                     link : createLink(controller: 'symbol', action: 'info', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.symbol')} - ${message(code:"market.${item.marketIdentifier}")}"
+                    type : "${message(code: 'globalSearch.symbol')} - ${message(code: "market.${item.marketIdentifier}")}"
+            ]
+        }
+        render(result.sort { -it.score } as JSON)
+    }
+
+    def hashTagSearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = Symbol.search("*${queryStr?.replace('_', '* AND *')}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : "${item.persianCode} - ${item.persianName}",
+                    tag  : item.persianCode?.replace(' ', '_'),
+                    link : createLink(controller: 'symbol', action: 'info', id: item.id),
+                    score: searchResult.scores[index] / maxScore,
+                    type : "${message(code: 'globalSearch.symbol')} - ${message(code: "market.${item.marketIdentifier}")}"
             ]
         }
         render(result.sort { -it.score } as JSON)
@@ -145,7 +166,7 @@ class SymbolController {
                     text : "${item.persianCode} - ${item.persianName}",
                     link : createLink(controller: 'symbol', action: 'info', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.housingFacility')} - ${message(code:"market.${item.marketIdentifier}")}"
+                    type : "${message(code: 'globalSearch.housingFacility')} - ${message(code: "market.${item.marketIdentifier}")}"
             ]
         }
         render(result.sort { -it.score } as JSON)
@@ -165,7 +186,7 @@ class SymbolController {
                     text : "${item.persianCode} - ${item.persianName}",
                     link : createLink(controller: 'symbol', action: 'info', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.investmentFund')} - ${message(code:"market.${item.marketIdentifier}")}"
+                    type : "${message(code: 'globalSearch.investmentFund')} - ${message(code: "market.${item.marketIdentifier}")}"
             ]
         }
         render(result.sort { -it.score } as JSON)
@@ -185,7 +206,7 @@ class SymbolController {
                     text : "${item.persianCode} - ${item.persianName}",
                     link : createLink(controller: 'symbol', action: 'info', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.bonds')} - ${message(code:"market.${item.marketIdentifier}")}"
+                    type : "${message(code: 'globalSearch.bonds')} - ${message(code: "market.${item.marketIdentifier}")}"
             ]
         }
         render(result.sort { -it.score } as JSON)

@@ -178,7 +178,8 @@ class FormTagLib {
                 <input class="k-textbox" name='${attrs.name}' id="${attrs.id ?: attrs.name}" ${
             attrs.style ? "style='${attrs.style}'" : ''
         } data-validation="${attrs.validation ?: ''}" ${attrs."ng-model" ? "ng-model=${attrs."ng-model"}" : ''} ${
-            attrs.value ? "value='${attrs.value}'" : (attrs.entity ? ("value='${attrs.entity?."${attrs.name}"}' " ?: '') : '' )} />
+            attrs.value ? "value='${attrs.value}'" : (attrs.entity ? ("value='${attrs.entity?."${attrs.name}"}' " ?: '') : '')
+        } />
             </span>
             <script>
                 \$(document).ready(function() {
@@ -245,6 +246,9 @@ class FormTagLib {
         if (!attrs.ajax) {
             out << asset.javascript(src: 'tinymce/tinymce.min.js')
             out << asset.javascript(src: 'tinymce/jquery.tinymce.min.js')
+            if (attrs.hashTag) {
+                out << asset.javascript(src: 'tinymce/hashTagHandler.js')
+            }
         }
         out << """
             <div class='k-rtl'>
@@ -284,7 +288,31 @@ class FormTagLib {
             attrs.mode == 'full' ? '| hr' : ''
         } | numlist | bullist ${attrs.mode != 'simple' ? '| image link' : ''} ${
             attrs.mode == 'full' ? '| forecolor | backcolor' : ''
-        }"
+        } ${attrs.hashTag ? '' : ''}",
+                        setup : function(ed) {
+"""
+        if (attrs.hashTag)
+            out << """
+                            ed.on('keyup', function(e){onKeyUpForHashTag(ed, e)});
+                            ed.on('keydown', function(e){onKeyDownForHashTag(ed, e)});
+                            ed.on('click', function(e){onClickForHashTag(ed, e)});
+                            ed.on('focusout', function(e){onBlurForHashTag(ed, e)});
+                            // Add a custom button
+                            ed.addButton('hashTagButton', {
+                                title : '${message(code: 'hashTag.AddButton.label')}',
+                                text: '#',
+                                icon: false,
+                                onclick : function() {
+                                    // Add you own code to execute something on click
+                                    ed.focus();
+                                    ed.selection.setContent('#');
+                                    ed.setContent(ed.getContent({format: 'text'}));
+                                    doHashTagSearch(ed);
+                                }
+                            });
+"""
+        out << """
+                        }
                     });
                 });
             </script>

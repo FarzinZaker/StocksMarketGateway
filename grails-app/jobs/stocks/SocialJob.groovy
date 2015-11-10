@@ -1,7 +1,5 @@
 package stocks
 
-import grails.util.Environment
-
 
 class SocialJob {
     static startDelay = 60000
@@ -11,9 +9,6 @@ class SocialJob {
     def telegramService
 
     def execute() {
-
-        if (Environment.current == Environment.DEVELOPMENT)
-            return
 
         telegramService.dispatchUpdates()
     }

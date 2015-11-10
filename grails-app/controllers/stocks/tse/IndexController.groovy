@@ -64,4 +64,25 @@ class IndexController {
         }
         render(result as JSON)
     }
+
+    def hashTagSearch() {
+        def queryStr = params.term?.toString()?.trim() ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+
+        def searchResult = Index.search("*${queryStr?.replace('_', '* AND *')}*", max: 50)
+        def result = []
+
+        def maxScore = searchResult.scores.max()
+
+        searchResult.results.eachWithIndex { item, index ->
+            result << [
+                    text : item.toString(),
+                    tag: item.toString()?.replace(' ', '_'),
+                    link : createLink(controller: 'index', action: 'info', id: item.id),
+                    score: searchResult.scores[index] / maxScore,
+                    type : "${message(code: 'globalSearch.index')}"
+            ]
+        }
+        render(result as JSON)
+    }
 }
