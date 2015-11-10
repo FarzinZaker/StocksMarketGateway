@@ -599,14 +599,14 @@ class TwitterTagLib {
         }
 
         out << """
-            var lastGlobalSearchTerm;
+            var lastGlobalTagSearchTerm;
             var currentHashTagEditor;
             function showTagSearchResults(ed, phrase){
                 currentHashTagEditor = ed;
                 var resultsPane = \$('#tagSearchResults');
-                if(phrase == lastGlobalSearchTerm)
+                if(phrase == lastGlobalTagSearchTerm)
                     return;
-                lastGlobalSearchTerm = phrase;
+                lastGlobalTagSearchTerm = phrase;
                 \$('#tagSearchResult_all').find('.loading').show();
 """
 
@@ -662,6 +662,142 @@ class TwitterTagLib {
             }
             \$(document).ready(function () {
                 \$("#tagSearchResultsTab").kendoTabStrip();
+            });
+        </script>
+"""
+    }
+
+    def authorSearch = {
+
+        def config = [
+                [
+                        id   : 'author',
+                        title: message(code: 'globalSearch.author'),
+                        link : createLink(controller: 'twitter', action: 'globalAuthorSearch')
+                ],
+                [
+                        id   : 'group',
+                        title: message(code: 'globalSearch.group'),
+                        link : createLink(controller: 'twitter', action: 'globalGroupSearch')
+                ]
+        ]
+
+        out << """
+        <div id="authorSearchResults" class="k-rtl">
+            <div id="authorSearchResultsTab">
+                <ul>
+                    <li class='k-state-active'>
+                        ${message(code: 'all')}
+                    </li>
+"""
+        config.each { item ->
+            out << """
+                    <li>
+                    ${item.title}
+                    </li>
+"""
+        }
+        out << """
+                </ul>
+"""
+
+        out << """
+                <div>
+                    <div id="authorSearchResult_all" class="authorSearchResult">
+"""
+        out << form.loading()
+        out << """
+                    </div>
+                </div>
+"""
+        config.each {
+            out << """
+                <div>
+                    <div id="authorSearchResult_${it.id}" class="authorSearchResult">
+"""
+            out << form.loading()
+            out << """
+                    </div>
+                </div>
+"""
+        }
+
+        out << """
+            </div>
+        </div>
+        <script language='javascript' type='text/javascript'>
+"""
+        config.each { item ->
+            out << """
+            var authorSearchResultLoaded_${item.id} = false;
+            var authorSearchResultList_${item.id} = [];
+"""
+        }
+
+        out << """
+            var lastGlobalAuthorSearchTerm;
+            var currentHashAuthorEditor;
+            function showAuthorSearchResults(ed, phrase){
+                currentHashAuthorEditor = ed;
+                var resultsPane = \$('#authorSearchResults');
+                if(phrase == lastGlobalAuthorSearchTerm)
+                    return;
+                lastGlobalAuthorSearchTerm = phrase;
+                \$('#authorSearchResult_all').find('.loading').show();
+"""
+
+        config.each { item ->
+            out << """
+                authorSearchResultLoaded_${item.id} = false;
+                \$('#authorSearchResult_${item.id}').find('.loading').show();
+                \$.ajax({
+                    type: "POST",
+                    url: '${item.link}',
+                    data: {term: phrase}
+                }).done(function (response) {
+                    var container = \$('#authorSearchResult_${item.id}');
+                    container.html('');
+                    var indexer_${item.id} = 0;
+                    \$.each(response, function(){
+                        container.append('<a data-author="' + this.author + '" data-link="' + this.link + '" href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        indexer_${item.id}++;
+                    });
+                    if(response.length == 0){
+                        container.html('<span class="noSearchResult">${message(code: 'authorSearch.noResult')}</span>');
+                    }
+                    authorSearchResultList_${item.id} = response;
+                    authorSearchResultLoaded_${item.id} = true;
+"""
+            out << """
+                    if(${config.collect { "authorSearchResultLoaded_${it.id}" }.join(' && ')}){
+                        var total = [];
+"""
+            out << config.collect {
+                """
+                    total = total.concat(authorSearchResultList_${it.id});
+"""
+            }.join('\r\n')
+            out << """
+                    total.sort(compareSearchResults)
+                    var allContainer = \$('#authorSearchResult_all');
+                    allContainer.html('')
+                    var totalIndexer = 0;
+                    \$.each(total, function(){
+                        allContainer.append('<a data-author="' + this.author + '" data-link="' + this.link + '" href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        totalIndexer++;
+                    });
+                    if(total.length == 0){
+                        allContainer.html('<span class="noSearchResult">${message(code: 'authorSearch.noResult')}</span>');
+                            }
+                        }
+                    });
+"""
+        }
+
+        out << """
+            }
+            \$(document).ready(function () {
+                \$("#authorSearchResultsTab").kendoTabStrip();
             });
         </script>
 """

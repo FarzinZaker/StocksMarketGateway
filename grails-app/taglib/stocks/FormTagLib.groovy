@@ -246,9 +246,13 @@ class FormTagLib {
         if (!attrs.ajax) {
             out << asset.javascript(src: 'tinymce/tinymce.min.js')
             out << asset.javascript(src: 'tinymce/jquery.tinymce.min.js')
-            if (attrs.hashTag) {
-                out << asset.javascript(src: 'tinymce/hashTagHandler.js')
+            if (attrs.hashTag || attrs.authorTag) {
+                out << asset.javascript(src: 'tinymce/tagHandler.js')
             }
+            if(attrs.hashTag)
+                out << asset.javascript(src: 'tinymce/hashTagHandler.js')
+            if(attrs.authorTag)
+                out << asset.javascript(src: 'tinymce/authorTagHandler.js')
         }
         out << """
             <div class='k-rtl'>
@@ -288,7 +292,7 @@ class FormTagLib {
             attrs.mode == 'full' ? '| hr' : ''
         } | numlist | bullist ${attrs.mode != 'simple' ? '| image link' : ''} ${
             attrs.mode == 'full' ? '| forecolor | backcolor' : ''
-        } ${attrs.hashTag ? '' : ''}",
+        }",
                         setup : function(ed) {
 """
         if (attrs.hashTag)
@@ -297,19 +301,13 @@ class FormTagLib {
                             ed.on('keydown', function(e){onKeyDownForHashTag(ed, e)});
                             ed.on('click', function(e){onClickForHashTag(ed, e)});
                             ed.on('focusout', function(e){onBlurForHashTag(ed, e)});
-                            // Add a custom button
-                            ed.addButton('hashTagButton', {
-                                title : '${message(code: 'hashTag.AddButton.label')}',
-                                text: '#',
-                                icon: false,
-                                onclick : function() {
-                                    // Add you own code to execute something on click
-                                    ed.focus();
-                                    ed.selection.setContent('#');
-                                    ed.setContent(ed.getContent({format: 'text'}));
-                                    doHashTagSearch(ed);
-                                }
-                            });
+"""
+        if (attrs.authorTag)
+            out << """
+                            ed.on('keyup', function(e){onKeyUpForHashAuthor(ed, e)});
+                            ed.on('keydown', function(e){onKeyDownForHashAuthor(ed, e)});
+                            ed.on('click', function(e){onClickForHashAuthor(ed, e)});
+                            ed.on('focusout', function(e){onBlurForHashAuthor(ed, e)});
 """
         out << """
                         }

@@ -22,3 +22,9 @@ h1, h2, h3, h4, h5, h6, dd, dt, input, textarea, select, div, span {
     color: #d80073;
     cursor: pointer;
 }
+
+.hashAuthor {
+    text-decoration: none;
+    color: #3b5998;
+    cursor: pointer;
+}

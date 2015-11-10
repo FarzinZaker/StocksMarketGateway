@@ -10,7 +10,8 @@
 
 <form:field fieldName="document.body">
     <twitter:tagSearch/>
-    <form:editor name="body" width="900" height="400" entity="${document}" mode="full" hashTag="true"/>
+    <twitter:authorSearch/>
+    <form:editor name="body" width="900" height="400" entity="${document}" mode="full" hashTag="true" authorTag="true"/>
 </form:field>
 
 <form:field fieldName="document.image">

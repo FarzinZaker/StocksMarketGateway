@@ -2996,8 +2996,88 @@ ul.twitterAuthorInfo {
   }
 }
 
+#authorSearchResults{
+  position:absolute;
+  width:400px;
+  display: none;
+  z-index: 1000;
+  border: 1px solid #dadada !important;
+  box-shadow: 2px 2px 2px #dadada;
+  background: white;
+  ul {
+    //text-align: left;
+    display: block;
+    border-bottom: 3px solid #dadada;
+    background: white;
+    padding-bottom:1px !important;
+    li {
+      border-width: 0 !important;
+      padding-bottom: 1px !important;
+      margin-bottom: -3px;
+      border-bottom: 3px solid #dadada !important;
+      span {
+        border-width: 0 !important;
+      }
+      &.k-state-active, &.k-state-hover {
+        border-color: @main-color !important;
+        background: white !important;
+        a {
+          color: #787878 !important;
+        }
+      }
+    }
+  }
+
+  .k-content {
+    border-width: 0 !important;
+    overflow: auto;
+    padding: 0;
+    padding-top: 5px !important;
+    background: white;
+    max-height: 330px;
+
+    .noSearchResult {
+      color: @summary-color;
+      font-size: 11px;
+      padding-bottom: 15px;
+      display: block;
+      text-align: center;
+      padding-top: 10px;
+    }
+
+    .authorSearchResult {
+      a {
+        display: block;
+        padding: 5px 15px;
+        color: #787878;
+
+        &:hover, &.k-state-active {
+          background: @main-color;
+          color: white;
+          span {
+            color: white;
+          }
+        }
+
+        span {
+          padding-top: 3px;
+          color: @summary-color;
+          font-size: 11px;
+          float: left;
+        }
+      }
+    }
+  }
+}
+
 .hashTag {
   text-decoration: none;
   color: #d80073;
+  cursor: pointer;
+}
+
+.hashAuthor {
+  text-decoration: none;
+  color: #3b5998;
   cursor: pointer;
 }

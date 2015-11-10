@@ -244,14 +244,15 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterPerson.search("${queryStr ?: '**'}", max: 50)
+        def searchResult = TwitterPerson.search("*${queryStr?.replace('_', '* AND *')}*", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : "${item.title}",
+                    text : item.title,
+                    author  : item.title?.replace(' ', '_'),
                     link : createLink(controller: 'user', action: 'wall', id: item.identifier),
                     score: searchResult.scores[index] / maxScore,
                     type : message(code: 'globalSearch.author')
@@ -304,14 +305,15 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterGroup.search("${queryStr ?: '**'}", max: 50)
+        def searchResult = TwitterGroup.search("*${queryStr?.replace('_', '* AND *')}*", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : "${item.title}",
+                    text : item.title,
+                    author  : item.title?.replace(' ', '_'),
                     link : createLink(controller: 'group', action: 'home', id: item.rid?.replace('#', '')),
                     score: searchResult.scores[index] / maxScore,
                     type : message(code: 'globalSearch.group')
