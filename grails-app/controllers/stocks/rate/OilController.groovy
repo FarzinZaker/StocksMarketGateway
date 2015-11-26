@@ -16,11 +16,13 @@ class OilController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.toString(),
-                    tag  : item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'twitter', action: 'property', id: item.id),
-                    score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.oil')}"
+                    text     : item.toString(),
+                    tag      : item.toString()?.replace(' ', '_'),
+                    link     : createLink(controller: 'twitter', action: 'property', id: item.id),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : "${message(code: 'globalSearch.oil')}",
+                    id       : item.id,
+                    typeClass: 'Oil'
             ]
         }
         render(result as JSON)

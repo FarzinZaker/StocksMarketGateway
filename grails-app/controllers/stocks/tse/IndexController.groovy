@@ -80,7 +80,9 @@ class IndexController {
                     tag: item.toString()?.replace(' ', '_'),
                     link : createLink(controller: 'index', action: 'info', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.index')}"
+                    type : "${message(code: 'globalSearch.index')}",
+                    id       : item.id,
+                    typeClass: 'Index'
             ]
         }
         render(result as JSON)

@@ -249,9 +249,9 @@ class FormTagLib {
             if (attrs.hashTag || attrs.authorTag) {
                 out << asset.javascript(src: 'tinymce/tagHandler.js')
             }
-            if(attrs.hashTag)
+            if (attrs.hashTag)
                 out << asset.javascript(src: 'tinymce/hashTagHandler.js')
-            if(attrs.authorTag)
+            if (attrs.authorTag)
                 out << asset.javascript(src: 'tinymce/authorTagHandler.js')
         }
         out << """

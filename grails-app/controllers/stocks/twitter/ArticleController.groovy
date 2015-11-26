@@ -40,19 +40,30 @@ class ArticleController {
 
         article.title = params.title
         article.summary = params.summary
-        article.body = params.body
-        article.image = Image.get(params.image?.id as Long)
+
+        def tags = sharingService.extractTextRelations(params.body as String)
+        article.body = tags.text
+
+        if (!(params.image instanceof String) && params.image?.id && params.image?.id != '')
+            article.image = Image.get(params.image?.id as Long)
         article.author = owner
 
         if (article.validate() && article.save(flush: true)) {
-            sharingService.shareMaterial(owner, MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId, params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
-                [title: it.text, identifier: it.value as Long, type: it.type]
-            } : [], params.findAll { it.key.toString().startsWith('share_group_') }.collect {
-                it.key.toString().replace('share_group_#', '')
-            })
+            sharingService.shareMaterial(owner, MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId,
+//                    params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
+//                [title: it.text, identifier: it.value as Long, type: it.type]
+//            } : [],
+                    tags.tagList,
+                    tags.mentionList,
+                    params.findAll { it.key.toString().startsWith('share_group_') }.collect {
+                        it.key.toString().replace('share_group_#', '')
+                    })
             redirect(action: 'list')
-        } else
+        } else {
+            if (!article.image)
+                flash.message = message(code: 'article.image.required')
             render view: 'create', model: [article: article]
+        }
 
     }
 
@@ -116,7 +127,7 @@ class ArticleController {
 
         def meta = materialGraphService.getMeta(vertex.id?.toString()?.replace('#', '') as String)
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
-        def hasAccess = meta.any { it.label == 'Group' && it.ownerType != 'user' }
+        def hasAccess = groups.size() == 0
         if (!hasAccess) {
             def userGroups = groupGraphService.memberGroups(springSecurityService.currentUser as User)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }

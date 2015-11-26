@@ -47,6 +47,8 @@ function onKeyDownForHashAuthor(ed, e) {
                 var link = $('#authorSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
                 lastHashAuthorNode.text('@' + link.attr('data-author'));
                 lastHashAuthorNode.attr('href', link.attr('data-link'));
+                lastHashAuthorNode.attr('data-clazz', link.attr('data-clazz'));
+                lastHashAuthorNode.attr('data-id', link.attr('data-id'));
                 container.hide();
 
                 var currentPosition = getCursorPosition(ed);
@@ -58,7 +60,8 @@ function onKeyDownForHashAuthor(ed, e) {
                     character = '&nbsp;';
                 if (e.key == 'Enter')
                     character = '&nbsp;';
-                ed.execCommand('mceInsertContent', false, character);
+                console.debug('mceInsertContent', character);
+                ed.execCommand('mceInsertContent', true, character);
             }
         }
         else if (e.key == 'ArrowDown') {
@@ -110,10 +113,10 @@ function onKeyDownForHashAuthor(ed, e) {
     else if (e.key == '@') {
         e.preventDefault();
         e.stopPropagation();
-
-        ed.execCommand('mceInsertContent', false, '<a href="#" class="hashAuthor">@</a>');
-        setCursorPosition(ed, getCursorPosition(ed) - 4);
-
+        if(!isInHashTag(ed)) {
+            ed.execCommand('mceInsertContent', false, '<a href="#" class="hashAuthor">@</a>');
+            setCursorPosition(ed, getCursorPosition(ed) - 4);
+        }
         return false;
     }
 }
@@ -138,18 +141,23 @@ function doHashAuthorSearch(ed, phrase) {
     }
 }
 
-function insertHashAuthor(label, link) {
+function insertHashAuthor(label, link, clazz, id) {
     var container = $('#authorSearchResults');
     if (!container.is(':visible'))
         return;
     var node = $(tinyMCE.activeEditor.selection.getNode());
+    if (node.prop('nodeName').toString().toLowerCase() != 'a')
+        node = node.find('a.hashAuthor');
     node.text('@' + label);
     node.attr('href', link);
+    node.attr('data-clazz', clazz);
+    node.attr('data-id', id);
     container.hide();
 }
 
 function isInHashAuthor(ed) {
-    return $(ed.selection.getNode()).text().startsWith('@');
+    var element = $(ed.selection.getNode());
+    return element.prop('nodeName').toString().toLowerCase() == 'a' && element.text().startsWith('@');
 }
 
 function getHashAuthorSearchPhrase(ed) {

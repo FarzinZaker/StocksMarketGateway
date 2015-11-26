@@ -623,7 +623,7 @@ class TwitterTagLib {
                     container.html('');
                     var indexer_${item.id} = 0;
                     \$.each(response, function(){
-                        container.append('<a data-tag="' + this.tag + '" data-link="' + this.link + '" href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        container.append('<a data-tag=\\'' + this.tag + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         indexer_${item.id}++;
                     });
                     if(response.length == 0){
@@ -647,7 +647,7 @@ class TwitterTagLib {
                     allContainer.html('')
                     var totalIndexer = 0;
                     \$.each(total, function(){
-                        allContainer.append('<a data-tag="' + this.tag + '" data-link="' + this.link + '" href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        allContainer.append('<a data-tag=\\'' + this.tag + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         totalIndexer++;
                     });
                     if(total.length == 0){
@@ -759,7 +759,7 @@ class TwitterTagLib {
                     container.html('');
                     var indexer_${item.id} = 0;
                     \$.each(response, function(){
-                        container.append('<a data-author="' + this.author + '" data-link="' + this.link + '" href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        container.append('<a data-author=\\'' + this.author + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         indexer_${item.id}++;
                     });
                     if(response.length == 0){
@@ -783,7 +783,7 @@ class TwitterTagLib {
                     allContainer.html('')
                     var totalIndexer = 0;
                     \$.each(total, function(){
-                        allContainer.append('<a data-author="' + this.author + '" data-link="' + this.link + '" href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        allContainer.append('<a data-author=\\'' + this.author + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (totalIndexer == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         totalIndexer++;
                     });
                     if(total.length == 0){

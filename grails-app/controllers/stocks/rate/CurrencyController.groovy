@@ -16,11 +16,13 @@ class CurrencyController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.toString(),
-                    tag  : item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'twitter', action: 'property', id: item.id),
-                    score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.currency')}"
+                    text     : item.toString(),
+                    tag      : item.toString()?.replace(' ', '_'),
+                    link     : createLink(controller: 'twitter', action: 'property', id: item.id),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : "${message(code: 'globalSearch.currency')}",
+                    id       : item.id,
+                    typeClass: 'Currency'
             ]
         }
         render(result as JSON)

@@ -47,6 +47,8 @@ function onKeyDownForHashTag(ed, e) {
                 var link = $('#tagSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
                 lastHashTagNode.text('#' + link.attr('data-tag'));
                 lastHashTagNode.attr('href', link.attr('data-link'));
+                lastHashTagNode.attr('data-clazz', link.attr('data-clazz'));
+                lastHashTagNode.attr('data-id', link.attr('data-id'));
                 container.hide();
             }
 
@@ -59,6 +61,7 @@ function onKeyDownForHashTag(ed, e) {
                 character = '&nbsp;';
             if (e.key == 'Enter')
                 character = '&nbsp;';
+            console.debug('mceInsertContent', character);
             ed.execCommand('mceInsertContent', false, character);
         }
         else if (e.key == 'ArrowDown') {
@@ -110,10 +113,10 @@ function onKeyDownForHashTag(ed, e) {
     else if (e.key == '#') {
         e.preventDefault();
         e.stopPropagation();
-
-        ed.execCommand('mceInsertContent', false, '<a href="#" class="hashTag">#</a>');
-        setCursorPosition(ed, getCursorPosition(ed) - 4);
-
+        if (!isInHashAuthor(ed)) {
+            ed.execCommand('mceInsertContent', false, '<a href="#" class="hashTag">#</a>');
+            setCursorPosition(ed, getCursorPosition(ed) - 4);
+        }
         return false;
     }
 }
@@ -139,18 +142,23 @@ function doHashTagSearch(ed, phrase) {
     }
 }
 
-function insertHashTag(label, link) {
+function insertHashTag(label, link, clazz, id) {
     var container = $('#tagSearchResults');
     if (!container.is(":visible"))
         return;
     var node = $(tinyMCE.activeEditor.selection.getNode());
+    if (node.prop('nodeName').toString().toLowerCase() != 'a')
+        node = node.find('a.hashTag');
     node.text('#' + label);
     node.attr('href', link);
+    node.attr('data-clazz', clazz);
+    node.attr('data-id', id);
     container.hide();
 }
 
 function isInHashTag(ed) {
-    return $(ed.selection.getNode()).text().startsWith('#');
+    var element = $(ed.selection.getNode());
+    return element.prop('nodeName').toString().toLowerCase() == 'a' && element.text().startsWith('#');
 }
 
 function getHashTagSearchPhrase(ed) {

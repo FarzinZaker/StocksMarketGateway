@@ -1,3 +1,9 @@
+<g:if test="${flash.message}">
+    <div class="errorMessage">
+        ${flash.message}
+    </div>
+</g:if>
+
 <form:hidden name="id" entity="${document}"/>
 
 <form:field fieldName="document.title">
@@ -27,6 +33,7 @@
 <form:field fieldName="document.shareGroups">
     <twitter:shareGroups name="share" style="width:900px;" materialId="${document?.id}"/>
 </form:field>
-<form:field fieldName="document.shareTags">
-    <twitter:shareTags name="shareTags" style="width:900px;" groupSelectorWidth="350" itemSelectorWidth="510" materialId="${document?.id}"/>
-</form:field>
+%{--<form:field fieldName="document.shareTags">--}%
+    %{--<twitter:shareTags name="shareTags" style="width:900px;" groupSelectorWidth="350" itemSelectorWidth="510"--}%
+                       %{--materialId="${document?.id}"/>--}%
+%{--</form:field>--}%

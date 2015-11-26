@@ -16,11 +16,13 @@ class CoinController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.toString(),
-                    tag  : item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'twitter', action: 'property', id: item.id),
-                    score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.coin')}"
+                    text     : item.toString(),
+                    tag      : item.toString()?.replace(' ', '_'),
+                    link     : createLink(controller: 'twitter', action: 'property', id: item.id),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : "${message(code: 'globalSearch.coin')}",
+                    id       : item.id,
+                    typeClass: 'Coin'
             ]
         }
         render(result as JSON)

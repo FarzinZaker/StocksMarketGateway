@@ -1,5 +1,6 @@
 package stocks.graph
 
+import com.google.common.base.CaseFormat
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import org.ocpsoft.prettytime.PrettyTime
 import stocks.User
@@ -135,7 +136,7 @@ class MaterialGraphService {
                     identifier : it.identifier,
                     title      : it.title,
                     time       : it.publishDate.time,
-                    link       : "/${it.lable}/thread/${it.identifier}",
+                    link       : "/${CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, it.label)}/thread/${it.identifier}",
                     dateString : new PrettyTime(new Locale('fa')).format(it.publishDate as Date),
                     clickCount : it.visitCount,
                     description: it.description,

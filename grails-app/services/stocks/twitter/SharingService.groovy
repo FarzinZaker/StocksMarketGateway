@@ -1,6 +1,6 @@
 package stocks.twitter
 
-import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import org.ccil.cowan.tagsoup.Parser
 import stocks.User
 import stocks.twitter.Search.TwitterMaterial
 
@@ -11,8 +11,9 @@ class SharingService {
     def propertyGraphService
     def messageSource
 
-    void shareMaterial(User owner, String type, Long identifier, String title, String description, Long imageId, List<Map> properties, List<String> groups) {
+    void shareMaterial(User owner, String type, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
+        graphDBService.executeCommand("DELETE EDGE Mention WHERE out.identifier = ${identifier}")
         graphDBService.executeCommand("DELETE EDGE Share WHERE out.identifier = ${identifier}")
 
         def materialVertex = materialGraphService.ensureMaterial(owner, type, identifier, title, description, imageId)
@@ -27,6 +28,11 @@ class SharingService {
         }
         searchData.propertyTitleList = propertyTitleList
 
+        mentionList.each { mention ->
+            def tragetVertex = graphDBService.getVertex(mention.rid as String)
+            graphDBService.addEdge('Mention', materialVertex, tragetVertex)
+        }
+
         def groupRidList = []
         groups.each { groupId ->
             def groupVertex = graphDBService.getVertex(groupId)
@@ -38,20 +44,52 @@ class SharingService {
         searchData.save()
     }
 
-    void removeMaterial(Long identifier){
+    void removeMaterial(Long identifier) {
         materialGraphService.removeMaterial(identifier)
     }
 
-    List<Map> materialShareGroups(Long identifier){
+    List<Map> materialShareGroups(Long identifier) {
         graphDBService.queryAndUnwrapVertex("SELECT FROM Group WHERE @rid in (SELECT DISTINCT(in.@rid) FROM Share WHERE out.identifier = ${identifier})")
     }
 
-    List<Map> materialAboutProperties(Long identifier){
+    List<Map> materialAboutProperties(Long identifier) {
         graphDBService.queryAndUnwrapVertex("SELECT FROM Property WHERE @rid in (SELECT DISTINCT(in.@rid) FROM About WHERE out.identifier = ${identifier})")
     }
 
-    List<Map> suggestFollowList(Long userId, Integer skip = 0, Integer limit = 10){
+    List<Map> suggestFollowList(Long userId, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT FROM (SELECT EXPAND(\$Total) LET \$Trav = (SELECT @rid as @rid, @class as @class, identifier, title, IN('Follow').size() as followersCount, \$DEPTH as depth FROM (TRAVERSE OUT('Follow') FROM Person WHERE identifier = ${userId}) WHERE \$DEPTH > 1 AND @rid NOT IN (SELECT OUT('Follow') FROM Person WHERE identifier = ${userId})), \$Common = (SELECT @rid as @rid, @class as @class, identifier, title, IN('Follow').size() as followersCount, 9999 as depth FROM Followable WHERE identifier <> 0 AND identifier <> ${userId} AND @rid NOT IN (SELECT OUT('Follow') FROM Person WHERE identifier = ${userId})), \$Total = SET(UNIONALL(\$Trav, \$Common))) ORDER BY depth ASC, followersCount DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
+    def extractTextRelations(String text) {
+
+        def items = ['user/wall', 'group/home', 'index/info', 'symbol/info', 'twitter/property']
+        items.each {
+            text = text.replace('article/' + it, it)
+        }
+
+        def htmlParser = new XmlSlurper(new Parser()).parseText(text)
+
+        def mentionList = htmlParser?.'**'?.findAll { it?.@class?.toString() == 'hashAuthor' }?.collect {
+            [
+                    rid  : it.'@data-id'?.toString(),
+                    type : it.'@data-clazz'?.toString(),
+                    title: it.text()?.replace('@', '')?.replace('_', ' ')
+            ]
+        }?.unique() ?: []
+
+        def tagList = htmlParser?.'**'?.findAll { it?.@class?.toString() == 'hashTag' }?.collect {
+            [
+                    identifier: it.'@data-id'?.toString()?.toLong(),
+                    type      : it.'@data-clazz'?.toString(),
+                    title     : it.text()?.replace('#', '')?.replace('_', ' ')
+            ]
+        }?.unique() ?: []
+
+        [
+                mentionList: mentionList,
+                tagList    : tagList,
+                text       : text
+        ]
     }
 
 }

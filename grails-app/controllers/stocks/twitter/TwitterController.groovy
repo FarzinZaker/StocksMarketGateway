@@ -169,7 +169,7 @@ class TwitterController {
     def meta() {
         def meta = materialGraphService.getMeta(params.id as String)
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
-        def hasAccess = meta.any { it.label == 'Group' && it.ownerType != 'user' }
+        def hasAccess = groups.size() == 0
         if (!hasAccess) {
             def userGroups = groupGraphService.listForMember(springSecurityService.currentUser as User)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
@@ -251,11 +251,13 @@ class TwitterController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.title,
-                    author  : item.title?.replace(' ', '_'),
-                    link : createLink(controller: 'user', action: 'wall', id: item.identifier),
-                    score: searchResult.scores[index] / maxScore,
-                    type : message(code: 'globalSearch.author')
+                    text     : item.title,
+                    author   : item.title?.replace(' ', '_'),
+                    link     : createLink(controller: 'user', action: 'wall', id: item.identifier),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : message(code: 'globalSearch.author'),
+                    id       : item.rid,
+                    typeClass: 'Person'
             ]
         }
         render(result.sort { -it.score } as JSON)
@@ -312,11 +314,13 @@ class TwitterController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.title,
-                    author  : item.title?.replace(' ', '_'),
-                    link : createLink(controller: 'group', action: 'home', id: item.rid?.replace('#', '')),
-                    score: searchResult.scores[index] / maxScore,
-                    type : message(code: 'globalSearch.group')
+                    text     : item.title,
+                    author   : item.title?.replace(' ', '_'),
+                    link     : createLink(controller: 'group', action: 'home', id: item.rid?.replace('#', '')),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : message(code: 'globalSearch.group'),
+                    id       : item.rid,
+                    typeClass: 'Group'
             ]
         }
         render(result.sort { -it.score } as JSON)

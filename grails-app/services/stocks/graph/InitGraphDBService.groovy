@@ -110,6 +110,7 @@ class InitGraphDBService {
 
     def initSharing(){
         graphDBService.ensureEdgeClass('About')
+        graphDBService.ensureEdgeClass('Mention')
         graphDBService.ensureEdgeClass('Share')
     }
 

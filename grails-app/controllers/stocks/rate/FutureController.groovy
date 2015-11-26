@@ -16,11 +16,13 @@ class FutureController {
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : item.toString(),
-                    tag  : item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'twitter', action: 'property', id: item.id),
-                    score: searchResult.scores[index] / maxScore,
-                    type : "${message(code: 'globalSearch.future')}"
+                    text     : item.toString(),
+                    tag      : item.toString()?.replace(' ', '_'),
+                    link     : createLink(controller: 'twitter', action: 'property', id: item.id),
+                    score    : searchResult.scores[index] / maxScore,
+                    type     : "${message(code: 'globalSearch.future')}",
+                    id       : item.id,
+                    typeClass: 'Future'
             ]
         }
         render(result as JSON)
