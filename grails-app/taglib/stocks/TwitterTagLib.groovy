@@ -337,11 +337,11 @@ class TwitterTagLib {
     }
 
     def rating = { attrs, body ->
-        def rate = rateGraphService.getPersonRateForMaterial(springSecurityService.currentUser as User, attrs.material as OrientVertex)
+        def rate = rateGraphService.getPersonRateForMaterial(springSecurityService.currentUser as User, attrs.materialId ? graphDBService.getVertex(attrs.materialId) : attrs.material as OrientVertex)
         if (rate)
-            out << render(template: '/rate/result', model: [rateValue: rate?.value])
+            out << render(template: "/rate/result${attrs.inline ? 'Inline' : ''}", model: [rateValue: rate?.value])
         else
-            out << render(template: '/rate/submit', model: [materialId: attrs.material?.id?.toString()?.replace('#', '')])
+            out << render(template: "/rate/submit${attrs.inline ? 'Inline' : ''}", model: [materialId: attrs.materialId ?: attrs.material?.id?.toString()?.replace('#', '')])
     }
 
     def commentList = { attrs, body ->
@@ -623,7 +623,9 @@ class TwitterTagLib {
                     container.html('');
                     var indexer_${item.id} = 0;
                     \$.each(response, function(){
-                        container.append('<a data-tag=\\'' + this.tag + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        container.append('<a data-tag=\\'' + this.tag + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashTag(\\'' + this.tag + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${
+                item.id
+            } == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         indexer_${item.id}++;
                     });
                     if(response.length == 0){
@@ -675,11 +677,11 @@ class TwitterTagLib {
                         title: message(code: 'globalSearch.author'),
                         link : createLink(controller: 'twitter', action: 'globalAuthorSearch')
                 ],
-                [
-                        id   : 'group',
-                        title: message(code: 'globalSearch.group'),
-                        link : createLink(controller: 'twitter', action: 'globalGroupSearch')
-                ]
+//                [
+//                        id   : 'group',
+//                        title: message(code: 'globalSearch.group'),
+//                        link : createLink(controller: 'twitter', action: 'globalGroupSearch')
+//                ]
         ]
 
         out << """
@@ -759,7 +761,9 @@ class TwitterTagLib {
                     container.html('');
                     var indexer_${item.id} = 0;
                     \$.each(response, function(){
-                        container.append('<a data-author=\\'' + this.author + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${item.id} == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
+                        container.append('<a data-author=\\'' + this.author + '\\' data-link=\\'' + this.link + '\\' data-typeClass=\\'' + this.typeClass + '\\' data-id=\\'' + this.id + '\\' href="javascript:insertHashAuthor(\\'' + this.author + '\\', \\'' + this.link + '\\', \\'' + this.typeClass + '\\', \\'' + this.id + '\\')" class="' + (indexer_${
+                item.id
+            } == 0 ? 'k-state-active' : '') + '">' + this.text + ' <span>' + this.type + '</span></a>');
                         indexer_${item.id}++;
                     });
                     if(response.length == 0){

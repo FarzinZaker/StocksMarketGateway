@@ -15,8 +15,8 @@
 
 <body>
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="steel">--}%
             %{--<i class="fa fa-key"></i>--}%

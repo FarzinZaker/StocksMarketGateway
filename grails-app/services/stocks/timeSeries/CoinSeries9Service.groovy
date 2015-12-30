@@ -1,6 +1,8 @@
 package stocks.timeSeries
 
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import stocks.rate.Coin
 import stocks.rate.event.CoinEvent
 
 class CoinSeries9Service {
@@ -28,6 +30,12 @@ class CoinSeries9Service {
         }
 
         timeSeriesDB9Service.write(serie)
+    }
+
+    @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')
+    def sparkLine(String symbol, Integer daysCount) {
+        def symbolId = Coin.findBySymbol(symbol)?.id
+        priceList(symbolId, new Date() - daysCount, new Date(), '1d')?.collect { it.value } ?: []
     }
 
     def priceList(Long coinId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {

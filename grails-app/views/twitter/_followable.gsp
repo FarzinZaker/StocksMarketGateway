@@ -1,4 +1,4 @@
-<div class="followable followable_${item.idNumber?.replace(':', '_')}">
+<div class="followable followable_${item.idNumber?.replace(':', '_')} propertyBox ${item.label}">
     <div class="image">
         <img width="150px"
              src="${createLink(controller: 'image', action: item.label == 'Person' ? 'profile' : 'property', params: [id: item.identifier, size: 150, type: [item.label]])}"/>

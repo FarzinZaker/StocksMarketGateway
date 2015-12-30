@@ -13,8 +13,8 @@
 </head>
 
 <body>
-<div class="container-fluid k-rtl correlation">
-    <div class="row-fluid">
+<div class="container k-rtl correlation">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url:createLink(uri:'/')],
@@ -23,7 +23,7 @@
             ]}"/>
         </div>
     </div>
-    %{--<div class="row-fluid">--}%
+    %{--<div class="row">--}%
         %{--<div class="col-xs-12">--}%
             %{--<h1 class="cyan">--}%
                 %{--<i class="fa fa-link"></i>--}%
@@ -34,7 +34,7 @@
         %{--</div>--}%
     %{--</div>--}%
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <form id="form">
                 <g:render template="correlation/sourceGroupSelect"/>
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <div id="resultPane">
                 <div class="info">

@@ -11,8 +11,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
     <div class="col-xs-12">
         <sec:ifAnyGranted roles="${RoleHelper.ROLE_ADMIN}">
         <g:render template="/layouts/admin/flatMenu"/>

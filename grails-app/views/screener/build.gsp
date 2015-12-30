@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<div class="container-fluid" id="ngController" ng-controller="alertingRegisterController">
-    <div class="row-fluid">
+<div class="container" id="ngController" ng-controller="alertingRegisterController">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    %{--<div class="row-fluid">--}%
+    %{--<div class="row">--}%
         %{--<div class="col-xs-12">--}%
             %{--<h1 class="pink">--}%
                 %{--<i class="fa fa-filter"></i>--}%
@@ -37,7 +37,7 @@
         %{--</div>--}%
     %{--</div>--}%
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <form:field fieldName="screener.name">
                 <form:textBox name="nameInput" style="width:450px;" value="${screener?.title ?: ''}"/>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-2 k-rtl">
             <g:render template="filters"/>
         </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <g:render template="submit"/>
         </div>

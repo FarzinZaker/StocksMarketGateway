@@ -5,8 +5,8 @@
 
 <body>
 <div class='body'>
-    <div class="container-fluid">
-        <div class="row-fluid">
+    <div class="container">
+        <div class="row">
             <div class="col-xs-12">
                 <h1><g:message code="springSecurity.denied.title"/></h1>
 

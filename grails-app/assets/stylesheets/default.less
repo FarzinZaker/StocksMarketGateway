@@ -6,27 +6,30 @@ html, body {
 .page-wrap {
   min-height: 100%;
   /* equal to footer height */
-  margin-bottom: -@footer-height;
-  background: @summary-back-color !important;
+  //margin-bottom: -@footer-height;
+  background: white !important;
+  margin-bottom:-30px;
+  padding-bottom:30px;
 }
 .page-wrap:after {
   content: "";
   display: block;
 }
-.footer, .page-wrap:after {
-  /* .push must be the same height as footer */
-  height: @footer-height;
-}
-
-.footer {
-  background: @footer-color;
-  border-top: 5px solid @footer-border-color;
-  color: @footer-text-color;
-  font-size: 14px !important;
-  text-align: center;
-  height: @footer-height;
-  padding: 9px 5px 10px;
-}
+//.footer, .page-wrap:after {
+//  /* .push must be the same height as footer */
+//  height: @footer-height;
+//}
+//
+//.footer {
+//  background: @footer-color;
+//  border-top: 5px solid @footer-border-color;
+//  color: @footer-text-color;
+//  font-size: 14px !important;
+//  text-align: center;
+//  height: @footer-height;
+//  padding: 9px 5px 10px;
+//  margin-top:30px;
+//}
 
 .container-fluid{
     background: @body-color;

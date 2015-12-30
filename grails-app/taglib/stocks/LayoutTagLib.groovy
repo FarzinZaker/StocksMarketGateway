@@ -110,7 +110,7 @@ class LayoutTagLib {
                                 ],
                                 [
                                         id   : 'material',
-                                        title: message(code: 'globalSearch.material'),
+                                        title: message(code: 'article.menu.article'),
                                         link : createLink(controller: 'twitter', action: 'globalMaterialSearch')
                                 ],
                                 [
@@ -123,7 +123,6 @@ class LayoutTagLib {
         ]
 
         out << """
-            <div class="symbolSearchBox">
                 <input id="symbolSearch" placeholder="${message(code: 'symbolSearch.placeHolder')}"/>
 
                 <div id="symbolSearchResults" style="display: none;">
@@ -198,7 +197,6 @@ class LayoutTagLib {
         out << """
                     </div>
                 </div>
-            </div>
 
             <script language="javascript" type="text/javascript">
 """
@@ -216,7 +214,7 @@ class LayoutTagLib {
                 function showSymbolSearchResults(){
                     var searchBox = \$("#symbolSearch");
                     var resultsPane = \$('#symbolSearchResults');
-                    resultsPane.css('top', searchBox.offset().top - \$(window).scrollTop() + 35).css('left', searchBox.offset().left).width(searchBox.width() + 200).fadeIn(200).slideDown();
+                    resultsPane.css('top', 40).css('left', 0).css('z-index', 1000).width(searchBox.parent().width() + 8).fadeIn(200).slideDown();
                     if(searchBox.val() == lastGlobalSearchTerm)
                         return;
                     lastGlobalSearchTerm = searchBox.val();

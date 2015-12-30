@@ -2,7 +2,13 @@ package stocks.feed
 
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import org.apache.commons.httpclient.HttpClient
+import org.apache.commons.httpclient.HttpMethod
+import org.apache.commons.httpclient.methods.GetMethod
+import org.apache.commons.httpclient.params.HttpClientParams
+import org.jsoup.Jsoup
 import org.ocpsoft.prettytime.PrettyTime
+import stocks.RandomUserAgent
 import stocks.util.EncodingHelper
 
 class ExternalNewsService {
@@ -17,7 +23,7 @@ class ExternalNewsService {
     def newsList(String type) {
 
         def feeds = ExternalNews.createCriteria().list {
-            if(type != 'all')
+            if (type != 'all')
                 eq('category', type)
             order('date', ORDER_DESCENDING)
             maxResults(10)
@@ -49,16 +55,43 @@ class ExternalNewsService {
     def refresh() {
 
         def feeds = []
-        try{feeds.addAll farsNews()}catch(ignored){}
-        try{feeds.addAll asrIran()}catch(ignored){}
-        try{feeds.addAll bourseNews()}catch(ignored){}
-        try{feeds.addAll tabnak()}catch(ignored){}
-        try{feeds.addAll tasnim()}catch(ignored){}
-        try{feeds.addAll irna()}catch(ignored){}
-        try{feeds.addAll isna()}catch(ignored){}
+        try {
+            feeds.addAll farsNews()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll asrIran()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll bourseNews()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll tabnak()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll tasnim()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll irna()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll isna()
+        } catch (ignored) {
+        }
 //        try{feeds.addAll sena()}catch(ignored){}
-        try{feeds.addAll boursePress()}catch(ignored){}
-        try{feeds.addAll mellatBazar()}catch(ignored){}
+        try {
+            feeds.addAll boursePress()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll mellatBazar()
+        } catch (ignored) {
+        }
         feeds = feeds.findAll { it.date }
         feeds.each {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
@@ -66,7 +99,8 @@ class ExternalNewsService {
             if (!item) {
                 item = new ExternalNews()
                 item.properties = it
-                item.save(flush: true)
+                if (item.title)
+                    item.save(flush: true)
             }
         }
     }
@@ -248,12 +282,11 @@ class ExternalNewsService {
     }
 
 
-
     List<Map> readRSS(List<Map> feeds, String source) {
         def list = []
         feeds.each { rss ->
             try {
-                list.addAll(new XmlSlurper().parse(rss.url as String).channel.item.collect {
+                list.addAll(new XmlSlurper().parseText(new Scanner(new URL(rss.url).openStream(), "UTF-8").useDelimiter("\\A").next()).channel.item.collect {
                     [
                             title   : it.title.text(),
                             date    : new Date(it.pubDate.text() as String),

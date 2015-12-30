@@ -111,9 +111,11 @@ class AdminController {
 //        render oilDataService.importData()
 
 //        symbolAverageTradeDataService.importData()
-        telegramService.dispatchUpdates()
-        render 'ok'
+//        telegramService.dispatchUpdates()
+//        render 'ok'
 
+//        println 'deserialize important data'
+        render externalNewsService.refresh()
     }
 
 

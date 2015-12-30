@@ -22,7 +22,7 @@ class InitGraphDBService {
             initMembership()
             initFollow()
         }
-        catch (ignored){
+        catch (ignored) {
             log.error('error initializing graph db')
         }
     }
@@ -61,7 +61,7 @@ class InitGraphDBService {
         def publicGroup = commonGraphService.publicGroup
         if (!publicGroup)
             graphDBService.addVertex('Group', [
-                    title                :  messageSource.getMessage('twitter.publicGroup', null, 'همه کاربران', Locale.ENGLISH),
+                    title                : messageSource.getMessage('twitter.publicGroup', null, 'همه کاربران', Locale.ENGLISH),
                     membershipType       : 'open',
                     membershipPeriod     : 'unlimited',
                     membershipPrice      : 0,
@@ -72,25 +72,21 @@ class InitGraphDBService {
 
     def initMaterial() {
         def materialClass = graphDBService.ensureVertexClass('Material', null, true)
-        graphDBService.ensureProperty(materialClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(materialClass, 'publishDate', OType.DATETIME, true)
-        graphDBService.ensureProperty(materialClass, 'title', OType.STRING, true)
-        graphDBService.ensureProperty(materialClass, 'imageId', OType.LONG, true)
-        graphDBService.ensureProperty(materialClass, 'description', OType.STRING, true)
-        graphDBService.ensureProperty(materialClass, 'visitCount', OType.LONG, true)
-        [
-                'Article',
-                'Portfolio',
-                'BackTest',
-                'Screener',
-                'Analysis'
-        ].each {
-            clazz ->
-                graphDBService.ensureVertexClass(clazz, materialClass)
-        }
+
+
+        def articleClass = graphDBService.ensureVertexClass('Article', materialClass)
+        graphDBService.ensureProperty(articleClass, 'identifier', OType.LONG, true)
+        graphDBService.ensureProperty(articleClass, 'title', OType.STRING, true)
+        graphDBService.ensureProperty(articleClass, 'imageId', OType.LONG, true)
+        graphDBService.ensureProperty(articleClass, 'visitCount', OType.LONG, true)
+        graphDBService.ensureProperty(articleClass, 'description', OType.STRING, true)
+
+        def talkClass = graphDBService.ensureVertexClass('Talk', materialClass)
+        graphDBService.ensureProperty(talkClass, 'description', OType.STRING, true)
     }
 
-    def initProperty(){
+    def initProperty() {
         def propertyClass = graphDBService.ensureVertexClass('Property', null, true)
         graphDBService.ensureProperty(propertyClass, 'identifier', OType.LONG, true)
         graphDBService.ensureProperty(propertyClass, 'title', OType.STRING, true)
@@ -108,13 +104,13 @@ class InitGraphDBService {
         }
     }
 
-    def initSharing(){
+    def initSharing() {
         graphDBService.ensureEdgeClass('About')
         graphDBService.ensureEdgeClass('Mention')
         graphDBService.ensureEdgeClass('Share')
     }
 
-    def initComment(){
+    def initComment() {
         def commentClass = graphDBService.ensureVertexClass('Comment')
         graphDBService.ensureProperty(commentClass, 'body', OType.STRING, true)
         graphDBService.ensureProperty(commentClass, 'dateCreated', OType.DATETIME, true)
@@ -122,20 +118,20 @@ class InitGraphDBService {
         graphDBService.ensureEdgeClass('RelatedTo')
     }
 
-    def initRate(){
+    def initRate() {
         def rateClass = graphDBService.ensureEdgeClass('Rate')
         graphDBService.ensureProperty(rateClass, 'value', OType.INTEGER, true)
         graphDBService.ensureProperty(rateClass, 'date', OType.DATETIME, true)
     }
 
-    def initLike(){
+    def initLike() {
         def likeClass = graphDBService.ensureEdgeClass('Like')
         graphDBService.ensureProperty(likeClass, 'date', OType.DATETIME, true)
         def dislikeClass = graphDBService.ensureEdgeClass('Dislike')
         graphDBService.ensureProperty(dislikeClass, 'date', OType.DATETIME, true)
     }
 
-    def initFollow(){
+    def initFollow() {
         def followClass = graphDBService.ensureEdgeClass('Follow')
 //        graphDBService.ensureProperty(followClass, 'startDate', OType.DATETIME, true)
 //        [
@@ -152,7 +148,7 @@ class InitGraphDBService {
 //        }
     }
 
-    def initMembership(){
+    def initMembership() {
         def memberClass = graphDBService.ensureEdgeClass('Member')
         graphDBService.ensureProperty(memberClass, 'type', OType.STRING, true)
         graphDBService.ensureProperty(memberClass, 'startDate', OType.DATETIME, true)

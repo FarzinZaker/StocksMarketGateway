@@ -5,6 +5,8 @@ import org.apache.lucene.search.BooleanQuery
 
 class OilController {
 
+    def oilSeries9Service
+
     def hashTagSearch() {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
@@ -26,5 +28,10 @@ class OilController {
             ]
         }
         render(result as JSON)
+    }
+
+    def sparkLine(){
+        def list = oilSeries9Service.sparkLine(params.symbol as String, 30)
+        render ([id: params.symbol, value: list, min: list.min(), max:list.max()] as JSON)
     }
 }

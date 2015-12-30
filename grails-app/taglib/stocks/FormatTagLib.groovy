@@ -26,4 +26,11 @@ class FormatTagLib {
     def html = { attrs, body ->
         out << attrs.value
     }
+
+    def twit = { attrs, body ->
+        def text = attrs.value
+        text = text.replace('#', "<i class='fa fa-hashtag'></i>")
+        text = text.replace('@', "<i class='fa fa-at'></i>")
+        out << text
+    }
 }

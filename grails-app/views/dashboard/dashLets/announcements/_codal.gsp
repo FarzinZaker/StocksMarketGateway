@@ -15,7 +15,7 @@
 
 <div id="codalContainer" class="announcementFeedContainer">
 
-    <div id="codalItems" class="announcementFeedItems">
+    <div id="codalItems" class="announcementFeedItems linkList">
         <form:loading/>
     </div>
 </div>
@@ -31,13 +31,15 @@
                 oldItem.find('.announcementFeedItemDate').html(this.dateString);
             }
             else {
-                var itemContainer = $('<div/>').addClass('mix').attr('data-id', this.id).attr('data-time', this.time);
-                var title = $('<a/>').addClass('announcementFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
+                var itemContainer = $('<a/>').attr('target', '_blank').attr('href', this.link).addClass('mix').attr('data-id', this.id).attr('data-time', this.time);
+                var title = $('<div/>').addClass('announcementFeedItemTitle').html(this.title);
                 itemContainer.append(title);
+                var footer = $('<div/>').addClass('announcementFeedItemFooter');
                 var source = $('<div/>').addClass('announcementFeedItemSource').html(this.source);
-                itemContainer.append(source);
+                footer.append(source);
                 var date = $('<div/>').addClass('announcementFeedItemDate').html(this.dateString);
-                itemContainer.append(date);
+                footer.append(date);
+                itemContainer.append(footer);
 
                 container.append(itemContainer);
             }

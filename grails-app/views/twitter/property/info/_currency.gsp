@@ -1,16 +1,15 @@
-<div style="line-height: 30px;">
-    <span style="margin-left:30px;"><g:message code="symbol.info.lastPrice"/>:</span>
-    <span style="white-space: nowrap">
-        <span style="margin-left:30px;font-size:20px;font-weight: bold">
+<div class="propertyInfoPrice ${propertyInfo.change > 0 ? 'positive' : propertyInfo.change < 0 ? 'negative' : 0}">
+    <h4><g:message code="symbol.info.lastPrice"/></h4>
+        <span>
             <g:formatNumber number="${propertyInfo.price}" type="number"/>
         </span>
-        <span style="margin-left:30px;color:${propertyInfo.change > 0 ? 'green' : 'red'}">
+        <span>
             <g:formatNumber number="${propertyInfo.change}" type="number"/>
         </span>
-        <span style="color:${propertyInfo.percent > 0 ? 'green' : 'red'}">
-            %<g:formatNumber number="${propertyInfo.percent}" type="number"/>
+        <span>
+            ${propertyInfo.change > 0 ? '' : '-'}<g:formatNumber number="${propertyInfo.percent}" type="number"/>%
         </span>
-    </span>
+    <div class="clear-fix"></div>
 </div>
 
 <div class="dashLet magenta propertyInfo">

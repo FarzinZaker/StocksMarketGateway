@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -25,20 +25,24 @@
         </div>
     </div>
 
-    <div class="row-fluid">
-        <div class="col-xs-2 k-rtl">
+    <div class="row">
+        <div class="col-xs-3 k-rtl">
             <g:render template="property/header"/>
         </div>
-        <div class="col-xs-7 k-rtl">
+
+        <div class="col-xs-6 k-rtl">
+            <g:render template="/talk/write"
+                      model="${[tag: [type: 'tag', clazz: property.label, title: property.title?.split('-')?.find()?.trim()?.replace(' ', '_'), id: property.identifier]]}"/>
             <g:render template="property/materialList"/>
         </div>
+
         <div class="col-xs-3 k-rtl">
             <div class="dashLet cyan">
                 <h2><i class="fa fa-star"></i> <g:message code="twitter.property.topMaterial.title"/></h2>
                 <twitter:topPropertyMaterials id="${property.idNumber}"/>
             </div>
-            <g:render template="property/tagCloud"/>
             <g:render template="property/authorList"/>
+            <g:render template="property/tagCloud"/>
         </div>
     </div>
 </div>

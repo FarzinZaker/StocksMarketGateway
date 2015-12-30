@@ -1,24 +1,23 @@
-<div style="line-height: 30px;">
-    <span style="margin-left:30px;"><g:message code="symbol.info.lastPrice"/>:</span>
-    <span style="white-space: nowrap">
-        <span style="margin-left:30px;font-size:20px;font-weight: bold">
-            <g:formatNumber number="${propertyInfo.lastTradedPrice}" type="number"/>
-        </span>
-        <span style="margin-left:30px;color:${propertyInfo.lastTradedPriceChanges > 0 ? 'green' : 'red'}">
-            <g:formatNumber number="${propertyInfo.lastTradedPriceChanges}" type="number"/>
-        </span>
-        <span style="color:${propertyInfo.lastTradedPriceChangesPercent > 0 ? 'green' : 'red'}">
-            %<g:formatNumber number="${propertyInfo.lastTradedPriceChangesPercent}" type="number"/>
-        </span>
+<div class="propertyInfoPrice ${propertyInfo.lastTradedPriceChanges > 0 ? 'positive' : propertyInfo.lastTradedPriceChanges > 0 ? 'negative' : ''}">
+    <h4><g:message code="symbol.info.lastPrice"/></h4>
+    <span>
+        <b><g:formatNumber number="${propertyInfo.lastTradedPrice}" type="number"/></b>
     </span>
+    <span>
+        <g:formatNumber number="${propertyInfo.lastTradedPriceChanges}" type="number"/>
+    </span>
+    <span>
+        <g:formatNumber number="${propertyInfo.lastTradedPriceChangesPercent}" type="number"/>%
+    </span>
+    <div class="clear-fix"></div>
 </div>
 
-<div style="line-height: 30px;">
-    <span style="margin-left:30px;"><g:message code="symbol.info.closingPrice"/>:</span>
-    <span style="white-space: nowrap">
-        <span style="margin-left:30px;">
-            <g:formatNumber number="${propertyInfo.closingPrice}" type="number"/></span>
+<div class="propertyInfoPrice">
+    <h4><g:message code="symbol.info.closingPrice"/></h4>
+    <span>
+        <g:formatNumber number="${propertyInfo.closingPrice}" type="number"/>
     </span>
+    <div class="clear-fix"></div>
 </div>
 
 <div class="dashLet magenta propertyInfo">

@@ -1,7 +1,7 @@
-<div class="demo-section k-header wide">
-    <div id="newsList" style="margin-top:10px;"></div>
+<div>
+    <div id="newsList" style="background-color: transparent"></div>
 
-    <div id="newsPager" class="k-pager-wrap" style="margin-top:20px;"></div>
+    <div id="newsPager" class="k-pager-wrap" style="margin-top:15px;background-color: transparent;"></div>
 </div>
 
 <script type="text/x-kendo-template" id="newsTemplate">
@@ -36,11 +36,12 @@
                     dataType: "json"
                 }
             },
-            pageSize: 8
+            pageSize: 5
         });
 
         $("#newsPager").kendoPager({
-            dataSource: newsDataSource
+            dataSource: newsDataSource,
+            buttonCount: 1
         });
 
         $("#newsList").kendoListView({

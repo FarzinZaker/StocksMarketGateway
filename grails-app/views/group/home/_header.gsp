@@ -18,58 +18,69 @@
         </div>
     </g:if>
     <g:else>
-        <div class="groupPriceInfo">
+        <div class="groupPriceInfo dashLet blue">
             <h3><g:message code="twitter.group.membershipPrice.label"/></h3>
 
-            <div>
-                <span>
+            <ul>
+                <li>
                     <label><g:message code="twitter.group.membershipPeriod.1Month"/></label>
-                    <g:if test="${group.membership1MonthPrice}">
-                        <span class="text-nowrap"><g:formatNumber number="${group.membership1MonthPrice}"
-                                                                  type="number"/> <g:message
-                                code="rial"/></span>
-                    </g:if>
-                    <g:else>
-                        <g:message code="free"/>
-                    </g:else>
-                </span><span>
-                <label><g:message code="twitter.group.membershipPeriod.3Month"/></label>
-                <g:if test="${group.membership3MonthPrice}">
-                    <span class="text-nowrap"><g:formatNumber number="${group.membership3MonthPrice}"
-                                                              type="number"/> <g:message
-                            code="rial"/></span>
-                </g:if>
-                <g:else>
-                    <g:message code="free"/>
-                </g:else>
-            </span>
-            </div>
+                    <span>
+                        <g:if test="${group.membership1MonthPrice}"><g:formatNumber
+                                number="${group.membership1MonthPrice}"
+                                type="number"/> <g:message
+                                code="rial"/>
+                        </g:if>
+                        <g:else>
+                            <g:message code="free"/>
+                        </g:else>
+                    </span>
 
-            <div>
-                <span>
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
+                    <label><g:message code="twitter.group.membershipPeriod.3Month"/></label>
+                    <span>
+                        <g:if test="${group.membership3MonthPrice}"><g:formatNumber
+                                number="${group.membership3MonthPrice}"
+                                type="number"/> <g:message
+                                code="rial"/>
+                        </g:if>
+                        <g:else>
+                            <g:message code="free"/>
+                        </g:else>
+                    </span>
+
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
                     <label><g:message code="twitter.group.membershipPeriod.6Month"/></label>
-                    <g:if test="${group.membership6MonthPrice}">
-                        <span class="text-nowrap">
+                    <span>
+                        <g:if test="${group.membership6MonthPrice}">
                             <g:formatNumber number="${group.membership6MonthPrice}" type="number"/>
                             <g:message code="rial"/>
-                        </span>
-                    </g:if>
-                    <g:else>
-                        <g:message code="free"/>
-                    </g:else>
-                </span><span>
-                <label><g:message code="twitter.group.membershipPeriod.12Month"/></label>
-                <g:if test="${group.membership12MonthPrice}">
-                    <span class="text-nowrap">
-                        <g:formatNumber number="${group.membership12MonthPrice}" type="number"/>
-                        <g:message code="rial"/>
+                        </g:if>
+                        <g:else>
+                            <g:message code="free"/>
+                        </g:else>
                     </span>
-                </g:if>
-                <g:else>
-                    <g:message code="free"/>
-                </g:else>
-            </span>
-            </div>
+
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
+                    <label><g:message code="twitter.group.membershipPeriod.12Month"/></label>
+                    <span>
+                        <g:if test="${group.membership12MonthPrice}">
+                            <g:formatNumber number="${group.membership12MonthPrice}" type="number"/>
+                            <g:message code="rial"/>
+                        </g:if>
+                        <g:else>
+                            <g:message code="free"/>
+                        </g:else>
+                    </span>
+
+                    <div class="clear-fix"></div>
+                </li>
+            </ul>
         </div>
 
         <div class='toolbar' style="text-align: left">

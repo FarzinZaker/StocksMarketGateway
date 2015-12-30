@@ -1,4 +1,4 @@
-<div class="dashLet pink">
+<div class="dashLet pink dark noPadding hideBeforeLoad noPlaceReservation">
     <h2 style="float:right"><i class="fa fa-bullhorn"></i> <g:message code="announcements.title"/></h2>
 
     <div id="announcementsTimer"></div>
@@ -14,11 +14,11 @@
                 </li>
             </ul>
 
-            <div>
+            <div class="noPadding">
                 <g:render template="dashLets/announcements/codal"/>
             </div>
 
-            <div>
+            <div class="noPadding">
                 <g:render template="dashLets/announcements/supervisorMessgae"/>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
 <script language="javascript" type="text/javascript">
 
-    function loadAnnouncements(){
+    function loadAnnouncements() {
         $.ajax({
             type: "POST",
             url: '${createLink(action: 'announcements')}?t=' + new Date().getTime()
@@ -39,16 +39,22 @@
     }
 
     $(document).ready(function () {
+
+        $('#announcementTabstrip li + li').data('config', {
+            margin: 5,
+            padding: 0
+        });
+
         $("#announcementTabstrip").kendoTabStrip({
             animation: {
                 open: {
-                    effects: "fadeIn"
+                    effects: "none"
                 }
             },
             show: function (e) {
                 var container = $('#' + $(e.item).attr('aria-controls')).find('.announcementFeedItems');
                 container.find('.mix').css('opacity', 0).animate({'opacity': 1}, 700);
-                container.animatedSort();
+                container.animatedSort($(e.item).data('config'));
                 $('html, body').stop().animate({
                     scrollTop: container.parent().parent().parent().parent().parent().offset().top - 120
                 }, 1000);

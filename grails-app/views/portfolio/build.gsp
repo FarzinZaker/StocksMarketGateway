@@ -13,8 +13,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="darkBlue">--}%
                 %{--<i class="fa fa-shopping-cart"></i>--}%
@@ -35,29 +35,29 @@
                 </div>
             </g:if>
             <form:form action="save" name="portfolioForm">
-                <form:hidden name="id" entity="${portfolio}"/>
+                <form:hidden name="id" entity="${portfolioInstance}"/>
 
                 <form:field fieldName="portfolio.name">
-                    <form:textBox name="name" style="width:500px" entity="${portfolio}" validation="required"
-                                  value="${flash.data ?: portfolio?.name ?: ''}"/>
+                    <form:textBox name="name" style="width:500px" entity="${portfolioInstance}" validation="required"
+                                  value="${flash.data ?: portfolioInstance?.name ?: ''}"/>
                 </form:field>
                 <form:field fieldName="portfolio.advanced">
                     <div style="width: 500px">
                     <form:checkbox name="defaultItems" text="${message(code: 'portfolio.defaultItems.label')}"
-                                   style="width:132px" entity="${portfolio}" onchange="showHideItems()"
-                                   checked="${portfolio?.defaultItems != null ? portfolio?.defaultItems : true}"/>
+                                   style="width:132px" entity="${portfolioInstance}" onchange="showHideItems()"
+                                   checked="${portfolioInstance?.defaultItems != null ? portfolio?.defaultItems : true}"/>
                     %{--<form:checkbox name="fullAccounting" text="${message(code: 'portfolio.fullAccounting.label')}"--}%
-                                   %{--style="width:120px" entity="${portfolio}"--}%
-                                   %{--checked="${portfolio?.fullAccounting ?: false}"/>--}%
+                                   %{--style="width:120px" entity="${portfolioInstance}"--}%
+                                   %{--checked="${portfolioInstance?.fullAccounting ?: false}"/>--}%
                     <form:checkbox name="useWageAndDiscount"
                                    text="${message(code: 'portfolio.useWageAndDiscount.label')}"
-                                   style="width:120px" entity="${portfolio}"
-                                   checked="${portfolio?.useWageAndDiscount ?: false}"/>
+                                   style="width:120px" entity="${portfolioInstance}"
+                                   checked="${portfolioInstance?.useWageAndDiscount ?: false}"/>
                     <form:checkbox name="useBroker" text="${message(code: 'portfolio.useBroker.label')}"
                                    style="width:120px"
-                                   entity="${portfolio}"
+                                   entity="${portfolioInstance}"
                                    onchange="showHideBrokers()"
-                                   checked="${portfolio?.useBroker ?: false}"/>
+                                   checked="${portfolioInstance?.useBroker ?: false}"/>
                     </div>
                 </form:field>
                 <div id="portfolioItems">
@@ -65,7 +65,7 @@
                         <div style="width: 500px">
                             <g:each in="${items}" var="itm">
                                 <form:checkbox text="${itm.title}"
-                                               checked="${portfolio?.defaultItems ? itm.default : portfolioAvailItems.find {
+                                               checked="${portfolioInstance?.defaultItems ? itm.default : portfolioAvailItems.find {
                                                    it.item == itm.clazz
                                                }}" name="${itm.clazz}"
                                                onchange="showHidePortfoilioItems('${itm.clazz}')"
@@ -79,7 +79,7 @@
                     <form:field fieldName="portfolio.bokers">
                         <form:multiSelect name="broker"
                                           dataSourceUrl="${createLink(controller: 'portfolio', action: 'jsonSearchBroker')}"
-                                          style="width: 500px" entity="${portfolioAvailBrokers}"/>
+                                          style="width: 500px" entity="${portfolioInstanceAvailBrokers}"/>
                     </form:field>
                 </div>
                 <div id="container"></div>

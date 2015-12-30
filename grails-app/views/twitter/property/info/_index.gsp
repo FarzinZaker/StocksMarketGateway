@@ -1,18 +1,17 @@
-<div style="line-height: 30px;">
-    <span style="margin-left:30px;"><g:message code="symbol.info.lastPrice"/>:</span>
-    <span style="white-space: nowrap">
-        <span style="margin-left:30px;font-size:20px;font-weight: bold">
-            <g:formatNumber number="${propertyInfo.finalIndexValue}" type="number"/>
-        </span>
-        <g:set var="todayIndexChangeValue"
-               value="${Math.round(propertyInfo.todayIndexChangePercent / (propertyInfo.finalIndexValue / 100 + 1))}"/>
-        <span style="margin-left:30px;color:${todayIndexChangeValue > 0 ? 'green' : 'red'}">
-            <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
-        </span>
-        <span style="color:${propertyInfo.todayIndexChangePercent > 0 ? 'green' : 'red'}">
-            %<g:formatNumber number="${propertyInfo.todayIndexChangePercent}" type="number"/>
-        </span>
+<g:set var="todayIndexChangeValue"
+       value="${Math.round(propertyInfo.todayIndexChangePercent / (propertyInfo.finalIndexValue / 100 + 1))}"/>
+<div class="propertyInfoPrice ${todayIndexChangeValue > 0 ? 'positive' : todayIndexChangeValue < 0 ? 'negative' : ''}">
+    <h4><g:message code="symbol.info.lastPrice"/></h4>
+    <span>
+        <b><g:formatNumber number="${propertyInfo.finalIndexValue}" type="number"/></b>
     </span>
+    <span>
+        <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
+    </span>
+    <span>
+        <g:formatNumber number="${propertyInfo.todayIndexChangePercent}" type="number"/>%
+    </span>
+    <div class="clear-fix"></div>
 </div>
 
 <div class="dashLet magenta propertyInfo">
@@ -37,37 +36,37 @@
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای معامله شده:</span></td>
+            <td><span>معامله شده:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.tradedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای کاهش یافته:</span></td>
+            <td><span>کاهش یافته:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.decreasedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای افزایش یافته:</span></td>
+            <td><span>افزایش یافته:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.increasedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای بدون تغییر:</span></td>
+            <td><span>بدون تغییر:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.unchangedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای معامله نشده:</span></td>
+            <td><span>معامله نشده:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.notTradedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نمادهای رزرو شده:</span></td>
+            <td><span>رزرو شده:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.reservedSymbolCount}" type="number"/></span>
             </td>
         </tr>
         <tr>
-            <td><span>نماد های مسدود شده:</span></td>
+            <td><span> مسدود شده:</span></td>
             <td><span class="low"><g:formatNumber number="${propertyInfo.suspendedSymbolCount}" type="number"/></span>
             </td>
         </tr>

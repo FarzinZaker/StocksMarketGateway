@@ -1,4 +1,4 @@
-<div class="dashLet orange">
+<div class="dashLet hideBeforeLoad noPlaceReservation">
     <h2 style="float:right"><i class="fa fa-line-chart"></i> <g:message code="marketView.title"/></h2>
 
     <div id="marketViewTimer"></div>
@@ -91,7 +91,7 @@
         $("#tabstrip").kendoTabStrip({
             animation: {
                 open: {
-                    effects: "fadeIn"
+                    effects: "none"
                 }
             }
         });

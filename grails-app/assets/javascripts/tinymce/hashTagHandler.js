@@ -47,7 +47,7 @@ function onKeyDownForHashTag(ed, e) {
                 var link = $('#tagSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
                 lastHashTagNode.text('#' + link.attr('data-tag'));
                 lastHashTagNode.attr('href', link.attr('data-link'));
-                lastHashTagNode.attr('data-clazz', link.attr('data-clazz'));
+                lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
                 lastHashTagNode.attr('data-id', link.attr('data-id'));
                 container.hide();
             }
@@ -183,5 +183,5 @@ function getHashTagSearchPhrase(ed) {
 function showHashTagSearchBox(ed) {
     $('#authorSearchResults').hide();
     var cursorPosition = getCurrentCursorPositionOfEditor(ed);
-    $('#tagSearchResults').css('top', cursorPosition.top + 50).css('left', cursorPosition.left - 400).show();
+    $('#tagSearchResults').css('top', cursorPosition.top + ($(ed.editorContainer).parent().hasClass('inline') ? 10 : 50)).css('left', cursorPosition.left - 400).show();
 }

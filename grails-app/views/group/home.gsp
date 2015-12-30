@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-2 k-rtl">
             <g:render template="home/header"/>
         </div>
@@ -38,8 +38,8 @@
                 <h2><i class="fa fa-star"></i> <g:message code="twitter.group.topMaterial.title"/></h2>
                 <twitter:topGroupMaterials id="${group.idNumber}"/>
             </div>
-            <g:render template="home/tagCloud"/>
             <g:render template="home/authorList"/>
+            <g:render template="home/tagCloud"/>
         </div>
     </div>
 </div>

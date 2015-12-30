@@ -10,6 +10,10 @@ class ImageController {
     def imageService
 
     def index() {
+        if(!params.id || params.id == 'null'){
+            render ''
+            return
+        }
         def image = Image.get(params.id)
         def content = image?.content
         def sizeFlag = ''

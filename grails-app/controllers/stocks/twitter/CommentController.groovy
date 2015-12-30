@@ -15,13 +15,14 @@ class CommentController {
     @Secured([RoleHelper.ROLE_USER])
     def save() {
         def user = springSecurityService.currentUser as User
-        def comment = commentGraphService.saveComment(user, params.parentId as String, params.body as String)
+        def comment = commentGraphService.saveComment(user, params.parentId as String, (params.body ?: params.commentBody) as String)
         comment.author = [title: user.toString(), identifier: user.id]
-        render template: 'view', model: [comment: comment]
+        render template: params.template ?: 'view', model: [comment: comment, showProperties: true]
     }
 
     @Secured([RoleHelper.ROLE_USER])
     def editor() {
-        render template: 'submit', model: [commentId: params.id]//: graphDBService.getAndUnwrapVertex(params.id as String)]
+        render template: 'submit', model: [commentId: params.id]
+//: graphDBService.getAndUnwrapVertex(params.id as String)]
     }
 }

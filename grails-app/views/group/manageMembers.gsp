@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
 
             <div class="memberGridContainer k-rtl">
@@ -32,7 +32,7 @@
 
 <div class="k-rtl hidden">
     <div id="addMemberWindow">
-        <form class="container-fluid">
+        <form class="container">
             <form:form name="addMemberForm">
                 <form:field fieldName="member">
                     <form:textBox name="member.id" id="member" validation="required" style="width:290px"/>

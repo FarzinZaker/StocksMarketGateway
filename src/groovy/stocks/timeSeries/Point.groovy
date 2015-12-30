@@ -36,11 +36,15 @@ public class Point {
 
     private Long timeLong = 0
 
+    public Long getTimeLong() {
+        timeLong
+    }
+
     public Point time(Date date) {
 
         def utc = date.clearTime()
-        use(TimeCategory){
-             utc = utc + 1.days
+        use(TimeCategory) {
+            utc = utc + 1.days
         }
         timeLong = utc.time
         this
@@ -84,6 +88,6 @@ public class Point {
     }
 
     public String toCSV() {
-    "${name}${tags.isEmpty() ? ' ' : ','}${tags.collect { "${it.key}=${it.value}" }.join(',')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
+        "${name}${tags.isEmpty() ? ' ' : ','}${tags.collect { "${it.key}=${it.value}" }.join(',')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
     }
 }

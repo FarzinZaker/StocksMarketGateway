@@ -10,11 +10,11 @@
         #itemDialog{
             padding: 0;
         }
-        #itemDialog .container-fluid{
+        #itemDialog .container{
             width: 630px;
             padding-top:20px;
         }
-        #itemDialog .row-fluid{
+        #itemDialog .row{
             clear:both;
         }
 
@@ -38,8 +38,8 @@
 </head>
 
 <body>
-<div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
-    <div class="row-fluid">
+<div class="container" id="ngController" ng-controller="alertingQueryController">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="darkBlue">--}%
                 %{--<i class="fa fa-shopping-cart"></i>--}%

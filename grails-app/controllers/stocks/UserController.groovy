@@ -16,13 +16,13 @@ class UserController {
     def materialGraphService
     def groupGraphService
 
-    def registrationDisabled(){
+    def registrationDisabled() {
 
     }
 
     def registerInvited() {
 
-        if(grailsApplication.config.registrationDisabled)
+        if (grailsApplication.config.registrationDisabled)
             redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
@@ -43,7 +43,7 @@ class UserController {
 
     def completeRegistration() {
 
-        if(grailsApplication.config.registrationDisabled)
+        if (grailsApplication.config.registrationDisabled)
             redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
@@ -59,7 +59,7 @@ class UserController {
 
     def saveInitialRegistration() {
 
-        if(grailsApplication.config.registrationDisabled) {
+        if (grailsApplication.config.registrationDisabled) {
             render message(code: 'registration.disabled.message')
             return
         }
@@ -113,7 +113,7 @@ class UserController {
 
     def saveRegistration() {
 
-        if(grailsApplication.config.registrationDisabled)
+        if (grailsApplication.config.registrationDisabled)
             redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
@@ -163,7 +163,7 @@ class UserController {
 
     def checkForActivationMail() {
 
-        if(grailsApplication.config.registrationDisabled)
+        if (grailsApplication.config.registrationDisabled)
             redirect(controller: 'user', action: 'registrationDisabled')
 
     }
@@ -275,7 +275,7 @@ class UserController {
 
     def activate() {
 
-        if(grailsApplication.config.registrationDisabled)
+        if (grailsApplication.config.registrationDisabled)
             redirect(controller: 'user', action: 'registrationDisabled')
 
         if (springSecurityService.loggedIn)
@@ -387,18 +387,37 @@ class UserController {
                 user      : user,
                 vertex    : vertex,
                 groupList : groupGraphService.listForHome(user),
-                followList: materialGraphService.getFollowList(user?.id),
+                followList: materialGraphService.getFollowList(user?.id, 0, 100),
                 ownPage   : true
         ]
     }
 
-    def homeJson() {
+    def homeOldJson() {
         def user = springSecurityService.currentUser as User
-        def list = materialGraphService.listForHome(user?.id, params.skip as Integer, params.limit as Integer)
-        render(list.collect {
-            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
-        } as JSON)
+        def list = materialGraphService.listOldForHome(user?.id, new Date(params.minDate as Long), params.limit as Integer)
+        render(
+                [
+                        data   : list.collect {
+                            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+                        },
+                        minDate: list.collect { it.publishDate.time }.min(),
+                        maxDate: list.collect { it.publishDate.time }.max()
+                ] as JSON)
     }
+
+    def homeNewJson() {
+        def user = springSecurityService.currentUser as User
+        def list = materialGraphService.listNewForHome(user?.id, new Date(params.maxDate as Long), params.limit as Integer)
+        render(
+                [
+                        data   : list.collect {
+                            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+                        },
+                        minDate: list.collect { it.publishDate.time }.min(),
+                        maxDate: list.collect { it.publishDate.time }.max()
+                ] as JSON)
+    }
+
 
 
     def autoComplete() {

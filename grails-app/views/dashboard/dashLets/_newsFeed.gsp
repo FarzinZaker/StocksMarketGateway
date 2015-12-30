@@ -13,40 +13,41 @@
 
 <div id="newsFeedTimer" style="display: none"></div>
 
-<div id="newsFeedContainer" class="dashLet green newsFeedContainer k-rtl">
-    <h2><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>
+<div id="newsFeedContainer" class="dashLet headerLess light newsFeedContainer k-rtl hideBeforeLoad noPlaceReservation">
+%{--<h2><i class="fa fa-newspaper-o"></i> <g:message code="newsFeed.title"/></h2>--}%
 
 
-    <div id="newsFeedTabStrip">
-        <ul>
-            <li class="k-state-active">
-                <g:message code="all"/>
-            </li>
-            <g:each in="${ExternalNewsService.categoryList}">
-                <li>
-                    <g:message code="newsCategory.${it}"/>
-                </li>
-            </g:each>
-        </ul>
+%{--<div id="newsFeedTabStrip">--}%
+%{--<ul>--}%
+%{--<li class="k-state-active">--}%
+%{--<g:message code="all"/>--}%
+%{--</li>--}%
+%{--<g:each in="${ExternalNewsService.categoryList}">--}%
+%{--<li>--}%
+%{--<g:message code="newsCategory.${it}"/>--}%
+%{--</li>--}%
+%{--</g:each>--}%
+%{--</ul>--}%
 
-        <div>
-            <div id="newsFeedItems_all" class="newsFeedItems">
+%{--<div>--}%
+%{--<div id="newsFeedItems_all" class="newsFeedItems">--}%
+%{--<form:loading/>--}%
+%{--</div>--}%
+%{--</div>--}%
+    <g:each in="${ExternalNewsService.categoryList}">
+        <div class="newsFeedItemsContainer">
+            <h2><g:message code="newsFeed.title"/> <g:message code="newsCategory.${it}"/></h2>
+            <ul id="newsFeedItems_${it}" class="newsFeedItems">
                 <form:loading/>
-            </div>
+            </ul>
         </div>
-        <g:each in="${ExternalNewsService.categoryList}">
-            <div>
-                <div id="newsFeedItems_${it}" class="newsFeedItems">
-                    <form:loading/>
-                </div>
-            </div>
-        </g:each>
-    </div>
-
-    <div class="dashletFooter">
-        <a href="${createLink(controller: 'externalNews', action: 'archive')}"><g:message
-                code="newsFeed.archive"/></a>
-    </div>
+    </g:each>
+%{--</div>--}%
+    <div class="clear-fix"></div>
+    %{--<div class="dashletFooter">--}%
+    %{--<a href="${createLink(controller: 'externalNews', action: 'archive')}"><g:message--}%
+    %{--code="newsFeed.archive"/></a>--}%
+    %{--</div>--}%
 </div>
 <script language="javascript" type="text/javascript">
 
@@ -77,18 +78,18 @@
                         oldItem.attr('data-click', this.clickCount);
                     }
                     else {
-                        var itemContainer = $('<div/>').addClass('newsMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
-                        var imageContainer = $('<div/>').addClass('newsFeedImageContainer');
-                        imageContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
-                        itemContainer.append(imageContainer);
-                        var titleContainer = $('<div/>').addClass('newsFeedTitleContainer');
-                        var title = $('<a/>').addClass('newsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
+                        var itemContainer = $('<li/>').addClass('newsMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
+//                        var imageContainer = $('<div/>').addClass('newsFeedImageContainer');
+//                        imageContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
+//                        itemContainer.append(imageContainer);
+                        var titleContainer = $('<a/>').attr('target', '_blank').attr('href', this.link).addClass('newsFeedTitleContainer');
+                        var title = $('<div/>').addClass('newsFeedItemTitle').html(this.title);
                         titleContainer.append(title);
                         var source = $('<div/>').addClass('newsFeedItemSource').html(this.sourceString);
                         titleContainer.append(source);
                         itemContainer.append(titleContainer);
                         var date = $('<div/>').addClass('newsFeedItemDate').html(this.dateString);
-                        itemContainer.append(date);
+                        titleContainer.append(date);
                         itemContainer.append($('<div/>').addClass('clear-fix'));
 
                         container.append(itemContainer);

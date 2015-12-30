@@ -111,7 +111,7 @@ public class Serie {
             return ""
 
         try {
-            def resultList = pointList[(page - 1) * pageSize..[page * pageSize, pointList.size()].min() - 1]
+            def resultList = pointList[(page - 1) * pageSize..[page * pageSize, pointList.size()].min() - 1].findAll{it.timeLong > 0}
             resultList.collect { it.toCSV() }.join('\n')
         }
         catch(ex){

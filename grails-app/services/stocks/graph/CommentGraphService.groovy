@@ -42,6 +42,12 @@ class CommentGraphService {
         }
     }
 
+    List<Map> getNewCommentList(String materialId, Date minDate = new Date()){
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Material WHERE @rid = #${materialId}) WHERE @class = 'Comment' AND dateCreated > '${minDate.format('yyyy-MM-dd HH:mm:ss')}' ORDER BY dateCreated DESC").each {
+            it.author = getCommentAuthor(it.idNumber as String)
+        }
+    }
+
     List<Map> getChildCommentList(String commentId){
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Comment WHERE @rid = #${commentId}) WHERE @class = 'Comment' ORDER BY dateCreated DESC").each {
             it.author = getCommentAuthor(it.idNumber as String)

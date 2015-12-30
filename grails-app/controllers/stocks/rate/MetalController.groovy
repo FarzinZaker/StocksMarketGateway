@@ -5,6 +5,8 @@ import org.apache.lucene.search.BooleanQuery
 
 class MetalController {
 
+    def metalSeries9Service
+
     def hashTagSearch() {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
@@ -26,5 +28,10 @@ class MetalController {
             ]
         }
         render(result as JSON)
+    }
+
+    def sparkLine(){
+        def list = metalSeries9Service.sparkLine(params.symbol as String, 30)
+        render ([id: params.id, value: list, min: list.min(), max:list.max()] as JSON)
     }
 }

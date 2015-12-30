@@ -40,6 +40,7 @@ class TwitterMaterial {
     }
 
     static constraints = {
+        title nullable: true
         identifier nullable: true
         imageId nullable: true
         authorRid nullable: true

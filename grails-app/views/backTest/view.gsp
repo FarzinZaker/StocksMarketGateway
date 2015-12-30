@@ -32,13 +32,13 @@
 
 <body>
 
-<div class="container-fluid">
+<div class="container">
     <div id="dataLoadTimer"></div>
 
     <div id="dataShowTimer"></div>
     <form:form name="backTestForm" controller="backTest" action="save">
-        <div class="row-fluid">
-            <div class="row-fluid">
+        <div class="row">
+            <div class="row">
                 <div class="col-xs-12">
                     <layout:breadcrumb items="${[
                             [text: '', url: createLink(uri: '/')],
@@ -64,19 +64,19 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12" id="pnlSummary" style="margin-bottom:20px;display:${summery ? 'block' : 'none'}">
                 <g:render template="summary" model="[summary: summery]"/>
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <g:render template="chart" model="[backTest: backTest]"/>
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <g:render template="signals"/>
             </div>

@@ -1,44 +1,21 @@
 /**
  * Created by root on 8/26/14.
  */
-$(function () {
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 0) {
-            $('#header').addClass('minimized');
-            //$('#header').stop().animate({
-            //    paddingTop:0,
-            //    paddingBottom:0
-            //}, 400);
+function handleScroll() {
 
-            //$('#header + .container-fluid').stop().animate({
-            //    paddingTop: 55
-            //}, 400);
-            //$('#header #logo').stop().animate({
-            //    marginTop:5,
-            //    marginLeft:27
-            //}, 400);
-            //$('#header #logo img').stop().animate({
-            //    height:42
-            //}, 400);
-        }
-        else {
-            $('#header').removeClass('minimized');
-            //$('#header').stop().animate({
-            //    paddingTop:10,
-            //    paddingBottom:10
-            //}, 400);
-            //
-            //$('#header + .container-fluid').stop().animate({
-            //    paddingTop: 75
-            //}, 400);
-            //$('#header #logo').stop().animate({
-            //    marginTop:0,
-            //    marginLeft:0
-            //}, 400);
-            //$('#header #logo img').stop().animate({
-            //    height:52
-            //}, 400);
-        }
+    if ($(window).scrollTop() >= $('#header').height()) {
+        $('.menuContainer').addClass('fixed');
+        $('.backToTop').css('opacity', 0.9);
+    }
+    else {
+        $('.menuContainer').removeClass('fixed');
+        $('.backToTop').css('opacity', 0);
+    }
+}
+$(function () {
+    handleScroll();
+    $(window).scroll(function () {
+        handleScroll();
     });
 });
 
@@ -57,7 +34,7 @@ $.fn.animateHighlight = function (highlightColor, duration) {
     }
 };
 
-if(window.Prototype) {
+if (window.Prototype) {
     delete Object.prototype.toJSON;
     delete Array.prototype.toJSON;
     delete Hash.prototype.toJSON;
@@ -72,7 +49,7 @@ $.fn.fadeInWithDelay = function () {
     });
 };
 
-function isElementInViewport (el) {
+function isElementInViewport(el) {
 
     //special bonus for those using jQuery
     if (typeof jQuery === "function" && el instanceof jQuery) {
@@ -94,7 +71,7 @@ function onVisibilityChange(el, callback) {
         callback();
 }
 
-function compareSearchResults(a,b) {
+function compareSearchResults(a, b) {
     if (a.score < b.score)
         return 1;
     if (a.score > b.score)
@@ -108,6 +85,21 @@ function guid() {
             .toString(16)
             .substring(1);
     }
+
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
+}
+
+$(document).ready(function () {
+    $('.noPlaceReservation').css('display', 'block');
+    $('.hideBeforeLoad').css('opacity', 0).animate({
+        opacity: 1
+    }, 200);
+});
+
+function strip(html)
+{
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
 }

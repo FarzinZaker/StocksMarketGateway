@@ -1,4 +1,9 @@
-<ul id="menu">
+<ul id="menu" class="hideBeforeLoad">
+    <li>
+        <a href="${createLink(uri: '/')}">
+            <i class="fa fa-home"></i> <g:message code="menu.home"/>
+        </a>
+    </li>
     <li>
         <g:message code="menu.twitter"/>
         <ul>

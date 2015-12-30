@@ -22,6 +22,7 @@ class TwitterController {
     def followGraphService
     def sharingService
     def groupGraphService
+    def commentGraphService
 
     def propertyAutoComplete() {
 
@@ -171,7 +172,7 @@ class TwitterController {
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
         def hasAccess = groups.size() == 0
         if (!hasAccess) {
-            def userGroups = groupGraphService.listForMember(springSecurityService.currentUser as User)
+            def userGroups = groupGraphService.memberGroups(springSecurityService.currentUser as User)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
         }
         [
@@ -212,6 +213,20 @@ class TwitterController {
                 property    : propertyVertex,
                 authorList  : propertyGraphService.authorList(propertyVertex.idNumber as String),
                 propertyInfo: propertyInfo
+        ]
+    }
+
+    def commentCount() {
+        render commentGraphService.getCommentCount(params.id as String)
+    }
+
+    def commentList() {
+        def list = commentGraphService.getCommentList(params.id as String)
+        [
+                id     : params.id,
+                data   : list.collect { it },
+                minDate: list.collect { it?.dateCreated?.time }.min(),
+                maxDate: list.collect { it?.dateCreated?.time }.max()
         ]
     }
 
@@ -287,17 +302,17 @@ class TwitterController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = TwitterMaterial.search("${queryStr ?: '**'}", max: 50)
+        def searchResult = Article.search("${queryStr ?: '**'}", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
 
         searchResult.results.eachWithIndex { item, index ->
             result << [
-                    text : "${item.title}",
-                    link : createLink(controller: 'article', action: 'thread', id: item.identifier),
+                    text : item.title ?: item.summary,
+                    link : createLink(controller: 'article', action: 'thread', id: item.id),
                     score: searchResult.scores[index] / maxScore,
-                    type : message(code: 'globalSearch.material')
+                    type : message(code: 'article.menu.article')
             ]
         }
         render(result.sort { -it.score } as JSON)
@@ -324,5 +339,9 @@ class TwitterController {
             ]
         }
         render(result.sort { -it.score } as JSON)
+    }
+
+    def commentEditor() {
+        [parentId: params.id]
     }
 }

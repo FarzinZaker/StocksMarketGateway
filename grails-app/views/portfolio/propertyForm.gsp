@@ -1,12 +1,12 @@
-<div class="container-fluid">
+<div class="container">
     <form:form name="propertyForm" controller="portfolio" action="saveProperty">
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <h2><g:message code="${"${clazz}.${params.id ? 'edit' : 'create'}.title"}"/></h2>
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <g:hiddenField name="clazz" value="${clazz}"/>
                 <g:hiddenField name="id" value="${id}"/>

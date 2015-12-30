@@ -5,7 +5,6 @@ import stocks.RoleHelper
 import stocks.User
 import stocks.Image
 import stocks.graph.MaterialGraphService
-import stocks.twitter.Article
 
 //import stocks.twitter.Tag
 import grails.converters.JSON
@@ -49,7 +48,7 @@ class ArticleController {
         article.author = owner
 
         if (article.validate() && article.save(flush: true)) {
-            sharingService.shareMaterial(owner, MaterialGraphService.TYPE_ARTICLE, article.id, article.title, article.summary, article.imageId,
+            sharingService.shareArticle(owner, article.id, article.title, article.summary, article.imageId,
 //                    params.shareTags && params.shareTags != '' ? JSON.parse(params.shareTags as String).collect {
 //                [title: it.text, identifier: it.value as Long, type: it.type]
 //            } : [],

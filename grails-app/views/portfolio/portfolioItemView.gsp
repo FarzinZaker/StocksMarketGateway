@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<div class="container-fluid" id="ngController" ng-controller="alertingQueryController">
-    <div class="row-fluid">
+<div class="container" id="ngController" ng-controller="alertingQueryController">
+    <div class="row">
         <div class="col-xs-12">
             <h1><g:message code="portfolioItem.view.title"/></h1>
 

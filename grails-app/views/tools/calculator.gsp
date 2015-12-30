@@ -35,8 +35,8 @@
 </head>
 
 <body>
-<div class="container-fluid k-rtl calculator" id="ngController" ng-controller="toolsCalculatorController">
-    <div class="row-fluid">
+<div class="container k-rtl calculator" id="ngController" ng-controller="toolsCalculatorController">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    %{--<div class="row-fluid">--}%
+    %{--<div class="row">--}%
     %{--<div class="col-xs-12">--}%
     %{--<h1 class="cyan">--}%
     %{--<i class="fa fa-calculator"></i>--}%
@@ -57,7 +57,7 @@
     %{--</div>--}%
     %{--</div>--}%
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <table class="calculator-container">
                 <tr>

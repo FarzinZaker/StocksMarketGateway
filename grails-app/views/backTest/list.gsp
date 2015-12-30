@@ -13,8 +13,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -89,7 +89,7 @@
                             serverFiltering: true,
                             serverSorting: true
                         },
-                        height: 550,
+//                        height: 550,
                         filterable: false,
                         sortable: true,
                         pageable: true,

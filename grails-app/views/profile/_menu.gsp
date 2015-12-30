@@ -70,7 +70,7 @@
         var profileMenu = $('.profileMenu');
         profileMenu.stop().hide();
         var container = profileMenu.parent();
-        while (!container.hasClass('container-fluid'))
+        while (!container.hasClass('container'))
             container = container.parent();
         profileMenu.height(container.height() - 20).show();
     }

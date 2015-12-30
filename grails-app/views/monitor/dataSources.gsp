@@ -14,8 +14,8 @@
     <asset:javascript src="jquery.timer.js"/>
 </head>
 
-<body><div class="container-fluid">
-    <div class="row-fluid">
+<body><div class="container">
+    <div class="row">
         <div class="col-xs-12">
             %{--<h1><g:message code="monitor.dataSources.title"/></h1>--}%
 

@@ -6,8 +6,8 @@
 </div>
 <script type="text/x-kendo-template" id="signalTemplate">
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <if test="${Environment.isDevelopmentMode()}">
             <div class="col-xs-4"><label>#= formatNumber(id) #</label></div>
         </if>

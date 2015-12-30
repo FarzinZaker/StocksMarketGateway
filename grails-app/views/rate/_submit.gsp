@@ -1,4 +1,4 @@
-<layout:panel title="${message(code: 'article.rate.title')}" class="rating" contentClass="ratingContent" header="h3"
+<layout:panel title="${message(code: 'article.rate.title')}" class="rating dashLet blue" contentClass="ratingContent" header="h2"
               loginRequiredAction="${message(code: 'article.rate.loginRequired')}">
     <form id="ratingForm">
         <form:hidden name="id" value="${materialId}"/>

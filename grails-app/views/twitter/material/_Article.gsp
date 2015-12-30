@@ -11,46 +11,52 @@
         ${new PrettyTime(new Locale('fa')).format(material.publishDate)}
     </span>
 
-
-    <g:if test="${showProperties}">
-        <div class="meta" id="meta_${currentID}">
-            <span id="metaLoading_${currentID}">
-                <asset:image src="loading.gif"/>
-            </span>
-        </div>
-    </g:if>
 </div>
 
 <div class="description">
-    <a href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}">${material.title}</a>
 
-    <p>${material.description}</p>
-
+    <div class="meta" id="meta_${currentID}">
+        <span id="metaLoading_${currentID}">
+            <asset:image src="loading.gif"/>
+        </span>
+    </div>
+    <a class="title"
+       href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}">${material.title}</a>
     <g:if test="${showProperties}">
+        <div class="description">${material.description}</div>
+
         <ul class="propertyList" id="propertyList_${currentID}">
             <span id="propertyLoading_${currentID}">
                 <asset:image src="loading.gif"/>
             </span>
         </ul>
+
+        <div class="moreButtonContainer">
+            <a href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}" class="moreButton">
+                <i class="fa fa-info"></i>
+                <g:message code="article.showDetails"/>
+            </a>
+        </div>
     </g:if>
 </div>
 
-<g:if test="${showProperties}">
-    <script language="javascript" type="text/javascript">
-        $("#propertyLoading_${currentID}").show();
-        $.ajax({
-            type: "POST",
-            url: '${createLink(controller: 'twitter', action: 'propertyList', id:material.idNumber)}'
-        }).done(function (response) {
-            $("#propertyList_${currentID}").html(response);
-        });
+<div class="clear-fix"></div>
+<script language="javascript" type="text/javascript">
+    <g:if test="${showProperties}">
+    $("#propertyLoading_${currentID}").show();
+    $.ajax({
+        type: "POST",
+        url: '${createLink(controller: 'twitter', action: 'propertyList', id:material.idNumber)}'
+    }).done(function (response) {
+        $("#propertyList_${currentID}").html(response);
+    });
+    </g:if>
 
-        $("#metaLoading_${currentID}").show();
-        $.ajax({
-            type: "POST",
-            url: '${createLink(controller: 'twitter', action: 'meta', id:material.idNumber)}'
-        }).done(function (response) {
-            $("#meta_${currentID}").html(response);
-        });
-    </script>
-</g:if>
+    $("#metaLoading_${currentID}").show();
+    $.ajax({
+        type: "POST",
+        url: '${createLink(controller: 'twitter', action: 'meta', id:material.idNumber)}'
+    }).done(function (response) {
+        $("#meta_${currentID}").html(response);
+    });
+</script>

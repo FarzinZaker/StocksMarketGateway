@@ -31,7 +31,7 @@ class PortfolioController {
             portfolioAvailItems = PortfolioAvailItem.findAllByPortfolio(portfolio)
             portfolioAvailBrokers = PortfolioAvailBroker.findAllByPortfolio(portfolio)
         }
-        [portfolio: portfolio, portfolioAvailItems: portfolioAvailItems, portfolioAvailBrokers: portfolioAvailBrokers, items: portfolioPropertyManagementService.portfolioItemTypes()]
+        [portfolioInstance: portfolio, portfolioAvailItems: portfolioAvailItems, portfolioAvailBrokers: portfolioAvailBrokers, items: portfolioPropertyManagementService.portfolioItemTypes()]
     }
 
     def jsonSearchBroker() {

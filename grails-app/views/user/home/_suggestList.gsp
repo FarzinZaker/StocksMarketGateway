@@ -1,8 +1,8 @@
-<div class="container-fluid" style="padding:0">
-    <div class="row-fluid" id="suggestListContainer">
+%{--<div class="container" style="padding:0">--}%
+    <div class="row" id="suggestListContainer">
 
     </div>
-</div>
+%{--</div>--}%
 
 <twitter:followScript/>
 

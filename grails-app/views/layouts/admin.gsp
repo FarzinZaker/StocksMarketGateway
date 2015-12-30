@@ -42,9 +42,7 @@
 
 </div>
 
-<div class="footer">
-    <g:message code="copyright"/>
-</div>
+<g:render template="/layouts/common/footer"/>
 <script language="javascript" type="text/javascript"
         src="${resource(dir: 'js/bootstrap', file: 'bootstrap.js')}"></script>
 <asset:javascript src="common.js"/>

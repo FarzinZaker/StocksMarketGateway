@@ -1,9 +1,9 @@
-<span class="author">
-    <a class="k-button" href="${createLink(controller: 'user', action: 'wall', id: author.identifier)}"><i class="fa fa-pencil"></i> ${author.title}</a>
+<span class="author" data-id="${author.identifier}">
+    <a href="${createLink(controller: 'user', action: 'wall', id: author.identifier)}"><i class="fa fa-user"></i> ${author.title}</a>
 </span>
 <span class="groups">
     <g:each in="${groups}" var="group">
-        <a class="k-button" href="${createLink(controller: 'group', action: 'home', id: group.id)}">
+        <a href="${createLink(controller: 'group', action: 'home', id: group.id)}">
             <i class="fa fa-users"></i> ${group.title}</a>
     </g:each>
 </span>

@@ -6,8 +6,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
 
             <div class="authorGridContainer k-rtl">
@@ -32,7 +32,7 @@
 
 <div class="k-rtl hidden">
     <div id="addAuthorWindow">
-        <div class="container-fluid">
+        <div class="container">
             <form:form name="addAuthorForm">
                 <form:field fieldName="author">
                     <form:textBox name="author.id" id="author" validation="required" style="width:300px"/>

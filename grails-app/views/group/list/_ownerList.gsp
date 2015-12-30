@@ -63,7 +63,7 @@
                     title: "${message(code:'twitter.group.membershipType.label')}",
                     attributes: {style: "text-align: center"},
                     headerAttributes: {style: "text-align: center"},
-                    width: "100px"
+                    width: "80px"
                 },
                 {
                     title: "${message(code:'twitter.group.membershipPrice.label')} (${message(code: 'rial')})",
@@ -75,7 +75,7 @@
                             title: "${message(code:'twitter.group.membershipPeriod.1Month')}",
                             attributes: {style: "text-align: center"},
                             headerAttributes: {style: "text-align: center"},
-                            width: "100px",
+                            width: "70px",
                             template: "#=formatNumber(membership1MonthPrice)#"
                         },
                         {
@@ -83,7 +83,7 @@
                             title: "${message(code:'twitter.group.membershipPeriod.3Month')}",
                             attributes: {style: "text-align: center"},
                             headerAttributes: {style: "text-align: center"},
-                            width: "100px",
+                            width: "70px",
                             template: "#=formatNumber(membership3MonthPrice)#"
                         },
                         {
@@ -91,7 +91,7 @@
                             title: "${message(code:'twitter.group.membershipPeriod.6Month')}",
                             attributes: {style: "text-align: center"},
                             headerAttributes: {style: "text-align: center"},
-                            width: "100px",
+                            width: "70px",
                             template: "#=formatNumber(membership6MonthPrice)#"
                         },
                         {
@@ -99,7 +99,7 @@
                             title: "${message(code:'twitter.group.membershipPeriod.12Month')}",
                             attributes: {style: "text-align: center"},
                             headerAttributes: {style: "text-align: center"},
-                            width: "100px",
+                            width: "70px",
                             template: "#=formatNumber(membership12MonthPrice)#"
                         }
                     ]

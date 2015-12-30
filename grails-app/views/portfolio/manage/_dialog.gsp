@@ -1,6 +1,6 @@
 <div id="itemDialog" class="k-rtl">
-    <div class="container-fluid">
-        <div class="row-fluid">
+    <div class="container">
+        <div class="row">
             <div class="col-xs-6">
                 <form:field fieldName="portfolioItem.property" showHelp="0">
                     <div id="propertycontainer">
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-6">
                 <form:field id="sharepricecontainer" fieldName="portfolioAction.sharePrice" showHelp="0">
                     <input id="sharePrice" style="width: 300px">
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-6">
                 <g:if test="${portfolio.useBroker}">
                     <form:field id="brokerconainer" fieldName="portfolioAction.broker" showHelp="0">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <div class="toolbar" style="margin:0;padding-top:10px;">
                     <form:button name="submit" text="${message(code: 'portfolioItem.save')}"/>

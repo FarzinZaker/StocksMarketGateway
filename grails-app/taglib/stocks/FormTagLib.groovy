@@ -255,7 +255,7 @@ class FormTagLib {
                 out << asset.javascript(src: 'tinymce/authorTagHandler.js')
         }
         out << """
-            <div class='k-rtl'>
+            <div class='k-rtl ${attrs.mode}'>
                 <textarea ${
             attrs.class ? "class='${attrs.class}'" : ''
         } style='color:transparent;background-color:transparent;border-width:0;${
@@ -263,7 +263,16 @@ class FormTagLib {
         }${attrs.style ?: ''}' name='${attrs.name}' id='${attrs.id ?: attrs.name}'  data-validation="${
             attrs.validation ?: ''
         }">
-                    ${attrs.entity?."${attrs.name}" ?: ''}
+                    ${
+            attrs.tag ? """<a data-clazz="${attrs.tag.clazz}"
+                                        data-id="${attrs.tag.id}"
+                                        href="../${attrs.tag.type == 'tag' ? attrs.tag.clazz?.toLowerCase() : 'user'}/${
+                attrs.tag.type == 'tag' ? 'info' : 'wall'
+            }/${attrs.tag.id}"
+                                        class="${attrs.tag.type == 'tag' ? 'hashTag' : 'hashAuthor'}">${
+                attrs.tag.type == 'tag' ? '#' : '@'
+            }${attrs.tag.title}</a>""" : (attrs.entity?."${attrs.name}" ?: '')
+        }
                 </textarea>
             </div>
             <script language='javascript' type='text/javascript'>
@@ -277,7 +286,7 @@ class FormTagLib {
                         language: "fa",
                         content_css : "${asset.assetPath(src: 'editor.css')}",
                         statusbar : false,
-                        ${attrs.width ? "width:${attrs.width}," : ""}
+                        ${attrs.mode == 'inline' ? 'width:439,' : attrs.width ? "width:${attrs.width}," : ""}
                         ${attrs.height ? "height:${attrs.height}," : ""}
                         plugins: [
                             "kendoImageBrowser ${

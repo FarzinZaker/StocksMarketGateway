@@ -1,8 +1,23 @@
 /**
  * Created by farzin on 9/30/2015.
  */
-$.fn.animatedSort = function () {
+$.fn.animatedSort = function (config) {
 
+    if (!config)
+        config = {
+            margin: 21,
+            padding: 10,
+            addedHeight: 0,
+            count: 5
+        };
+    if (!config.margin && config.margin != 0)
+        config.margin = 21;
+    if (!config.padding && config.padding != 0)
+        config.padding = 10;
+    if (!config.addedHeight && config.addedHeight != 0)
+        config.addedHeight = 0;
+    if (!config.count && config.count != 0)
+        config.count = 5;
     var container = this;
 
     if (!container.is(":visible"))
@@ -19,7 +34,7 @@ $.fn.animatedSort = function () {
     //    height: totalHeight + 45
     //}, 1000);
 
-    items.css('position', 'absolute').width(container.width() - 20);
+    items.css('position', 'absolute').width(container.width() - (2 * config.padding));
     var sortedList = [];
     $.each(items, function () {
         sortedList[sortedList.length] = $(this);
@@ -28,12 +43,12 @@ $.fn.animatedSort = function () {
     var currentTop = 0;
     var indexer = 0;
     $.each(sortedList, function () {
-        if (indexer++ < 10) {
+        if (indexer++ < config.count) {
             this.stop().animate({
                 top: currentTop,
                 opacity: 1
             }, 700);
-            currentTop += this.height() + 21;
+            currentTop += this.height() + config.margin;
             if(indexer % 2 != 0){
                 this.addClass('even').removeClass('odd');
             }
@@ -49,10 +64,10 @@ $.fn.animatedSort = function () {
     var totalHeight = 0;
     indexer = 0;
     $.each(sortedList, function () {
-        if (indexer++ < 10)
-            totalHeight += this.height() + 13;
+        if (indexer++ < config.count)
+            totalHeight += this.height() + config.margin;
 
-        if (indexer < 10 && indexer < sortedList.length) {
+        if (indexer < config.count && indexer < sortedList.length) {
             this.removeClass('noBorder');
         }
         else {
@@ -60,7 +75,7 @@ $.fn.animatedSort = function () {
         }
     });
     container.stop().animate({
-        height: totalHeight + 80
+        height: totalHeight + config.addedHeight
     }, 1000);
 
     return this;

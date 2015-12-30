@@ -2,6 +2,7 @@ package stocks.twitter
 
 import org.ccil.cowan.tagsoup.Parser
 import stocks.User
+import stocks.graph.MaterialGraphService
 import stocks.twitter.Search.TwitterMaterial
 
 class SharingService {
@@ -10,13 +11,14 @@ class SharingService {
     def materialGraphService
     def propertyGraphService
     def messageSource
+    def commonGraphService
 
-    void shareMaterial(User owner, String type, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
+    void shareArticle(User owner, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
         graphDBService.executeCommand("DELETE EDGE Mention WHERE out.identifier = ${identifier}")
         graphDBService.executeCommand("DELETE EDGE Share WHERE out.identifier = ${identifier}")
 
-        def materialVertex = materialGraphService.ensureMaterial(owner, type, identifier, title, description, imageId)
+        def materialVertex = materialGraphService.ensureArticle(owner, identifier, title, description, imageId)
 
         def searchData = TwitterMaterial.findByIdentifier(identifier)
 
@@ -40,6 +42,32 @@ class SharingService {
             groupRidList << "#${groupId}"
         }
         searchData.groupRidList = groupRidList
+
+        searchData.save()
+    }
+
+    void shareTalk(User owner, String description, List<Map> properties, List<Map> mentionList) {
+
+        def materialVertex = materialGraphService.createTalk(owner, description)
+
+        def searchData = TwitterMaterial.findByRid(materialVertex?.id?.toString())
+
+        def propertyTitleList = []
+        properties.each { property ->
+            def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
+            graphDBService.addEdge('About', materialVertex, propertyVertex)
+            propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
+        }
+        searchData.propertyTitleList = propertyTitleList
+
+        mentionList.each { mention ->
+            def tragetVertex = graphDBService.getVertex(mention.rid as String)
+            graphDBService.addEdge('Mention', materialVertex, tragetVertex)
+        }
+
+        def groupVertex = commonGraphService.publicGroup
+        graphDBService.addEdge('Share', materialVertex, groupVertex)
+        searchData.groupRidList = [groupVertex?.id?.toString()]
 
         searchData.save()
     }

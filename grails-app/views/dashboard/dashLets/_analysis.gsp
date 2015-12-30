@@ -2,7 +2,7 @@
 
 <div id="analysisFeedTimer" style="display: none"></div>
 
-<div id="analysisFeedContainer" class="dashLet orange analysisFeedContainer k-rtl">
+<div id="analysisFeedContainer" class="dashLet blue analysisFeedContainer k-rtl hideBeforeLoad noPlaceReservation">
     <h2><i class="fa fa-bullseye"></i> <g:message code="analysisFeed.title"/></h2>
 
 
@@ -32,10 +32,10 @@
         </g:each>
     </div>
 
-    <div class="dashletFooter">
-        <a href="${createLink(controller: 'externalAnalysis', action: 'archive')}"><g:message
-                code="analysisFeed.archive"/></a>
-    </div>
+    %{--<div class="dashletFooter">--}%
+        %{--<a href="${createLink(controller: 'externalAnalysis', action: 'archive')}"><g:message--}%
+                %{--code="analysisFeed.archive"/></a>--}%
+    %{--</div>--}%
 </div>
 <script language="javascript" type="text/javascript">
 
@@ -67,9 +67,9 @@
                     }
                     else {
                         var itemContainer = $('<div/>').addClass('analysisMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
-                        var imageContainer = $('<div/>').addClass('analysisFeedImageContainer');
-                        imageContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
-                        itemContainer.append(imageContainer);
+//                        var imageContainer = $('<div/>').addClass('analysisFeedImageContainer');
+//                        imageContainer.append($('<img/>').attr('src', '/images/' + this.source + '.jpg').attr('alt', this.sourceString).attr('height', '40px'));
+//                        itemContainer.append(imageContainer);
                         var titleContainer = $('<div/>').addClass('analysisFeedTitleContainer');
                         var title = $('<a/>').addClass('analysisFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);
                         titleContainer.append(title);
@@ -103,7 +103,7 @@
         $("#analysisFeedTabStrip").kendoTabStrip({
             animation: {
                 open: {
-                    effects: "fadeIn"
+                    effects: "none"
                 }
             },
             show: function (e) {

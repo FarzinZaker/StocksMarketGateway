@@ -1,4 +1,4 @@
-<div class="dashLet cyan">
+<div class="dashLet cyan dark hideBeforeLoad noPlaceReservation">
     <h2 style="float:right"><i class="fa fa-money"></i> <g:message code="rates.title"/></h2>
 
     <div id="ratesTimer"></div>
@@ -20,19 +20,19 @@
                 </li>
             </ul>
 
-            <div>
+            <div style="height:256px !important;overflow: hidden;">
                 <g:render template="dashLets/rates/currency"/>
             </div>
 
-            <div>
+            <div style="height:256px !important;overflow: hidden;">
                 <g:render template="dashLets/rates/gold"/>
             </div>
 
-            <div>
+            <div style="height:256px !important;overflow: hidden;">
                 <g:render template="dashLets/rates/metal"/>
             </div>
 
-            <div>
+            <div style="height:256px !important;overflow: hidden;">
                 <g:render template="dashLets/rates/oil"/>
             </div>
         </div>
@@ -59,7 +59,7 @@
         $("#ratesTabstrip").kendoTabStrip({
             animation: {
                 open: {
-                    effects: "fadeIn"
+                    effects: "none"
                 }
             }
         });

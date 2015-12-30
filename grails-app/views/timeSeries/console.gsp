@@ -14,9 +14,9 @@
 
 <body>
 
-<div class="container-fluid ltr">
+<div class="container ltr">
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <h1>
                 Time Series Console
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <g:form action="console">
                 <form:textArea name="query" style="width:100%;height:300px;padding:15px;" value="${params.query}" />
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <pre id="result">
             </pre>

@@ -238,4 +238,8 @@ class GroupGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId})) GROUP BY @rid ORDER BY count DESC")
     }
 
+    List<Map> dashboardGroups(){
+        graphDBService.queryAndUnwrapVertex("SELECT FROM Group WHERE ownerType <> 'system' limit 4")
+    }
+
 }

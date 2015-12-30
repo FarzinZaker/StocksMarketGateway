@@ -47,7 +47,7 @@ function onKeyDownForHashAuthor(ed, e) {
                 var link = $('#authorSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
                 lastHashAuthorNode.text('@' + link.attr('data-author'));
                 lastHashAuthorNode.attr('href', link.attr('data-link'));
-                lastHashAuthorNode.attr('data-clazz', link.attr('data-clazz'));
+                lastHashAuthorNode.attr('data-clazz', link.attr('data-typeClass'));
                 lastHashAuthorNode.attr('data-id', link.attr('data-id'));
                 container.hide();
 
@@ -182,5 +182,5 @@ function getHashAuthorSearchPhrase(ed) {
 function showHashAuthorSearchBox(ed) {
     var cursorPosition = getCurrentCursorPositionOfEditor(ed);
     $('#tagSearchResults').hide();
-    $('#authorSearchResults').css('top', cursorPosition.top + 50).css('left', cursorPosition.left - 400).show();
+    $('#authorSearchResults').css('top', cursorPosition.top + ($(ed.editorContainer).parent().hasClass('inline') ? 10 : 50)).css('left', cursorPosition.left - 400).show();
 }

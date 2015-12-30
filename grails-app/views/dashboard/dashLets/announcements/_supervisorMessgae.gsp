@@ -15,10 +15,15 @@
 
 <div id="supervisorMessagesContainer" class="announcementFeedContainer">
 
-    <div id="supervisorMessagesItems" class="announcementFeedItems">
+    <div id="supervisorMessagesItems" class="announcementFeedItems linkList">
         <form:loading/>
     </div>
 </div>
+
+<script id="supervisorMessageTipTemplate" type="text/x-kendo-template">
+<h3>#=target.data('title')#</h3>
+<p>#=target.data('description')#</p>
+</script>
 
 <script language="javascript" type="text/javascript">
 
@@ -31,17 +36,33 @@
                 oldItem.find('.announcementFeedItemDate').html(this.dateString);
             }
             else {
-                var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.id).attr('data-time', this.time);
-                var title = $('<span/>').addClass('announcementFeedItemTitle').attr('target', '_blank').attr('href', this.link).css('color','black').html(this.title);
+                var itemContainer = $('<div/>').addClass('mix').addClass(this.category).attr('data-id', this.id).attr('data-time', this.time)
+                        .attr('data-description', this.description)
+                        .attr('data-title', this.title);
+                var title = $('<span/>').addClass('announcementFeedItemTitle').html(this.title);
                 itemContainer.append(title);
+                var footer = $('<div/>').addClass('announcementFeedItemFooter');
                 var date = $('<div/>').addClass('announcementFeedItemDate').html(this.dateString);
-                itemContainer.append(date);
+                footer.append(date);
+                itemContainer.append(footer);
 
                 container.append(itemContainer);
+
+                $("#supervisorMessagesItems").kendoTooltip({
+                    filter: ".mix",
+                    content: kendo.template($("#supervisorMessageTipTemplate").html()),
+                    width: 400,
+//                    height: 200,
+                    position: "left"
+                });
+
+//                $("#products").find("a").click(false);
             }
 
         });
-
-        container.animatedSort();
+        container.animatedSort({
+            margin: 5,
+            padding: 0
+        });
     }
 </script>

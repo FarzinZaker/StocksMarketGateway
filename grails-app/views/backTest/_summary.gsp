@@ -1,7 +1,7 @@
 <div id="summaryTimer"></div>
 <g:if test="${summary}">
 
-    <div class="row-fluid">
+    <div class="row">
         <g:render template="summaryItem"
                   model="${[name: message(code: 'backTest.summary.initialValue'), value: "${formatNumber(number: summary.initialValue, type: 'number')}"]}"/>
         <g:render template="summaryItem"
@@ -16,7 +16,7 @@
                   model="${[name: message(code: 'backTest.summary.returnOfInvestment'), value: "<span class='${summary.returnOfInvestment > 0 ? 'positive' : 'negative'}'>${formatNumber(number: summary.returnOfInvestment, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <g:render template="summaryItem"
                   model="${[name: message(code: 'backTest.summary.maxDrawDown'), value: "${formatNumber(number: summary.maxDrawDown, type: 'number', maxFractionDigits: 2)} %"]}"/>
         <g:render template="summaryItem"
@@ -31,7 +31,7 @@
                   model="${[name: message(code: 'backTest.summary.indexYearlyBenefit'), value: "<span class='${summary.indexYearlyBenefit > 0 ? 'positive' : 'negative'}'>${formatNumber(number: summary.indexYearlyBenefit, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <g:render template="summaryItem"
                   model="${[name: message(code: 'backTest.summary.indexDailyBenefit'), value: "<span class='${summary.indexDailyBenefit > 0 ? 'positive' : 'negative'}'>${formatNumber(number: summary.indexDailyBenefit, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
         <g:render template="summaryItem"

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div class="row-fluid" id="container">
+<div class="row" id="container">
     <div class="col-xs-2 k-rtl">
         <g:render template="filters"/>
     </div>

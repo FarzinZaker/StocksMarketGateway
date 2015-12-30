@@ -150,6 +150,6 @@ class SymbolChartController {
 
     def sparkLine(Long id){
         def list = adjustedPriceSeries9Service.sparkLIine(id, 30)
-        render ([id: id, value: list] as JSON)
+        render ([id: id, value: list, min: list.min(), max:list.max()] as JSON)
     }
 }

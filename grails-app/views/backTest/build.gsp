@@ -16,8 +16,8 @@
 
 <body>
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    %{--<div class="row-fluid">--}%
+    %{--<div class="row">--}%
         %{--<div class="col-xs-12">--}%
             %{--<h1 class="magenta">--}%
                 %{--<i class="fa fa-magic"></i>--}%
@@ -41,7 +41,7 @@
     %{--</div>--}%
     <form:form name="backTestForm" controller="backTest" action="save">
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.symbol">
                     <div class="k-rtl">
@@ -82,7 +82,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="tradeStrategy.lossLimit">
                     <form:numericTextBox name="lossLimit" id="lossLimitInput" value="${tradeStrategy?.lossLimit ?: 0}"
@@ -92,7 +92,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="tradeStrategy.profitLimit">
                     <form:numericTextBox name="profitLimit" id="profitLimitInput"
@@ -102,7 +102,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="tradeStrategy.timeLimit">
                     <form:numericTextBox name="timeLimit" id="timeLimitInput" value="${tradeStrategy?.timeLimit ?: 0}"
@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.period">
                     <form:datePicker name="startDateFa" style="width:216px;"
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.outlay">
                     <form:numericTextBox name="outlay" style="width:450px;" value="10000000"
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <div class="row-fluid" style="display: none">
+        <div class="row" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyWage">
                     <form:numericTextBox name="buyWage" style="width:450px;" value="0.00486" format="p3" decimals="5"
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="row-fluid" style="display: none">
+        <div class="row" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellWage">
                     <form:numericTextBox name="sellWage" style="width:450px;" value="0.00526" format="p3" decimals="5"
@@ -150,7 +150,7 @@
             </div>
         </div>
 
-        <div class="row-fluid" style="display: none">
+        <div class="row" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.buyTax">
                     <form:numericTextBox name="buyTax" style="width:450px;" value="0" format="p1" decimals="3"
@@ -159,7 +159,7 @@
             </div>
         </div>
 
-        <div class="row-fluid" style="display: none">
+        <div class="row" style="display: none">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.sellTax">
                     <form:numericTextBox name="sellTax" style="width:450px;" value="0.005" format="p1" decimals="3"
@@ -168,7 +168,7 @@
             </div>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <form:field fieldName="backTest.adjustmentType">
                     <form:select name="adjustmentType" style="width:450px;" value="${AdjustmentHelper.defaultType}"

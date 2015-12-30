@@ -59,8 +59,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -70,42 +70,55 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-3">
-            %{--<h1 class="pink">--}%
-                %{--<i class="fa fa-line-chart"></i>--}%
-                %{--${symbol.persianCode} (${symbol.persianName})--}%
-            %{--</h1>--}%
+        %{--<h1 class="pink">--}%
+        %{--<i class="fa fa-line-chart"></i>--}%
+        %{--${symbol.persianCode} (${symbol.persianName})--}%
+        %{--</h1>--}%
+
 
             <g:if test="${lastDailyTrade}">
-                <div style="line-height: 30px;">
-                    <span><g:message code="symbol.info.lastPrice"/>:</span>
-                    <span style="margin-right:30px;font-size:20px;font-weight: bold"><g:formatNumber
-                            number="${lastDailyTrade.lastTradePrice}" type="number"/></span>
-                    <g:set var="lastTradePriceChangePercent"
-                           value="${Math.round(lastDailyTrade.priceChange * 10000 / (lastDailyTrade.lastTradePrice - lastDailyTrade.priceChange)) / 100}"/>
-                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                            number="${lastDailyTrade.priceChange}" type="number"/></span>
-                    <span style="margin-right:30px;color:${lastTradePriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                            number="${lastTradePriceChangePercent}" type="number"/></span>
+                <g:set var="lastTradePriceChangePercent"
+                       value="${Math.round(lastDailyTrade.priceChange * 10000 / (lastDailyTrade.lastTradePrice - lastDailyTrade.priceChange)) / 100}"/>
+                <div class="propertyInfoPrice ${lastTradePriceChangePercent > 0 ? 'positive' : lastTradePriceChangePercent < 0 ? 'negative' : ''}">
+                    <h4><g:message code="symbol.info.lastPrice"/></h4>
+                    <span>
+                        <b><g:formatNumber number="${lastDailyTrade.lastTradePrice}" type="number"/></b>
+                    </span>
+                    <span>
+                        <g:formatNumber number="${lastDailyTrade.priceChange}" type="number"/>
+                    </span>
+                    <span>
+                        <g:formatNumber number="${lastTradePriceChangePercent}" type="number"/>%
+                    </span>
+
+                    <div class="clear-fix"></div>
                 </div>
 
-                <div style="line-height: 30px;">
-                    <span><g:message code="symbol.info.closingPrice"/>:</span>
-                    <span style="margin-right:30px;"><g:formatNumber number="${lastDailyTrade.closingPrice}"
-                                                                     type="number"/></span>
-                    <g:set var="closingPriceChangePercent"
-                           value="${Math.round((lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice) * 10000 / (lastDailyTrade.closingPrice - (lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice))) / 100}"/>
-                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}"><g:formatNumber
-                            number="${lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice}"
-                            type="number"/></span>
-                    <span style="margin-right:30px;color:${closingPriceChangePercent > 0 ? 'green' : 'red'}">%<g:formatNumber
-                            number="${closingPriceChangePercent}" type="number"/></span>
+                <g:set var="closingPriceChangePercent"
+                       value="${Math.round((lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice) * 10000 / (lastDailyTrade.closingPrice - (lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice))) / 100}"/>
+                <div class="propertyInfoPrice ${closingPriceChangePercent > 0 ? 'positive' : closingPriceChangePercent < 0 ? 'negative' : 0}">
+                    <h4><g:message code="symbol.info.closingPrice"/></h4>
+                    <span>
+                        <g:formatNumber number="${lastDailyTrade.closingPrice}" type="number"/>
+                    </span>
+                    <span>
+                        <g:formatNumber
+                                number="${lastDailyTrade.priceChange + lastDailyTrade.closingPrice - lastDailyTrade.lastTradePrice}"
+                                type="number"/>
+                    </span>
+                    <span>
+                        <g:formatNumber number="${closingPriceChangePercent}" type="number"/>%
+                    </span>
+
+                    <div class="clear-fix"></div>
                 </div>
             </g:if>
 
 
-            <div class="k-rtl" style="margin-top:20px;">
+            <div class="k-rtl dashLet" style="margin-top:15px;">
+                <h2>&nbsp;</h2>
                 <div id="tabstrip">
                     <ul>
                         <g:if test="${lastDailyTrade}">
@@ -113,7 +126,7 @@
                                 <g:message code="symbol.into.status.title"/>
                             </li>
                         </g:if>
-                        <li class="${!lastDailyTrade? 'k-state-active' : ''}">
+                        <li class="${!lastDailyTrade ? 'k-state-active' : ''}">
                             <g:message code="symbol.into.news.title"/>
                         </li>
                         <li>
@@ -142,7 +155,7 @@
                     $("#tabstrip").kendoTabStrip({
                         animation: {
                             open: {
-                                effects: "fadeIn"
+                                effects: "none"
                             }
                         }
                     });
@@ -153,7 +166,7 @@
         </div>
 
         <div class="col-xs-9">
-            <div id="tv_chart_container" style="margin-top:25px;"></div>
+            <div id="tv_chart_container"></div>
         </div>
     </div>
 </div>

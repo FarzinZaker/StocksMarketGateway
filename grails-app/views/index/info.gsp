@@ -59,8 +59,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -70,30 +70,30 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-3">
 
             <g:if test="${index}">
-                <div style="line-height: 30px;">
-                    <span style="margin-left:30px;"><g:message code="symbol.info.lastPrice"/>:</span>
-                    <span style="white-space: nowrap">
-                        <span style="margin-left:30px;font-size:20px;font-weight: bold">
-                            <g:formatNumber number="${index.finalIndexValue}" type="number"/>
-                        </span>
-                        <g:set var="todayIndexChangeValue"
-                               value="${Math.round(index.todayIndexChangePercent / (index.finalIndexValue / 100 + 1))}"/>
-                        <span style="margin-left:30px;color:${todayIndexChangeValue > 0 ? 'green' : 'red'}">
-                            <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
-                        </span>
-                        <span style="color:${index.todayIndexChangePercent > 0 ? 'green' : 'red'}">
-                            %<g:formatNumber number="${index.todayIndexChangePercent}" type="number"/>
-                        </span>
+                <g:set var="todayIndexChangeValue"
+                                         value="${Math.round(index.todayIndexChangePercent / (index.finalIndexValue / 100 + 1))}"/>
+                <div class="propertyInfoPrice ${todayIndexChangeValue > 0 ? 'positive' : todayIndexChangeValue < 0 ? 'negative' : ''}">
+                    <h4><g:message code="symbol.info.lastPrice"/></h4>
+                    <span>
+                        <b><g:formatNumber number="${index.finalIndexValue}" type="number"/></b>
                     </span>
+                    <span>
+                        <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
+                    </span>
+                    <span>
+                        <g:formatNumber number="${index.todayIndexChangePercent}" type="number"/>%
+                    </span>
+                    <div class="clear-fix"></div>
                 </div>
             </g:if>
 
 
-            <div class="k-rtl" style="margin-top:20px;">
+            <div class="k-rtl dashLet" style="margin-top:15px;">
+                <h2>&nbsp;</h2>
                 <div id="tabstrip">
                     <ul>
                         <g:if test="${index}">
@@ -123,7 +123,7 @@
                     $("#tabstrip").kendoTabStrip({
                         animation: {
                             open: {
-                                effects: "fadeIn"
+                                effects: "none"
                             }
                         }
                     });
@@ -134,7 +134,7 @@
         </div>
 
         <div class="col-xs-9">
-            <div id="tv_chart_container" style="margin-top:25px;"></div>
+            <div id="tv_chart_container"></div>
         </div>
     </div>
 </div>

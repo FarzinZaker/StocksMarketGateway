@@ -8,8 +8,13 @@ class DashboardController {
     def externalAnalysisService
     def dashboardService
     def materialGraphService
+    def groupGraphService
 
     def index() {
+        [
+                groups: groupGraphService.dashboardGroups(),
+                symbols: dashboardService.selectedSymbols()
+        ]
     }
 
     def marketView() {
@@ -34,5 +39,9 @@ class DashboardController {
 
     def rates() {
         render(dashboardService.rates() as JSON)
+    }
+
+    def selectedSymbols() {
+        render(template: 'dashLets/selectedSymbols', model: [symbols: dashboardService.selectedSymbols()])
     }
 }

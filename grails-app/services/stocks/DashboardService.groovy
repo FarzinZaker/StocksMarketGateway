@@ -21,6 +21,7 @@ class DashboardService {
 
     def messageSource
     def marketStatusService
+    def lowLevelDataService
 
 //    @Cacheable('marketViewCache')
     def marketView() {
@@ -212,10 +213,11 @@ class DashboardService {
                     maxResults(10)
                 }.collect {
                     [
-                            id        : "supervisorMessage${it.id}",
-                            title     : it.title,
-                            time      : it.date.time,
-                            dateString: jalaliDate(it.date)
+                            id         : "supervisorMessage${it.id}",
+                            title      : it.title,
+                            time       : it.date.time,
+                            description: it.description.replace('\n', '<br/>'),
+                            dateString : jalaliDate(it.date)
                     ]
                 }
         ]
@@ -262,6 +264,11 @@ class DashboardService {
                     it.date
                 }.max() as Date)
         ]
+    }
+
+//    @Cacheable('selectedSymbolsCache')
+    def selectedSymbols() {
+        lowLevelDataService.executeFunction('sym_sel_most_change_percent', [:])
     }
 
     def jalaliDate(Date date) {

@@ -15,8 +15,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -27,7 +27,7 @@
     </div>
 
     <g:if test="${flash.errors}">
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12">
                 <div class="errorBlock">
                     <g:message code="strategy.build.errors.title"/>
@@ -41,7 +41,7 @@
         </div>
     </g:if>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <form:field fieldName="tradeStrategy.name">
                 <form:textBox name="nameInput" style="width:450px;" value="${tradeStrategy?.name ?: ''}"/>
@@ -51,7 +51,7 @@
 
     <g:if test="${params.id}">
 
-        <div class="row-fluid">
+        <div class="row">
             <div class="col-xs-12 k-rtl">
                 <div id="tabstrip">
                     <ul>
@@ -95,7 +95,7 @@
 
     </g:if>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <g:render template="submit"/>
         </div>

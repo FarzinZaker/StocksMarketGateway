@@ -7,19 +7,19 @@ public class RateHelper {
 
     public static final OILS = [
             'WTI-Crude-Oil-Nymex': [
-                    name: FarsiNormalizationFilter.apply('نفت خام WTI (بازار NYMEX)'),
+                    name  : FarsiNormalizationFilter.apply('نفت خام WTI (بازار NYMEX)'),
                     source: 'CL1:COM'
             ],
-            'Brent-Crude-ICE': [
-                    name: FarsiNormalizationFilter.apply('نفت برنت (ICE)'),
+            'Brent-Crude-ICE'    : [
+                    name  : FarsiNormalizationFilter.apply('نفت برنت (ICE)'),
                     source: 'CO1:COM'
             ],
-            'Crude-Oil-Tokyo': [
-                    name: FarsiNormalizationFilter.apply('نفت خام (توکیو)'),
+            'Crude-Oil-Tokyo'    : [
+                    name  : FarsiNormalizationFilter.apply('نفت خام (توکیو)'),
                     source: 'CP1:COM'
             ],
-            'Natural-Gas-Nymex': [
-                    name: FarsiNormalizationFilter.apply('گاز طبیعی (بازار NYMEX)'),
+            'Natural-Gas-Nymex'  : [
+                    name  : FarsiNormalizationFilter.apply('گاز طبیعی (بازار NYMEX)'),
                     source: 'NG1:COM'
             ]
     ]
@@ -65,8 +65,12 @@ public class RateHelper {
 
     public static final CURRENCIES = [
             'us-dollar'             : [
-                    name  : FarsiNormalizationFilter.apply('دلار امریکا'),
+                    name  : FarsiNormalizationFilter.apply('دلار امریکا (عمده)'),
                     source: 'price_dollar'
+            ],
+            'us-dollar-exchange'    : [
+                    name  : FarsiNormalizationFilter.apply('دلار امریکا (صرافی)'),
+                    source: 'price_dollar_rl'
             ],
             'euro'                  : [
                     name  : FarsiNormalizationFilter.apply('یورو'),

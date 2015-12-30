@@ -16,8 +16,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
 
             <div id="filter-query-panel" style="float: right;margin-bottom:10px;margin-top:0;min-width: 40%;">
@@ -64,7 +64,7 @@
                                  }}" onchange="reloadGrid"/>
                 </div>
 
-                <div id="grid">
+                <div id="grid" class="k-grid-lockedcolumns">
                     <form:loading id="screenerLoading"/>
                 </div>
             </div>

@@ -133,6 +133,10 @@
         min-width: 300px;
     }
 
+    .hm-tip *{
+        transition: all 0.4s ease-in-out 0.4s;
+    }
+
     .hm-tip-header {
         padding: 3px;
     }
@@ -256,8 +260,8 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -267,7 +271,7 @@
         </div>
     </div>
 
-    %{--<div class="row-fluid">--}%
+    %{--<div class="row">--}%
         %{--<div class="col-xs-12">--}%
             %{--<h1 class="crimson">--}%
                 %{--<i class="fa fa-desktop"></i>--}%
@@ -278,7 +282,7 @@
         %{--</div>--}%
     %{--</div>--}%
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             <div class="whitePanel">
                 <div>
@@ -309,7 +313,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12 k-rtl">
             <div id="body" style="margin-top:20px;"></div>
 
@@ -412,7 +416,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: '${createLink(controller: 'chart', action: 'sparkLine')}',
+                    url: '${createLink(controller: 'symbolChart', action: 'sparkLine')}',
                     data: {id: d.id}
                 }).done(function (response) {
                     renderSparkLine(response, 'selected');
@@ -453,8 +457,8 @@
                 data: data.value,
                 valueAxis: {
                     plotBands: [{
-                        from: 0,
-                        to: 20000000,
+                        from: data.min,
+                        to: data.max,
                         color: "#000"
                     }]
                 }
@@ -480,16 +484,18 @@
         if (currentTipSymbolsCount > 0)
             var coordinates = [0, 0];
         coordinates = d3.mouse(this);
-        var x = coordinates[0];
+        var horizontalMargin = ($('.page-wrap').width() - chartWidth) / 2;
+        var x = coordinates[0] + horizontalMargin - 50;
         var y = coordinates[1];
         if (y > ($(window).height() - 300) / 2)
-            y -= $('.d3-tip').height() - 180;
+            y -= $('.d3-tip').height() - 200;
         else
-            y += 240;
-        if (x < 300)
-            x = 200;
-        if (x > chartWidth - 300)
-            x = chartWidth - 300;
+            y += 300;
+        console.debug(x);
+        if (x < 300 + horizontalMargin)
+            x = horizontalMargin + 150;
+        if (x > chartWidth + horizontalMargin - 300)
+            x = chartWidth + horizontalMargin - 275;
         $('.d3-tip').css('top', y).css('left', x - 125);
 
     });

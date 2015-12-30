@@ -1,6 +1,8 @@
 package stocks.timeSeries
 
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import stocks.rate.Oil
 import stocks.rate.event.OilEvent
 
 class OilSeries9Service {
@@ -19,16 +21,22 @@ class OilSeries9Service {
                     "low",
                     "high"
             ].each { property ->
-                if (oilEvent.time)
+                if (oilEvent.time && oilEvent."${property}")
                     serie.addPoint(new Point("oil_${property}")
                             .tags([oilId: oilEvent.dataId])
                             .time(oilEvent.time)
-                            .value(oilEvent."${property}"))
+                            .value(oilEvent."${property}" * 1000))
             }
 
         }
 
         timeSeriesDB9Service.write(serie)
+    }
+
+    @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')
+    def sparkLine(String symbol, Integer daysCount) {
+        def symbolId = Oil.findBySymbol(symbol)?.id
+        priceList(symbolId, new Date() - daysCount, new Date(), '1d')?.collect { it.value } ?: []
     }
 
     def priceList(Long oilId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
@@ -104,7 +112,7 @@ class OilSeries9Service {
             item.oilId = oilId
             item.date = Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", series[0].values[i][0])
             series.each { serie ->
-                item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
+                item."${serie.name.split('_').last()}" = (serie.values[i][1] as Double) / 1000
             }
             if (item.price)
                 list << item
@@ -125,7 +133,7 @@ class OilSeries9Service {
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM oil_${property} WHERE oilId = '${oilId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
         values ? values[0].findAll { it[1] }.collect {
-            [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: it[1] as Double]
+            [date: Date.parse("yyyy-MM-dd'T'hh:mm:ss'Z'", it[0]), value: (it[1] as Double) / 1000]
         } : []
     }
 
@@ -136,7 +144,7 @@ class OilSeries9Service {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM oil_${property} WHERE oilId = '${oilId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? values[0].find()[1] as Double : null
+        values ? (values[0].find()[1] as Double) / 1000 : null
     }
 
     Date firstOilDate(Long oilId) {

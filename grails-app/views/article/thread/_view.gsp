@@ -4,6 +4,7 @@
         <twitter:rateGage materialId="${vertexId}" showLabel="true"/>
     </div>
 
+    <h1>${article.title}</h1>
     <div class="summary"><format:html value="${article.summary}"/></div>
 
     <div class="body">

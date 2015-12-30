@@ -20,8 +20,8 @@
 </head>
 
 <body>
-<div class="container-fluid" id="ngController" ng-controller="alertingScheduleTemplateController">
-    <div class="row-fluid">
+<div class="container" id="ngController" ng-controller="alertingScheduleTemplateController">
+    <div class="row">
         <div class="col-xs-12">
             <layout:breadcrumb items="${[
                     [text: '', url: createLink(uri: '/')],
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="pink">--}%
                 %{--<i class="fa fa-clock-o"></i>--}%
