@@ -352,6 +352,10 @@ public class RateHelper {
             'zinc'     : [
                     name  : FarsiNormalizationFilter.apply('روی'),
                     source: 'zinc'
+            ],
+            'cobalt'     : [
+                    name  : FarsiNormalizationFilter.apply('کبالت'),
+                    source: 'cobalt'
             ]
     ]
 }

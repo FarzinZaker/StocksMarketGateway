@@ -236,7 +236,7 @@ class DashboardService {
             gold.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: ['ons'].contains(it) ? messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH) : messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }
         def metal = [:]
-        ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
+        ['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt'].each {
             def item = Metal.findBySymbol(it)
             metal.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: messageSource.getMessage('dollar', null, 'دلار', Locale.ENGLISH)])
         }

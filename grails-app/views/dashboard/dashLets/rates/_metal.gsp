@@ -1,6 +1,6 @@
 <%@ page import="stocks.RateHelper" %>
 <div class="lastUpdatedFlag"><g:message code="dashboard.lastUpdated"/> <span id="metal_lastUpdatedFlag"></span></div>
-<g:each in="${['copper', 'aluminium', 'nickel', 'tin', 'zinc']}" var="metal" status="indexer">
+<g:each in="${['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt']}" var="metal" status="indexer">
     <div class="marketViewItem ${indexer % 2 ? 'even' : 'odd'}" id="rate_metal_${metal}">
         <span class="marketViewItem_label">${RateHelper.METALS."${metal}"?.name}</span>
         <span class="sparkLine magenta"></span>
@@ -13,7 +13,7 @@
 
     function fillMetalData(data, date) {
 
-        <g:each in="${['copper', 'aluminium', 'nickel', 'tin', 'zinc']}" var="metal" status="indexer">
+        <g:each in="${['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt']}" var="metal" status="indexer">
         $('#rate_metal_${metal}').find('.marketViewItem_value').html('<span>' + data.${metal.replace('-', '_')}.unit + '</span> ' + formatNumber(data.${metal.replace('-', '_')}.price));
         $.ajax({
             type: "POST",
