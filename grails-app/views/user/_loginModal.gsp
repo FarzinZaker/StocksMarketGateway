@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="col-xs-4">
-                    <div>
+                    <div style="height: 380px;">
                         <h3 class="steel">
                             <g:message code="login.title"/>
                         </h3>
