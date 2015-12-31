@@ -226,7 +226,7 @@ class DashboardService {
 //    @Cacheable('ratesCache')
     def rates() {
         def currency = [:]
-        ['us-dollar', 'us-dollar-exchange', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
+        ['chinese-yuan', 'us-dollar-exchange', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
             def item = Currency.findBySymbol(it)
             currency.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: messageSource.getMessage('rial', null, 'ریال', Locale.ENGLISH)])
         }

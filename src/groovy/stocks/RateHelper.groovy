@@ -122,7 +122,7 @@ public class RateHelper {
             ],
             'chinese-yuan'          : [
                     name  : FarsiNormalizationFilter.apply('یوان چین'),
-                    source: 'price_ncy'
+                    source: 'price_cny'
             ],
             'bet-thailand'          : [
                     name  : FarsiNormalizationFilter.apply('بت تایلند'),
