@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'screener', action: 'list')}" class="toolButton">
             <i class="fa fa-th-list"></i>
 
             <h3><g:message code="dashboard.screener"/></h3>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'tradeStrategy', action: 'list')}" class="toolButton">
             <i class="fa fa-magic"></i>
 
             <h3><g:message code="dashboard.backTest"/></h3>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'query', action: 'instanceList')}" class="toolButton">
             <i class="fa fa-paper-plane-o"></i>
 
             <h3><g:message code="dashboard.alerting"/></h3>
@@ -33,7 +33,7 @@
 <div class="row">
 
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'portfolio', action: 'list')}" class="toolButton">
             <i class="fa fa-shopping-cart"></i>
 
             <h3><g:message code="dashboard.portfolio"/></h3>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'tools', action: 'calculator')}" class="toolButton">
             <i class="fa fa-calculator"></i>
 
             <h3><g:message code="dashboard.calculator"/></h3>
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-sm-4">
-        <a href="#" class="toolButton">
+        <a href="${createLink(controller: 'tools', action: 'correlation')}" class="toolButton">
             <i class="fa fa-link"></i>
 
             <h3><g:message code="dashboard.correlation"/></h3>

@@ -106,7 +106,7 @@ public class RateHelper {
             ],
             'nok'                   : [
                     name  : FarsiNormalizationFilter.apply('کرون نروژ'),
-                    source: 'price_ nok'
+                    source: 'price_nok'
             ],
             'aed'                   : [
                     name  : FarsiNormalizationFilter.apply('درهم امارات'),
@@ -236,7 +236,7 @@ public class RateHelper {
             ],
             'nok-bank'              : [
                     name  : FarsiNormalizationFilter.apply('کرون نروژ (بانکی)'),
-                    source: 'bank_ nok'
+                    source: 'bank_nok'
             ],
             'aed-bank'              : [
                     name  : FarsiNormalizationFilter.apply('درهم امارات (بانکی)'),
@@ -252,7 +252,7 @@ public class RateHelper {
             ],
             'chinese-yuan-bank'     : [
                     name  : FarsiNormalizationFilter.apply('یوان چین (بانکی)'),
-                    source: 'bank_ncy'
+                    source: 'bank_cny'
             ],
             'bet-thailand-bank'     : [
                     name  : FarsiNormalizationFilter.apply('بت تایلند (بانکی)'),

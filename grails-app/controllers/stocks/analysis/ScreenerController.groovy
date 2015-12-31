@@ -20,6 +20,7 @@ class ScreenerController {
     }
 
     def build() {
+
         def property = 'symbol'
         def filterMap = [:]
         filterService.getFilterGroupList(property).each { group ->
@@ -101,7 +102,9 @@ class ScreenerController {
 
 
     def list() {
-
+        if (!springSecurityService.loggedIn) {
+            redirect(controller: 'help', action: 'screener')
+        }
     }
 
     def jsonList() {

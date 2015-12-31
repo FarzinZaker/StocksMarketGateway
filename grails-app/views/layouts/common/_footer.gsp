@@ -64,19 +64,22 @@
                     <h2><g:message code="about"/></h2>
                     <ul>
                         <li>
-                            <a href="#"><g:message code="about.site"/></a>
+                            <a href="${createLink(controller: 'about', action: 'site')}"><g:message code="about.site"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="about.company"/></a>
+                            <a href="${createLink(controller: 'about', action: 'company')}"><g:message
+                                    code="about.company"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="about.it"/></a>
+                            <a href="${createLink(controller: 'about', action: 'it')}"><g:message code="about.it"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="about.history"/></a>
+                            <a href="${createLink(controller: 'about', action: 'history')}"><g:message
+                                    code="about.history"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="about.contact"/></a>
+                            <a href="${createLink(controller: 'about', action: 'contact')}"><g:message
+                                    code="about.contact"/></a>
                         </li>
                     </ul>
                 </div>
@@ -87,28 +90,35 @@
                     <h2><g:message code="support"/></h2>
                     <ul>
                         <li>
-                            <a href="#"><g:message code="support.help"/></a>
+                            <a href="${createLink(controller: 'help')}"><g:message code="support.help"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.screener"/></a>
+                            <a href="${createLink(controller: 'help', action: 'screener')}"><g:message
+                                    code="support.screener"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.backtest"/></a>
+                            <a href="${createLink(controller: 'help', action: 'tradeStrategy')}"><g:message
+                                    code="support.backtest"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.alerting"/></a>
+                            <a href="${createLink(controller: 'help', action: 'alerting')}"><g:message
+                                    code="support.alerting"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.portfolio"/></a>
+                            <a href="${createLink(controller: 'help', action: 'portfolio')}"><g:message
+                                    code="support.portfolio"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.calculator"/></a>
+                            <a href="${createLink(controller: 'help', action: 'calculator')}"><g:message
+                                    code="support.calculator"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.correlation"/></a>
+                            <a href="${createLink(controller: 'help', action: 'correlation')}"><g:message
+                                    code="support.correlation"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.faq"/></a>
+                            <a href="${createLink(controller: 'help', action: 'faq')}"><g:message
+                                    code="support.faq"/></a>
                         </li>
                         <li>
                             <a href="#"><g:message code="support.online"/></a>
@@ -125,16 +135,20 @@
                             <h2><g:message code="brokers.title"/></h2>
                             <ul>
                                 <li>
-                                    <a href="#"><g:message code="brokers.collaboration.plans"/></a>
+                                    <a href="${createLink(controller: 'brokersHelp', action: 'cooperationPlans')}"><g:message
+                                            code="brokers.collaboration.plans"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="brokers.collaboration.request"/></a>
+                                    <a href="${createLink(controller: 'brokersHelp', action: 'cooperationRequest')}"><g:message
+                                            code="brokers.collaboration.request"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="brokers.collaboration.buy"/></a>
+                                    <a href="${createLink(controller: 'brokersHelp', action: 'bulkService')}"><g:message
+                                            code="brokers.collaboration.buy"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="brokers.collaboration.rules"/></a>
+                                    <a href="${createLink(controller: 'brokersHelp', action: 'cooperationRules')}"><g:message
+                                            code="brokers.collaboration.rules"/></a>
                                 </li>
                             </ul>
                         </div>
@@ -143,16 +157,20 @@
                             <h2><g:message code="rules.title"/></h2>
                             <ul>
                                 <li>
-                                    <a href="#"><g:message code="rules.copyRight"/></a>
+                                    <a href="${createLink(controller: 'rules', action: 'copyright')}"><g:message
+                                            code="rules.copyRight"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="rules.user"/></a>
+                                    <a href="${createLink(controller: 'rules', action: 'userRules')}"><g:message
+                                            code="rules.user"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="rules.privacy"/></a>
+                                    <a href="${createLink(controller: 'rules', action: 'privacy')}"><g:message
+                                            code="rules.privacy"/></a>
                                 </li>
                                 <li>
-                                    <a href="#"><g:message code="rules.ir"/></a>
+                                    <a href="${createLink(controller: 'rules', action: 'criminalContentTabs')}"><g:message
+                                            code="rules.ir"/></a>
                                 </li>
                             </ul>
                         </div>

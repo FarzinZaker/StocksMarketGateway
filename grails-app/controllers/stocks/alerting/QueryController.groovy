@@ -548,8 +548,10 @@ class QueryController {
             redirect(action: 'instanceList')
     }
 
-    @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def instanceList() {
+        if (!springSecurityService.loggedIn) {
+            redirect(controller: 'help', action: 'alerting')
+        }
     }
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])

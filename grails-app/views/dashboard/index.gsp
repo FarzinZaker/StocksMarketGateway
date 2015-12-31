@@ -81,15 +81,6 @@
             </div>
             <g:render template="dashLets/toolButtons"/>
         </div>
-
-        %{--<div class="col-sm-3">--}%
-        %{--<g:render template="dashLets/buttons/screener"/>--}%
-        %{--<g:render template="dashLets/buttons/backTest"/>--}%
-        %{--<g:render template="dashLets/buttons/alerting"/>--}%
-        %{--<g:render template="dashLets/buttons/portfolio"/>--}%
-        %{--<g:render template="dashLets/buttons/calculator"/>--}%
-        %{--<g:render template="dashLets/buttons/correlation"/>--}%
-        %{--</div>--}%
     </div>
 </div>
 

@@ -136,7 +136,9 @@ class TradeStrategyController {
 
 
     def list() {
-
+        if (!springSecurityService.loggedIn) {
+            redirect(controller: 'help', action: 'tradeStrategy')
+        }
     }
 
     def jsonList() {

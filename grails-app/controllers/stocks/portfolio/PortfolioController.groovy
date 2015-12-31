@@ -85,7 +85,9 @@ class PortfolioController {
     }
 
     def list() {
-
+        if (!springSecurityService.loggedIn) {
+            redirect(controller: 'help', action: 'portfolio')
+        }
     }
 
     def jsonList() {
@@ -136,8 +138,8 @@ class PortfolioController {
                     clazzTitle  : message(code: it.itemType),
                     symbol      : it.propertyTitle,
                     shareCount  : it.shareCount,
-                    cost        :  it.avgBuyCost * it.shareCount,
-                    avgPrice    :  it.avgBuyCost,
+                    cost        : it.avgBuyCost * it.shareCount,
+                    avgPrice    : it.avgBuyCost,
                     shareValue  : shareValue,
                     currentValue: curVal,
                     profitLoss  : curVal - it.cost

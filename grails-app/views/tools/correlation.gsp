@@ -53,9 +53,9 @@
     <div class="row">
         <div class="col-xs-12">
             <div id="resultPane">
-                <div class="info">
-                    <g:message code="tools.correlation.notCalculatedYet"/>
-                </div>
+                %{--<div class="info">--}%
+                    %{--<g:message code="tools.correlation.notCalculatedYet"/>--}%
+                %{--</div>--}%
             </div>
 
             <div id="loading" style="display: none;padding:10px;">
