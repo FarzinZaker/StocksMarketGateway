@@ -1,3 +1,6 @@
+
+<div class="clear-fix"></div>
+
 <a href="#" class="backToTop"><i class="fa fa-chevron-up"></i></a>
 
 <div class="footerContainer">
@@ -64,7 +67,8 @@
                     <h2><g:message code="about"/></h2>
                     <ul>
                         <li>
-                            <a href="${createLink(controller: 'about', action: 'site')}"><g:message code="about.site"/></a>
+                            <a href="${createLink(controller: 'about', action: 'site')}"><g:message
+                                    code="about.site"/></a>
                         </li>
                         <li>
                             <a href="${createLink(controller: 'about', action: 'company')}"><g:message
@@ -121,7 +125,7 @@
                                     code="support.faq"/></a>
                         </li>
                         <li>
-                            <a href="#"><g:message code="support.online"/></a>
+                            <a href="javascript:openOnlineSupport()"><g:message code="support.online"/></a>
                         </li>
                     </ul>
                 </div>
@@ -237,6 +241,9 @@
         </div>
     </div>
 </div>
+
+<g:render template="/layouts/common/onlineSupport"/>
+
 <script language="javascript" type="text/javascript">
     jQuery('.backToTop').click(function () {
         jQuery('body,html').animate({

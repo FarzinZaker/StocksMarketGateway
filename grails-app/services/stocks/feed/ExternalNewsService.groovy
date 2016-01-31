@@ -286,7 +286,13 @@ class ExternalNewsService {
         def list = []
         feeds.each { rss ->
             try {
-                list.addAll(new XmlSlurper().parseText(new Scanner(new URL(rss.url).openStream(), "UTF-8").useDelimiter("\\A").next()).channel.item.collect {
+                def url = new URL(rss.url)
+                def html = url.getText([connectTimeout: 3000, readTimeout: 10000], "UTF-8")
+//                def stream = url.openStream()
+//                def scanner = new Scanner(stream, "UTF-8")
+//                def pre = scanner.useDelimiter("\\A")
+//                def html = pre.next()
+                list.addAll(new XmlSlurper().parseText(html).channel.item.collect {
                     [
                             title   : it.title.text(),
                             date    : new Date(it.pubDate.text() as String),

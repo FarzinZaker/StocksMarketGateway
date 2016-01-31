@@ -16,11 +16,11 @@ class MetalToTimeSeries9Job {
 
     def execute() {
 
-//        if (grailsApplication.config.jobsDisabled)
-//            return
-//
-//        if (Environment.current == Environment.DEVELOPMENT)
-//            return
+        if (grailsApplication.config.jobsDisabled)
+            return
+
+        if (Environment.current == Environment.DEVELOPMENT)
+            return
 
         def lastState = getLastState()
         def count =

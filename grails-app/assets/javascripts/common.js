@@ -97,9 +97,28 @@ $(document).ready(function () {
     }, 200);
 });
 
-function strip(html)
-{
+function strip(html) {
     var tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
+}
+
+var fixedPosWindows = null;
+var currentWindowScrollPos;
+
+function FixWindowPos(kwin) {
+    if (fixedPosWindows === null) {
+        fixedPosWindows = [];
+        currentWindowScrollPos = $(window).scrollTop();
+        $(window).scroll(function () {
+            var top = $(window).scrollTop();
+            var diff = top - currentWindowScrollPos;
+            for (var i = 0; i < fixedPosWindows.length; i++) {
+                var w = fixedPosWindows[i].parent();
+                w.css("top", parseInt(w.css("top"), 10) + diff + "px");
+            }
+            currentWindowScrollPos = top;
+        });
+    }
+    fixedPosWindows.push(kwin);
 }

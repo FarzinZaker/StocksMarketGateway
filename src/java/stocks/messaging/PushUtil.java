@@ -29,6 +29,7 @@ public class PushUtil {
     public static void push(String alias, String message) {
         if(grails.util.Environment.isDevelopmentMode())
             return;
+        //https://4tablo.ir:8443/ag-push/
         final PushSender sender =
                 DefaultPushSender.withRootServerURL("http://127.0.0.1:8080/ag-push/")
                         .pushApplicationId("38f38440-7a0f-4984-ae80-7a11bc5b43e0")

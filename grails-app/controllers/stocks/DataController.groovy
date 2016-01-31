@@ -13,7 +13,7 @@ class DataController {
         def symbolId = params.id as Long
         def adjustmentType = params.adjustmentType as String
         def startDate = params.start ? new Date(params.start as Long) : null
-        def endDate = params.start ? new Date(params.end as Long) : new Date()
+        def endDate = params.end ? new Date(params.end as Long) : new Date()
         if (!startDate)
             use(TimeCategory) {
                 startDate = new Date() - 1.years

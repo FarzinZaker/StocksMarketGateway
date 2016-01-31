@@ -23,8 +23,9 @@
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_nca_upper_than_val_filter.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_pca_upper_than_val_filter.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/functions/vol_upper_than_val_filter.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/maintenance/purge_adjusted_daily_trades.sql" dialect="OracleSqlPlus" />
+    <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/maintenance/purge_indicators.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/procedures/rate_purge.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/sql/oracle/tempTables.sql" dialect="Oracle" />
   </component>
 </project>
-

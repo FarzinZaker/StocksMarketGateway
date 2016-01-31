@@ -12,18 +12,15 @@ class ReportController {
     def lowLevelDataService
 
     def heatMap() {
+
+        def result = lowLevelDataService.executeFunction('sym_sel_heat_map', [:])
+        result = result.findAll {
+            it.totalTradeValue * 100 / result.sum { it.totalTradeValue } > 0.1
+        }
+
+        def groups = result.collect { [text: it.industryGroup, value: it.industryGroupId] }.unique()
         [
-                industryGroups: SymbolDailyTrade.createCriteria().list {
-                    gte('date', new Date().clearTime())
-                    projections {
-                        symbol {
-                            industryGroup {
-                                distinct('id')
-                                property('name')
-                            }
-                        }
-                    }
-                }.collect { [text: it[1], value: it[0]] }.sort { it.text }
+                industryGroups: groups.sort { it.text }
         ]
     }
 
@@ -46,17 +43,23 @@ class ReportController {
     def heatMapJson() {
 
         def result = lowLevelDataService.executeFunction('sym_sel_heat_map', [:])
-        result = result.findAll{it.totalTradeValue * 100 / result.sum{it.totalTradeValue} > (params.thumbnail ? 0.2 : 0.1)}.groupBy {
+        result = result.findAll {
+            it.totalTradeValue * 100 / result.sum { it.totalTradeValue } > (params.thumbnail ? 0.2 : 0.1)
+        }.groupBy {
             "${it.industryGroupId},${it.industryGroup}"
         }.collect {
             def keyItems = it.key.split(',')
             [
                     id                : keyItems.first(),
                     name              : keyItems.last(),
-                    priceChangeOnSize : (it.value.sum { Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F * it.totalTradeValue } as Double) / it.value.sum {
+                    priceChangeOnSize : (it.value.sum {
+                        Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F * it.totalTradeValue
+                    } as Double) / it.value.sum {
                         it.totalTradeValue
                     },
-                    priceChangeOnCount: (it.value.sum { Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F * it.totalTradeVolume } as Double) / it.value.sum {
+                    priceChangeOnCount: (it.value.sum {
+                        Math.round(it.priceChange * 10000 / (it.closingPrice - it.priceChange)) / 100F * it.totalTradeVolume
+                    } as Double) / it.value.sum {
                         it.totalTradeVolume
                     },
                     children          : it.value.collect {

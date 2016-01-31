@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'eYekan';
+    src: url('http://www.4tablo.ir/fonts/eYekan/font.eot');
+    src: url('http://www.4tablo.ir/fonts/eYekan/font.eot#iefix') format('embedded-opentype'), url('http://www.4tablo.ir/fonts/eYekan/font.woff') format('woff'), url('http://www.4tablo.ir/fonts/eYekan/font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: eYekan, tahoma, times, serif !important;
+}
+
+.powered-by {
+    display: none;
+}
+
+.livechat-room .title {
+    display: none;
+}
+
+.livechat-room .title .toolbar {
+    display: inline-block;
+    float: left;
+    padding-right: 5px;
+}
+
+.livechat-room .title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    flex: 1 0 30px;
+    line-height: 30px;
+    text-align: right;
+    z-index: 10;
+}
+
+.livechat-room .title h1 {
+    display: inline-block;
+    font-size: 9pt;
+    margin: 0;
+    padding: 0 5px;
+}
+
+.livechat-room .messages{
+    direction: rtl;
+    background: #f4f4f4;
+}
+
+.livechat-room .messages .wrapper .message {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 12px 10px 0;
+    min-height: 36px;
+    padding-right: 40px;
+    position: relative;
+    text-align: right;
+    direction: rtl;
+}
+
+.livechat-room .messages .wrapper .message .thumb {
+    display: block;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    left: auto;
+    top: 0;
+    width: 30px;
+}
+
+.livechat-room .messages .wrapper .message .user {
+    color: #444444;
+    display: inline-block;
+    font-weight: 600;
+    margin-left: 5px;
+    margin-right: 0;
+    outline: medium none;
+}
+
+.livechat-room .messages .wrapper .message.sequential .info {
+    position: absolute;
+    right: 10px;
+    left: auto;
+    text-align: right;
+    width: 55px;
+}
+
+.livechat-room .footer .input-wrapper textarea {
+    background-color: #fff;
+    display: block;
+    font-size: 12px;
+    height: 28px;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 6px 8px 6px 8px;
+    position: relative;
+    resize: none;
+    width: 100%;
+    direction: rtl;
+    line-height: 12px;
+}
+
+.livechat-room .footer {
+    background-color: #fcfcfc;
+    border-left: 1px solid #e7e7e7;
+    border-right: 1px solid #e7e7e7;
+    border-top: 1px solid #e7e7e7;
+    flex: 1 0 40px;
+    z-index: 10;
+}

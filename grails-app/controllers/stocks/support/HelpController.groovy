@@ -2,6 +2,8 @@ package stocks.support
 
 class HelpController {
 
+    def onlineSupport(){}
+
     def index() {}
 
     def screener() {}

@@ -11,6 +11,10 @@
                 <a href="${createLink(controller: 'user', action: 'home')}"><g:message
                         code="menu.twitter.home"/></a>
             </li>
+            <li>
+                <a href="${createLink(controller: 'user', action: 'wall')}"><g:message
+                        code="menu.twitter.myPage"/></a>
+            </li>
             <li class="k-separator">
             </li>
             <li><a href="${createLink(controller: 'article', action: 'create')}"><g:message

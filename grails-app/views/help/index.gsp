@@ -92,7 +92,7 @@
                 <div>
 
                     <a class="tilt tilt-tile tilt-tile-orange tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'help', action: 'faq')}">
-                        <i class="fa fa-link"></i><span><g:message code="support.faq"/></span>
+                        <i class="fa fa-question"></i><span><g:message code="support.faq"/></span>
                     </a>
 
                 </div>
@@ -101,8 +101,8 @@
             <li data-tile-type="s,6m">
                 <div>
 
-                    <a class="tilt tilt-tile tilt-tile-crimson tilt-icon-center tilt-caption-bc" href="#">
-                        <i class="fa fa-link"></i><span><g:message code="support.online"/></span>
+                    <a class="tilt tilt-tile tilt-tile-crimson tilt-icon-center tilt-caption-bc" href="javascript:openOnlineSupport()">
+                        <i class="fa fa-life-ring"></i><span><g:message code="support.online"/></span>
                     </a>
 
                 </div>

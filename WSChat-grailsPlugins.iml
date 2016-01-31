@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="GrailsWeb">
+      <configuration>
+        <webroots>
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/jquery-1.11.1/web-app" relative="/" />
+        </webroots>
+        <sourceRoots />
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/cache-1.0.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/cache-1.0.1/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/cache-1.0.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/cache-1.0.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/cache-1.0.1/grails-app/taglib" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/hibernate-2.2.3">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/hibernate-2.2.3/grails-app/i18n" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/jquery-1.11.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/jquery-1.11.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/jquery-1.11.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/jquery-1.11.1/grails-app/taglib" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/resources-1.2">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/resources-1.2/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/resources-1.2/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/resources-1.2/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/resources-1.2/grails-app/taglib" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/tomcat-2.2.3" />
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/webxml-1.4.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/WSChat/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
+    <orderEntry type="module-library" exported="">
+      <library name="Grails User Library (WSChat-grailsPlugins)">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.websocket/javax.websocket-api/bundles/javax.websocket-api-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.7.2.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.6.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.6.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.6.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

@@ -95,6 +95,8 @@ grails.project.dependency.resolution = {
         compile 'com.google.gdata:core:1.47.1'
 
 //        compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
+
+//        compile 'javax.websocket:javax.websocket-api:1.1'
     }
 
     plugins {
@@ -134,5 +136,8 @@ grails.project.dependency.resolution = {
         compile ":console:1.5.5"
         compile ":cache-ehcache:1.0.0"
         compile ":pretty-time:2.1.3.Final-1.0.1"
+
+//        compile "org.grails.plugins:wschat:1.27"
     }
 }
+//grails.plugin.location.WSChat = "../WSChat"

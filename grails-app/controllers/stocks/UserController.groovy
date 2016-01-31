@@ -361,7 +361,10 @@ class UserController {
     }
 
     def wall() {
-        def user = User.get(params.id)
+        def id = params.id as Long
+        if(!id)
+            id = springSecurityService.currentUser?.id as Long
+        def user = User.get(id)
         def vertex = personGraphService.ensureAndUnwrapPerson(user)
         [
                 user      : user,

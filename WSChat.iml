@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="GrailsWeb">
+      <configuration>
+        <webroots>
+          <root url="file://$MODULE_DIR$/../WSChat/grails-app/views" relative="/" />
+          <root url="file://$MODULE_DIR$/../WSChat/web-app" relative="/" />
+        </webroots>
+        <sourceRoots />
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map />
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="Grails" name="Grails" removed="false">
+          <file>file://$MODULE_DIR$/../WSChat/web-app/WEB-INF/applicationContext.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../WSChat">
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/domain" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/taglib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../WSChat/test/integration" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/../WSChat/target/classes" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Grails User Library (shiro-inplacePlugin)">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.websocket/javax.websocket-api/bundles/javax.websocket-api-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.7.2.jar!/" />
+          <root url="file://$MODULE_DIR$/../WSChat/lib" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.6.4.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.6.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.6.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../WSChat/lib" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="grails-2.2.3" level="application" />
+    <orderEntry type="module" module-name="WSChat-grailsPlugins" />
+  </component>
+</module>

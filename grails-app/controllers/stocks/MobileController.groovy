@@ -30,6 +30,7 @@ class MobileController {
     def springSecurityService
     def marketStatusService
     def filterService
+    def adjustedPriceSeries9Service
 
     def authenticate() {
         if (!params.username || !params.password) {
@@ -113,10 +114,10 @@ class MobileController {
                 gt('id', after)
             if (before) {
                 lt('id', before)
-                maxResults(10)
+                maxResults(20)
             }
             if (!before && !after) {
-                maxResults(10)
+                maxResults(20)
             }
             if (after) {
                 order('id', ORDER_ASCENDING)
@@ -134,14 +135,11 @@ class MobileController {
                     id   : it[0],
                     type : it[1],
                     title: it[2],
-                    date : it[3]
+                    date : format.jalaliDate(date: it[3], hm: true)
             ]
         }
 
-        render([
-                status: 's',
-                list  : list
-        ] as JSON)
+        render(list as JSON)
     }
 
     def messageBody() {
@@ -184,7 +182,7 @@ class MobileController {
         def result = [:]
         switch (params.id) {
             case 'currency':
-                ['us-dollar', 'euro', 'gbp', 'aed', 'lear-turkey'].each {
+                ['us-dollar-exchange', 'euro', 'gbp', 'aed', 'lear-turkey', 'chinese-yuan'].each {
                     def item = Currency.findBySymbol(it)
                     result.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: message(code: 'rial')])
                 }
@@ -196,7 +194,7 @@ class MobileController {
                 }
                 break
             case 'metal':
-                ['copper', 'aluminium', 'nickel', 'tin', 'zinc'].each {
+                ['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt'].each {
                     def item = Metal.findBySymbol(it)
                     result.put(it.replace('-', '_'), [price: item?.price, date: item?.modificationDate, unit: message(code: 'dollar')])
                 }
@@ -416,7 +414,7 @@ class MobileController {
             return
         }
 
-        render (AdjustmentHelper.ENABLED_TYPES as JSON)
+        render(AdjustmentHelper.ENABLED_TYPES as JSON)
     }
 
     def screenerList() {
@@ -482,15 +480,6 @@ class MobileController {
         }
 
         def columns = [
-                [
-                        key: 'id'
-                ],
-                [
-                        key: 'symbol'
-                ],
-                [
-                        key: 'symbolName'
-                ],
                 [
                         key  : 'lastTradePrice',
                         title: message(code: 'symbol.lastTradePrice.label')
@@ -600,6 +589,30 @@ class MobileController {
         }
 
         render(filterService.applyFilters(Symbol, Rule.findAllByParent(screener?.rule), params.adjustment?.toString()) as JSON)
+    }
+
+    def ohlcv() {
+        def symbolId = params.id as Long
+        def adjustmentType = params.adjustmentType as String
+        def startDate = params.start ? new Date(params.start as Long) : null
+        def endDate = params.end ? new Date(params.end as Long) : new Date()
+        if (!startDate)
+            use(TimeCategory) {
+                startDate = new Date() - 30.days
+            }
+
+        render(
+                adjustedPriceSeries9Service.dailyTradeList(symbolId, startDate, endDate, '', adjustmentType)
+                        .collect {
+                    [
+                            format.jalaliDate(date: it.date),
+                            it.firstTradePrice,
+                            it.maxPrice,
+                            it.minPrice,
+                            it.lastTradePrice,
+                            it.totalTradeVolume
+                    ]
+                } as JSON)
     }
 
     private static jalaliDate = { Date date ->

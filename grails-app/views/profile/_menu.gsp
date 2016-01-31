@@ -67,6 +67,7 @@
 </div>
 <script language="javascript" type="text/javascript">
     function resizeProfileMenu() {
+        return;
         var profileMenu = $('.profileMenu');
         profileMenu.stop().hide();
         var container = profileMenu.parent();

@@ -27,6 +27,7 @@
         <div class="col-xs-9">
 
             <h3><g:message code="grails.plugin.invitation.pickForm.submit"/></h3>
+            <p><g:message code="grails.plugin.invitation.pickForm.description"/></p>
 
             <iv:contacts contacts="${contacts}"/>
 
