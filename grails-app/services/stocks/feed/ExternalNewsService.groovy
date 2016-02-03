@@ -271,11 +271,11 @@ class ExternalNewsService {
                 [
                         [
                                 url     : 'http://kurdpress.com/NSite/RSS/',
-                                category: KURD_FA
+                                category: KURD_KU
                         ],
                         [
                                 url     : 'http://kurdpress.com/Fa/NSite/RSS/',
-                                category: KURD_KU
+                                category: KURD_FA
                         ]
                 ], 'kurdPress')
     }
