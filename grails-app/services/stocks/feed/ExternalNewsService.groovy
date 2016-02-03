@@ -15,7 +15,10 @@ class ExternalNewsService {
 
     private static String POLITICAL = 'political'
     private static String ECONOMIC = 'economic'
-    public static List<String> categoryList = [ECONOMIC, POLITICAL]
+    private static String KURD_FA = 'kurd_fa'
+    private static String KURD_KU = 'kurd_ku'
+    public static List<String> categoryList = [ECONOMIC, POLITICAL, KURD_FA, KURD_KU]
+    public static List<String> visibleCategoryList = [ECONOMIC, POLITICAL]
 
     def messageSource
 
@@ -90,6 +93,10 @@ class ExternalNewsService {
         }
         try {
             feeds.addAll mellatBazar()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll kurdPress()
         } catch (ignored) {
         }
         feeds = feeds.findAll { it.date }
@@ -259,6 +266,20 @@ class ExternalNewsService {
         result
     }
 
+    List<Map> kurdPress() {
+        readRSS(
+                [
+                        [
+                                url     : 'http://kurdpress.com/NSite/RSS/',
+                                category: KURD_FA
+                        ],
+                        [
+                                url     : 'http://kurdpress.com/Fa/NSite/RSS/',
+                                category: KURD_KU
+                        ]
+                ], 'kurdPress')
+    }
+
     List<Map> mellatBazar() {
         readRSS(
                 [
@@ -295,7 +316,7 @@ class ExternalNewsService {
                 list.addAll(new XmlSlurper().parseText(html).channel.item.collect {
                     [
                             title   : it.title.text(),
-                            date    : new Date(it.pubDate.text() as String),
+                            date    : it.pubDate?.text() ? new Date((it.pubDate.text() as String).replace("+3:30 +3:30", "+3:30")) : null,
                             link    : it.link.text(),
                             category: rss.category,
                             source  : source
@@ -306,7 +327,7 @@ class ExternalNewsService {
                 throw ignored
             }
         }
-        list.findAll { it } as List<Map>
+        list.findAll { it && it.date } as List<Map>
     }
 }
 

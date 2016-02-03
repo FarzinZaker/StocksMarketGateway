@@ -115,7 +115,7 @@ class AdminController {
 //        render 'ok'
 
 //        println 'deserialize important data'
-        render externalNewsService.refresh()
+        render externalNewsService.kurdPress()
     }
 
 
