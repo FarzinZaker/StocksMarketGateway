@@ -34,7 +34,7 @@ class TelegramBotController {
         switch (params.type) {
             case 'currency':
 //                ['us-dollar-exchange', 'euro', 'gbp', 'aed', 'lear-turkey', 'chinese-yuan', 'iraq-dinar']
-                params.items.toString().split('|').each {
+                params.items.toString().replace('|', '=').split('=').each {
                     Currency item = Currency.findBySymbol(it)
                     def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
                     result << [
@@ -51,7 +51,7 @@ class TelegramBotController {
                 break
             case 'gold':
 //                ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18']
-                params.items.toString().split('|').each {
+                params.items.toString().replace('|', '=').split('=').each {
                     def item = Coin.findBySymbol(it)
                     def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
                     result << [
@@ -68,7 +68,7 @@ class TelegramBotController {
                 break
             case 'metal':
 //                ['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt']
-                params.items.toString().split('|').each {
+                params.items.toString().replace('|', '=').split('=').each {
                     def item = Metal.findBySymbol(it)
                     def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
                     result << [
@@ -85,7 +85,7 @@ class TelegramBotController {
                 break
             case 'oil':
 //                ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex']
-                params.items.toString().split('|').each {
+                params.items.toString().replace('|', '=').split('=').each {
                     def item = Oil.findBySymbol(it)
                     def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
                     result << [
