@@ -23,6 +23,7 @@ class TelegramBotController {
             maxResults(3);
             order('date', ORDER_DESCENDING)
             projections {
+                property('title')
                 property('link')
             }
         } as JSON)
