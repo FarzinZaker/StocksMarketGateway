@@ -24,6 +24,7 @@ import stocks.rate.CoinFuture
 import stocks.analysis.Screener
 import stocks.alerting.Rule
 import stocks.util.ClassResolver
+import stocks.alerting.QueryInstance
 
 class MobileController {
 
@@ -614,6 +615,81 @@ class MobileController {
                     ]
                 } as JSON)
     }
+
+    def queryList() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def user = User.get(params.user as Long)
+
+        render(QueryInstance.findAllByOwnerAndDeleted(user, false).collect {
+            [
+                    id   : it.id,
+                    title: it.title
+            ]
+        } as JSON)
+    }
+
+    def queryDetails() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def user = User.get(params.user as Long)
+        def item = QueryInstance.get(params.id as Long)
+        if (item?.ownerId != user?.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        render(
+                [
+                        id         : item.id,
+                        title      : item.title,
+                        imageId    : item.query?.imageId,
+                        description: item.description,
+                        enabled    : item.enabled,
+                        parameters : item.parameterValues?.collect { [name: it.parameter?.name, value: it.text] }
+                ] as JSON)
+    }
+
+    def toggleQueryStatus() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def user = User.get(params.user as Long)
+        def item = QueryInstance.get(params.id as Long)
+        if (item?.ownerId != user?.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        item.enabled = !item.enabled;
+        item.save(flush: true)
+
+        render([
+                status: 's',
+                body  : ''
+        ] as JSON)
+    }
+
 
     private static jalaliDate = { Date date ->
         def cal = Calendar.getInstance()
