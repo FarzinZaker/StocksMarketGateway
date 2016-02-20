@@ -135,7 +135,7 @@ class SymbolController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = Symbol.search("*${queryStr?.replace('_', '* AND *')}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: 50)
+        def searchResult = Symbol.search("*${queryStr?.replace('_', '* AND *')}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: params.max ? params.max.toString().toInteger() : params.max ? params.max.toString().toInteger() : 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -144,7 +144,7 @@ class SymbolController {
             result << [
                     text     : "${item.persianCode} - ${item.persianName}",
                     tag      : item.persianCode?.replace(' ', '_'),
-                    link     : createLink(controller: 'symbol', action: 'info', id: item.id),
+                    link     : createLink(controller: 'symbol', action: 'info', id: item.id, absolute: true),
                     score    : searchResult.scores[index] / maxScore,
                     type     : "${message(code: 'globalSearch.symbol')} - ${message(code: "market.${item.marketIdentifier}")}",
                     id       : item.id,

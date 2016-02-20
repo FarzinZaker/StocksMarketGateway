@@ -3,6 +3,7 @@ package stocks
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import groovy.time.TimeCategory
+import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.alerting.MessageHelper
 import stocks.alerting.QueuedMessage
@@ -14,6 +15,7 @@ import stocks.rate.Coin
 import stocks.rate.Oil
 import stocks.rate.Metal
 import stocks.tse.AdjustmentHelper
+import stocks.tse.Future
 import stocks.tse.Index
 import stocks.tse.MarketValue
 import stocks.tse.Symbol
@@ -25,6 +27,7 @@ import stocks.analysis.Screener
 import stocks.alerting.Rule
 import stocks.util.ClassResolver
 import stocks.alerting.QueryInstance
+import stocks.twitter.Search.TwitterPerson
 
 class MobileController {
 
@@ -32,6 +35,10 @@ class MobileController {
     def marketStatusService
     def filterService
     def adjustedPriceSeries9Service
+    def searchableService
+    def sharingService
+    def materialGraphService
+    def groupGraphService
 
     def authenticate() {
         if (!params.username || !params.password) {
@@ -690,6 +697,166 @@ class MobileController {
         ] as JSON)
     }
 
+    def sendTwit() {
+        if (!params.user || !params.body) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def owner = User.get(params.user)
+        if (owner) {
+            try {
+                def body = refineTwitBody(FarsiNormalizationFilter.apply(params.body?.toString()))
+                def tags = sharingService.extractTextRelations(body)
+                sharingService.shareTalk(owner, tags.text,
+                        tags.tagList,
+                        tags.mentionList)
+                render "1"
+            } catch (Exception exception) {
+                render exception.message
+            }
+        }
+    }
+
+    private String refineTwitBody(String input) {
+        def parts = input.split(' ')
+        def result = []
+        parts.findAll { it && it != '' }.each { String item ->
+            if (item.startsWith("@"))
+                result << refineMention(item)
+            else if (item.startsWith("#"))
+                result << refineTag(item)
+            else
+                result << item
+        }
+        result.join(' ')
+    }
+
+    String refineMention(String input) {
+        def queryStr = input?.trim()?.replace('@', '') ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+        def item = TwitterPerson.search("*${queryStr?.replace('_', '* AND *')}*", max: 1)?.results?.find()
+
+        "<a data-clazz=\"Person\" data-id=\"${item.rid}\" href=\"${createLink(controller: 'user', action: 'wall', id: item.identifier, absolute: true)}\" class=\"hashAuthor\">@${queryStr}</a>"
+    }
+
+    String refineTag(String input) {
+        def queryStr = input?.trim()?.replace('#', '') ?: ''
+        BooleanQuery.setMaxClauseCount(1000000)
+        def items = searchableService.search("*${queryStr?.replace('_', '* AND *')}*"?.toString(), max: 100)?.results
+        def result = ""
+        items.each { item ->
+            if (result == "") {
+                if (item instanceof Symbol) {
+                    def casted = item as Symbol
+                    if (casted.marketCode == "MCNO" && ['300', '303'].contains(casted.type) && casted.boardCode != '4')
+                        result = formatTag('Symbol', casted.id, queryStr)
+                }
+                if (item instanceof Index
+                        || item instanceof Future
+                        || item instanceof Currency
+                        || item instanceof Coin
+                        || item instanceof Metal
+                        || item instanceof Oil) {
+                    result = formatTag(item.class.simpleName, item.id, queryStr)
+                }
+            }
+        }
+        result
+    }
+
+
+    def twitterHomeOld() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def list = materialGraphService.listOldForHome(user?.id, params.minDate ? new Date(params.minDate as Long) : new Date(), 20)
+        render(
+                [
+                        data   : list.collect {
+                            appendMeta(user, "format${it.label}"(it))
+                        },
+                        minDate: list.collect { it.publishDate.time }.min(),
+                        maxDate: list.collect { it.publishDate.time }.max()
+                ] as JSON)
+    }
+
+    def twitterHomeNew() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def list = materialGraphService.listNewForHome(user?.id, new Date(params.maxDate as Long), 20)
+        render(
+                [
+                        data   : list.collect {
+                            appendMeta(user, "format${it.label}"(it))
+                        },
+                        minDate: list.collect { it.publishDate.time }.min(),
+                        maxDate: list.collect { it.publishDate.time }.max()
+                ] as JSON)
+    }
+
+    private def formatTalk(material) {
+        [
+                id: material.id,
+                title: material.description?.replaceAll("<(.|\n)*?>", ''),
+                date: jalaliDate(material.publishDate as Date),
+                dateLong: material.publishDate.time,
+                type: material.label
+        ]
+    }
+
+    private def formatArticle(material) {
+        [
+                id: material.id,
+                title: material.title,
+                date: jalaliDate(material.publishDate as Date),
+                dateLong: material.publishDate.time,
+                type: material.label,
+                imageId: material.imageId
+        ]
+    }
+
+    private appendMeta(User user, Map item){
+        def meta = materialGraphService.getMeta(item.id as String)
+        def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+        def hasAccess = groups.size() == 0
+        if (!hasAccess) {
+            def userGroups = groupGraphService.memberGroups(user)
+            hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
+        }
+        item.groups = groups
+        item.hasAccess = hasAccess
+        item.author = meta.find { it.label == 'Person' }
+        switch (item.type){
+            case "Talk":
+                item.image = createLink(controller: 'image', action: 'profile', id: item.author.identifier, params: [size: 60])
+                break
+            case "Article":
+                item.image = createLink(controller: 'image', action: 'index', id: item.imageId, params: [size: 60])
+                break
+        }
+        item
+    }
+
+    private String formatTag(clazz, id, title) {
+        "<a data-clazz=\"${clazz}\" data-id=\"${id}\" href=\"${createLink(controller: clazz.toLowerCase(), action: 'info', id: id, absolute: true)}\" class=\"hashTag\">#${title}</a>"
+    }
 
     private static jalaliDate = { Date date ->
         def cal = Calendar.getInstance()

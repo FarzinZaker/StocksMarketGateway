@@ -69,7 +69,7 @@ class IndexController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = Index.search("*${queryStr?.replace('_', '* AND *')}*", max: 50)
+        def searchResult = Index.search("*${queryStr?.replace('_', '* AND *')}*", max: params.max ? params.max.toString().toInteger() : 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -78,7 +78,7 @@ class IndexController {
             result << [
                     text : item.toString(),
                     tag: item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'index', action: 'info', id: item.id),
+                    link : createLink(controller: 'index', action: 'info', id: item.id, absolute: true),
                     score: searchResult.scores[index] / maxScore,
                     type : "${message(code: 'globalSearch.index')}",
                     id       : item.id,
