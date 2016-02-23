@@ -55,15 +55,21 @@ class OilDataService {
                 else
                     oilEvent.change = item.replace(',', '') as Double
             }
-            oilEvent.time = parseDateTime(html.'**'.find { it.@class.toString() == 'price-datetime' }.text().trim().split('on').collect{it.replace('.', '').replace('ET', '').replace('As of', '').trim()}.reverse().join(' '))
-            use(TimeCategory){
+            oilEvent.time = parseDateTime(html.'**'.find {
+                it.@class.toString() == 'price-datetime'
+            }.text().trim().split('on').collect {
+                it.replace('.', '').replace('EST', '').replace('ET', '').replace('As of', '').trim()
+            }.reverse().join(' '))
+            use(TimeCategory) {
                 oilEvent.time += 8.hours + 30.minutes
             }
-            html.'**'.find { it.@class.toString().contains('data-table_detailed') }.'**'.findAll{it.@class.toString().contains('cell')}.collect{it.text().trim().split('\n').findAll{it.trim()}.collect{it.trim()}}.each(){
-                if(it[0]?.trim() == 'Open' && it.size() > 1)
+            html.'**'.find { it.@class.toString().contains('data-table_detailed') }.'**'.findAll {
+                it.@class.toString().contains('cell')
+            }.collect { it.text().trim().split('\n').findAll { it.trim() }.collect { it.trim() } }.each() {
+                if (it[0]?.trim() == 'Open' && it.size() > 1)
                     oilEvent.open = it[1].replace(',', '') as Double
-                else if(it[0]?.trim() == 'Day Range' && it.size() > 1){
-                    def dayRangeParts = it[1].split('-').collect{it.trim()}
+                else if (it[0]?.trim() == 'Day Range' && it.size() > 1) {
+                    def dayRangeParts = it[1].split('-').collect { it.trim() }
                     oilEvent.low = dayRangeParts[0].replace(',', '') as Double
                     oilEvent.high = dayRangeParts[1].replace(',', '') as Double
                 }
@@ -89,9 +95,10 @@ class OilDataService {
         cal.set(Calendar.MONTH, dateParts[0] - 1)
         cal.set(Calendar.DAY_OF_MONTH, dateParts[1])
         def timeParts = time.split(":")
-        cal.set(Calendar.HOUR_OF_DAY, timeParts[0] as Integer)
+        cal.set(Calendar.HOUR_OF_DAY, (timeParts[0] as Integer) + (parts.length > 2 && parts[2] == "PM" ? 12 : 0))
         cal.set(Calendar.MINUTE, timeParts[1] as Integer)
-        cal.set(Calendar.SECOND, timeParts[2] as Integer)
+        if (timeParts.length > 2)
+            cal.set(Calendar.SECOND, timeParts[2] as Integer)
         cal.time
     }
 }

@@ -1,5 +1,6 @@
 package stocks
 
+import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import groovy.time.TimeCategory
@@ -47,6 +48,7 @@ class MobileController {
     def priceService
     def followGraphService
     def rateGraphService
+    def graphDBService
 
     def authenticate() {
         if (!params.username || !params.password) {
@@ -1289,6 +1291,11 @@ class MobileController {
         item.author = meta.find { it.label == 'Person' }
         item.propertyList = materialGraphService.getPropertyList(item.id?.toString()?.replace('#', ''))
         item.rate = rateGraphService.getAverageRate(item.id?.toString()?.replace('#', '')) ?: 0
+        item.userRate = rateGraphService.getPersonRateForMaterial(user, graphDBService.getVertex(item.id?.toString()?.replace("#", "")))?.value?.toString()
+        if(item.userRate)
+            item.userRate = message(code: "rating.options.${item.userRate}");
+        else
+            item.userRate = "";
         switch (item.type) {
             case "Talk":
                 item.image = createLink(controller: 'image', action: 'profile', id: item.author.identifier, params: [size: 150])
