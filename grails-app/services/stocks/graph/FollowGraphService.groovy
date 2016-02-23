@@ -21,4 +21,5 @@ class FollowGraphService {
     void unfollow(Long userId, String itemId) {
         graphDBService.executeCommand("DELETE EDGE Follow WHERE out.identifier = ${userId} AND in.@rid = #${itemId}")
     }
+
 }

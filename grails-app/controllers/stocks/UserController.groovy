@@ -390,7 +390,7 @@ class UserController {
                 user      : user,
                 vertex    : vertex,
                 groupList : groupGraphService.listForHome(user),
-                followList: materialGraphService.getFollowList(user?.id, 0, 100),
+                followList: materialGraphService.getFollowList(user?.id, 0, 20),
                 ownPage   : true
         ]
     }

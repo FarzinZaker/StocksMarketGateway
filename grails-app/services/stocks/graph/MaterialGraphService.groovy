@@ -94,6 +94,10 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) WHERE (@class = 'Article' OR @class = 'Talk') GROUP BY identifier ORDER BY rate DESC SKIP ${skip} LIMIT ${limit}")
     }
 
+    List<Map> listByAuthor(Long authorId, Integer skip = 0, Integer limit = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE identifier = ${authorId}) WHERE (@class = 'Article' OR @class = 'Talk') ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
+    }
+
     List<Map> listByAuthor(String authorId, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE (@class = 'Article' OR @class = 'Talk') ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
     }
@@ -143,7 +147,7 @@ class MaterialGraphService {
     }
 
     List<Map> getFollowList(Long userId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT EXPAND(OUT('Follow')) FROM Person WHERE identifier = ${userId} SKIP ${skip} LIMIT ${limit}")
+        graphDBService.queryAndUnwrapVertex("SELECT FROM (SELECT EXPAND(OUT('Follow')) FROM Person WHERE identifier = ${userId}) SKIP ${skip} LIMIT ${limit}")
     }
 
     List<Map> getMeta(String id) {

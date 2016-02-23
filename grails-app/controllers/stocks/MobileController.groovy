@@ -5,6 +5,7 @@ import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
+import stocks.accounting.Transaction
 import stocks.alerting.MessageHelper
 import stocks.alerting.QueuedMessage
 import stocks.alerting.SentMessage
@@ -28,6 +29,7 @@ import stocks.alerting.Rule
 import stocks.util.ClassResolver
 import stocks.alerting.QueryInstance
 import stocks.twitter.Search.TwitterPerson
+import stocks.twitter.Article
 
 class MobileController {
 
@@ -39,6 +41,12 @@ class MobileController {
     def sharingService
     def materialGraphService
     def groupGraphService
+    def personGraphService
+    def accountingService
+    def commonGraphService
+    def priceService
+    def followGraphService
+    def rateGraphService
 
     def authenticate() {
         if (!params.username || !params.password) {
@@ -768,6 +776,21 @@ class MobileController {
         result
     }
 
+    def userBalance() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        render([
+                balance: accountingService.userBalance(user?.id),
+                maxDept: user?.maxDept ?: 0
+        ] as JSON)
+    }
 
     def twitterHomeOld() {
         if (!params.user) {
@@ -811,28 +834,449 @@ class MobileController {
                 ] as JSON)
     }
 
+
+    def groupHomeOld() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def list = materialGraphService.listByGroup(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect {
+            appendMeta(user, "format${it.label}"(it))
+        } as JSON)
+    }
+
+    def groupMembership() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def membership = groupGraphService.getUserMembershipInGroup(params.id as String, user?.id)
+
+        render([
+                id    : membership ? membership.id : 0,
+                status: membership ? (membership.endDate ? jalaliDate(membership.endDate as Date) : 1) : 0
+        ] as JSON)
+    }
+
+    def groupRevokeMembership() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        groupGraphService.deleteMember(params.id as String)
+        render '1'
+    }
+
+    def groupRegisterMembership() {
+        if (!params.user || !params.id || !params.period) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def group = commonGraphService.getAndUnwrap(params.id as String)
+
+        def startDate = new Date()
+        def endDate = null
+        use(TimeCategory) {
+            endDate = startDate + (params.period as Integer).months
+        }
+        groupGraphService.addMember(params.id as String, user, startDate, endDate)
+
+        def price = group."membership${params.period}MonthPrice"
+        if (price > 0) {
+            def transaction = new Transaction()
+            transaction.date = new Date()
+            transaction.accountId = grailsApplication.config.accounts.find { it.default }.id
+            transaction.creator = user
+            transaction.customer = user
+            transaction.type = AccountingHelper.TRANSACTION_TYPE_WITHDRAWAL
+            transaction.value = price
+            transaction.description = message(code: 'transaction.description.group.register', args: [group.title])
+            transaction.save()
+        }
+
+        render '1'
+    }
+
+    def propertyHomeOld() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def list = materialGraphService.listByProperty(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect {
+            appendMeta(user, "format${it.label}"(it))
+        } as JSON)
+    }
+
+    def authorInfo() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def list = personGraphService.authorInfo(params?.id?.toString());
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        render([
+                info        : list,
+                followStatus: followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def infoSymbol() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = priceService.lastDailyTrade(Symbol.get(params.identifier as Long))
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        if (!propertyInfo) {
+            render([:] as JSON)
+            return
+        }
+        def lastTradePriceChangePercent = Math.round(propertyInfo.priceChange * 10000 / (propertyInfo.lastTradePrice - propertyInfo.priceChange)) / 100
+        def closingPriceChangePercent = Math.round((propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice) * 10000 / (propertyInfo.closingPrice - (propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice))) / 100
+        def totalTradeVolume = propertyInfo.totalTradeVolume
+        def totalTradeVolumeFlag = ""
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "K"
+        }
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "M"
+        }
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "B"
+        }
+        def totalTradeValue = propertyInfo.totalTradeValue
+        def totalTradeValueFlag = ""
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "K"
+        }
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "M"
+        }
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "B"
+        }
+
+        render([
+                price                    : propertyInfo.lastTradePrice,
+                priceChange              : propertyInfo.priceChange,
+                priceChangePercent       : lastTradePriceChangePercent,
+                closingPrice             : propertyInfo.closingPrice,
+                closingPriceChange       : propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice,
+                closingPriceChangePercent: closingPriceChangePercent,
+                date                     : jalaliDate(propertyInfo.modificationDate),
+                high                     : propertyInfo.maxPrice,
+                low                      : propertyInfo.minPrice,
+                count                    : propertyInfo.totalTradeCount,
+                open                     : propertyInfo.firstTradePrice,
+                volume                   : (Math.round(totalTradeVolume.toDouble() * 100) / 100) + totalTradeVolumeFlag,
+                value                    : (Math.round(totalTradeValue * 100) / 100) + totalTradeValueFlag,
+                followStatus             : followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def infoIndex() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = Index.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        def todayIndexChangeValue = Math.round(propertyInfo.todayIndexChangePercent / (propertyInfo.finalIndexValue / 100 + 1))
+
+        render([
+                price             : propertyInfo.finalIndexValue,
+                priceChange       : todayIndexChangeValue,
+                priceChangePercent: propertyInfo.todayIndexChangePercent,
+                date              : jalaliDate(propertyInfo.modificationDate),
+                high              : propertyInfo.highestIndexValue,
+                low               : propertyInfo.lowestIndexValue,
+                count             : propertyInfo.tradedSymbolCount,
+                decreasedCount    : propertyInfo.decreasedSymbolCount,
+                increasedCount    : propertyInfo.increasedSymbolCount,
+                unchangedCount    : propertyInfo.unchangedSymbolCount,
+                notTradedCount    : propertyInfo.notTradedSymbolCount,
+                reservedCount     : propertyInfo.reservedSymbolCount,
+                suspendedCount    : propertyInfo.suspendedSymbolCount,
+                symbolCount       : propertyInfo.totalSymbolCount,
+                followStatus      : followStatus ? "1" : "0"
+
+        ] as JSON)
+    }
+
+    def infoCoin() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = Coin.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+
+        render([
+                price             : propertyInfo.price,
+                priceChange       : propertyInfo.change,
+                priceChangePercent: propertyInfo.percent,
+                date              : jalaliDate(propertyInfo.time),
+                high              : propertyInfo.high,
+                low               : propertyInfo.low,
+                followStatus      : followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def infoCurrency() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = Currency.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+
+        render([
+                price             : propertyInfo.price,
+                priceChange       : propertyInfo.change,
+                priceChangePercent: propertyInfo.percent,
+                date              : jalaliDate(propertyInfo.time),
+                high              : propertyInfo.high,
+                low               : propertyInfo.low,
+                followStatus      : followStatus ? "1" : "0"
+        ] as JSON)
+
+    }
+
+    def infoMetal() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = Metal.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        render([
+                price             : propertyInfo.price,
+                priceChange       : propertyInfo.change,
+                priceChangePercent: propertyInfo.percent,
+                date              : jalaliDate(propertyInfo.time),
+                high              : propertyInfo.high,
+                low               : propertyInfo.low,
+                followStatus      : followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def infoFuture() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = CoinFuture.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        def totalTradeVolume = propertyInfo.tradesVolume
+        def totalTradeVolumeFlag = ""
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "K"
+        }
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "M"
+        }
+        if (totalTradeVolume > 1000) {
+            totalTradeVolume = totalTradeVolume.toDouble() / 1000
+            totalTradeVolumeFlag = "B"
+        }
+        def totalTradeValue = propertyInfo.tradesValue
+        def totalTradeValueFlag = ""
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "K"
+        }
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "M"
+        }
+        if (totalTradeValue > 1000) {
+            totalTradeValue = totalTradeValue.toDouble() / 1000
+            totalTradeValueFlag = "B"
+        }
+
+        render([
+                price             : propertyInfo.lastTradedPrice,
+                priceChange       : propertyInfo.lastTradedPriceChanges,
+                priceChangePercent: propertyInfo.lastTradedPriceChangesPercent,
+                closingPrice      : propertyInfo.closingPrice,
+                date              : jalaliDate(propertyInfo.lastTradingDate),
+                high              : propertyInfo.highTradedPrice,
+                low               : propertyInfo.lowTradedPrice,
+                count             : propertyInfo.tradesCount,
+                open              : propertyInfo.firstTradedPrice,
+                volume            : (Math.round(totalTradeVolume.toDouble() * 100) / 100) + totalTradeVolumeFlag,
+                value             : (Math.round(totalTradeValue * 100) / 100) + totalTradeValueFlag,
+                followStatus      : followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def infoOil() {
+        if (!params.user || !params.id || !params.identifier) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def propertyInfo = Oil.get(params.identifier as Long)
+        def followStatus = followGraphService.getUserFollowshipForItem(params.id?.toString(), params.user as Long)
+        render([
+                price             : propertyInfo.price,
+                priceChange       : propertyInfo.change,
+                priceChangePercent: propertyInfo.percent,
+                date              : jalaliDate(propertyInfo.time),
+                high              : propertyInfo.high,
+                low               : propertyInfo.low,
+                open              : propertyInfo.open,
+                followStatus      : followStatus ? "1" : "0"
+        ] as JSON)
+    }
+
+    def follow() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        def user = User.get(params.user as Long)
+        followGraphService.follow(user, params.id as String)
+        render "1"
+    }
+
+    def unFollow() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+        followGraphService.unfollow(params.user as Long, params.id as String)
+        render "1"
+    }
+
+    def followList() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        render((materialGraphService.getFollowList(params.user as Long, params.skip as Integer, params.limit as Integer) ?: []) as JSON)
+    }
+
+    def suggestList() {
+        if (!params.user) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        render((sharingService.suggestFollowList(params.user as Long, params.skip as Integer, params.limit as Integer) ?: []) as JSON)
+    }
+
+    def authorHomeOld() {
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        def list = materialGraphService.listByAuthor(params.id as String, params.skip as Integer, params.limit as Integer)
+        render(list.collect {
+            appendMeta(user, "format${it.label}"(it))
+        } as JSON)
+    }
+
     private def formatTalk(material) {
         [
-                id: material.id,
-                title: material.description?.replaceAll("<(.|\n)*?>", ''),
-                date: jalaliDate(material.publishDate as Date),
+                id      : material.id,
+                title   : material.description?.replaceAll("<(.|\n)*?>", ''),
+                date    : jalaliDate(material.publishDate as Date),
                 dateLong: material.publishDate.time,
-                type: material.label
+                type    : material.label
         ]
     }
 
     private def formatArticle(material) {
+        def article = Article.get(material.identifier as Long)
         [
-                id: material.id,
-                title: material.title,
-                date: jalaliDate(material.publishDate as Date),
+                id      : material.id,
+                title   : material.title,
+                summary : article.summary?.replaceAll("<(.|\n)*?>", ''),
+                body    : article.body?.replaceAll("<(.|\n)*?>", ''),
+                date    : jalaliDate(material.publishDate as Date),
                 dateLong: material.publishDate.time,
-                type: material.label,
-                imageId: material.imageId
+                type    : material.label,
+                imageId : material.imageId
         ]
     }
 
-    private appendMeta(User user, Map item){
+    private appendMeta(User user, Map item) {
         def meta = materialGraphService.getMeta(item.id as String)
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
         def hasAccess = groups.size() == 0
@@ -843,12 +1287,14 @@ class MobileController {
         item.groups = groups
         item.hasAccess = hasAccess
         item.author = meta.find { it.label == 'Person' }
-        switch (item.type){
+        item.propertyList = materialGraphService.getPropertyList(item.id?.toString()?.replace('#', ''))
+        item.rate = rateGraphService.getAverageRate(item.id?.toString()?.replace('#', '')) ?: 0
+        switch (item.type) {
             case "Talk":
-                item.image = createLink(controller: 'image', action: 'profile', id: item.author.identifier, params: [size: 60])
+                item.image = createLink(controller: 'image', action: 'profile', id: item.author.identifier, params: [size: 150])
                 break
             case "Article":
-                item.image = createLink(controller: 'image', action: 'index', id: item.imageId, params: [size: 60])
+                item.image = createLink(controller: 'image', action: 'index', id: item.imageId, params: [size: 150])
                 break
         }
         item
@@ -865,7 +1311,7 @@ class MobileController {
         def result = ''
         def jc = new JalaliCalendar(cal)
         result += String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
-        if (date < new Date().clearTime()) {
+        if (date < new Date().clearTime() || date > (new Date() + 1).clearTime()) {
             result += ' '
             result += String.format("%04d/%02d/%02d", jc.getYear(), jc.getMonth(), jc.getDay())
         }

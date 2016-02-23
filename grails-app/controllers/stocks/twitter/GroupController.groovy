@@ -286,7 +286,7 @@ class GroupController {
         }
         groupGraphService.addMember(params.id as String, user, startDate, endDate)
 
-        def price = group."membership${params.priod}MonthPrice"
+        def price = group."membership${params.period}MonthPrice"
         if (price > 0) {
             def transaction = new Transaction()
             transaction.date = new Date()
