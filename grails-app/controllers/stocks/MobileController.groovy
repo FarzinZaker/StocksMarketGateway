@@ -49,6 +49,8 @@ class MobileController {
     def followGraphService
     def rateGraphService
     def graphDBService
+    def commentGraphService
+    def likeGraphService
 
     def authenticate() {
         if (!params.username || !params.password) {
@@ -1254,6 +1256,20 @@ class MobileController {
         } as JSON)
     }
 
+    def rate() {
+        if (!params.user || !params.id || !params.value) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        rateGraphService.saveRate(user, params.id as String, params.value as Integer)
+        render rateGraphService.getPersonRateForMaterial(user, graphDBService.getVertex(params.id?.toString()))?.value?.toString() ?: 0
+    }
+
     private def formatTalk(material) {
         [
                 id      : material.id,
@@ -1292,7 +1308,7 @@ class MobileController {
         item.propertyList = materialGraphService.getPropertyList(item.id?.toString()?.replace('#', ''))
         item.rate = rateGraphService.getAverageRate(item.id?.toString()?.replace('#', '')) ?: 0
         item.userRate = rateGraphService.getPersonRateForMaterial(user, graphDBService.getVertex(item.id?.toString()?.replace("#", "")))?.value?.toString()
-        if(item.userRate)
+        if (item.userRate)
             item.userRate = message(code: "rating.options.${item.userRate}");
         else
             item.userRate = "";
@@ -1305,6 +1321,31 @@ class MobileController {
                 break
         }
         item
+    }
+
+    def commentList() {
+
+        if (!params.user || !params.id) {
+            render([
+                    status: 'f',
+                    body  : ''
+            ] as JSON)
+            return
+        }
+
+        def user = User.get(params.user as Long)
+        render(commentGraphService.getCommentList(params.id as String).collect {
+            [
+                    id           : it.id,
+                    body         : it.body,
+                    date         : jalaliDate(it.lastUpdated as Date),
+                    author       : it.author,
+                    likesCount   : likeGraphService.getLikesCount(it.idNumber as String),
+                    dislikesCount: likeGraphService.getDislikesCount(it.idNumber as String),
+                    hasLiked     : likeGraphService.hasLiked(user, it.idNumber as String),
+                    hasDisliked  : likeGraphService.hasDisliked(user, it.idNumber as String)
+            ]
+        } as JSON)
     }
 
     private String formatTag(clazz, id, title) {

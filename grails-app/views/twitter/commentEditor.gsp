@@ -1,3 +1,4 @@
+<div class="clear-fix"></div>
 <layout:panel class="submitComment" showHeader="no"
               loginRequiredAction="${message(code: 'twitter.material.comment.loginRequired')}">
     <form id="comment_form_${parentId?.replace(':', '_')}">

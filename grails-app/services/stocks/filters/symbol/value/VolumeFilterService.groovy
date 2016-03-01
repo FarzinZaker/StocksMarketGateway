@@ -85,7 +85,7 @@ class VolumeFilterService implements IncludeFilterService {
 
     @Override
     Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
-        def parsedValue = JSON.parse(value?.toString()).first() as Double
+        def parsedValue = JSON.parse(value?.toString()).first()
 
         switch (operator) {
             case Operators.GREATER_THAN:

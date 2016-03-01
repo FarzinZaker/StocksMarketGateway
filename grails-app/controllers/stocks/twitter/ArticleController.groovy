@@ -124,11 +124,12 @@ class ArticleController {
     def thread() {
         def vertex = materialGraphService.getByIdentifier(params.id as Long)
 
+        def user = springSecurityService.currentUser as User
         def meta = materialGraphService.getMeta(vertex.id?.toString()?.replace('#', '') as String)
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
         def hasAccess = groups.size() == 0
         if (!hasAccess) {
-            def userGroups = groupGraphService.memberGroups(springSecurityService.currentUser as User)
+            def userGroups = groupGraphService.memberGroups(user)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
         }
 
@@ -142,7 +143,8 @@ class ArticleController {
                 vertexId    : vertexId,
                 hasAccess   : hasAccess,
                 groupList   : groups,
-                propertyList: materialGraphService.getPropertyList(vertexId)
+                propertyList: materialGraphService.getPropertyList(vertexId),
+                canEdit     : user && (meta?.find { it.label == 'Person' }?.identifier == user?.id)
         ]
     }
 }

@@ -72,6 +72,36 @@ class SharingService {
         searchData.save()
     }
 
+    void reShareTalk(String rid, String description, List<Map> properties, List<Map> mentionList) {
+
+        graphDBService.executeCommand("DELETE EDGE About WHERE out.@rid = #${rid}")
+        graphDBService.executeCommand("DELETE EDGE Mention WHERE out.@rid = ${rid}")
+        graphDBService.executeCommand("DELETE EDGE Share WHERE out.@rid = ${rid}")
+
+        def materialVertex = materialGraphService.editTalk(rid, description)
+
+        def searchData = TwitterMaterial.findByRid(materialVertex?.id?.toString())
+
+        def propertyTitleList = []
+        properties.each { property ->
+            def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
+            graphDBService.addEdge('About', materialVertex, propertyVertex)
+            propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
+        }
+        searchData.propertyTitleList = propertyTitleList
+
+        mentionList.each { mention ->
+            def tragetVertex = graphDBService.getVertex(mention.rid as String)
+            graphDBService.addEdge('Mention', materialVertex, tragetVertex)
+        }
+
+        def groupVertex = commonGraphService.publicGroup
+        graphDBService.addEdge('Share', materialVertex, groupVertex)
+        searchData.groupRidList = [groupVertex?.id?.toString()]
+
+        searchData.save()
+    }
+
     void removeMaterial(Long identifier) {
         materialGraphService.removeMaterial(identifier)
     }

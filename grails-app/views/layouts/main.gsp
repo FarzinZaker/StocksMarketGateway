@@ -20,6 +20,7 @@
     <g:render template="/layouts/main/includesTop"/>
     <g:layoutHead/>
     <asset:javascript src="twitter.comment.js"/>
+    <asset:javascript src="twitter.edit.js"/>
     <asset:stylesheet src="jquery.barRating/themes/bars-reversed.css"/>
     <asset:javascript src="jquery.barRating/jquery.barrating.min.js"/>
 </head>

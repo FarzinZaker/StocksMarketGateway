@@ -23,6 +23,7 @@ class TwitterController {
     def sharingService
     def groupGraphService
     def commentGraphService
+    def graphDBService
 
     def propertyAutoComplete() {
 
@@ -168,17 +169,20 @@ class TwitterController {
     }
 
     def meta() {
+        def user = springSecurityService.currentUser as User
         def meta = materialGraphService.getMeta(params.id as String)
         def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
         def hasAccess = groups.size() == 0
         if (!hasAccess) {
-            def userGroups = groupGraphService.memberGroups(springSecurityService.currentUser as User)
+            def userGroups = groupGraphService.memberGroups(user)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
         }
+        def author = meta.find { it.label == 'Person' }
         [
-                author   : meta.find { it.label == 'Person' },
+                author   : author,
                 groups   : groups,
-                hasAccess: hasAccess
+                hasAccess: hasAccess,
+                canEdit  : user && (author?.identifier == user?.id)
         ]
     }
 
@@ -186,12 +190,15 @@ class TwitterController {
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
         def user = springSecurityService.currentUser as User
         def propertyInfo = null
+        def showChart = false
         switch (propertyVertex.label) {
             case 'Symbol':
                 propertyInfo = priceService.lastDailyTrade(Symbol.get(params.id as Long))
+                showChart = true
                 break
             case 'Index':
                 propertyInfo = Index.get(params.id as Long)
+                showChart = true
                 break
             case 'Coin':
                 propertyInfo = Coin.get(params.id as Long)
@@ -343,5 +350,24 @@ class TwitterController {
 
     def commentEditor() {
         [parentId: params.id]
+    }
+
+    def inlineEditor() {
+        def body = graphDBService.getAndUnwrapVertex(params.id)?."${params.type == 'Comment' ? 'body' : 'description'}"
+        [itemId: params.id, type: params.type, body: body]
+    }
+
+    def inlineEdit() {
+        if (params.type == 'Comment') {
+            def comment = commentGraphService.editComment(params.id as String, params.itemBody as String)
+            render comment.body
+        }
+        if (params.type == 'Talk') {
+
+            def tags = sharingService.extractTextRelations(params.itemBody as String)
+            sharingService.reShareTalk(params.id, tags.text, tags.tagList, tags.mentionList)
+            render tags.text
+
+        }
     }
 }

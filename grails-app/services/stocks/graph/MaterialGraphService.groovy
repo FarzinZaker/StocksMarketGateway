@@ -63,7 +63,8 @@ class MaterialGraphService {
     OrientVertex createTalk(User owner, String description) {
         def material = graphDBService.addVertex(TYPE_TALK, [
                 publishDate: new Date(),
-                description: description ?: '-'
+                description: description ?: '-',
+                lastUpdated: new Date()
         ])
 
         def person = personGraphService.ensurePerson(owner)
@@ -77,6 +78,20 @@ class MaterialGraphService {
         searchData.save()
 
         material
+    }
+
+    OrientVertex editTalk(String id, String description) {
+        def talk = graphDBService.editVertex(id, [
+                description       : description,
+                lastUpdated: new Date()
+        ])
+
+        def rid = talk?.id?.toString()
+        def searchData = TwitterMaterial.findByRid(rid)
+        searchData.summary = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.save()
+
+        talk
     }
 
     OrientVertex removeMaterial(Long identifier) {

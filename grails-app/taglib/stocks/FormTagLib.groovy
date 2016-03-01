@@ -246,12 +246,12 @@ class FormTagLib {
         if (!attrs.ajax) {
             out << asset.javascript(src: 'tinymce/tinymce.min.js')
             out << asset.javascript(src: 'tinymce/jquery.tinymce.min.js')
-            if (attrs.hashTag || attrs.authorTag) {
+            if (attrs.hashTag == 'true' || attrs.authorTag == 'true') {
                 out << asset.javascript(src: 'tinymce/tagHandler.js')
             }
-            if (attrs.hashTag)
+            if (attrs.hashTag == 'true')
                 out << asset.javascript(src: 'tinymce/hashTagHandler.js')
-            if (attrs.authorTag)
+            if (attrs.authorTag == 'true')
                 out << asset.javascript(src: 'tinymce/authorTagHandler.js')
         }
         out << """
@@ -271,7 +271,7 @@ class FormTagLib {
             }/${attrs.tag.id}"
                                         class="${attrs.tag.type == 'tag' ? 'hashTag' : 'hashAuthor'}">${
                 attrs.tag.type == 'tag' ? '#' : '@'
-            }${attrs.tag.title}</a>""" : (attrs.entity?."${attrs.name}" ?: '')
+            }${attrs.tag.title}</a>""" : (attrs.text ?: (attrs.entity?."${attrs.name}" ?: ''))
         }
                 </textarea>
             </div>
@@ -304,14 +304,14 @@ class FormTagLib {
         }",
                         setup : function(ed) {
 """
-        if (attrs.hashTag)
+        if (attrs.hashTag == 'true')
             out << """
                             ed.on('keyup', function(e){onKeyUpForHashTag(ed, e)});
                             ed.on('keydown', function(e){onKeyDownForHashTag(ed, e)});
                             ed.on('click', function(e){onClickForHashTag(ed, e)});
                             ed.on('focusout', function(e){onBlurForHashTag(ed, e)});
 """
-        if (attrs.authorTag)
+        if (attrs.authorTag == 'true')
             out << """
                             ed.on('keyup', function(e){onKeyUpForHashAuthor(ed, e)});
                             ed.on('keydown', function(e){onKeyDownForHashAuthor(ed, e)});

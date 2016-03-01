@@ -32,7 +32,8 @@
         </ul>
 
         <div class="moreButtonContainer">
-            <a href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}" class="moreButton">
+            <a href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}"
+               class="moreButton">
                 <i class="fa fa-info"></i>
                 <g:message code="article.showDetails"/>
             </a>
@@ -55,7 +56,7 @@
     $("#metaLoading_${currentID}").show();
     $.ajax({
         type: "POST",
-        url: '${createLink(controller: 'twitter', action: 'meta', id:material.idNumber)}'
+        url: "<format:html value="${createLink(controller: 'twitter', action: 'meta', params:[id:material.idNumber, type:material.label, identifier: material.identifier])}"/>"
     }).done(function (response) {
         $("#meta_${currentID}").html(response);
     });

@@ -22,6 +22,12 @@
     </g:if>
     <div class="description"><format:twit value="${comment.body ?: '-'}"/></div>
 
+    <div class="descriptionEditor"></div>
+
+    <div class="loading">
+        <form:loading/>
+    </div>
+
     <twitter:like commentId="${comment.idNumber}"/>
 </div>
 
@@ -32,7 +38,7 @@
         $("#metaLoading_${currentCommentId}").show();
         $.ajax({
             type: "POST",
-            url: '${createLink(controller: 'twitter', action: 'meta', id:comment.idNumber)}'
+            url: '${createLink(controller: 'twitter', action: 'meta', params:[id:comment.idNumber, type:comment.label])}'
         }).done(function (response) {
             $("#meta_${currentCommentId}").html(response);
             $("#img_${currentCommentId}").attr('src', '${createLink(controller: 'image', action: 'profile')}/' + $("#meta_${currentCommentId}").find('.author').attr('data-id') + '?size=100');

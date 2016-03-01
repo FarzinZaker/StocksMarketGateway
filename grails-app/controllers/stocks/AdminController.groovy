@@ -1,6 +1,8 @@
 package stocks
 
 import stocks.alerting.QueryInstance
+import stocks.analysis.BackTest
+import stocks.analysis.BackTestHelper
 import stocks.tse.Symbol
 import stocks.feed.ExternalNews
 import stocks.feed.ExternalAnalysis
@@ -72,6 +74,7 @@ class AdminController {
 
     def sharingService
     def springSecurityService
+    def backTestService
 
     def symbolAverageTradeDataService
 
@@ -116,7 +119,22 @@ class AdminController {
 
 //        println 'deserialize important data'
 //        render externalNewsService.kurdPress()
-        oilDataService.importData()
+//        oilDataService.importData()
+
+        // execute task
+        stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
+            it.status = BackTestHelper.STATUS_IN_PROGRESS
+            it.save(flush: true)
+        }
+        def waitingBackTests = stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
+//        withPool(12)  {
+//            waitingBackTests.eachParallel { BackTest backTest ->
+        waitingBackTests.each { BackTest backTest ->
+            BackTest.withTransaction {
+                backTestService.runBackTest(backTest)
+            }
+        }
+//        }
     }
 
 
