@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row tool-buttons">
     <div class="col-sm-4">
         <a href="${createLink(controller: 'screener', action: 'list')}" class="toolButton">
             <i class="fa fa-th-list"></i>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row tool-buttons">
 
     <div class="col-sm-4">
         <a href="${createLink(controller: 'portfolio', action: 'list')}" class="toolButton">

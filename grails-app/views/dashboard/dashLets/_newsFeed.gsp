@@ -35,7 +35,7 @@
 %{--</div>--}%
 %{--</div>--}%
     <g:each in="${ExternalNewsService.visibleCategoryList}">
-        <div class="newsFeedItemsContainer">
+        <div class="newsFeedItemsContainer col-sm-6">
             <h2><g:message code="newsFeed.title"/> <g:message code="newsCategory.${it}"/></h2>
             <ul id="newsFeedItems_${it}" class="newsFeedItems">
                 <form:loading/>

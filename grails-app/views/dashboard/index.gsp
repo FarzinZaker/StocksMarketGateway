@@ -72,11 +72,11 @@
             <div class="row">
                 <div class="col-sm-12">
                     <g:render template="dashLets/twits"/>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <g:render template="dashLets/newsFeed"/>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <g:render template="dashLets/newsFeed"/>
                 </div>
             </div>
             <g:render template="dashLets/toolButtons"/>

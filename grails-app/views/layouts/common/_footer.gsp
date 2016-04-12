@@ -1,4 +1,3 @@
-
 <div class="clear-fix"></div>
 
 <a href="#" class="backToTop"><i class="fa fa-chevron-up"></i></a>
@@ -185,30 +184,47 @@
                     <h3><g:message code="thirdParty.list"/></h3>
 
                     <div>
-                        <a href="http://www.seo.ir">
-                            <asset:image src="third-party/bourse.png"/>
-                            <span><g:message code="thirdParty.bourse"/></span>
-                        </a>
-                        <a href="http://www.tsetmc.com">
-                            <asset:image src="third-party/tse.png"/>
-                            <span><g:message code="thirdParty.tse"/></span>
-                        </a>
-                        <a href="http://www.irenex.ir">
-                            <asset:image src="third-party/energy.png"/>
-                            <span><g:message code="thirdParty.energy"/></span>
-                        </a>
-                        <a href="http://www.ime.co.ir">
-                            <asset:image src="third-party/ime.png"/>
-                            <span><g:message code="thirdParty.ime"/></span>
-                        </a>
-                        <a href="http://www.tgju.org/">
-                            <asset:image src="third-party/tgju.png"/>
-                            <span><g:message code="thirdParty.tgju"/></span>
-                        </a>
-                        <a href="http://www.bloomberg.com">
-                            <asset:image src="third-party/bloomberg.png"/>
-                            <span><g:message code="thirdParty.bloomberg"/></span>
-                        </a>
+                        <div class="col-sm-2">
+                            <a href="http://www.seo.ir">
+                                <asset:image src="third-party/bourse.png"/>
+                                <span><g:message code="thirdParty.bourse"/></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="http://www.tsetmc.com">
+                                <asset:image src="third-party/tse.png"/>
+                                <span><g:message code="thirdParty.tse"/></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="http://www.irenex.ir">
+                                <asset:image src="third-party/energy.png"/>
+                                <span><g:message code="thirdParty.energy"/></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="http://www.ime.co.ir">
+                                <asset:image src="third-party/ime.png"/>
+                                <span><g:message code="thirdParty.ime"/></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="http://www.tgju.org/">
+                                <asset:image src="third-party/tgju.png"/>
+                                <span><g:message code="thirdParty.tgju"/></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="http://www.bloomberg.com">
+                                <asset:image src="third-party/bloomberg.png"/>
+                                <span><g:message code="thirdParty.bloomberg"/></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

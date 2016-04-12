@@ -8,7 +8,7 @@
             <ul>
                 <li class="k-state-active">
                     <g:message code="marketView.bourse.title"/>
-                </li>
+                %{--</li>--}%
                 <li>
                     <g:message code="marketView.commodity.title"/>
                 </li>

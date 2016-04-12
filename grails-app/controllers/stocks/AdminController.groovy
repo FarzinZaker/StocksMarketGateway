@@ -121,20 +121,21 @@ class AdminController {
 //        render externalNewsService.kurdPress()
 //        oilDataService.importData()
 
-        // execute task
-        stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
-            it.status = BackTestHelper.STATUS_IN_PROGRESS
-            it.save(flush: true)
-        }
-        def waitingBackTests = stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
-//        withPool(12)  {
-//            waitingBackTests.eachParallel { BackTest backTest ->
-        waitingBackTests.each { BackTest backTest ->
-            BackTest.withTransaction {
-                backTestService.runBackTest(backTest)
-            }
-        }
+//        // execute task
+//        stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {
+//            it.status = BackTestHelper.STATUS_IN_PROGRESS
+//            it.save(flush: true)
 //        }
+//        def waitingBackTests = stocks.analysis.BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
+////        withPool(12)  {
+////            waitingBackTests.eachParallel { BackTest backTest ->
+//        waitingBackTests.each { BackTest backTest ->
+//            BackTest.withTransaction {
+//                backTestService.runBackTest(backTest)
+//            }
+//        }
+//        }
+        render (externalNewsService.refresh())
     }
 
 

@@ -23,6 +23,7 @@
                 class="fa fa-user"></i></a></li>
     </sec:ifNotLoggedIn>
 </ul>
+<div class="clear-fix"></div>
 
 <div id="loginPanel" class="k-rtl" style="display: none">
     <div class="window">

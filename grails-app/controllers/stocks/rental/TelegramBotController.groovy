@@ -37,16 +37,17 @@ class TelegramBotController {
 //                ['us-dollar-exchange', 'euro', 'gbp', 'aed', 'lear-turkey', 'chinese-yuan', 'iraq-dinar']
                 params.items.toString().replace('|', '=').split('=').each {
                     Currency item = Currency.findBySymbol(it)
-                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
+                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double) / 100
                     result << [
-                            name: item.name,
-                            price: g.formatNumber(number: item?.price, type: 'number'),
-                            high: g.formatNumber(number: item?.high, type: 'number'),
-                            low: g.formatNumber(number: item.low, type: 'number'),
-                            change: formatChange(item.change),
-                            percent: formatChangePercent(percent),
-                            date: jalaliDate(item?.modificationDate),
-                            unit: message(code: 'rial')
+                            englishName: getCurrencyEnglishName(it),
+                            name       : item.name,
+                            price      : g.formatNumber(number: item?.price, type: 'number'),
+                            high       : g.formatNumber(number: item?.high, type: 'number'),
+                            low        : g.formatNumber(number: item.low, type: 'number'),
+                            change     : formatChange(item.change),
+                            percent    : formatChangePercent(percent),
+                            date       : jalaliDate(item?.modificationDate),
+                            unit       : message(code: 'rial')
                     ]
                 }
                 break
@@ -54,16 +55,17 @@ class TelegramBotController {
 //                ['ons', 'n-coin', 'o-coin', 'h-coin', 'q-coin', 'geram18']
                 params.items.toString().replace('|', '=').split('=').each {
                     def item = Coin.findBySymbol(it)
-                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
+                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double) / 100
                     result << [
-                            name: item.name,
-                            price: g.formatNumber(number: item?.price, type: 'number'),
-                            high: g.formatNumber(number: item?.high, type: 'number'),
-                            low: g.formatNumber(number: item.low, type: 'number'),
-                            change: formatChange(item.change),
-                            percent: formatChangePercent(percent),
-                            date: jalaliDate(item?.modificationDate),
-                            unit: ['ons'].contains(it) ? message(code: 'dollar') : message(code: 'rial')
+                            englishName: it,
+                            name       : item.name,
+                            price      : g.formatNumber(number: item?.price, type: 'number'),
+                            high       : g.formatNumber(number: item?.high, type: 'number'),
+                            low        : g.formatNumber(number: item.low, type: 'number'),
+                            change     : formatChange(item.change),
+                            percent    : formatChangePercent(percent),
+                            date       : jalaliDate(item?.modificationDate),
+                            unit       : ['ons'].contains(it) ? message(code: 'dollar') : message(code: 'rial')
                     ]
                 }
                 break
@@ -71,16 +73,17 @@ class TelegramBotController {
 //                ['copper', 'aluminium', 'nickel', 'tin', 'zinc', 'cobalt']
                 params.items.toString().replace('|', '=').split('=').each {
                     def item = Metal.findBySymbol(it)
-                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
+                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double) / 100
                     result << [
-                            name: item.name,
-                            price: g.formatNumber(number: item?.price, type: 'number'),
-                            high: g.formatNumber(number: item?.high, type: 'number'),
-                            low: g.formatNumber(number: item.low, type: 'number'),
-                            change: formatChange(item.change),
-                            percent: formatChangePercent(percent),
-                            date: jalaliDate(item?.modificationDate),
-                            unit: message(code: 'dollar')
+                            englishName: it,
+                            name       : item.name,
+                            price      : g.formatNumber(number: item?.price, type: 'number'),
+                            high       : g.formatNumber(number: item?.high, type: 'number'),
+                            low        : g.formatNumber(number: item.low, type: 'number'),
+                            change     : formatChange(item.change),
+                            percent    : formatChangePercent(percent),
+                            date       : jalaliDate(item?.modificationDate),
+                            unit       : message(code: 'dollar')
                     ]
                 }
                 break
@@ -88,21 +91,43 @@ class TelegramBotController {
 //                ['WTI-Crude-Oil-Nymex', 'Brent-Crude-ICE', 'Crude-Oil-Tokyo', 'Natural-Gas-Nymex']
                 params.items.toString().replace('|', '=').split('=').each {
                     def item = Oil.findBySymbol(it)
-                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double)  / 100
+                    def percent = (Math.round(item.change * 10000 / (item?.price - item?.change)) as double) / 100
                     result << [
-                            name: item.name,
-                            price: g.formatNumber(number: item?.price, type: 'number'),
-                            high: g.formatNumber(number: item?.high, type: 'number'),
-                            low: g.formatNumber(number: item.low, type: 'number'),
-                            change: formatChange(item.change),
-                            percent: formatChangePercent(percent),
-                            date: jalaliDate(item?.modificationDate),
-                            unit: item.unit
+                            englishName: it.replace('-', ' '),
+                            name       : item.name,
+                            price      : g.formatNumber(number: item?.price, type: 'number'),
+                            high       : g.formatNumber(number: item?.high, type: 'number'),
+                            low        : g.formatNumber(number: item.low, type: 'number'),
+                            change     : formatChange(item.change),
+                            percent    : formatChangePercent(percent),
+                            date       : jalaliDate(item?.modificationDate),
+                            unit       : item.unit
                     ]
                 }
                 break
         }
         render(result as JSON)
+    }
+
+    private static String getCurrencyEnglishName(String code) {
+        switch (code) {
+            case "us-dollar-exchange":
+                return "US dollar";
+            case "euro":
+                return "euro";
+            case "gbp":
+                return "united kingdom pound";
+            case "aed":
+                return "emirati dirham";
+            case "lear-turkey":
+                return "turkey lira";
+            case "chinese-yuan":
+                return "chinese yuan";
+            case "iraq-dinar":
+                return "iraqi dinar";
+            default:
+                return code;
+        }
     }
 
     private static jalaliDate = { Date date ->
@@ -117,27 +142,27 @@ class TelegramBotController {
         result
     }
 
-    private formatChange = {Double value ->
-        if(value == 0D)
+    private formatChange = { Double value ->
+        if (value == 0D)
             return ''
         def result = g.formatNumber(number: value, type: 'number')?.toString()
-        if(result.contains('-'))
+        if (result.contains('-'))
             result = result.replace('-', '') + '-'
         result
     }
 
-    private formatChangePercent = {Double value ->
-        if(value == 0D)
+    private formatChangePercent = { Double value ->
+        if (value == 0D)
             return ''
         def result = g.formatNumber(number: value, type: 'number')?.toString()
-        if(result.contains('-'))
+        if (result.contains('-'))
             result = result.replace('-', '') + '-'
         result = '%' + result
 
-        if(value < 0)
+        if (value < 0)
             result += '   ⬇️'
 
-        if(value > 0)
+        if (value > 0)
             result += '   ⬆️'
 
         result

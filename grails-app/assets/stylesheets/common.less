@@ -196,7 +196,7 @@ button {
 #logo {
   float: right;
   margin-top: 15px;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
   img {
     height: 52px;
     //    width: 178px;
@@ -1304,21 +1304,23 @@ h1, h2, h3, h4 {
 
 .symbolSearchBox {
   background: #f3f3f3 none repeat scroll 0 0;
-  clear: left;
-  float: left;
   margin-top: 9px;
   padding: 4px;
   position: relative;
+  margin-bottom: 10px;
   .searchLabel {
     background-color: #8eb60b;
     color: white;
     display: block;
     float: right;
-    line-height: 30px;
     font-size: 16px;
-    width: 100px;
-    text-align: center;
+    line-height: 30px;
     margin: 0;
+    position: absolute;
+    right: 4px;
+    text-align: center;
+    top: 4px;
+    width: 100px;
   }
   .searchCaret {
     border: 6px solid transparent;
@@ -1337,19 +1339,23 @@ h1, h2, h3, h4 {
     color: white;
     display: block;
     float: left;
-    line-height: 30px;
-    text-align: center;
-    width: 30px;
     font-size: 16px;
+    left: 4px;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    top: 4px;
+    width: 30px;
   }
   #symbolSearch {
     background-color: white;
     border-width: 0;
     color: #555;
-    min-width: 400px;
-    padding: 4px 10px 6px;
-    float: right;
     display: block;
+    padding: 4px 10px 6px;
+    width: 100%;
+    padding-right: 115px;
+    padding-left: 35px;
   }
   #symbolSearchResults {
     display: none;
@@ -2249,9 +2255,9 @@ h1, h2, h3, h4 {
   }
 
   .newsFeedItemsContainer {
-    width: 378px;
-    display: inline-block;
-    float: right;
+    //width: 378px;
+    //display: inline-block;
+    //float: right;
     .newsFeedItems {
 
       border-width: 0;
@@ -3659,10 +3665,6 @@ ul.twitterAuthorInfo {
   border: 1px solid #F4F4F4 !important;
 }
 
-#selectedSymbols {
-  margin-bottom: 15px;
-}
-
 .groupDashboardButton {
   display: block;
   background-color: #3d5caa;
@@ -3721,9 +3723,30 @@ ul.twitterAuthorInfo {
   }
 }
 
+.row .row.tool-buttons div.col-sm-4{
+  padding-right:7px !important;
+  padding-left:7px !important;
+}
+
 #selectedSymbols {
   margin-top: 20px;
+  margin-bottom: 15px;
   text-align: center;
+  white-space: nowrap;
+  display: block;
+  overflow-x: auto;
+  .symbolColumn {
+    display: inline-block;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .col-xs-3 {
+    min-width: 120px;
+    .col-xs-6 {
+      min-width: 60px;
+      white-space: nowrap;
+    }
+  }
   i {
 
   }
@@ -4701,7 +4724,7 @@ a.br-selected {
   border-top-right-radius: 5px;
   bottom: 0px;
   left: 60px !important;
-  right:auto !important;
+  right: auto !important;
   z-index: 12345;
   .rocketchat-container {
     width: 100%;
