@@ -135,7 +135,7 @@ class AdminController {
 //            }
 //        }
 //        }
-        render (externalNewsService.refresh())
+        render (currencyDataService.importData())
     }
 
 

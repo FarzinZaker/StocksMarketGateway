@@ -1,6 +1,7 @@
 package stocks.timeSeries
 
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.tse.IndexHistory
 
 class IndexSeries9Service {
@@ -207,7 +208,10 @@ class IndexSeries9Service {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM index_${property} WHERE indexId = '${indexId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? values[0].find()[1] as Double : null
+        def value = values ? values[0].find()[1] : null
+        if (value == JSONObject.NULL)
+            return null
+        value as Double
     }
 
     Date firstIndexDate(Long indexId) {

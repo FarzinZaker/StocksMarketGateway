@@ -2,6 +2,7 @@ package stocks.timeSeries
 
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.rate.Oil
 import stocks.rate.event.OilEvent
 
@@ -144,7 +145,10 @@ class OilSeries9Service {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM oil_${property} WHERE oilId = '${oilId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? (values[0].find()[1] as Double) / 1000 : null
+        def value = values ? values[0].find()[1] : null
+        if (value == JSONObject.NULL)
+            return null
+        value as Double
     }
 
     Date firstOilDate(Long oilId) {

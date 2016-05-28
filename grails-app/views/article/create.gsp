@@ -29,12 +29,12 @@
                 %{--<i class="fa fa-file"></i>--}%
                 %{--<g:message code="article.create.title"/>--}%
             %{--</h1>--}%
-            <g:form action="save">
+            <form:form action="save" name="articleForm">
                 <g:render template="../document/form" model="${[document: article]}"/>
                 <div class="toolbar">
                     <input type="submit" value="${message(code: 'article.create.submit.label')}" class="k-button"/>
                 </div>
-            </g:form>
+            </form:form>
         </div>
     </div>
 </div>

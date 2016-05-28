@@ -86,19 +86,20 @@ class OilDataService {
 
 
     private static Date parseDateTime(String dateTime) {
-        def parts = dateTime.split(' ')
-        def date = parts[0]
-        def time = parts[1]
-        def dateParts = date.split("/").collect { it as Integer }
-        def cal = Calendar.instance
-        cal.set(Calendar.YEAR, dateParts[2])
-        cal.set(Calendar.MONTH, dateParts[0] - 1)
-        cal.set(Calendar.DAY_OF_MONTH, dateParts[1])
-        def timeParts = time.split(":")
-        cal.set(Calendar.HOUR_OF_DAY, (timeParts[0] as Integer) + (parts.length > 2 && parts[2] == "PM" ? 12 : 0))
-        cal.set(Calendar.MINUTE, timeParts[1] as Integer)
-        if (timeParts.length > 2)
-            cal.set(Calendar.SECOND, timeParts[2] as Integer)
-        cal.time
+        new Date(dateTime)
+//        def parts = dateTime.split(' ')
+//        def date = parts[3]
+//        def time = parts[0]
+//        def dateParts = date.split("/").collect { it as Integer }
+//        def cal = Calendar.instance
+//        cal.set(Calendar.YEAR, dateParts[2])
+//        cal.set(Calendar.MONTH, dateParts[0] - 1)
+//        cal.set(Calendar.DAY_OF_MONTH, dateParts[1])
+//        def timeParts = time.split(":")
+//        cal.set(Calendar.HOUR_OF_DAY, (timeParts[0] as Integer) + (parts.length > 2 && parts[2] == "PM" ? 12 : 0))
+//        cal.set(Calendar.MINUTE, timeParts[1] as Integer)
+//        if (timeParts.length > 2)
+//            cal.set(Calendar.SECOND, timeParts[2] as Integer)
+//        cal.time
     }
 }

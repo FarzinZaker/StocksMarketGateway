@@ -3,6 +3,7 @@ package stocks.tools.correlation
 import org.apache.lucene.search.BooleanQuery
 import stocks.tools.CorrelationServiceBase
 import stocks.tse.AdjustmentHelper
+import stocks.tse.BlackListedSymbol
 import stocks.tse.Company
 import stocks.tse.Symbol
 import stocks.tse.SymbolAdjustedDailyTrade
@@ -16,7 +17,7 @@ class CompanyCorrelationService extends CorrelationServiceBase {
     List searchItems(String queryStr) {
 
         BooleanQuery.setMaxClauseCount(1000000)
-        Symbol.search("*${queryStr}* AND ((marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4) OR status:I)", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
+        Symbol.search("*${queryStr}*${BlackListedSymbol.compassQuery()} AND ((marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4) OR status:I)", max: 20).results.unique { a, b -> a?.id <=> b?.id }.collect {
             [
                     text : "${it.persianCode} - ${it.persianName}",
                     value: it.id
@@ -35,6 +36,9 @@ class CompanyCorrelationService extends CorrelationServiceBase {
         Symbol.createCriteria().list {
             or {
                 and {
+                    not {
+                        'in'('persianCode', BlackListedSymbol.persianCodeList())
+                    }
                     eq('marketCode', 'MCNO')
                     'in'('type', ['300', '303', '309'])
                     notEqual('boardCode', '4')

@@ -13,7 +13,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     List searchItems(String term) {
 
         RateHelper.CURRENCIES.findAll {
-            ['us-dollar'].contains(it.key) &&
+            ['us-dollar-exchange', 'us-dollar', 'euro', 'gbp', 'aed','chinese-yuan', 'lear-turkey'].contains(it.key) &&
                     it.value.name.toLowerCase().contains(term.toLowerCase())
         }.collect {
             def symbol = it.key
@@ -37,7 +37,7 @@ class CurrencyCorrelationService extends CorrelationServiceBase {
     @Override
     def all() {
         Currency.createCriteria().list {
-            'in'('symbol', ['us-dollar'])
+            'in'('symbol', ['us-dollar-exchange', 'us-dollar', 'euro', 'gbp', 'aed','chinese-yuan', 'lear-turkey'])
             projections {
                 property('id')
             }

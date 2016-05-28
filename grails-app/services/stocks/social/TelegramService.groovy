@@ -323,7 +323,12 @@ class TelegramService {
         conn.setUseCaches(false);
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream())
         wr.write(postData);
-        JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
+        try {
+            JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
+        }
+        catch (ignored) {
+            [:]
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.User
 import stocks.tse.AdjustmentHelper
+import stocks.tse.BlackListedSymbol
 import stocks.tse.event.IndexEvent
 import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.Symbol

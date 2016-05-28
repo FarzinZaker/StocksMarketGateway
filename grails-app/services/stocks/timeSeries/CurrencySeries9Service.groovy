@@ -2,6 +2,7 @@ package stocks.timeSeries
 
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.rate.Currency
 import stocks.rate.event.CurrencyEvent
 
@@ -85,7 +86,7 @@ class CurrencySeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def propertyList = [
@@ -118,7 +119,7 @@ class CurrencySeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM currency_${property} WHERE currencyId = '${currencyId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
@@ -130,11 +131,14 @@ class CurrencySeries9Service {
     Double lastValue(Long currencyId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM currency_${property} WHERE currencyId = '${currencyId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? values[0].find()[1] as Double : null
+        def value = values ? values[0].find()[1] : null
+        if (value == JSONObject.NULL)
+            return null
+        value as Double
     }
 
     Date firstCurrencyDate(Long currencyId) {

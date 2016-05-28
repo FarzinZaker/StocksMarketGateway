@@ -89,6 +89,8 @@ class ToolsController {
     }
 
     def correlationAutoComplete() {
+        if (!params.group || params.group == '')
+            return render([data: []] as JSON)
         def term = params."filter[filters][0][value]"?.toString() ?: ''
         def serviceClass = grailsApplication.serviceClasses.find { service ->
             service.fullName == params.group

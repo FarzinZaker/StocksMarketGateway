@@ -1,6 +1,7 @@
 <form:field fieldName="correlation.source">
     <span style="width: 510px;display: inline-block">
         <select id="sourceGroup" name="sourceGroup" style="width:200px;">
+            <option value="" selected hidden></option>
             <g:each in="${groups}" var="group">
                 <option value="${group.value}"><g:message code="${group.text}"/></option>
             </g:each>
@@ -18,6 +19,7 @@
                 initSourceItemSelector();
             }
         });
+        $('#sourceGroup_listbox').find('li:first-of-type').hide();
         initSourceItemSelector();
     });
 

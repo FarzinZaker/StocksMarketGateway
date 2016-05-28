@@ -2,6 +2,7 @@ package stocks.timeSeries
 
 import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.web.json.JSONObject
 import stocks.rate.Metal
 import stocks.rate.event.MetalEvent
 
@@ -134,7 +135,10 @@ class MetalSeries9Service {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM metal_${property} WHERE metalId = '${metalId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
-        values ? values[0].find()[1] as Double : null
+        def value = values ? values[0].find()[1] : null
+        if (value == JSONObject.NULL)
+            return null
+        value as Double
     }
 
     Date firstMetalDate(Long metalId) {

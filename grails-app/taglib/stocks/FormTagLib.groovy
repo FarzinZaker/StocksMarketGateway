@@ -218,7 +218,17 @@ class FormTagLib {
                             }
 """
         out << """
-                        }
+                        },
+                        select: function(e) {
+                            var data = this.dataItem(e.item.index());
+"""
+        if (attrs.disabledItems)
+            out << """
+                            if(\$.inArray(data.value, ${attrs.disabledItems as JSON}) != -1)
+                                e.preventDefault();
+"""
+
+        out << """      }
                     });
                 });
             </script>
