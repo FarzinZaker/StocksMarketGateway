@@ -6,8 +6,8 @@
                       args="${[tradeStrategy?.name]}"/></title>
 </head>
 
-<body>
-<div class="row" id="container">
+<body style="background: white">
+<div class="row" id="container" style="background: white">
     <div class="col-xs-2 k-rtl">
         <g:render template="filters"/>
     </div>

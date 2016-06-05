@@ -11,7 +11,7 @@
         <g:render template="summaryItem"
                   model="${[name: message(code: 'backTest.summary.lossingTradesCount'), value: "${formatNumber(number: summary.lossingTradesCount, type: 'number')}"]}"/>
         <g:render template="summaryItem"
-                  model="${[name: message(code: 'backTest.summary.successRate'), value: "<span class='${summary.returnOfInvestment > 50 ? 'positive' : 'negative'}'>${formatNumber(number: summary.successRate, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
+                  model="${[name: message(code: 'backTest.summary.successRate'), value: "<span>${formatNumber(number: summary.successRate, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
         <g:render template="summaryItem"
                   model="${[name: message(code: 'backTest.summary.returnOfInvestment'), value: "<span class='${summary.returnOfInvestment > 0 ? 'positive' : 'negative'}'>${formatNumber(number: summary.returnOfInvestment, type: 'number', maxFractionDigits: 2)} %</span>"]}"/>
     </div>

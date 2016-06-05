@@ -8,7 +8,7 @@
     <g:hiddenField name="timeLimit" id="form_timeLimit"/>
     <div class="toolbar" style="margin0top:10px;padding-top:10px;" onclick="gatherData()">
         <g:if test="${params.id}">
-            <form:submitButton name="submit" text="${message(code: 'tradeStrategy.save')}"/>
+            %{--<form:submitButton name="submit" text="${message(code: 'tradeStrategy.save')}"/>--}%
             <form:submitButton name="submitAndExit" text="${message(code: 'tradeStrategy.saveAndExit')}"/>
         </g:if>
         <g:else>

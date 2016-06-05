@@ -72,13 +72,13 @@ class PriceFilterService implements IncludeFilterService {
             case Operators.LESS_THAN:
                 return [value: 1000]
             case Operators.INCREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                return [value: 0.1]
+                return [value: 0.05]
             case Operators.DECREASE_PERCENT_COMPARE_TO_PREVIOUS_DAY_GREATER_THAN:
-                return [value: 0.1]
+                return [value: 0.05]
             case Operators.INCREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                return [value: 0.1]
+                return [value: 0.05]
             case Operators.DECREASE_PERCENT_COMPARE_TO_FIRST_PRICE_GREATER_THAN:
-                return [value: 0.1]
+                return [value: 0.05]
             default:
                 return [value: 1000]
         }
