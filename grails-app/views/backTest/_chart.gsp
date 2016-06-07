@@ -259,7 +259,7 @@
     }
 
     function formatNumber(data) {
-        return Math.abs(Math.round(data)).toString().replace(/./g, function (c, i, a) {
+        return (data < 0 ? '-' : '') + Math.abs(Math.round(data)).toString().replace(/./g, function (c, i, a) {
             return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
         });
     }
