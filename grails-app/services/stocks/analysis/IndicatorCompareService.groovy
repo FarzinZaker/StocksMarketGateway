@@ -111,7 +111,7 @@ class IndicatorCompareService {
     }
 
     Double getIndicatorValue(Class<IndicatorBase> indicator, String parameter, Date date, Integer index, List indicators) {
-        def list = indicators.find { it.clazz == indicator && it.parameter == parameter }.values.findAll { it.date <= date }
+        def list = indicators.find { it.clazz == indicator && it.parameter == parameter }.values.findAll { it.date?.clearTime() <= date?.clearTime() }
         if (list.size() < index)
             return 0
         list.sort { -it.date.time }[index - 1].value as Double

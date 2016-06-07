@@ -266,7 +266,7 @@ class BackTestService {
         indicatorList.each { indicator ->
             indicator.value = indicators.find {
                 it.clazz.canonicalName == indicator.name && it.parameter == indicator.parameter
-            }?.values?.find { it.date?.clearTime() == backTest.currentDate.clearTime() }?.value
+            }?.values?.find { it.date?.clearTime() == backTest.currentDate?.clearTime() }?.value
         }
         indicatorList
 
