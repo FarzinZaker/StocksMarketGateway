@@ -55,7 +55,7 @@ class PortfolioActionManagementService {
         def portfolioItem = getPortfolioItem(portfolio, model)
         def hasChild = PortfolioAvailItem.countByPortfolioAndItemInList(portfolio, ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'])
         def actionDate = parseDate(model.actionDate);
-        if(actionDate > new Date())
+        if (actionDate > new Date())
             return [errors: [allErrors: [messageSource.getMessage('portfolio.actionDate.validation', [].toArray(), '', null)]]]
         if (model.actionType.actionTypeId in ['s', 'w']) {
 
@@ -168,7 +168,10 @@ class PortfolioActionManagementService {
             item.delete()
             if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
                 if (signedCost > 0) {
-                    portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / ((portfolioItem.shareCount ?: 0) - signedShareCount)
+                    if ((portfolioItem.shareCount ?: 0) - signedShareCount != 0)
+                        portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / (portfolioItem.shareCount ?: 0) - signedShareCount
+                    else
+                        portfolioItem.avgBuyCost = 0
                 }
                 portfolioItem.shareCount -= signedShareCount
                 portfolioItem.cost -= signedCost
@@ -177,6 +180,7 @@ class PortfolioActionManagementService {
                     portfolioItem.delete(flush: true)
             }
         }
+
         return [error: false]
     }
 

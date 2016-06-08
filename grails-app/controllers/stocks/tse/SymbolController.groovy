@@ -115,7 +115,7 @@ class SymbolController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: 50)
+        def searchResult = Symbol.search("*${queryStr}* AND (marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4)", max: 50)
         def result = []
 
         def maxScore = searchResult.scores.max()
@@ -135,7 +135,7 @@ class SymbolController {
         def queryStr = params.term?.toString()?.trim() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
 
-        def searchResult = Symbol.search("*${queryStr?.replace('_', '* AND *')}* AND (marketCode:MCNO AND (type:300 OR type:303) AND -boardCode:4)", max: params.max ? params.max.toString().toInteger() : params.max ? params.max.toString().toInteger() : 50)
+        def searchResult = Symbol.search("*${queryStr?.replace('_', '* AND *')}* AND (marketCode:MCNO AND (type:300 OR type:303 OR type:309) AND -boardCode:4)", max: params.max ? params.max.toString().toInteger() : params.max ? params.max.toString().toInteger() : 50)
         def result = []
 
         def maxScore = searchResult.scores.max()

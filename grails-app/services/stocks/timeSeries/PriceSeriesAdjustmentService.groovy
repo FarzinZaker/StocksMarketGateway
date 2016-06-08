@@ -4,6 +4,7 @@ import groovy.time.TimeCategory
 import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 import stocks.tse.SymbolAdjustedDailyTrade
+import stocks.tse.SymbolAdjustmentQueue
 
 class PriceSeriesAdjustmentService {
 
@@ -58,8 +59,32 @@ class PriceSeriesAdjustmentService {
 
     def undoCapitalIncreasePlusBrought(Long symbolId) {
 
+        def symbol = Symbol.get(symbolId)
+        SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentType(symbol, AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT).each { adjustedDailyTrade ->
+            def dailyTrade = adjustedDailyTrade.dailyTrade
+            [
+                    'firstTradePrice',
+                    'lastTradePrice',
+                    'closingPrice',
+                    'minPrice',
+                    'maxPrice',
+                    'totalTradeCount',
+                    'totalTradeValue',
+                    'totalTradeVolume',
+                    'yesterdayPrice',
+                    'priceChange'
+            ].each { property ->
+                adjustedDailyTrade."${property}" = dailyTrade."${property}"
+            }
+            adjustedDailyTrade.save(flush: true)
+        }
+
         def dailyTrades = adjustedPriceSeries9Service.dailyTradeList(symbolId, null, null, '', AdjustmentHelper.TYPE_NONE)
         adjustedPriceSeries9Service.write(dailyTrades, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
+
+        def queueItem = SymbolAdjustmentQueue.findBySymbol(symbol)?:new SymbolAdjustmentQueue(symbol: symbol, adjustmentType: AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT)
+        queueItem.applied = false
+        queueItem.save(flush: true)
 
 //        symbolIndicatorBulkService.recalculateIndicators(symbol)
     }

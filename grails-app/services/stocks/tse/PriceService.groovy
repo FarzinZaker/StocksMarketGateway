@@ -6,7 +6,7 @@ class PriceService {
         if(!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def dailyTrade = lastDailyTrade(symbol, date, adjustmentType)
-        dailyTrade ? (dailyTrade?.closingPrice ?: 0) : 0
+        dailyTrade ? (dailyTrade?.lastTradePrice ?: 0) : 0
     }
 
     SymbolAdjustedDailyTrade lastDailyTrade(Symbol symbol, Date date = new Date(), String adjustmentType = null) {

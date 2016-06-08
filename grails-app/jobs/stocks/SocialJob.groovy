@@ -9,7 +9,10 @@ class SocialJob {
     def telegramService
 
     def execute() {
+        try {
+            telegramService.dispatchUpdates()
+        } catch (ignored) {
 
-        telegramService.dispatchUpdates()
+        }
     }
 }

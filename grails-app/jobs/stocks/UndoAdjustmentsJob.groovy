@@ -1,36 +1,29 @@
 package stocks
 
 import grails.converters.JSON
+import stocks.tse.AdjustmentHelper
 import stocks.tse.Symbol
 
 
-class IndicatorBulkJob {
+class UndoAdjustmentsJob {
 //
     static startDelay = 50000
     static timeout = 100l
     static concurrent = false
 
-    def symbolIndicatorBulkService
-    def grailsApplication
-    def lowLevelDataService
-    def smsService
+    def priceSeriesAdjustmentService
 
     def execute() {
 
-        return
-
-        if (grailsApplication.config.jobsDisabled)
-            return
-
         def symbol = findNextSymbol(getLastState())
         if(symbol) {
-            log.error "[9] bulk indicator calculate: ${symbol.shortCode}"
-            symbolIndicatorBulkService.bulkCalculateIndicator(symbol)
+            log.error "undo adjustment: ${symbol.shortCode}"
+            priceSeriesAdjustmentService.undo(AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT, [symbol?.id])
             logState(symbol?.id)
         }
         else{
             smsService.sendCustomMessage('09122110811', 'bulk indicator calculation completed')
-            log.error "[9] no adjustment"
+            log.error "no adjustment to undo"
             logState(0)
         }
     }
@@ -40,9 +33,9 @@ class IndicatorBulkJob {
         Symbol.executeQuery("from Symbol s where exists (from SymbolDailyTrade t where t.symbol.id = s.id) and s.id > :id", [id: minId, max: 1]).find()
     }
 
-    def logState(Long symbolId) {
-        def data = [symbolId: symbolId]
-        def serviceName = 'indicator-bulk9'
+    def logState(Long lastId) {
+        def data = [lastId: lastId]
+        def serviceName = 'UndoAdjustments'
         DataServiceState.executeUpdate("update DataServiceState s set s.isLastState = false where s.serviceName = :serviceName", [serviceName: serviceName])
 
         DataServiceState state = new DataServiceState()
@@ -52,8 +45,8 @@ class IndicatorBulkJob {
     }
 
     Long getLastState() {
-        def serviceName = 'indicator-bulk9'
+        def serviceName = 'UndoAdjustments'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
-        data ? JSON.parse(data)?.symbolId ?: 0 : 0
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
 }
