@@ -25,8 +25,8 @@
     <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="darkBlue">--}%
-                %{--<i class="fa fa-shopping-cart"></i>--}%
-                %{--<g:message code="portfolio.view.title"/>--}%
+            %{--<i class="fa fa-shopping-cart"></i>--}%
+            %{--<g:message code="portfolio.view.title"/>--}%
             %{--</h1>--}%
 
             <div class="k-rtl k-header">
@@ -36,15 +36,17 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-12">
             <div class="k-rtl">
                 <div id="grid"></div>
             </div>
         </div>
+    </div>
 
-        <div class="col-xs-4">
+    <div class="row">
+        <div class="col-xs-12">
             <div style="direction:ltr">
-                <div id="shareChart" class="chart"/>
+                <div id="shareChart" class="chart"></div>
             </div>
         </div>
         %{--<pre id="chartData"></pre>--}%
@@ -58,7 +60,7 @@
     //        colors: ['#8ebc00', '#309b46', '#25a0da', '#ff6900', '#e61e26', '#d8e404'] // metro
     //    };
     //    Highcharts.setOptions(Highcharts.theme);
-    var dataSource=new kendo.data.DataSource({
+    var dataSource = new kendo.data.DataSource({
         transport: {
             type: 'odata',
             read: function (options) {
@@ -94,21 +96,34 @@
                     cost: {type: "number"},
                     avgPrice: {type: "number"},
                     shareValue: {type: "number"},
-                    currentValue: {type: "number"}
+                    currentValue: {type: "number"},
+                    profitLoss: {type: "number"},
+                    profitLossPercent: {type: "number"},
+                    totalProfitLossPercent: {type: "number"}
                 }
             },
             data: "data", // records are returned in the "data" field of the response
             total: "total"
         },
-        pageSize: 20,
-        serverPaging: true,
+        aggregate: [
+            {
+                field: "profitLoss",
+                aggregate: "sum"
+            },
+            {
+                field: "totalProfitLossPercent",
+                aggregate: "average"
+            }
+        ],
+//        pageSize: 20,
+        serverPaging: false,
         serverFiltering: true,
         serverSorting: true,
         group: {
             field: "clazzTitle",
             dir: "asc"
         }
-    })
+    });
     $(document).ready(function () {
         $("#toolbar").kendoToolBar({
             items: [
@@ -118,21 +133,21 @@
         });
 
         $("#grid").kendoGrid({
-            dataSource:dataSource,
-            dataBound: function(e) {
+            dataSource: dataSource,
+            dataBound: function (e) {
 
-                var groups=dataSource.group()
-                for(var i=0;i<this.columns.length;i++) {
+                var groups = dataSource.group()
+                for (var i = 0; i < this.columns.length; i++) {
                     this.showColumn(this.columns[i].field);
                 }
-                for(var i=0;i<groups.length;i++) {
+                for (var i = 0; i < groups.length; i++) {
                     this.hideColumn(groups[i].field);
                 }
             },
-//            height: 550,
+            height: 550,
             filterable: false,
             sortable: true,
-            pageable: true,
+            pageable: false,
             groupable: true,
             columns: [
                 {
@@ -170,9 +185,21 @@
                     template: "#=formatNumber(currentValue)#"
                 },
                 {
-                    field: "profilLoss",
+                    field: "profitLoss",
                     title: "${message(code:'portfolioItem.profitLoss.label')}",
-                    template: "<div class='#:profitLoss>0?\"positive\":\"negative\"#'>#=formatNumber(profitLoss)#</div>"
+                    template: "<div class='#:profitLoss>0?\"positive\":\"negative\"#'>#=formatNumber(profitLoss)#</div>",
+                    footerTemplate: "<div class='#:sum>0?\"positive\":\"negative\"#'>#=formatNumber(sum)#</div>"
+                },
+                %{--{--}%
+                    %{--field: "totalProfitLossPercent",--}%
+                    %{--title: "${message(code:'portfolioItem.profitLoss.label')}",--}%
+                    %{--template: "<div class='#:totalProfitLossPercent>0?\"positive\":\"negative\"#'>#=formatNumber(totalProfitLossPercent)#</div>"--}%
+                %{--},--}%
+                {
+                    field: "totalProfitLossPercent",
+                    title: "${message(code:'portfolioItem.profitLossPercent.label')}",
+                    template: "<div class='#:profitLossPercent>0?\"positive\":\"negative\"#'>#=formatNumber(profitLossPercent)#%</div>",
+                    footerTemplate: "<div class='#:average>0?\"positive\":\"negative\"#'>#=formatNumber(average)#%</div>"
                 },
                 {
                     command: {text: "${message(code:'view')}", click: viewGridItem},
@@ -182,7 +209,27 @@
                 }
             ]
         });
+
+        resizeGridFont();
     });
+
+    $(window).resize(function () {
+        resizeGridFont();
+    });
+
+    function resizeGridFont() {
+        var resolution = $(window).width();
+        if (resolution <= 2000)
+            $('#grid').css('font-size', '14px');
+        if (resolution <= 1600)
+            $('#grid').css('font-size', '13px');
+        if (resolution <= 1280)
+            $('#grid').css('font-size', '12px');
+        if (resolution <= 1024)
+            $('#grid').css('font-size', '11px');
+        if (resolution <= 900)
+            $('#grid').css('font-size', '9px');
+    }
 
     function viewGridItem(e) {
         window.location.href = "${createLink(action: 'portfolioItemView')}/" + this.dataItem($(e.currentTarget).closest("tr")).id

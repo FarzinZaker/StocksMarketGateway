@@ -5,7 +5,7 @@
                 <form:field fieldName="portfolioItem.property" showHelp="0">
                     <div id="propertycontainer">
                         <input id="propertyId" class="propertyComboBox" style="width: 300px" required>
-                        <form:button id="editItems" name="editItems"
+                        <form:button id="editItems" name="editItems" style="float:left"
                                      text="${message(code: 'portfolio.edit.items.title')}"/>
                     </div>
                 </form:field>

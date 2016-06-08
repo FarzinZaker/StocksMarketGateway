@@ -102,7 +102,7 @@ class PortfolioActionManagementService {
         action.sharePrice = model.sharePrice
         action.broker = model.broker?.brokerId ? Broker.get(model.broker?.brokerId as Long) : null
         action.discount = model.discount ? model.discount as Float : null
-        action.wage = GlobalSetting.findByName("portfolio.${CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, portfolioItem.class.simpleName.replace('Portfolio', '').replace('Item', ''))}.${model.actionType.actionTypeId == 'b' ? 'buy' : 'sell'}.wage").value as Float
+        action.wage = (GlobalSetting.findByName("portfolio.${CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, portfolioItem.class.simpleName.replace('Portfolio', '').replace('Item', ''))}.${model.actionType.actionTypeId == 'b' ? 'buy' : 'sell'}.wage")?.value ?: 0) as Float
         action.actionDescription = "-" // todo
         action.portfolioItem = portfolioItem
         action.portfolio = portfolio

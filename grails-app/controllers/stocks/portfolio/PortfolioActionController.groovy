@@ -125,6 +125,7 @@ class PortfolioActionController {
             def properties=PortfolioItem.createCriteria().list {
                 eq('portfolio.id',params.id as Long)
                 eq('class','stocks.portfolio.portfolioItems.'+params.clazz.capitalize())
+                gt('shareCount', 0L)
             }.collect {[propertyId:it.getPropertyId(),propertyTitle:it.getPropertyTitle()]}
 
             render(properties as JSON)

@@ -49,6 +49,8 @@
         <ul>
             <li><a href="${createLink(controller: 'portfolio', action: 'list')}"><g:message
                     code="menu.portfolios.list"/></a></li>
+            <li><a href="${createLink(controller: 'portfolio', action: 'build')}"><g:message
+                    code="menu.portfolios.build"/></a></li>
             <portfolio:menu/>
         </ul>
     </li>

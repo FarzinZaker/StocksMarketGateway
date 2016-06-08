@@ -76,15 +76,23 @@
                             } ,
                             {
                                 field: "sharePrice",
-                                title: "${message(code:'portfolioAction.sharePrice.label')}"
+                                title: "${message(code:'portfolioAction.sharePrice.label')}",
+                                template: "#=formatNumber(sharePrice)#"
                             } ,
                             {
                                 field: "shareCount",
-                                title: "${message(code:'portfolioAction.shareCount.label')}"
+                                title: "${message(code:'portfolioAction.shareCount.label')}",
+                                template: "#=formatNumber(shareCount)#"
                             }
                         ]
                     });
                 });
+
+                function formatNumber(data) {
+                    return Math.abs(Math.round(data)).toString().replace(/./g, function (c, i, a) {
+                        return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                    });
+                }
             </script>
         </div>
     </div>

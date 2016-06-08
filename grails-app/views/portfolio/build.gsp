@@ -45,7 +45,7 @@
                     <div style="width: 500px">
                     <form:checkbox name="defaultItems" text="${message(code: 'portfolio.defaultItems.label')}"
                                    style="width:132px" entity="${portfolioInstance}" onchange="showHideItems()"
-                                   checked="${portfolioInstance?.defaultItems != null ? portfolio?.defaultItems : true}"/>
+                                   checked="${portfolioInstance?.defaultItems != null ? portfolioInstance?.defaultItems : true}"/>
                     %{--<form:checkbox name="fullAccounting" text="${message(code: 'portfolio.fullAccounting.label')}"--}%
                                    %{--style="width:120px" entity="${portfolioInstance}"--}%
                                    %{--checked="${portfolioInstance?.fullAccounting ?: false}"/>--}%
@@ -170,7 +170,7 @@
         showHideItems();
         function createProperty(type) {
 
-            var container=$('#'+type+'GridContainer')
+            var container=$('#'+type+'GridContainer');
             $('<div id="propertyWindow"/>')
                     .data('caller', $(this))
                     .appendTo(container)
@@ -178,9 +178,9 @@
                     .kendoWindow({
                         width: '500px',
                         title: false,
-                        position:{
-                            left: "20%"
-                        },
+//                        position:{
+//                            left: "20%"
+//                        },
                         content: '${createLink(action: 'propertyForm')}?clazz=' + type+'&portfolioId=${params.id}',
                         modal: true,
                         close: function (e) {
@@ -189,10 +189,10 @@
                     }).data('kendoWindow').center().open();
         }
         function editProperty(e) {
-            e.preventDefault()
+            e.preventDefault();
 
             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-            var container=$('#'+dataItem.clazz+'GridContainer')
+            var container=$('#'+dataItem.clazz+'GridContainer');
             $('<div id="propertyWindow"/>')
                     .data('caller', $(this))
                     .appendTo(container)

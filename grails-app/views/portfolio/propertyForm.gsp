@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="width:430px !important;">
     <form:form name="propertyForm" controller="portfolio" action="saveProperty">
         <div class="row">
             <div class="col-xs-12">

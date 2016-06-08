@@ -1,5 +1,5 @@
 <form:field fieldName="immovableProperty.name" showHelp="0">
-    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"
+    <form:textBox name="name" validation="required" style="width:440px;" value="${item?.name}"
                   readonly="${item ? 'true' : 'false'}"/>
 </form:field>
 <form:field fieldName="immovableProperty.area" showHelp="0">

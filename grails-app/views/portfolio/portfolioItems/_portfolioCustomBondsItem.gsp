@@ -6,10 +6,10 @@
 <form:field fieldName="customBonds.bank" showHelp="0">
     <form:textBox name="bank" style="width:450px;" value="${item?.bank}"/>
 </form:field>
-<form:field fieldName="customBonds.value" showHelp="0">
-    <form:numericTextBox name="value" style="width:450px;" value="${item?.value}" format="n0" min="0"
-                         step="100000"/>
-</form:field>
+%{--<form:field fieldName="customBonds.value" showHelp="0">--}%
+    %{--<form:numericTextBox name="value" style="width:450px;" value="${item?.value}" format="n0" min="0"--}%
+                         %{--step="100000"/>--}%
+%{--</form:field>--}%
 <form:field fieldName="customBonds.benefit" showHelp="0">
     <form:numericTextBox name="benefit" style="width:450px;" value="${item?.benefit}" format="p0" min="0"
                          step="0.01"/>

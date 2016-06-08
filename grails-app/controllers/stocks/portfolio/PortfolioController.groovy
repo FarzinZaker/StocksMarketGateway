@@ -23,7 +23,7 @@ class PortfolioController {
     }
 
     def build() {
-        def portfolio
+        Portfolio portfolio = null
         def portfolioAvailItems = []
         def portfolioAvailBrokers = []
         if (params.id) {
@@ -126,25 +126,32 @@ class PortfolioController {
         value.total = PortfolioItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
 
         def totalValue = 0
-
+        def totalCost = 0
         value.data = list.collect {
             def clazz = Introspector.decapitalize(it.itemType.split('\\.').last())
             def shareValue = portfolioPropertyManagementService.getCurrentValueOfProperty(clazz, it.propertyId) ?: it.cost / it.shareCount
             def curVal = it.shareCount * shareValue
-            totalValue += it.shareCount * shareValue
+            totalCost += it.cost
+            totalValue += curVal
             [
-                    id          : it.id,
-                    clazz       : clazz,
-                    clazzTitle  : message(code: it.itemType),
-                    symbol      : it.propertyTitle,
-                    shareCount  : it.shareCount,
-                    cost        : it.avgBuyCost * it.shareCount,
-                    avgPrice    : it.avgBuyCost,
-                    shareValue  : shareValue,
-                    currentValue: curVal,
-                    profitLoss  : curVal - it.cost
+                    id               : it.id,
+                    clazz            : clazz,
+                    clazzTitle       : message(code: it.itemType),
+                    symbol           : it.propertyTitle,
+                    shareCount       : it.shareCount,
+                    cost             : it.avgBuyCost * it.shareCount,
+                    avgPrice         : it.avgBuyCost,
+                    shareValue       : shareValue,
+                    currentValue     : curVal,
+                    profitLoss       : curVal - it.cost,
+                    profitLossPercent: (curVal - it.cost) * 100 / it.cost
             ]
         }
+        value.data.each{
+            it.totalProfitLossPercent = Math.round((totalValue - totalCost) * 100 / totalCost)
+        }
+
+
         def shareChartData = [:]
         shareChartData.categories = value.data.collect { [name: it.clazzTitle, drilldown: it.clazz] }.unique()
         shareChartData.drilldown = shareChartData.categories.collect { category ->
@@ -299,7 +306,9 @@ class PortfolioController {
     }
 
     def saveProperty() {
-        if (portfolioPropertyManagementService.saveProperty(params.clazz as String, params.id == "" ? null : params.id as Long, params))
+        if (!params.clazz)
+            render 1
+        else if (portfolioPropertyManagementService.saveProperty(params.clazz as String, params.id == "" ? null : params.id as Long, params))
             render 1
         else
             redirect(action: 'propertyForm', params: [clazz: params.clazz, id: params.id])
