@@ -147,7 +147,7 @@ class PortfolioController {
                     profitLossPercent: (curVal - it.cost) * 100 / it.cost
             ]
         }
-        value.data.each{
+        value.data.each {
             it.totalProfitLossPercent = Math.round((totalValue - totalCost) * 100 / totalCost)
         }
 
@@ -317,5 +317,76 @@ class PortfolioController {
     def deleteProperty() {
         if (portfolioPropertyManagementService.deleteProperty(params.clazz as String, params.id == "" ? null : params.id as Long))
             render 1
+    }
+
+    def benefitLoss() {
+        [portfolio: Portfolio.get(params.id)]
+    }
+
+    def benefitLossJson() {
+        def portfolio = Portfolio.get(params.id)
+        def items = PortfolioItem.findAllByPortfolio(portfolio)
+        def actions = PortfolioAction.findAllByPortfolio(portfolio)
+        def dates = actions.collect { it.actionDate?.clearTime() }.unique { a, b -> a <=> b }
+        Map<PortfolioItem, Map<Date, Map<String, Double>>> report = [:]
+        items.each { item ->
+            report.put(item, [:])
+            dates.each { date ->
+                report[item].put(date, [:])
+            }
+        }
+        actions.each { action ->
+            def row = report[action.portfolioItem][action.actionDate?.clearTime()]
+            def clazz = Introspector.decapitalize(action.portfolioItem.itemType.split('\\.').last())
+            row["realPrice"] = portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, action.actionDate?.clearTime()) ?: action.sharePrice
+            if (action.actionType == 'b') {
+                increaseMapItemValue(row, "totalShareCount", action.shareCount)
+                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime() }.each {
+                    increaseMapItemValue(it.value, "totalBuyCount", action.shareCount)
+                    increaseMapItemValue(it.value, "totalBuyPrice", action.shareCount * action.sharePrice)
+                }
+            } else {
+                increaseMapItemValue(row, "totalShareCount", -action.shareCount)
+                increaseMapItemValue(row, "totalSellCount", action.shareCount)
+                increaseMapItemValue(row, "totalSellPrice", action.shareCount * action.sharePrice)
+            }
+        }
+        items.each { item ->
+            dates.each { date ->
+                def row = report[item][date]
+                def averageBuyPrice = (row["totalBuyPrice"] ?: 0) / (row["totalBuyCount"] ?: 1)
+                def averageSellPrice = (row["totalSellCount"] ?: 1) - (row["totalBuyPrice"] ?: 0)
+                def realPrice = row["realPrice"] ?: 0
+                row["potentialBenefitLoss"] = (row["totalShareCount"] ?: 0) * (realPrice - averageBuyPrice)
+                row["actualBenefitLoss"] = (row["totalSellCount"] ?: 0) * (averageSellPrice - averageBuyPrice)
+                row["totalBenefitLoss"] = row["potentialBenefitLoss"] + row["actualBenefitLoss"]
+            }
+        }
+
+        Map<Date, Map<String, Double>> totalReport = [:]
+        dates.each { date ->
+            totalReport[date] = [:]
+            totalReport[date]["potentialBenefitLoss"] = items.sum { item -> report[item][date]["potentialBenefitLoss"] ?: 0 }
+            totalReport[date]["actualBenefitLoss"] = items.sum { item -> report[item][date]["actualBenefitLoss"] ?: 0 }
+            totalReport[date]["totalBenefitLoss"] = items.sum { item -> report[item][date]["totalBenefitLoss"] ?: 0 }
+        }
+        render([
+                data : totalReport.sort { -it.key?.time }.collect {
+                    [
+                            time                : it.key?.time,
+                            date                : format.jalaliDate(date: it.key),
+                            actualBenefitLoss   : it.value["actualBenefitLoss"],
+                            potentialBenefitLoss: it.value["potentialBenefitLoss"],
+                            totalBenefitLoss    : it.value["totalBenefitLoss"]
+                    ]
+                },
+                total: totalReport.size()
+        ] as JSON)
+    }
+
+    private static void increaseMapItemValue(Map<String, Double> map, String key, Double value) {
+        if (!map.containsKey(key))
+            map.put(key, 0)
+        map[key] += value
     }
 }

@@ -1,6 +1,7 @@
 package stocks.portfolio
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import groovy.time.TimeCategory
 import stocks.Broker
 import stocks.FarsiNormalizationFilter
 import stocks.RateHelper
@@ -23,6 +24,8 @@ class PortfolioPropertyManagementService {
     def springSecurityService
     def priceService
     def messageSource
+    def coinSeries9Service
+    def currencySeries9Service
 
     def findProperty(String clazz, Long id, String query) {
         switch (clazz) {
@@ -110,11 +113,11 @@ class PortfolioPropertyManagementService {
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
-                or{
-                    eq('type','306')
-                    and{
-                        eq('type','301')
-                        eq('boardCode','9')
+                or {
+                    eq('type', '306')
+                    and {
+                        eq('type', '301')
+                        eq('boardCode', '9')
                     }
                 }
 //                'in'('type', ['400', '403', '404'])
@@ -125,6 +128,7 @@ class PortfolioPropertyManagementService {
             [propertyId: it.id, propertyTitle: "${it.persianCode} - ${it.persianName}"]
         }
     }
+
     def findHousingFacility(Long id, String query) {
         def symbols
 
@@ -144,8 +148,8 @@ class PortfolioPropertyManagementService {
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
-                    eq('type','303')
-                    eq('boardCode','4')
+                eq('type', '303')
+                eq('boardCode', '4')
                 order('persianCode')
             }
         symbols.collect {
@@ -172,7 +176,7 @@ class PortfolioPropertyManagementService {
         else
             symbols = Symbol.createCriteria().list {
                 eq('marketCode', 'MCNO')
-                eq('type','305')
+                eq('type', '305')
                 order('persianCode')
             }
         symbols.collect {
@@ -520,9 +524,11 @@ class PortfolioPropertyManagementService {
     def getCurrentValueOfBonds(Long id) {
         priceService.lastPrice(Symbol.get(id))
     }
+
     def getCurrentValueOfHousingFacilities(Long id) {
         priceService.lastPrice(Symbol.get(id))
     }
+
     def getCurrentValueOfInvestmentFund(Long id) {
         priceService.lastPrice(Symbol.get(id))
     }
@@ -573,6 +579,113 @@ class PortfolioPropertyManagementService {
 
     def getCurrentValueOfSymbolPriority(Long id) {
         priceService.lastPrice(Symbol.get(id))
+    }
+
+    //get currentValue
+
+    def getValueOfProperty(String clazz, Long id, Date date) {
+        use(TimeCategory) {
+            date = (date + 1.day).clearTime() - 1.second
+        }
+        switch (clazz) {
+            case 'portfolioBankItem':
+                return getValueOfBank(id, date)
+            case 'portfolioBondsItem':
+                return getValueOfBonds(id, date)
+            case 'portfolioHousingFacilitiesItem':
+                return getValueOfHousingFacilities(id, date)
+            case 'portfolioInvestmentFundItem':
+                return getValueOfInvestmentFund(id, date)
+            case 'portfolioBrokerItem':
+                return getValueOfBroker(id, date)
+            case 'portfolioBullionItem':
+                return getValueOfBullion(id, date)
+            case 'portfolioBusinessPartnerItem':
+                return getValueOfBusinessPartner(id, date)
+            case 'portfolioCoinItem':
+                return getValueOfCoin(id, date)
+            case 'portfolioCurrencyItem':
+                return getValueOfCurrency(id, date)
+            case 'portfolioCustomBondsItem':
+                return getValueOfCustomBonds(id, date)
+            case 'portfolioCustomSymbolItem':
+                return getValueOfCustomSymbol(id, date)
+            case 'portfolioCustomSymbolPriorityItem':
+                return getValueOfCustomSymbolPriority(id, date)
+            case 'portfolioImmovableItem':
+                return getValueOfImmovableProperty(id, date)
+            case 'portfolioMovableItem':
+                return getValueOfMovableProperty(id, date)
+            case 'portfolioSymbolItem':
+                return getValueOfSymbol(id, date)
+            case 'portfolioSymbolPriorityItem':
+                return getValueOfSymbolPriority(id, date)
+        }
+        []
+    }
+
+    def getValueOfBank(Long id, Date date) {
+        null
+    }
+
+    def getValueOfBonds(Long id, Date date) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+
+    def getValueOfHousingFacilities(Long id, Date date) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+
+    def getValueOfInvestmentFund(Long id, Date date) {
+        priceService.lastPrice(Symbol.get(id))
+    }
+
+    def getValueOfBroker(Long id, Date date) {
+        null
+    }
+
+    def getValueOfBullion(Long id, Date date) {
+        null
+    }
+
+    def getValueOfBusinessPartner(Long id, Date date) {
+        null
+    }
+
+    def getValueOfCoin(Long id, Date date) {
+        coinSeries9Service.lastPrice(id, date)
+    }
+
+    def getValueOfCurrency(Long id, Date date) {
+        currencySeries9Service.lastPrice(id, date)
+    }
+
+    def getValueOfCustomBonds(Long id, Date date) {
+        CustomBonds.get(id).value
+    }
+
+    def getValueOfCustomSymbol(Long id, Date date) {
+        null
+    }
+
+    def getValueOfCustomSymbolPriority(Long id, Date date) {
+        null
+    }
+
+    def getValueOfImmovableProperty(Long id, Date date) {
+        ImmovableProperty.get(id).price
+    }
+
+    def getValueOfMovableProperty(Long id, Date date) {
+        MovableProperty.get(id).price
+    }
+
+    def getValueOfSymbol(Long id, Date date) {
+        priceService.lastPrice(Symbol.get(id), date)
+    }
+
+    def getValueOfSymbolPriority(Long id, Date date) {
+        priceService.lastPrice(Symbol.get(id), date)
     }
 
     //utils

@@ -30,6 +30,8 @@ class PortfolioTagLib {
                     <ul>
                         <li><a href="${createLink(controller: 'portfolio', action: 'portfolioView', id: it[1])}">${message(code:'portfolio.menu.view')} ${it[0]}</a></li>
                         <li><a href="${createLink(controller: 'portfolio', action: 'portfolioManage', id: it[1])}">${message(code:'portfolio.menu.manage')} ${it[0]}</a></li>
+                        <li class='k-separator'></li>
+                        <li><a href="${createLink(controller: 'portfolio', action: 'benefitLoss', id: it[1])}">${message(code:'portfolio.menu.benefitLoss')} ${it[0]}</a></li>
                     </ul>
                 </li>
 """

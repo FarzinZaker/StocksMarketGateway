@@ -38,18 +38,26 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="k-rtl">
-                <div id="grid"></div>
-            </div>
-        </div>
-    </div>
+                <div id="tabstrip">
+                    <ul>
+                        <li class="k-state-active">
+                            <g:message code="benfitLoss.grid"/>
+                        </li>
+                        <li>
+                            <g:message code="benfitLoss.chart"/>
+                        </li>
+                    </ul>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div style="direction:ltr">
-                <div id="shareChart" class="chart"></div>
+                    <div>
+                        <div id="grid"></div>
+                    </div>
+
+                    <div>
+                        <div id="shareChart" class="chart"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        %{--<pre id="chartData"></pre>--}%
     </div>
 </div>
 
@@ -125,10 +133,20 @@
         }
     });
     $(document).ready(function () {
+
+        $("#tabstrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "none"
+                }
+            }
+        });
+
         $("#toolbar").kendoToolBar({
             items: [
                 {type: "button", text: "<g:message code="portfolio.list.title"/>", click: btnPortfolioListClick},
-                {type: "button", text: "<g:message code="portfolio.property.manage"/>", click: btnPortfolioManageClick}
+                {type: "button", text: "<g:message code="portfolio.property.manage"/>", click: btnPortfolioManageClick},
+                {type: "button", text: "<g:message code="portfolio.reports.benefitLoss"/>", click: btnBenefitLossClick}
             ]
         });
 
@@ -190,11 +208,6 @@
                     template: "<div class='#:profitLoss>0?\"positive\":\"negative\"#'>#=formatNumber(profitLoss)#</div>",
                     footerTemplate: "<div class='#:sum>0?\"positive\":\"negative\"#'>#=formatNumber(sum)#</div>"
                 },
-                %{--{--}%
-                    %{--field: "totalProfitLossPercent",--}%
-                    %{--title: "${message(code:'portfolioItem.profitLoss.label')}",--}%
-                    %{--template: "<div class='#:totalProfitLossPercent>0?\"positive\":\"negative\"#'>#=formatNumber(totalProfitLossPercent)#</div>"--}%
-                %{--},--}%
                 {
                     field: "totalProfitLossPercent",
                     title: "${message(code:'portfolioItem.profitLossPercent.label')}",
@@ -241,6 +254,10 @@
 
     function btnPortfolioManageClick(e) {
         window.location.href = "${createLink(action: 'portfolioManage')}/${params.id}";
+    }
+
+    function btnBenefitLossClick(e) {
+        window.location.href = "${createLink(action: 'benefitLoss')}/${params.id}";
     }
 
     function formatNumber(data) {

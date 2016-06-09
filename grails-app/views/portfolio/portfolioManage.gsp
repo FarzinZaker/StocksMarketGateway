@@ -85,7 +85,8 @@
                     $("#toolbar").kendoToolBar({
                         items: [
                             {type: "button", text: "<g:message code="portfolio.list.title"/>", click: btnPortfolioListClick},
-                            {type: "button", text: "<g:message code="portfolio.view.title"/>", click: btnViewPortfolioClick}
+                            {type: "button", text: "<g:message code="portfolio.view.title"/>", click: btnViewPortfolioClick},
+                            {type: "button", text: "<g:message code="portfolio.reports.benefitLoss"/>", click: btnBenefitLossClick}
                         ]
                     });
                 });
@@ -96,6 +97,10 @@
 
                 function btnViewPortfolioClick(e) {
                     window.location.href = "${createLink(action: 'portfolioView')}/${params.id}";
+                }
+
+                function btnBenefitLossClick(e) {
+                    window.location.href = "${createLink(action: 'benefitLoss')}/${params.id}";
                 }
 
             </script>
