@@ -326,9 +326,9 @@ class PortfolioController {
     def benefitLossJson() {
         def portfolio = Portfolio.get(params.id)
         def items = PortfolioItem.findAllByPortfolio(portfolio)
-        def actions = PortfolioAction.findAllByPortfolio(portfolio)
+        def actions = PortfolioAction.findAllByPortfolioAndActionTypeInList(portfolio, ['b', 's'])
         def dates = actions.collect { it.actionDate?.clearTime() }.unique { a, b -> a <=> b }
-        Map<PortfolioItem, Map<Date, Map<String, Double>>> report = [:]
+        Map<PortfolioItem, Map<Date, Map<String, Long>>> report = [:]
         items.each { item ->
             report.put(item, [:])
             dates.each { date ->
@@ -338,15 +338,17 @@ class PortfolioController {
         actions.each { action ->
             def row = report[action.portfolioItem][action.actionDate?.clearTime()]
             def clazz = Introspector.decapitalize(action.portfolioItem.itemType.split('\\.').last())
-            row["realPrice"] = portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, action.actionDate?.clearTime()) ?: action.sharePrice
+            row["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, action.actionDate?.clearTime()) ?: action.sharePrice) as Long
             if (action.actionType == 'b') {
-                increaseMapItemValue(row, "totalShareCount", action.shareCount)
                 report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime() }.each {
+                    increaseMapItemValue(it.value, "totalShareCount", action.shareCount)
                     increaseMapItemValue(it.value, "totalBuyCount", action.shareCount)
                     increaseMapItemValue(it.value, "totalBuyPrice", action.shareCount * action.sharePrice)
                 }
             } else {
-                increaseMapItemValue(row, "totalShareCount", -action.shareCount)
+                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime() }.each {
+                    increaseMapItemValue(it.value, "totalShareCount", -action.shareCount)
+                }
                 increaseMapItemValue(row, "totalSellCount", action.shareCount)
                 increaseMapItemValue(row, "totalSellPrice", action.shareCount * action.sharePrice)
             }
@@ -355,7 +357,7 @@ class PortfolioController {
             dates.each { date ->
                 def row = report[item][date]
                 def averageBuyPrice = (row["totalBuyPrice"] ?: 0) / (row["totalBuyCount"] ?: 1)
-                def averageSellPrice = (row["totalSellCount"] ?: 1) - (row["totalBuyPrice"] ?: 0)
+                def averageSellPrice = (row["totalSellPrice"] ?: 1) / (row["totalSellCount"] ?: 1)
                 def realPrice = row["realPrice"] ?: 0
                 row["potentialBenefitLoss"] = (row["totalShareCount"] ?: 0) * (realPrice - averageBuyPrice)
                 row["actualBenefitLoss"] = (row["totalSellCount"] ?: 0) * (averageSellPrice - averageBuyPrice)
@@ -363,7 +365,7 @@ class PortfolioController {
             }
         }
 
-        Map<Date, Map<String, Double>> totalReport = [:]
+        Map<Date, Map<String, Long>> totalReport = [:]
         dates.each { date ->
             totalReport[date] = [:]
             totalReport[date]["potentialBenefitLoss"] = items.sum { item -> report[item][date]["potentialBenefitLoss"] ?: 0 }
@@ -384,7 +386,7 @@ class PortfolioController {
         ] as JSON)
     }
 
-    private static void increaseMapItemValue(Map<String, Double> map, String key, Double value) {
+    private static void increaseMapItemValue(Map<String, Long> map, String key, Long value) {
         if (!map.containsKey(key))
             map.put(key, 0)
         map[key] += value

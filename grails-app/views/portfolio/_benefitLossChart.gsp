@@ -6,7 +6,7 @@
 
 <script language="javascript" type="text/javascript">
     Highcharts.theme = {
-        colors: ['#60A917', '#FA6800', '#3B5998', '#10c4b2', '#ff7663', '#ffb74f', '#a2df53', '#1c9ec4', '#ff63a5'] // flat
+        colors: ['#60A917', '#FA6800', '#3B5998'] // flat
     };
     Highcharts.dateFormats = {
         d: function (timestamp) {
@@ -41,9 +41,15 @@
             potential.push([this.time, this.potentialBenefitLoss]);
             total.push([this.time, this.totalBenefitLoss]);
         });
-        actual.sort(function(a, b){return a[0] - b[0]});
-        potential.sort(function(a, b){return a[0] - b[0]});
-        total.sort(function(a, b){return a[0] - b[0]});
+        actual.sort(function (a, b) {
+            return a[0] - b[0]
+        });
+        potential.sort(function (a, b) {
+            return a[0] - b[0]
+        });
+        total.sort(function (a, b) {
+            return a[0] - b[0]
+        });
         var dataList = [actual, potential, total];
 
         $('#container').highcharts('StockChart', {
@@ -51,23 +57,23 @@
                     chart: {
 //                                    width: $('#container').width() - 200
                     },
+                    legend: {
+                        enabled: true,
+                        borderWidth: 0,
+                        useHTML: true,
+                        labelFormat: '<div style="direction:rtl;">{name}</div>'
+                    },
 
                     rangeSelector: false,
 
                     yAxis: { // Primary yAxis
                         title: {
-                            text: '${message(code:'benefitLoss')}',
-                            style: {
-                                color: Highcharts.getOptions().colors[0]
-                            }
+                            text: '${message(code:'benefitLoss')}'
                         },
                         labels: {
                             x: -10,
                             y: -5,
-                            useHTML: true,
-                            style: {
-                                color: Highcharts.getOptions().colors[0]
-                            }
+                            useHTML: true
                         }
                     },
                     xAxis: {
@@ -144,12 +150,12 @@
                     ]
                 }
                 , function (chart) {
-                    chart.addSeries({
-                        name: 'navigator_series',
-                        data: dataList[1],
-                        isInternal: true,
-                        showInLegend: false
-                    });
+//                    chart.addSeries({
+//                        name: 'navigator_series',
+//                        data: dataList[1],
+//                        isInternal: true,
+//                        showInLegend: true
+//                    });
                 });
     }
 
