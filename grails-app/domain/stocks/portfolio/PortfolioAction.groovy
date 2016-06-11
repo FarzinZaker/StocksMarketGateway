@@ -16,6 +16,9 @@ class PortfolioAction {
     PortfolioItem portfolioItem
     PortfolioAction parentAction
     Portfolio portfolio
+    Boolean isInitialDataEntry
+    String transactionSourceType
+    Long transactionSourceId
 
     byte getSign() {
         if (actionType == 'b')
@@ -60,5 +63,8 @@ class PortfolioAction {
         actionDescription()
         portfolioItem(nullable: true)
         parentAction(nullable: true)
+        isInitialDataEntry(nullable: true)
+        transactionSourceType(nullable: true)
+        transactionSourceId(nullable: true)
     }
 }

@@ -15,4 +15,9 @@ class Broker {
     static constraints = {
         logo nullable: true
     }
+
+    @Override
+    public String toString(){
+        name
+    }
 }

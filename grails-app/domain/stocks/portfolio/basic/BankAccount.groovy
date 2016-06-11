@@ -32,4 +32,9 @@ class BankAccount {
         accountNumber nullable: true
         accountType nullable: true
     }
+
+    @Override
+    public String toString(){
+        bank
+    }
 }

@@ -24,4 +24,9 @@ class BusinessPartner {
     static constraints = {
         portfolio nullable: true
     }
+
+    @Override
+    public String toString(){
+        name
+    }
 }

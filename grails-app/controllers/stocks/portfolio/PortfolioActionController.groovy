@@ -14,6 +14,7 @@ class PortfolioActionController {
     def portfolioActionManagementService
 
     DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'", Locale.ENGLISH);
+
     def jsonPortfolioActions() {
         def value = [:]
 
@@ -35,12 +36,18 @@ class PortfolioActionController {
                     idEq(id)
                 }
             }
-            firstResult(params.int("skip") ?: 0)
-            maxResults(params.int("pageSize") ?: 20)
+//            firstResult(params.int("skip") ?: 0)
+//            maxResults(params.int("pageSize") ?: 20)
             order(params["sort[0][field]"] ?: "actionDate", params["sort[0][dir]"] ?: "desc")
         }
 
         value.total = PortfolioAction.createCriteria().get {
+            if (params.parentActionId)
+                parentAction {
+                    idEq(params.parentActionId as Long)
+                }
+            else
+                isNull('parentAction')
             "portfolioItem" {
                 "portfolio" {
                     idEq(id)
@@ -59,13 +66,17 @@ class PortfolioActionController {
 
     }
 
-    def gridJson = {
-        def clazz = Introspector.decapitalize(it.portfolioItem.itemType.split('\\.').last())
+    def gridJson = { PortfolioAction action ->
+        def clazz = Introspector.decapitalize(action.portfolioItem.itemType.split('\\.').last())
+        def transactionSource = ''
+        if (!action.isInitialDataEntry && action.transactionSourceType && action.transactionSourceId) {
+            transactionSource = "${portfolioPropertyManagementService.getProperty(action.transactionSourceType, action.transactionSourceId)} (${message(code: "${action.transactionSourceType}.label")})"
+        }
         [
-                id        : it.id,
-                itemType  : [
+                id                   : action.id,
+                itemType             : [
                         clazz     : clazz,
-                        title     : message(code: it.portfolioItem.itemType),
+                        title     : message(code: action.portfolioItem.itemType),
                         modifiable: ![
                                 'portfolioBondsItem',
                                 'portfolioBullionItem',
@@ -75,24 +86,29 @@ class PortfolioActionController {
                                 'portfolioSymbolPriorityItem'
                         ].contains(clazz)
                 ],
-                property  : [
-                        propertyId   : it.portfolioItem.propertyId,
-                        propertyTitle: it.portfolioItem.propertyTitle
+                property             : [
+                        propertyId   : action.portfolioItem.propertyId,
+                        propertyTitle: action.portfolioItem.propertyTitle
                 ],
-                actionType: [
-                        actionTypeId   : it.actionType,
-                        actionTypeTitle: message(code: "portfolioAction.actionType.${it.actionType}")
+                actionType           : [
+                        actionTypeId   : action.actionType,
+                        actionTypeTitle: message(code: "portfolioAction.actionType.${action.actionType}")
                 ],
-                actionDate: format.jalaliDate(date:it.actionDate),
-                actionDateNumber:it.actionDate.time,
-                sharePrice: it.sharePrice,
-                shareCount: ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem', 'portfolioImmovableItem'].contains(clazz) ? null : it.shareCount,
-                broker    : [
-                        brokerId  : it.broker?.id,
-                        brokerName: it.broker?.name
+                actionDate           : format.jalaliDate(date: action.actionDate),
+                actionDateNumber     : action.actionDate.time,
+                sharePrice           : action.sharePrice,
+                shareCount           : ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem', 'portfolioImmovableItem'].contains(clazz) ? null : action.shareCount,
+                broker               : [
+                        brokerId  : action.broker?.id,
+                        brokerName: action.broker?.name
                 ],
-                discount  : it.discount,
-                wage      : it.wage,
+                discount             : action.discount,
+                wage                 : action.wage,
+                isInitialDataEntry   : action.isInitialDataEntry,
+                transactionSource    : transactionSource,
+                transactionSourceType: action.transactionSourceType,
+                transactionSourceId  : action.transactionSourceId,
+                childActions         : PortfolioAction.findAllByParentAction(action).collect { gridJson(it) }
         ]
     }
 
@@ -101,9 +117,9 @@ class PortfolioActionController {
         def result = []
         JSON.parse(params.models).each { model ->
             def action = portfolioActionManagementService.save(params.long("id"), model as Map, params.parentActionId ? PortfolioAction.get(params.parentActionId as Long) : null)
-            if(action.errors.allErrors)
-                return render( [error:action.errors.allErrors] as JSON)
-            else{
+            if (action.errors.allErrors)
+                return render([error: action.errors.allErrors] as JSON)
+            else {
                 result << gridJson(action)
 
             }
@@ -113,25 +129,29 @@ class PortfolioActionController {
 
     def portfolioActionDelete() {
         JSON.parse(params.models).each { model ->
-            def res=portfolioActionManagementService.delete(model.id as Long)
-            if(res.error)
-                return render([error:message(code:"portfolioItem.delete.${res.error}")] as JSON)
+            def res = portfolioActionManagementService.delete(model.id as Long)
+            if (res.error)
+                return render([error: message(code: "portfolioItem.delete.${res.error}")] as JSON)
         }
         render 0
     }
 
     def propertyList() {
-        if(params.actionType in ['s','w']){
-            def properties=PortfolioItem.createCriteria().list {
-                eq('portfolio.id',params.id as Long)
-                eq('class','stocks.portfolio.portfolioItems.'+params.clazz.capitalize())
+        if (params.actionType in ['s', 'w']) {
+            def properties = PortfolioItem.createCriteria().list {
+                eq('portfolio.id', params.id as Long)
+                eq('class', 'stocks.portfolio.portfolioItems.' + params.clazz.capitalize())
                 gt('shareCount', 0L)
-            }.collect {[propertyId:it.getPropertyId(),propertyTitle:it.getPropertyTitle()]}
+            }.collect { [propertyId: it.getPropertyId(), propertyTitle: it.getPropertyTitle()] }
 
             render(properties as JSON)
-        }
-        else {
-            render(portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String).collect {it+[clazz:params.clazz]} as JSON)
+        } else {
+            Portfolio portfolio = null
+            if (params.portfolioId)
+                portfolio = Portfolio.get(params.id)
+            render(portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String, portfolio, params.availOnly == '1').collect {
+                it + [clazz: params.clazz]
+            } as JSON)
         }
     }
 }

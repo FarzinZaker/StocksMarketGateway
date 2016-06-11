@@ -1,5 +1,6 @@
 package stocks.portfolio
 
+import com.jniwrapper.Bool
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import groovy.time.TimeCategory
 import stocks.Broker
@@ -13,6 +14,7 @@ import stocks.portfolio.basic.CustomSymbol
 import stocks.portfolio.basic.CustomSymbolPriority
 import stocks.portfolio.basic.ImmovableProperty
 import stocks.portfolio.basic.MovableProperty
+import stocks.portfolio.meta.PortfolioAvailBroker
 import stocks.portfolio.portfolioItems.PortfolioBullionItem
 import stocks.rate.Coin
 import stocks.rate.Currency
@@ -27,7 +29,7 @@ class PortfolioPropertyManagementService {
     def coinSeries9Service
     def currencySeries9Service
 
-    def findProperty(String clazz, Long id, String query) {
+    def findProperty(String clazz, Long id, String query, Portfolio portfolio = null, Boolean availOnly = false) {
         switch (clazz) {
             case 'portfolioBankItem':
                 return findBank(id, query)
@@ -38,7 +40,7 @@ class PortfolioPropertyManagementService {
             case 'portfolioHousingFacilitiesItem':
                 return findHousingFacility(id, query)
             case 'portfolioBrokerItem':
-                return findBroker(id, query)
+                return findBroker(id, query, portfolio, availOnly)
             case 'portfolioBullionItem':
                 return findBullion(id, query)
             case 'portfolioBusinessPartnerItem':
@@ -184,8 +186,8 @@ class PortfolioPropertyManagementService {
         }
     }
 
-    def findBroker(Long id, String query) {
-        def brokers = Broker.findAllByDeleted(false)
+    def findBroker(Long id, String query, Portfolio portfolio, Boolean availOnly) {
+        def brokers = availOnly ? PortfolioAvailBroker.findAllByPortfolio(portfolio)*.broker : Broker.findAllByDeleted(false)
         brokers.sort { it.name }.collect {
             [propertyId: it.id, propertyTitle: it.name]
         }

@@ -1,8 +1,9 @@
+<%@ page import="stocks.portfolio.meta.PortfolioAvailItem" %>
 <div id="itemDialog" class="k-rtl">
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                <form:field fieldName="portfolioItem.property" showHelp="0">
+                <form:field border="0" fieldName="portfolioItem.property" showHelp="0">
                     <div id="propertycontainer">
                         <input id="propertyId" class="propertyComboBox" style="width: 300px" required>
                         <form:button id="editItems" name="editItems" style="float:left"
@@ -12,7 +13,7 @@
             </div>
 
             <div class="col-xs-6">
-                <form:field fieldName="portfolioAction.actionDate" showHelp="0">
+                <form:field border="0" fieldName="portfolioAction.actionDate" showHelp="0">
                     <form:datePickerResources/>
                     <form:datePicker name="actionDate" style="width: 300px"/>
                 </form:field>
@@ -21,13 +22,13 @@
 
         <div class="row">
             <div class="col-xs-6">
-                <form:field id="sharepricecontainer" fieldName="portfolioAction.sharePrice" showHelp="0">
+                <form:field border="0" id="sharepricecontainer" fieldName="portfolioAction.sharePrice" showHelp="0">
                     <input id="sharePrice" style="width: 300px">
                 </form:field>
             </div>
 
             <div class="col-xs-6">
-                <form:field id="sharecountcontainer" fieldName="portfolioAction.shareCount" showHelp="0">
+                <form:field border="0" id="sharecountcontainer" fieldName="portfolioAction.shareCount" showHelp="0">
                     <input id="shareCount" style="width: 300px">
                 </form:field>
             </div>
@@ -36,7 +37,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <g:if test="${portfolio.useBroker}">
-                    <form:field id="brokerconainer" fieldName="portfolioAction.broker" showHelp="0">
+                    <form:field border="0" id="brokerconainer" fieldName="portfolioAction.broker" showHelp="0">
                         <input id="broker" style="width: 300px">
                     </form:field>
                 </g:if>
@@ -44,12 +45,81 @@
 
             <div class="col-xs-6">
                 <g:if test="${portfolio.useWageAndDiscount}">
-                    <form:field id="discountconainer" fieldName="portfolioAction.discount" showHelp="0">
+                    <form:field border="0" id="discountconainer" fieldName="portfolioAction.discount" showHelp="0">
                         <input id="discount" style="width: 300px">
                     </form:field>
                 </g:if>
             </div>
         </div>
+        <g:set var="availItems"
+               value="${PortfolioAvailItem.findAllByPortfolioAndItemInList(portfolio, ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'])?.collect {
+                   it.item
+               }}"/>
+        <g:if test="${availItems.size()}">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form:field border="0" showLabel="0" showHelp="0">
+                        <form:checkbox name="isInitialDataEntry"
+                                       text="${message(code: 'portfolioAction.isInitialDataEntry')}"
+                                       onchange="toggleTransactionSource()"/>
+                    </form:field>
+                </div>
+            </div>
+
+            <div class="row" id="transactionSourceSelectArea">
+                <div class="col-xs-6">
+                    <form:field border="0" fieldName="portfolioAction.transactionSource" showHelp="0"
+                                id="lblTransactionSource">
+                        <form:select name="transactionSourceType"
+                                     items="${availItems.collect { [text: message(code: "${it}.label"), value: it] }}"
+                                     placeholder="${message(code: 'pleaseSelect')}"
+                                     preSelect="false"
+                                     style="width: 300px" onchange="transactionSourceChanged"/>
+                    </form:field>
+                </div>
+
+                <div class="col-xs-6">
+                    <form:field border="0" fieldName="portfolioAction.transactionSource.empty" showHelp="0">
+                        <div id="transactionSourceSelectorContainer"></div>
+                    </form:field>
+                </div>
+            </div>
+            <script language="javascript" type="text/javascript">
+                function toggleTransactionSource() {
+                    $('#transactionSourceSelectArea').slideToggle();
+                }
+
+                function transactionSourceChanged(e, value) {
+                    var editContainer = $('#transactionSourceSelectorContainer').html('');
+                    $('<div><input required class="propertyComboBox" data-text-field="propertyTitle" data-value-field = "propertyId" id="transactionSource" /></div>')
+                            .appendTo(editContainer)
+                            .find('input')
+                            .width('300px')
+                            .kendoComboBox({
+                                dataTextField: "propertyTitle",
+                                dataValueField: "propertyId",
+                                filter: "contains",
+                                autoBind: true,
+                                minLength: 2,
+                                placeholder: '${message(code: 'portfolioItem.property.select')}',
+                                dataSource: {
+                                    type: "json",
+                                    serverFiltering: true,
+                                    transport: {
+                                        read: {
+                                            url: "${createLink(controller: 'portfolioAction', action: 'propertyList')}?portfolioId=${portfolio.id}&availOnly=1"
+                                        },
+                                        parameterMap: function (option, operation) {
+                                            var result = option;
+                                            result.clazz = value;
+                                            return result;
+                                        }
+                                    }
+                                }
+                            });
+                }
+            </script>
+        </g:if>
 
         <div class="row">
             <div class="col-xs-12">
@@ -59,6 +129,8 @@
                     <script language="javascript" type="text/javascript">
                         $('span[name=submit]').click(function () {
 //                if ($('#portfolioForm').isValid()) {
+                            var isInitialDataEntry = currenctAction == 'b' || currenctAction == 's' ? $('#isInitialDataEntry').is(':checked') : null;
+                            var hasChildAction = !isInitialDataEntry && (currenctAction == 'b' || currenctAction == 's');
                             $.ajax({
                                 url: '${createLink(controller: 'portfolioAction', action: 'portfolioActionSave', id: params.id)}',
                                 type: 'post',
@@ -71,6 +143,9 @@
                                         actionDate: $('#actionDate').val(),
                                         sharePrice: sharePrice.data('kendoNumericTextBox').value(),
                                         shareCount: shareCount.data('kendoNumericTextBox').value(),
+                                        isInitialDataEntry: isInitialDataEntry,
+                                        transactionSourceType: hasChildAction ? $('#transactionSourceType').data('kendoComboBox').value() : null,
+                                        transactionSource: hasChildAction ? $('#transactionSource').data('kendoComboBox').value() : null,
                                         <g:if test="${portfolio.useBroker}">
                                         broker: {brokerId: broker.data("kendoComboBox").value()},
                                         </g:if>
@@ -223,9 +298,28 @@
     </g:if>
     function editItem(dataItem) {
         itemDialog.data("kendoWindow").center().open();
-        currentId = dataItem.id
+        currentId = dataItem.id;
         currenctType = dataItem.itemType.clazz;
         currenctAction = dataItem.actionType.actionTypeId;
+        if (currenctAction == 'b' || currenctAction == 's') {
+            $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
+            $('#isInitialDataEntry').prop('checked', dataItem.isInitialDataEntry).parent().parent().parent().parent().stop().show();
+            if (dataItem.isInitialDataEntry) {
+                $('#transactionSourceSelectArea').stop().hide();
+                $('#transactionSourceType').data("kendoComboBox").value('');
+                $('#transactionSourceSelectorContainer').html('');
+            }
+            else {
+                $('#transactionSourceSelectArea').stop().show();
+                $('#transactionSourceType').data("kendoComboBox").value(dataItem.transactionSourceType);
+                transactionSourceChanged(null, $('#transactionSourceType').data("kendoComboBox").value());
+                $('#transactionSource').data("kendoComboBox").value(dataItem.transactionSourceId);
+            }
+        }
+        else {
+            $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
+            $('#transactionSourceSelectArea').stop().hide();
+        }
         currentModifiable = ( [
             'portfolioBondsItem',
             'portfolioBullionItem',
@@ -274,6 +368,17 @@
         currentId = '';
         currenctType = type;
         currenctAction = action;
+        if (currenctAction == 'b' || currenctAction == 's') {
+            $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
+            $('#transactionSourceType').data("kendoComboBox").value('');
+            $('#transactionSourceSelectorContainer').html('');
+            $('#isInitialDataEntry').prop('checked', false).parent().parent().parent().parent().stop().show();
+            $('#transactionSourceSelectArea').stop().show();
+        }
+        else {
+            $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
+            $('#transactionSourceSelectArea').stop().hide();
+        }
         currentModifiable = modifiable;
         propertyId.data("kendoComboBox").dataSource.read();
         propertyId.data("kendoComboBox").value('');

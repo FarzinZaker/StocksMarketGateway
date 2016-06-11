@@ -58,19 +58,19 @@
             }
             //filter: {field: "parentActionId", operator: "eq", value: e.data.id}
         });
-        var toolbar = [
-            {name: "create", text: "<g:message code="create"/>"}
-        ];
-        if(e.data.id){
-            toolbar[toolbar.length] = {name: "save", text: "<g:message code="save"/>"};
-            toolbar[toolbar.length] = {name: "cancel", text: "<g:message code="cancel"/>"};
-        }
+        var toolbar = [];
+            %{--{name: "create", text: "<g:message code="create"/>"}--}%
+        %{--];--}%
+        %{--if(e.data.id){--}%
+            %{--toolbar[toolbar.length] = {name: "save", text: "<g:message code="save"/>"};--}%
+            %{--toolbar[toolbar.length] = {name: "cancel", text: "<g:message code="cancel"/>"};--}%
+        %{--}--}%
         $("<div/>").appendTo(e.detailCell).kendoGrid({
                     dataSource: detailDataSources[parentId],
-                    navigatable: true,
-                    pageable: true,
+                    navigatable: false,
+                    pageable: false,
 //                    height: 550,
-                    toolbar: toolbar,
+//                    toolbar: toolbar,
                     columns: [
                         {
                             field: "itemType",
@@ -97,13 +97,13 @@
                             editor: priceEditor,
                             template: "#=formatNumber(sharePrice)#"
                         },
-                        {
-                            command: [{name: "destroy", text: "<g:message code="delete"/>"}],
-                            title: "&nbsp;",
-                            width: "95px"
-                        }
+                        %{--{--}%
+                            %{--command: [{name: "destroy", text: "<g:message code="delete"/>"}],--}%
+                            %{--title: "&nbsp;",--}%
+                            %{--width: "95px"--}%
+                        %{--}--}%
                     ],
-                    editable: "incell",
+                    editable: false,
                     save: function (e) {
                         var combobox = e.container.find('.propertyComboBox[data-role=combobox]');
                         if (combobox.length > 0) {

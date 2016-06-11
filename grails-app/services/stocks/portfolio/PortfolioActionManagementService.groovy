@@ -55,16 +55,19 @@ class PortfolioActionManagementService {
         if (model.actionType.actionTypeId in ['s', 'w']) {
 
             def actionDate = parseDate(model.actionDate);
-            def prevAmount = PortfolioAction.createCriteria().list {
+            def prevAmount = portfolioItem?.id ? (PortfolioAction.createCriteria().list {
                 eq('portfolioItem', portfolioItem)
                 le('actionDate', actionDate)
             }.sum {
-                (it.actionType in ['s', 'w'] ? -1 : 1) * it.shareCount
-            } ?: 0
-            if (prevAmount < (model.shareCount ?: 1)) {
+                (it.actionType in ['s', 'w'] ? -1 : 1) * it.shareCount * (model.actionType.actionTypeId == 'w' ? it.sharePrice : 1)
+            } ?: 0) : 0
+            if (model.actionType.actionTypeId == 's' && prevAmount < (model.shareCount ?: 1)) {
                 portfolioItem.discard()
                 return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesCount.validation', [prevAmount].toArray(), '', null)]]]
-
+            }
+            if (model.actionType.actionTypeId == 'w' && prevAmount < (model.sharePrice ?: 1)) {
+                portfolioItem.discard()
+                return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesAmount.validation', [prevAmount].toArray(), '', null)]]]
             }
         }
 
@@ -95,6 +98,11 @@ class PortfolioActionManagementService {
         }
         portfolioItem.save(flush: true)
 
+        if (action.id)
+            PortfolioAction.findAllByParentAction(action).each {
+                delete(it?.id)
+            }
+
         // date sample: Mon Dec 01 2014 01:00:00 GMT+0330 (IRST)
         action.actionDate = parentAction ? parentAction.actionDate : parseDate(model.actionDate);
         action.actionType = model.actionType.actionTypeId
@@ -107,7 +115,23 @@ class PortfolioActionManagementService {
         action.portfolioItem = portfolioItem
         action.portfolio = portfolio
         action.parentAction = parentAction
+        action.isInitialDataEntry = model.isInitialDataEntry
+        action.transactionSourceType = model.isInitialDataEntry ? null : model.transactionSourceType
+        action.transactionSourceId = model.isInitialDataEntry ? null : model.transactionSource?.toString()?.toLong()
         action.save(flush: true)
+
+        if (!action.isInitialDataEntry && ['b', 's'].contains(action.actionType)) {
+            def childActionModel = [:]
+            childActionModel.actionDate = model.actionDate
+            childActionModel.actionType = [actionTypeId: action.actionType == 'b' ? 'w' : 'd']
+            childActionModel.sharePrice = action.shareCount * action.sharePrice
+            childActionModel.itemType = [clazz: model.transactionSourceType]
+            childActionModel.property = [propertyId: model.transactionSource?.toString()?.toLong()]
+            def childAction = save(portfolioId, childActionModel, action)
+            if (childAction.errors) {
+                return childAction
+            }
+        }
 
         model.childActions?.each { childAction ->
             save(portfolioId, childAction, action)
@@ -122,9 +146,13 @@ class PortfolioActionManagementService {
             def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id, item.portfolioItem, item.actionDate)
             if ((items?.sum { it.signedShareCount } ?: 0) < 0)
                 return [error: 'countLessThanZero']
+            def childrenResult = [error: false]
             PortfolioAction.findAllByParentAction(item).each { childAction ->
-                delete(childAction.id)
+                if (!childrenResult.error)
+                    childrenResult = delete(childAction.id)
             }
+            if (childrenResult.error)
+                return childrenResult
 
             def portfolioItem = item.portfolioItem
             def signedShareCount = item.signedShareCount
@@ -138,7 +166,7 @@ class PortfolioActionManagementService {
                 portfolioItem.cost -= signedCost
             } else {
                 if (!PortfolioAction.findAllByPortfolioItem(portfolioItem))
-                    portfolioItem.delete()
+                    portfolioItem.delete(flush: true)
             }
         }
         return [error: false]

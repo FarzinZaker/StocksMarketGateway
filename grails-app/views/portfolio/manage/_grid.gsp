@@ -136,7 +136,8 @@
                         defaultValue: {brokerId: 0, brokerName: ""}
                     },
                     discount: {type: "number", defaultValue: null},
-                    wage: {type: "number", defaultValue: null}
+                    wage: {type: "number", defaultValue: null},
+                    transactionSource: {type: "string", defaultValue: ""}
                 }
             },
             data: "data",
@@ -190,7 +191,7 @@
                     title: "${message(code: 'portfolioItem.type.label')}",
                     editor: itemTypeDropDownEditor,
                     template: "#=itemType.title#",
-                    width: "200px",
+//                    width: "150px",
                     type: 'string',
                     filterable: {
                         ui: itemTypeDropDownFilter,
@@ -214,7 +215,7 @@
                             }
                         }
                     },
-                    width: "300px"
+//                    width: "200px"
                 },
                 {
                     field: "actionType.actionTypeId",
@@ -300,6 +301,13 @@
                 },
                 </g:if>
                 {
+                    field: "transactionSource",
+                    title: "${message(code: 'portfolioAction.transactionSourceTarget.label')}",
+                    filterable: {
+                        extra: true,
+                    }
+                },
+                {
                     command: [
                         {text: "<g:message code="delete"/>", click: deletePortfolioItem},
                         {text: "<g:message code="edit"/>", click: editPortfolioItem},
@@ -308,9 +316,9 @@
                     width: "160px"
                 }
             ],
-            <g:if test="${portfolio.fullAccounting}">
-            detailInit: detailInit,
-            </g:if>
+            %{--<g:if test="${portfolio.fullAccounting}">--}%
+//            detailInit: detailInit,
+            %{--</g:if>--}%
 //            editable: "incell",
             save: function (e) {
                 var combobox = e.container.find('.propertyComboBox[data-role=combobox]');
