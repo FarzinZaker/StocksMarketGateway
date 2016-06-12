@@ -135,7 +135,7 @@ class AdminController {
 //            }
 //        }
 //        }
-        render (currencyDataService.importData())
+        render (symbolClientTypeDataService.importData())
     }
 
 
