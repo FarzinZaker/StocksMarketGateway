@@ -87,7 +87,8 @@ class MonitorController {
                     dateCreated         : formatDate(item.dateCreated),
                     retryCount          : item.retryCount,
                     lastExecutionMessage: item.lastExecutionMessage,
-                    body                : item.body
+                    body                : item.body,
+                    deliveryMethod      : message(code: "deliveryMethod.${item.deliveryMethod}")
             ]
         }
         value.total = value.data.size()
@@ -107,7 +108,8 @@ class MonitorController {
                     dateCreated         : formatDate(item.dateCreated),
                     retryCount          : item.retryCount,
                     lastExecutionMessage: item.lastExecutionMessage,
-                    body                : item.body
+                    body                : item.body,
+                    deliveryMethod      : message(code: "deliveryMethod.${item.deliveryMethod}")
             ]
         }
         value.total = value.data.size()
@@ -127,7 +129,8 @@ class MonitorController {
                     dateCreated         : formatDate(item.dateCreated),
                     retryCount          : item.retryCount,
                     lastExecutionMessage: item.lastExecutionMessage,
-                    body                : item.body
+                    body                : item.body,
+                    deliveryMethod      : message(code: "deliveryMethod.${item.deliveryMethod}")
             ]
         }
         value.total = value.data.size()

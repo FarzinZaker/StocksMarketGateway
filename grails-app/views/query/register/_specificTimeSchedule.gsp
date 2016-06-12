@@ -29,7 +29,7 @@
 </script>
 
 <form:field fieldName="query.register.days">
-    <div style="width:500px;">
+    <div style="width:300px;">
         <g:each in="${ScheduleDay.constraints.day.inList}" var="day">
             <form:checkbox text="${message(code: "ScheduleDayTemplate.${day}.label")}"
                            checked="${queryInstance?.schedule?.days?.any { it.day == day }}"

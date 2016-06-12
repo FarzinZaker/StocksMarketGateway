@@ -33,14 +33,36 @@ class SmsService {
         if (!record)
             return
 
-        sendMessage(User.get(queryInstance.ownerId), queryInstance.domainClazz, prepareTitle(queryInstance, [record]), prepareMessage(queryInstance, [record]))
+        def user = User.get(queryInstance.ownerId)
+        def title = prepareTitle(queryInstance, [record])
+        def message = prepareMessage(queryInstance, [record])
+
+        if (queryInstance.smsEnabled == null || queryInstance.smsEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_SMS)
+
+        if (queryInstance.telegramEnabled == null || queryInstance.telegramEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_TELEGRAM)
+
+        if (queryInstance.appEnabled == null || queryInstance.appEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_PUSH)
     }
 
     def sendScheduledMessage(QueryInstance queryInstance, recordList) {
         if (!recordList?.size())
             return
 
-        sendMessage(User.get(queryInstance.ownerId), queryInstance.domainClazz, prepareTitle(queryInstance, recordList), prepareMessage(queryInstance, recordList))
+        def user = User.get(queryInstance.ownerId)
+        def title = prepareTitle(queryInstance, recordList)
+        def message = prepareMessage(queryInstance, recordList)
+
+        if (queryInstance.smsEnabled == null || queryInstance.smsEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_SMS)
+
+        if (queryInstance.telegramEnabled == null || queryInstance.telegramEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_TELEGRAM)
+
+        if (queryInstance.appEnabled == null || queryInstance.appEnabled)
+            sendMessage(user, queryInstance.domainClazz, title, message, MessageHelper.DELIVERY_METHOD_PUSH)
     }
 
     String prepareTitle(QueryInstance queryInstance, recordList) {
@@ -92,7 +114,7 @@ class SmsService {
         message
     }
 
-    def sendMessage(User user, String type, String title, String body) {
+    def sendMessage(User user, String type, String title, String body, String deliveryMethod = MessageHelper.DELIVERY_METHOD_SMS) {
         try {
 
             QueuedMessage.withTransaction {
@@ -103,7 +125,7 @@ class SmsService {
                 message.receiverNumber = user.mobile
                 message.receiverId = user.id
                 message.user = user
-                message.deliveryMethod = user.useMobilePushNotification ? MessageHelper.DELIVERY_METHOD_PUSH : MessageHelper.DELIVERY_METHOD_SMS
+                message.deliveryMethod = deliveryMethod
                 message.status = MessageHelper.STATUS_WAITING
                 message.save(flush: true)
             }
@@ -114,33 +136,56 @@ class SmsService {
     }
 
     def sendMessage(QueuedMessage message) {
-        if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH) {
-            if (message.status == MessageHelper.STATUS_WAITING) {
-                if (message.user?.telegramUser?.chatId)
-                    telegramService.sendMessage(message.user, message.body)
+        message.retryCount++
+
+        try {
+            if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_PUSH) {
                 sendMessageViaMobilePush(message)
+            } else if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_SMS) {
+                sendMessageViaSMS(message)
+            } else if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_TELEGRAM) {
+                sendMessageViaTelegram(message)
             }
-            if (message.status == MessageHelper.STATUS_SENT) {
-                def expireTime = message.lastUpdated
-                use(TimeCategory) {
-                    expireTime = message.lastUpdated + 30.seconds
-                }
-                if (expireTime > new Date()) {
-                    message.deliveryMethod = MessageHelper.DELIVERY_METHOD_SMS
-                    message.save(flush: true)
-                    sendMessageViaSMS(message)
-                }
-            }
-        } else if (message.deliveryMethod == MessageHelper.DELIVERY_METHOD_SMS) {
-            sendMessageViaSMS(message)
         }
+        catch (exception) {
+            message.lastExecutionMessage = exception.message
+            message.status = MessageHelper.STATUS_FAILED
+        }
+        message.save(flush:true)
+
+
+        if (message.status == MessageHelper.STATUS_SUCCEED) {
+            SentMessage.withTransaction {
+                def sentMessage = new SentMessage(message.properties)
+                sentMessage.dateCreated = new Date()
+                sentMessage.save()
+            }
+            QueuedMessage.withTransaction {
+                message.delete()
+            }
+        } else if (message.status == MessageHelper.STATUS_FAILED && message.retryCount >= 5) {
+            FailedMessage.withTransaction {
+                def failedMessage = new FailedMessage(message.properties)
+                failedMessage.dateCreated = new Date()
+                failedMessage.save()
+            }
+            QueuedMessage.withTransaction {
+                message.delete()
+            }
+        }
+    }
+
+    def sendMessageViaTelegram(QueuedMessage message) {
+        if (message.user?.telegramUser?.chatId) {
+            telegramService.sendMessage(message.user, message.body)
+            message.status = MessageHelper.STATUS_SUCCEED
+        } else
+            message.status = MessageHelper.STATUS_FAILED
     }
 
     def sendMessageViaMobilePush(QueuedMessage message) {
         PushUtil.push(message.receiverId?.toString(), message?.title)
-
-        message.status = MessageHelper.STATUS_SENT
-        message.save(flush: true)
+        message.status = MessageHelper.STATUS_SUCCEED
     }
 
     def sendCustomMessage(String number, String body) {
@@ -156,50 +201,24 @@ class SmsService {
     def sendMessageViaSMS(QueuedMessage message) {
         def messageService = new SmsLocator().getsmsSoap()
 
-        message.retryCount++
         def result
-        try {
-            if (Environment.current == Environment.DEVELOPMENT)
-                result = 'development test: ok'
-            else
-                result = messageService.doSendSMS(
-                        parameters.agah.userName,
-                        parameters.agah.userPassword,
-                        parameters.agah.senderNumber,
-                        message.receiverNumber,
-                        message.body,
-                        true, false, false, '')
-        }
-        catch (exception) {
-            result = exception.message
-        }
+        if (Environment.current == Environment.DEVELOPMENT)
+            result = 'development test: ok'
+        else
+            result = messageService.doSendSMS(
+                    parameters.agah.userName,
+                    parameters.agah.userPassword,
+                    parameters.agah.senderNumber,
+                    message.receiverNumber,
+                    message.body,
+                    true, false, false, '')
 
         message.lastExecutionMessage = result
 
         if (result.toLowerCase().contains('ok')) {
-            SentMessage.withTransaction {
-                def sentMessage = new SentMessage(message.properties)
-                sentMessage.status = MessageHelper.STATUS_SUCCEED
-                sentMessage.dateCreated = new Date()
-                sentMessage.save()
-            }
-            QueuedMessage.withTransaction {
-                message.delete()
-            }
+            message.status = MessageHelper.STATUS_SUCCEED
         } else {
-            if (message.retryCount < 5) {
-                message.status = MessageHelper.STATUS_FAILED
-                message.save()
-            } else {
-                FailedMessage.withTransaction {
-                    def failedMessage = new FailedMessage(message.properties)
-                    failedMessage.dateCreated = new Date()
-                    failedMessage.save()
-                }
-                QueuedMessage.withTransaction {
-                    message.delete()
-                }
-            }
+            message.status = MessageHelper.STATUS_FAILED
         }
 
         return result

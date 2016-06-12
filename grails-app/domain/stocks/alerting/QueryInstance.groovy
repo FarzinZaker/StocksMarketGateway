@@ -10,6 +10,10 @@ class QueryInstance {
 
     Query query
     Schedule schedule
+    Boolean smsEnabled
+    Boolean telegramEnabled
+    Boolean appEnabled
+
     User owner
     Boolean enabled = true
     Date lastExecutionTime
@@ -28,6 +32,9 @@ class QueryInstance {
 
     static constraints = {
         nextExecutionTime nullable: true
+        smsEnabled nullable: true
+        telegramEnabled nullable: true
+        appEnabled nullable: true
     }
 
     static transients = ['title', 'description', 'domainClazz', 'smsTemplate', 'parameterListString']

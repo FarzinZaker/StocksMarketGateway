@@ -40,8 +40,8 @@
     <div class="row">
         <div class="col-xs-12">
             %{--<h1 class="crimson">--}%
-                %{--<i class="fa fa-paper-plane-o"></i>--}%
-                %{--<g:message code="query.register.title" args="${[queryInstance.query?.title]}"/>--}%
+            %{--<i class="fa fa-paper-plane-o"></i>--}%
+            %{--<g:message code="query.register.title" args="${[queryInstance.query?.title]}"/>--}%
             %{--</h1>--}%
 
             <div class="query-register-description"><format:html value="${queryInstance.query?.description}"/></div>
@@ -56,7 +56,7 @@
                     <g:if test="${scheduleTypes?.size() > 1}">
                         <form:select name="scheduleType" items="${scheduleTypes.collect {
                             [text: message(code: "schedule.type.${it}"), value: it]
-                        }}" style="width:500px" onchange="toggle_periodicSchedule"
+                        }}" style="width:300px" onchange="toggle_periodicSchedule"
                                      value="${queryInstance.schedule?.type}"/>
                     </g:if>
                     <g:else>
@@ -71,6 +71,26 @@
                 <div id="specificTimeScheduleForm" style="display: none">
                     <g:render template="register/specificTimeSchedule"/>
                 </div>
+
+                <form:field fieldName="queryInstance.media">
+                    <div style="width:300px">
+                        <div>
+                            <form:checkbox name="smsEnabled" text="${message(code: 'queryInstance.smsEnabled')}"
+                                           checked="${queryInstance.smsEnabled == null ? true : queryInstance.smsEnabled}"/>
+                        </div>
+
+                        <div>
+                            <form:checkbox name="telegramEnabled"
+                                           text="${message(code: 'queryInstance.telegramEnabled')}"
+                                           checked="${queryInstance.telegramEnabled == null ? true : queryInstance.telegramEnabled}"/>
+                        </div>
+
+                        <div>
+                            <form:checkbox name="appEnabled" text="${message(code: 'queryInstance.appEnabled')}"
+                                           checked="${queryInstance.appEnabled == null ? true : queryInstance.appEnabled}"/>
+                        </div>
+                    </div>
+                </form:field>
 
                 <div class="toolbar">
                     <form:submitButton text="${message(code: 'query.register.submit')}" name="save"/>

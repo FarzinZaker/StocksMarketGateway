@@ -83,7 +83,7 @@ class TelegramService {
             if (userName) {
                 if (message?.startsWith('connect'))
                     result = connect(update?.message?.from as Map, message?.replace('connect', '')?.trim(), chatId)
-                else if (message?.equals(commands.disconnet))
+                else if (message?.equals(commands.Disconnet))
                     result = disconnect(chatId)
                 else if (['/help', 'help', '/h', 'h'].contains(message?.toLowerCase()))
                     result = showHelp(chatId)

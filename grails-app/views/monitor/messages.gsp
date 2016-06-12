@@ -73,14 +73,15 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        id: { type: "string" },
-                                        receiverNumber: { type: "string" },
-                                        user: { type: "string" },
-                                        timeCreated: { type: "string" },
-                                        dateCreated: { type: "string" },
-                                        retryCount: { type: "integer" },
-                                        lastExecutionMessage: { type: "string" },
-                                        body: { type: "string" }
+                                        id: {type: "string"},
+                                        receiverNumber: {type: "string"},
+                                        user: {type: "string"},
+                                        timeCreated: {type: "string"},
+                                        dateCreated: {type: "string"},
+                                        retryCount: {type: "integer"},
+                                        lastExecutionMessage: {type: "string"},
+                                        body: {type: "string"},
+                                        deliveryMethod: {type: "string"}
                                     }
                                 },
                                 data: "data",
@@ -107,19 +108,23 @@
                             {
                                 field: "dateCreated",
                                 title: "${message(code:'monitor.messages.dateCreated.label')}"
-                            } ,
+                            },
                             {
                                 field: "retryCount",
                                 title: "${message(code:'monitor.messages.retryCount.label')}"
-                            } ,
+                            },
                             {
                                 field: "lastExecutionMessage",
                                 title: "${message(code:'monitor.messages.lastExecutionMessage.label')}"
-                            }   ,
+                            },
                             {
                                 field: "body",
-                                title: "${message(code:'monitor.messages.body.label')}" ,
+                                title: "${message(code:'monitor.messages.body.label')}",
                                 width: "30%"
+                            },
+                            {
+                                field: "deliveryMethod",
+                                title: "${message(code:'monitor.messages.deliveryMethod.label')}"
                             }
                         ]
                     });
@@ -139,14 +144,15 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        id: { type: "string" },
-                                        receiverNumber: { type: "string" },
-                                        user: { type: "string" },
-                                        timeCreated: { type: "string" },
-                                        dateCreated: { type: "string" },
-                                        retryCount: { type: "integer" },
-                                        lastExecutionMessage: { type: "string" },
-                                        body: { type: "string" }
+                                        id: {type: "string"},
+                                        receiverNumber: {type: "string"},
+                                        user: {type: "string"},
+                                        timeCreated: {type: "string"},
+                                        dateCreated: {type: "string"},
+                                        retryCount: {type: "integer"},
+                                        lastExecutionMessage: {type: "string"},
+                                        body: {type: "string"},
+                                        deliveryMethod: {type: "string"}
                                     }
                                 },
                                 data: "data",
@@ -173,19 +179,23 @@
                             {
                                 field: "dateCreated",
                                 title: "${message(code:'monitor.messages.dateCreated.label')}"
-                            } ,
+                            },
                             {
                                 field: "retryCount",
                                 title: "${message(code:'monitor.messages.retryCount.label')}"
-                            } ,
+                            },
                             {
                                 field: "lastExecutionMessage",
                                 title: "${message(code:'monitor.messages.lastExecutionMessage.label')}"
-                            }   ,
+                            },
                             {
                                 field: "body",
                                 title: "${message(code:'monitor.messages.body.label')}",
                                 width: "30%"
+                            },
+                            {
+                                field: "deliveryMethod",
+                                title: "${message(code:'monitor.messages.deliveryMethod.label')}"
                             }
                         ]
                     });
@@ -205,14 +215,15 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        id: { type: "string" },
-                                        receiverNumber: { type: "string" },
-                                        user: { type: "string" },
-                                        timeCreated: { type: "string" },
-                                        dateCreated: { type: "string" },
-                                        retryCount: { type: "integer" },
-                                        lastExecutionMessage: { type: "string" },
-                                        body: { type: "string" }
+                                        id: {type: "string"},
+                                        receiverNumber: {type: "string"},
+                                        user: {type: "string"},
+                                        timeCreated: {type: "string"},
+                                        dateCreated: {type: "string"},
+                                        retryCount: {type: "integer"},
+                                        lastExecutionMessage: {type: "string"},
+                                        body: {type: "string"},
+                                        deliveryMethod: {type: "string"}
                                     }
                                 },
                                 data: "data",
@@ -239,19 +250,23 @@
                             {
                                 field: "dateCreated",
                                 title: "${message(code:'monitor.messages.dateCreated.label')}"
-                            } ,
+                            },
                             {
                                 field: "retryCount",
                                 title: "${message(code:'monitor.messages.retryCount.label')}"
-                            } ,
+                            },
                             {
                                 field: "lastExecutionMessage",
                                 title: "${message(code:'monitor.messages.lastExecutionMessage.label')}"
-                            }   ,
+                            },
                             {
                                 field: "body",
-                                title: "${message(code:'monitor.messages.body.label')}" ,
+                                title: "${message(code:'monitor.messages.body.label')}",
                                 width: "30%"
+                            },
+                            {
+                                field: "deliveryMethod",
+                                title: "${message(code:'monitor.messages.deliveryMethod.label')}"
                             }
                         ]
                     });

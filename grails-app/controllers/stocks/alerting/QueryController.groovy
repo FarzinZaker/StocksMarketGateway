@@ -487,6 +487,11 @@ class QueryController {
         queryInstance.schedule?.save()
 
         queryInstance.lastExecutionTime = new Date()
+
+        queryInstance.smsEnabled = params.smsEnabled == 'on' || params.smsEnabled == 'true'
+        queryInstance.telegramEnabled = params.telegramEnabled == 'on' || params.telegramEnabled == 'true'
+        queryInstance.appEnabled = params.appEnabled == 'on' || params.appEnabled == 'true'
+
         queryInstance.save(flush: true)
 
         ScheduleDay.findAllBySchedule(queryInstance.schedule).each { it.delete() }
