@@ -12,15 +12,15 @@ import stocks.tse.event.SymbolDailyTradeEvent
 class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade, SymbolDailyTradeEvent> {
 
     static transactional = false
-//    static schedules = [
-//            [
-//                    method : 'importData',
-//                    trigger: [
-//                            type      : 'Simple',
-//                            parameters: [repeatInterval: 10000l, startDelay: 60000]
-//                    ]
-//            ]
-//    ]
+    static schedules = [
+            [
+                    method : 'importData',
+                    trigger: [
+                            type      : 'Simple',
+                            parameters: [repeatInterval: 10000l, startDelay: 60000]
+                    ]
+            ]
+    ]
 
     @Override
     protected Boolean getAutoLogStateEnabled() {
@@ -49,6 +49,14 @@ class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade
             ]
         }
         def date = new Date(state.time as Long)
+        def minDate = new Date()
+        use(TimeCategory) {
+            minDate = minDate - 90.days
+        }
+        if(date < minDate) {
+            log.error("MISSING DAILY TRADES LOADED!")
+            return
+        }
 
         importData('tradeOneDay',
                 [

@@ -21,7 +21,7 @@ public abstract class TSEDataService<T, K> {
 
     def tseEventGateway
 
-    private def authenticationParameters = ['aeam.ir', 'aeam']
+    private def authenticationParameters = ['parssysco.ir', 'parssysco']
 
     protected Boolean getAutoLogStateEnabled() {
         true
