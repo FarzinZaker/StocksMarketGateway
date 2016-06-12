@@ -79,7 +79,7 @@
                     <form:field fieldName="portfolio.bokers">
                         <form:multiSelect name="broker"
                                           dataSourceUrl="${createLink(controller: 'portfolio', action: 'jsonSearchBroker')}"
-                                          style="width: 500px" entity="${portfolioInstanceAvailBrokers}"/>
+                                          style="width: 500px" entity="${portfolioAvailBrokers}"/>
                     </form:field>
                 </div>
                 <div id="container"></div>

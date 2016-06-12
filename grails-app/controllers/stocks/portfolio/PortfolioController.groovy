@@ -45,11 +45,11 @@ class PortfolioController {
             portfolio.properties = params
             PortfolioAvailItem.findAllByPortfolio(portfolio).each {
                 if (!params.containsKey(it.item) || portfolio.defaultItems)
-                    it.delete()
+                    it.delete(flush: true)
             }
             PortfolioAvailBroker.findAllByPortfolio(portfolio).each {
                 if (!params.broker?.contains(it.broker.name) || !portfolio.useBroker) {
-                    it.delete()
+                    it.delete(flush: true)
                 }
             }
         } else {
@@ -63,19 +63,27 @@ class PortfolioController {
             portfolio.owner = user
         }
 
-        if (portfolio.save()) {
+        if (portfolio.save(flush: true)) {
             if (!portfolio.defaultItems) {
                 def items = portfolioPropertyManagementService.portfolioItemTypes()
                 items.each {
                     if (params[it.clazz])
-                        PortfolioAvailItem.findByItemAndPortfolio(it.clazz, portfolio) ?: new PortfolioAvailItem(item: it.clazz, portfolio: portfolio).save()
+                        if (!PortfolioAvailItem.findByItemAndPortfolio(it.clazz, portfolio)) {
+                            def availItem = new PortfolioAvailItem(item: it.clazz, portfolio: portfolio)
+                            if (!availItem.save(flush: true))
+                                println(availItem.errors)
+                        }
                 }
             }
             if (portfolio.useBroker) {
                 if (params.broker) {
                     params.broker.split(',').each {
-                        def broker = Broker.findByName(it)
-                        PortfolioAvailBroker.findByBrokerAndPortfolio(broker, portfolio) ?: new PortfolioAvailBroker(broker: broker, portfolio: portfolio).save()
+                        def broker = Broker.findByName(it?.trim())
+                        if (!PortfolioAvailBroker.findByBrokerAndPortfolio(broker, portfolio)) {
+                            def availBroker = new PortfolioAvailBroker(broker: broker, portfolio: portfolio)
+                            if (!availBroker.save(flush: true))
+                                println(availBroker.errors)
+                        }
                     }
                 }
             }
