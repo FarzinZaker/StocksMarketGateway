@@ -115,6 +115,14 @@
         },
         aggregate: [
             {
+                field: "cost",
+                aggregate: "sum"
+            },
+            {
+                field: "currentValue",
+                aggregate: "sum"
+            },
+            {
                 field: "profitLoss",
                 aggregate: "sum"
             },
@@ -185,7 +193,8 @@
                 {
                     field: "cost",
                     title: "${message(code:'portfolioItem.cost.label')}",
-                    template: "#=formatNumber(cost)#"
+                    template: "#=formatNumber(cost)#",
+                    footerTemplate: "<div>#=formatNumber(sum)#</div>"
                 },
                 {
                     field: "avgPrice",
@@ -200,7 +209,8 @@
                 {
                     field: "currentValue",
                     title: "${message(code:'portfolioItem.currentValue.label')}",
-                    template: "#=formatNumber(currentValue)#"
+                    template: "#=formatNumber(currentValue)#",
+                    footerTemplate: "<div>#=formatNumber(sum)#</div>"
                 },
                 {
                     field: "profitLoss",

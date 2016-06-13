@@ -139,7 +139,7 @@ class PortfolioController {
             def clazz = Introspector.decapitalize(it.itemType.split('\\.').last())
             def shareValue = portfolioPropertyManagementService.getCurrentValueOfProperty(clazz, it.propertyId) ?: it.cost / it.shareCount
             def curVal = it.shareCount * shareValue
-            totalCost += it.cost
+            totalCost += it.avgBuyCost * it.shareCount
             totalValue += curVal
             [
                     id               : it.id,
@@ -151,8 +151,8 @@ class PortfolioController {
                     avgPrice         : it.avgBuyCost,
                     shareValue       : shareValue,
                     currentValue     : curVal,
-                    profitLoss       : curVal - it.cost,
-                    profitLossPercent: (curVal - it.cost) * 100 / it.cost
+                    profitLoss       : curVal - it.avgBuyCost * it.shareCount,
+                    profitLossPercent: (curVal - it.avgBuyCost * it.shareCount) * 100 / (it.avgBuyCost * it.shareCount)
             ]
         }
         value.data.each {
@@ -168,8 +168,9 @@ class PortfolioController {
                     name: category.name,
                     data: value.data.findAll { it.clazz == category.drilldown }.collect { item ->
                         [
-                                item.symbol,
-                                Math.round(item.currentValue / totalValue * 1000) / 10
+                                name : item.symbol,
+                                y    : Math.round(item.currentValue / totalValue * 1000) / 10,
+                                value: item.currentValue
                         ]
                     }
             ]
@@ -178,7 +179,10 @@ class PortfolioController {
         shareChartData.categories.each { category ->
             category.y = shareChartData.drilldown.findAll { it.id == category.drilldown }.collect {
                 it.data
-            }.first().sum { it[1] }
+            }.first().sum { it.y }
+            category.value = shareChartData.drilldown.findAll { it.id == category.drilldown }.collect {
+                it.data
+            }.first().sum { it.value }
         }
 
         def model = [:]

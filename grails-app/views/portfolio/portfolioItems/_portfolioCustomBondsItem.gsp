@@ -1,7 +1,6 @@
 <form:datePickerResources/>
 <form:field fieldName="customBonds.name" showHelp="0">
-    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"
-                  readonly="${item ? 'true' : 'false'}"/>
+    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"/>
 </form:field>
 <form:field fieldName="customBonds.bank" showHelp="0">
     <form:textBox name="bank" style="width:450px;" value="${item?.bank}"/>

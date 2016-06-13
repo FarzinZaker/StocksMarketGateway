@@ -56,6 +56,9 @@ class PortfolioActionManagementService {
 
             def actionDate = parseDate(model.actionDate);
             def prevAmount = portfolioItem?.id ? (PortfolioAction.createCriteria().list {
+                if(model.id) {
+                    ne('id', model.id as Long)
+                }
                 eq('portfolioItem', portfolioItem)
                 le('actionDate', actionDate)
             }.sum {
@@ -116,8 +119,9 @@ class PortfolioActionManagementService {
         action.portfolio = portfolio
         action.parentAction = parentAction
         action.isInitialDataEntry = model.isInitialDataEntry
-        action.transactionSourceType = model.isInitialDataEntry ? null : model.transactionSourceType
-        action.transactionSourceId = model.isInitialDataEntry ? null : model.transactionSource?.toString()?.toLong()
+        action.transactionSourceType = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) ? null : model.transactionSourceType
+        action.transactionSourceId = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) ? null : model.transactionSource?.toString()?.toLong()
+
         action.save(flush: true)
 
         if (!action.isInitialDataEntry && ['b', 's'].contains(action.actionType)) {

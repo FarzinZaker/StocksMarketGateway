@@ -315,6 +315,10 @@
                 transactionSourceChanged(null, $('#transactionSourceType').data("kendoComboBox").value());
                 $('#transactionSource').data("kendoComboBox").value(dataItem.transactionSourceId);
             }
+            if(currenctAction == 'b')
+                $('#isInitialDataEntry').parent().parent().parent().parent().stop().show();
+            else
+                $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
         }
         else {
             $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
@@ -372,7 +376,11 @@
             $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
             $('#transactionSourceType').data("kendoComboBox").value('');
             $('#transactionSourceSelectorContainer').html('');
-            $('#isInitialDataEntry').prop('checked', false).parent().parent().parent().parent().stop().show();
+            $('#isInitialDataEntry').prop('checked', false);
+            if(currenctAction == 'b')
+                $('#isInitialDataEntry').parent().parent().parent().parent().stop().show();
+            else
+                $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
             $('#transactionSourceSelectArea').stop().show();
         }
         else {

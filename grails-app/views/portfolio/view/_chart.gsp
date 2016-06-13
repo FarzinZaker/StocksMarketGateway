@@ -31,7 +31,7 @@
                 series: shareChartData.drilldown
             },
             tooltip: {
-                pointFormat: '<div style="direction:rtl;"><b>{point.percentage:.1f}%</b></div>',
+                pointFormat: '<div style="direction:rtl;"><b>{point.value:,.0f}</b></div><div style="direction:rtl;"><b>{point.percentage:.1f}%</b></div>',
                 useHTML: true
             },
 

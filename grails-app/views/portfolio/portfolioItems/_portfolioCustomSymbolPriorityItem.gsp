@@ -1,8 +1,7 @@
 <%@ page import="stocks.User" %>
 
 <form:field fieldName="customSymbolPriority.name" showHelp="0">
-    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"
-                  readonly="${item ? 'true' : 'false'}"/>
+    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"/>
 </form:field>
 <form:field fieldName="customSymbolPriority.symbol" showHelp="0">
     <form:select

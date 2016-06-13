@@ -1,8 +1,7 @@
 
 <form:datePickerResources/>
 <form:field fieldName="customSymbol.name" showHelp="0">
-    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"
-                  readonly="${item ? 'true' : 'false'}"/>
+    <form:textBox name="name" validation="required" style="width:450px;" value="${item?.name}"/>
 </form:field>
 <form:field fieldName="customSymbol.code" showHelp="0">
     <form:textBox name="code" style="width:450px;" value="${item?.code}"/>
