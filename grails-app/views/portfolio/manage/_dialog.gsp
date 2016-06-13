@@ -226,6 +226,7 @@
                 },
                 parameterMap: function (option, operation) {
                     var result = option;
+                    result.portfolioId = ${portfolio?.id};
                     result.clazz = currenctType;
                     result.actionType = currenctAction;
                     result.id =${ params.id};
@@ -281,10 +282,26 @@
     var broker = $("#broker");
     broker.kendoComboBox({
         autoBind: false,
-        dataTextField: "brokerName",
-        dataValueField: "brokerId",
+        dataTextField: "propertyTitle",
+        dataValueField: "propertyId",
         placeholder: "${message(code:'please-select')}",
-        dataSource: brokers
+        dataSource: {
+            type: "json",
+            serverFiltering: true,
+            transport: {
+                read: {
+                    url: "${createLink(controller: 'portfolioAction', action: 'propertyList')}"// + currentPropertyId
+                },
+                parameterMap: function (option, operation) {
+                    var result = option;
+                    result.portfolioId =${portfolio?.id};
+                    result.clazz = 'portfolioBrokerItem';
+                    result.availOnly = 1;
+                    result.id =${ params.id};
+                    return result;
+                }
+            }
+        }
     });
     </g:if>
     <g:if test="${portfolio.useWageAndDiscount}">
@@ -315,7 +332,7 @@
                 transactionSourceChanged(null, $('#transactionSourceType').data("kendoComboBox").value());
                 $('#transactionSource').data("kendoComboBox").value(dataItem.transactionSourceId);
             }
-            if(currenctAction == 'b')
+            if (currenctAction == 'b')
                 $('#isInitialDataEntry').parent().parent().parent().parent().stop().show();
             else
                 $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();
@@ -377,7 +394,7 @@
             $('#transactionSourceType').data("kendoComboBox").value('');
             $('#transactionSourceSelectorContainer').html('');
             $('#isInitialDataEntry').prop('checked', false);
-            if(currenctAction == 'b')
+            if (currenctAction == 'b')
                 $('#isInitialDataEntry').parent().parent().parent().parent().stop().show();
             else
                 $('#isInitialDataEntry').parent().parent().parent().parent().stop().hide();

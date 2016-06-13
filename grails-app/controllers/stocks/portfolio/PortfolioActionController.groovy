@@ -148,7 +148,7 @@ class PortfolioActionController {
         } else {
             Portfolio portfolio = null
             if (params.portfolioId)
-                portfolio = Portfolio.get(params.id)
+                portfolio = Portfolio.get(params.portfolioId)
             render(portfolioPropertyManagementService.findProperty(params.clazz as String, params.id as Long, params["filter[filters][0][value]"] as String, portfolio, params.availOnly == '1').collect {
                 it + [clazz: params.clazz]
             } as JSON)

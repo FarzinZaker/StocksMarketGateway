@@ -23,7 +23,7 @@ class Portfolio {
     }
 
     static constraints = {
-        name(nullable: false, unique: ["owner"])
+        name(nullable: false)//, unique: ["owner"])
         owner(nullable: false)
         deleted(nullable: false)
         defaultItems(nullable: true)

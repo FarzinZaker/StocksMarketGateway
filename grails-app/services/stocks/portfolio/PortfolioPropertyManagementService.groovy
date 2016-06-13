@@ -187,6 +187,7 @@ class PortfolioPropertyManagementService {
     }
 
     def findBroker(Long id, String query, Portfolio portfolio, Boolean availOnly) {
+        availOnly = true
         def brokers = availOnly ? PortfolioAvailBroker.findAllByPortfolio(portfolio)*.broker : Broker.findAllByDeleted(false)
         brokers.sort { it.name }.collect {
             [propertyId: it.id, propertyTitle: it.name]
@@ -444,8 +445,11 @@ class PortfolioPropertyManagementService {
                 return ImmovableProperty.get(id)
             case 'portfolioMovableItem':
                 return MovableProperty.get(id)
+            case 'portfolioBrokerItem':
+                return Broker.get(id)
         }
         null
+
     }
 
     //delete property
