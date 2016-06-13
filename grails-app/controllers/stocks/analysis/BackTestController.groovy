@@ -220,6 +220,10 @@ class BackTestController {
     }
 
     private def calculateSummary(BackTest backTest, List logs, List signals) {
+        def totalDays
+        use(TimeCategory) {
+            totalDays = (backTest.endDate - backTest.startDate).days + 1
+        }
 //        def openDays = SymbolAdjustedDailyTrade.findAllBySymbolAndAdjustmentTypeAndDateBetween(backTest.symbol, AdjustmentHelper.defaultType, backTest.startDate, backTest.endDate)
         def openDays = adjustedPriceSeries9Service.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType)
         def maxDrawDown = 0
@@ -265,7 +269,6 @@ class BackTestController {
         def hcBuyValue = openDays.size() > 0 ? hcStockCount * openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax) : 0
         def hcSellValue = openDays.size() > 0 ? hcStockCount * openDays.last()?.closingPrice * (1 - backTest.sellWage - backTest.sellTax) : 0
         def hcPerformance = indexLastValue?.finalIndexValue / indexFirstValue?.finalIndexValue
-
         [
                 initialValue                        : backTest.outlay,
                 finalValue                          : logs.size() > 0 ? logs.last()[1] : 0,
@@ -273,12 +276,12 @@ class BackTestController {
                 lossingTradesCount                  : signals.count { it.effect < 0 },
                 successRate                         : successRate,
                 returnOfInvestment                  : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay : 0,
-                yearlyBenefit                       : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / openDays.size() / 2 : 0,
+                yearlyBenefit                       : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / totalDays / 2 : 0,
                 dailyBenefit                        : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay / openDays.size() : 0,
                 totalWage                           : signals.sum { it.wage } ?: 0,
                 totalTax                            : signals.sum { it.tax } ?: 0,
                 maxDrawDown                         : Math.abs(maxDrawDown * 100),
-                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / openDays.size(),
+                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / totalDays,
                 indexDailyBenefit                   : (hcPerformance - 1) * 100 / openDays.size(),
                 performanceCompareToIndex           : (performance - (hcPerformance - 1)) * 100,
                 dailyBenefitInSimpleHoldingCondition: (performance - ((backTest.outlay - hcBuyValue + hcSellValue) / backTest.outlay - 1)) * 100
