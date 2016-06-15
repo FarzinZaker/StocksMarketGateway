@@ -61,7 +61,7 @@ public abstract class TSEDataService<T, K> {
             def obj = new XmlSlurper().parseText(xml._any[1].toString())
 
             def domainClass = new DefaultGrailsDomainClass(getSampleEventObject().class)
-
+            def errors = []
             def list = []
             obj.children()[0].children().each { item ->
                 def object = domainClass.newInstance()
@@ -117,9 +117,12 @@ public abstract class TSEDataService<T, K> {
                     object.data = find(object as K)
                     list << tseEventGateway.send(object, this.class.name)
                 } catch (ignored) {
-                    logState([status: 'failed', message: ignored.message, stackTrace: ignored.stackTrace])
+                    errors << [status: 'failed', message: ignored.message, stackTrace: ignored.stackTrace]
 //                    throw ignored
                 }
+            }
+            if (errors) {
+                logState(errors)
             }
             if (autoLogStateEnabled)
                 logState([status: 'successful'])
