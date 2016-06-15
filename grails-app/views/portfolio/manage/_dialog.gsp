@@ -130,7 +130,7 @@
                         $('span[name=submit]').click(function () {
 //                if ($('#portfolioForm').isValid()) {
                             var isInitialDataEntry = currenctAction == 'b' || currenctAction == 's' ? $('#isInitialDataEntry').is(':checked') : null;
-                            var hasChildAction = !isInitialDataEntry && (currenctAction == 'b' || currenctAction == 's');
+                            var hasChildAction = !isInitialDataEntry && (currenctAction == 'b' || currenctAction == 's') &&  $('#transactionSourceType').length;
                             $.ajax({
                                 url: '${createLink(controller: 'portfolioAction', action: 'portfolioActionSave', id: params.id)}',
                                 type: 'post',
@@ -323,7 +323,8 @@
             $('#isInitialDataEntry').prop('checked', dataItem.isInitialDataEntry).parent().parent().parent().parent().stop().show();
             if (dataItem.isInitialDataEntry) {
                 $('#transactionSourceSelectArea').stop().hide();
-                $('#transactionSourceType').data("kendoComboBox").value('');
+                if($('#transactionSourceType').length)
+                    $('#transactionSourceType').data("kendoComboBox").value('');
                 $('#transactionSourceSelectorContainer').html('');
             }
             else {
@@ -391,7 +392,8 @@
         currenctAction = action;
         if (currenctAction == 'b' || currenctAction == 's') {
             $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
-            $('#transactionSourceType').data("kendoComboBox").value('');
+            if($('#transactionSourceType').length)
+                $('#transactionSourceType').data("kendoComboBox").value('');
             $('#transactionSourceSelectorContainer').html('');
             $('#isInitialDataEntry').prop('checked', false);
             if (currenctAction == 'b')

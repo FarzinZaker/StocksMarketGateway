@@ -35,14 +35,12 @@ class IndexDataService extends TSEDataService<Index, IndexEvent> {
         if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
-        importData('indexB1LastDayLastData',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('indexB1LastDayLastData',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
     }
 }

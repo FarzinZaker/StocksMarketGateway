@@ -11,6 +11,7 @@ import stocks.portfolio.basic.CustomSymbol
 import stocks.portfolio.basic.CustomSymbolPriority
 import stocks.portfolio.basic.ImmovableProperty
 import stocks.portfolio.basic.MovableProperty
+import stocks.portfolio.meta.PortfolioAvailItem
 import stocks.portfolio.portfolioItems.PortfolioBankItem
 import stocks.portfolio.portfolioItems.PortfolioBondsItem
 import stocks.portfolio.portfolioItems.PortfolioBrokerItem
@@ -52,11 +53,13 @@ class PortfolioActionManagementService {
 
 
         def portfolioItem = getPortfolioItem(portfolio, model)
+        def hasChild = PortfolioAvailItem.countByPortfolioAndItemInList(portfolio, ['portfolioBankItem', 'portfolioBusinessPartnerItem', 'portfolioBrokerItem'])
         if (model.actionType.actionTypeId in ['s', 'w']) {
 
             def actionDate = parseDate(model.actionDate);
+
             def prevAmount = portfolioItem?.id ? (PortfolioAction.createCriteria().list {
-                if(model.id) {
+                if (model.id) {
                     ne('id', model.id as Long)
                 }
                 eq('portfolioItem', portfolioItem)
@@ -65,11 +68,11 @@ class PortfolioActionManagementService {
                 (it.actionType in ['s', 'w'] ? -1 : 1) * it.shareCount * (model.actionType.actionTypeId == 'w' ? it.sharePrice : 1)
             } ?: 0) : 0
             if (model.actionType.actionTypeId == 's' && prevAmount < (model.shareCount ?: 1)) {
-                portfolioItem.discard()
+                portfolioItem?.discard()
                 return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesCount.validation', [prevAmount].toArray(), '', null)]]]
             }
-            if (model.actionType.actionTypeId == 'w' && prevAmount < (model.sharePrice ?: 1)) {
-                portfolioItem.discard()
+            if (hasChild && model.actionType.actionTypeId == 'w' && prevAmount < (model.sharePrice ?: 1)) {
+                portfolioItem?.discard()
                 return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesAmount.validation', [prevAmount].toArray(), '', null)]]]
             }
         }
@@ -99,7 +102,7 @@ class PortfolioActionManagementService {
                 oldPortfolioItem.save()
             }
         }
-        portfolioItem.save(flush: true)
+        portfolioItem?.save(flush: true)
 
         if (action.id)
             PortfolioAction.findAllByParentAction(action).each {
@@ -119,18 +122,18 @@ class PortfolioActionManagementService {
         action.portfolio = portfolio
         action.parentAction = parentAction
         action.isInitialDataEntry = model.isInitialDataEntry
-        action.transactionSourceType = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) ? null : model.transactionSourceType
-        action.transactionSourceId = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) ? null : model.transactionSource?.toString()?.toLong()
+        action.transactionSourceType = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) || !model.transactionSourceType ? null : model.transactionSourceType
+        action.transactionSourceId = model.isInitialDataEntry || !['b', 's'].contains(action.actionType) || !model.transactionSource ? null : model.transactionSource?.toString()?.toLong()
 
         action.save(flush: true)
 
-        if (!action.isInitialDataEntry && ['b', 's'].contains(action.actionType)) {
+        if (hasChild && !action.isInitialDataEntry && ['b', 's'].contains(action.actionType)) {
             def childActionModel = [:]
             childActionModel.actionDate = model.actionDate
             childActionModel.actionType = [actionTypeId: action.actionType == 'b' ? 'w' : 'd']
             childActionModel.sharePrice = action.shareCount * action.sharePrice
             childActionModel.itemType = [clazz: model.transactionSourceType]
-            childActionModel.property = [propertyId: model.transactionSource?.toString()?.toLong()]
+            childActionModel.property = [propertyId: model.transactionSource ? model.transactionSource?.toString()?.toLong() : null]
             def childAction = save(portfolioId, childActionModel, action)
             if (childAction.errors) {
                 return childAction

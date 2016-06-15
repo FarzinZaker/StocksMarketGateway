@@ -28,14 +28,13 @@ class SymbolPriceAdjustmentDataService extends TSEDataService<SymbolPriceAdjustm
     }
 
     public void importData(){
-        importData('adjPrice',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('adjPrice',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
+
     }
 }

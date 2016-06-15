@@ -57,16 +57,14 @@ class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade
             log.error("MISSING DAILY TRADES LOADED!")
             return
         }
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('tradeOneDay',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
 
-        importData('tradeOneDay',
-                [
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(0)],
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(1)],
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(2)],
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(3)],
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(4)],
-                        [date.format('yyyyMMdd').toInteger(), new UnsignedByte(5)]
-                ])
 
         use(TimeCategory) {
             date = date - 1.days

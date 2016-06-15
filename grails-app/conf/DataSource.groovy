@@ -49,7 +49,7 @@ environments {
 
         dataSource {
 //Oracle
-            dbCreate = "update"
+//            dbCreate = "update"
 //            url = "jdbc:oracle:thin:@192.168.0.3:1521:orcl"
             url = "jdbc:oracle:thin:@82.99.217.213:1521:CHAHARTABLO"
 //            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"

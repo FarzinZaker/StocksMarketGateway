@@ -35,14 +35,12 @@ class SymbolStateDataService extends TSEDataService<SymbolState, SymbolStateEven
         if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
 
-        importData('instrumentsState',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('instrumentsState',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
     }
 }
