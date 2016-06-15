@@ -117,7 +117,8 @@ public abstract class TSEDataService<T, K> {
                     object.data = find(object as K)
                     list << tseEventGateway.send(object, this.class.name)
                 } catch (ignored) {
-                    throw ignored
+                    logState([status: 'failed', message: ignored.message, stackTrace: ignored.stackTrace])
+//                    throw ignored
                 }
             }
             if (autoLogStateEnabled)
