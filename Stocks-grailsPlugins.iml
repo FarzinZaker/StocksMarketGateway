@@ -10,6 +10,8 @@
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/quartz-0.4.1/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/jquery-1.11.1/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/audit-logging-1.0.3/grails-app/views" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -52,6 +54,11 @@
     </content>
     <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/coffee-asset-pipeline-1.7.0">
       <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/coffee-asset-pipeline-1.7.0/src/groovy" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/console-1.5.5/grails-app/services" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/hibernate-2.2.3">
       <sourceFolder url="file://$USER_HOME$/.grails/2.2.3/projects/Stocks/plugins/hibernate-2.2.3/grails-app/i18n" isTestSource="false" />

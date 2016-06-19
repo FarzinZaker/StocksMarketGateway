@@ -31,15 +31,13 @@ class SymbolDataService extends TSEDataService<Symbol, SymbolEvent> {
         Symbol.findByCode(object.code)
     }
 
-    public void importData(){
-        importData('instrument',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
+    public void importData() {
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('instrument',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
     }
 }

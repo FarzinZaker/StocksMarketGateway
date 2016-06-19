@@ -31,14 +31,12 @@ class CompanyDataService extends TSEDataService<Company, CompanyEvent> {
     }
 
     public void importData(){
-        importData('company',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('company',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
     }
 }

@@ -35,15 +35,13 @@ class SymbolDailyTradeDataService extends TSEDataService<SymbolDailyTrade, Symbo
 
         if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
             return
+        (0..5).each { index ->
+            Thread.startDaemon {
+                importData('tradeLastDay',
+                        [[new UnsignedByte(index)]]
+                )
+            }
+        }
 
-        importData('tradeLastDay',
-                [
-                        [new UnsignedByte(0)],
-                        [new UnsignedByte(1)],
-                        [new UnsignedByte(2)],
-                        [new UnsignedByte(3)],
-                        [new UnsignedByte(4)],
-                        [new UnsignedByte(5)]
-                ])
     }
 }
