@@ -136,8 +136,11 @@ class FileController {
 
     def image() {
         def path = "${grailsApplication.config.user.files.imagesPath}/${params.id}/${params.path}"
-        path = new File(path)
-        def content = path.getBytes()
+        def content = null
+        try {
+            path = new File(path)
+            content = path?.getBytes()
+        }catch(ignored){}
         if (content) {
             def seconds = 3600 * 24
             DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);

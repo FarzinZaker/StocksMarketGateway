@@ -52,9 +52,11 @@ class PortfolioActionManagementService {
 
 
         def portfolioItem = getPortfolioItem(portfolio, model)
+        def actionDate = parseDate(model.actionDate);
+        if(actionDate > new Date())
+            return [errors: [allErrors: [messageSource.getMessage('portfolio.actionDate.validation', [].toArray(), '', null)]]]
         if (model.actionType.actionTypeId in ['s', 'w']) {
 
-            def actionDate = parseDate(model.actionDate);
             def prevAmount = portfolioItem?.id ? (PortfolioAction.createCriteria().list {
                 if(model.id) {
                     ne('id', model.id as Long)
