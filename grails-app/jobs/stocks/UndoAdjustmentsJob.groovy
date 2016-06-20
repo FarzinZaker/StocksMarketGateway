@@ -27,8 +27,8 @@ class UndoAdjustmentsJob {
         }
         else{
 //            smsService.sendCustomMessage('09122110811', 'bulk indicator calculation completed')
-            log.error "no adjustment to undo"
-            logState(0)
+//            log.error "no adjustment to undo"
+//            logState(0)
         }
     }
 

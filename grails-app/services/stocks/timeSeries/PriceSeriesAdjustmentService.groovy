@@ -45,10 +45,11 @@ class PriceSeriesAdjustmentService {
             if (finalList?.size()) {
                 adjustedPriceSeries9Service.write(finalList, [AdjustmentHelper.TYPE_CAPITAL_INCREASE_PLUS_BROUGHT])
 
-                symbolIndicatorBulkService.recalculateIndicators(Symbol.get(symbolId))
+//                symbolIndicatorBulkService.recalculateIndicators(Symbol.get(symbolId))
             }
         }
     }
+
 
     def undo(String type, List args) {
         switch (type) {
