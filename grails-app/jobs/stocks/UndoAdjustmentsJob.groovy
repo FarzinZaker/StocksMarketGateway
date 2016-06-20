@@ -12,8 +12,12 @@ class UndoAdjustmentsJob {
     static concurrent = false
 
     def priceSeriesAdjustmentService
+    def grailsApplication
 
     def execute() {
+
+        if (grailsApplication.config.jobsDisabled)
+            return
 
         def symbol = findNextSymbol(getLastState())
         if(symbol) {

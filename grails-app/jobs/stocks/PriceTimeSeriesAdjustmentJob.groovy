@@ -19,8 +19,8 @@ class PriceTimeSeriesAdjustmentJob {
 
     def execute() {
 
-        if (grailsApplication.config.jobsDisabled)
-            return
+//        if (grailsApplication.config.jobsDisabled)
+//            return
 
 //        if (Environment.current == Environment.DEVELOPMENT)
 //            return
