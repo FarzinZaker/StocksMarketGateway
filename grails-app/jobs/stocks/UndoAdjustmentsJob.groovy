@@ -16,6 +16,8 @@ class UndoAdjustmentsJob {
 
     def execute() {
 
+        return //disabled
+
         if (grailsApplication.config.jobsDisabled)
             return
 
