@@ -17,4 +17,14 @@ class PortfolioBusinessPartnerItem extends PortfolioItem {
 
     static constraints = {
     }
+
+    def beforeInsert() {
+        avgBuyCost = cost
+        shareCount = shareCount != 0 ? 1 : 0
+    }
+
+    def beforeUpdate() {
+        avgBuyCost = cost
+        shareCount = shareCount != 0 ? 1 : 0
+    }
 }

@@ -340,6 +340,11 @@ class PortfolioController {
         def portfolio = Portfolio.get(params.id)
         def items = PortfolioItem.findAllByPortfolio(portfolio)
         def actions = PortfolioAction.findAllByPortfolioAndActionTypeInList(portfolio, ['b', 's'])
+        if(!actions?.size())
+            return render([
+                    data : [],
+                    total: 0
+            ] as JSON)
         def minDate = actions.collect { it.actionDate }?.min()?.clearTime()
         def dates = []
         while (minDate < new Date()) {
@@ -372,7 +377,7 @@ class PortfolioController {
                     increaseMapItemValue(it.value, "totalBuyPrice", action.shareCount * action.sharePrice)
                 }
             } else {
-                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime() }.each {
+                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime()?.time }.each {
                     increaseMapItemValue(it.value, "totalShareCount", -action.shareCount)
                 }
                 increaseMapItemValue(row, "totalSellCount", action.shareCount)

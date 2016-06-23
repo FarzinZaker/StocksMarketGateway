@@ -136,7 +136,9 @@ class PortfolioActionManagementService {
             childActionModel.itemType = [clazz: model.transactionSourceType]
             childActionModel.property = [propertyId: model.transactionSource ? model.transactionSource?.toString()?.toLong() : null]
             def childAction = save(portfolioId, childActionModel, action)
-            if (childAction.errors) {
+            if (childAction?.errors?.allErrors) {
+                if (action?.id)
+                    delete(action.id)
                 return childAction
             }
         }
@@ -148,7 +150,7 @@ class PortfolioActionManagementService {
         action
     }
 
-    def delete(Long actionId) {
+    def delete(Long actionId, Boolean isChildAction = false) {
         def item = PortfolioAction.get(actionId)
         if (item) {
             def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id, item.portfolioItem, item.actionDate)
@@ -157,7 +159,7 @@ class PortfolioActionManagementService {
             def childrenResult = [error: false]
             PortfolioAction.findAllByParentAction(item).each { childAction ->
                 if (!childrenResult.error)
-                    childrenResult = delete(childAction.id)
+                    childrenResult = delete(childAction.id, true)
             }
             if (childrenResult.error)
                 return childrenResult
@@ -167,14 +169,19 @@ class PortfolioActionManagementService {
             def signedCost = item.signedCost
             item.delete()
             if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
-                if (signedCost > 0) {
-                    if ((portfolioItem.shareCount ?: 0) - signedShareCount != 0)
-                        portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / (portfolioItem.shareCount ?: 0) - signedShareCount
-                    else
-                        portfolioItem.avgBuyCost = 0
+                if(isChildAction){
+                    portfolioItem.cost -= signedCost
                 }
-                portfolioItem.shareCount -= signedShareCount
-                portfolioItem.cost -= signedCost
+                else {
+                    if (signedCost > 0) {
+                        if ((portfolioItem.shareCount ?: 0) - signedShareCount != 0)
+                            portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / (portfolioItem.shareCount ?: 0) - signedShareCount
+                        else
+                            portfolioItem.avgBuyCost = 0
+                    }
+                    portfolioItem.shareCount -= signedShareCount
+                    portfolioItem.cost -= signedCost
+                }
             } else {
                 if (!PortfolioAction.findAllByPortfolioItem(portfolioItem))
                     portfolioItem.delete(flush: true)
@@ -230,11 +237,9 @@ class PortfolioActionManagementService {
         if (!portfolioItem)
             portfolioItem = new PortfolioBankItem(bankAccount: bank, portfolio: portfolio, shareCount: 0, cost: 0)
 
-        if (model.actionType.actionTypeId == 'd') {
-            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
-        }
-        portfolioItem.shareCount += signedShareCount
         portfolioItem.cost += signedCost
+        portfolioItem.avgBuyCost = portfolioItem.cost
+        portfolioItem.shareCount = portfolioItem.cost != 0 ? 1 : 0
 
         portfolioItem
     }
@@ -300,11 +305,10 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBrokerItem.findByPortfolioAndBroker(portfolio, broker)
         if (!portfolioItem)
             portfolioItem = new PortfolioBrokerItem(broker: broker, portfolio: portfolio, shareCount: 0, cost: 0)
-        if (model.actionType.actionTypeId == 'd') {
-            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
-        }
-        portfolioItem.shareCount += signedShareCount
+
         portfolioItem.cost += signedCost
+        portfolioItem.avgBuyCost = portfolioItem.cost
+        portfolioItem.shareCount = portfolioItem.cost != 0 ? 1 : 0
 
         portfolioItem
     }
@@ -334,11 +338,10 @@ class PortfolioActionManagementService {
         def portfolioItem = PortfolioBusinessPartnerItem.findByPortfolioAndPartner(portfolio, partner)
         if (!portfolioItem)
             portfolioItem = new PortfolioBusinessPartnerItem(partner: partner, portfolio: portfolio, shareCount: 0, cost: 0)
-        if (model.actionType.actionTypeId == 'd') {
-            portfolioItem.avgBuyCost = (((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0)) + (signedCost)) / (signedShareCount + portfolioItem.shareCount)
-        }
-        portfolioItem.shareCount += signedShareCount
+
         portfolioItem.cost += signedCost
+        portfolioItem.avgBuyCost = portfolioItem.cost
+        portfolioItem.shareCount = portfolioItem.cost != 0 ? 1 : 0
 
         portfolioItem
     }
