@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 import stocks.rate.Currency
 
-class PortfolioCurrencyItem extends PortfolioItem {
+class PortfolioCurrencyItem extends PortfolioPropertyItem {
 
     Currency currency
 

@@ -1,8 +1,9 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 
-class PortfolioBullionItem extends PortfolioItem {
+class PortfolioBullionItem extends PortfolioPropertyItem {
 
     Integer carat
 

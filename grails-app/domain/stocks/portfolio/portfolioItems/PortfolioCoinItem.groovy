@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 import stocks.rate.Coin
 
-class PortfolioCoinItem extends PortfolioItem {
+class PortfolioCoinItem extends PortfolioPropertyItem {
 
     Coin coin
 

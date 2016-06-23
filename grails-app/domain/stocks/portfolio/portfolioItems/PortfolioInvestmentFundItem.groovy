@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 import stocks.tse.Symbol
 
-class PortfolioInvestmentFundItem extends PortfolioItem{
+class PortfolioInvestmentFundItem extends PortfolioPropertyItem{
     Symbol fund
 
     transient Long getPropertyId() {

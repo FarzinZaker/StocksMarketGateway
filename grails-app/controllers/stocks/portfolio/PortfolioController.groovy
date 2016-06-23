@@ -122,17 +122,59 @@ class PortfolioController {
         [portfolio: Portfolio.get(params.id)]
     }
 
-    def jsonPortfolioView() {
+    def jsonPortfolioCashView() {
 
         def value = [:]
-        def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "symbol", order: params["sort[0][dir]"] ?: "asc"]
+        def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"], order: params["sort[0][dir]"] ?: "asc"]
 
         def owner = springSecurityService.currentUser
         def portfolio = Portfolio.get(params.id)
         if (portfolio.ownerId != owner.id)
             return render([] as JSON)
-        def list = PortfolioItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
-        value.total = PortfolioItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
+        def list = PortfolioCashItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
+        value.total = PortfolioCashItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
+
+        def totalValue = 0
+        def totalCost = 0
+        value.data = list.collect {
+            def clazz = Introspector.decapitalize(it.itemType.split('\\.').last())
+            def shareValue = portfolioPropertyManagementService.getCurrentValueOfProperty(clazz, it.propertyId) ?: it.cost / it.shareCount
+            def curVal = it.shareCount * shareValue
+            totalCost += it.avgBuyCost * it.shareCount
+            totalValue += curVal
+            [
+                    id               : it.id,
+                    clazz            : clazz,
+                    clazzTitle       : message(code: it.itemType),
+                    symbol           : it.propertyTitle,
+                    shareCount       : it.shareCount,
+                    cost             : it.avgBuyCost * it.shareCount,
+                    avgPrice         : it.avgBuyCost,
+                    shareValue       : shareValue,
+                    currentValue     : curVal,
+                    profitLoss       : curVal - it.avgBuyCost * it.shareCount,
+                    profitLossPercent: (curVal - it.avgBuyCost * it.shareCount) * 100 / (it.avgBuyCost * it.shareCount)
+            ]
+        }
+        value.data.each {
+            it.totalProfitLossPercent = Math.round((totalValue - totalCost) * 100 / totalCost)
+        }
+        def model = [:]
+        model.gridData = value
+        render model as JSON
+    }
+
+    def jsonPortfolioPropertyView() {
+
+        def value = [:]
+        def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"], order: params["sort[0][dir]"] ?: "asc"]
+
+        def owner = springSecurityService.currentUser
+        def portfolio = Portfolio.get(params.id)
+        if (portfolio.ownerId != owner.id)
+            return render([] as JSON)
+        def list = PortfolioPropertyItem.findAllByPortfolioAndShareCountNotEqual(portfolio, 0, parameters)
+        value.total = PortfolioPropertyItem.countByPortfolioAndShareCountNotEqual(portfolio, 0)
 
         def totalValue = 0
         def totalCost = 0

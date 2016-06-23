@@ -72,10 +72,11 @@ class PortfolioActionManagementService {
                 portfolioItem?.discard()
                 return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesCount.validation', [prevAmount].toArray(), '', null)]]]
             }
-            if (hasChild && model.actionType.actionTypeId == 'w' && prevAmount < (model.sharePrice ?: 1)) {
-                portfolioItem?.discard()
-                return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesAmount.validation', [prevAmount].toArray(), '', null)]]]
-            }
+            //bank, broker and partners map accept negative values
+//            if (hasChild && model.actionType.actionTypeId == 'w' && prevAmount < (model.sharePrice ?: 1)) {
+//                portfolioItem?.discard()
+//                return [errors: [allErrors: [messageSource.getMessage('portfolio.sharesAmount.validation', [prevAmount].toArray(), '', null)]]]
+//            }
         }
 
         if (action.id) {

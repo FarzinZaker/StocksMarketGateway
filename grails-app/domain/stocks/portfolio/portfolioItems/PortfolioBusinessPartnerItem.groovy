@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
+import stocks.portfolio.PortfolioCashItem
 import stocks.portfolio.PortfolioItem
 import stocks.portfolio.basic.BusinessPartner
 
-class PortfolioBusinessPartnerItem extends PortfolioItem {
+class PortfolioBusinessPartnerItem extends PortfolioCashItem {
 
     BusinessPartner partner
 

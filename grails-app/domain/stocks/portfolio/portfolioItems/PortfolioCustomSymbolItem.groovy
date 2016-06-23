@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 import stocks.portfolio.basic.CustomSymbol
 
-class PortfolioCustomSymbolItem extends PortfolioItem {
+class PortfolioCustomSymbolItem extends PortfolioPropertyItem {
 
     CustomSymbol customSymbol
 

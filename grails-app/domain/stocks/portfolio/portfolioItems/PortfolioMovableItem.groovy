@@ -1,9 +1,10 @@
 package stocks.portfolio.portfolioItems
 
 import stocks.portfolio.PortfolioItem
+import stocks.portfolio.PortfolioPropertyItem
 import stocks.portfolio.basic.MovableProperty
 
-class PortfolioMovableItem extends PortfolioItem {
+class PortfolioMovableItem extends PortfolioPropertyItem {
 
     MovableProperty movableProperty
 
