@@ -135,7 +135,7 @@ class AdminController {
 //            }
 //        }
 //        }
-        render (symbolClientTypeDataService.importData())
+        render (symbolDataService.importData())
     }
 
 

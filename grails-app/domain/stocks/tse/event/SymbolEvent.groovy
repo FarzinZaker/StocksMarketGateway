@@ -77,7 +77,7 @@ class SymbolEvent {
         board nullable: true, xmlNodeName: 'CComVal', fkColumn: 'Code'
         boardCode nullable: true, xmlNodeName: 'CComVal'
         industryGroup nullable: true, xmlNodeName: 'CSecVal', fkColumn: 'Code'
-        industryGroupCode nullable: true, xmlNodeName: 'CSoSecVal'
+        industryGroupCode nullable: true, xmlNodeName: 'CSecVal'
         industrySubgroup nullable: true, xmlNodeName: 'CSoSecVal', fkColumn: 'Code'
         industrySubgroupCode nullable: true, xmlNodeName: 'CSoSecVal'
         settlementDelay nullable: true, xmlNodeName: 'YDeComp'
