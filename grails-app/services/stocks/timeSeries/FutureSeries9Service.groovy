@@ -13,12 +13,12 @@ class FutureSeries9Service {
         def serie = new Serie()
         futureEvents.each { futureEvent ->
             [
-                    "closingPrice"
+                    "lastTradedPrice"
             ].each { property ->
                 if (futureEvent.lastTradingDate)
                     serie.addPoint(new Point("future_${property}")
                             .tags([futureId: futureEvent.dataId])
-                            .time(futureEvent.lastTradingDate)
+                            .time(futureEvent.lastTradedPriceTime ?: futureEvent.lastTradingDate)
                             .value(futureEvent."${property}"))
             }
 
@@ -28,11 +28,11 @@ class FutureSeries9Service {
     }
 
     def closingPriceList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
-        priceList(futureId, 'closingPrice', startDate, endDate, groupingMode)
+        priceList(futureId, 'lastTradedPrice', startDate, endDate, groupingMode)
     }
 
     def lastClosingPrice(Long futureId, Date endDate = null) {
-        lastPrice(futureId, 'closingPrice', endDate)
+        lastPrice(futureId, 'lastTradedPrice', endDate)
     }
 
     def futureHistoryList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
@@ -42,11 +42,11 @@ class FutureSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def propertyList = [
-                "closingPrice"
+                "lastTradedPrice"
         ]
         def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { pr -> "future_${pr}" }.join(', ')} WHERE futureId = '${futureId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
@@ -57,7 +57,7 @@ class FutureSeries9Service {
             series.each { serie ->
                 item."${serie.name.split('_').last()}" = serie.values[i][1] as Double
             }
-            if (item.closingPrice)
+            if (item.lastTradedPrice != null)
                 list << item
         }
         list.sort { it.date }
@@ -71,7 +71,7 @@ class FutureSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
@@ -83,7 +83,7 @@ class FutureSeries9Service {
     Double lastPrice(Long futureId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM future_${property} WHERE futureId = '${futureId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values
