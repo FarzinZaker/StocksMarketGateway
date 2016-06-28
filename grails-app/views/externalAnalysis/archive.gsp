@@ -37,7 +37,9 @@
                 <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="newsFeed.byTime.title"/></h2>
 
                 <div class="newsFeedContainer">
-                    <div id="newsByTimeListView" class="newsFeedItems"></div>
+                    <div class="newsFeedItemsContainer">
+                        <div id="newsByTimeListView" class="newsFeedItems"></div>
+                    </div>
                 </div>
 
                 <div id="newsByTimePager" class="k-pager-wrap"></div>
@@ -50,7 +52,9 @@
 
 
                 <div class="newsFeedContainer">
-                    <div id="newsByClickListView" class="newsFeedItems"></div>
+                    <div class="newsFeedItemsContainer">
+                        <div id="newsByClickListView" class="newsFeedItems"></div>
+                    </div>
                 </div>
 
                 <div id="newsByClickPager" class="k-pager-wrap"></div>
@@ -63,8 +67,8 @@
 <script type="text/x-kendo-tmpl" id="newsByTimeTemplate">
 <div class="mix">
     %{--<div class="newsFeedImageContainer">--}%
-        %{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
-    %{--</div>--}%
+%{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+%{--</div>--}%
     <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
         <div class="newsFeedItemTitle">#:title#</div>
         <div class="newsFeedItemSource">#:sourceString#</div>
@@ -77,8 +81,8 @@
 <script type="text/x-kendo-tmpl" id="newsByClickTemplate">
 <div class="mix">
     %{--<div class="newsFeedImageContainer">--}%
-        %{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
-    %{--</div>--}%
+%{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+%{--</div>--}%
     <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
         <div class="newsFeedItemTitle">#:title#</div>
         <div class="newsFeedItemSource">#:sourceString#</div>
