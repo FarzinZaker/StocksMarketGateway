@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<div id="analysisFeedTimer"></div>
+<div id="newsFeedTimer"></div>
 
 <div class="container">
     <div class="row">
@@ -33,57 +33,57 @@
         </div>
 
         <div class="col-xs-5 ">
-            <div class="dashLet cyan k-rtl">
-                <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="analysisFeed.byTime.title"/></h2>
+            <div class="dashLet white k-rtl">
+                <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="newsFeed.byTime.title"/></h2>
 
-                <div class="analysisFeedContainer">
-                    <div id="analysisByTimeListView" class="analysisFeedItems"></div>
+                <div class="newsFeedContainer">
+                    <div id="newsByTimeListView" class="newsFeedItems"></div>
                 </div>
 
-                <div id="analysisByTimePager" class="k-pager-wrap"></div>
+                <div id="newsByTimePager" class="k-pager-wrap"></div>
             </div>
         </div>
 
         <div class="col-xs-5">
-            <div class="dashLet green k-rtl">
-                <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="analysisFeed.byClick.title"/></h2>
+            <div class="dashLet white k-rtl">
+                <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="newsFeed.byClick.title"/></h2>
 
 
-                <div class="analysisFeedContainer">
-                    <div id="analysisByClickListView" class="analysisFeedItems"></div>
+                <div class="newsFeedContainer">
+                    <div id="newsByClickListView" class="newsFeedItems"></div>
                 </div>
 
-                <div id="analysisByClickPager" class="k-pager-wrap"></div>
+                <div id="newsByClickPager" class="k-pager-wrap"></div>
             </div>
         </div>
     </div>
 </div>
 
 
-<script type="text/x-kendo-tmpl" id="analysisByTimeTemplate">
+<script type="text/x-kendo-tmpl" id="newsByTimeTemplate">
 <div class="mix">
-    <div class="analysisFeedImageContainer">
-        <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
-    </div>
-    <div class="analysisFeedTitleContainer">
-        <a class="analysisFeedItemTitle" target="_blank" href="#:link#">#:title#</a>
-        <div class="analysisFeedItemSource">#:sourceString#</div>
-    </div>
-    <div class="analysisFeedItemDate">#:dateString#</div>
+    %{--<div class="newsFeedImageContainer">--}%
+        %{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+    %{--</div>--}%
+    <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
+        <div class="newsFeedItemTitle">#:title#</div>
+        <div class="newsFeedItemSource">#:sourceString#</div>
+        <div class="newsFeedItemDate">#:dateString#</div>
+    </a>
     <div class="clear-fix"></div>
 </div>
 </script>
 
-<script type="text/x-kendo-tmpl" id="analysisByClickTemplate">
+<script type="text/x-kendo-tmpl" id="newsByClickTemplate">
 <div class="mix">
-    <div class="analysisFeedImageContainer">
-        <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
-    </div>
-    <div class="analysisFeedTitleContainer">
-        <a class="analysisFeedItemTitle" target="_blank" data-id="#:identifier#" href="#:link#">#:title#</a>
-        <div class="analysisFeedItemSource">#:sourceString#</div>
-    </div>
-    <div class="analysisFeedItemClick">#:clickCount# ${message(code: 'visit')}</div>
+    %{--<div class="newsFeedImageContainer">--}%
+        %{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+    %{--</div>--}%
+    <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
+        <div class="newsFeedItemTitle">#:title#</div>
+        <div class="newsFeedItemSource">#:sourceString#</div>
+        <div class="newsFeedItemDate">#:dateString#</div>
+    </a>
     <div class="clear-fix"></div>
 </div>
 </script>
@@ -91,7 +91,7 @@
 
 <script>
 
-    function analysisLinkClick(item) {
+    function newsLinkClick(item) {
         $.ajax({
             url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).attr('data-id') + '?t=' + new Date().getTime(),
             success: function (response) {
@@ -106,25 +106,25 @@
     }
 
     function refreshData() {
-        var analysisByTimeListView = $('#analysisByTimeListView').data('kendoListView');
-        analysisByTimeListView.dataSource.read();   // added line
-        analysisByTimeListView.refresh();
-        var analysisByClickListView = $('#analysisByClickListView').data('kendoListView');
-        analysisByClickListView.dataSource.read();   // added line
-        analysisByClickListView.refresh();
+        var newsByTimeListView = $('#newsByTimeListView').data('kendoListView');
+        newsByTimeListView.dataSource.read();   // added line
+        newsByTimeListView.refresh();
+        var newsByClickListView = $('#newsByClickListView').data('kendoListView');
+        newsByClickListView.dataSource.read();   // added line
+        newsByClickListView.refresh();
         replaceClickEvents();
-        $('#analysisFeedTimer').timer('start');
+        $('#newsFeedTimer').timer('start');
     }
 
     function replaceClickEvents() {
         $('.mix a').unbind('click').click(function (event) {
             event.preventDefault();
-            analysisLinkClick(this);
+            newsLinkClick(this);
         });
     }
 
     $(document).ready(function () {
-        var analysisByTimeDataSource = new kendo.data.DataSource({
+        var newsByTimeDataSource = new kendo.data.DataSource({
             transport: {
                 type: 'odata',
                 read: {
@@ -149,7 +149,7 @@
             serverPaging: true,
             pageSize: 10
         });
-        var analysisByClickDataSource = new kendo.data.DataSource({
+        var newsByClickDataSource = new kendo.data.DataSource({
             transport: {
                 type: 'odata',
                 read: {
@@ -175,36 +175,36 @@
             pageSize: 10
         });
 
-        $("#analysisByTimePager").kendoPager({
-            dataSource: analysisByTimeDataSource
+        $("#newsByTimePager").kendoPager({
+            dataSource: newsByTimeDataSource
         });
 
-        $("#analysisByClickPager").kendoPager({
-            dataSource: analysisByClickDataSource
+        $("#newsByClickPager").kendoPager({
+            dataSource: newsByClickDataSource
         });
 
-        $("#analysisByTimeListView").kendoListView({
-            dataSource: analysisByTimeDataSource,
-            template: kendo.template($("#analysisByTimeTemplate").html()),
+        $("#newsByTimeListView").kendoListView({
+            dataSource: newsByTimeDataSource,
+            template: kendo.template($("#newsByTimeTemplate").html()),
             dataBound: function () {
                 replaceClickEvents();
             }
         });
 
-        $("#analysisByClickListView").kendoListView({
-            dataSource: analysisByClickDataSource,
-            template: kendo.template($("#analysisByClickTemplate").html()),
+        $("#newsByClickListView").kendoListView({
+            dataSource: newsByClickDataSource,
+            template: kendo.template($("#newsByClickTemplate").html()),
             dataBound: function () {
                 replaceClickEvents();
             }
         });
 
-        $('#analysisFeedTimer').timer({
+        $('#newsFeedTimer').timer({
             delay: 10000,
             repeat: true,
             autostart: true,
             callback: function (index) {
-                $('#analysisFeedTimer').timer('stop');
+                $('#newsFeedTimer').timer('stop');
                 refreshData();
             }
         });

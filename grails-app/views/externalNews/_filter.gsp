@@ -1,4 +1,4 @@
-<div class="dashLet magenta">
+<div class="dashLet blue">
     <h2 style="float:right"><i class="fa fa-filter"></i> <g:message code="newsFeed.filterTitle"/></h2>
 
     <form id="filterForm">

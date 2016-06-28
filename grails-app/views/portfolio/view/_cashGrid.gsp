@@ -104,8 +104,8 @@
                 {
                     field: "currentValue",
                     title: "${message(code:'portfolioItem.remaining.label')}",
-                    template: "#=formatNumber(currentValue)#",
-                    footerTemplate: "<div>#=formatNumber(sum)#</div>"
+                    template: "<div class='#:currentValue>0?\"positive\":\"negative\"#'>#=formatNumber(currentValue)#</div>",
+                    footerTemplate: "<div class='#:sum>0?\"positive\":\"negative\"#'>#=formatNumber(sum)#</div>"
                 },
                 {
                     title: "",

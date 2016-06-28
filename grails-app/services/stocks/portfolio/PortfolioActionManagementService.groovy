@@ -151,16 +151,16 @@ class PortfolioActionManagementService {
         action
     }
 
-    def delete(Long actionId, Boolean isChildAction = false) {
+    def delete(Long actionId) {
         def item = PortfolioAction.get(actionId)
         if (item) {
             def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id, item.portfolioItem, item.actionDate)
-            if ((items?.sum { it.signedShareCount } ?: 0) < 0)
+            if (item.portfolioItem instanceof PortfolioPropertyItem && (items?.sum { it.signedShareCount } ?: 0) < 0)
                 return [error: 'countLessThanZero']
             def childrenResult = [error: false]
             PortfolioAction.findAllByParentAction(item).each { childAction ->
                 if (!childrenResult.error)
-                    childrenResult = delete(childAction.id, true)
+                    childrenResult = delete(childAction.id)
             }
             if (childrenResult.error)
                 return childrenResult
@@ -170,7 +170,7 @@ class PortfolioActionManagementService {
             def signedCost = item.signedCost
             item.delete()
             if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
-                if(isChildAction){
+                if(portfolioItem instanceof PortfolioCashItem){
                     portfolioItem.cost -= signedCost
                 }
                 else {

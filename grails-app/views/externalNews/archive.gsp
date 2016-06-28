@@ -33,11 +33,13 @@
         </div>
 
         <div class="col-xs-5 ">
-            <div class="dashLet cyan k-rtl">
+            <div class="dashLet white k-rtl">
                 <h2 style="float:right"><i class="fa fa-clock-o"></i> <g:message code="newsFeed.byTime.title"/></h2>
 
                 <div class="newsFeedContainer">
-                    <div id="newsByTimeListView" class="newsFeedItems"></div>
+                    <div class="newsFeedItemsContainer">
+                        <div id="newsByTimeListView" class="newsFeedItems"></div>
+                    </div>
                 </div>
 
                 <div id="newsByTimePager" class="k-pager-wrap"></div>
@@ -45,12 +47,14 @@
         </div>
 
         <div class="col-xs-5">
-            <div class="dashLet green k-rtl">
+            <div class="dashLet white k-rtl">
                 <h2 style="float:right"><i class="fa fa-eye"></i> <g:message code="newsFeed.byClick.title"/></h2>
 
 
                 <div class="newsFeedContainer">
-                    <div id="newsByClickListView" class="newsFeedItems"></div>
+                    <div class="newsFeedItemsContainer">
+                        <div id="newsByClickListView" class="newsFeedItems"></div>
+                    </div>
                 </div>
 
                 <div id="newsByClickPager" class="k-pager-wrap"></div>
@@ -62,28 +66,28 @@
 
 <script type="text/x-kendo-tmpl" id="newsByTimeTemplate">
 <div class="mix">
-    <div class="newsFeedImageContainer">
-        <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
-    </div>
-    <div class="newsFeedTitleContainer">
-        <a class="newsFeedItemTitle" target="_blank" href="#:link#">#:title#</a>
+    %{--<div class="newsFeedImageContainer">--}%
+%{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+%{--</div>--}%
+    <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
+        <div class="newsFeedItemTitle">#:title#</div>
         <div class="newsFeedItemSource">#:sourceString#</div>
-    </div>
-    <div class="newsFeedItemDate">#:dateString#</div>
+        <div class="newsFeedItemDate">#:dateString#</div>
+    </a>
     <div class="clear-fix"></div>
 </div>
 </script>
 
 <script type="text/x-kendo-tmpl" id="newsByClickTemplate">
 <div class="mix">
-    <div class="newsFeedImageContainer">
-        <img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>
-    </div>
-    <div class="newsFeedTitleContainer">
-        <a class="newsFeedItemTitle" target="_blank" data-id="#:identifier#" href="#:link#">#:title#</a>
+    %{--<div class="newsFeedImageContainer">--}%
+%{--<img width="48px" src="/images/#:source#.jpg" alt="#:sourceString#"/>--}%
+%{--</div>--}%
+    <a class="newsFeedTitleContainer" target="_blank" href="#:link#">
+        <div class="newsFeedItemTitle">#:title#</div>
         <div class="newsFeedItemSource">#:sourceString#</div>
-    </div>
-    <div class="newsFeedItemClick">#:clickCount# ${message(code: 'visit')}</div>
+        <div class="newsFeedItemDate">#:dateString#</div>
+    </a>
     <div class="clear-fix"></div>
 </div>
 </script>
@@ -199,15 +203,15 @@
             }
         });
 
-        $('#newsFeedTimer').timer({
-            delay: 10000,
-            repeat: true,
-            autostart: true,
-            callback: function (index) {
-                $('#newsFeedTimer').timer('stop');
-                refreshData();
-            }
-        });
+//        $('#newsFeedTimer').timer({
+//            delay: 10000,
+//            repeat: true,
+//            autostart: true,
+//            callback: function (index) {
+//                $('#newsFeedTimer').timer('stop');
+//                refreshData();
+//            }
+//        });
 
     });
 </script>

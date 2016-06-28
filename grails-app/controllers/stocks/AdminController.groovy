@@ -3,6 +3,7 @@ package stocks
 import stocks.alerting.QueryInstance
 import stocks.analysis.BackTest
 import stocks.analysis.BackTestHelper
+import stocks.tse.IndustryGroup
 import stocks.tse.Symbol
 import stocks.feed.ExternalNews
 import stocks.feed.ExternalAnalysis
@@ -135,7 +136,13 @@ class AdminController {
 //            }
 //        }
 //        }
-        render (symbolDataService.importData())
+//        Symbol.list().each {symbol ->
+//            symbol.industryGroup = IndustryGroup.findByCode(symbol.industryGroupCode)
+//            println(symbol.industryGroup)
+//            symbol.save(flush: true)
+//        }
+        externalNewsService.refresh()
+        render "done"
     }
 
 

@@ -32,10 +32,10 @@
         </g:each>
     </div>
 
-    %{--<div class="dashletFooter">--}%
-        %{--<a href="${createLink(controller: 'externalAnalysis', action: 'archive')}"><g:message--}%
-                %{--code="analysisFeed.archive"/></a>--}%
-    %{--</div>--}%
+    <div class="dashletFooter">
+        <a href="${createLink(controller: 'externalAnalysis', action: 'archive')}"><g:message
+                code="analysisFeed.archive"/></a>
+    </div>
 </div>
 <script language="javascript" type="text/javascript">
 

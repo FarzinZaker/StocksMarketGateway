@@ -37,7 +37,7 @@ class ExternalNewsController {
     def archive() {
         [
                 sources   : ['farsNews', 'asrIran', 'bourseNews', 'tabnak', 'tasnim', 'irna', /*'sena', */ 'boursePress', 'mellatBazar'],
-                categories: ExternalNewsService.categoryList
+                categories: ExternalNewsService.visibleCategoryList
         ]
     }
 

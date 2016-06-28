@@ -22,7 +22,8 @@ class ExternalNewsService {
     private static String KURD_KU = 'kurd_ku'
     private static String ENGLISH_POLITICAL = 'en_pol'
     private static String ENGLISH_ECONOMIC = 'en_eco'
-    public static List<String> categoryList = [ECONOMIC, POLITICAL, KURD_FA, KURD_KU, ENGLISH_ECONOMIC, ENGLISH_POLITICAL]
+    public
+    static List<String> categoryList = [ECONOMIC, POLITICAL, KURD_FA, KURD_KU, ENGLISH_ECONOMIC, ENGLISH_POLITICAL]
     public static List<String> visibleCategoryList = [ECONOMIC, POLITICAL]
 
     def messageSource
@@ -63,47 +64,50 @@ class ExternalNewsService {
     def refresh() {
 
         def feeds = []
-//        try {
-//            feeds.addAll farsNews()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll asrIran()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll bourseNews()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll tabnak()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll tasnim()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll irna()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll isna()
-//        } catch (ignored) {
-//        }
-////        try{feeds.addAll sena()}catch(ignored){}
-//        try {
-//            feeds.addAll boursePress()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll mellatBazar()
-//        } catch (ignored) {
-//        }
-//        try {
-//            feeds.addAll kurdPress()
-//        } catch (ignored) {
-//        }
+        try {
+            feeds.addAll farsNews()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll asrIran()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll bourseNews()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll tabnak()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll tasnim()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll irna()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll isna()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll sena()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll boursePress()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll mellatBazar()
+        } catch (ignored) {
+        }
+        try {
+            feeds.addAll kurdPress()
+        } catch (ignored) {
+        }
         try {
             feeds.addAll farsNewsEn()
         } catch (ignored) {
@@ -304,6 +308,7 @@ class ExternalNewsService {
                         ]
                 ], 'mellatBazar')
     }
+
     List<Map> kurdPress() {
         readRSS(
                 [

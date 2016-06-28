@@ -44,10 +44,11 @@
     </g:each>
 %{--</div>--}%
     <div class="clear-fix"></div>
-    %{--<div class="dashletFooter">--}%
-    %{--<a href="${createLink(controller: 'externalNews', action: 'archive')}"><g:message--}%
-    %{--code="newsFeed.archive"/></a>--}%
-    %{--</div>--}%
+
+    <div class="dashletFooter">
+        <a href="${createLink(controller: 'externalNews', action: 'archive')}"><g:message
+                code="newsFeed.archive"/></a>
+    </div>
 </div>
 <script language="javascript" type="text/javascript">
 
@@ -109,7 +110,7 @@
 
     $(document).ready(function () {
         showNewsFeed('all');
-        <g:each in="${ExternalNewsService.categoryList}">
+        <g:each in="${ExternalNewsService.visibleCategoryList}">
         showNewsFeed('${it}');
         </g:each>
         $("#newsFeedTabStrip").kendoTabStrip({
