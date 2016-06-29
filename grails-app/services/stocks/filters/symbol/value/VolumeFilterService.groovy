@@ -77,11 +77,12 @@ class VolumeFilterService implements IncludeFilterService {
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
-        log.error(value as JSON)
         if (operator in [Operators.GREATER_THAN, Operators.LESS_THAN])
             [NumberFormat.instance.format(value.first() as Double)]
-        else
-            [NumberFormat.instance.format((value.first().first() as Double) * 100), NumberFormat.instance.format((value.first().last() as Double))]
+        else {
+            def valArray = value.find { !(it instanceof String) }
+            [NumberFormat.instance.format((valArray.first() as Double) * 100), NumberFormat.instance.format((valArray.last() as Double))]
+        }
     }
 
     @Override
@@ -107,28 +108,28 @@ class VolumeFilterService implements IncludeFilterService {
         switch (operator) {
             case Operators.GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_UPPER_THAN_VAL_FILTER', [
-                        value: parsedValue as double,
-                        adjustmentType : adjustmentType
+                        value         : parsedValue as double,
+                        adjustmentType: adjustmentType
                 ])
                 break
             case Operators.LESS_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_LOWER_THAN_VAL_FILTER', [
-                        value: parsedValue as double,
-                        adjustmentType : adjustmentType
+                        value         : parsedValue as double,
+                        adjustmentType: adjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_PCA_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue.first() as double,
-                        days   : parsedValue.last() as Integer,
-                        adjustmentType : adjustmentType
+                        percent       : parsedValue.first() as double,
+                        days          : parsedValue.last() as Integer,
+                        adjustmentType: adjustmentType
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
                 idList = lowLevelDataService.executeFunction('VOL_NCA_UPPER_THAN_VAL_FILTER', [
-                        percent: parsedValue.first() as double,
-                        days   : parsedValue.last() as Integer,
-                        adjustmentType : adjustmentType
+                        percent       : parsedValue.first() as double,
+                        days          : parsedValue.last() as Integer,
+                        adjustmentType: adjustmentType
                 ])
                 break
         }
