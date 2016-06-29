@@ -77,6 +77,7 @@ class VolumeFilterService implements IncludeFilterService {
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
+        log.error(value as JSON)
         if (operator in [Operators.GREATER_THAN, Operators.LESS_THAN])
             [NumberFormat.instance.format(value.first() as Double)]
         else

@@ -17,10 +17,8 @@ class BackTestJob {
 
     def execute() {
 
-        return
-//
-//        if (grailsApplication.config.jobsDisabled)
-//            return
+        if (grailsApplication.config.jobsDisabled)
+            return
 
         // execute task
         BackTest.findAllByStatus(BackTestHelper.STATUS_WAITING).each {

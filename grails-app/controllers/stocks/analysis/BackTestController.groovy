@@ -7,6 +7,7 @@ import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.User
 import stocks.filters.FilterServiceBase
+import stocks.indicators.symbol.trend.MACDSignal
 import stocks.tse.AdjustmentHelper
 import stocks.tse.BlackListedSymbol
 import stocks.tse.event.IndexEvent
@@ -58,7 +59,19 @@ class BackTestController {
         backTest.status = BackTestHelper.STATUS_WAITING
         backTest.owner = springSecurityService.currentUser as User
         backTest.save(flush: true)
-        redirect(action: 'view', id: backTest.id)
+        redirect(action: 'waitToStart', id: backTest.id)
+    }
+
+    def waitToStart() {
+        [backTest: BackTest.get(params.id as Long)]
+    }
+
+    def waitToStartJson() {
+        def backTest = BackTest.get(params.id as Long)
+        if (PortfolioLog.countByBackTest(backTest) < 1)
+            render 0
+        else
+            render 1
     }
 
     def view() {
@@ -76,7 +89,7 @@ class BackTestController {
                 logs      : logs,
                 summery   : backTest.status == BackTestHelper.STATUS_FINISHED ? calculateSummary(backTest, logs, signals) : null,
                 indicators: extractIndicators(backTest),
-                buyRules           : buyRules.collect { rule ->
+                buyRules  : buyRules.collect { rule ->
                     def value = JSON.parse(rule.value)
                     [
                             filter   : rule.field,
@@ -87,7 +100,7 @@ class BackTestController {
                     ]
 
                 },
-                sellRules           : sellRules.collect { rule ->
+                sellRules : sellRules.collect { rule ->
                     def value = JSON.parse(rule.value)
                     [
                             filter   : rule.field,
@@ -109,8 +122,13 @@ class BackTestController {
             if (stocks.util.ClassResolver.serviceExists(indicatorName + "Service"))
                 if (!indicatorList.any { it.name == indicatorName && it.parameter == rule.inputType })
                     indicatorList << [name: indicatorName, parameter: rule.inputType]
+            if (indicatorName.endsWith('MACD')) {
+                if (!JSON.parse(rule.value).contains('constant_switch'))
+                    if (!indicatorList.any { it.name == indicatorName + "Signal" && it.parameter == rule.inputType })
+                        indicatorList << [name: indicatorName + "Signal", parameter: rule.inputType]
+            }
 
-            def value = JSON.parse(rule.value)?.sort { -it[0]?.size() }?.first()
+            def value = JSON.parse(rule.value)?.sort { it.size() ? -it[0].size() : 0 }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (stocks.util.ClassResolver.serviceExists(indicatorName + "Service"))
@@ -296,6 +314,8 @@ class BackTestController {
         def hcBuyValue = openDays.size() > 0 ? hcStockCount * openDays.first()?.closingPrice * (1 + backTest.buyWage + backTest.buyTax) : 0
         def hcSellValue = openDays.size() > 0 ? hcStockCount * openDays.last()?.closingPrice * (1 - backTest.sellWage - backTest.sellTax) : 0
         def hcPerformance = indexLastValue?.finalIndexValue / indexFirstValue?.finalIndexValue
+        def yearlyBenefit = logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / totalDays / 2 : 0
+        def indexYearlyBenefit = (hcPerformance - 1) * 100 * 365 / totalDays
         [
                 initialValue                        : backTest.outlay,
                 finalValue                          : logs.size() > 0 ? logs.last()[1] : 0,
@@ -303,14 +323,14 @@ class BackTestController {
                 lossingTradesCount                  : signals.count { it.effect < 0 },
                 successRate                         : successRate,
                 returnOfInvestment                  : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay : 0,
-                yearlyBenefit                       : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / totalDays / 2 : 0,
+                yearlyBenefit                       : yearlyBenefit,
                 dailyBenefit                        : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay / openDays.size() : 0,
                 totalWage                           : signals.sum { it.wage } ?: 0,
                 totalTax                            : signals.sum { it.tax } ?: 0,
                 maxDrawDown                         : Math.abs(maxDrawDown * 100),
-                indexYearlyBenefit                  : (hcPerformance - 1) * 100 * 365 / totalDays,
+                indexYearlyBenefit                  : indexYearlyBenefit,
                 indexDailyBenefit                   : (hcPerformance - 1) * 100 / openDays.size(),
-                performanceCompareToIndex           : (performance - (hcPerformance - 1)) * 100,
+                performanceCompareToIndex           : yearlyBenefit - indexYearlyBenefit,//(performance - (hcPerformance - 1)) * 100,
                 dailyBenefitInSimpleHoldingCondition: (performance - ((backTest.outlay - hcBuyValue + hcSellValue) / backTest.outlay - 1)) * 100
         ]
     }

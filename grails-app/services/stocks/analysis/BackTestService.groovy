@@ -8,6 +8,7 @@ import org.codehaus.groovy.grails.web.json.JSONArray
 import org.hibernate.SessionFactory
 import stocks.alerting.Rule
 import stocks.filters.FilterServiceBase
+import stocks.indicators.symbol.trend.MACDSignal
 import stocks.util.ClassResolver
 
 import java.util.concurrent.TimeUnit
@@ -35,7 +36,7 @@ class BackTestService {
                 }
             }
         })
-        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS).maximumSize(10000).build(new CacheLoader() {
+        indicatorsCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
             @Override
             Object load(Object o) throws Exception {
                 def backTest = o as BackTest
@@ -45,7 +46,6 @@ class BackTestService {
     }
 
     def runBackTest(BackTest backTest) {
-
         def dailyTrades = dailyTradesCache.get(backTest) as List
         def indicators = indicatorsCache.get(backTest) as List
 
@@ -255,7 +255,14 @@ class BackTestService {
                 if (!indicatorList.any { it.name == indicatorName && it.parameter == rule.inputType })
                     indicatorList << [name: indicatorName, parameter: rule.inputType]
 
-            def value = JSON.parse(rule.value)?.sort { -it[0]?.size() }?.first()
+            if (indicatorName.endsWith('MACD')) {
+                if (!JSON.parse(rule.value).contains('constant_switch'))
+                    if (!indicatorList.any {
+                        it.name == indicatorName + "Signal" && it.parameter == rule.inputType
+                    })
+                        indicatorList << [name: indicatorName + "Signal", parameter: rule.inputType]
+            }
+            def value = JSON.parse(rule.value)?.sort { it.size() ? -it[0].size() : 0 }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
@@ -279,8 +286,12 @@ class BackTestService {
             def indicatorName = rule.field.replace('.filters.', '.indicators.').replace('FilterService', '')
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: rule.inputType?.toString()]
-
-            def value = JSON.parse(rule.value)?.findAll{it.size() > 0}?.sort { -it[0].size() }?.first()
+            if (indicatorName.endsWith('MACD')) {
+                if (!JSON.parse(rule.value).contains('constant_switch'))
+                    if (!indicators.any { it.clazz == MACDSignal.class && it.parameter == rule.inputType?.toString() })
+                        indicators << [clazz: MACDSignal.class, parameter: rule.inputType?.toString()]
+            }
+            def value = JSON.parse(rule.value)?.sort { it.size() ? -it[0].size() : 0 }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))
