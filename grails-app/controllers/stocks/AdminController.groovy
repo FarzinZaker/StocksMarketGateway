@@ -141,8 +141,7 @@ class AdminController {
 //            println(symbol.industryGroup)
 //            symbol.save(flush: true)
 //        }
-        externalNewsService.refresh()
-        render "done"
+        announcementDataService.importData()
     }
 
 
