@@ -280,7 +280,7 @@ class BackTestService {
             if (ClassResolver.serviceExists(indicatorName + "Service"))
                 indicators << [clazz: ClassResolver.loadDomainClassByName(indicatorName), parameter: rule.inputType?.toString()]
 
-            def value = JSON.parse(rule.value)?.sort { -it[0].size() }?.first()
+            def value = JSON.parse(rule.value)?.findAll{it.size() > 0}?.sort { -it[0].size() }?.first()
             if (value instanceof JSONArray) {
                 indicatorName = value?.first()?.replace('.filters.', '.indicators.')?.replace('FilterService', '')
                 if (ClassResolver.serviceExists(indicatorName + "Service"))

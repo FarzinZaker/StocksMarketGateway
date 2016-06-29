@@ -13,7 +13,7 @@ public class CollectionHelper {
 
         list[0].findAll { item ->
             !list.any { lst ->
-                !lst.contains(item)
+                !lst?.contains(item)
             }
         }
     }

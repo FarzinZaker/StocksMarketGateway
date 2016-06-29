@@ -6,11 +6,13 @@ import groovy.time.TimeCategory
 import org.apache.lucene.search.BooleanQuery
 import org.codehaus.groovy.grails.web.json.JSONArray
 import stocks.User
+import stocks.filters.FilterServiceBase
 import stocks.tse.AdjustmentHelper
 import stocks.tse.BlackListedSymbol
 import stocks.tse.event.IndexEvent
 import stocks.tse.SymbolAdjustedDailyTrade
 import stocks.tse.Symbol
+import stocks.alerting.Rule
 
 class BackTestController {
 
@@ -64,13 +66,38 @@ class BackTestController {
         while (PortfolioLog.countByBackTest(backTest) < 1)
             Thread.sleep(500)
         def signals = decorateBackTestSignals(backTest, null)
+
+        def buyRules = Rule.findAllByParent(backTest.buyRule)
+        def sellRules = Rule.findAllByParent(backTest.buyRule)
         def logs = decoratePortfolioLogs(backTest, null)
         [
                 backTest  : backTest,
                 signals   : signals,
                 logs      : logs,
                 summery   : backTest.status == BackTestHelper.STATUS_FINISHED ? calculateSummary(backTest, logs, signals) : null,
-                indicators: extractIndicators(backTest)
+                indicators: extractIndicators(backTest),
+                buyRules           : buyRules.collect { rule ->
+                    def value = JSON.parse(rule.value)
+                    [
+                            filter   : rule.field,
+                            parameter: rule.inputType,
+                            operator : rule.operator,
+                            value    : value,
+                            text     : (stocks.util.ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value, rule.operator)
+                    ]
+
+                },
+                sellRules           : sellRules.collect { rule ->
+                    def value = JSON.parse(rule.value)
+                    [
+                            filter   : rule.field,
+                            parameter: rule.inputType,
+                            operator : rule.operator,
+                            value    : value,
+                            text     : (stocks.util.ClassResolver.loadServiceByName(rule.field) as FilterServiceBase)?.formatQueryValue(value, rule.operator)
+                    ]
+
+                }
         ]
     }
 
