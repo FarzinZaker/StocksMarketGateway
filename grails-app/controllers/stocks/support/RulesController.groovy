@@ -6,7 +6,7 @@ class RulesController {
 
     def copyright() {}
 
-    def userRules() {}
+    def rulesAndRegulations() {}
 
     def privacy() {}
 

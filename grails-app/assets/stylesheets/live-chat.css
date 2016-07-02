@@ -109,3 +109,19 @@
     flex: 1 0 40px;
     z-index: 10;
 }
+
+.livechat-room .messages .error{
+    bottom:40px;
+}
+
+.livechat-room .footer .input-wrapper {
+    margin-bottom: -5px;
+    padding: 6px 6px 0 30px;
+}
+
+.livechat-room .footer .send-button {
+    float: left;
+    left: 6px;
+    right:auto;
+    top: -15px;
+}

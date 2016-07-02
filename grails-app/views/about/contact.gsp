@@ -25,7 +25,26 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <g:render template="/underConstruction"/>
+            <h2 class="staticHeading">
+            آدرس
+            </h2>
+            <p>
+                تهران، میدان ونک، خیابان ملاصدار، خیابان پردیس، پلاک 14، واحد 5
+            </p>
+
+            <h2 class="staticHeading">
+                تلفن تماس
+            </h2>
+            <p class="ltr text-right">
+                (021) 886 53 508
+            </p>
+
+            <h2 class="staticHeading">
+            فکس
+            </h2>
+            <p class="ltr text-right">
+                (021) 886 44 357
+            </p>
         </div>
     </div>
 </div>

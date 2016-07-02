@@ -164,8 +164,8 @@
                                             code="rules.copyRight"/></a>
                                 </li>
                                 <li>
-                                    <a href="${createLink(controller: 'rules', action: 'userRules')}"><g:message
-                                            code="rules.user"/></a>
+                                    <a href="${createLink(controller: 'rules', action: 'rulesAndRegulations')}"><g:message
+                                            code="rules.rulesAndRegulations"/></a>
                                 </li>
                                 <li>
                                     <a href="${createLink(controller: 'rules', action: 'privacy')}"><g:message
@@ -185,42 +185,42 @@
 
                     <div>
                         <div class="col-sm-2">
-                            <a href="http://www.seo.ir">
+                            <a href="http://www.seo.ir" target="_blank">
                                 <asset:image src="third-party/bourse.png"/>
                                 <span><g:message code="thirdParty.bourse"/></span>
                             </a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a href="http://www.tsetmc.com">
+                            <a href="http://www.tsetmc.com" target="_blank">
                                 <asset:image src="third-party/tse.png"/>
                                 <span><g:message code="thirdParty.tse"/></span>
                             </a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a href="http://www.irenex.ir">
+                            <a href="http://www.irenex.ir" target="_blank">
                                 <asset:image src="third-party/energy.png"/>
                                 <span><g:message code="thirdParty.energy"/></span>
                             </a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a href="http://www.ime.co.ir">
+                            <a href="http://www.ime.co.ir" target="_blank">
                                 <asset:image src="third-party/ime.png"/>
                                 <span><g:message code="thirdParty.ime"/></span>
                             </a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a href="http://www.tgju.org/">
+                            <a href="http://www.tgju.org/" target="_blank">
                                 <asset:image src="third-party/tgju.png"/>
                                 <span><g:message code="thirdParty.tgju"/></span>
                             </a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a href="http://www.bloomberg.com">
+                            <a href="http://www.bloomberg.com" target="_blank">
                                 <asset:image src="third-party/bloomberg.png"/>
                                 <span><g:message code="thirdParty.bloomberg"/></span>
                             </a>
@@ -240,16 +240,16 @@
                 </div>
 
                 <div class="col-sm-3 socialLinks">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
                         <i class="fa fa-facebook"></i>
                     </a>
-                    <a href="https://twitter.com/home?status=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}">
+                    <a href="https://twitter.com/home?status=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
                         <i class="fa fa-twitter"></i>
                     </a>
-                    <a href="https://plus.google.com/share?url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}">
+                    <a href="https://plus.google.com/share?url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
                         <i class="fa fa-google"></i>
                     </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}&title=${message(code: 'site.title')?.encodeAsURL()}&summary=&source=">
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}&title=${message(code: 'site.title')?.encodeAsURL()}&summary=&source=" target="_blank">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </div>

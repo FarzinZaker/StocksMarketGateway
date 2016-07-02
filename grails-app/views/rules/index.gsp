@@ -41,8 +41,8 @@
                 <li data-tile-type="s,6m">
                     <div>
 
-                        <a class="tilt tilt-tile tilt-tile-magenta tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'rules', action: 'userRules')}">
-                            <i class="fa fa-user"></i><span><g:message code="rules.user"/></span>
+                        <a class="tilt tilt-tile tilt-tile-magenta tilt-icon-center tilt-caption-bc" href="${createLink(controller: 'rules', action: 'rulesAndRegulations')}">
+                            <i class="fa fa-user"></i><span><g:message code="rules.rulesAndRegulations"/></span>
                         </a>
 
                     </div>
