@@ -57,7 +57,7 @@ class ToolsController {
     def calculatorJson() {
 
         render([
-                dollarPrice: Currency.findBySymbol('us-dollar')?.price,
+                dollarPrice: Currency.findBySymbol('us-dollar-exchange')?.price,
                 onsPrice   : Coin.findBySymbol('ons')?.price,
                 coinPrice  : Coin.findBySymbol('o-coin')?.price,
                 contracts  : CoinFuture.findAllByContractCodeLikeAndLastTradingDateGreaterThanEquals('GC%', new Date()).sort {

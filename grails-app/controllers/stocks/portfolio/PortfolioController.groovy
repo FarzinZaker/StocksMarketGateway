@@ -382,7 +382,7 @@ class PortfolioController {
         def portfolio = Portfolio.get(params.id)
         def items = PortfolioItem.findAllByPortfolio(portfolio)
         def actions = PortfolioAction.findAllByPortfolioAndActionTypeInList(portfolio, ['b', 's'])
-        if(!actions?.size())
+        if (!actions?.size())
             return render([
                     data : [],
                     total: 0
@@ -407,8 +407,8 @@ class PortfolioController {
             def row = report[action.portfolioItem][action?.actionDate?.clearTime()?.time]
             def clazz = Introspector.decapitalize(action.portfolioItem.itemType.split('\\.').last())
             row["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, action.actionDate?.clearTime()) ?: action.sharePrice) as Long
-            report[action.portfolioItem].keySet().each {key->
-                if(key > action?.actionDate?.clearTime()?.time){
+            report[action.portfolioItem].keySet().each { key ->
+                if (key > action?.actionDate?.clearTime()?.time) {
                     report[action.portfolioItem][key]["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, new Date(key)) ?: row["realPrice"]) as Long
                 }
             }
@@ -441,10 +441,12 @@ class PortfolioController {
         Map<Date, Map<String, Long>> totalReport = [:]
         dates.each { date ->
             totalReport[date?.time] = [:]
+            def yesterday = dates.findAll { it < date }?.sort { -it.time }?.find()
+            totalReport[date?.time]["actualBenefitLoss"] = items.sum { item -> report[item][date?.time]["actualBenefitLoss"] ?: 0 } + (yesterday ? totalReport[yesterday?.time]["actualBenefitLoss"] : 0)
             totalReport[date?.time]["potentialBenefitLoss"] = items.sum { item -> report[item][date?.time]["potentialBenefitLoss"] ?: 0 }
-            totalReport[date?.time]["actualBenefitLoss"] = items.sum { item -> report[item][date?.time]["actualBenefitLoss"] ?: 0 }
-            totalReport[date?.time]["totalBenefitLoss"] = items.sum { item -> report[item][date?.time]["totalBenefitLoss"] ?: 0 }
+            totalReport[date?.time]["totalBenefitLoss"] = totalReport[date?.time]["actualBenefitLoss"] + totalReport[date?.time]["potentialBenefitLoss"]
         }
+
         render([
                 data : totalReport.sort { -it.key }.collect {
                     [

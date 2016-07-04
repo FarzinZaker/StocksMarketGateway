@@ -19,8 +19,8 @@ class OAuth2Controller {
 
     def static consumers = [
             google: [
-                    client_id    : '784184303586-693j0vqr1gmut4ucdudsphjdcv5peqqc.apps.googleusercontent.com',
-                    client_secret: 'A0KK3lcOErybHzhzuI7_815u'
+                    client_id    : '541476002495-ee18p159paa7kmtvfj223a64nj2e32kb.apps.googleusercontent.com',
+                    client_secret: 'JKcBhsO4r6Ctpwbdp-twyrNL'
             ],
             yahoo : [
                     client_id    : 'dj0yJmk9cnhnQmFZclFtYjlwJmQ9WVdrOVdqTXhjWGxvTjJjbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD05Yw--',

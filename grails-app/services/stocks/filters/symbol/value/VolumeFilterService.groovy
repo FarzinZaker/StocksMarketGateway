@@ -87,38 +87,43 @@ class VolumeFilterService implements IncludeFilterService {
 
     @Override
     Boolean check(String parameter, String operator, value, Date date, List dailyTrades, List indicators) {
-        def parsedValue = JSON.parse(value?.toString()).first()
 
         switch (operator) {
             case Operators.GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).first()
                 return indicatorCompareService.volumeUpperThanValue(parsedValue as Double, date, dailyTrades, indicators)
             case Operators.LESS_THAN:
+                def parsedValue = JSON.parse(value?.toString()).first()
                 return indicatorCompareService.volumeLowerThanValue(parsedValue as Double, date, dailyTrades, indicators)
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).find { !(it instanceof String) }
                 return indicatorCompareService.volumePositiveChangeCompareToAverageGreaterThan(parsedValue.first() as double, parsedValue.last() as Integer, date, dailyTrades, indicators)
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).find { !(it instanceof String) }
                 return indicatorCompareService.volumeNegativeChangeCompareToAverageGreaterThan(parsedValue.first() as double, parsedValue.last() as Integer, date, dailyTrades, indicators)
         }
     }
 
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         def idList = []
-        def parsedValue = JSON.parse(value?.toString()).first()
 
         switch (operator) {
             case Operators.GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).first()
                 idList = lowLevelDataService.executeFunction('VOL_UPPER_THAN_VAL_FILTER', [
                         value         : parsedValue as double,
                         adjustmentType: adjustmentType
                 ])
                 break
             case Operators.LESS_THAN:
+                def parsedValue = JSON.parse(value?.toString()).first()
                 idList = lowLevelDataService.executeFunction('VOL_LOWER_THAN_VAL_FILTER', [
                         value         : parsedValue as double,
                         adjustmentType: adjustmentType
                 ])
                 break
             case Operators.INCREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).find { !(it instanceof String) }
                 idList = lowLevelDataService.executeFunction('VOL_PCA_UPPER_THAN_VAL_FILTER', [
                         percent       : parsedValue.first() as double,
                         days          : parsedValue.last() as Integer,
@@ -126,6 +131,7 @@ class VolumeFilterService implements IncludeFilterService {
                 ])
                 break
             case Operators.DECREASE_PERCENT_COMPARE_TO_AVERAGE_GREATER_THAN:
+                def parsedValue = JSON.parse(value?.toString()).find { !(it instanceof String) }
                 idList = lowLevelDataService.executeFunction('VOL_NCA_UPPER_THAN_VAL_FILTER', [
                         percent       : parsedValue.first() as double,
                         days          : parsedValue.last() as Integer,

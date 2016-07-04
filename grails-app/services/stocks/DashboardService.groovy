@@ -16,6 +16,7 @@ import stocks.tse.Index
 import stocks.tse.MarketValue
 import stocks.tse.SupervisorMessage
 import stocks.tse.SymbolClientType
+import stocks.tse.event.IndexEvent
 
 class DashboardService {
 
@@ -27,6 +28,12 @@ class DashboardService {
     def marketView() {
 
         def totalIndex = Index.findByInternalCode(32097828799138957)
+        def yesterdayIndex = IndexEvent.createCriteria().list {
+            eq('internalCode', 32097828799138957)
+            lt('date', totalIndex.date?.clearTime())
+            order('date', ORDER_DESCENDING)
+            maxResults(1)
+        }?.find()
         def priceIndex = Index.findByInternalCode(8384385859414435)
         def otcTotalIndex = Index.findByInternalCode(43685683301327984)
         def marketValue = MarketValue.createCriteria().list {
@@ -84,7 +91,7 @@ class DashboardService {
                 bourse   : [
                         totalIndex   : [
                                 value        : totalIndex.finalIndexValue,
-                                change       : totalIndex.finalIndexValue - (100 - totalIndex.todayIndexChangePercentTowardYesterday) * totalIndex.finalIndexValue / 100,
+                                change       : totalIndex.finalIndexValue - (yesterdayIndex?.finalIndexValue ?: (100 - totalIndex.todayIndexChangePercentTowardYesterday) * totalIndex.finalIndexValue / 100),
                                 changePercent: totalIndex.todayIndexChangePercentTowardYesterday
                         ],
                         priceIndex   : [
