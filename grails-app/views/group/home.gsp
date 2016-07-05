@@ -29,6 +29,8 @@
     <div class="row">
         <div class="col-xs-2 k-rtl">
             <g:render template="home/header"/>
+            <g:render template="home/authorList"/>
+            <g:render template="home/editorList"/>
         </div>
         <div class="col-xs-7 k-rtl">
             <g:render template="home/materialList"/>
@@ -38,7 +40,6 @@
                 <h2><i class="fa fa-star"></i> <g:message code="twitter.group.topMaterial.title"/></h2>
                 <twitter:topGroupMaterials id="${group.idNumber}"/>
             </div>
-            <g:render template="home/authorList"/>
             <g:render template="home/tagCloud"/>
         </div>
     </div>

@@ -1,6 +1,7 @@
 <span class="author" data-id="${author.identifier}">
     <g:if test="${canEdit}">
         <span class="k-button" onclick="edit${params.type}('${params.identifier ?: params.id}', this);" style="padding:1px 7px 2px;"><g:message code="edit"/></span>
+        <span class="k-button" onclick="delete${params.type}('${params.identifier ?: params.id}', this);" style="padding:1px 7px 2px;"><g:message code="delete"/></span>
     </g:if>
     <g:else>
         <a href="${createLink(controller: 'user', action: 'wall', id: author.identifier)}"><i

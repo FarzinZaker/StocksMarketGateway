@@ -18,6 +18,21 @@
         </div>
     </g:if>
     <g:else>
+
+        <div class='toolbar' style="text-align: left">
+
+            <sec:ifLoggedIn>
+                <span class="btn k-button" style="width: 120px"
+                      onclick='registerInGroup("${group.idNumber}", "${group.title}")'><g:message
+                        code="twitter.group.register.button"/></span>
+            </sec:ifLoggedIn>
+            <sec:ifNotLoggedIn>
+                <div class="info-small" style="text-align: right">
+                    <g:message code="twitter.group.register.loginRequired"/>
+                </div>
+            </sec:ifNotLoggedIn>
+        </div>
+
         <div class="groupPriceInfo dashLet blue">
             <h3><g:message code="twitter.group.membershipPrice.label"/></h3>
 
@@ -82,19 +97,24 @@
                 </li>
             </ul>
         </div>
-
-        <div class='toolbar' style="text-align: left">
-
-            <sec:ifLoggedIn>
-                <span class="btn k-button" style="width: 120px"
-                      onclick='registerInGroup("${group.idNumber}", "${group.title}")'><g:message
-                        code="twitter.group.register.button"/></span>
-            </sec:ifLoggedIn>
-            <sec:ifNotLoggedIn>
-                <div class="info-small" style="text-align: right">
-                    <g:message code="twitter.group.register.loginRequired"/>
-                </div>
-            </sec:ifNotLoggedIn>
-        </div>
     </g:else>
+
+    <g:if test="${groupOwner}">
+        <div class="dashLet white">
+            <h2 style="float:right"><i class="fa fa-pencil"></i> <g:message code="twitter.group.owner.title"/></h2>
+            <ul class="twitter-user-list">
+                <li class="odd">
+                    <div class="image"><img width="40px"
+                                            src="${createLink(controller: 'image', action: 'profile', id: groupOwner.identifier)}"/>
+                    </div>
+
+                    <div class="description">
+                        <a href="${createLink(controller: 'user', action: 'wall', id: groupOwner.identifier)}">${groupOwner.title}</a>
+                    </div>
+
+                    <div class="clear-fix"></div>
+                </li>
+            </ul>
+        </div>
+    </g:if>
 </div>

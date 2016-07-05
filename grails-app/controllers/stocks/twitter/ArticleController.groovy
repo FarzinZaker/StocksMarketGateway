@@ -109,11 +109,17 @@ class ArticleController {
 
     @Secured([RoleHelper.ROLE_USER])
     def delete() {
-        def article = Article.get(params.idparams.id as Long)
-        if (article.delete()) {
-            sharingService.removeMaterial(params.id as Long)
-            render '1'
-        } else render '0'
+        def article = Article.get(params.id as Long)
+        if (!article || article.delete()) {
+            try {
+                sharingService.removeMaterial(params.id as Long)
+                render '1'
+            } catch (ignored) {
+                render '0'
+            }
+        } else {
+            render '0'
+        }
     }
 
     @Secured([RoleHelper.ROLE_USER])

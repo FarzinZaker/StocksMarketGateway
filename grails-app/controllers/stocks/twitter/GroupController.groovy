@@ -308,14 +308,18 @@ class GroupController {
         group.image = Image.get(group.imageId as Long)
         [
                 group     : group,
+                groupOwner     : groupGraphService.getOwner(params.id as String),
                 membership: groupGraphService.getUserMembershipInGroup(params.id as String, user?.id),
-                authorList: groupGraphService.authorList(params.id as String)
+                authorList: groupGraphService.authorList(params.id as String),
+                editorList: groupGraphService.editorList(params.id as String)
         ]
     }
 
     def homeJson() {
         def list = materialGraphService.listByGroup(params.id as String, params.skip as Integer, params.limit as Integer)
-        render(list.collect { g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true]) } as JSON)
+        render(list.collect {
+            g.render(template: "/twitter/material/${it.label}", model: [material: it, showProperties: true])
+        } as JSON)
     }
 
     private static Date parseDate(String date) {

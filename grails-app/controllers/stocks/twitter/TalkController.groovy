@@ -21,4 +21,15 @@ class TalkController {
         render '1'
 
     }
+
+    @Secured([RoleHelper.ROLE_USER])
+    def delete(Long identifier) {
+        try {
+            sharingService.removeMaterial(identifier)
+            render '1'
+        }
+        catch(ignored){
+            render '0'
+        }
+    }
 }

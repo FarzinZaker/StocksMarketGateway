@@ -135,6 +135,7 @@
         }).done(function (response) {
             if (response == "1") {
                 $('#registerWindow').data('kendoWindow').close();
+                location.reload();
             }
             else {
                 window.alert('${message(code:'twitter.group.register.error')}');

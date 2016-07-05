@@ -9,10 +9,13 @@ class DashboardController {
     def dashboardService
     def materialGraphService
     def groupGraphService
+    def sharingService
+    def propertyGraphService
+    def rateGraphService
 
     def index() {
         [
-                groups: groupGraphService.dashboardGroups(),
+                tops   : sharingService.tops(),
                 symbols: dashboardService.selectedSymbols()
         ]
     }
@@ -43,5 +46,29 @@ class DashboardController {
 
     def selectedSymbols() {
         render(template: 'dashLets/selectedSymbols', model: [symbols: dashboardService.selectedSymbols()])
+    }
+
+    def mostActivePersons() {
+        [
+                list: materialGraphService.mostActiveUsers(1, 10)
+        ]
+    }
+
+    def mostRatedPersons() {
+        [
+                list: rateGraphService.mostRatedPersons(30, 10)
+        ]
+    }
+
+    def mostActiveProperties() {
+        [
+                list: propertyGraphService.mostActiveProperties(7, 10)
+        ]
+    }
+
+    def largestGroups(){
+        [
+                list: groupGraphService.largestGroups(10)
+        ]
     }
 }

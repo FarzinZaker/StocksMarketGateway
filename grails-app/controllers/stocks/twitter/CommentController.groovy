@@ -11,6 +11,7 @@ class CommentController {
     def springSecurityService
     def commentGraphService
     def graphDBService
+    def sharingService
 
     @Secured([RoleHelper.ROLE_USER])
     def save() {
@@ -32,5 +33,16 @@ class CommentController {
     def editor() {
         render template: 'submit', model: [commentId: params.id]
 //: graphDBService.getAndUnwrapVertex(params.id as String)]
+    }
+
+    @Secured([RoleHelper.ROLE_USER])
+    def delete(Long identifier) {
+        try {
+            sharingService.removeMaterial(identifier)
+            render '1'
+        }
+        catch(ignored){
+            render '0'
+        }
     }
 }

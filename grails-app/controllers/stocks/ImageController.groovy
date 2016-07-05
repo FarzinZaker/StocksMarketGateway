@@ -10,115 +10,127 @@ class ImageController {
     def imageService
 
     def index() {
-        if(!params.id || params.id == 'null'){
-            render ''
-            return
-        }
-        def image = Image.get(params.id)
-        def content = image?.content
-        def sizeFlag = ''
-        if (params.size)
-            sizeFlag = "${params.size}x${params.size}-"
-        if (content)
-            try {
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+        try {
+            if (!params.id || params.id == 'null') {
+                render ''
+                return
             }
-            catch (ignored) {
+            def image = Image.get(params.id)
+            def content = image?.content
+            def sizeFlag = ''
+            if (params.size)
+                sizeFlag = "${params.size}x${params.size}-"
+            if (content)
+                try {
+                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                }
+                catch (ignored) {
+                }
+            else if (params.default)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+            if (!content)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
+            if (!content) {
+                render ''
+                return
             }
-        else if (params.default)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
-        if (!content)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
-        if (!content) {
-            render ''
-            return
-        }
-        if (content) {
-            def seconds = 3600 * 24
-            DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-            httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Calendar cal = new GregorianCalendar();
-            cal.add(Calendar.SECOND, seconds);
-            response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
-            response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
-            response.contentType = 'image/png'
-            response.setStatus(200)
-            response.outputStream << content
-            response.outputStream.flush()
-        } else
+            if (content) {
+                def seconds = 3600 * 24
+                DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+                httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Calendar cal = new GregorianCalendar();
+                cal.add(Calendar.SECOND, seconds);
+                response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
+                response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
+                response.contentType = 'image/png'
+                response.setStatus(200)
+                response.outputStream << content
+                response.outputStream.flush()
+            } else
+                render ""
+        } catch (ignored) {
             render ""
+        }
     }
 
     def profile() {
-        def image = Image.get(User.get(params.id as Long)?.imageId)
-        def content = image?.content
-        def sizeFlag = ''
-        if (params.size)
-            sizeFlag = "${params.size}x${params.size}-"
-        if (content) {
-            try {
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+        try {
+            def image = Image.get(User.get(params.id as Long)?.imageId)
+            def content = image?.content
+            def sizeFlag = ''
+            if (params.size)
+                sizeFlag = "${params.size}x${params.size}-"
+            if (content) {
+                try {
+                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                }
+                catch (ignored) {
+                }
+            } else if (params.default)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+            if (!content)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/user-noImage.png").getBytes()
+            if (!content) {
+                render ''
+                return
             }
-            catch (ignored) {
-            }
-        } else if (params.default)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
-        if (!content)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/user-noImage.png").getBytes()
-        if (!content) {
-            render ''
-            return
-        }
-        if (content) {
-            def seconds = 3600 * 24
-            DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-            httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Calendar cal = new GregorianCalendar();
-            cal.add(Calendar.SECOND, seconds);
-            response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
-            response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
-            response.contentType = 'image/png'
-            response.setStatus(200)
-            response.outputStream << content
-            response.outputStream.flush()
-        } else
+            if (content) {
+                def seconds = 3600 * 24
+                DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+                httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Calendar cal = new GregorianCalendar();
+                cal.add(Calendar.SECOND, seconds);
+                response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
+                response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
+                response.contentType = 'image/png'
+                response.setStatus(200)
+                response.outputStream << content
+                response.outputStream.flush()
+            } else
+                render ""
+        } catch (ignored) {
             render ""
+        }
     }
 
     def property() {
-        def image = Image.get(User.get(params.id as Long)?.imageId)
-        def content = image?.content
-        def sizeFlag = ''
-        if (params.size)
-            sizeFlag = "${params.size}x${params.size}-"
-        if (content) {
-            try {
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+        try {
+            def image = Image.get(User.get(params.id as Long)?.imageId)
+            def content = image?.content
+            def sizeFlag = ''
+            if (params.size)
+                sizeFlag = "${params.size}x${params.size}-"
+            if (content) {
+                try {
+                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                }
+                catch (ignored) {
+                }
+            } else if (params.default)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+            if (!content)
+                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.type}-noImage.png").getBytes()
+            if (!content) {
+                render ''
+                return
             }
-            catch (ignored) {
-            }
-        } else if (params.default)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
-        if (!content)
-            content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.type}-noImage.png").getBytes()
-        if (!content) {
-            render ''
-            return
-        }
-        if (content) {
-            def seconds = 3600 * 24
-            DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-            httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Calendar cal = new GregorianCalendar();
-            cal.add(Calendar.SECOND, seconds);
-            response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
-            response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
-            response.contentType = 'image/png'
-            response.setStatus(200)
-            response.outputStream << content
-            response.outputStream.flush()
-        } else
+            if (content) {
+                def seconds = 3600 * 24
+                DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+                httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Calendar cal = new GregorianCalendar();
+                cal.add(Calendar.SECOND, seconds);
+                response.setHeader("Cache-Control", "PUBLIC, max-age=" + seconds + ", must-revalidate");
+                response.setHeader("Expires", httpDateFormat.format(cal.getTime()));
+                response.contentType = 'image/png'
+                response.setStatus(200)
+                response.outputStream << content
+                response.outputStream.flush()
+            } else
+                render ""
+        } catch (ignored) {
             render ""
+        }
     }
 
     def uploadImage() {

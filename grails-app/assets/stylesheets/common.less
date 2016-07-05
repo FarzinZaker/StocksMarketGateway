@@ -73,12 +73,12 @@ h3 {
   clear: both;
 }
 
-.staticHeading{
-  color:#3B5998;
-  font-size:16px;
-  margin-bottom:5px !important;
-  margin-top:20px !important;
-  padding:0;
+.staticHeading {
+  color: #3B5998;
+  font-size: 16px;
+  margin-bottom: 5px !important;
+  margin-top: 20px !important;
+  padding: 0;
   font-weight: bold;
 }
 
@@ -1626,11 +1626,11 @@ h1, h2, h3, h4 {
       color: white;
     }
 
-    h3, h4{
+    h3, h4 {
       background: transparent;
       color: black;
-      padding-right:10px;
-      font-size:16px;
+      padding-right: 10px;
+      font-size: 16px;
     }
 
     .k-tabstrip {
@@ -3251,9 +3251,11 @@ ul.twitterAuthorInfo {
   }
 
   .fa-lock {
-    display: block;
-    font-size: 30px;
     color: @error-color;
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
   }
 }
 
@@ -3708,15 +3710,34 @@ ul.twitterAuthorInfo {
     display: block;
     width: 153px;
     float: right;
-    h5 {
+    h4 {
+      color: white;
+      display: block;
+      font-size: 12px;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    a {
       color: white;
       display: block;
       font-size: 16px;
+      margin-bottom: 10px;
+      &:hover {
+        text-decoration: underline;
+      }
+      .counter {
+        font-size: 12px;
+      }
     }
     p {
       color: white;
       display: block;
       font-size: 12px;
+      float: left;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     &:after {
@@ -3740,9 +3761,9 @@ ul.twitterAuthorInfo {
   }
 }
 
-.row .row.tool-buttons div.col-sm-4{
-  padding-right:7px !important;
-  padding-left:7px !important;
+.row .row.tool-buttons div.col-sm-4 {
+  padding-right: 7px !important;
+  padding-left: 7px !important;
 }
 
 #selectedSymbols {
@@ -4432,9 +4453,10 @@ ul.twitterAuthorInfo {
 .k-header, .k-grid-header-wrap, .k-grid .k-grouping-header, .k-grid-header, .k-pager-wrap, .k-pager-wrap .k-textbox, .k-pager-wrap .k-link, .k-grouping-header .k-group-indicator, .k-gantt-toolbar .k-state-default {
   border-color: #dddddd;
 }
-.k-grid .k-grouping-header{
+
+.k-grid .k-grouping-header {
   background: #fafafa !important;
-  .k-group-indicator{
+  .k-group-indicator {
     background: white !important;
   }
 }
@@ -4504,7 +4526,7 @@ ul.k-menu-vertical .k-separator, .k-menu .k-menu-group .k-separator {
       background-color: #d70060;
       display: block;
       width: 117px;
-      max-height:117px;
+      max-height: 117px;
     }
     .toolbar {
       margin-top: 15px;

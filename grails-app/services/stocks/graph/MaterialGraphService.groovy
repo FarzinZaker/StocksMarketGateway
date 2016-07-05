@@ -3,6 +3,7 @@ package stocks.graph
 import com.google.common.base.CaseFormat
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import groovy.time.TimeCategory
 import org.ocpsoft.prettytime.PrettyTime
 import stocks.User
 import stocks.twitter.Search.TwitterMaterial
@@ -101,6 +102,12 @@ class MaterialGraphService {
         graphDBService.deleteVertex(material.id.toString().replace('#', ''))
     }
 
+    OrientVertex removeMaterial(String id) {
+        graphDBService.executeCommand("DELETE EDGE About WHERE out.@rid = #${id?.replace('#', '')}")
+        graphDBService.executeCommand("DELETE EDGE Share WHERE out.@rid = #${id?.replace('#', '')}")
+        graphDBService.deleteVertex("#" + id?.replace('#', ''))
+    }
+
     List<Map> listByGroup(String groupId, Integer skip = 0, Integer limit = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) ORDER BY publishDate DESC SKIP ${skip} LIMIT ${limit}")
     }
@@ -188,6 +195,16 @@ class MaterialGraphService {
 
             ]
         }
+    }
+
+    List<Map> mostActiveUsers(Integer daysCount, Integer count){
+        def startDate = new Date()?.clearTime()
+        use(TimeCategory) {
+            startDate = startDate - daysCount.days
+        }
+        def calendar = Calendar.getInstance()
+        calendar.setTime(startDate)
+        graphDBService.queryAndUnwrapVertex("SELECT first(owner.@rid) as @rid, first(owner.title) as title, first(owner.identifier) as identifier, count FROM (SELECT owner, COUNT(*) as count FROM (SELECT In('Own') as owner, @rid FROM Material WHERE publishDate > '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0') GROUP BY owner) ORDER BY count DESC LIMIT ${count}")
     }
 
     def jalaliDate = { date, hm, timeOnly ->

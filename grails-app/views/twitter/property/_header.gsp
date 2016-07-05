@@ -9,7 +9,7 @@
     <div class="description">
         <h1><a href="${createLink(controller: property.label == 'Person' ? 'user' : 'twitter', action: property.label == 'Person' ? 'wall' : 'property', id: property.identifier)}">${property.title}</a>
         </h1>
-        <twitter:followButton itemId="${property.idNumber}" callback="removeFollowableFromList"/>
+        <twitter:followButton itemId="${property.idNumber}"/>
     </div>
 
     <div class="clear-fix"></div>

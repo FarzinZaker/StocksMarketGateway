@@ -48,7 +48,7 @@
 <body>
 <div class="container">
     <g:render template="dashLets/selectedSymbolsContainer"/>
-    <g:render template="dashLets/groups"/>
+    <g:render template="dashLets/tops"/>
 
     <div class="row">
         <div class="col-sm-4">

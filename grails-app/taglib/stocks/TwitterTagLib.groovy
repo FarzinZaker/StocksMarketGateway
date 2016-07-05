@@ -457,7 +457,7 @@ class TwitterTagLib {
                     }).done(function (response) {
                         \$(btn).replaceWith(response);
                         \$('#loading_' + \$(btn).attr('id')).hide();
-                        if(callback)
+                        if(callback && typeof myfunc !== 'undefined' && \$.isFunction(callback))
                             callback(btn, id);
                     });
                 }

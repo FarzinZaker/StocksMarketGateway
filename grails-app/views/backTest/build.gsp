@@ -28,17 +28,17 @@
         </div>
     </div>
 
-    %{--<div class="row">--}%
-        %{--<div class="col-xs-12">--}%
-            %{--<h1 class="magenta">--}%
-                %{--<i class="fa fa-magic"></i>--}%
-                %{--<g:message code="${'backTest.build.title'}"--}%
-                           %{--args="${[tradeStrategy?.name]}"/>--}%
-            %{--</h1>--}%
+%{--<div class="row">--}%
+%{--<div class="col-xs-12">--}%
+%{--<h1 class="magenta">--}%
+%{--<i class="fa fa-magic"></i>--}%
+%{--<g:message code="${'backTest.build.title'}"--}%
+%{--args="${[tradeStrategy?.name]}"/>--}%
+%{--</h1>--}%
 
-            %{--<p><g:message code="backTest.description"/></p>--}%
-        %{--</div>--}%
-    %{--</div>--}%
+%{--<p><g:message code="backTest.description"/></p>--}%
+%{--</div>--}%
+%{--</div>--}%
     <form:form name="backTestForm" controller="backTest" action="save">
 
         <div class="row">
@@ -172,9 +172,9 @@
             <div class="col-xs-12">
                 <form:field fieldName="backTest.adjustmentType">
                     <form:select name="adjustmentType" style="width:450px;" value="${AdjustmentHelper.defaultType}"
-                                 items="${AdjustmentHelper.ENABLED_TYPES.collect {
+                                 items="${[[text: '', value: '']] + AdjustmentHelper.TYPES.collect {
                                      [text: message(code: "priceAdjustment.types.${it}"), value: it]
-                                 }}"/>
+                                 }}" disabledItems="${AdjustmentHelper.TYPES - AdjustmentHelper.ENABLED_TYPES}"/>
                 </form:field>
             </div>
         </div>
@@ -184,6 +184,11 @@
         </div>
     </form:form>
 </div>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('#adjustmentType-list').find('li:first-of-type').hide();
+    });
+</script>
 
 </body>
 </html>

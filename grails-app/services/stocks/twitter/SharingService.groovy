@@ -12,6 +12,8 @@ class SharingService {
     def propertyGraphService
     def messageSource
     def commonGraphService
+    def rateGraphService
+    def groupGraphService
 
     void shareArticle(User owner, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
@@ -106,6 +108,10 @@ class SharingService {
         materialGraphService.removeMaterial(identifier)
     }
 
+    void string(Long id) {
+        materialGraphService.removeMaterial(id)
+    }
+
     List<Map> materialShareGroups(Long identifier) {
         graphDBService.queryAndUnwrapVertex("SELECT FROM Group WHERE @rid in (SELECT DISTINCT(in.@rid) FROM Share WHERE out.identifier = ${identifier})")
     }
@@ -147,6 +153,15 @@ class SharingService {
                 mentionList: mentionList,
                 tagList    : tagList,
                 text       : text
+        ]
+    }
+
+    Map<String, Map> tops() {
+        [
+                mostActivePerson  : materialGraphService.mostActiveUsers(1, 1)?.find(),
+                mostRatedPerson   : rateGraphService.mostRatedPersons(30, 1)?.find(),
+                mostActiveProperty: propertyGraphService.mostActiveProperties(7, 1)?.find(),
+                largestGroup      : groupGraphService.largestGroups(1)?.find()
         ]
     }
 

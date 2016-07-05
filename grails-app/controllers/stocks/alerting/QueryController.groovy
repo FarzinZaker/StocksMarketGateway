@@ -503,7 +503,7 @@ class QueryController {
                 scheduleDay.startTimeInMinute = params."${day}_allowedTimeRangeStart".toInteger()
                 scheduleDay.endTimeInMinute = params."${day}_allowedTimeRangeEnd".toInteger()
                 scheduleDay.schedule = queryInstance.schedule
-                scheduleDay.save()
+                scheduleDay.save(flush: true)
             }
         }
 
@@ -511,7 +511,7 @@ class QueryController {
             ScheduleDay.constraints.day.inList.findAll { params."scheduleTime_${it}" }.each { day ->
                 def scheduleDay = new ScheduleDay(day: day)
                 scheduleDay.schedule = queryInstance.schedule
-                scheduleDay.save()
+                scheduleDay.save(flush: true)
             }
 
             def scheduleTimes = params.scheduleTimes

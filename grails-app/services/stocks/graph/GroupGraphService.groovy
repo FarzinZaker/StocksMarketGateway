@@ -79,6 +79,10 @@ class GroupGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
     }
 
+    Map getOwner(String groupId) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Own')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person'")?.find()
+    }
+
     List<Map> listForEditor(User user) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Editor')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
     }
@@ -122,7 +126,7 @@ class GroupGraphService {
     }
 
     List<Map> editorList(String groupId) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Editor')) FROM Group WHERE @rid = #${groupId}) WHERE @class = 'Person'")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Editor')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person'")
     }
 
     List<Map> deleteEditor(String groupId, User user) {
@@ -153,7 +157,7 @@ class GroupGraphService {
     }
 
     List<Map> authorList(String groupId) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Author')) FROM Group WHERE @rid = #${groupId}) WHERE @class = 'Person'")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Author')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person'")
     }
 
     List<Map> deleteAuthor(String groupId, User user) {
@@ -190,7 +194,7 @@ class GroupGraphService {
     }
 
     List<Map> memberList(String groupId, Integer skip = 0, Integer limit = 10) {
-        def list = graphDBService.queryVertex("SELECT * FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId}) WHERE @class = 'Person' SKIP ${skip} LIMIT ${limit}")
+        def list = graphDBService.queryVertex("SELECT * FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person' SKIP ${skip} LIMIT ${limit}")
         list.collect { OrientVertex person ->
             def membership = getMemberEdge(graphDBService.getVertex(groupId), person)
             if (membership)
@@ -201,7 +205,7 @@ class GroupGraphService {
     }
 
     Long memberCount(String groupId) {
-        graphDBService.count("SELECT COUNT(*) FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId}) WHERE @class = 'Person'")
+        graphDBService.count("SELECT COUNT(*) FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person'")
     }
 
     List<Map> deleteMember(String membershipId) {
@@ -217,7 +221,7 @@ class GroupGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM Group WHERE membershipType = 'open' AND ownerType <> 'system' and @rid not in (SELECT @rid FROM (SELECT EXPAND(OUT('Member')) FROM Person WHERE identifier = ${userId}) WHERE @class = 'Group') SKIP ${skip} LIMIT ${limit}")
     }
 
-    void membershipPurge(){
+    void membershipPurge() {
         def date = new Date().format('yyyy-MM-dd HH:mm:ss')
         graphDBService.executeCommand("DELETE EDGE Member WHERE endDate < '${date}'")
     }
@@ -226,20 +230,20 @@ class GroupGraphService {
         graphDBService.count("SELECT COUNT(*) FROM Group WHERE membershipType = 'open' AND ownerType <> 'system'")
     }
 
-    Map getUserMembershipInGroup(String groupId, Long userId){
-        graphDBService.queryAndUnwrapEdge("SELECT * FROM Member WHERE in.@rid = #${groupId} AND out.identifier = ${userId}")?.find()
+    Map getUserMembershipInGroup(String groupId, Long userId) {
+        graphDBService.queryAndUnwrapEdge("SELECT * FROM Member WHERE in.@rid = #${groupId?.replace('#', '')} AND out.identifier = ${userId}")?.find()
     }
 
     List<Map> groupMaterialList(String groupId, Integer skip = 0, Integer limit = 20) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) SKIP ${skip} LIMIT ${limit}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) SKIP ${skip} LIMIT ${limit}")
     }
 
-    List<Map> propertyCloud(String groupId){
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId})) GROUP BY @rid ORDER BY count DESC")
+    List<Map> propertyCloud(String groupId) {
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId?.replace('#', '')})) GROUP BY @rid ORDER BY count DESC")
     }
 
-    List<Map> dashboardGroups(){
-        graphDBService.queryAndUnwrapVertex("SELECT FROM Group WHERE ownerType <> 'system' limit 4")
+    List<Map> largestGroups(Integer count = 10) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT in('Own').size() as size, first(@rid) as @rid, title, imageId FROM Group WHERE ownerType = 'user') ORDER BY size DESC LIMIT ${count}")
     }
-
 }
+
