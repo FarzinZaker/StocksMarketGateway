@@ -483,7 +483,7 @@ class MobileController {
 
             if (indicatorName.endsWith('.Volume')) {
                 if (rule.operator.contains('average')) {
-                    def daysCount = JSON.parse(rule.value).find().find { !it.contains('.') }
+                    def daysCount = JSON.parse(rule.value).find{!(it instanceof String)}.find { !it.contains('.') }
                     indicatorColumns.put("symVolAvg${daysCount}", message(code: 'volume.average.title', args: [daysCount]))
                 }
             } else if (indicatorName.endsWith('MACD')) {
