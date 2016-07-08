@@ -67,7 +67,7 @@ class PersonGraphService {
     }
 
     Map authorInfo(String personId) {
-        def articles = graphDBService.queryAndUnwrapVertex("SELECT AVG(INE('Rate').value) as rate, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Article'")?.find()
+        def articles = graphDBService.queryAndUnwrapVertex("SELECT AVG(INE('Rate').value) as rate, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Article' OR  @class = 'Talk'")?.find()
         def comments = graphDBService.queryAndUnwrapVertex("SELECT COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Comment'")?.find()
         def likes = graphDBService.queryAndUnwrapVertex("SELECT SUM(IN('Like').size()) as likes, SUM(IN('Dislike').size()) as dislikes, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Comment' AND (IN('Like').size() > 0 OR IN('Dislike').size() > 0)")?.find()
 
@@ -80,4 +80,5 @@ class PersonGraphService {
                 commentsWithLikeOrDislike: likes.count
         ]
     }
+
 }

@@ -16,11 +16,11 @@
     <g:set var="item" value="${tops.mostRatedPerson}"/>
     <div class="col-sm-3">
         <div class="groupDashboardButton n2">
-            <img src="${createLink(controller: 'image', action: 'profile', params: [id: item.identifier, size: 80])}">
+            <img src="${createLink(controller: 'image', action: 'profile', params: [id: item?.identifier, size: 80])}">
 
             <div>
                 <h4><g:message code="mostRatedPerson.title"/></h4>
-                <a href="${createLink(controller: 'user', action: 'wall', id: item.identifier)}">${item.title} <span class="counter">(<g:formatNumber number="${item.rate}" type="number"/>)</span></a>
+                <a href="${createLink(controller: 'user', action: 'wall', id: item?.identifier)}">${item?.title} <span class="counter">(<g:formatNumber number="${item?.rate}" type="number"/>)</span></a>
 
                 <p onclick="showTopList('${createLink(controller: 'dashboard', action: 'mostRatedPersons')}','${message(code:'mostRatedPerson.title')}')"><g:message code="tops.more"/></p>
             </div>
