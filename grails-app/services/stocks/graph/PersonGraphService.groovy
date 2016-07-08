@@ -23,6 +23,8 @@ class PersonGraphService {
             ])
 
             graphDBService.addEdge('Member', person, commonGraphService.publicGroup, [type: 'normal', startDate: new Date()], null)
+        } else {
+            graphDBService.editVertex(person?.id?.toString(), [title: "${user.firstName} ${user.lastName}"])
         }
 
         def rid = person?.id?.toString()

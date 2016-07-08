@@ -31,6 +31,6 @@ class FormatTagLib {
         def text = attrs.value
         text = text.replace('#', "<i class='fa fa-hashtag'></i>")
         text = text.replace('@', "<i class='fa fa-at'></i>")
-        out << text
+        out << text.replace('../', '/')
     }
 }

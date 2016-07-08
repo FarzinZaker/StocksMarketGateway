@@ -172,7 +172,7 @@ class FilterService {
                 indicatorColumns << "${indicatorName.replace('.', '_')}_${rule.inputType?.toString()?.replace(',', '_')}"
             if (indicatorName.endsWith('.Volume')) {
                 if (rule.operator.contains('average')) {
-                    def daysCount = JSON.parse(rule.value).find().find { !it.contains('.') }
+                    def daysCount = JSON.parse(rule.value).find{!(it instanceof String)}.find { !it.contains('.') }
                     calculatedColumns.put("SYM_VOL_AVG", [daysCount])
                 }
             } else if (indicatorName.endsWith('MACD')) {

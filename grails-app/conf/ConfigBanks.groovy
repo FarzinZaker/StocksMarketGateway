@@ -21,7 +21,7 @@ accounts = [
 
 gift = [
         invite: [
-                registration: 1000,
-                visit       : 500
+                registration: 20000,
+                visit       : 5000
         ]
 ]

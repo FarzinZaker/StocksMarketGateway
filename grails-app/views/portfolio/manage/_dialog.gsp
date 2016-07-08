@@ -130,7 +130,7 @@
                         $('span[name=submit]').click(function () {
 //                if ($('#portfolioForm').isValid()) {
                             var isInitialDataEntry = currenctAction == 'b' || currenctAction == 's' ? $('#isInitialDataEntry').is(':checked') : null;
-                            var hasChildAction = !isInitialDataEntry && (currenctAction == 'b' || currenctAction == 's') &&  $('#transactionSourceType').length;
+                            var hasChildAction = !isInitialDataEntry && (currenctAction == 'b' || currenctAction == 's') && $('#transactionSourceType').length;
                             $.ajax({
                                 url: '${createLink(controller: 'portfolioAction', action: 'portfolioActionSave', id: params.id)}',
                                 type: 'post',
@@ -322,16 +322,19 @@
             $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
             $('#isInitialDataEntry').prop('checked', dataItem.isInitialDataEntry).parent().parent().parent().parent().stop().show();
             if (dataItem.isInitialDataEntry) {
-                $('#transactionSourceSelectArea').stop().hide();
-                if($('#transactionSourceType').length)
+                if ($('#transactionSourceType').length) {
+                    $('#transactionSourceSelectArea').stop().hide();
                     $('#transactionSourceType').data("kendoComboBox").value('');
-                $('#transactionSourceSelectorContainer').html('');
+                    $('#transactionSourceSelectorContainer').html('');
+                }
             }
             else {
                 $('#transactionSourceSelectArea').stop().show();
-                $('#transactionSourceType').data("kendoComboBox").value(dataItem.transactionSourceType);
-                transactionSourceChanged(null, $('#transactionSourceType').data("kendoComboBox").value());
-                $('#transactionSource').data("kendoComboBox").value(dataItem.transactionSourceId);
+                if ($('#transactionSourceType').length) {
+                    $('#transactionSourceType').data("kendoComboBox").value(dataItem.transactionSourceType);
+                    transactionSourceChanged(null, $('#transactionSourceType').data("kendoComboBox").value());
+                    $('#transactionSource').data("kendoComboBox").value(dataItem.transactionSourceId);
+                }
             }
             if (currenctAction == 'b')
                 $('#isInitialDataEntry').parent().parent().parent().parent().stop().show();
@@ -392,7 +395,7 @@
         currenctAction = action;
         if (currenctAction == 'b' || currenctAction == 's') {
             $('#lblTransactionSource').find('label').html(currenctAction == 'b' ? '${message(code:'portfolioAction.transactionSource.label')}' : '${message(code:'portfolioAction.transactionTarget.label')}');
-            if($('#transactionSourceType').length)
+            if ($('#transactionSourceType').length)
                 $('#transactionSourceType').data("kendoComboBox").value('');
             $('#transactionSourceSelectorContainer').html('');
             $('#isInitialDataEntry').prop('checked', false);

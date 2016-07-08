@@ -7,6 +7,7 @@ class ProfileController {
 
     def springSecurityService
     def accountingService
+    def personGraphService
 
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def index() {
@@ -30,6 +31,7 @@ class ProfileController {
         user.city = City.get(params.cityId as Long)
         user.image = Image.get(params.image?.id as Long)
         if (user.save(flush: true)) {
+            personGraphService.ensurePerson(user)
             flash.message = message(code: 'user.profile.savedSuccessfully')
         }
         redirect(action: 'edit')

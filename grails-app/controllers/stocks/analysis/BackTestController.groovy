@@ -81,7 +81,7 @@ class BackTestController {
         def signals = decorateBackTestSignals(backTest, null)
 
         def buyRules = Rule.findAllByParent(backTest.buyRule)
-        def sellRules = Rule.findAllByParent(backTest.buyRule)
+        def sellRules = Rule.findAllByParent(backTest.sellRule)
         def logs = decoratePortfolioLogs(backTest, null)
         [
                 backTest  : backTest,

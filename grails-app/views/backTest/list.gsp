@@ -121,12 +121,12 @@
                             {
                                 field: "buyWage",
                                 title: "${message(code:'backTest.buyWage.label')}",
-                                format: '{0:p0}'
+                                format: '{0:p3}'
                             },
                             {
                                 field: "sellWage",
                                 title: "${message(code:'backTest.sellWage.label')}",
-                                format: '{0:p0}'
+                                format: '{0:p3}'
                             },
                             {
                                 field: "buyTax",
@@ -136,7 +136,7 @@
                             {
                                 field: "sellTax",
                                 title: "${message(code:'backTest.sellTax.label')}",
-                                format: '{0:p0}'
+                                format: '{0:p1}'
                             },
                             {
                                 field: "status",

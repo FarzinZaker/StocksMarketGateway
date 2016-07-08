@@ -390,65 +390,69 @@ class PortfolioController {
         def minDate = actions.collect { it.actionDate }?.min()?.clearTime()
         def dates = []
         while (minDate < new Date()) {
+            minDate = minDate?.clearTime()
             dates.add(minDate)
             use(TimeCategory) {
                 minDate = minDate + 1.day
             }
         }
 //        def dates = actions.collect { it.actionDate?.clearTime() }.unique { a, b -> a <=> b }
-        Map<PortfolioItem, Map<Date, Map<String, Long>>> report = [:]
+        Map<PortfolioItem, Map<Long, Map<String, Long>>> report = [:]
         items.each { item ->
             report.put(item, [:])
-            dates.each { date ->
-                report[item].put(date?.time, [:])
+            def clazz = Introspector.decapitalize(item.itemType.split('\\.').last())
+            dates.sort().each { Date date ->
+                def time = date?.time
+                report[item].put(time, [:])
+                report[item][time]["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, item.propertyId, date)) as Long
             }
         }
-        actions.sort { it.actionDate }.each { action ->
-            def row = report[action.portfolioItem][action?.actionDate?.clearTime()?.time]
-            def clazz = Introspector.decapitalize(action.portfolioItem.itemType.split('\\.').last())
-            row["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, action.actionDate?.clearTime()) ?: action.sharePrice) as Long
-            report[action.portfolioItem].keySet().each { key ->
-                if (key > action?.actionDate?.clearTime()?.time) {
-                    report[action.portfolioItem][key]["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, action.portfolioItem.propertyId, new Date(key)) ?: row["realPrice"]) as Long
+
+        actions.sort { it.actionDate }.each {
+            action ->
+                def row = report[action.portfolioItem][action?.actionDate?.clearTime()?.time]
+
+                if (action.actionType == 'b') {
+                    report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime()?.time }.each {
+                        increaseMapItemValue(it.value, "totalShareCount", action.shareCount)
+                        increaseMapItemValue(it.value, "totalBuyCount", action.shareCount)
+                        increaseMapItemValue(it.value, "totalBuyPrice", action.shareCount * action.sharePrice)
+                    }
+                } else {
+                    report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime()?.time }.each {
+                        increaseMapItemValue(it.value, "totalShareCount", -action.shareCount)
+                    }
+                    increaseMapItemValue(row, "totalSellCount", action.shareCount)
+                    increaseMapItemValue(row, "totalSellPrice", action.shareCount * action.sharePrice)
                 }
-            }
-            if (action.actionType == 'b') {
-                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime()?.time }.each {
-                    increaseMapItemValue(it.value, "totalShareCount", action.shareCount)
-                    increaseMapItemValue(it.value, "totalBuyCount", action.shareCount)
-                    increaseMapItemValue(it.value, "totalBuyPrice", action.shareCount * action.sharePrice)
-                }
-            } else {
-                report[action.portfolioItem].findAll { it.key >= action.actionDate?.clearTime()?.time }.each {
-                    increaseMapItemValue(it.value, "totalShareCount", -action.shareCount)
-                }
-                increaseMapItemValue(row, "totalSellCount", action.shareCount)
-                increaseMapItemValue(row, "totalSellPrice", action.shareCount * action.sharePrice)
-            }
         }
-        items.each { item ->
-            dates.each { date ->
-                def row = report[item][date?.time]
-                def averageBuyPrice = (row["totalBuyPrice"] ?: 0) / (row["totalBuyCount"] ?: 1)
-                def averageSellPrice = (row["totalSellPrice"] ?: 1) / (row["totalSellCount"] ?: 1)
-                def realPrice = row["realPrice"] ?: 0
-                row["potentialBenefitLoss"] = (row["totalShareCount"] ?: 0) * (realPrice - averageBuyPrice)
-                row["actualBenefitLoss"] = (row["totalSellCount"] ?: 0) * (averageSellPrice - averageBuyPrice)
-                row["totalBenefitLoss"] = row["potentialBenefitLoss"] + row["actualBenefitLoss"]
-            }
+        items.each {
+            item ->
+                dates.each { date ->
+                    def row = report[item][date?.time]
+                    def averageBuyPrice = (row["totalBuyPrice"] ?: 0) / (row["totalBuyCount"] ?: 1)
+                    def averageSellPrice = (row["totalSellPrice"] ?: 1) / (row["totalSellCount"] ?: 1)
+                    def realPrice = row["realPrice"] ?: 0
+                    row["potentialBenefitLoss"] = (row["totalShareCount"] ?: 0) * (realPrice - averageBuyPrice)
+                    row["actualBenefitLoss"] = (row["totalSellCount"] ?: 0) * (averageSellPrice - averageBuyPrice)
+                    row["totalBenefitLoss"] = row["potentialBenefitLoss"] + row["actualBenefitLoss"]
+                }
         }
 
         Map<Date, Map<String, Long>> totalReport = [:]
-        dates.each { date ->
-            totalReport[date?.time] = [:]
-            def yesterday = dates.findAll { it < date }?.sort { -it.time }?.find()
-            totalReport[date?.time]["actualBenefitLoss"] = items.sum { item -> report[item][date?.time]["actualBenefitLoss"] ?: 0 } + (yesterday ? totalReport[yesterday?.time]["actualBenefitLoss"] : 0)
-            totalReport[date?.time]["potentialBenefitLoss"] = items.sum { item -> report[item][date?.time]["potentialBenefitLoss"] ?: 0 }
-            totalReport[date?.time]["totalBenefitLoss"] = totalReport[date?.time]["actualBenefitLoss"] + totalReport[date?.time]["potentialBenefitLoss"]
+        dates.each {
+            date ->
+                totalReport[date?.time] = [:]
+                def yesterday = dates.findAll { it < date }?.sort { -it.time }?.find()
+                totalReport[date?.time]["actualBenefitLoss"] = items.sum { item -> report[item][date?.time]["actualBenefitLoss"] ?: 0 } + (yesterday ? totalReport[yesterday?.time]["actualBenefitLoss"] : 0)
+                totalReport[date?.time]["potentialBenefitLoss"] = items.sum { item -> report[item][date?.time]["potentialBenefitLoss"] ?: 0 }
+                totalReport[date?.time]["totalBenefitLoss"] = totalReport[date?.time]["actualBenefitLoss"] + totalReport[date?.time]["potentialBenefitLoss"]
         }
 
         render([
-                data : totalReport.sort { -it.key }.collect {
+                data : totalReport.sort {
+                    -it.key
+                }.collect {
                     [
                             time                : it.key,
                             date                : format.jalaliDate(date: new Date(it.key)),
@@ -466,4 +470,5 @@ class PortfolioController {
             map.put(key, 0)
         map[key] += value
     }
+
 }

@@ -219,6 +219,8 @@ class GraphDBService {
     }
 
     Map unwrapVertex(OrientVertex vertex) {
+        if(!vertex)
+            return null
         def result = [:]
         result.id = vertex.id?.toString()
         result.idNumber = vertex.id?.toString()?.replace('#', '')
@@ -233,6 +235,8 @@ class GraphDBService {
     }
 
     Map unwrapEdge(OrientEdge edge) {
+        if(!edge)
+            return null
         def result = [:]
         result.id = edge.id?.toString()
         result.idNumber = edge.id?.toString()?.replace('#', '')

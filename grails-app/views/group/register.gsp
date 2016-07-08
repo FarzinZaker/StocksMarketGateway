@@ -105,7 +105,7 @@
         var priceAttr = $(this).attr('data-price');
         var price = !priceAttr || priceAttr == '' ? 0 : parseInt($(this).attr('data-price'));
 
-        if (accountBalance > price) {
+        if (accountBalance >= price) {
             $('#btnRegisterInGroup').show();
             $('#balanceAfterRegisterContainer').show();
             $('#btnChargeAccount').hide();
@@ -123,7 +123,7 @@
         var accountBalance = ${balance} + ${maxDept};
         var priceAttr = $(this).attr('data-price');
         var price = !priceAttr || priceAttr == '' ? 0 : parseInt($(this).attr('data-price'));
-        if (accountBalance > priceAttr)
+        if (accountBalance >= priceAttr)
             $(this).click();
     });
 

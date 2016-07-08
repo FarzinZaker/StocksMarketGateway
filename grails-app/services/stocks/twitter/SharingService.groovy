@@ -108,6 +108,10 @@ class SharingService {
         materialGraphService.removeMaterial(identifier)
     }
 
+    void removeMaterial(String id) {
+        materialGraphService.removeMaterial(id)
+    }
+
     void string(Long id) {
         materialGraphService.removeMaterial(id)
     }
