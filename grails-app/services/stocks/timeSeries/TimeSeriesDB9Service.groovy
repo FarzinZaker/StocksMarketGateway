@@ -7,7 +7,7 @@ import stocks.util.HttpHelper
 class TimeSeriesDB9Service {
 
     def grailsApplication
-    def smsService
+//    def smsService
 
     private def conn = null
 
@@ -71,8 +71,8 @@ class TimeSeriesDB9Service {
                 catch (ignored) {
                     windowSize = [1, Math.round(windowSize / 2)].max()
                     failedPosts++
-                    if(failedPosts == 100)
-                        smsService.sendCustomMessage('09122110811', 'time series db is not responding to write requests')
+//                    if(failedPosts == 100)
+//                        smsService.sendCustomMessage('09122110811', 'time series db is not responding to write requests')
                     println "window size: ${windowSize}"
                     Thread.sleep([failedPosts, 5 * 60].min() * 1000)
                 }
@@ -96,8 +96,8 @@ class TimeSeriesDB9Service {
             }
             catch (ignored) {
                 failedQueries++
-                if(failedQueries == 100)
-                    smsService.sendCustomMessage('09122110811', 'time series db is not responding to read requests')
+//                if(failedQueries == 100)
+//                    smsService.sendCustomMessage('09122110811', 'time series db is not responding to read requests')
                 Thread.sleep([failedQueries, 5 * 60].min() * 1000)
             }
 
