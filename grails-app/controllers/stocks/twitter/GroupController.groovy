@@ -304,7 +304,7 @@ class GroupController {
 
     def home() {
         def group = params.id ? commonGraphService.getAndUnwrap(params.id as String) : null
-        if(group) {
+        if (group) {
             def user = springSecurityService.currentUser as User
             group.image = Image.get(group.imageId as Long)
             [
@@ -314,8 +314,8 @@ class GroupController {
                     authorList: groupGraphService.authorList(params.id as String),
                     editorList: groupGraphService.editorList(params.id as String)
             ]
-        }
-        render(status: 404, text: 'NOT FOUND!')
+        } else
+            render(status: 404, text: 'NOT FOUND!')
     }
 
     def homeJson() {

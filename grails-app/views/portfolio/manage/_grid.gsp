@@ -272,7 +272,7 @@
                     field: "broker.brokerName",
                     title: "${message(code: 'portfolioAction.broker.label')}",
                     editor: brokerEditor,
-                    filterable:{
+                    filterable: {
                         ui: brokerDropDownFilter,
                         operators: {
                             string: {
@@ -289,15 +289,17 @@
                     field: "discount",
                     title: "${message(code: 'portfolioAction.discount.label')}",
                     editor: discountEditor,
-                    filterable:false,
-                    template: "#=discount?formatNumber(discount * 100) + ' %':''#"
+                    filterable: false,
+                    format: '{0:p2}'
+//                    template: "#=discount?formatNumber(discount * 100) + ' %':''#"
                 },
                 {
                     field: "wage",
                     title: "${message(code: 'portfolioAction.wage.label')}",
                     editor: wageEditor,
-                    filterable:false,
-                    template: "#=wage?formatNumber(wage * 100) + ' %':''#"
+                    filterable: false,
+                    format: '{0:p3}'
+//                    template: "#=wage?formatNumber(wage * 100) + ' %':''#"
                 },
                 </g:if>
                 {
@@ -348,7 +350,7 @@
                 .kendoWindow({
                     width: '500px',
                     title: false,
-                    content: '${createLink(action: 'propertyForm')}?clazz=' + options.model.itemType.clazz+'&portfolioId=${params.id}',
+                    content: '${createLink(action: 'propertyForm')}?clazz=' + options.model.itemType.clazz + '&portfolioId=${params.id}',
                     modal: true,
                     close: function (e) {
                         $(container).find('input[type!=text].propertyComboBox').data('kendoComboBox').dataSource.read();
@@ -362,13 +364,18 @@
         confirmWindow.content(confirmWindowTemplate(dataItem)); //send the row data object to the template and render it
         confirmWindow.open().center();
         $("#yesButton").click(function () {
-            $.ajax({url:'${createLink(action: 'portfolioActionDelete',controller: 'portfolioAction')}',data:{models:JSON.stringify([dataItem])},type:'post',success:function(data){
-                if(data.error)
-                    alert(data.error);
-                else
-                    dataSource.read();
-                confirmWindow.close();
-            }});
+            $.ajax({
+                url: '${createLink(action: 'portfolioActionDelete',controller: 'portfolioAction')}',
+                data: {models: JSON.stringify([dataItem])},
+                type: 'post',
+                success: function (data) {
+                    if (data.error)
+                        alert(data.error);
+                    else
+                        dataSource.read();
+                    confirmWindow.close();
+                }
+            });
 
         });
         $("#noButton").click(function () {
@@ -394,7 +401,7 @@
                 .kendoWindow({
                     width: '500px',
                     title: false,
-                    content: '${createLink(action: 'propertyForm')}/' + combo.value() + '?clazz=' + options.model.itemType.clazz+'&portfolioId=${params.id}',
+                    content: '${createLink(action: 'propertyForm')}/' + combo.value() + '?clazz=' + options.model.itemType.clazz + '&portfolioId=${params.id}',
                     modal: true,
                     close: function (e) {
                     }
@@ -442,7 +449,7 @@
                 data: {
                     id: idForDelete,
                     clazz: clazzForDelete,
-                portfolioId:${params.id}
+                    portfolioId:${params.id}
                 }
             }).done(function (response) {
                 if (response == 1) {

@@ -55,7 +55,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
         [
                 baskets: Portfolio.findAllByOwnerAndDeleted(user, false).collect {
                     [
-                            id  : it.id,
+                            id: it.id,
                             name: it.name
                     ]
                 }
@@ -64,7 +64,7 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
 
     @Override
     String[] formatQueryValue(Object value, String operator) {
-        [value.findAll{it != ''}.collect { Portfolio.get(it as Long).name }.join('، ')]
+        [value.findAll { it != '' }.collect { Portfolio.get(it as Long).name }.join('، ')]
     }
 
     @Override
@@ -75,7 +75,9 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     @Override
     List<Long> getExcludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.NOT_MEMBER_OF)
-            return PortfolioSymbolItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+            return PortfolioSymbolItem.findAllByPortfolioInList(Portfolio.findAllByIdInList(value.findAll().collect {
+                it as Long
+            })).collect {
                 it.symbol?.id
             }
         null
@@ -84,7 +86,9 @@ class BasketFilterService implements IncludeFilterService, ExcludeFilterService 
     @Override
     List<Long> getIncludeList(String parameter, String operator, Object value, String adjustmentType) {
         if (operator == Operators.MEMBER_OF)
-            return PortfolioSymbolItem.findAllByPortfolio(Portfolio.get(value.find() as Long)).collect {
+            return PortfolioSymbolItem.findAllByPortfolioInList(Portfolio.findAllByIdInList(value.findAll().collect {
+                it as Long
+            })).collect {
                 it.symbol?.id
             }
         null
