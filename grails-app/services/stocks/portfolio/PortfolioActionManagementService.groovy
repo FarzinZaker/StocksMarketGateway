@@ -96,11 +96,13 @@ class PortfolioActionManagementService {
                     oldPortfolioItem.save()
                 }
             } else {
-                if (action.signedCost > 0) {
-                    oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount - action.signedShareCount)
+                if (action?.portfolioItem instanceof PortfolioPropertyItem) {
+                    if (action.signedCost > 0) {
+                        oldPortfolioItem.avgBuyCost = (oldPortfolioItem.avgBuyCost * oldPortfolioItem.shareCount - action.signedCost) / (oldPortfolioItem.shareCount - action.signedShareCount)
+                    }
+                    oldPortfolioItem.shareCount -= action.signedShareCount
                 }
                 oldPortfolioItem.cost -= action.signedCost
-                oldPortfolioItem.shareCount -= action.signedShareCount
                 oldPortfolioItem.save()
             }
         }
@@ -170,10 +172,9 @@ class PortfolioActionManagementService {
             def signedCost = item.signedCost
             item.delete()
             if (PortfolioAction.findAllByPortfolioItem(portfolioItem)) {
-                if(portfolioItem instanceof PortfolioCashItem){
+                if (portfolioItem instanceof PortfolioCashItem) {
                     portfolioItem.cost -= signedCost
-                }
-                else {
+                } else {
                     if (signedCost > 0) {
                         if ((portfolioItem.shareCount ?: 0) - signedShareCount != 0)
                             portfolioItem.avgBuyCost = ((portfolioItem.avgBuyCost ?: 0) * (portfolioItem.shareCount ?: 0) - signedCost) / (portfolioItem.shareCount ?: 0) - signedShareCount

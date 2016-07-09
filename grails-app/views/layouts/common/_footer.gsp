@@ -70,11 +70,11 @@
                                     code="about.site"/></a>
                         </li>
                         <li>
-                            <a href="${createLink(controller: 'about', action: 'company')}"><g:message
+                            <a href="http://www.aeam.ir" target="_blank"><g:message
                                     code="about.company"/></a>
                         </li>
                         <li>
-                            <a href="${createLink(controller: 'about', action: 'it')}"><g:message code="about.it"/></a>
+                            <a href="http://www.parssysco.ir" target="_blank"><g:message code="about.it"/></a>
                         </li>
                         <li>
                             <a href="${createLink(controller: 'about', action: 'history')}"><g:message

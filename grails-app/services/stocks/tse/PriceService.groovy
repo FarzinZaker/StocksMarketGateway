@@ -2,11 +2,13 @@ package stocks.tse
 
 class PriceService {
 
+    def adjustedPriceSeries9Service
+
     Double lastPrice(Symbol symbol, Date date = new Date(), String adjustmentType = null) {
         if(!adjustmentType)
             adjustmentType = AdjustmentHelper.defaultType
         def dailyTrade = lastDailyTrade(symbol, date, adjustmentType)
-        dailyTrade ? (dailyTrade?.lastTradePrice ?: 0) : 0
+        dailyTrade?.lastTradePrice ?: adjustedPriceSeries9Service.lastLastTradePrice(symbol?.id, date, adjustmentType)
     }
 
     SymbolAdjustedDailyTrade lastDailyTrade(Symbol symbol, Date date = new Date(), String adjustmentType = null) {

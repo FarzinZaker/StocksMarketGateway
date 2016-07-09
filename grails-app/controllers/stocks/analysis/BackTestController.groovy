@@ -316,13 +316,14 @@ class BackTestController {
         def hcPerformance = indexLastValue?.finalIndexValue / indexFirstValue?.finalIndexValue
         def yearlyBenefit = logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 * 365 / backTest.outlay / totalDays / 2 : 0
         def indexYearlyBenefit = (hcPerformance - 1) * 100 * 365 / totalDays
+        def roi = logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay : 0
         [
                 initialValue                        : backTest.outlay,
                 finalValue                          : logs.size() > 0 ? logs.last()[1] : 0,
                 profitableTradesCount               : signals.count { it.effect > 0 },
                 lossingTradesCount                  : signals.count { it.effect < 0 },
                 successRate                         : successRate,
-                returnOfInvestment                  : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay : 0,
+                returnOfInvestment                  : roi,
                 yearlyBenefit                       : yearlyBenefit,
                 dailyBenefit                        : logs.size() > 0 ? (logs.last()[1] - backTest.outlay) * 100 / backTest.outlay / openDays.size() : 0,
                 totalWage                           : signals.sum { it.wage } ?: 0,
@@ -331,7 +332,7 @@ class BackTestController {
                 indexYearlyBenefit                  : indexYearlyBenefit,
                 indexDailyBenefit                   : (hcPerformance - 1) * 100 / openDays.size(),
                 performanceCompareToIndex           : yearlyBenefit - indexYearlyBenefit,//(performance - (hcPerformance - 1)) * 100,
-                dailyBenefitInSimpleHoldingCondition: (performance - ((backTest.outlay - hcBuyValue + hcSellValue) / backTest.outlay - 1)) * 100
+                dailyBenefitInSimpleHoldingCondition: roi - (hcSellValue - hcBuyValue) * 100 / hcBuyValue
         ]
     }
 
