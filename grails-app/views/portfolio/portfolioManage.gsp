@@ -86,7 +86,8 @@
                         items: [
                             {type: "button", text: "<g:message code="portfolio.list.title"/>", click: btnPortfolioListClick},
                             {type: "button", text: "<g:message code="portfolio.view.title"/>", click: btnViewPortfolioClick},
-                            {type: "button", text: "<g:message code="portfolio.reports.benefitLoss"/>", click: btnBenefitLossClick}
+                            {type: "button", text: "<g:message code="portfolio.reports.benefitLoss"/>", click: btnBenefitLossClick},
+                            {type: "button", text: "<g:message code="portfolio.actions.import"/>", click: btnImportPortfolioActionsClick}
                         ]
                     });
                 });
@@ -103,6 +104,22 @@
                     window.location.href = "${createLink(action: 'benefitLoss')}/${params.id}";
                 }
 
+                function btnImportPortfolioActionsClick(e){
+                    var win = $('#importWindow').html('')
+                            .kendoWindow({
+                                title: '${message(code:'portfolio.actions.import')}',
+                                width: '500px',
+                                content: '${createLink(controller: 'portfolioAction', action: 'portfolioActionImport')}/' + ${params.id},
+                                modal: true,
+                                close: function (e) {
+                                }
+                            }).data('kendoWindow').center().open();
+                    win.bind("refresh", function () {
+                        win.center();
+                        win.open();
+                    });
+                }
+
             </script>
 
             <g:render template="manage/editors"/>
@@ -111,6 +128,9 @@
             <g:render template="manage/grid"/>
         </div>
     </div>
+</div>
+<div class="hidden k-rtl">
+    <div id="importWindow"></div>
 </div>
 </body>
 </html>

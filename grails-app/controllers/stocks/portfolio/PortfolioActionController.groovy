@@ -2,7 +2,10 @@ package stocks.portfolio
 
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
+import stocks.Image
+import stocks.portfolio.portfolioItems.PortfolioBrokerItem
 import stocks.tse.Symbol
+import stocks.Broker
 
 import java.beans.Introspector
 import java.text.DateFormat
@@ -114,6 +117,8 @@ class PortfolioActionController {
 
     def portfolioActionSave() {
 
+        \
+
         def result = []
         JSON.parse(params.models).each { model ->
             def action = portfolioActionManagementService.save(params.long("id"), model as Map, params.parentActionId ? PortfolioAction.get(params.parentActionId as Long) : null)
@@ -153,5 +158,39 @@ class PortfolioActionController {
                 it + [clazz: params.clazz]
             } as JSON)
         }
+    }
+
+    def portfolioActionImport() {
+        def portfolio = Portfolio.get(params.id)
+        render(view: '/portfolio/portfolioActionImport', model: [portfolio: portfolio])
+    }
+
+    def portfolioActionImportResult() {
+        def portfolio = Portfolio.get(params.id)
+        def fileId = session["portfolioActionImport${portfolio?.id}"]
+        def path = "${grailsApplication.config.user.files.temp}/${fileId}"
+        def result = portfolioActionManagementService.importPortfolioActions(portfolio?.id, path, Broker.get(params.broker))
+        render(view: '/portfolio/portfolioActionImportResult', model: [portfolio: portfolio, result: result])
+    }
+
+    def uploadFile() {
+
+        def fileId = UUID.randomUUID()?.toString()
+        def fileName = "${fileId}-${params.file.fileItem.fileName}"
+        def path = "${grailsApplication.config.user.files.temp}/${fileName}"
+        def file = new File(path)
+
+        def directory = file.parentFile
+        if (!directory.exists())
+            directory.mkdirs()
+
+        if (file.exists())
+            file.delete()
+
+        params.file.transferTo(file)
+
+        session[params.id] = fileName
+
+        render 1
     }
 }

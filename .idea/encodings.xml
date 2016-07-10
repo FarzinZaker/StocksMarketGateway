@@ -9,6 +9,7 @@
     <file url="file://$PROJECT_DIR$/grails-app/controllers/stocks/messaging/NewsLetterController.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/services/stocks/DashboardService.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/services/stocks/feed/ExternalAnalysisService.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grails-app/services/stocks/portfolio/PortfolioActionManagementService.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/services/stocks/tse/data/MarketValueDataService.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/web-app/js/kendo.ui/kendo.filebrowser.min.js" charset="windows-1252" />
   </component>

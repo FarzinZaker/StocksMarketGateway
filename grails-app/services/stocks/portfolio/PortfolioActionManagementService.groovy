@@ -2,7 +2,11 @@ package stocks.portfolio
 
 import com.google.common.base.CaseFormat
 import fi.joensuu.joyds1.calendar.JalaliCalendar
+import jxl.Sheet
+import jxl.Workbook
+import org.ccil.cowan.tagsoup.Parser
 import stocks.Broker
+import stocks.FarsiNormalizationFilter
 import stocks.GlobalSetting
 import stocks.portfolio.basic.BankAccount
 import stocks.portfolio.basic.BusinessPartner
@@ -35,6 +39,9 @@ import stocks.tse.Symbol
 import java.beans.Introspector
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.zip.GZIPInputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 
 class PortfolioActionManagementService {
     def messageSource
@@ -506,5 +513,155 @@ class PortfolioActionManagementService {
             return null
         def dateParts = date.split("/").collect { it as Integer }
         new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2]).toJavaUtilGregorianCalendar().time
+    }
+
+    List<Map> importPortfolioActions(Long portfolioId, String filePath, Broker broker) {
+        def extension = filePath.substring(filePath.lastIndexOf('.') + 1)?.toLowerCase()
+        if (extension == 'zip')
+            return importPortfolioActionsFromZip(portfolioId, filePath, broker)
+        else if (extension == 'xls')
+            return importPortfolioActionsFromExcel(portfolioId, filePath, broker)
+        return []
+    }
+
+    private List<Map> importPortfolioActionsFromZip(Long portfolioId, String filePath, Broker broker) {
+        def result = []
+        ByteArrayInputStream bis = new ByteArrayInputStream(new File(filePath).readBytes());
+        GZIPInputStream gis = new GZIPInputStream(bis);
+        BufferedReader br = new BufferedReader(new InputStreamReader(gis, "UTF-16"));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        br.close();
+        gis.close();
+        bis.close();
+        def rows = new XmlSlurper(new Parser()).parseText(sb.toString()).'**'?.findAll { it?.name() == 'tr' };
+        rows.remove(0)
+        rows.each { row ->
+            def cells = row.'**'?.findAll { it?.name() == 'td' }?.collect { it?.text()?.trim() }
+            println(cells)
+
+            try {
+
+                def count = cells[13]?.toString()?.toInteger()
+                if (count > 0) {
+                    def actionType = null
+                    if (FarsiNormalizationFilter.apply(cells[7]?.toString()) == FarsiNormalizationFilter.apply('خرید'))
+                        actionType = 'b'
+                    if (FarsiNormalizationFilter.apply(cells[7]?.toString()) == FarsiNormalizationFilter.apply('فروش'))
+                        actionType = 's'
+
+                    def price = cells[12]?.toString()?.toInteger()
+
+                    def date = cells[6]?.toString()
+
+                    def symbolCode = cells[8]?.toString()
+                    def symbol = Symbol.findByCode(symbolCode)
+
+                    def model = [
+                            id                : '',
+                            itemType          : [clazz: specifySymbolItemType(symbol)],
+                            property          : [propertyId: symbol?.id, propertyName: symbol?.toString()],
+                            actionType        : [actionTypeId: actionType],
+                            actionDate        : date,
+                            sharePrice        : price,
+                            shareCount        : count,
+                            isInitialDataEntry: !broker
+                    ]
+                    if (broker) {
+                        model.transactionSourceType = 'portfolioBrokerItem'
+                        model.transactionSource = broker?.id
+                        model.broker = [brokerId: broker?.id, brokerName: broker?.name]
+                    }
+                    model.errors = save(portfolioId, model)?.errors?.allErrors
+                    result << model
+                }
+            }
+            catch (ignored) {
+                throw ignored
+            }
+        }
+        result
+    }
+
+    private List<Map> importPortfolioActionsFromExcel(Long portfolioId, String filePath, Broker broker) {
+        def result = []
+        def file = new File(filePath)
+        Workbook book = Workbook.getWorkbook(file)
+        Sheet sheet = book.getSheet(0)
+        for (def i = 0; i < sheet.rows; i++) {
+            try {
+                def description = FarsiNormalizationFilter.apply(sheet.getCell(2, i).contents)
+                def descriptionParts = description.split(' ').collect { it.trim() }.findAll { it }
+                if (!descriptionParts.size())
+                    continue
+                def actionType = null
+                if (descriptionParts.first() == FarsiNormalizationFilter.apply('خرید'))
+                    actionType = 'b'
+                if (descriptionParts.first() == FarsiNormalizationFilter.apply('فروش'))
+                    actionType = 's'
+                if (!actionType)
+                    continue
+
+                def count = descriptionParts[1]?.replace(',', '')?.toInteger()
+
+                def price = 0
+                def correctPosition = false
+                for (def j = 0; j < descriptionParts.size(); j++) {
+                    if (correctPosition) {
+                        price = descriptionParts[j]?.replace(',', '')?.toInteger()
+                        break;
+                    }
+                    if (descriptionParts[j] == '-')
+                        correctPosition = true;
+                }
+
+                def date = sheet.getCell(1, i).contents?.trim()
+
+                def symbolCode = descriptionParts.last()?.replace('(', '')?.replace(')', '')?.substring(0, 12)
+                def symbol = Symbol.findByCode(symbolCode)
+
+                def model = [
+                        id                : '',
+                        itemType          : [clazz: specifySymbolItemType(symbol)],
+                        property          : [propertyId: symbol?.id, propertyName: symbol?.toString()],
+                        actionType        : [actionTypeId: actionType],
+                        actionDate        : date,
+                        sharePrice        : price,
+                        shareCount        : count,
+                        isInitialDataEntry: !broker
+                ]
+                if (broker) {
+                    model.transactionSourceType = 'portfolioBrokerItem'
+                    model.transactionSource = broker?.id
+                    model.broker = [brokerId: broker?.id, brokerName: broker?.name]
+                }
+                model.errors = save(portfolioId, model)?.errors?.allErrors
+                result << model
+            }
+            catch (ignored) {
+                throw ignored
+            }
+        }
+        result
+    }
+
+    private String specifySymbolItemType(Symbol symbol) {
+
+        if (symbol.marketCode == 'MCNO' && symbol.type == '305')
+            return 'portfolioInvestmentFundItem'
+
+        if (symbol.marketCode == 'MCNO' && ((symbol.type == '301' && symbol.boardCode == '9') || symbol.type == '306'))
+            return 'portfolioBondsItem'
+
+        if (symbol.marketCode == 'MCNO' && symbol.type == '303' && symbol.boardCode == '4')
+            return 'portfolioHousingFacilitiesItem'
+
+        if (symbol.marketCode == 'MCNO' && (symbol.type == '400' || symbol.type == '403' || symbol.type == '404') && symbol.boardCode != '4')
+            return 'portfolioSymbolPriorityItem'
+
+        return 'portfolioSymbolItem'
     }
 }

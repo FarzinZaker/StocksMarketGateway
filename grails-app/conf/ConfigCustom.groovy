@@ -1,5 +1,6 @@
 
 user.files.imagesPath = "/Personal/DevDesk/Stocks-Files/images"
+user.files.temp = "/Personal/DevDesk/Stocks-Files/temp"
 codal.filesPath = "/Personal/DevDesk/Stocks-Files/codal"
 
 grails.views.gsp.encoding="UTF-8"
