@@ -15,6 +15,7 @@ class UserController {
     def personGraphService
     def materialGraphService
     def groupGraphService
+    def userService
 
     def registrationDisabled() {
 
@@ -434,6 +435,37 @@ class UserController {
             ]
         }
         render([data: result] as JSON)
+    }
+
+    def importUsers() {
+    }
+
+    def importResult() {
+        def fileId = session["userImport"]
+        def path = "${grailsApplication.config.user.files.temp}/${fileId}"
+        def result = userService.importUser(path)
+        [result: result]
+    }
+
+    def uploadFile() {
+
+        def fileId = UUID.randomUUID()?.toString()
+        def fileName = "${fileId}-${params.file.fileItem.fileName}"
+        def path = "${grailsApplication.config.user.files.temp}/${fileName}"
+        def file = new File(path)
+
+        def directory = file.parentFile
+        if (!directory.exists())
+            directory.mkdirs()
+
+        if (file.exists())
+            file.delete()
+
+        params.file.transferTo(file)
+
+        session[params.id] = fileName
+
+        render 1
     }
 
 }

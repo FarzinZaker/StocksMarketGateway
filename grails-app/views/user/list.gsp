@@ -49,6 +49,7 @@
 
             <div class="toolbar">
                 <form:linkButton href="${createLink(action: 'build')}" text="${message(code:'menu.users.add')}"/>
+                <input type="button" class="k-button" value="${message(code:'users.import')}" onclick="btnImportUserClick()"/>
             </div>
 
             <script>
@@ -161,9 +162,28 @@
                 function manageTransaction(e) {
                     window.location.href = "${createLink(controller: 'transaction', action: 'user')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
                 }
+
+                function btnImportUserClick(e){
+                    var win = $('#importWindow').html('')
+                            .kendoWindow({
+                                title: '${message(code:'users.import')}',
+                                width: '500px',
+                                content: '${createLink(controller: 'user', action: 'importUsers')}/',
+                                modal: true,
+                                close: function (e) {
+                                }
+                            }).data('kendoWindow').center().open();
+                    win.bind("refresh", function () {
+                        win.center();
+                        win.open();
+                    });
+                }
             </script>
         </div>
     </div>
+</div>
+<div class="hidden k-rtl">
+    <div id="importWindow"></div>
 </div>
 </body>
 </html>
