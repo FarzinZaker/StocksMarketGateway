@@ -26,14 +26,14 @@ class BackTestJob {
             it.save(flush: true)
         }
         def waitingBackTests = BackTest.findAllByStatus(BackTestHelper.STATUS_IN_PROGRESS)
-        withPool(12)  {
-            waitingBackTests.eachParallel { BackTest backTest ->
-//            waitingBackTests.each { BackTest backTest ->
+//        withPool(12)  {
+//            waitingBackTests.eachParallel { BackTest backTest ->
+            waitingBackTests.each { BackTest backTest ->
                 BackTest.withTransaction {
                     backTestService.runBackTest(backTest)
                 }
             }
-        }
+//        }
     }
 
 }
