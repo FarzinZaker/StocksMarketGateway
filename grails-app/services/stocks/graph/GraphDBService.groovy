@@ -29,6 +29,7 @@ class GraphDBService {
         }
         catch (Exception ignored) {
             ignored.printStackTrace()
+            throw ignored
         }
         finally {
 //            println 'created:' + factory.createdInstancesInPool
@@ -150,13 +151,21 @@ class GraphDBService {
     }
 
     OrientEdge addEdge(String clazz = 'E', OrientVertex from, OrientVertex to, Map properties = [:], String label = null) {
+        def done = false
         OrientEdge edge = null
-        doWithGraph { OrientGraph graph ->
-            edge = graph.addEdge("class:${clazz}".toString(), from, to, label ?: clazz);
-            properties.keySet().each { property ->
-                edge.setProperty(property?.toString(), properties[property])
+        while(!done) {
+            try {
+                doWithGraph { OrientGraph graph ->
+                    edge = graph.addEdge("class:${clazz}".toString(), from, to, label ?: clazz);
+                    properties.keySet().each { property ->
+                        edge.setProperty(property?.toString(), properties[property])
+                    }
+                    graph.commit()
+                }
+                done = true
+            }catch (ignored){
+
             }
-            graph.commit()
         }
         edge
     }
