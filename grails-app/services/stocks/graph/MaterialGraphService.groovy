@@ -204,7 +204,7 @@ class MaterialGraphService {
         }
         def calendar = Calendar.getInstance()
         calendar.setTime(startDate)
-        graphDBService.queryAndUnwrapVertex("SELECT first(owner.@rid) as @rid, first(owner.title) as title, first(owner.identifier) as identifier, count FROM (SELECT owner, COUNT(*) as count FROM (SELECT In('Own') as owner, @rid FROM Material WHERE publishDate > '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0') GROUP BY owner ORDER BY count DESC) LIMIT ${count}")
+        graphDBService.queryAndUnwrapVertex("SELECT first(owner.@rid) as @rid, first(owner.title) as title, first(owner.identifier) as identifier, count FROM (SELECT owner, COUNT(*) as count FROM (SELECT In('Own') as owner, @rid FROM Material WHERE publishDate > '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0') WHERE owner.size() > 0 GROUP BY owner ORDER BY count DESC) LIMIT ${count}")
     }
 
     def jalaliDate = { date, hm, timeOnly ->
