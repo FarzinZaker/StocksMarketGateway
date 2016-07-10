@@ -80,7 +80,7 @@ class TradeStatisticsDataService {
                                             return
                                         if (checkPointReached || producer.id == state.producer.id) {
                                             checkPointReached = true
-                                            Thread.start {
+                                            Thread.startDaemon {
                                                 DataServiceState.withTransaction {
                                                     logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'running'])
                                                 }
@@ -91,20 +91,20 @@ class TradeStatisticsDataService {
                                                     use(TimeCategory) {
                                                         extractData(mainGroup, group, subgroup, producer, state.queryDate, state.queryDate)
                                                     }
-                                                    Thread.start {
+                                                    Thread.startDaemon {
                                                         DataServiceState.withTransaction {
                                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'successful'])
                                                         }
                                                     }.join()
                                                 } catch (ex) {
-                                                    Thread.start {
+                                                    Thread.startDaemon {
                                                         DataServiceState.withTransaction {
                                                             logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'failed', message: ex.message, stackTrace: ex.stackTrace])
                                                         }
                                                     }.join()
                                                 }
                                             } else {
-                                                Thread.start {
+                                                Thread.startDaemon {
                                                     DataServiceState.withTransaction {
                                                         logState([mainGroup: mainGroup, group: group, subgroup: subgroup, producer: producer, queryDate: state.queryDate, status: 'finished'])
                                                     }
@@ -186,7 +186,7 @@ class TradeStatisticsDataService {
     private static Commodity findCommodity(commodity) {
         def result = Commodity.findByName(commodity as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 Commodity.withTransaction {
                     result = new Commodity()
                     result.name = commodity as String
@@ -200,7 +200,7 @@ class TradeStatisticsDataService {
     private static Provider findProvider(provider) {
         def result = Provider.findByName(provider as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 Provider.withTransaction {
                     result = new Provider()
                     result.name = provider as String
@@ -214,7 +214,7 @@ class TradeStatisticsDataService {
     private static Producer findProducer(producer) {
         def result = Producer.findByCodeAndName(producer.id as Integer, producer.name as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 Producer.withTransaction {
                     result = new Producer()
                     result.code = producer.id as Integer
@@ -230,7 +230,7 @@ class TradeStatisticsDataService {
         def parent = findGroup(mainGroup, group)
         def result = Subgroup.findByGroupAndCodeAndName(parent, subgroup.id as Integer, subgroup.name as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 Subgroup.withTransaction {
                     result = new Subgroup()
                     result.group = parent
@@ -247,7 +247,7 @@ class TradeStatisticsDataService {
         def parent = findMainGroup(mainGroup)
         def result = Group.findByMainGroupAndCodeAndName(parent, group.id as Integer, group.name as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 Group.withTransaction {
                     result = new Group()
                     result.mainGroup = parent
@@ -263,7 +263,7 @@ class TradeStatisticsDataService {
     private static MainGroup findMainGroup(mainGroup) {
         def result = MainGroup.findByCodeAndName(mainGroup.id as Integer, mainGroup.name as String)
         if (!result) {
-            Thread.start {
+            Thread.startDaemon {
                 MainGroup.withTransaction {
                     result = new MainGroup()
                     result.code = mainGroup.id as Integer

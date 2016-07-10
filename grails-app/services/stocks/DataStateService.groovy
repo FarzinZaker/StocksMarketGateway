@@ -25,7 +25,7 @@ class DataStateService {
             service.metaClass.logState = { def data ->
                 synchronized (this) {
                     def serviceName = currentService.fullName
-                    Thread.start {
+                    Thread.startDaemon {
                         DataServiceState.withTransaction {
                             DataServiceState.findAllByServiceNameAndIsLastState(serviceName, true).each {
                                 it.isLastState = false
