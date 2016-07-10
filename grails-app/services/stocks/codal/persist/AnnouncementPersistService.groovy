@@ -76,7 +76,7 @@ class AnnouncementPersistService {
     }
 
     protected void afterCreate(AnnouncementEvent event, Announcement data) {
-        Thread.start { grabFiles(data) }
+        Thread.startDaemon { grabFiles(data) }
         if (data?.symbol?.marketCode == 'MCNO'
                 && ((['300', '303', '309'].contains(data?.symbol?.type) && data?.symbol?.boardCode != '4')
                 || data?.symbol?.type == '305'))
