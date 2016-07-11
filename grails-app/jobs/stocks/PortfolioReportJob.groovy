@@ -16,10 +16,6 @@ class PortfolioReportJob {
 
     def execute() {
 
-        if (grailsApplication.config.jobsDisabled)
-            return
-
-        if (Environment.current == Environment.DEVELOPMENT)
             return
 
         log.error("Remaining Portfolio Reports: ${PortfolioReport.countByIsUpdated(false)}")
