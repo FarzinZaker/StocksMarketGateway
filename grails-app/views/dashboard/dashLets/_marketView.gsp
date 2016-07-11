@@ -77,7 +77,7 @@
 
         $.ajax({
             type: "POST",
-            url: '${createLink(action: 'marketView')}?t=' + new Date().getTime()
+            url: '${createLink(action: 'marketView')}?t=' +  Math.round(new Date().getTime()/30000)
         }).done(function (data) {
             fillBourseData(data);
             fillCommodityData(data);
@@ -96,7 +96,7 @@
             }
         });
         $('#marketViewTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: false,
             callback: function (index) {

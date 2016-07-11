@@ -46,7 +46,7 @@
 <script language="javascript" type="text/javascript">
     function analysisLinkClick(item) {
         $.ajax({
-            url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(),
+            url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var win = window.open($(item).attr('href'), '_blank');
                 if (win) {
@@ -61,7 +61,7 @@
 
     function parseAnalysisFeed(setupMixItUp) {
         $.ajax({
-            url: '${createLink(action: 'analysis')}?t=' + new Date().getTime(),
+            url: '${createLink(action: 'analysis')}?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
 
                 var filtersContainer = $('#analysisFeedFilters');
@@ -160,7 +160,7 @@
     parseAnalysisFeed(true);
     $(document).ready(function () {
         $('#analysisFeedTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: false,
             callback: function (index) {

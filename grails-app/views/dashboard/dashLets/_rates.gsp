@@ -45,7 +45,7 @@
 
         $.ajax({
             type: "POST",
-            url: '${createLink(action: 'rates')}?t=' + new Date().getTime()
+            url: '${createLink(action: 'rates')}?t=' +  Math.round(new Date().getTime()/30000)
         }).done(function (data) {
             $('#ratesTimer').timer('start');
             fillCurrencyData(data.currency, data.currencyDate);
@@ -64,7 +64,7 @@
             }
         });
         $('#ratesTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: true,
             callback: function (index) {

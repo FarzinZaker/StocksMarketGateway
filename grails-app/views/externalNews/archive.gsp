@@ -97,7 +97,7 @@
 
     function newsLinkClick(item) {
         $.ajax({
-            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).attr('data-id') + '?t=' + new Date().getTime(),
+            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).attr('data-id') + '?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var win = window.open($(item).attr('href'), '_blank');
                 if (win) {

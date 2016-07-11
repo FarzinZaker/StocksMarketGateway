@@ -30,7 +30,7 @@
     function loadAnnouncements() {
         $.ajax({
             type: "POST",
-            url: '${createLink(action: 'announcements')}?t=' + new Date().getTime()
+            url: '${createLink(action: 'announcements')}?t=' + Math.round(new Date().getTime()/30000)
         }).done(function (data) {
             $('#announcementsTimer').timer('start');
             fillCodal(data.codal);
@@ -61,7 +61,7 @@
             }
         });
         $('#announcementsTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: true,
             callback: function (index) {
