@@ -82,11 +82,11 @@ class AdminController {
     def telegramService
 
     def index() {
-        def admin = User.get(5)
-        admin.username = 'admin'
-        admin.email = 'admin'
-        admin.password = 'admin'
-        admin.save(flush: true)
+//        def admin = User.get(5)
+//        admin.username = 'admin'
+//        admin.email = 'admin'
+//        admin.password = 'admin'
+//        admin.save(flush: true)
     }
 
     def suggestTest() {

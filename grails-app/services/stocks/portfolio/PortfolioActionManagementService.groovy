@@ -46,6 +46,7 @@ import java.util.zip.ZipFile
 class PortfolioActionManagementService {
     def messageSource
     def springSecurityService
+    def portfolioReportService
     DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy kk:mm:ss 'GMT'Z '('z')'", Locale.ENGLISH);
 
     def save(Long portfolioId, Map model, PortfolioAction parentAction = null) {
@@ -157,11 +158,14 @@ class PortfolioActionManagementService {
             save(portfolioId, childAction, action)
         }
 
+        if(!parentAction)
+            portfolioReportService.invalidateReports(portfolio)
         action
     }
 
     def delete(Long actionId) {
         def item = PortfolioAction.get(actionId)
+        def portfolio = item.portfolio
         if (item) {
             def items = PortfolioAction.findAllByIdNotEqualAndPortfolioItemAndActionDateGreaterThanEquals(item.id, item.portfolioItem, item.actionDate)
             if (item.portfolioItem instanceof PortfolioPropertyItem && (items?.sum { it.signedShareCount } ?: 0) < 0)
@@ -196,6 +200,8 @@ class PortfolioActionManagementService {
                     portfolioItem.delete(flush: true)
             }
         }
+
+        portfolioReportService.invalidateReports(portfolio)
 
         return [error: false]
     }

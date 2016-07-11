@@ -24,11 +24,12 @@ class UserService {
                     email       : sheet.getCell(6, i)?.contents?.trim(),
                     broker      : brokerId && brokerId != '' ? Broker.get(brokerId?.toLong()) : null
             ]
-            if(model.nationalCode?.length() != 10)
+            if (model.nationalCode?.length() != 10)
                 model.nationalCode = null
 
-            if (!User.findByUsername(model.email)) {
-                def user = new User(
+            def user = User.findByUsername(model.email)
+            if (!user) {
+                user = new User(
                         firstName: model.firstName,
                         lastName: model.lastName,
                         mobile: model.mobile,
@@ -40,11 +41,20 @@ class UserService {
                         broker: model.broker,
                         password: !model.mobile || model.mobile == '' ? '1234567890' : model.mobile
                 )
-                if(!user.save(flush: true)){
+                if (!user.save(flush: true)) {
                     model.errors = user?.errors?.allErrors
                 }
             } else {
                 model.errors = ["نام کاربری تکراری است."]
+            }
+            def userRole = Role.findByAuthority(RoleHelper.ROLE_USER)
+            def brokerUserRole = Role.findByAuthority(RoleHelper.ROLE_BROKER_USER)
+            if (user.broker) {
+                if (!user.authorities.contains(brokerUserRole))
+                    UserRole.create user, brokerUserRole
+            } else {
+                if (!user.authorities.contains(userRole))
+                    UserRole.create user, userRole
             }
             result << model
         }

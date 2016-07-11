@@ -1,5 +1,7 @@
 package stocks.portfolio
 
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
 import com.jniwrapper.Bool
 import fi.joensuu.joyds1.calendar.JalaliCalendar
 import groovy.time.TimeCategory
@@ -7,6 +9,7 @@ import stocks.Broker
 import stocks.FarsiNormalizationFilter
 import stocks.RateHelper
 import stocks.User
+import stocks.analysis.BackTest
 import stocks.portfolio.basic.BankAccount
 import stocks.portfolio.basic.BusinessPartner
 import stocks.portfolio.basic.CustomBonds
@@ -21,6 +24,8 @@ import stocks.rate.Currency
 import stocks.tse.Symbol
 import stocks.util.ClassResolver
 
+import java.util.concurrent.TimeUnit
+
 class PortfolioPropertyManagementService {
 
     def springSecurityService
@@ -28,6 +33,20 @@ class PortfolioPropertyManagementService {
     def messageSource
     def coinSeries9Service
     def currencySeries9Service
+    def adjustedPriceSeries9Service
+
+
+    def propertyValuesCache
+
+    public PortfolioPropertyManagementService() {
+        propertyValuesCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+            @Override
+            Object load(Object o) throws Exception {
+                def key = o as Map<String, Object>
+                cacheValueOfProperty(key.clazz as String, key.id as Long, key.startDate as Date, key.endDate as Date)
+            }
+        })
+    }
 
     def findProperty(String clazz, Long id, String query, Portfolio portfolio = null, Boolean availOnly = false) {
         switch (clazz) {
@@ -589,109 +608,10 @@ class PortfolioPropertyManagementService {
 
     //get currentValue
 
-    def getValueOfProperty(String clazz, Long id, Date date) {
-        use(TimeCategory) {
-            date = (date + 1.day).clearTime() - 1.second
-        }
-        switch (clazz) {
-            case 'portfolioBankItem':
-                return getValueOfBank(id, date)
-            case 'portfolioBondsItem':
-                return getValueOfBonds(id, date)
-            case 'portfolioHousingFacilitiesItem':
-                return getValueOfHousingFacilities(id, date)
-            case 'portfolioInvestmentFundItem':
-                return getValueOfInvestmentFund(id, date)
-            case 'portfolioBrokerItem':
-                return getValueOfBroker(id, date)
-            case 'portfolioBullionItem':
-                return getValueOfBullion(id, date)
-            case 'portfolioBusinessPartnerItem':
-                return getValueOfBusinessPartner(id, date)
-            case 'portfolioCoinItem':
-                return getValueOfCoin(id, date)
-            case 'portfolioCurrencyItem':
-                return getValueOfCurrency(id, date)
-            case 'portfolioCustomBondsItem':
-                return getValueOfCustomBonds(id, date)
-            case 'portfolioCustomSymbolItem':
-                return getValueOfCustomSymbol(id, date)
-            case 'portfolioCustomSymbolPriorityItem':
-                return getValueOfCustomSymbolPriority(id, date)
-            case 'portfolioImmovableItem':
-                return getValueOfImmovableProperty(id, date)
-            case 'portfolioMovableItem':
-                return getValueOfMovableProperty(id, date)
-            case 'portfolioSymbolItem':
-                return getValueOfSymbol(id, date)
-            case 'portfolioSymbolPriorityItem':
-                return getValueOfSymbolPriority(id, date)
-        }
-        []
-    }
+    def getValueOfProperty(String clazz, Long id, Date date, Date startDate, Date endDate) {
 
-    def getValueOfBank(Long id, Date date) {
-        null
-    }
-
-    def getValueOfBonds(Long id, Date date) {
-        priceService.lastPrice(Symbol.get(id))
-    }
-
-    def getValueOfHousingFacilities(Long id, Date date) {
-        priceService.lastPrice(Symbol.get(id))
-    }
-
-    def getValueOfInvestmentFund(Long id, Date date) {
-        priceService.lastPrice(Symbol.get(id))
-    }
-
-    def getValueOfBroker(Long id, Date date) {
-        null
-    }
-
-    def getValueOfBullion(Long id, Date date) {
-        null
-    }
-
-    def getValueOfBusinessPartner(Long id, Date date) {
-        null
-    }
-
-    def getValueOfCoin(Long id, Date date) {
-        coinSeries9Service.lastPrice(id, date)
-    }
-
-    def getValueOfCurrency(Long id, Date date) {
-        currencySeries9Service.lastPrice(id, date)
-    }
-
-    def getValueOfCustomBonds(Long id, Date date) {
-        CustomBonds.get(id).value
-    }
-
-    def getValueOfCustomSymbol(Long id, Date date) {
-        null
-    }
-
-    def getValueOfCustomSymbolPriority(Long id, Date date) {
-        null
-    }
-
-    def getValueOfImmovableProperty(Long id, Date date) {
-        ImmovableProperty.get(id).price
-    }
-
-    def getValueOfMovableProperty(Long id, Date date) {
-        MovableProperty.get(id).price
-    }
-
-    def getValueOfSymbol(Long id, Date date) {
-        priceService.lastPrice(Symbol.get(id), date)
-    }
-
-    def getValueOfSymbolPriority(Long id, Date date) {
-        priceService.lastPrice(Symbol.get(id), date)
+        def cache = propertyValuesCache.get([clazz: clazz, id: id, startDate: startDate, endDate: endDate]) as Map<Long, Double>
+        cache.findAll { it.key <= date?.time }?.sort { -it.key }?.collect { it.value }?.find()
     }
 
     //utils
@@ -700,5 +620,187 @@ class PortfolioPropertyManagementService {
             return null
         def dateParts = date.split("/").collect { it as Integer }
         new JalaliCalendar(dateParts[0], dateParts[1], dateParts[2]).toJavaUtilGregorianCalendar().time
+    }
+
+    //cache value of property
+    Map<Long, Double>  cacheValueOfProperty(String clazz, Long id, Date startDate, Date endDate) {
+        use(TimeCategory) {
+            endDate = (endDate + 1.day).clearTime() - 1.second
+            startDate = startDate.clearTime()
+        }
+        Map<Long, Double> result = [:]
+        switch (clazz) {
+            case 'portfolioBankItem':
+                result = cacheValueOfBank(id, startDate, endDate)
+                break
+            case 'portfolioBondsItem':
+                result = cacheValueOfBonds(id, startDate, endDate)
+                break
+            case 'portfolioHousingFacilitiesItem':
+                result = cacheValueOfHousingFacilities(id, startDate, endDate)
+                break
+            case 'portfolioInvestmentFundItem':
+                result = cacheValueOfInvestmentFund(id, startDate, endDate)
+                break
+            case 'portfolioBrokerItem':
+                result = cacheValueOfBroker(id, startDate, endDate)
+                break
+            case 'portfolioBullionItem':
+                result = cacheValueOfBullion(id, startDate, endDate)
+                break
+            case 'portfolioBusinessPartnerItem':
+                result = cacheValueOfBusinessPartner(id, startDate, endDate)
+                break
+            case 'portfolioCoinItem':
+                result = cacheValueOfCoin(id, startDate, endDate)
+                break
+            case 'portfolioCurrencyItem':
+                result = cacheValueOfCurrency(id, startDate, endDate)
+                break
+            case 'portfolioCustomBondsItem':
+                result = cacheValueOfCustomBonds(id, startDate, endDate)
+                break
+            case 'portfolioCustomSymbolItem':
+                result = cacheValueOfCustomSymbol(id, startDate, endDate)
+                break
+            case 'portfolioCustomSymbolPriorityItem':
+                result = cacheValueOfCustomSymbolPriority(id, startDate, endDate)
+                break
+            case 'portfolioImmovableItem':
+                result = cacheValueOfImmovableProperty(id, startDate, endDate)
+                break
+            case 'portfolioMovableItem':
+                result = cacheValueOfMovableProperty(id, startDate, endDate)
+                break
+            case 'portfolioSymbolItem':
+                result = cacheValueOfSymbol(id, startDate, endDate)
+                break
+            case 'portfolioSymbolPriorityItem':
+                result = cacheValueOfSymbolPriority(id, startDate, endDate)
+                break
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfBank(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfBonds(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        adjustedPriceSeries9Service.closingPriceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfHousingFacilities(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        adjustedPriceSeries9Service.closingPriceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfInvestmentFund(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        adjustedPriceSeries9Service.closingPriceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfBroker(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfBullion(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfBusinessPartner(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfCoin(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        coinSeries9Service.priceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfCurrency(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        currencySeries9Service.priceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfCustomBonds(Long id, Date startDate, Date endDate) {
+        def value = CustomBonds.get(id).value as Double
+        def result = [:]
+        def minDate = startDate
+        while (minDate <= endDate) {
+            minDate = minDate?.clearTime()
+            result.put(minDate?.time, value)
+            use(TimeCategory) {
+                minDate = minDate + 1.day
+            }
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfCustomSymbol(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfCustomSymbolPriority(Long id, Date startDate, Date endDate) {
+        [:]
+    }
+
+    Map<Long, Double> cacheValueOfImmovableProperty(Long id, Date startDate, Date endDate) {
+        def value = ImmovableProperty.get(id).price as Double
+        def result = [:]
+        def minDate = startDate
+        while (minDate <= endDate) {
+            minDate = minDate?.clearTime()
+            result.put(minDate?.time, value)
+            use(TimeCategory) {
+                minDate = minDate + 1.day
+            }
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfMovableProperty(Long id, Date startDate, Date endDate) {
+        def value = MovableProperty.get(id).price as Double
+        def result = [:]
+        def minDate = startDate
+        while (minDate <= endDate) {
+            minDate = minDate?.clearTime()
+            result.put(minDate?.time, value)
+            use(TimeCategory) {
+                minDate = minDate + 1.day
+            }
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfSymbol(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        adjustedPriceSeries9Service.closingPriceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
+    }
+
+    Map<Long, Double> cacheValueOfSymbolPriority(Long id, Date startDate, Date endDate) {
+        def result = [:]
+        adjustedPriceSeries9Service.closingPriceList(id, startDate, endDate).each {
+            result.put(it.date?.time as long, it.value as Double)
+        }
+        result
     }
 }
