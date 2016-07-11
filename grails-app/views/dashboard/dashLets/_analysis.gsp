@@ -41,7 +41,7 @@
 
     function analysisLinkClick(item) {
         $.ajax({
-            url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(),
+            url: '${createLink(controller: 'externalAnalysis', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var win = window.open($(item).attr('href'), '_blank');
                 if (win) {
@@ -55,7 +55,7 @@
     }
     function showAnalysisFeed(type) {
         $.ajax({
-            url: '${createLink(action: 'analysis')}/' + type + '?t=' + new Date().getTime(),
+            url: '${createLink(action: 'analysis')}/' + type + '?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var container = $('#analysisFeedItems_' + type);
                 container.find('.loading').remove();
@@ -117,7 +117,7 @@
         });
 
         $('#analysisFeedTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: true,
             callback: function (index) {

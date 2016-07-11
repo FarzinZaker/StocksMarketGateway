@@ -52,7 +52,7 @@
 
     function showTwitsFeed(type) {
         $.ajax({
-            url: '${createLink(action: 'twits')}/' + type + '?t=' + new Date().getTime(),
+            url: '${createLink(action: 'twits')}/' + type + '?t=' +  Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var container = $('#twitsFeedItems_' + type);
 //                container.find('.loading').remove();
@@ -119,7 +119,7 @@
         });
 
         $('#twitsFeedTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: true,
             callback: function (index) {

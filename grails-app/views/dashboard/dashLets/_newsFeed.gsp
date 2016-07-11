@@ -54,7 +54,7 @@
 
     function newsLinkClick(item) {
         $.ajax({
-            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + new Date().getTime(),
+            url: '${createLink(controller: 'externalNews', action: 'view')}/' + $(item).parent().parent().attr('data-id') + '?t=' + Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var win = window.open($(item).attr('href'), '_blank');
                 if (win) {
@@ -68,7 +68,7 @@
     }
     function showNewsFeed(type) {
         $.ajax({
-            url: '${createLink(action: 'news')}/' + type + '?t=' + new Date().getTime(),
+            url: '${createLink(action: 'news')}/' + type + '?t=' +  Math.round(new Date().getTime()/30000),
             success: function (response) {
                 var container = $('#newsFeedItems_' + type);
                 container.find('.loading').remove();
@@ -130,7 +130,7 @@
         });
 
         $('#newsFeedTimer').timer({
-            delay: 10000,
+            delay: 30000,
             repeat: true,
             autostart: true,
             callback: function (index) {
