@@ -240,16 +240,20 @@
                 </div>
 
                 <div class="col-sm-3 socialLinks">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}"
+                       target="_blank">
                         <i class="fa fa-facebook"></i>
                     </a>
-                    <a href="https://twitter.com/home?status=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
+                    <a href="https://twitter.com/home?status=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}"
+                       target="_blank">
                         <i class="fa fa-twitter"></i>
                     </a>
-                    <a href="https://plus.google.com/share?url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}" target="_blank">
+                    <a href="https://plus.google.com/share?url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}"
+                       target="_blank">
                         <i class="fa fa-google"></i>
                     </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}&title=${message(code: 'site.title')?.encodeAsURL()}&summary=&source=" target="_blank">
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${createLink(uri: '/', absolute: true)?.toString()?.encodeAsURL()}&title=${message(code: 'site.title')?.encodeAsURL()}&summary=&source="
+                       target="_blank">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </div>
@@ -267,4 +271,21 @@
         }, 800);
         return false;
     });
+
+    $(document).ready(function () {
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-80642019-1', 'auto');
+        ga('send', 'pageview');
+    })
 </script>
