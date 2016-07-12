@@ -39,7 +39,7 @@ class PortfolioPropertyManagementService {
     def propertyValuesCache
 
     public PortfolioPropertyManagementService() {
-        propertyValuesCache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
+        propertyValuesCache = CacheBuilder.newBuilder().expireAfterWrite(60, TimeUnit.MINUTES).maximumSize(10000).build(new CacheLoader() {
             @Override
             Object load(Object o) throws Exception {
                 def key = o as Map<String, Object>

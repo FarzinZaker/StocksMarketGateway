@@ -159,7 +159,7 @@
     parseRSS(true);
     $(document).ready(function () {
         $('#newsFeedTimer').timer({
-            delay: 30000,
+            delay: 120000,
             repeat: true,
             autostart: false,
             callback: function (index) {

@@ -380,7 +380,7 @@
 
                 function startTimer() {
                     $('#timer').timer({
-                        delay: 5000,
+                        delay: 60000,
                         repeat: true,
                         autostart: true,
                         callback: function (index) {

@@ -64,7 +64,7 @@
             }
         });
         $('#ratesTimer').timer({
-            delay: 30000,
+            delay: 120000,
             repeat: true,
             autostart: true,
             callback: function (index) {

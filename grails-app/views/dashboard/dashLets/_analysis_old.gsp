@@ -160,7 +160,7 @@
     parseAnalysisFeed(true);
     $(document).ready(function () {
         $('#analysisFeedTimer').timer({
-            delay: 30000,
+            delay: 120000,
             repeat: true,
             autostart: false,
             callback: function (index) {

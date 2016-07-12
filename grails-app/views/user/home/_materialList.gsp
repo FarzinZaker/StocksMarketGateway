@@ -74,7 +74,7 @@
 
 
         $('#newMaterialTimer').timer({
-            delay: 10000,
+            delay: 60000,
             repeat: true,
             autostart: true,
             callback: function (index) {

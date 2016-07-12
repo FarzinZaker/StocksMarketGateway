@@ -48,10 +48,12 @@ class PortfolioReportService {
         items.each { item ->
             report.put(item, [:])
             def clazz = Introspector.decapitalize(item.itemType.split('\\.').last())
+            def cache = portfolioPropertyManagementService.cacheValueOfProperty(clazz, item.propertyId, dates.min() as Date, new Date())
             dates.sort().each { Date date ->
                 def time = date?.time
                 report[item].put(time, [:])
-                report[item][time]["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, item.propertyId, date, dates.min() as Date, new Date())) as Long
+//                report[item][time]["realPrice"] = (portfolioPropertyManagementService.getValueOfProperty(clazz, item.propertyId, date, dates.min() as Date, new Date())) as Long
+                report[item][time]["realPrice"] = (cache.findAll { it.key <= time }?.sort { -it.key }?.collect { it.value }?.find()) as Long
             }
         }
 
