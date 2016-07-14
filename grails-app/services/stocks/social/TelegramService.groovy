@@ -314,7 +314,7 @@ class TelegramService {
     Map sendRequest(String method, Map parameters) {
         byte[] postData = parameters.collect { "${it.key}=${it.value.encodeAsURL()}" }.join('&').getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
-        String request = "https://api.telegram.org/bot${Environment.current == Environment.PRODUCTION ? '116983317:AAGiZWID3rSOT63Q9xeGfSeWTYEW3DEp9nA' : '149185899:AAGB0acLYspLNFugpu5NF4RBh5J2IwfiGq0'}/${method}";
+        String request = "https://api.telegram.org/bot${Environment.current == Environment.DEVELOPMENT ? '116983317:AAGiZWID3rSOT63Q9xeGfSeWTYEW3DEp9nA' : '149185899:AAGB0acLYspLNFugpu5NF4RBh5J2IwfiGq0'}/${method}";
         URL url = new URL(request);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
