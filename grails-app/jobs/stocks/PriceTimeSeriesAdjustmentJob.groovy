@@ -19,8 +19,6 @@ class PriceTimeSeriesAdjustmentJob {
 
     def execute() {
 
-        return //paused for migration
-
         if (grailsApplication.config.jobsDisabled)
             return
 

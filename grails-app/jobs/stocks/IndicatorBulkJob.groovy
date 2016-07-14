@@ -17,8 +17,6 @@ class IndicatorBulkJob {
 
     def execute() {
 
-        return //paused for migration
-
         if (grailsApplication.config.jobsDisabled)
             return
 
@@ -30,7 +28,7 @@ class IndicatorBulkJob {
         }
         else{
             smsService.sendCustomMessage('09122110811', 'bulk indicator calculation completed')
-            log.error "[9] no adjustment"
+            log.error "[9] no indicator for bulk calculate"
             logState(0)
         }
     }

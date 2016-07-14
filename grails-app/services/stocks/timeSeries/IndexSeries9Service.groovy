@@ -54,9 +54,9 @@ class IndexSeries9Service {
 
         }
 
-        if (!newDBOnly)
-            timeSeriesDB9Service.write(serie)
         timeSeriesDB9Service.write(serie, 'chahartablo')
+//        if (!newDBOnly)
+//            timeSeriesDB9Service.write(serie)
     }
 
     def finalIndexValueList(Long indexId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {

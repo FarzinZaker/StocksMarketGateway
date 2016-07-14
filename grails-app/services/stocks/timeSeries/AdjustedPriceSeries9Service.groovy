@@ -63,9 +63,9 @@ class AdjustedPriceSeries9Service {
             }
         }
 
-        if (!newDBOnly)
-            timeSeriesDB9Service.write(serie)
         timeSeriesDB9Service.write(serie, 'chahartablo')
+//        if (!newDBOnly)
+//            timeSeriesDB9Service.write(serie)
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbolId.toString().concat("-").concat(#daysCount.toString())')

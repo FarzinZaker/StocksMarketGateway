@@ -26,9 +26,9 @@ class IndicatorSeries9Service {
         }
 
         if (serie.points?.size()) {
-            if (!newDBOnly)
-                timeSeriesDB9Service.write(serie)
             timeSeriesDB9Service.write(serie, 'chahartablo')
+//            if (!newDBOnly)
+//                timeSeriesDB9Service.write(serie)
         }
     }
 

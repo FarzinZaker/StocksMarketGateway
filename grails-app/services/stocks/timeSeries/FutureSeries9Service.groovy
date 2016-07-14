@@ -24,9 +24,9 @@ class FutureSeries9Service {
 
         }
 
-        if (!newDBOnly)
-            timeSeriesDB9Service.write(serie)
         timeSeriesDB9Service.write(serie, 'chahartablo')
+//        if (!newDBOnly)
+//            timeSeriesDB9Service.write(serie)
     }
 
     def closingPriceList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {

@@ -22,8 +22,6 @@ class IndicatorJob {
 
     def execute() {
 
-        return //paused for migration
-
         if (grailsApplication.config.jobsDisabled)
             return
 
@@ -42,8 +40,8 @@ class IndicatorJob {
             eq('indicatorsCalculated', false)
             gt('date', startDate)
         }
-        if(count > 0)
-        log.warn( "remaining indicators:" + count)
+        if (count > 0)
+            log.warn("remaining indicators:" + count)
 
         if (dailyTrade) {
             symbolIndicatorService.calculateIndicators(dailyTrade)

@@ -30,9 +30,9 @@ class CoinSeries9Service {
 
         }
 
-        if (!newDBOnly)
-            timeSeriesDB9Service.write(serie)
         timeSeriesDB9Service.write(serie, 'chahartablo')
+//        if (!newDBOnly)
+//            timeSeriesDB9Service.write(serie)
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')
