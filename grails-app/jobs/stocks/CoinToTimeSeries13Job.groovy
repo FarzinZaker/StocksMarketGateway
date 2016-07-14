@@ -40,7 +40,7 @@ class CoinToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            coinSeries9Service.write(list)
+            coinSeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else

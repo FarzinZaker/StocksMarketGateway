@@ -40,7 +40,7 @@ class OilToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            oilSeries9Service.write(list)
+            oilSeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else

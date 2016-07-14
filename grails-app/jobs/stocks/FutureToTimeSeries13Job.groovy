@@ -40,7 +40,7 @@ class FutureToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            futureSeries9Service.write(list)
+            futureSeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else

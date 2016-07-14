@@ -39,7 +39,7 @@ class IndexesToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            indexSeries9Service.write(list)
+            indexSeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else

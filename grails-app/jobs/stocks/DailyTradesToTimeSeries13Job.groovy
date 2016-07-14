@@ -40,7 +40,7 @@ class DailyTradesToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES)
+            adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES, true)
             logState(list.collect { it.id }.max())
         }
 //        else

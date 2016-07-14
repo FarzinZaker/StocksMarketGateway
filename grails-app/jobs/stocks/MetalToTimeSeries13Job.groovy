@@ -40,7 +40,7 @@ class MetalToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            metalSeries9Service.write(list)
+            metalSeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else

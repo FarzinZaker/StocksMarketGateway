@@ -40,7 +40,7 @@ class CurrencyToTimeSeries13Job {
             maxResults(1000)
         }
         if (list.size()) {
-            currencySeries9Service.write(list)
+            currencySeries9Service.write(list, true)
             logState(list.collect { it.id }.max())
         }
 //        else
