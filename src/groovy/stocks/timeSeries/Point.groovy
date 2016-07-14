@@ -58,15 +58,15 @@ public class Point {
         timeLong > 0
     }
 
-    private Object valueLong = 0L;
+    private Object valueFloat = 0L;
 
     public Point value(Object value) {
-        valueLong = value
+        valueFloat = value
         this
     }
 
     public Object getValue() {
-        valueLong
+        valueFloat
     }
 
     public Map toJSON() {
@@ -79,7 +79,7 @@ public class Point {
             json.time = timeLong
             json.precision = 'm'
         }
-        json.fields = [value: this.value as Long]
+        json.fields = [value: this.value as Float]
         json
     }
 
@@ -88,6 +88,6 @@ public class Point {
     }
 
     public String toCSV() {
-        "${name}${tags.isEmpty() ? ' ' : ','}${tags.collect { "${it.key}=${it.value}" }.join(',')}${tags.isEmpty() ? '' : ' '}value=${value as Long} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
+        "${name}${tags.isEmpty() ? ' ' : ','}${tags.collect { "${it.key}=${it.value}" }.join(',')}${tags.isEmpty() ? '' : ' '}value=${value as Float} ${TimeUnit.NANOSECONDS.convert(timeLong, TimeUnit.MILLISECONDS)}"
     }
 }

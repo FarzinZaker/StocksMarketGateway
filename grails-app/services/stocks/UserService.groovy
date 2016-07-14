@@ -47,15 +47,17 @@ class UserService {
             } else {
                 model.errors = ["نام کاربری تکراری است."]
             }
-            def userRole = Role.findByAuthority(RoleHelper.ROLE_USER)
-            def brokerUserRole = Role.findByAuthority(RoleHelper.ROLE_BROKER_USER)
-            if (user.broker) {
-                if (!user.authorities.contains(brokerUserRole))
-                    UserRole.create user, brokerUserRole
-            } else {
-                if (!user.authorities.contains(userRole))
-                    UserRole.create user, userRole
-            }
+            try {
+                def userRole = Role.findByAuthority(RoleHelper.ROLE_USER)
+                def brokerUserRole = Role.findByAuthority(RoleHelper.ROLE_BROKER_USER)
+                if (user.broker) {
+                    if (!user.authorities.contains(brokerUserRole))
+                        UserRole.create user, brokerUserRole
+                } else {
+                    if (!user.authorities.contains(userRole))
+                        UserRole.create user, userRole
+                }
+            }catch(ignored){}
             result << model
         }
         result
