@@ -103,9 +103,12 @@ class TelegramService {
             }
         }
 
-        status.lastUpdateId = updates.collect { it.update_id }.max() as Long
-//        status.save()
-        bulkDataService.save(status)
+        def lastUpdateId = updates.collect { it.update_id }.max() as Long
+        if(lastUpdateId) {
+            status.lastUpdateId = lastUpdateId
+//        status.save(flush: true)
+            bulkDataService.save(status)
+        }
     }
 
     Boolean showHelp(Long chatId) {
@@ -193,7 +196,7 @@ class TelegramService {
         name = name?.split(' ')?.find()
         if (!name || name == '')
             return false
-        def items = Symbol.search(name)?.results
+        def items = Symbol.search(name, max: 5)?.results
         items.each { Symbol searchItem ->
             def item = Symbol.get(searchItem?.id)
             savePropertyHistory(userName, 'Symbol', item?.toString())
@@ -223,7 +226,7 @@ class TelegramService {
     Boolean sendCurrencyData(String userName, String name, Long chatId) {
         if (!name || name == '')
             return false
-        def items = Currency.search(name)?.results
+        def items = Currency.search(name, max: 5)?.results
         items.each { Currency item ->
             savePropertyHistory(userName, 'Currency', item?.name)
             sendMessage(chatId, groovyPageRenderer.render(view: '/social/currency', model: [
@@ -250,7 +253,7 @@ class TelegramService {
     Boolean sendCoinData(String userName, String name, Long chatId) {
         if (!name || name == '')
             return false
-        def items = Coin.search(name)?.results
+        def items = Coin.search(name, max: 5)?.results
         items.each { Coin item ->
             savePropertyHistory(userName, 'Coin', item?.name)
             sendMessage(chatId, groovyPageRenderer.render(view: '/social/coin', model: [
@@ -267,7 +270,7 @@ class TelegramService {
     Boolean sendMetalData(String userName, String name, Long chatId) {
         if (!name || name == '')
             return false
-        def items = Metal.search(name)?.results
+        def items = Metal.search(name, max: 5)?.results
         items.each { Metal item ->
             savePropertyHistory(userName, 'Metal', item?.name)
             sendMessage(chatId, groovyPageRenderer.render(view: '/social/metal', model: [
@@ -284,7 +287,7 @@ class TelegramService {
     Boolean sendOilData(String userName, String name, Long chatId) {
         if (!name || name == '')
             return false
-        def items = Oil.search(name)?.results
+        def items = Oil.search(name, max: 5)?.results
         items.each { Oil item ->
             savePropertyHistory(userName, 'Oil', item?.name)
             sendMessage(chatId, groovyPageRenderer.render(view: '/social/oil', model: [
@@ -311,7 +314,7 @@ class TelegramService {
     Map sendRequest(String method, Map parameters) {
         byte[] postData = parameters.collect { "${it.key}=${it.value.encodeAsURL()}" }.join('&').getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
-        String request = "https://api.telegram.org/bot${Environment.current == Environment.DEVELOPMENT ? '116983317:AAGiZWID3rSOT63Q9xeGfSeWTYEW3DEp9nA' : '149185899:AAGB0acLYspLNFugpu5NF4RBh5J2IwfiGq0'}/${method}";
+        String request = "https://api.telegram.org/bot${Environment.current == Environment.PRODUCTION ? '116983317:AAGiZWID3rSOT63Q9xeGfSeWTYEW3DEp9nA' : '149185899:AAGB0acLYspLNFugpu5NF4RBh5J2IwfiGq0'}/${method}";
         URL url = new URL(request);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);

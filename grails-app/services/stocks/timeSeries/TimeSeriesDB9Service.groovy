@@ -6,6 +6,8 @@ import stocks.util.HttpHelper
 
 class TimeSeriesDB9Service {
 
+    static transactional = false
+
     def grailsApplication
 //    def smsService
 
@@ -26,6 +28,14 @@ class TimeSeriesDB9Service {
 
     String getDBName() {
         grailsApplication.config.timeSeries.dataSource9.db?.toString()
+    }
+
+    String getDBUsername() {
+        grailsApplication.config.timeSeries.dataSource9.username?.toString()
+    }
+
+    String getDBPassword() {
+        grailsApplication.config.timeSeries.dataSource9.password?.toString()
     }
 
     String getAuthenticationString() {
@@ -50,19 +60,19 @@ class TimeSeriesDB9Service {
         query("DROP SERIES FROM ${serieName}")
     }
 
-    void write(Serie serie) {
+    void write(Serie serie, String dbName = null) {
 
         if (grailsApplication.config.timeSeriesDisabled)
             return
 
         def path = "/write"
-        serie.databaseName(DBName)
+        serie.databaseName(dbName ?: DBName)
         serie.retentionPolicy('default')
         def succeed = false
         while (!succeed) {
-            serie.toPagedCSV(windowSize).each {
+            serie?.toPagedCSV(windowSize)?.each {
                 try {
-                    postCommand(path, it)
+                    postCommand(path, it, dbName ?: DBName)
                     successfulPosts++
                     succeed = true
                     windowSize = [windowSize + 5, 100].min()
@@ -80,7 +90,7 @@ class TimeSeriesDB9Service {
         }
     }
 
-    def query(String query) {
+    def query(String query, String dbName = null) {
 
         if (grailsApplication.config.timeSeriesDisabled)
             return null
@@ -90,7 +100,7 @@ class TimeSeriesDB9Service {
         def succeed = false
         while (!succeed) {
             try {
-                result = getCommand(path, [db: DBName, q: query])?.results
+                result = getCommand(path, [db: dbName ?: DBName, q: query])?.results
                 succeed = true
                 failedQueries = 0
             }
@@ -105,17 +115,22 @@ class TimeSeriesDB9Service {
         result
     }
 
-    private def postCommand(String path, data) {
+    private def postCommand(String path, data, String dbName = null) {
         HttpHelper.postText(
                 serverUrl,
-                "${path}?db=${DBName}",
-                data)
+                "${path}?db=${dbName ?: DBName}",
+                data,
+                DBUsername,
+                DBPassword
+        )
     }
 
-    private def getCommand(String path, data) {
+    private def getCommand(String path, data, String dbName = null) {
         HttpHelper.getText(
                 serverUrl,
-                "${path}?db=${DBName}",
-                data)
+                "${path}?db=${dbName ?: DBName}",
+                data,
+                DBUsername,
+                DBPassword)
     }
 }

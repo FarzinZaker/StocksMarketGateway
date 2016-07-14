@@ -141,7 +141,9 @@ class AdminController {
 //            println(symbol.industryGroup)
 //            symbol.save(flush: true)
 //        }
-        announcementDataService.importData()
+//        announcementDataService.importData()
+        migrationService.testAuthorization()
+
     }
 
 

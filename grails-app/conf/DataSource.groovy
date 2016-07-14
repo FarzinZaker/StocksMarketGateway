@@ -32,8 +32,8 @@ environments {
 //                host = '192.168.0.3'
                 host = '82.99.217.213'
                 port = 8086
-                username = 'root'
-                password = 'root'
+                username = 'chahartablo'
+                password = 'agah!#(%'
                 db = 'stocks'
             }
         }
@@ -94,8 +94,8 @@ environments {
 //                host = '192.168.0.3'
                 host = '192.168.64.3'
                 port = 8086
-                username = 'root'
-                password = 'root'
+                username = 'chahartablo'
+                password = 'agah!#(%'
                 db = 'stocks'
             }
         }
