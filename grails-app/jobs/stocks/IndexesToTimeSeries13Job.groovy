@@ -23,21 +23,24 @@ class IndexesToTimeSeries13Job {
             return
 
         def lastState = getLastState()
+        if(lastState >= getMaxState())
+            return
+
         def count = IndexHistory.createCriteria().count {
-            lt('id', lastState)
+            gt('id', lastState)
         }
         if (count > 0)
             log.error "[13] remaining indexes: ${count}"
 
 
         def list = IndexHistory.createCriteria().list {
-            lt('id', lastState)
-            order('id', ORDER_DESCENDING)
+            gt('id', lastState)
+            order('id', ORDER_ASCENDING)
             maxResults(1000)
         }
         if (list.size()) {
-            indexSeries9Service.write(list, true)
-            logState(list.collect { it.id }.min())
+            indexSeries9Service.write(list)
+            logState(list.collect { it.id }.max())
         }
 //        else
 //            log.error "[13] no index to import to time series"
@@ -57,7 +60,12 @@ class IndexesToTimeSeries13Job {
     Long getLastState() {
         def serviceName = 'IndexesToTimeSeries13'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
-        def startData = DataServiceState.findByServiceNameAndIsLastState('IndexesToTimeSeries92', true)?.data
-        data ? (JSON.parse(data)?.lastId ?: (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)) : (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
+    }
+
+    Long getMaxState() {
+        def serviceName = 'IndexesToTimeSeries92'
+        def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
 }

@@ -23,22 +23,25 @@ class FutureToTimeSeries13Job {
             return
 
         def lastState = getLastState()
+        if(lastState >= getMaxState())
+            return
+
         def count =
                 CoinFutureEvent.createCriteria().count {
-                    lt('id', lastState)
+                    gt('id', lastState)
                 }
         if (count > 0)
             log.error "[13] remaining futures: ${count}"
 
 
         def list = CoinFutureEvent.createCriteria().list {
-            lt('id', lastState)
-            order('id', ORDER_DESCENDING)
+            gt('id', lastState)
+            order('id', ORDER_ASCENDING)
             maxResults(1000)
         }
         if (list.size()) {
-            futureSeries9Service.write(list, true)
-            logState(list.collect { it.id }.min())
+            futureSeries9Service.write(list)
+            logState(list.collect { it.id }.max())
         }
 //        else
 //            log.error "[13] no future to import to time series"
@@ -58,7 +61,12 @@ class FutureToTimeSeries13Job {
     Long getLastState() {
         def serviceName = 'FutureToTimeSeries13'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
-        def startData = DataServiceState.findByServiceNameAndIsLastState('FutureToTimeSeries92', true)?.data
-        data ? (JSON.parse(data)?.lastId ?: (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)) : (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
+    }
+
+    Long getMaxState() {
+        def serviceName = 'FutureToTimeSeries92'
+        def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
 }

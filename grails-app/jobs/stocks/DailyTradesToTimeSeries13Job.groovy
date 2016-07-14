@@ -24,21 +24,24 @@ class DailyTradesToTimeSeries13Job {
             return
 
         def lastState = getLastState()
+        if(lastState >= getMaxState())
+            return
+
         def count = SymbolDailyTrade.createCriteria().count {
-            lt('id', lastState)
+            gt('id', lastState)
         }
         if (count > 1)
             log.error "[13] remaining daily trades: ${count}"
 
 
         def list = SymbolDailyTrade.createCriteria().list {
-            lt('id', lastState)
-            order('id', ORDER_DESCENDING)
+            gt('id', lastState)
+            order('id', ORDER_ASCENDING)
             maxResults(1000)
         }
         if (list.size()) {
-            adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES, true)
-            logState(list.collect { it.id }.min())
+            adjustedPriceSeries9Service.write(list, AdjustmentHelper.TYPES)
+            logState(list.collect { it.id }.max())
         }
 //        else
 //            log.error "[9] no daily trade to import to time series"
@@ -58,7 +61,12 @@ class DailyTradesToTimeSeries13Job {
     Long getLastState() {
         def serviceName = 'DailyTradesToTimeSeries13'
         def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
-        def startData = DataServiceState.findByServiceNameAndIsLastState('DailyTradesToTimeSeries9', true)?.data
-        data ? (JSON.parse(data)?.lastId ?: (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)) : (startData ? (JSON.parse(startData)?.lastId ?: 0) : 0)
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
+    }
+
+    Long getMaxState() {
+        def serviceName = 'DailyTradesToTimeSeries9'
+        def data = DataServiceState.findByServiceNameAndIsLastState(serviceName, true)?.data
+        data ? JSON.parse(data)?.lastId ?: 0 : 0
     }
 }
