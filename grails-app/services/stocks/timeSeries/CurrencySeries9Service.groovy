@@ -10,7 +10,7 @@ class CurrencySeries9Service {
 
     def timeSeriesDB9Service
 
-    def write(List<CurrencyEvent> currencyEvents) {
+    def write(List<CurrencyEvent> currencyEvents, newDBOnly = false) {
 
         def serie = new Serie()
         currencyEvents.each { currencyEvent ->
@@ -30,7 +30,9 @@ class CurrencySeries9Service {
 
         }
 
+        if(!newDBOnly)
         timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')

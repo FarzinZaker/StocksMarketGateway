@@ -33,7 +33,7 @@ class AdjustedPriceSeries9Service {
         }
     }
 
-    def write(List dailyTrades, List<String> adjustmentTypes) {
+    def write(List dailyTrades, List<String> adjustmentTypes, newDBOnly = false) {
 
         def serie = new Serie()
 
@@ -63,7 +63,9 @@ class AdjustedPriceSeries9Service {
             }
         }
 
-        timeSeriesDB9Service.write(serie)
+        if (!newDBOnly)
+            timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbolId.toString().concat("-").concat(#daysCount.toString())')
@@ -158,7 +160,7 @@ class AdjustedPriceSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
 
@@ -178,9 +180,9 @@ class AdjustedPriceSeries9Service {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect { "symbol_${it}" }.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { "symbol_${it}" }.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
@@ -229,9 +231,9 @@ class AdjustedPriceSeries9Service {
         ]
         def series
         if (groupingMode == '')
-            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT value FROM ${propertyList.collect { "symbol_${it}" }.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u")[0]?.series
         else
-            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
+            series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { "symbol_${it}" }.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series
         def list = []
         def closingPriceSerie = series.find { it.name.endsWith('lastTradePrice') }
         if (!closingPriceSerie)
@@ -303,7 +305,7 @@ class AdjustedPriceSeries9Service {
                 'yesterdayPrice',
                 'priceChange'
         ]
-        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect{"symbol_${it}"}.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series
+        def series = timeSeriesDB9Service.query("SELECT LAST(value) FROM ${propertyList.collect { "symbol_${it}" }.join(', ')} WHERE adjustmentType='${adjustmentType}' AND symbolId='${symbolId}' AND time <= ${endDate.time * 1000}u")[0]?.series
         def closingPriceSerie = series.find { it.name.endsWith('closingPrice') }
         if (!closingPriceSerie)
             return null

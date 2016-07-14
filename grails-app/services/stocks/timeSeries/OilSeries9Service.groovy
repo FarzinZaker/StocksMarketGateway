@@ -10,7 +10,7 @@ class OilSeries9Service {
 
     def timeSeriesDB9Service
 
-    def write(List<OilEvent> oilEvents) {
+    def write(List<OilEvent> oilEvents, newDBOnly = false) {
 
         def serie = new Serie()
         oilEvents.each { oilEvent ->
@@ -31,7 +31,9 @@ class OilSeries9Service {
 
         }
 
-        timeSeriesDB9Service.write(serie)
+        if (!newDBOnly)
+            timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')
@@ -95,7 +97,7 @@ class OilSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def propertyList = [
@@ -129,7 +131,7 @@ class OilSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM oil_${property} WHERE oilId = '${oilId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
@@ -141,7 +143,7 @@ class OilSeries9Service {
     Double lastValue(Long oilId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM oil_${property} WHERE oilId = '${oilId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values

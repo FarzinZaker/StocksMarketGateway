@@ -12,21 +12,24 @@ class IndicatorSeries9Service {
         write([indicator])
     }
 
-    def write(List<IndicatorBase> indicators) {
+    def write(List<IndicatorBase> indicators, newDBOnly = false) {
 //    return
         def serie = new Serie()
         indicators.each { indicator ->
             if (indicator.symbolId) {
                 serie.addPoint(new Point(indicator.class.canonicalName.replace('.', '_').replace('stocks_indicators_symbol_', ''))
-                        .tags([parameter:indicator.parameter?.replace(',', '_'), adjustmentType:indicator.adjustmentType, symbolId: indicator.symbolId])
+                        .tags([parameter: indicator.parameter?.replace(',', '_'), adjustmentType: indicator.adjustmentType, symbolId: indicator.symbolId])
                         .time(indicator.calculationDate)
                         .value(indicator.value))
             }
 
         }
 
-        if (serie.points?.size())
-            timeSeriesDB9Service.write(serie)
+        if (serie.points?.size()) {
+            if (!newDBOnly)
+                timeSeriesDB9Service.write(serie)
+            timeSeriesDB9Service.write(serie, 'chahartablo')
+        }
     }
 
     def indicatorList(Long symbolId, Class<IndicatorBase> indicator, String parameter, Date startDate = null, Date endDate = null, String groupingMode = '1d', String adjustmentType = null) {
@@ -36,7 +39,7 @@ class IndicatorSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         if (!adjustmentType)
@@ -54,7 +57,7 @@ class IndicatorSeries9Service {
     Double lastIndicator(Long symbolId, Class<IndicatorBase> indicator, String parameter, Date endDate = null, String adjustmentType = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         if (!adjustmentType)

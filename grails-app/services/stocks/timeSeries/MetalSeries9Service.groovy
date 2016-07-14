@@ -10,7 +10,7 @@ class MetalSeries9Service {
 
     def timeSeriesDB9Service
 
-    def write(List<MetalEvent> metalEvents) {
+    def write(List<MetalEvent> metalEvents, newDBOnly = false) {
 
         def serie = new Serie()
         metalEvents.each { metalEvent ->
@@ -30,7 +30,9 @@ class MetalSeries9Service {
 
         }
 
-        timeSeriesDB9Service.write(serie)
+        if (!newDBOnly)
+            timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     @Cacheable(value = 'sparkLine', key = '#symbol.toString().concat("-").concat(#daysCount.toString())')
@@ -86,7 +88,7 @@ class MetalSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def propertyList = [
@@ -119,7 +121,7 @@ class MetalSeries9Service {
             }
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM metal_${property} WHERE metalId = '${metalId}' AND time >= ${startDate.time * 1000}u and time <= ${endDate.time * 1000}u GROUP BY time(${groupingMode})")[0]?.series?.values
@@ -131,7 +133,7 @@ class MetalSeries9Service {
     Double lastValue(Long metalId, String property, Date endDate = null) {
         if (!endDate)
             endDate = new Date()
-        use(TimeCategory){
+        use(TimeCategory) {
             endDate = endDate + 1.day
         }
         def values = timeSeriesDB9Service.query("SELECT LAST(value) FROM metal_${property} WHERE metalId = '${metalId}' AND time <= ${endDate.time * 1000}u")[0]?.series?.values

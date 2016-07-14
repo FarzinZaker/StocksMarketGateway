@@ -17,7 +17,7 @@ class IndicatorBulkJob {
 
     def execute() {
 
-//        return
+        return //paused for migration
 
         if (grailsApplication.config.jobsDisabled)
             return

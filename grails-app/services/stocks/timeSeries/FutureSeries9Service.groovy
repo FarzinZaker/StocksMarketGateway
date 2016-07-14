@@ -8,7 +8,7 @@ class FutureSeries9Service {
 
     def timeSeriesDB9Service
 
-    def write(List<CoinFutureEvent> futureEvents) {
+    def write(List<CoinFutureEvent> futureEvents, newDBOnly = false) {
 
         def serie = new Serie()
         futureEvents.each { futureEvent ->
@@ -24,7 +24,9 @@ class FutureSeries9Service {
 
         }
 
-        timeSeriesDB9Service.write(serie)
+        if (!newDBOnly)
+            timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     def closingPriceList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {

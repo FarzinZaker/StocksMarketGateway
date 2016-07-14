@@ -27,7 +27,7 @@ class IndexSeries9Service {
         }
     }
 
-    def write(List<IndexHistory> indexHistories) {
+    def write(List<IndexHistory> indexHistories, newDBOnly = false) {
 
         def serie = new Serie()
         indexHistories.each { indexHistory ->
@@ -54,7 +54,9 @@ class IndexSeries9Service {
 
         }
 
-        timeSeriesDB9Service.write(serie)
+        if (!newDBOnly)
+            timeSeriesDB9Service.write(serie)
+        timeSeriesDB9Service.write(serie, 'chahartablo')
     }
 
     def finalIndexValueList(Long indexId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
