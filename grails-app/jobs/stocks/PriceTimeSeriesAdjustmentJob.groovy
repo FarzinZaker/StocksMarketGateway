@@ -19,8 +19,6 @@ class PriceTimeSeriesAdjustmentJob {
 
     def execute() {
 
-        return
-
         if (grailsApplication.config.jobsDisabled)
             return
 
@@ -29,7 +27,7 @@ class PriceTimeSeriesAdjustmentJob {
 
         def count = SymbolAdjustmentQueue.countByApplied(false)
         if (count > 0) {
-            log.error "[9] remaining adjustments: ${count}"
+            log.error "remaining adjustments: ${count}"
 
             def symbolAdjustmentQueue = SymbolAdjustmentQueue.createCriteria().list {
                 eq('applied', false)

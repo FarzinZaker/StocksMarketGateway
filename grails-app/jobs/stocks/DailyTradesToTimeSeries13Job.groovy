@@ -17,6 +17,8 @@ class DailyTradesToTimeSeries13Job {
 
     def execute() {
 
+        return
+
         if (grailsApplication.config.jobsDisabled)
             return
 
