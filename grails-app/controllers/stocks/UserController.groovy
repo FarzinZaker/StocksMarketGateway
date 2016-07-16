@@ -169,10 +169,17 @@ class UserController {
 
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
+    def reindex() {
+        render User.reindexAll()
+    }
+
+    @Secured([RoleHelper.ROLE_ADMIN])
     def list() {
 
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def jsonList() {
 
         def value = [:]
@@ -180,9 +187,9 @@ class UserController {
 
         def list
         if (params.search && params.search != '') {
-            def searchResult = User.search(params.search?.toString()).results.collect { it.id }
-            list = searchResult?.size() > 0 ? User.findAllByBrokerIsNullAndIdInList(searchResult, parameters) : []
-            value.total = searchResult?.size() > 0 ? User.countByBrokerIsNullAndIdInList(searchResult) : 0
+            def searchResult = User.search(params.search?.toString(), max: 1000000).results.collect { it.id }
+            list = searchResult?.size() > 0 ? User.findAllByIdInList(searchResult, parameters) : []
+            value.total = searchResult?.size() > 0 ? User.countByIdInList(searchResult) : 0
         } else {
             list = User.findAllByBrokerIsNull(parameters)
             value.total = User.countByBrokerIsNull()
@@ -193,12 +200,13 @@ class UserController {
                     id          : it.id,
                     firstName   : it.firstName,
                     lastName    : it.lastName,
-                    username    : it.username,
+                    username    : it.username?.replace('@', ' @ '),
                     sex         : it.sex,
                     mobile      : it.mobile,
                     nationalCode: it.nationalCode,
                     city        : it.city?.name,
                     enabled     : it.enabled,
+                    broker      : it.broker?.name ?: '',
                     roles       : it.authorities.collect { message(code: "userInfo.roles.${it.authority}") }.join(',')
             ]
         }
@@ -206,6 +214,7 @@ class UserController {
         render value as JSON
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def build() {
         def user = User.get(params.id)
 
@@ -218,6 +227,7 @@ class UserController {
         ]
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def save() {
 
         def user
@@ -343,6 +353,23 @@ class UserController {
         }
     }
 
+//    def forgetPassword() {
+//
+//    }
+//
+//    def resetPassword() {
+//        if (!params.captcha || !params.captcha.isNumber() || session['forgetPasswordCaptcha'] != params.captcha as int) {
+//            flash.error = message(code: 'invalid.captcha')
+//            return redirect(action: 'forgetPassword')
+//        }
+//        flash.error = userService.resetPassword(params.username)
+//        if (!flash.error) {
+//            flash.info = message(code: 'user.resetPassword.done')
+//            redirect(controller: 'login', action: 'auth')
+//        } else
+//            redirect(action: 'forgetPassword')
+//    }
+
     @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def passwordChanged() {
 
@@ -363,7 +390,7 @@ class UserController {
 
     def wall() {
         def id = params.id as Long
-        if(!id)
+        if (!id)
             id = springSecurityService.currentUser?.id as Long
         def user = User.get(id)
         def vertex = personGraphService.ensureAndUnwrapPerson(user)
@@ -423,7 +450,6 @@ class UserController {
     }
 
 
-
     def autoComplete() {
         def queryStr = params."filter[filters][0][value]"?.toString() ?: ''
         BooleanQuery.setMaxClauseCount(1000000)
@@ -437,9 +463,11 @@ class UserController {
         render([data: result] as JSON)
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def importUsers() {
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def importResult() {
         def fileId = session["userImport"]
         def path = "${grailsApplication.config.user.files.temp}/${fileId}"
@@ -447,6 +475,7 @@ class UserController {
         [result: result]
     }
 
+    @Secured([RoleHelper.ROLE_ADMIN])
     def uploadFile() {
 
         def fileId = UUID.randomUUID()?.toString()

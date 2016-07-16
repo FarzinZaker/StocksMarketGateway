@@ -2,6 +2,8 @@ package stocks
 
 import stocks.messaging.NewsLetterCategory
 import stocks.social.TelegramUser
+import stocks.util.CollectionHelper
+import stocks.util.StringHelper
 
 class User {
 
@@ -35,7 +37,7 @@ class User {
 
     static hasMany = [followList: User, newsLetterCategories: NewsLetterCategory]
 
-    static transients = ['springSecurityService']
+    static transients = ['springSecurityService', 'emailParts']
 
     static constraints = {
         firstName nullable: true
@@ -53,6 +55,10 @@ class User {
         referer nullable: true
         maxDept nullable: true
         telegramUser nullable: true
+    }
+
+    String getEmailParts(){
+        email?.replace('@', ' ')?.replace('.', ' ')?.replace('_', ' ')
     }
 
     static mapping = {
