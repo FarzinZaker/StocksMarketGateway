@@ -29,14 +29,15 @@
                 <form:field fieldName="login.username">
                     <form:textBox name="j_username" validation="required" style="width:500px;"/>
                 </form:field>
-                <form:field fieldName="login.password">
+                <form:field fieldName="login.password" border="0">
                     <form:password name="j_password" validation="required" style="width:500px;"/>
                 </form:field>
                 <form:field>
                     <form:checkbox name="${rememberMeParameter}" text="${message(code: 'login.rememberMe')}"
                                    style="width:500px;" checked="${hasCookie}"/>
                 </form:field>
-                <form:submitButton name="submit" text="${message(code: 'login.button.label')}"/>
+                <form:submitButton name="submit" text="${message(code: 'login.button.label')}" style="padding:5px 15px"/>
+                <form:linkButton href="${createLink(controller: 'user', action: 'forgetPassword')}" text="${message(code: 'menu.currentUser.forgetPassword')}" style="padding:5px 15px;margin-right:280px;"/>
             </form>
 
 

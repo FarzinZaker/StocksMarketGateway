@@ -131,7 +131,6 @@ grails.project.dependency.resolution = {
         compile ":quartz:0.4.1"
 
         compile ":audit-logging:1.0.3"
-
         compile ":jxl:0.54"
         compile ":console:1.5.5"
         compile ":cache-ehcache:1.0.0"

@@ -3,6 +3,7 @@ package stocks.analysis
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import grails.converters.JSON
+import grails.plugin.cache.Cacheable
 import groovy.time.TimeCategory
 import org.codehaus.groovy.grails.web.json.JSONArray
 import org.hibernate.SessionFactory
@@ -45,13 +46,37 @@ class BackTestService {
         })
     }
 
+    private static Map<Long, List> dailyTradesData = [:]
+    private static Map<Long, List> indicatorsData = [:]
+
+//    @Cacheable(value = 'backTestDailyTrades', key = '#backTestId')
+    List getDailyTradeListFromCache(BackTest backTest) {
+        if (!dailyTradesData.containsKey(backTest?.id))
+            dailyTradesData[backTest?.id] = adjustedPriceSeries9Service.dailyTradeList(backTest.symbolId, backTest.startDate, backTest.endDate, '', backTest.adjustmentType).sort {
+                it.date
+            }
+        dailyTradesData[backTest?.id]
+    }
+
+//    @Cacheable(value = 'backTestIndicators', key = '#backTestId')
+    List getIndicatorListFromCache(BackTest backTest) {
+        if (!indicatorsData.containsKey(backTest?.id))
+            indicatorsData[backTest?.id] = indicatorList(backTest)
+        indicatorsData[backTest?.id]
+    }
+
     def runBackTest(BackTest backTest) {
-        def dailyTrades = dailyTradesCache.get(backTest) as List
-        def indicators = indicatorsCache.get(backTest) as List
+        def dailyTrades = getDailyTradeListFromCache(backTest)//dailyTradesCache.get(backTest) as List
+        def indicators = getIndicatorListFromCache(backTest)//indicatorsCache.get(backTest) as List
 
         10.times {
             if (backTest.status != BackTestHelper.STATUS_FINISHED)
                 stepForwardBackTest(backTest, dailyTrades, indicators)
+        }
+        if(backTest.status ==  BackTestHelper.STATUS_FINISHED)
+        {
+            dailyTradesData.remove(backTest?.id)
+            indicatorsData.remove(backTest?.id)
         }
     }
 

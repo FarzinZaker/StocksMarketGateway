@@ -60,7 +60,8 @@
                                                style="width:220px;" checked="${true}"/>
                             </form:field>
                             <div>
-                                <form:submitButton name="submit" text="${message(code: 'login.button.label')}"/>
+                                <form:submitButton name="submit" text="${message(code: 'login.button.label')}" style="padding:5px 15px"/>
+                                <form:linkButton href="${createLink(controller: 'user', action: 'forgetPassword')}" text="${message(code: 'menu.currentUser.forgetPassword')}" style="padding:5px 15px"/>
                             </div>
                         </form>
                         <div class="oAuthToolbar">

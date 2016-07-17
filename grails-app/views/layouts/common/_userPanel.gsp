@@ -21,6 +21,8 @@
     <sec:ifNotLoggedIn>
         <li><a href="javascript:openLoginDialog()"><g:message code="menu.currentUser.loginOrRegister"/> <i
                 class="fa fa-user"></i></a></li>
+        <li><a href="${createLink(controller: 'user', action: 'forgetPassword')}"><g:message code="menu.currentUser.forgetPassword"/> <i
+                class="fa fa-key"></i></a></li>
     </sec:ifNotLoggedIn>
 </ul>
 <div class="clear-fix"></div>

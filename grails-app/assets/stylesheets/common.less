@@ -1877,7 +1877,7 @@ h1, h2, h3, h4 {
   }
 
   .oAuthToolbar {
-    text-align: center !important;
+    text-align: right !important;
     .oAuthButton {
       display: inline-block;
       float: none;
@@ -2159,6 +2159,7 @@ h1, h2, h3, h4 {
     &.yahooButton {
       background-color: #400191;
       color: white;
+      margin-right:3px;
     }
   }
 }
@@ -3423,7 +3424,11 @@ ul.twitterAuthorInfo {
 }
 
 #loginForm + .oAuthToolbar {
-  margin-top: 25px !important;
+  background: #f0f4f7;
+  border-top-width: 0;
+  margin-top: 40px !important;
+  padding-bottom: 10px;
+  padding-right: 20px;
   .oAuthButton {
     padding: 10px 20px;
     margin-right: 0 !important;

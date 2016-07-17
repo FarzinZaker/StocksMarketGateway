@@ -16,6 +16,7 @@ class UserController {
     def materialGraphService
     def groupGraphService
     def userService
+    def smsService
 
     def registrationDisabled() {
 
@@ -353,22 +354,40 @@ class UserController {
         }
     }
 
-//    def forgetPassword() {
-//
-//    }
-//
-//    def resetPassword() {
-//        if (!params.captcha || !params.captcha.isNumber() || session['forgetPasswordCaptcha'] != params.captcha as int) {
-//            flash.error = message(code: 'invalid.captcha')
-//            return redirect(action: 'forgetPassword')
-//        }
-//        flash.error = userService.resetPassword(params.username)
-//        if (!flash.error) {
-//            flash.info = message(code: 'user.resetPassword.done')
-//            redirect(controller: 'login', action: 'auth')
-//        } else
-//            redirect(action: 'forgetPassword')
-//    }
+    def forgetPassword() {
+
+    }
+
+    def sendPasswordResetLink() {
+        def username = params.username
+        def user = User.findByEmailOrMobileOrUsername(username, username, username)
+        if (!user) {
+            flash.message = message(code: 'user.resetPassword.error.noSuchUser')
+            return redirect(action: 'forgetPassword')
+        }
+
+        def password = (Math.random() * 900000 + 100000) as int
+        user.password = password
+        user.save()
+
+        if (user.mobile) {
+            smsService.sendCustomMessage(user.mobile, message(code: 'resetPassword.sms', args: [password.toString()])?.toString())
+        }
+
+        if (user.email) {
+            mailService.sendMail {
+                to user.email
+                subject message(code: 'emailTemplates.resetPassword.subject')
+                html(view: "/messageTemplates/email_template",
+                        model: [message : g.render(template: '/messageTemplates/mail/reset_password', model: [user: user, newPassword: password]).toString(),
+                                source: 'resetPassword',
+                                email   : user?.email])
+            }
+        }
+
+        flash.info = message(code: 'password.reset.succeed')
+        redirect(controller: 'login', action: 'auth')
+    }
 
     @Secured([RoleHelper.ROLE_ADMIN, RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_ADMIN, RoleHelper.ROLE_BROKER_USER])
     def passwordChanged() {

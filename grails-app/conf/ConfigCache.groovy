@@ -84,4 +84,28 @@ grails.cache.config = {
         diskExpiryThreadIntervalSeconds 120
         memoryStoreEvictionPolicy 'LRU'
     }
+    cache {
+        name 'backTestDailyTrades'
+        maxElementsInMemory 1000000
+        eternal false
+        timeToIdleSeconds 600
+        timeToLiveSeconds 1800
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
+    cache {
+        name 'backTestIndicators'
+        maxElementsInMemory 1000000
+        eternal false
+        timeToIdleSeconds 600
+        timeToLiveSeconds 1800
+        overflowToDisk true
+        maxElementsOnDisk 10000000
+        diskPersistent false
+        diskExpiryThreadIntervalSeconds 120
+        memoryStoreEvictionPolicy 'LRU'
+    }
 }
