@@ -24,6 +24,7 @@ class Article {
     }
 
     static constraints = {
+        image nullable: true
     }
 
     @Override

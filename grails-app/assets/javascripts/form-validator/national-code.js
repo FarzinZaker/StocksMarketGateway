@@ -6,7 +6,7 @@ $.formUtils.addValidator({
     validatorFunction: function (value, $el, config, language, $form) {
         var nationalCode = value;
         if (!nationalCode || nationalCode == '')
-            return false;
+            return true;
 
         if (nationalCode.length != 10)
             return false;
