@@ -34,7 +34,7 @@ environments {
                 port = 8086
                 username = 'chahartablo'
                 password = 'agah!#(%'
-                db = 'stocks'
+                db = 'chahartablo'
             }
         }
 
@@ -96,7 +96,7 @@ environments {
                 port = 8086
                 username = 'chahartablo'
                 password = 'agah!#(%'
-                db = 'stocks'
+                db = 'chahartablo'
             }
         }
 
