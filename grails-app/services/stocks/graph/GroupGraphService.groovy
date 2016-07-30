@@ -243,7 +243,7 @@ class GroupGraphService {
     }
 
     List<Map> largestGroups(Integer count = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT in('Own').size() as size, first(@rid) as @rid, title, imageId FROM Group WHERE ownerType = 'user') ORDER BY size DESC LIMIT ${count}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT in('Member').size() as size, @rid as @rid, title, imageId FROM Group WHERE ownerType = 'user') ORDER BY size DESC LIMIT ${count}")
     }
 }
 

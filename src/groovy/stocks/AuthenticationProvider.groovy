@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession
 import java.security.MessageDigest
 
 class AuthenticationProvider extends DaoAuthenticationProvider {
-    def otpService
     def springSecurityService
     def grailsApplication
 

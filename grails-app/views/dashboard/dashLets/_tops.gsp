@@ -1,4 +1,4 @@
-<g:set var="colSpan" value="${12 / tops?.values()?.size()}"/>
+<g:set var="colSpan" value="${12 / tops?.values()?.findAll { it }?.size()}"/>
 <div class="row">
     <g:set var="item" value="${tops.mostActivePerson}"/>
     <g:if test="${item}">
