@@ -33,6 +33,6 @@ class RateGraphService {
         }
         def calendar = Calendar.getInstance()
         calendar.setTime(startDate)
-        graphDBService.queryAndUnwrapVertex("SELECT AVG(value) as rate, owner.@rid as @rid, owner.identifier as identifier, owner.title as title FROM (SELECT value, first(in.in('Own')) as owner FROM (SELECT * FROM (SELECT EXPAND(inE('Rate')) FROM Material) WHERE date > '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0')) GROUP BY owner  ORDER BY rate DESC")
+        graphDBService.queryAndUnwrapVertex("SELECT SUM(value) as rate, owner.@rid as @rid, owner.identifier as identifier, owner.title as title FROM (SELECT value, first(in.in('Own')) as owner FROM (SELECT * FROM (SELECT EXPAND(inE('Rate')) FROM Material) WHERE date > '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0')) GROUP BY owner  ORDER BY rate DESC")
     }
 }
