@@ -141,7 +141,7 @@ class MaterialGraphService {
     }
 
     List<Map> listByProperty(String propertyId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('About')).@rid FROM Property WHERE @rid = #${propertyId}) WHERE (@class = 'Article' OR @class = 'Talk') ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(out) FROM About WHERE in = #${propertyId?.replace('#', '')}) WHERE @class = 'Talk' OR @class = 'Article' ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> topByProperty(String groupId, Integer skip = 0, Integer limit = 10) {

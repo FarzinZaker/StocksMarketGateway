@@ -112,7 +112,8 @@ class FileController {
     }
 
     def upload() {
-        def path = "${grailsApplication.config.user.files.imagesPath}/${springSecurityService.currentUser?.id}/${params.path}${params.file.fileItem.fileName}"
+        def fileName = FarsiNormalizationFilter.apply(params.file.fileItem.fileName)
+        def path = "${grailsApplication.config.user.files.imagesPath}/${springSecurityService.currentUser?.id}/${params.path}${fileName}"
         def file = new File(path)
 
         def directory = file.parentFile
@@ -122,7 +123,7 @@ class FileController {
         if (file.exists())
             file.delete()
 
-        def thumbnailPath = "${grailsApplication.config.user.files.imagesPath}/${springSecurityService.currentUser?.id}/thumbnail/${params.path}${params.file.fileItem.fileName}"
+        def thumbnailPath = "${grailsApplication.config.user.files.imagesPath}/${springSecurityService.currentUser?.id}/thumbnail/${params.path}${fileName}"
         def thumbnailFile = new File(thumbnailPath)
         if (thumbnailFile.exists())
             thumbnailFile.delete()

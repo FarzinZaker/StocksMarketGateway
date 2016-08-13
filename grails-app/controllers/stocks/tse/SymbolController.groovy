@@ -186,7 +186,7 @@ class SymbolController {
         searchResult.results.eachWithIndex { item, index ->
             result << [
                     text : "${item.persianCode} - ${item.persianName}",
-                    link : createLink(controller: 'symbol', action: 'info', id: item.id),
+                    link : createLink(controller: 'twitter', action: 'property', id: item.id, absolute: true),
                     score: searchResult.scores[index] / maxScore,
                     type : "${message(code: 'globalSearch.investmentFund')} - ${message(code: "market.${item.marketIdentifier}")}"
             ]

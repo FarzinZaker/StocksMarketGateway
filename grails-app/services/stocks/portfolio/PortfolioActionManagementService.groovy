@@ -626,7 +626,13 @@ class PortfolioActionManagementService {
 
                 def date = sheet.getCell(1, i).contents?.trim()
 
-                def symbolCode = descriptionParts.last()?.replace('(', '')?.replace(')', '')?.substring(0, 12)
+                def symbolCode = ''
+                try {
+                    symbolCode = descriptionParts.last()?.replace('(', '')?.replace(')', '')?.substring(0, 12)
+                }
+                catch (ignored){
+                    println(ignored?.message)
+                }
                 def symbol = Symbol.findByCode(symbolCode)
 
                 def model = [

@@ -16,7 +16,7 @@
 
     <div class="body">
         <g:if test="${hasAccess}">
-            <format:html value="${article.body}"/>
+            <format:twit value="${article.body}"/>
         </g:if>
         <g:else>
             <div class="info-small" style="margin-right: 360px;">

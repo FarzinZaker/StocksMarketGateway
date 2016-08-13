@@ -78,7 +78,7 @@ class IndexController {
             result << [
                     text : item.toString(),
                     tag: item.toString()?.replace(' ', '_'),
-                    link : createLink(controller: 'index', action: 'info', id: item.id, absolute: true),
+                    link : createLink(controller: 'twitter', action: 'property', id: item.id, absolute: true),
                     score: searchResult.scores[index] / maxScore,
                     type : "${message(code: 'globalSearch.index')}",
                     id       : item.id,

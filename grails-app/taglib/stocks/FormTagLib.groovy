@@ -276,8 +276,8 @@ class FormTagLib {
                     ${
             attrs.tag ? """<a data-clazz="${attrs.tag.clazz}"
                                         data-id="${attrs.tag.id}"
-                                        href="../${attrs.tag.type == 'tag' ? attrs.tag.clazz?.toLowerCase() : 'user'}/${
-                attrs.tag.type == 'tag' ? 'info' : 'wall'
+                                        href="../${attrs.tag.type == 'tag' ? 'twitter' : 'user'}/${
+                attrs.tag.type == 'tag' ? 'property' : 'wall'
             }/${attrs.tag.id}"
                                         class="${attrs.tag.type == 'tag' ? 'hashTag' : 'hashAuthor'}">${
                 attrs.tag.type == 'tag' ? '#' : '@'
