@@ -289,6 +289,9 @@ class FormTagLib {
                 function getKendoImageBrowserUrl(){
                     return '${createLink(controller: 'file', action: 'imageBrowser', absolute: true)}';
                 }
+                function getKendoImageUploaderUrl(){
+                    return '${createLink(controller: 'file', action: 'imageUploader', absolute: true)}';
+                }
                 \$(document).ready(function() {
                     tinymce.init({
                         ${attrs.mode != 'full' ? 'menubar:false,' : ''}
@@ -299,7 +302,7 @@ class FormTagLib {
                         ${attrs.mode == 'inline' ? 'width:439,' : attrs.width ? "width:${attrs.width}," : ""}
                         ${attrs.height ? "height:${attrs.height}," : ""}
                         plugins: [
-                            "kendoImageBrowser ${
+                            "kendoImageUploader ${
             attrs.mode == 'full' ? 'advlist' : ''
         } autolink link image lists charmap hr anchor ${attrs.height ? '' : 'autoresize'}",
                             "searchreplace wordcount fullscreen",

@@ -161,4 +161,8 @@ class FileController {
     def imageBrowser(){
         render template: 'imageBrowser', model: [userId: springSecurityService.currentUser?.id, imageBrowserPath : createLink(uri:'/File')]
     }
+
+    def imageUploader(){
+        render template: 'imageUploader', model: [userId: springSecurityService.currentUser?.id]
+    }
 }
