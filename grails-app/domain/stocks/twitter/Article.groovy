@@ -1,5 +1,6 @@
 package stocks.twitter
 
+import stocks.File
 import stocks.Image
 import stocks.User
 
@@ -16,6 +17,8 @@ class Article {
     Image image
     Date dateCreated
     Date lastUpdated
+
+    static hasMany = [files: File]
 
     static mapping = {
         table 'twit_article'

@@ -2,6 +2,7 @@ package stocks
 
 import grails.converters.JSON
 import groovy.io.FileType
+import org.apache.commons.io.FilenameUtils
 
 import javax.imageio.ImageIO
 import java.text.DateFormat
@@ -141,7 +142,8 @@ class FileController {
         try {
             path = new File(path)
             content = path?.getBytes()
-        }catch(ignored){}
+        } catch (ignored) {
+        }
         if (content) {
             def seconds = 3600 * 24
             DateFormat httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
@@ -158,11 +160,47 @@ class FileController {
             render ""
     }
 
-    def imageBrowser(){
-        render template: 'imageBrowser', model: [userId: springSecurityService.currentUser?.id, imageBrowserPath : createLink(uri:'/File')]
+    def imageBrowser() {
+        render template: 'imageBrowser', model: [userId: springSecurityService.currentUser?.id, imageBrowserPath: createLink(uri: '/File')]
     }
 
-    def imageUploader(){
+    def imageUploader() {
         render template: 'imageUploader', model: [userId: springSecurityService.currentUser?.id]
+    }
+
+    def uploadFile() {
+
+        def file = new File()
+        file.name = params.fileUpload.fileItem.fileName
+        def uploadedFile = request.getFile('fileUpload')
+        file.content = uploadedFile.inputStream.bytes
+        file.contentType = uploadedFile.contentType
+        file.extension = FilenameUtils.getExtension(file.name)?.toLowerCase()?.trim()
+        if (file.save())
+            render([
+                    result: 'add',
+                    id    : file?.id,
+                    name  : file?.name
+            ] as JSON)
+        else
+            render([
+                    result: 'error'
+            ] as JSON)
+    }
+
+    def removeFile() {
+        render 0
+    }
+
+    def download(){
+        def file = File.get(params.id)
+        if(file) {
+            response.setContentType(file?.contentType)
+            response.setHeader("Content-disposition", "filename=\"${file.name}\"")
+            response.outputStream << file.content
+        }
+        else{
+            render 'not found'
+        }
     }
 }

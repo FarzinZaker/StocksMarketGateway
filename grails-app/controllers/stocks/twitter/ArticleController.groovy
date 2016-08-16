@@ -5,6 +5,7 @@ import stocks.RoleHelper
 import stocks.User
 import stocks.Image
 import stocks.graph.MaterialGraphService
+import stocks.File
 
 //import stocks.twitter.Tag
 import grails.converters.JSON
@@ -46,6 +47,13 @@ class ArticleController {
         if (!(params.image instanceof String) && params.image?.id && params.image?.id != '')
             article.image = Image.get(params.image?.id as Long)
         article.author = owner
+
+        article.files.clear()
+        if (params.files instanceof String)
+            params.files = [params.files]
+        params.files?.each { file ->
+            article.addToFiles(File.get(file as Long))
+        }
 
         if (article.validate() && article.save(flush: true)) {
             sharingService.shareArticle(owner, article.id, article.title, article.summary, article.imageId,

@@ -29,7 +29,7 @@ class ProfileController {
         user.mobile = params.mobile
         user.nationalCode = params.nationalCode
         user.city = City.get(params.cityId as Long)
-        user.image = Image.get(params.image?.id as Long)
+        user.image = params?.image?.id && params?.image?.id != '' ? Image.get(params.image?.id as Long) : null
         if (user.save(flush: true)) {
             personGraphService.ensurePerson(user)
             flash.message = message(code: 'user.profile.savedSuccessfully')
@@ -63,7 +63,7 @@ class ProfileController {
         [
                 user        : user,
                 telegramUser: user.telegramUser,
-                key: "${user?.id}:${EncodingHelper.MD5("connect_${user?.id}_to_telgram")}"
+                key         : "${user?.id}:${EncodingHelper.MD5("connect_${user?.id}_to_telgram")}"
         ]
     }
 }

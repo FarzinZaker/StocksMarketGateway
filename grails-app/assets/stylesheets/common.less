@@ -3281,6 +3281,38 @@ ul.twitterAuthorInfo {
     font-size: 24px;
     line-height: 30px;
   }
+  h3{
+    border-bottom:2px solid #dadada;
+    margin-bottom:10px;
+  }
+  .attachments{
+    padding:0;
+    li{
+      list-style: none;
+      a{
+        display: block;
+        padding:5px;
+        color:#3B5998;
+        font-size:12px;
+        &:hover{
+          color:#D80073;
+        }
+        span{
+          display: inline-block;
+          color: darkgray;
+        }
+      }
+      &.even{
+        a{
+          display: block;
+          background: #fafafa;
+          &:hover{
+
+          }
+        }
+      }
+    }
+  }
   .body {
     line-height: 24px;
     a:hover {

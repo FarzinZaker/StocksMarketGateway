@@ -3,7 +3,6 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/grails-app/assets/javascripts/inviter.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/javascripts/tinymce/plugins/image/plugin.min.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/grails-app/assets/javascripts/tinymce/plugins/image/plugin.min.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/assets/javascripts/twitter.edit.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/conf/ConfigBanks.groovy" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grails-app/conf/stocks/InvitationFilters.groovy" charset="UTF-8" />
