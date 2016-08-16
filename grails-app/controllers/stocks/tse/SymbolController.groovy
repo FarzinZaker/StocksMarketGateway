@@ -144,7 +144,7 @@ class SymbolController {
             result << [
                     text     : "${item.persianCode} - ${item.persianName}",
                     tag      : item.persianCode?.replace(' ', '_'),
-                    link     : createLink(controller: 'symbol', action: 'info', id: item.id, absolute: true),
+                    link     : createLink(controller: 'twitter', action: 'property', id: item.id, absolute: true),
                     score    : searchResult.scores[index] / maxScore,
                     type     : "${message(code: 'globalSearch.symbol')} - ${message(code: "market.${item.marketIdentifier}")}",
                     id       : item.id,
