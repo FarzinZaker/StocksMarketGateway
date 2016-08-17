@@ -81,8 +81,8 @@ class TelegramService {
             def chatId = update?.message?.chat?.id as Long
             def userName = update?.message?.from?.username ?: "CHAT_${chatId}"
             if (userName) {
-                if (message?.startsWith('connect'))
-                    result = connect(update?.message?.from as Map, message?.replace('connect', '')?.trim(), chatId)
+                if (message?.startsWith('con'))
+                    result = connect(update?.message?.from as Map, message?.replace('con', '')?.trim(), chatId)
                 else if (message?.equals(commands.Disconnet))
                     result = disconnect(chatId)
                 else if (['/help', 'help', '/h', 'h'].contains(message?.toLowerCase()))
@@ -136,15 +136,13 @@ class TelegramService {
 
     Boolean connect(Map from, String code, Long chatId) {
         try {
-            def parts = code.split(':')
-            if (parts.size() != 2) {
-                sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
-                return true
-            }
-            def id = parts[0] as Long
-            def validator = parts[1] as String
+            def id = Math.round(code?.toLong() / 100)
+            def validator = code?.toLong() % 100
+            def realValidator = id?.toString()?.bytes?.encodeHex()?.toString()?.toLong()
+            while(realValidator > 100)
+                realValidator = Math.round(realValidator / 10) + realValidator % 10
 
-            if (EncodingHelper.MD5("connect_${id}_to_telgram") != validator) {
+            if (realValidator != validator) {
                 sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
                 return true
             }

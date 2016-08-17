@@ -54,7 +54,7 @@
                         <p>
                             <g:message code="social.connect.telegram.notConnectedMessage"/>
                         </p>
-                        <pre style="direction: ltr;margin-top:5px;display: inline-block;">connect ${key}</pre>
+                        <pre style="direction: ltr;margin-top:5px;display: inline-block;">con ${key}</pre>
 
                         <div class="toolbar" style="margin-top:0;">
                             <form:button text="${message(code: 'social.connect.telegram.check')}"

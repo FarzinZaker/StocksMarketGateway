@@ -23,7 +23,7 @@ class QueryCategory {
 
     static constraints = {
         description nullable: true, sqlType: "text"
-        image nullable:true, maxSize: 2000000000
+        image nullable:true
         parent nullable: true
     }
 }

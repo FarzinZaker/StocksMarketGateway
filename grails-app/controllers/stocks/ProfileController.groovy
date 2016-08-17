@@ -67,10 +67,13 @@ class ProfileController {
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def social() {
         def user = springSecurityService.currentUser as User
+        def code = user?.id?.toString()?.bytes?.encodeHex()?.toString()?.toLong()
+        while(code > 100)
+            code = Math.round(code / 10) + code % 10
         [
                 user        : user,
                 telegramUser: user.telegramUser,
-                key         : "${user?.id}:${EncodingHelper.MD5("connect_${user?.id}_to_telgram")}"
+                key         : "${user?.id}${code?.toString()?.padLeft(2, '0')}"
         ]
     }
 }
