@@ -142,8 +142,8 @@ class AdminController {
 //            symbol.save(flush: true)
 //        }
 //        announcementDataService.importData()
-        migrationService.testAuthorization()
-
+//        migrationService.testAuthorization()
+        symbolDataService.importData()
     }
 
 

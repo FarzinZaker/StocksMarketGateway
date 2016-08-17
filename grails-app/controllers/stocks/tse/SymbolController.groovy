@@ -213,4 +213,8 @@ class SymbolController {
         }
         render(result.sort { -it.score } as JSON)
     }
+
+    def reindex(){
+        render Symbol.reindex(Symbol.get(params.id))
+    }
 }
