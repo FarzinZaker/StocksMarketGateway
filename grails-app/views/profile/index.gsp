@@ -51,6 +51,11 @@
                     </g:else>
                 </li>
                 <li class="profile-field" tabindex="0">
+                    <div class="txt">${user?.nickname}</div>
+
+                    <div class="lbl"><g:message code="profile.nickname"/></div>
+                </li>
+                <li class="profile-field" tabindex="0">
                     <div class="txt">${user?.username}</div>
 
                     <div class="lbl"><g:message code="profile.userName"/></div>

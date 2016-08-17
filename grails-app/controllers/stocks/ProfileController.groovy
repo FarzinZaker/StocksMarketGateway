@@ -23,8 +23,15 @@ class ProfileController {
     @Secured([RoleHelper.ROLE_USER, RoleHelper.ROLE_BROKER_USER])
     def saveProfile() {
         def user = springSecurityService.currentUser as User
+        def nickNameExists = User.findByNicknameAndIdNotEqual(params.nickname, user?.id)
+        if (nickNameExists) {
+            flash.validationError = message(code: 'user.profile.nicknameIsRepetitive')
+            redirect(action: 'edit')
+            return
+        }
         user.firstName = params.firstName
         user.lastName = params.lastName
+        user.nickname = params.nickname
         user.sex = params.sex
         user.mobile = params.mobile
         user.nationalCode = params.nationalCode

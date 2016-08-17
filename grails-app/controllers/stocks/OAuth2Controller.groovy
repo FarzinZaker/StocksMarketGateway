@@ -92,6 +92,7 @@ class OAuth2Controller {
             user.sex = profile.gender
         if (!user.externalImageUrl)
             user.externalImageUrl = profile.picture
+        user.generateNickname()
         user.save(flush: true)
 
         def oAuthKey = OAuthKey.findByProviderAndIdentifier('google', profile.email as String)
@@ -191,6 +192,7 @@ class OAuth2Controller {
             user.sex = gender
         if (!user.externalImageUrl)
             user.externalImageUrl = image
+        user.generateNickname()
         user.save(flush: true)
 
         loginUser(user)

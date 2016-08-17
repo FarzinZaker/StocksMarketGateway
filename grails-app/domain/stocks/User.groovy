@@ -15,6 +15,7 @@ class User {
 
     String firstName
     String lastName
+    String nickname
     String email
     String username
     String password
@@ -42,6 +43,7 @@ class User {
     static constraints = {
         firstName nullable: true
         lastName nullable: true
+        nickname nullable: true
         username blank: false, unique: true
 //        password blank: false
         sex nullable: true, inList: ['male', 'female']
@@ -57,7 +59,7 @@ class User {
         telegramUser nullable: true
     }
 
-    String getEmailParts(){
+    String getEmailParts() {
         email?.replace('@', ' ')?.replace('.', ' ')?.replace('_', ' ')
     }
 
@@ -87,6 +89,20 @@ class User {
 
     @Override
     String toString() {
-        "${firstName} ${lastName}"
+        "${nickname}"
+    }
+
+    public void generateNickname() {
+        if(nickname && nickname?.trim() != '')
+            return
+        def indexer = 1
+        def nicknameMaterial = "${firstName} ${lastName}"
+        if ((!firstName || firstName?.trim() == '') && (!lastName || lastName?.trim() == ''))
+            nicknameMaterial = FarsiNormalizationFilter.apply("کاربر")
+        nicknameMaterial = nicknameMaterial?.trim()?.toLowerCase()
+        def newNickname = nicknameMaterial
+        while (User.findByNicknameAndIdNotEqual(newNickname, id))
+            newNickname = "${nicknameMaterial} ${indexer++}"?.trim()?.toLowerCase()
+        nickname = newNickname
     }
 }

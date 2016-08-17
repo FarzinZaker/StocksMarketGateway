@@ -35,34 +35,37 @@
             <form:info message="${flash.message}"/>
             <form:error message="${flash.validationError}"/>
             <form:form action="saveProfile" name="profileForm">
+                <form:field fieldName="user.nickname">
+                    <form:textBox name="nickname" entity="${user}" validation="required" style="width:400px;"/>
+                </form:field>
                 <form:field fieldName="user.firstName">
-                    <form:textBox name="firstName" entity="${user}" validation="required" style="width:500px;"/>
+                    <form:textBox name="firstName" entity="${user}" validation="required" style="width:400px;"/>
                 </form:field>
                 <form:field fieldName="user.lastName">
-                    <form:textBox name="lastName" entity="${user}" validation="required" style="width:500px;"/>
+                    <form:textBox name="lastName" entity="${user}" validation="required" style="width:400px;"/>
                 </form:field>
                 <form:field fieldName="user.image">
-                    <form:imageUpload name="image" id="imageUpload" style="width:500px;" entity="${user}"
+                    <form:imageUpload name="image" id="imageUpload" style="width:400px;" entity="${user}"
                                       saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
                 </form:field>
                 <form:field fieldName="user.sex">
                     <form:select name="sex" entity="${user}"
                                  items="${[[text: message(code: 'user.sex.male'), value: 'male'], [text: message(code: 'user.sex.female'), value: 'female']]}"
-                                 validation="required" style="width:500px;"/>
+                                 validation="required" style="width:400px;"/>
                 </form:field>
                 <form:field fieldName="user.mobile">
-                    <form:textBox name="mobile" entity="${user}" validation="required" style="width:500px;"/>
+                    <form:textBox name="mobile" entity="${user}" validation="required" style="width:400px;"/>
                 </form:field>
                 <form:field fieldName="user.nationalCode">
-                    <form:textBox name="nationalCode" entity="${user}" validation="national-code" style="width:500px;"/>
+                    <form:textBox name="nationalCode" entity="${user}" validation="national-code" style="width:400px;"/>
                 </form:field>
 
                 <form:field fieldName="user.city">
-                    <div style="width: 500px;" class="k-rtl">
+                    <div style="width: 400px;" class="k-rtl">
                         <g:set var="defaultProvince" value="${stocks.Province.findByDeleted(false)}"/>
-                        <input id="province" name="province" style="width: 248px"
+                        <input id="province" name="province" style="width: 198px"
                                value="${user?.city?.province?.id ?: defaultProvince?.id}"/>
-                        <input id="city" name="cityId" style="width: 248px"
+                        <input id="city" name="cityId" style="width: 198px"
                                value="${user?.city?.id ?: stocks.City.findByProvinceAndDeleted(defaultProvince, false)?.id}"/>
                     </div>
                 </form:field>

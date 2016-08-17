@@ -84,6 +84,7 @@
                                         id: {type: "number"},
                                         firstName: {type: "string"},
                                         lastName: {type: "string"},
+                                        nickname: {type: "string"},
                                         username: {type: "string"},
                                         sex: {type: "string"},
                                         mobile: {type: "string"},
@@ -111,6 +112,11 @@
                                 width: "100px",
                                 attributes: {style: "text-align: center"},
                                 headerAttributes: {style: "text-align: center"}
+                            },
+                            {
+                                field: "nickname",
+                                title: "${message(code:'user.nickname.label')}",
+                                width: "150px"
                             },
                             {
                                 field: "firstName",

@@ -80,6 +80,7 @@
                                 model: {
                                     fields: {
                                         id: { type: "number" },
+                                        nickname: { type: "string" },
                                         firstName: { type: "string" },
                                         lastName: { type: "string" },
                                         username: { type: "string" },
@@ -110,6 +111,10 @@
                                 attributes: { style: "text-align: center"},
                                 headerAttributes: { style: "text-align: center"}
                             },
+                            {
+                                field: "nickname",
+                                title: "${message(code:'user.nickname.label')}"
+                            } ,
                             {
                                 field: "firstName",
                                 title: "${message(code:'user.firstName.label')}"

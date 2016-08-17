@@ -30,6 +30,7 @@
 
             <table class="portfolioActionImportResult">
                 <tr>
+                    <th><g:message code="user.nickname.label"/></th>
                     <th><g:message code="user.firstName.label"/></th>
                     <th><g:message code="user.lastName.label"/></th>
                     <th><g:message code="user.mobile.label"/></th>
@@ -42,6 +43,7 @@
                 </tr>
                 <g:each in="${result}" var="user">
                     <tr class="${user.errors?.size() ? 'hasError' : ''}">
+                        <td>${user?.nickname}</td>
                         <td>${user?.firstName}</td>
                         <td>${user?.lastName}</td>
                         <td>${user?.mobile}</td>

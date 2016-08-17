@@ -2,6 +2,10 @@
 
 <form:hidden name="id" entity="${user}"/>
 
+<form:field fieldName="userInfo.nickname">
+    <form:textBox name="nickname" style="width:500px" entity="${user}"/>
+</form:field>
+
 <form:field fieldName="userInfo.firstName">
     <form:textBox name="firstName" style="width:500px" entity="${user}" validation="required"/>
 </form:field>

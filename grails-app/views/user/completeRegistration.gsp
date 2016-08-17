@@ -29,6 +29,9 @@
             <form:form action="saveRegistration" name="registerForm">
                 <form:hidden name="view" value="completeRegistration"/>
                 <form:hidden name="id" entity="${user}"/>
+                <form:field fieldName="user.nickname">
+                    <form:textBox name="nickname" entity="${user}" style="width:500px;" readonly="true"/>
+                </form:field>
                 <form:field fieldName="user.email">
                     <form:textBox name="email" entity="${user}" validation="email" style="width:500px;" readonly="true"/>
                 </form:field>

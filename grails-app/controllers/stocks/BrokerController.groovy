@@ -79,6 +79,7 @@ class BrokerController {
         value.data = list.collect {
             [
                     id          : it.id,
+                    nickname   : it.nickname,
                     firstName   : it.firstName,
                     lastName    : it.lastName,
                     username    : it.username,

@@ -41,6 +41,7 @@ class UserService {
                         broker: model.broker,
                         password: !model.mobile || model.mobile == '' ? '1234567890' : model.mobile
                 )
+                user.generateNickname()
                 if (!user.save(flush: true)) {
                     model.errors = user?.errors?.allErrors
                 }

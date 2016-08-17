@@ -19,19 +19,19 @@ class PersonGraphService {
         if (!person) {
             person = graphDBService.addVertex('Person', [
                     identifier: user.id,
-                    title     : "${user.firstName} ${user.lastName}"
+                    title     : user?.toString()
             ])
 
             graphDBService.addEdge('Member', person, commonGraphService.publicGroup, [type: 'normal', startDate: new Date()], null)
         } else {
-            graphDBService.editVertex(person?.id?.toString(), [title: "${user.firstName} ${user.lastName}"])
+            graphDBService.editVertex(person?.id?.toString(), [title: user?.toString()])
         }
 
         def rid = person?.id?.toString()
         def searchData = TwitterPerson.findByRid(rid)
         if (!searchData)
             searchData = new TwitterPerson(rid: rid)
-        searchData.title = "${user.firstName} ${user.lastName}"
+        searchData.title = user?.toString()
         searchData.identifier = user?.id
         searchData.save()
 
@@ -45,7 +45,7 @@ class PersonGraphService {
         if (!person) {
             person = graphDBService.addVertex('Person', [
                     identifier: user.id,
-                    title     : "${user.firstName} ${user.lastName}"
+                    title     : user?.toString()
             ])
 
             graphDBService.addEdge('Member', person, commonGraphService.publicGroup, [type: 'normal', startDate: new Date()], null)
@@ -55,7 +55,7 @@ class PersonGraphService {
         def searchData = TwitterPerson.findByRid(rid)
         if (!searchData)
             searchData = new TwitterPerson(rid: rid)
-        searchData.title = "${user.firstName} ${user.lastName}"
+        searchData.title = user?.toString()
         searchData.identifier = user?.id
         searchData.save()
 

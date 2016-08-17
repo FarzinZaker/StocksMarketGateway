@@ -134,6 +134,7 @@ class UserController {
         if (params.refererId)
             user.referer = User.get(params.refererId as Long)
         user.enabled = true
+        user.generateNickname()
 
         if (user.validate() && user.save()) {
             if (user.referer) {
@@ -201,6 +202,7 @@ class UserController {
                     id          : it.id,
                     firstName   : it.firstName,
                     lastName    : it.lastName,
+                    nickname    : it.nickname,
                     username    : it.username?.replace('@', ' @ '),
                     sex         : it.sex,
                     mobile      : it.mobile,
@@ -249,6 +251,7 @@ class UserController {
             user = new User()
         }
 
+        user.nickname = params.nickname
         user.firstName = params.firstName
         user.lastName = params.lastName
         user.sex = params.sex
@@ -269,6 +272,8 @@ class UserController {
 
         user.city = City.get(params.cityId)
         user.username = user.email
+
+        user.generateNickname()
 
         if (user.validate() && user.save()) {
 
@@ -297,6 +302,7 @@ class UserController {
         if (code.toString() == params.id.toString()) {
             def user = User.get(params.id)
             user.enabled = true
+            user.generateNickname()
             user.save()
 
 //            def unsubscribe = Unsubscribe.findByEmailAndRemoved(user.email.toLowerCase(), false)

@@ -38,6 +38,9 @@
                 <form:field fieldName="user.confirmPassword">
                     <form:password name="password" validation="confirmation" style="width:500px;"/>
                 </form:field>
+                <form:field fieldName="user.nickname">
+                    <form:textBox name="nickname" entity="${user}" style="width:500px;"/>
+                </form:field>
                 <form:field fieldName="user.firstName">
                     <form:textBox name="firstName" entity="${user}" validation="required" style="width:500px;"/>
                 </form:field>
