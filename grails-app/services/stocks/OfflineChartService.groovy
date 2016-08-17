@@ -16,7 +16,7 @@ class OfflineChartService {
         PrintWriter writer = new PrintWriter("${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg");
         writer.print("");
         writer.close();
-        new File("${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg") << new File('/home/deploy/node/heatMap.svg').bytes
+        new new java.io.File("${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg") << new java.io.File('/home/deploy/node/heatMap.svg').bytes
 
 //        def processBuilder = new ProcessBuilder("cp /home/deploy/node/heatMap.svg ${ServletContextHolder.servletContext.getRealPath('/')}/heat-map/heatMap.svg")
 //        processBuilder.redirectErrorStream(true)
