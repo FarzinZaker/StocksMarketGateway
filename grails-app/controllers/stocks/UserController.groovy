@@ -506,7 +506,7 @@ class UserController {
         def fileId = UUID.randomUUID()?.toString()
         def fileName = "${fileId}-${params.file.fileItem.fileName}"
         def path = "${grailsApplication.config.user.files.temp}/${fileName}"
-        def file = new File(path)
+        def file = new java.io.File(path)
 
         def directory = file.parentFile
         if (!directory.exists())

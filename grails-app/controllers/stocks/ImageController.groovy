@@ -22,14 +22,14 @@ class ImageController {
                 sizeFlag = "${params.size}x${params.size}-"
             if (content)
                 try {
-                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                    content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
                 }
                 catch (ignored) {
                 }
             else if (params.default)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
             if (!content)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
             if (!content) {
                 render ''
                 return
@@ -62,14 +62,14 @@ class ImageController {
                 sizeFlag = "${params.size}x${params.size}-"
             if (content) {
                 try {
-                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                    content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
                 }
                 catch (ignored) {
                 }
             } else if (params.default)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
             if (!content)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/user-noImage.png").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/no-image/user-noImage.png").getBytes()
             if (!content) {
                 render ''
                 return
@@ -102,14 +102,14 @@ class ImageController {
                 sizeFlag = "${params.size}x${params.size}-"
             if (content) {
                 try {
-                    content = new File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
+                    content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/${image?.id}/${sizeFlag}${image?.name}").getBytes()
                 }
                 catch (ignored) {
                 }
             } else if (params.default)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
             if (!content)
-                content = new File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.type}-noImage.png").getBytes()
+                content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.type}-noImage.png").getBytes()
             if (!content) {
                 render ''
                 return
@@ -144,7 +144,7 @@ class ImageController {
         }
 
         def path = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${params."${params.name}".fileItem.fileName}"
-        def file = new File(path)
+        def file = new java.io.File(path)
 
         def directory = file.parentFile
         if (!directory.exists())
@@ -155,7 +155,7 @@ class ImageController {
 
         params."${params.name}".transferTo(file)
 
-        def bytes = new File(path).getBytes()
+        def bytes = new java.io.File(path).getBytes()
 
         [
                 [width: 500, height: 500],
@@ -172,7 +172,7 @@ class ImageController {
         ].each {
             def thumbBytes = imageService.scaleImage(bytes, it.width, it.height)
             def thumbPath = "${grailsApplication.config.user.files.imagesPath}/image/${image.id}/${it.width}x${it.height}-${params."${params.name}".fileItem.fileName}"
-            def thumbFile = new File(thumbPath)
+            def thumbFile = new java.io.File(thumbPath)
             def thumbDirectory = thumbFile.parentFile
             if (!thumbDirectory.exists())
                 thumbDirectory.mkdirs()

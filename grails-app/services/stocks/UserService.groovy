@@ -9,7 +9,7 @@ class UserService {
     List<Map> importUser(String filePath) {
 
         def result = []
-        def file = new File(filePath)
+        def file = new java.io.File(filePath)
         Workbook book = Workbook.getWorkbook(file)
         Sheet sheet = book.getSheet(0)
         for (def i = 1; i < sheet.rows; i++) {
