@@ -16,7 +16,7 @@ class OilController {
 
         def maxScore = searchResult.scores.max()
 
-        searchResult.results.eachWithIndex { item, index ->
+        searchResult.results?.findAll { it?.toString() }?.eachWithIndex { item, index ->
             result << [
                     text     : item.toString(),
                     tag      : item.toString()?.replace(' ', '_'),

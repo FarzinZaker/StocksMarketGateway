@@ -16,7 +16,7 @@ class MetalController {
 
         def maxScore = searchResult.scores.max()
 
-        searchResult.results.eachWithIndex { item, index ->
+        searchResult.results?.findAll { it?.toString() }?.eachWithIndex { item, index ->
             result << [
                     text     : item.toString(),
                     tag      : item.toString()?.replace(' ', '_'),
@@ -30,8 +30,8 @@ class MetalController {
         render(result as JSON)
     }
 
-    def sparkLine(){
+    def sparkLine() {
         def list = metalSeries9Service.sparkLine(params.symbol as String, 30)
-        render ([id: params.id, value: list, min: list.min(), max:list.max()] as JSON)
+        render([id: params.id, value: list, min: list.min(), max: list.max()] as JSON)
     }
 }

@@ -9,14 +9,20 @@ function onKeyUpForHashTag(ed, e) {
         $('#tagSearchResults').hide();
     }
     else if (isInHashTag(ed)) {
-        var phrase = getHashTagSearchPhrase(ed);
-        if (e.key == ' ') {
-            if (phrase != null) {
+        if (e.key == 'Backspace') {
+            var lastHashTagNode = $(ed.selection.getNode());
+            if ((lastHashTagNode.text() == ''))
+                lastHashTagNode.remove();
+        } else {
+            var phrase = getHashTagSearchPhrase(ed);
+            if (e.key == ' ') {
+                if (phrase != null) {
 
+                }
             }
-        }
-        else {
-            doHashTagSearch(ed, phrase);
+            else {
+                doHashTagSearch(ed, phrase);
+            }
         }
     } else {
         $('#tagSearchResults').hide();
@@ -158,7 +164,7 @@ function insertHashTag(label, link, clazz, id) {
 
 function isInHashTag(ed) {
     var element = $(ed.selection.getNode());
-    return element.prop('nodeName').toString().toLowerCase() == 'a' && element.text().startsWith('#');
+    return element.prop('nodeName').toString().toLowerCase() == 'a' && element.hasClass('hashTag');
 }
 
 function getHashTagSearchPhrase(ed) {
