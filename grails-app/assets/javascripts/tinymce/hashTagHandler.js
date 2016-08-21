@@ -51,10 +51,17 @@ function onKeyDownForHashTag(ed, e) {
             if (container.is(':visible')) {
                 var lastHashTagNode = $(ed.selection.getNode());
                 var link = $('#tagSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
-                lastHashTagNode.text('#' + link.attr('data-tag'));
-                lastHashTagNode.attr('href', link.attr('data-link'));
-                lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
-                lastHashTagNode.attr('data-id', link.attr('data-id'));
+                if (normalize('#' + link.attr('data-tag')) == normalize(lastHashTagNode.text())) {
+                    lastHashTagNode.text('#' + link.attr('data-tag'));
+                    lastHashTagNode.attr('href', link.attr('data-link'));
+                    lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
+                    lastHashTagNode.attr('data-id', link.attr('data-id'));
+                } else {
+                    lastHashTagNode.text('#برچسب_اشتباه');
+                    lastHashTagNode.attr('href', '#');
+                    lastHashTagNode.attr('data-clazz', '');
+                    lastHashTagNode.attr('data-id', '');
+                }
                 container.hide();
             }
 

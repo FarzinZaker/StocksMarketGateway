@@ -9,14 +9,20 @@ function onKeyUpForHashAuthor(ed, e) {
         $('#authorSearchResults').hide();
     }
     else if (isInHashAuthor(ed)) {
-        var phrase = getHashAuthorSearchPhrase(ed);
-        if (e.key == ' ') {
-            if (phrase != null) {
+        if (e.key == 'Backspace') {
+            var lastHashTagNode = $(ed.selection.getNode());
+            if ((lastHashTagNode.text() == ''))
+                lastHashTagNode.remove();
+        } else {
+            var phrase = getHashAuthorSearchPhrase(ed);
+            if (e.key == ' ') {
+                if (phrase != null) {
 
+                }
             }
-        }
-        else {
-            doHashAuthorSearch(ed, phrase);
+            else {
+                doHashAuthorSearch(ed, phrase);
+            }
         }
     } else {
         $('#authorSearchResults').hide();
@@ -45,10 +51,17 @@ function onKeyDownForHashAuthor(ed, e) {
             if (container.is(':visible')) {
                 var lastHashAuthorNode = $(ed.selection.getNode());
                 var link = $('#authorSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
-                lastHashAuthorNode.text('@' + link.attr('data-author'));
-                lastHashAuthorNode.attr('href', link.attr('data-link'));
-                lastHashAuthorNode.attr('data-clazz', link.attr('data-typeClass'));
-                lastHashAuthorNode.attr('data-id', link.attr('data-id'));
+                if (normalize('#' + link.attr('data-tag')) == normalize(lastHashAuthorNode.text())) {
+                    lastHashAuthorNode.text('@' + link.attr('data-author'));
+                    lastHashAuthorNode.attr('href', link.attr('data-link'));
+                    lastHashAuthorNode.attr('data-clazz', link.attr('data-typeClass'));
+                    lastHashAuthorNode.attr('data-id', link.attr('data-id'));
+                } else {
+                    lastHashAuthorNode.text('@برچسب_اشتباه');
+                    lastHashAuthorNode.attr('href', '#');
+                    lastHashAuthorNode.attr('data-clazz', '');
+                    lastHashAuthorNode.attr('data-id', '');
+                }
                 container.hide();
 
                 var currentPosition = getCursorPosition(ed);
@@ -113,7 +126,7 @@ function onKeyDownForHashAuthor(ed, e) {
     else if (e.key == '@') {
         e.preventDefault();
         e.stopPropagation();
-        if(!isInHashTag(ed)) {
+        if (!isInHashTag(ed)) {
             ed.execCommand('mceInsertContent', false, '<a href="#" class="hashAuthor">@</a>');
             setCursorPosition(ed, getCursorPosition(ed) - 4);
         }
