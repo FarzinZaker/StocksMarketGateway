@@ -35,6 +35,30 @@
                     <input type="submit" value="${message(code: 'article.create.submit.label')}" class="k-button"/>
                 </div>
             </form:form>
+            <script>
+                $(document).on("submit", "#articleForm", function (e) {
+
+                    var result = true;
+
+                    if ($('input[name=title]').val().length == 0) {
+                        $('input[name=title]').parent().parent().find('.help').append('<span class="help-block form-error">${message(code:'query.register.validation.required')}</span>');
+                        result = false;
+                    }
+                    if ($('textarea[name=body]').val().length == 0) {
+                        $('textarea[name=body]').parent().parent().parent().find('.help').append('<span class="help-block form-error">${message(code:'query.register.validation.required')}</span>');
+                        result = false;
+                    }
+                    if ($('textarea[name=summary]').val().length == 0) {
+                        $('textarea[name=summary]').parent().parent().parent().find('.help').append('<span class="help-block form-error">${message(code:'query.register.validation.required')}</span>');
+                        result = false;
+                    }
+
+
+                    if (!result) {
+                        return false;
+                    }
+                });
+            </script>
         </div>
     </div>
 </div>

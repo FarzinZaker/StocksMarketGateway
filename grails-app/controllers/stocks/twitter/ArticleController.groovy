@@ -48,7 +48,7 @@ class ArticleController {
             article.image = Image.get(params.image?.id as Long)
         article.author = owner
 
-        article.files.clear()
+        article.files?.clear()
         if (params.files instanceof String)
             params.files = [params.files]
         params.files?.each { file ->

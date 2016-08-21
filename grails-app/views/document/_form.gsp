@@ -46,13 +46,13 @@
                 removeUrl: "${createLink(controller: 'file', action: 'removeFile')}",
                 autoUpload: true
             },
-            files: <format:html value="${document?.files?.collect{
+            files: <format:html value="${(document?.files?.collect{
             [
                 name: it?.name,
 //                extension: 'dat',
 //                size: 0
             ]
-            } as JSON}"/>,
+            }?:[]) as JSON}"/>,
             success: function (e) {
                 if (e.response.result == 'add')
                     $("#fileIds").append('<input type="hidden" name="files" data-name="' + e.response.name + '" value="' + e.response.id + '"/>');

@@ -106,7 +106,6 @@
             if (checkSelection())
                 window.location.href = "${createLink(action: 'edit')}/" + $('#documentListView').find('.document.k-state-selected').attr('item-id');
         });
-
         $('#btn-deleteDocument').click(function () {
             if (checkSelection())
                 confirm('${message(code:'article.delete.confirm')}', deleteArticle);

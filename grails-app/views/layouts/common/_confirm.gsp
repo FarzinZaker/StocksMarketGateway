@@ -45,7 +45,7 @@
                         cancelCallback();
                 });
 
-                confirmDialog.find(".btn-ok").click(function () {
+                confirmDialog.find(".btn-ok").unbind().click(function () {
                     confirmDialog.data("kendoWindow").close();
                     if (callback)
                         callback();
