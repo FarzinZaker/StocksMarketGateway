@@ -1,5 +1,6 @@
 package stocks.twitter
 
+import groovy.time.TimeCategory
 import org.ccil.cowan.tagsoup.Parser
 import stocks.User
 import stocks.graph.MaterialGraphService
@@ -14,6 +15,13 @@ class SharingService {
     def commonGraphService
     def rateGraphService
     def groupGraphService
+    def adjustedPriceSeries9Service
+    def coinSeries9Service
+    def currencySeries9Service
+    def futureSeries9Service
+    def indexSeries9Service
+    def metalSeries9Service
+    def oilSeries9Service
 
     void shareArticle(User owner, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
@@ -57,7 +65,10 @@ class SharingService {
         def propertyTitleList = []
         properties.each { property ->
             def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
-            graphDBService.addEdge('About', materialVertex, propertyVertex)
+            def prediction = property.prediction ?: [:]
+            if (prediction?.size())
+                prediction = prediction + [applied: false]
+            graphDBService.addEdge('About', materialVertex, propertyVertex, prediction)
             propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
         }
         searchData.propertyTitleList = propertyTitleList
@@ -167,6 +178,112 @@ class SharingService {
                 mostActiveProperty: propertyGraphService.mostActiveProperties(7, 1)?.find(),
                 largestGroup      : groupGraphService.largestGroups(1)?.find()
         ]
+    }
+
+    def applyATwitScore() {
+        def date = new Date()
+        def calendar = Calendar.getInstance()
+        calendar.setTime(date)
+        def item = graphDBService.queryAndUnwrapEdge("SELECT * FROM About WHERE applied = false and endDate < '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0' LIMIT 1")?.find()
+        if (!item)
+            return
+        def property = graphDBService.getAndUnwrapVertex(item.in)
+        def twit = graphDBService.getAndUnwrapVertex(item.out)
+
+        def publishDate = twit.publishDate
+        def priceList = []
+        def startPrice = 0
+        switch (property.label) {
+            case 'Symbol':
+                priceList = adjustedPriceSeries9Service.lastTradePriceList(property.identifier, publishDate, item.endDate)
+                startPrice = adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, publishDate)
+                break;
+            case 'Index':
+                priceList = indexSeries9Service.finalIndexValueList(property.identifier, publishDate, item.endDate)
+                startPrice = indexSeries9Service.lastFinalIndexValue(property.identifier, publishDate)
+                break;
+            case 'Coin':
+                priceList = coinSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = coinSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Currency':
+                priceList = currencySeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = currencySeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Metal':
+                priceList = metalSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = metalSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Oil':
+                priceList = oilSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = oilSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Future':
+                priceList = futureSeries9Service.closingPriceList(property.identifier, publishDate, item.endDate)
+                startPrice = futureSeries9Service.lastClosingPrice(property.identifier, publishDate)
+                break;
+        }
+        if (priceList?.size() == 0) {
+            switch (property.label) {
+                case 'Symbol':
+                    priceList = [adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, item.endDate)]
+                    break;
+                case 'Index':
+                    priceList = [indexSeries9Service.lastFinalIndexValue(property.identifier, item.endDate)]
+                    break;
+                case 'Coin':
+                    priceList = [coinSeries9Service.lastPrice(property.identifier, item.endDate)]
+                    break;
+                case 'Currency':
+                    priceList = [currencySeries9Service.lastPrice(property.identifier, item.endDate)]
+                    break;
+                case 'Metal':
+                    priceList = [metalSeries9Service.lastPrice(property.identifier, item.endDate)]
+                    break;
+                case 'Oil':
+                    priceList = [oilSeries9Service.lastPrice(property.identifier, item.endDate)]
+                    break;
+                case 'Future':
+                    priceList = [futureSeries9Service.lastClosingPrice(property.identifier, item.endDate)]
+                    break;
+            }
+        }
+
+        def daysCount = 1
+        def priceListSize = 1
+        switch (item.period) {
+            case '1w':
+                daysCount = 7
+                priceListSize = 3
+                break
+            case '4w':
+                daysCount = 4 * 7
+                priceListSize = 7
+                break
+            case '12w':
+                daysCount = 12 * 7
+                priceListSize = 2 * 7
+                break
+            case '26w':
+                daysCount = 26 * 7
+                priceListSize = 4 * 7
+                break
+        }
+
+        while (priceList?.size() > priceListSize)
+            priceList.remove(0)
+
+        def score = 0
+        startPrice = startPrice - 100
+        if (item.type == 'benefit') {
+            def criterionPrice = priceList.collect { it?.value }?.findAll { it }?.max()
+            score = item.risk * (((criterionPrice - startPrice) / startPrice) / daysCount)
+        } else if (item.type == 'loss') {
+            def criterionPrice = priceList.collect { it?.value }?.findAll { it }?.min()
+            score = item.risk * (((startPrice - criterionPrice) / startPrice) / daysCount)
+        }
+
+        graphDBService.editEdge(item.id, [applied: true, score: score])
     }
 
 }

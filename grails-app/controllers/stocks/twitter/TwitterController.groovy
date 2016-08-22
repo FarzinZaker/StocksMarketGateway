@@ -187,6 +187,9 @@ class TwitterController {
     }
 
     def property() {
+
+        sharingService.applyATwitScore()
+
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
         def user = springSecurityService.currentUser as User
         def propertyInfo = null

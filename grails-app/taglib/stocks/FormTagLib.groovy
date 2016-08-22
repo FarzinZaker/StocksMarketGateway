@@ -332,6 +332,9 @@ class FormTagLib {
                             ed.on('focusout', function(e){onBlurForHashAuthor(ed, e)});
 """
         out << """
+                        },
+                        init_instance_callback: function(ed){
+                            updateHashTags();
                         }
                     });
                 });

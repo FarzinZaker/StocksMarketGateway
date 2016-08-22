@@ -153,7 +153,7 @@ class GraphDBService {
     OrientEdge addEdge(String clazz = 'E', OrientVertex from, OrientVertex to, Map properties = [:], String label = null) {
         def done = false
         OrientEdge edge = null
-        while(!done) {
+        while (!done) {
             try {
                 doWithGraph { OrientGraph graph ->
                     edge = graph.addEdge("class:${clazz}".toString(), from, to, label ?: clazz);
@@ -163,9 +163,20 @@ class GraphDBService {
                     graph.commit()
                 }
                 done = true
-            }catch (ignored){
+            } catch (ignored) {
 
             }
+        }
+        edge
+    }
+
+    OrientEdge editEdge(String id, Map properties = [:]) {
+        OrientEdge edge = getEdge(id)
+        doWithGraph { OrientGraph graph ->
+            properties.keySet().each { property ->
+                edge.setProperty(property?.toString(), properties[property])
+            }
+            graph.commit()
         }
         edge
     }
@@ -228,7 +239,7 @@ class GraphDBService {
     }
 
     Map unwrapVertex(OrientVertex vertex) {
-        if(!vertex)
+        if (!vertex)
             return null
         def result = [:]
         result.id = vertex.id?.toString()
@@ -244,12 +255,14 @@ class GraphDBService {
     }
 
     Map unwrapEdge(OrientEdge edge) {
-        if(!edge)
+        if (!edge)
             return null
         def result = [:]
         result.id = edge.id?.toString()
         result.idNumber = edge.id?.toString()?.replace('#', '')
         result.label = edge.label?.toString()
+        result.in = edge.inVertex?.identity?.toString()
+        result.out = edge.outVertex?.identity?.toString()
         edge.propertyKeys.each {
             result.put(it, edge.getProperty(it))
         }

@@ -793,6 +793,26 @@ span.has-error {
     border: 1px solid @main-color !important;
     box-shadow: none;
   }
+  &.btn-danger {
+    background-color: white !important;
+    color: @element-text-color !important;
+    border-radius: 0 !important;
+    border: 1px solid @editor-border-color !important;
+    min-height: 0;
+    &:hover, &.active {
+      background-color: #D80073 !important;
+      color: @body-color !important;
+      border: 1px solid #D80073 !important;
+      box-shadow: none;
+    }
+  }
+}
+.btn-group > .btn{
+  margin-left:0 !important;
+}
+
+.btn-group > .btn:not(:first-child):not(.dropdown-toggle) {
+  border-right-width: 0 !important;
 }
 
 .query-builder {
@@ -2159,7 +2179,7 @@ h1, h2, h3, h4 {
     &.yahooButton {
       background-color: #400191;
       color: white;
-      margin-right:3px;
+      margin-right: 3px;
     }
   }
 }
@@ -2879,7 +2899,7 @@ h1, h2, h3, h4 {
         margin-right: 0;
       }
 
-      img{
+      img {
         max-width: 100%;
         height: auto;
       }
@@ -3281,32 +3301,32 @@ ul.twitterAuthorInfo {
     font-size: 24px;
     line-height: 30px;
   }
-  h3{
-    border-bottom:2px solid #dadada;
-    margin-bottom:10px;
+  h3 {
+    border-bottom: 2px solid #dadada;
+    margin-bottom: 10px;
   }
-  .attachments{
-    padding:0;
-    li{
+  .attachments {
+    padding: 0;
+    li {
       list-style: none;
-      a{
+      a {
         display: block;
-        padding:5px;
-        color:#3B5998;
-        font-size:12px;
-        &:hover{
-          color:#D80073;
+        padding: 5px;
+        color: #3B5998;
+        font-size: 12px;
+        &:hover {
+          color: #D80073;
         }
-        span{
+        span {
           display: inline-block;
           color: darkgray;
         }
       }
-      &.even{
-        a{
+      &.even {
+        a {
           display: block;
           background: #fafafa;
-          &:hover{
+          &:hover {
 
           }
         }
@@ -3757,7 +3777,7 @@ ul.twitterAuthorInfo {
     display: block;
     margin-left: 15px;
     float: right;
-    max-width:80px;
+    max-width: 80px;
     max-height: 80px;
   }
   div {
@@ -3776,7 +3796,7 @@ ul.twitterAuthorInfo {
       display: block;
       font-size: 16px;
       margin-bottom: 10px;
-      height:20px;
+      height: 20px;
       &:hover {
         text-decoration: underline;
       }
@@ -4570,7 +4590,7 @@ ul.k-menu-vertical .k-separator, .k-menu .k-menu-group .k-separator {
 
 .talk {
   margin-bottom: 15px;
-  height: 169px;
+  //height: 169px;
   overflow: hidden;
   .infoBar {
     margin-left: 15px;
@@ -4839,25 +4859,52 @@ a.br-selected {
     }
   }
 }
-.portfolioActionImportResult{
+
+.portfolioActionImportResult {
   width: 100%;
   line-height: 20px;
-  margin-top:15px;
+  margin-top: 15px;
   tr {
     th {
       background: #E7EAEC;
-      border-top:4px solid #8a98a0;
+      border-top: 4px solid #8a98a0;
       text-align: right;
       padding: 5px 7px 5px 3px;
       font-weight: normal;
     }
-    td{
-      border-bottom:1px solid #dddddd;
+    td {
+      border-bottom: 1px solid #dddddd;
       padding: 3px 7px 3px 3px;
     }
-    &.hasError{
-      color:#D80073;
+    &.hasError {
+      color: #D80073;
     }
   }
+}
 
+.extractedTagsList {
+  margin-bottom:7px;
+  margin-top:3px;
+  input[type=checkbox] {
+
+  }
+  label {
+    margin-right: 15px;
+  }
+}
+
+.twit-prediction {
+  padding-top: 10px;
+  text-align: left;
+  .predictionDetails{
+    margin-top:10px;
+  }
+}
+
+.btn-group > .btn, .btn-group-vertical > .btn {
+  float: right;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+  background: #f4f4f4 !important;
 }
