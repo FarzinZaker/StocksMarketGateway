@@ -186,6 +186,11 @@ class TwitterController {
         ]
     }
 
+    def score() {
+        def scores = materialGraphService.getScore(params.id as String)
+        [scores: scores]
+    }
+
     def property() {
 
         sharingService.applyATwitScore()

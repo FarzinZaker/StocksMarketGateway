@@ -28,7 +28,8 @@
                     <g:message code="twitter.prediction.type.loss"/>
                 </label>
                 <label class="btn btn-danger hidden active" onclick="toggleTalkPrediction(this)">
-                    <input type="radio" name="predictionType" value="-" id="cancelPrediction" autocomplete="off" checked>
+                    <input type="radio" name="predictionType" value="-" id="cancelPrediction" autocomplete="off"
+                           checked>
                     <g:message code="twitter.prediction.type.cancel"/>
                 </label>
             </div>
@@ -40,23 +41,23 @@
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="predictionPeriod" value="1d" autocomplete="off">
-                        <g:message code="twitter.prediction.period.1day"/>
+                        <g:message code="twitter.prediction.period.1d"/>
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="predictionPeriod" value="1w" autocomplete="off">
-                        <g:message code="twitter.prediction.period.1week"/>
+                        <g:message code="twitter.prediction.period.1w"/>
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="predictionPeriod" value="4w" autocomplete="off">
-                        <g:message code="twitter.prediction.period.4weeks"/>
+                        <g:message code="twitter.prediction.period.4w"/>
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="predictionPeriod" value="12w" autocomplete="off">
-                        <g:message code="twitter.prediction.period.12weeks"/>
+                        <g:message code="twitter.prediction.period.12w"/>
                     </label>
                     <label class="btn btn-primary">
                         <input type="radio" name="predictionPeriod" value="26w" autocomplete="off">
-                        <g:message code="twitter.prediction.period.26weeks"/>
+                        <g:message code="twitter.prediction.period.26w"/>
                     </label>
                 </div>
             </div>
@@ -105,15 +106,15 @@
                 && $('.prediction-type input:checked').val() != '-') {
             var periodIsSelected = $('.prediction-period input:checked').length > 0;
             var riskLevelIsSelected = $('.prediction-riskLevel input:checked').length > 0;
-            if(!periodIsSelected && !riskLevelIsSelected) {
+            if (!periodIsSelected && !riskLevelIsSelected) {
                 window.alert('${message(code:'talk.error.noPeriodAndNoRiskLevel')}');
                 return;
             }
-            if(!periodIsSelected) {
+            if (!periodIsSelected) {
                 window.alert('${message(code:'talk.error.noPeriod')}');
                 return;
             }
-            if(!riskLevelIsSelected) {
+            if (!riskLevelIsSelected) {
                 window.alert('${message(code:'talk.error.noRiskLevel')}');
                 return;
             }
@@ -122,10 +123,15 @@
 
         $('.talk .toolbar .k-button').hide();
         $('.talk .toolbar .loading').show();
+        var formData = $('#talkForm').serializeArray();
+        $.each(formData, function (key, data) {
+            if (this.name == "body")
+                this.value = tinymce.activeEditor.getContent();
+        });
         $.ajax({
             type: "POST",
             url: '${createLink(controller: 'talk', action: 'save')}',
-            data: $('#talkForm').serialize()
+            data: formData
         }).done(function (response) {
             if (response == "1") {
                 tinymce.activeEditor.setContent('');

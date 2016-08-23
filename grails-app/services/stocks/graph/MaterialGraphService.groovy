@@ -176,6 +176,10 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(UNIONALL(IN('Own'), OUT('Share'))) FROM #${id}")
     }
 
+    List<Map> getScore(String id) {
+        graphDBService.queryAndUnwrapVertex("SELECT in.identifier as identifier, in.title as title, type, period, risk, endDate, applied, score FROM About WHERE out = #${id?.replace('#', '')}")
+    }
+
     void recordVisit(String id) {
         graphDBService.executeCommand("UPDATE Material INCREMENT visitCount = 1 WHERE @rid = #${id}")
     }

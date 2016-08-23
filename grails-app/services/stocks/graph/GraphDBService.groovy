@@ -151,6 +151,8 @@ class GraphDBService {
     }
 
     OrientEdge addEdge(String clazz = 'E', OrientVertex from, OrientVertex to, Map properties = [:], String label = null) {
+        if (!from || !to)
+            return null
         def done = false
         OrientEdge edge = null
         while (!done) {

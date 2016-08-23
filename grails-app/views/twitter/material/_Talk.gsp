@@ -29,6 +29,12 @@
         <asset:image src="loading.gif"/>
     </div>
 
+    <div class="score" id="score_${currentID}">
+        <span id="scoreLoading_${currentID}">
+            <asset:image src="loading.gif"/>
+        </span>
+    </div>
+
     <g:if test="${showProperties}">
         <div class="comments" id="comments_${currentID}">
             <span id="commentsLoading_${currentID}">
@@ -57,5 +63,13 @@
     }).done(function (response) {
         $("#meta_${currentID}").html(response);
         $("#img_${currentID}").attr('src', '${createLink(controller: 'image', action: 'profile')}/' + $("#meta_${currentID}").find('.author').attr('data-id') + '?size=100');
+    });
+
+    $("#scoreLoading_${currentID}").show();
+    $.ajax({
+        type: "POST",
+        url: '${createLink(controller: 'twitter', action: 'score', params:[id:material.idNumber, type:material.label])}'
+    }).done(function (response) {
+        $("#score_${currentID}").html(response);
     });
 </script>
