@@ -5,7 +5,7 @@
                href="${createLink(controller: 'twitter', action: 'property', params: [id: score.identifier])}">
                 ${score.title}
             </a>
-            <g:if test="${score.type == 'benfit'}">
+            <g:if test="${score.type == 'benefit'}">
                 <i class="fa fa-arrow-up material-prediction-type"></i>
             </g:if>
             <g:else>
