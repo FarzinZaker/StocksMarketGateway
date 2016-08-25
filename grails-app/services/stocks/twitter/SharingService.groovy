@@ -85,20 +85,31 @@ class SharingService {
         searchData.save()
     }
 
-    void reShareTalk(String rid, String description, List<Map> properties, List<Map> mentionList) {
+    void shareAnalysis(User owner, String description, List<Map> properties, List<Map> mentionList, String data, Long imageId, Map primaryProperty) {
 
-        graphDBService.executeCommand("DELETE EDGE About WHERE out.@rid = #${rid}")
-        graphDBService.executeCommand("DELETE EDGE Mention WHERE out.@rid = ${rid}")
-        graphDBService.executeCommand("DELETE EDGE Share WHERE out.@rid = ${rid}")
-
-        def materialVertex = materialGraphService.editTalk(rid, description)
+        def materialVertex = materialGraphService.createAnalysis(owner, description, data, imageId)
 
         def searchData = TwitterMaterial.findByRid(materialVertex?.id?.toString())
 
         def propertyTitleList = []
+        if (!properties.any {
+            it.type == primaryProperty.type &&
+                    it.identifier?.toLong() == primaryProperty.identifier?.toLong() &&
+                    it.title == primaryProperty.title
+        })
+            properties << primaryProperty
+        properties.find {
+            it.type == primaryProperty.type &&
+                    it.identifier?.toLong() == primaryProperty.identifier?.toLong() &&
+                    it.title == primaryProperty.title
+        }.isPrimary = true
         properties.each { property ->
             def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
-            graphDBService.addEdge('About', materialVertex, propertyVertex)
+            def prediction = property.prediction ?: [:]
+            if (prediction?.size())
+                prediction = prediction + [applied: false]
+            prediction = prediction + [isPrimary: property?.isPrimary ?: false]
+            graphDBService.addEdge('About', materialVertex, propertyVertex, prediction)
             propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
         }
         searchData.propertyTitleList = propertyTitleList
@@ -113,6 +124,14 @@ class SharingService {
         searchData.groupRidList = [groupVertex?.id?.toString()]
 
         searchData.save()
+    }
+
+    void reShareTalk(String rid, String description, List<Map> properties, List<Map> mentionList) {
+        materialGraphService.editTalk(rid, description)
+    }
+
+    void reShareAnalysis(String rid, String description, List<Map> properties, List<Map> mentionList) {
+        materialGraphService.editAnalysis(rid, description)
     }
 
     void removeMaterial(Long identifier) {

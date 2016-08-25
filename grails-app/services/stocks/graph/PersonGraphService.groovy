@@ -63,11 +63,11 @@ class PersonGraphService {
     }
 
     List<Map> propertyCloud(String personId) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT in.@rid FROM Own WHERE out.@rid = #${personId} WHERE in.@class = 'Article' OR in.@class = 'Talk')) GROUP BY @rid ORDER BY count DESC")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT in.@rid FROM Own WHERE out.@rid = #${personId} WHERE in.@class = 'Article' OR in.@class = 'Talk' OR in.@class = 'Analysis')) GROUP BY @rid ORDER BY count DESC")
     }
 
     Map authorInfo(String personId) {
-        def articles = graphDBService.queryAndUnwrapVertex("SELECT AVG(INE('Rate').value) as rate, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Article' OR  @class = 'Talk'")?.find()
+        def articles = graphDBService.queryAndUnwrapVertex("SELECT AVG(INE('Rate').value) as rate, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Article' OR  @class = 'Talk' OR @class = 'Analysis'")?.find()
         def comments = graphDBService.queryAndUnwrapVertex("SELECT COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Comment'")?.find()
         def likes = graphDBService.queryAndUnwrapVertex("SELECT SUM(IN('Like').size()) as likes, SUM(IN('Dislike').size()) as dislikes, COUNT(*) as count FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${personId}) WHERE @class = 'Comment' AND (IN('Like').size() > 0 OR IN('Dislike').size() > 0)")?.find()
 

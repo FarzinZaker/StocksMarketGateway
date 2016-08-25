@@ -54,11 +54,11 @@ class BootStrap {
         //init caches
 //        grailsCacheManager.getCache('loadAllIndicatorValues')
 
-        println('--------------------------------------------')
-        println('initializing graph db')
-        initGraphDBService.init()
-        println('graph db initialization completed')
-        println('--------------------------------------------')
+//        println('--------------------------------------------')
+//        println('initializing graph db')
+//        initGraphDBService.init()
+//        println('graph db initialization completed')
+//        println('--------------------------------------------')
 
         TrustAllCerts.apply()
     }

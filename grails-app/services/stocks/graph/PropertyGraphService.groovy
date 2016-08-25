@@ -26,7 +26,10 @@ class PropertyGraphService {
                     identifier: identifier,
                     title     : title
             ])
+        } else {
+            graphDBService.editVertex(property?.id?.toString(), [title: title])
         }
+
 
         def rid = property?.id?.toString()
         def searchData = TwitterProperty.findByRid(rid)
