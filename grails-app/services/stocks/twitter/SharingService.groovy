@@ -203,7 +203,7 @@ class SharingService {
         def date = new Date()
         def calendar = Calendar.getInstance()
         calendar.setTime(date)
-        def item = graphDBService.queryAndUnwrapEdge("SELECT * FROM About WHERE applied = false and endDate < '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0' LIMIT 1")?.find()
+        def item = graphDBService.queryAndUnwrapEdge("SELECT * FROM About WHERE applied = false and endDate <= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0' LIMIT 1")?.find()
         if (!item)
             return
         def property = graphDBService.getAndUnwrapVertex(item.in)
@@ -242,31 +242,8 @@ class SharingService {
                 startPrice = futureSeries9Service.lastClosingPrice(property.identifier, publishDate)
                 break;
         }
-        if (priceList?.size() == 0) {
-            switch (property.label) {
-                case 'Symbol':
-                    priceList = [adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, item.endDate)]
-                    break;
-                case 'Index':
-                    priceList = [indexSeries9Service.lastFinalIndexValue(property.identifier, item.endDate)]
-                    break;
-                case 'Coin':
-                    priceList = [coinSeries9Service.lastPrice(property.identifier, item.endDate)]
-                    break;
-                case 'Currency':
-                    priceList = [currencySeries9Service.lastPrice(property.identifier, item.endDate)]
-                    break;
-                case 'Metal':
-                    priceList = [metalSeries9Service.lastPrice(property.identifier, item.endDate)]
-                    break;
-                case 'Oil':
-                    priceList = [oilSeries9Service.lastPrice(property.identifier, item.endDate)]
-                    break;
-                case 'Future':
-                    priceList = [futureSeries9Service.lastClosingPrice(property.identifier, item.endDate)]
-                    break;
-            }
-        }
+        if (priceList?.size() == 0)
+            priceList = [value: startPrice]
 
         def daysCount = 1
         def priceListSize = 1
@@ -294,11 +271,10 @@ class SharingService {
 
         def score = 0
         startPrice = startPrice - 100
+        def criterionPrice = priceList.collect { it?.value }?.findAll { it != null }?.max()
         if (item.type == 'benefit') {
-            def criterionPrice = priceList.collect { it?.value }?.findAll { it }?.max()
             score = item.risk * (((criterionPrice - startPrice) / startPrice) / daysCount)
         } else if (item.type == 'loss') {
-            def criterionPrice = priceList.collect { it?.value }?.findAll { it }?.min()
             score = item.risk * (((startPrice - criterionPrice) / startPrice) / daysCount)
         }
 

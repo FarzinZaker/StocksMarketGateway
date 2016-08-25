@@ -17,7 +17,7 @@
             <span class="material-prediction-risk">${score.risk} <i class="fa fa-remove"></i></span>
             <g:if test="${score.applied}">
                 <span class="material-prediction-score ${score?.score > 0 ? 'positive' : ''} ${score?.score < 0 ? 'negative' : ''}">
-                ${score?.score}
+                <g:formatNumber number="${Math.round(score?.score * 100) / 100}" type="number" format="#.##"/>
             </g:if>
             <g:else>
                 <span class="material-prediction-score">
