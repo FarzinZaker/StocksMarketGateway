@@ -51,7 +51,7 @@ class RateGraphService {
         }
         def calendar = Calendar.getInstance()
         calendar.setTime(startDate)*/
-        graphDBService.queryAndUnwrapVertex("SELECT SUM(score) as rate, owner.@rid as @rid, owner.identifier as identifier, owner.title as title  from (select outE('About').score as score,first(out('Share')) as owner from Material)  group by owner.@rid order by rate desc LIMIT  ${count}")
+        graphDBService.queryAndUnwrapVertex("SELECT SUM(score) as rate, owner.@rid as @rid, owner.identifier as identifier, owner.title as title, owner.imageId as imageId  from (select outE('About').score as score,first(out('Share')) as owner from Material)  group by owner.@rid order by rate desc LIMIT  ${count}")
     }
     List<Map> mostRatedGroups(Integer daysCount, Integer count = 1000) {
         /*def startDate = new Date()?.clearTime()
