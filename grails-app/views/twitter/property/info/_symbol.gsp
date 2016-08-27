@@ -1,3 +1,28 @@
+<table class="table center table-bordered table-best-order">
+    <tr>
+        <td colspan="3" class="buy"><g:message code="symbol.info.bestOrder.buy" /></td>
+        <td colspan="3" class="sell"><g:message code="symbol.info.bestOrder.sell" /></td>
+    </tr>
+    <tr>
+        <td class="buy"><g:message code="symbol.info.bestOrder.count"/></td>
+        <td class="buy"><g:message code="symbol.info.bestOrder.volume"/></td>
+        <td class="buy"><g:message code="symbol.info.bestOrder.price"/></td>
+        <td class="sell"><g:message code="symbol.info.bestOrder.price"/></td>
+        <td class="sell"><g:message code="symbol.info.bestOrder.volume"/></td>
+        <td class="sell"><g:message code="symbol.info.bestOrder.count"/></td>
+    </tr>
+    <g:each in="${(1..3)}">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </g:each>
+</table>
+
 <g:set var="lastTradePriceChangePercent"
        value="${Math.round(propertyInfo.priceChange * 10000 / (propertyInfo.lastTradePrice - propertyInfo.priceChange)) / 100}"/>
 <div class="propertyInfoPrice ${lastTradePriceChangePercent > 0 ? 'positive' : lastTradePriceChangePercent < 0 ? 'negative' : ''}">
@@ -13,7 +38,6 @@
     </span>
     <div class="clear-fix"></div>
 </div>
-
 <g:set var="closingPriceChangePercent"
        value="${Math.round((propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice) * 10000 / (propertyInfo.closingPrice - (propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice))) / 100}"/>
 <div class="propertyInfoPrice ${closingPriceChangePercent > 0 ? 'positive' : closingPriceChangePercent < 0 ? 'negative' : 0}">
