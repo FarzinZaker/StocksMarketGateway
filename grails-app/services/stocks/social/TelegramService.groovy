@@ -188,11 +188,13 @@ class TelegramService {
         items.each { Symbol searchItem ->
             def item = Symbol.get(searchItem?.id)
             savePropertyHistory(userName, 'Symbol', item?.toString())
-            sendMessage(chatId, groovyPageRenderer.render(view: '/social/symbol', model: [
-                    symbol        : item,
-                    lastDailyTrade: priceService.lastDailyTrade(item),
-                    date          : marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_STOCK, new Date())
-            ]))
+            def lastDailyTrade = priceService.lastDailyTrade(item)
+            if (item && lastDailyTrade)
+                sendMessage(chatId, groovyPageRenderer.render(view: '/social/symbol', model: [
+                        symbol        : item,
+                        lastDailyTrade: lastDailyTrade,
+                        date          : marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_STOCK, new Date())
+                ]))
         }
         items.size() > 0
     }
