@@ -13,12 +13,12 @@
     </tr>
     <g:each in="${(1..3)}">
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="buy-info buy-count-${it}">-</td>
+        <td class="buy-info buy-volume-${it}">-</td>
+        <td class="buy-info buy-price-${it}">-</td>
+        <td class="sell-info sell-price-${it}">-</td>
+        <td class="sell-info sell-volume-${it}">-</td>
+        <td class="sell-info sell-count-${it}">-</td>
     </tr>
     </g:each>
 </table>
@@ -127,3 +127,13 @@
         </tr>
     </table>
 </div>
+<script>
+    function updateInfo(){
+        $.get('<g:createLink controller="twitter" action="symbolInfoAjax" id="${symbol.id}" />').success(function(data){
+
+        })
+    }
+    $(function(){
+
+    })
+</script>
