@@ -39,7 +39,7 @@
 
             <div class="row">
                 <div class="col-xs-8 k-rtl">
-                    <g:if test="${['Symbol', 'Index'].contains(property.label)}">
+                    <g:if test="${['Symbol', 'IndexV'].contains(property.label)}">
                         <g:render template="/technical/write"
                                   model="${[tag: [type: 'tag', clazz: property.label, title: property.title?.split('-')?.find()?.trim()?.replace(' ', '_'), id: property.identifier]]}"/>
                     </g:if>

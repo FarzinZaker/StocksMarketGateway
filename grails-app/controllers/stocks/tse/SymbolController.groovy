@@ -18,7 +18,7 @@ class SymbolController {
 
     def info() {
         def symbol = Symbol.get(params.id as Long)
-        println(propertyGraphService.ensureProperty('Symbol', symbol?.id, symbol?.persianCode))
+        propertyGraphService.ensureProperty('Symbol', symbol?.id, symbol?.persianCode)
         redirect(controller: 'twitter', action: 'property', id: symbol?.id)
     }
 
