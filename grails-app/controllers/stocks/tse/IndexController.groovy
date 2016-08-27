@@ -7,14 +7,12 @@ class IndexController {
 
     def priceService
     def indexSeries9Service
+    def propertyGraphService
 
     def info() {
         def index = Index.get(params.id as Long)
-
-        [
-                index: index
-        ]
-
+        propertyGraphService.ensureProperty('Index', index?.id, index?.persianName)
+        redirect(controller: 'twitter', action: 'property', id: index?.id)
     }
 
     def clearTimeSeries() {

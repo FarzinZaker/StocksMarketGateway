@@ -14,15 +14,12 @@ class SymbolController {
     def adjustedPriceSeries9Service
     def priceSeriesAdjustmentService
     def symbolIndicatorBulkService
+    def propertyGraphService
 
     def info() {
         def symbol = Symbol.get(params.id as Long)
-
-        [
-                symbol        : symbol,
-                lastDailyTrade: priceService.lastDailyTrade(symbol)
-        ]
-
+        println(propertyGraphService.ensureProperty('Symbol', symbol?.id, symbol?.persianCode))
+        redirect(controller: 'twitter', action: 'property', id: symbol?.id)
     }
 
     def news() {
@@ -214,7 +211,7 @@ class SymbolController {
         render(result.sort { -it.score } as JSON)
     }
 
-    def reindex(){
+    def reindex() {
         render Symbol.reindex(Symbol.get(params.id))
     }
 }

@@ -22,9 +22,7 @@
         </div>
         <twitter:tagSearch/>
         <twitter:authorSearch/>
-        <div style="margin-right:130px;">
-            <form:editor name="body" height="165" hashTag="true" authorTag="true" tag="${tag}"/>
-        </div>
+        <form:editor name="body" height="175" hashTag="true" authorTag="true" tag="${tag}" mode="inline"/>
 
         <div class="clear-fix"></div>
 
