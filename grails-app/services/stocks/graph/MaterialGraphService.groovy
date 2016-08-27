@@ -81,7 +81,43 @@ class MaterialGraphService {
         material
     }
 
+    OrientVertex createAnalysis(User owner, String description, String data, Long imageId) {
+        def material = graphDBService.addVertex(TYPE_ANALYSIS, [
+                publishDate: new Date(),
+                description: description ?: '-',
+                lastUpdated: new Date(),
+                data       : data,
+                imageId    : imageId
+        ])
+
+        def person = personGraphService.ensurePerson(owner)
+        graphDBService.addEdge('Own', person, material)
+
+        def rid = material?.id?.toString()
+        def searchData = new TwitterMaterial(rid: rid)
+        searchData.summary = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.type = messageSource.getMessage("twitter.search.type.${TYPE_ANALYSIS}", null, '', Locale.ENGLISH)
+        searchData.authorRid = person.id?.toString()
+        searchData.save()
+
+        material
+    }
+
     OrientVertex editTalk(String id, String description) {
+        def talk = graphDBService.editVertex(id, [
+                description: description,
+                lastUpdated: new Date()
+        ])
+
+        def rid = talk?.id?.toString()
+        def searchData = TwitterMaterial.findByRid(rid)
+        searchData.summary = description?.replaceAll("<(.|\n)*?>", '')
+        searchData.save()
+
+        talk
+    }
+
+    OrientVertex editAnalysis(String id, String description) {
         def talk = graphDBService.editVertex(id, [
                 description: description,
                 lastUpdated: new Date()
@@ -113,39 +149,39 @@ class MaterialGraphService {
     }
 
     List<Map> topByGroup(String groupId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) WHERE (@class = 'Article' OR @class = 'Talk') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('Share')) FROM Group WHERE @rid = #${groupId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> listByAuthor(Long authorId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE identifier = ${authorId}) WHERE (@class = 'Article' OR @class = 'Talk') ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE identifier = ${authorId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> listByAuthor(String authorId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE (@class = 'Article' OR @class = 'Talk') ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> topByAuthor(String authorId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE (@class = 'Article' OR @class = 'Talk') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE @rid = #${authorId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> listOldForHome(Long userId, Date maxDate = new Date(), Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk') AND publishDate < '${maxDate.format('yyyy-MM-dd HH:mm:ss')}' ORDER BY publishDate DESC LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') AND publishDate < '${maxDate.format('yyyy-MM-dd HH:mm:ss')}' ORDER BY publishDate DESC LIMIT ${limit ?: 10}")
     }
 
     List<Map> listNewForHome(Long userId, Date minDate = new Date(), Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk') AND publishDate > '${minDate.format('yyyy-MM-dd HH:mm:ss')}' ORDER BY publishDate DESC LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') AND publishDate > '${minDate.format('yyyy-MM-dd HH:mm:ss')}' ORDER BY publishDate DESC LIMIT ${limit ?: 10}")
     }
 
     List<Map> topForHome(Long userId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(SET(UNIONALL(OUT('Follow').OUT('Own'), OUT('Follow').IN('About')))) From Person WHERE identifier = ${userId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> listByProperty(String propertyId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(out) FROM About WHERE in = #${propertyId?.replace('#', '')}) WHERE @class = 'Talk' OR @class = 'Article' ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(out) FROM About WHERE in = #${propertyId?.replace('#', '')}) WHERE @class = 'Talk' OR @class = 'Article' OR @class = 'Analysis' ORDER BY publishDate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> topByProperty(String groupId, Integer skip = 0, Integer limit = 10) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('About')) FROM Property WHERE @rid = #${groupId}) WHERE (@class = 'Article' OR @class = 'Talk') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid as @rid, @class as @class, identifier, publishDate, title, description, imageId, AVG(INE('Rate').value) as rate FROM (SELECT EXPAND(IN('About')) FROM Property WHERE @rid = #${groupId}) WHERE (@class = 'Article' OR @class = 'Talk' OR @class = 'Analysis') GROUP BY identifier ORDER BY rate DESC SKIP ${skip ?: 0} LIMIT ${limit ?: 10}")
     }
 
     List<Map> getPropertyList(String materialId) {
@@ -174,6 +210,14 @@ class MaterialGraphService {
 
     List<Map> getMeta(String id) {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(UNIONALL(IN('Own'), OUT('Share'))) FROM #${id}")
+    }
+
+    List<Map> getPrimaryProperty(String id) {
+        graphDBService.queryAndUnwrapVertex("SELECT EXPAND(in) FROM About WHERE out.@rid = #${id} AND isPrimary = true")
+    }
+
+    List<Map> getScore(String id) {
+        graphDBService.queryAndUnwrapVertex("SELECT in.identifier as identifier, in.title as title, type, period, risk, endDate, applied, score FROM About WHERE out = #${id?.replace('#', '')}")
     }
 
     void recordVisit(String id) {

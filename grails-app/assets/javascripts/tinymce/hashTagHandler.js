@@ -27,6 +27,7 @@ function onKeyUpForHashTag(ed, e) {
     } else {
         $('#tagSearchResults').hide();
     }
+    updateHashTags();
 }
 
 function onKeyDownForHashTag(ed, e) {
@@ -51,11 +52,19 @@ function onKeyDownForHashTag(ed, e) {
             if (container.is(':visible')) {
                 var lastHashTagNode = $(ed.selection.getNode());
                 var link = $('#tagSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
-                lastHashTagNode.text('#' + link.attr('data-tag'));
-                lastHashTagNode.attr('href', link.attr('data-link'));
-                lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
-                lastHashTagNode.attr('data-id', link.attr('data-id'));
+                if (normalize('#' + link.attr('data-tag')) == normalize(lastHashTagNode.text())) {
+                    lastHashTagNode.text('#' + link.attr('data-tag'));
+                    lastHashTagNode.attr('href', link.attr('data-link'));
+                    lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
+                    lastHashTagNode.attr('data-id', link.attr('data-id'));
+                } else {
+                    lastHashTagNode.text('#برچسب_اشتباه');
+                    lastHashTagNode.attr('href', '#');
+                    lastHashTagNode.attr('data-clazz', '');
+                    lastHashTagNode.attr('data-id', '');
+                }
                 container.hide();
+                updateHashTags();
             }
 
             var currentPosition = getCursorPosition(ed);
@@ -160,6 +169,7 @@ function insertHashTag(label, link, clazz, id) {
     node.attr('data-clazz', clazz);
     node.attr('data-id', id);
     container.hide();
+    updateHashTags();
 }
 
 function isInHashTag(ed) {
@@ -190,4 +200,29 @@ function showHashTagSearchBox(ed) {
     $('#authorSearchResults').hide();
     var cursorPosition = getCurrentCursorPositionOfEditor(ed);
     $('#tagSearchResults').css('top', cursorPosition.top + ($(ed.editorContainer).parent().hasClass('inline') ? 10 : 50)).css('left', cursorPosition.left - 400).show();
+}
+
+function updateHashTags() {
+    var content = tinymce.activeEditor.getContent();
+    var container = $('.extractedTagsList')
+    container.html('');
+    $(content).find('.hashTag').each(function (index, item) {
+        var id = $(item).attr('data-clazz') + '-' + $(item).attr('data-id');
+        if (container.find('#' + id).length == 0)
+            container.append('<input name="predictionItems" id="' + id + '" class="css-checkbox" type="checkbox" checked value="' + id + '"/><label class="css-label" for="' + id + '">' + $(item).text().replace('#', '').replace('_', ' ') + '</label>')
+    });
+    container.find('*').click(function () {
+        setupPrediction();
+    });
+
+    setupPrediction();
+}
+
+function setupPrediction() {
+    if ($('.extractedTagsList').find('input:checked').length > 0) {
+        $('.predictionOptions').removeClass('hidden');
+    }
+    else {
+        $('.predictionOptions').addClass('hidden');
+    }
 }

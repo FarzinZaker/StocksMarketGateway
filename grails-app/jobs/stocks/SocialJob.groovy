@@ -12,7 +12,7 @@ class SocialJob {
         try {
             telegramService.dispatchUpdates()
         } catch (ignored) {
-
+            log.error(ignored?.message, ignored)
         }
     }
 }

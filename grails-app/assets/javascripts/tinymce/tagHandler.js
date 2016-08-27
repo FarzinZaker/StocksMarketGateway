@@ -190,3 +190,39 @@ function setCursorPosition(editor, index) {
     //return the bookmark just because
     return bookmark;
 }
+
+function normalize(input) {
+    return normalizeString(input, input.length)
+}
+
+function normalizeString(input, len) {
+    var s = input.toString().split('');
+    for (var i = 0; i < len; i++) {
+        switch (s[i].charCodeAt(0)) {
+            case 1740:
+                s[i] = '\u064A';
+                break;
+            case 1746:
+                s[i] = '\u064A';
+                break;
+
+            case 1705:
+                s[i] = '\u0643';
+                break;
+
+            case 1728:
+                s[i] = '\u0647';
+                break;
+            case 1729:
+                s[i] = '\u0647';
+                break;
+
+            case 1620:
+                s.splice(i, 1);
+                len = len - 1;
+                i--;
+                break;
+        }
+    }
+    return s.join('')
+}

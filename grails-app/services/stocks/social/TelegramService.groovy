@@ -104,7 +104,7 @@ class TelegramService {
         }
 
         def lastUpdateId = updates.collect { it.update_id }.max() as Long
-        if(lastUpdateId) {
+        if (lastUpdateId) {
             status.lastUpdateId = lastUpdateId
 //        status.save(flush: true)
             bulkDataService.save(status)
@@ -118,61 +118,51 @@ class TelegramService {
     }
 
     Boolean disconnect(Long chatId) {
-        try {
-            def telegramUser = TelegramUser.findByChatId(chatId)
-            if (telegramUser) {
-                telegramUser.user.telegramUser = null
+        def telegramUser = TelegramUser.findByChatId(chatId)
+        if (telegramUser) {
+            telegramUser.user.telegramUser = null
 //                telegramUser.user.save(flush: true)
-                bulkDataService.save(telegramUser.user)
-                telegramUser.delete(flush: true)
-            }
-        }
-        catch (ignored) {
-
+            bulkDataService.save(telegramUser.user)
+            telegramUser.delete(flush: true)
         }
         sendMessage(chatId, groovyPageRenderer.render(view: '/social/disconnectSucceed'))
         return true
     }
 
     Boolean connect(Map from, String code, Long chatId) {
-        try {
-            def id = Math.round(code?.toLong() / 100)
-            def validator = code?.toLong() % 100
-            def realValidator = id?.toString()?.bytes?.encodeHex()?.toString()?.toLong()
-            while(realValidator > 100)
-                realValidator = Math.round(realValidator / 10) + realValidator % 10
+        def id = Math.round(code?.toLong() / 100)
+        def validator = code?.toLong() % 100
+        def realValidator = id?.toString()?.bytes?.encodeHex()?.toString()?.toLong()
+        while (realValidator > 100)
+            realValidator = Math.round(realValidator / 10) + realValidator % 10
 
-            if (realValidator != validator) {
-                sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
-                return true
-            }
+        if (realValidator != validator) {
+            sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
+            return true
+        }
 
-            def user = User.get(id)
-            if (!user) {
-                sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
-                return true
-            }
+        def user = User.get(id)
+        if (!user) {
+            sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectFailed'))
+            return true
+        }
 
-            def telegramUser = TelegramUser.get(user?.telegramUser?.id)
-            if (!telegramUser)
-                telegramUser = new TelegramUser()
-            telegramUser.identifier = from.id as Long
-            telegramUser.firstName = from.first_name
-            telegramUser.lastName = from.last_name
-            telegramUser.userName = from.username
-            telegramUser.chatId = chatId
-            telegramUser.user = user
+        def telegramUser = TelegramUser.get(user?.telegramUser?.id)
+        if (!telegramUser)
+            telegramUser = new TelegramUser()
+        telegramUser.identifier = from.id as Long
+        telegramUser.firstName = from.first_name
+        telegramUser.lastName = from.last_name
+        telegramUser.userName = from.username
+        telegramUser.chatId = chatId
+        telegramUser.user = user
 //            telegramUser.save()
-            bulkDataService.save(telegramUser)
+        bulkDataService.save(telegramUser)
 
-            user.telegramUser = telegramUser
+        user.telegramUser = telegramUser
 //            user.save()
-            bulkDataService.save(user)
-            sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectSucceed'))
-        }
-        catch (ignored) {
-
-        }
+        bulkDataService.save(user)
+        sendMessage(chatId, groovyPageRenderer.render(view: '/social/connectSucceed'))
         return true
     }
 
@@ -198,11 +188,13 @@ class TelegramService {
         items.each { Symbol searchItem ->
             def item = Symbol.get(searchItem?.id)
             savePropertyHistory(userName, 'Symbol', item?.toString())
-            sendMessage(chatId, groovyPageRenderer.render(view: '/social/symbol', model: [
-                    symbol        : item,
-                    lastDailyTrade: priceService.lastDailyTrade(item),
-                    date          : marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_STOCK, new Date())
-            ]))
+            def lastDailyTrade = priceService.lastDailyTrade(item)
+            if (item && lastDailyTrade)
+                sendMessage(chatId, groovyPageRenderer.render(view: '/social/symbol', model: [
+                        symbol        : item,
+                        lastDailyTrade: lastDailyTrade,
+                        date          : marketStatusService.correctMarketLastDataUpdateTime(marketStatusService.MARKET_STOCK, new Date())
+                ]))
         }
         items.size() > 0
     }
@@ -310,7 +302,9 @@ class TelegramService {
     }
 
     Map sendRequest(String method, Map parameters) {
-        byte[] postData = parameters.collect { "${it.key}=${it.value.encodeAsURL()}" }.join('&').getBytes(StandardCharsets.UTF_8);
+        byte[] postData = parameters.collect {
+            "${it.key}=${it.value.encodeAsURL()}"
+        }.join('&').getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
         String request = "https://api.telegram.org/bot${Environment.current == Environment.DEVELOPMENT ? '116983317:AAGiZWID3rSOT63Q9xeGfSeWTYEW3DEp9nA' : '149185899:AAGB0acLYspLNFugpu5NF4RBh5J2IwfiGq0'}/${method}";
         URL url = new URL(request);
@@ -324,12 +318,7 @@ class TelegramService {
         conn.setUseCaches(false);
         DataOutputStream wr = new DataOutputStream(conn.getOutputStream())
         wr.write(postData);
-        try {
-            JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
-        }
-        catch (ignored) {
-            [:]
-        }
+        JSON.parse(new DataInputStream(conn.getInputStream()).readLines().join('')) as Map
     }
 
 }

@@ -5,7 +5,7 @@
   Time: 5:10 PM
 --%>
 
-<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
+<%@ page import="stocks.tse.AdjustmentHelper; grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -19,12 +19,13 @@
     <script type="text/javascript">
 
         var adjustmentTypes = <format:html value="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect{[text:message(code:"priceAdjustment.types.${it}"), value: it]} as JSON}"/>;
-        var defaultAdjustmentType = "${stocks.tse.AdjustmentHelper.defaultType}";
+        var defaultAdjustmentType = "${AdjustmentHelper.defaultType}";
         var symbolName = '${index.persianName}';
+        var widget;
 
         TradingView.onready(function () {
 
-            var widget = new TradingView.widget({
+            widget = new TradingView.widget({
                 fullscreen: true,
                 symbol: '${index.persianName}',
                 interval: 'D',
@@ -36,22 +37,15 @@
                 //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
                 drawings_access: {type: 'black', tools: [{name: "Regression Trend"}]},
                 disabled_features: ["use_localstorage_for_settings", "header_symbol_search", "header_screenshot", "header_saveload"],
-                charts_storage_url: 'http://saveload.tradingview.com',
+                charts_storage_url: '${createLink(controller: 'technical', action: 'save')}',
                 client_id: 'tradingview.com',
-                user_id: 'public_user_id'
+                user_id: 'public_user_id',
+                snapshot_url: '${createLink(controller: 'technical', action: 'image')}'
             });
 
             widget.onChartReady(function () {
 //                setupAdjustmentButton(this);
             });
-            %{--$(frames[0]).load(function(){--}%
-
-            %{--var cssLink = document.createElement("link");--}%
-            %{--cssLink.href = "${resource(dir: 'chartingLibrary/static', file: 'tv-chart-readonly.css')}";--}%
-            %{--cssLink .rel = "stylesheet";--}%
-            %{--cssLink .type = "text/css";--}%
-            %{--frames[0].document.body.appendChild(cssLink);--}%
-            %{--})--}%
         });
 
     </script>
@@ -135,6 +129,8 @@
 
         <div class="col-xs-9">
             <div id="tv_chart_container"></div>
+            <g:render template="/technical/write"
+                      model="${[tag: [type: 'tag', clazz: 'Index', title: index?.persianName, id: params.id]]}"/>
         </div>
     </div>
 </div>

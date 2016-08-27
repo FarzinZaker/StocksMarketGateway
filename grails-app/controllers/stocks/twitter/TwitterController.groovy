@@ -186,7 +186,23 @@ class TwitterController {
         ]
     }
 
+    def primaryPropertyLink() {
+        [
+                id      : params.id,
+                type    : params.type,
+                property: materialGraphService.getPrimaryProperty(params.id as String)?.find()
+        ]
+    }
+
+    def score() {
+        def scores = materialGraphService.getScore(params.id as String)
+        [scores: scores]
+    }
+
     def property() {
+
+        sharingService.applyATwitScore()
+
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
         def user = springSecurityService.currentUser as User
         def propertyInfo = null
@@ -367,7 +383,12 @@ class TwitterController {
             def tags = sharingService.extractTextRelations(params.itemBody as String)
             sharingService.reShareTalk(params.id, tags.text, tags.tagList, tags.mentionList)
             render tags.text
+        }
+        if (params.type == 'Analysis') {
 
+            def tags = sharingService.extractTextRelations(params.itemBody as String)
+            sharingService.reShareAnalysis(params.id, tags.text, tags.tagList, tags.mentionList)
+            render tags.text
         }
     }
 }

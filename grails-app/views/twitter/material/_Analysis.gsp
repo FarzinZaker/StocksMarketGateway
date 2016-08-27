@@ -21,7 +21,9 @@
         </span>
     </div>
 
-    <div class="description" id="material_body_${currentID}"><format:twit value="${material.description}"/></div>
+    <div class="description" id="material_body_${currentID}">
+            <format:twit value="${material.description}"/>
+    </div>
 
     <div class="descriptionEditor"></div>
 
@@ -34,9 +36,18 @@
             <asset:image src="loading.gif"/>
         </span>
     </div>
+    <img src="${createLink(controller: 'image', action: 'index', id: material.imageId)}"
+         style="max-width:100%;margin-top:10px;margin-bottom:10px;"/>
+
+
+    %{--<div class="primaryPropertyContainer" id="primaryProperty_${currentID}">--}%
+        %{--<span id="primaryPropertyLoading_${currentID}">--}%
+            %{--<asset:image src="loading.gif"/>--}%
+        %{--</span>--}%
+    %{--</div>--}%
 
     <g:if test="${showProperties}">
-        <div class="comments" id="comments_${currentID}">
+        <div class="comments clear-fix" id="comments_${currentID}">
             <span id="commentsLoading_${currentID}">
                 <asset:image src="loading.gif"/>
             </span>
@@ -64,6 +75,14 @@
         $("#meta_${currentID}").html(response);
         $("#img_${currentID}").attr('src', '${createLink(controller: 'image', action: 'profile')}/' + $("#meta_${currentID}").find('.author').attr('data-id') + '?size=100');
     });
+
+    %{--$("#primaryProperty_${currentID}").show();--}%
+    %{--$.ajax({--}%
+        %{--type: "POST",--}%
+        %{--url: '${createLink(controller: 'twitter', action: 'primaryPropertyLink', params:[id:material.idNumber, type:material.label])}'--}%
+    %{--}).done(function (response) {--}%
+        %{--$("#primaryProperty_${currentID}").html(response);--}%
+    %{--});--}%
 
     $("#scoreLoading_${currentID}").show();
     $.ajax({

@@ -112,6 +112,71 @@ function cancelTalkDelete(){
     talkDeleteRetryCount = 0;
 }
 
+function editAnalysis(id, editButton) {
+    cancelAnalysisInlineEdit();
+    cancelCommentInlineEdit();
+    $(editButton).stop().slideUp();
+    var container = $(editButton).parent().parent().parent();
+    var bodyContainer = container.find('.description').first().show();
+    var editorContainer = container.find('.descriptionEditor').first().hide();
+    var loading = container.find('.loading').first().hide();
+
+    bodyContainer.slideUp(200, function () {
+        loading.show().slideDown(200, function () {
+            $.ajax({
+                type: "POST",
+                url: "/twitter/inlineEditor/" + id + "?type=Analysis"
+            }).done(function (response) {
+                loading.slideUp(200, function () {
+                    editorContainer.html(response).show().slideDown();
+                });
+            });
+        })
+    });
+}
+
+function deleteAnalysis(id, deleteButton) {
+    analysisIdForDelete = id;
+    analysisDeleteButton = deleteButton;
+    analysisDeleteRetryCount = 0;
+    confirm('آیا از حذف این مطلب اطمینان دارید؟', doAnalysisDelete, cancelAnalysisDelete);
+}
+
+var analysisIdForDelete = null;
+var analysisDeleteButton = null;
+var analysisDeleteRetryCount = 0;
+function doAnalysisDelete() {
+    if(analysisIdForDelete) {
+        $.ajax({
+            type: "POST",
+            url: "/technical/delete/" + analysisIdForDelete
+        }).done(function (response) {
+            if(response == "1") {
+                var li = $(analysisDeleteButton);
+                while (li.prop("tagName").toLowerCase() != 'li') {
+                    li = li.parent();
+                }
+                li.slideUp(400, function () {
+                    $(this).remove()
+                });
+                cancelAnalysisDelete();
+            }
+            else if(analysisDeleteRetryCount++ < 3){
+                doAnalysisDelete();
+            }
+            else {
+                cancelAnalysisDelete();
+            }
+        });
+    }
+}
+
+function cancelAnalysisDelete(){
+    analysisIdForDelete = null;
+    analysisDeleteButton = null;
+    analysisDeleteRetryCount = 0;
+}
+
 
 function editComment(id, editButton) {
 
@@ -178,6 +243,14 @@ function cancelCommentDelete(){
     commentIdForDelete = null;
     commentDeleteButton = null;
     commentDeleteRetryCount = 0;
+}
+
+function cancelAnalysisInlineEdit() {
+    $('.replyList .image').slideDown();
+    $('.description .author .k-button').slideDown();
+    $('.description .description').slideDown();
+    $('.description .descriptionEditor').slideUp();
+    $('.description .loading').slideUp();
 }
 
 function cancelTalkInlineEdit() {

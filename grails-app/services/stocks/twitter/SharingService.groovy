@@ -1,5 +1,6 @@
 package stocks.twitter
 
+import groovy.time.TimeCategory
 import org.ccil.cowan.tagsoup.Parser
 import stocks.User
 import stocks.graph.MaterialGraphService
@@ -14,6 +15,13 @@ class SharingService {
     def commonGraphService
     def rateGraphService
     def groupGraphService
+    def adjustedPriceSeries9Service
+    def coinSeries9Service
+    def currencySeries9Service
+    def futureSeries9Service
+    def indexSeries9Service
+    def metalSeries9Service
+    def oilSeries9Service
 
     void shareArticle(User owner, Long identifier, String title, String description, Long imageId, List<Map> properties, List<Map> mentionList, List<String> groups) {
         graphDBService.executeCommand("DELETE EDGE About WHERE out.identifier = ${identifier}")
@@ -57,7 +65,51 @@ class SharingService {
         def propertyTitleList = []
         properties.each { property ->
             def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
-            graphDBService.addEdge('About', materialVertex, propertyVertex)
+            def prediction = property.prediction ?: [:]
+            if (prediction?.size())
+                prediction = prediction + [applied: false]
+            graphDBService.addEdge('About', materialVertex, propertyVertex, prediction)
+            propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
+        }
+        searchData.propertyTitleList = propertyTitleList
+
+        mentionList.each { mention ->
+            def tragetVertex = graphDBService.getVertex(mention.rid as String)
+            graphDBService.addEdge('Mention', materialVertex, tragetVertex)
+        }
+
+        def groupVertex = commonGraphService.publicGroup
+        graphDBService.addEdge('Share', materialVertex, groupVertex)
+        searchData.groupRidList = [groupVertex?.id?.toString()]
+
+        searchData.save()
+    }
+
+    void shareAnalysis(User owner, String description, List<Map> properties, List<Map> mentionList, String data, Long imageId, Map primaryProperty) {
+
+        def materialVertex = materialGraphService.createAnalysis(owner, description, data, imageId)
+
+        def searchData = TwitterMaterial.findByRid(materialVertex?.id?.toString())
+
+        def propertyTitleList = []
+        if (!properties.any {
+            it.type == primaryProperty.type &&
+                    it.identifier?.toLong() == primaryProperty.identifier?.toLong() &&
+                    it.title == primaryProperty.title
+        })
+            properties << primaryProperty
+        properties.find {
+            it.type == primaryProperty.type &&
+                    it.identifier?.toLong() == primaryProperty.identifier?.toLong() &&
+                    it.title == primaryProperty.title
+        }.isPrimary = true
+        properties.each { property ->
+            def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
+            def prediction = property.prediction ?: [:]
+            if (prediction?.size())
+                prediction = prediction + [applied: false]
+            prediction = prediction + [isPrimary: property?.isPrimary ?: false]
+            graphDBService.addEdge('About', materialVertex, propertyVertex, prediction)
             propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
         }
         searchData.propertyTitleList = propertyTitleList
@@ -75,33 +127,11 @@ class SharingService {
     }
 
     void reShareTalk(String rid, String description, List<Map> properties, List<Map> mentionList) {
+        materialGraphService.editTalk(rid, description)
+    }
 
-        graphDBService.executeCommand("DELETE EDGE About WHERE out.@rid = #${rid}")
-        graphDBService.executeCommand("DELETE EDGE Mention WHERE out.@rid = ${rid}")
-        graphDBService.executeCommand("DELETE EDGE Share WHERE out.@rid = ${rid}")
-
-        def materialVertex = materialGraphService.editTalk(rid, description)
-
-        def searchData = TwitterMaterial.findByRid(materialVertex?.id?.toString())
-
-        def propertyTitleList = []
-        properties.each { property ->
-            def propertyVertex = propertyGraphService.ensureProperty(property.type as String, property.identifier as Long, property.title as String)
-            graphDBService.addEdge('About', materialVertex, propertyVertex)
-            propertyTitleList << "${messageSource.getMessage("twitter.search.type.${property.type}", null, '', Locale.ENGLISH)} - ${property.title}"
-        }
-        searchData.propertyTitleList = propertyTitleList
-
-        mentionList.each { mention ->
-            def tragetVertex = graphDBService.getVertex(mention.rid as String)
-            graphDBService.addEdge('Mention', materialVertex, tragetVertex)
-        }
-
-        def groupVertex = commonGraphService.publicGroup
-        graphDBService.addEdge('Share', materialVertex, groupVertex)
-        searchData.groupRidList = [groupVertex?.id?.toString()]
-
-        searchData.save()
+    void reShareAnalysis(String rid, String description, List<Map> properties, List<Map> mentionList) {
+        materialGraphService.editAnalysis(rid, description)
     }
 
     void removeMaterial(Long identifier) {
@@ -167,6 +197,88 @@ class SharingService {
                 mostActiveProperty: propertyGraphService.mostActiveProperties(7, 1)?.find(),
                 largestGroup      : groupGraphService.largestGroups(1)?.find()
         ]
+    }
+
+    def applyATwitScore() {
+        def date = new Date()
+        def calendar = Calendar.getInstance()
+        calendar.setTime(date)
+        def item = graphDBService.queryAndUnwrapEdge("SELECT * FROM About WHERE applied = false and endDate <= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0' LIMIT 1")?.find()
+        if (!item)
+            return
+        def property = graphDBService.getAndUnwrapVertex(item.in)
+        def twit = graphDBService.getAndUnwrapVertex(item.out)
+
+        def publishDate = twit.publishDate
+        def priceList = []
+        def startPrice = 0
+        switch (property.label) {
+            case 'Symbol':
+                priceList = adjustedPriceSeries9Service.lastTradePriceList(property.identifier, publishDate, item.endDate)
+                startPrice = adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, publishDate)
+                break;
+            case 'Index':
+                priceList = indexSeries9Service.finalIndexValueList(property.identifier, publishDate, item.endDate)
+                startPrice = indexSeries9Service.lastFinalIndexValue(property.identifier, publishDate)
+                break;
+            case 'Coin':
+                priceList = coinSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = coinSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Currency':
+                priceList = currencySeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = currencySeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Metal':
+                priceList = metalSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = metalSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Oil':
+                priceList = oilSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                startPrice = oilSeries9Service.lastPrice(property.identifier, publishDate)
+                break;
+            case 'Future':
+                priceList = futureSeries9Service.closingPriceList(property.identifier, publishDate, item.endDate)
+                startPrice = futureSeries9Service.lastClosingPrice(property.identifier, publishDate)
+                break;
+        }
+        if (priceList?.size() == 0)
+            priceList = [value: startPrice]
+
+        def daysCount = 1
+        def priceListSize = 1
+        switch (item.period) {
+            case '1w':
+                daysCount = 7
+                priceListSize = 3
+                break
+            case '4w':
+                daysCount = 4 * 7
+                priceListSize = 7
+                break
+            case '12w':
+                daysCount = 12 * 7
+                priceListSize = 2 * 7
+                break
+            case '26w':
+                daysCount = 26 * 7
+                priceListSize = 4 * 7
+                break
+        }
+
+        while (priceList?.size() > priceListSize)
+            priceList.remove(0)
+
+        def score = 0
+        startPrice = startPrice - 100
+        def criterionPrice = priceList.collect { it?.value }?.findAll { it != null }?.max()
+        if (item.type == 'benefit') {
+            score = item.risk * (((criterionPrice - startPrice) / startPrice) / daysCount)
+        } else if (item.type == 'loss') {
+            score = item.risk * (((startPrice - criterionPrice) / startPrice) / daysCount)
+        }
+
+        graphDBService.editEdge(item.id, [applied: true, score: score])
     }
 
 }
