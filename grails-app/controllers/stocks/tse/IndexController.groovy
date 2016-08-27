@@ -11,7 +11,7 @@ class IndexController {
 
     def info() {
         def index = Index.get(params.id as Long)
-        propertyGraphService.ensureProperty('Index', index?.id, index?.persianName)
+        propertyGraphService.ensureProperty("IndexV", index?.id, index?.persianName)
         redirect(controller: 'twitter', action: 'property', id: index?.id)
     }
 
@@ -80,7 +80,7 @@ class IndexController {
                     score: searchResult.scores[index] / maxScore,
                     type : "${message(code: 'globalSearch.index')}",
                     id       : item.id,
-                    typeClass: 'Index'
+                    typeClass: 'IndexV'
             ]
         }
         render(result as JSON)

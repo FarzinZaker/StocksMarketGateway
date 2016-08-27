@@ -39,7 +39,7 @@ class TwitterController {
             case 'Symbol':
                 searchSymbolItems(queryStr)
                 break
-            case 'Index':
+            case 'IndexV':
                 searchIndexItems(queryStr)
                 break
             case 'Coin':
@@ -212,7 +212,7 @@ class TwitterController {
                 propertyInfo = priceService.lastDailyTrade(Symbol.get(params.id as Long))
                 showChart = true
                 break
-            case 'Index':
+            case 'IndexV':
                 propertyInfo = Index.get(params.id as Long)
                 showChart = true
                 break

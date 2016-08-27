@@ -130,7 +130,7 @@
         <div class="col-xs-9">
             <div id="tv_chart_container"></div>
             <g:render template="/technical/write"
-                      model="${[tag: [type: 'tag', clazz: 'Index', title: index?.persianName, id: params.id]]}"/>
+                      model="${[tag: [type: 'tag', clazz: 'IndexV', title: index?.persianName, id: params.id]]}"/>
         </div>
     </div>
 </div>

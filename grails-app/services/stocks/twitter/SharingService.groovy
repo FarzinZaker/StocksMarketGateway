@@ -217,7 +217,7 @@ class SharingService {
                 priceList = adjustedPriceSeries9Service.lastTradePriceList(property.identifier, publishDate, item.endDate)
                 startPrice = adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, publishDate)
                 break;
-            case 'Index':
+            case 'IndexV':
                 priceList = indexSeries9Service.finalIndexValueList(property.identifier, publishDate, item.endDate)
                 startPrice = indexSeries9Service.lastFinalIndexValue(property.identifier, publishDate)
                 break;

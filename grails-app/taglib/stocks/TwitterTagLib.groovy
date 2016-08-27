@@ -49,7 +49,7 @@ class TwitterTagLib {
                 ],
                 [
                         text : message(code: 'twitter.property.index.label'),
-                        value: 'Index'
+                        value: 'IndexV'
                 ],
                 [
                         text : message(code: 'twitter.property.coin.label'),

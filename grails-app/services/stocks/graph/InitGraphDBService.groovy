@@ -97,7 +97,7 @@ class InitGraphDBService {
                 'Metal',
                 'Oil',
                 'Future',
-                'Index'
+                'IndexV'
         ].each {
             clazz ->
                 graphDBService.ensureVertexClass(clazz, propertyClass)
