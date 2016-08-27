@@ -5,13 +5,29 @@ import stocks.twitter.Article
 class UserTagLib {
 
     def springSecurityService
-
+    def followGraphService
+    def rateGraphService
     static namespace = "userInfo"
 
     def articleCount = { attrs, body ->
         out << Article.countByAuthor(attrs.user)
     }
-
+    def followerCount = { attrs, body ->
+        def userId = attrs.userId ?: springSecurityService.currentUser?.id
+        out << followGraphService.followCount(userId)
+    }
+    def userRate = { attrs, body ->
+        def userId = attrs.userId ?: springSecurityService.currentUser?.id
+        out << rateGraphService.personRate(userId).rate
+    }
+    def userRate4tablo = { attrs, body ->
+        def userId = attrs.userId ?: springSecurityService.currentUser?.id
+        out << g.formatNumber(number:  rateGraphService.personRate4Tablo(userId)?.rate?:0,type: 'number',maxFractionDigits: 2)
+    }
+    def userArticleCount = { attrs, body ->
+        def userId = attrs.userId ?: springSecurityService.currentUser?.id
+        out << rateGraphService.personRate(userId).count
+    }
     def newsCount = { attrs, body ->
 //        out << stocks.twitter.News.countByAuthor(attrs.user)
     }
@@ -105,7 +121,7 @@ class UserTagLib {
 """
     }
 
-    def wall = {attrs, body ->
+    def wall = { attrs, body ->
         out << """
             <a class='k-button' href="${createLink(controller: 'user', action: 'wall', id: attrs.user?.id)}">
                 ${message(code: 'user.wall.button')}

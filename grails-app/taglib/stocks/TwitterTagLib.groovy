@@ -806,5 +806,59 @@ class TwitterTagLib {
         </script>
 """
     }
+    def mostFollowedUsers = {
+        def persons = followGraphService.mostFollowedPersons()
+        persons.each {
+            out << render(template: '/user/home/userCard', model: it)
+        }
+    }
+    def mostFollowedGroups = {
+        def groups = groupGraphService.largestGroups(4)
+        groups.each {
+            out << render(template: '/user/home/groupCard', model: it)
+        }
+    }
+    def mostActiveGroups = {
+        def groups = groupGraphService.mostActiveGroups(4)
+        groups.each {
+            out << render(template: '/user/home/groupCard', model: it)
+        }
+    }
+    def memberCount = { attrs, body ->
+        out << groupGraphService.memberCount(attrs.groupId)
+    }
+    def groupPostCount = { attrs, body ->
+        out << groupGraphService.postCount(attrs.groupId)
+    }
+    def mostActiveUsers = {
+        def persons = materialGraphService.mostActiveUsers(10000, 4)
+        persons.each {
+            out << render(template: '/user/home/userCard', model: it)
+        }
+    }
+    def mostRatedUsers = {
+        def persons = rateGraphService.mostRatedPersons(10000, 4)
+        persons.each {
+            out << render(template: '/user/home/userCard', model: it)
+        }
+    }
+    def mostRated4tabloUsers = {
+        def persons = rateGraphService.mostRated4tabloPersons(10000, 4)
+        persons.each {
+            out << render(template: '/user/home/userCard', model: it)
+        }
+    }
+    def mostRatedGroups = {
+        def persons = rateGraphService.mostRatedGroups(10000, 4)
+        persons.each {
+            out << render(template: '/user/home/groupCard', model: it)
+        }
+    }
+    def mostRated4tabloGroups = {
+        def persons = rateGraphService.mostRated4tabloGroups(10000, 4)
+        persons.each {
+            out << render(template: '/user/home/groupCard', model: it)
+        }
+    }
 
 }

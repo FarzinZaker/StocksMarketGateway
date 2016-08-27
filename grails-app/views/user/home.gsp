@@ -36,8 +36,14 @@
 
         <div class="col-xs-6 k-rtl">
             <g:render template="home/suggestList"/>
-
             <div class="row">
+                <div class="col-sm-12 k-rtl">
+                    <g:render template="home/topUsers"/>
+                    <g:render template="home/topGroups"/>
+                </div>
+            </div>
+            <div class="row">
+
                 <div class="col-sm-6 k-rtl">
                     <div class="dashLet dark">
                         <h2><i class="fa fa-star"></i> <g:message code="twitter.home.topMaterial.title"/>

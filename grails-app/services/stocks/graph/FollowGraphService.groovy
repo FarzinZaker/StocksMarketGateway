@@ -22,4 +22,11 @@ class FollowGraphService {
         graphDBService.executeCommand("DELETE EDGE Follow WHERE out.identifier = ${userId} AND in.@rid = #${itemId}")
     }
 
+    def mostFollowedPersons(int count = 4) {
+        graphDBService.queryAndUnwrapVertex("select from (select  in('Follow').size() as count ,title as title,identifier as identifier from Person) order by count desc limit ${count}")
+    }
+
+    def followCount(userId) {
+        graphDBService.queryAndUnwrapVertex("select  in('Follow').size() as count from Person where identifier=${userId}")?.find()?.count
+    }
 }

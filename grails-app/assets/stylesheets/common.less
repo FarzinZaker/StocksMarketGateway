@@ -2799,6 +2799,54 @@ h1, h2, h3, h4 {
   }
 }
 
+.twitter-top-list {
+  div.col-xs-6{
+    max-width: 47%;
+
+    div.propertyBox.Person {
+      list-style: outside none none;
+      margin-bottom: 5px;
+      padding: 5px 5px 10px;
+      //display: inline-block;
+      margin-left: 10px;
+      &:nth-child(even) {
+        margin-left: 0px;
+      }
+      &:last-child {
+        border-width: 0;
+        marign-bottom: 0;
+      }
+      .image {
+        float: right;
+        margin-left: 10px;
+        padding: 3px;
+        img {
+          background-color: #d70060;
+        }
+      }
+      .description {
+        a {
+          color: #555;
+          display: block;
+          font-size: 16px;
+          font-weight: bold;
+          margin-top: 12px;
+          margin-bottom: 30px;
+          white-space: nowrap;
+          //margin-bottom: 8px;
+          &:hover {
+            color: #8ebc00;
+          }
+        }
+      }
+      .user-info{
+        div{
+          max-width: 43%;
+        }
+      }
+    }
+  }
+}
 .twitter-user-list {
   margin-top: 5px;
   margin-bottom: 5px;

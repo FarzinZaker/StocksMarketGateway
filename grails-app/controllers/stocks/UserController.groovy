@@ -448,6 +448,10 @@ class UserController {
         ]
     }
 
+    def mostCards(){
+        render(template: '/user/home/mostCards',model: [id:params.id])
+    }
+
     def homeOldJson() {
         def user = springSecurityService.currentUser as User
         def list = materialGraphService.listOldForHome(user?.id, new Date(params.minDate as Long), params.limit as Integer)
