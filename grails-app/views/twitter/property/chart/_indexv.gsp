@@ -6,7 +6,6 @@
 
 <g:set var="index" value="${stocks.tse.Index.get(params.id)}"/>
 <script type="text/javascript">
-
     var adjustmentTypes = <format:html value="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect{[text:message(code:"priceAdjustment.types.${it}"), value: it]} as JSON}"/>;
     var defaultAdjustmentType = "${AdjustmentHelper.defaultType}";
     var symbolName = '${index.persianName}';
