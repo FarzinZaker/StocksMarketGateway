@@ -15,4 +15,4 @@
     <div class="clear-fix"></div>
 </div>
 
-<g:render template="property/info/${property.label?.toString()?.toLowerCase()}" model="${propertyInfo}"/>
+<g:render template="property/info/${property.label?.toString()?.toLowerCase()}i" model="${propertyInfo}"/>
