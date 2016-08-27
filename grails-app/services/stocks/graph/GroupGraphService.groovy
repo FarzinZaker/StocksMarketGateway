@@ -208,6 +208,14 @@ class GroupGraphService {
         graphDBService.count("SELECT COUNT(*) FROM (SELECT EXPAND(IN('Member')) FROM Group WHERE @rid = #${groupId?.replace('#', '')}) WHERE @class = 'Person'")
     }
 
+    Long postCount(String groupId) {
+        graphDBService.count("select inE('Share').size() as COUNT from Group where @rid= #${groupId?.replace('#', '')}")
+    }
+
+    List mostActiveGroups(int count = 4) {
+        graphDBService.queryAndUnwrapVertex("select inE('Share').size() as count, @rid as @rid, title, imageId from Group order by count desc limit ${count}")
+    }
+
     List<Map> deleteMember(String membershipId) {
         def edge = graphDBService.getEdge(membershipId)
         graphDBService.deleteEdge(edge)
