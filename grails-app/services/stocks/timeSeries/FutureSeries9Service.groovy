@@ -13,7 +13,9 @@ class FutureSeries9Service {
         def serie = new Serie()
         futureEvents.each { futureEvent ->
             [
-                    "lastTradedPrice"
+                    "lastTradedPrice",
+                    "highTradedPrice",
+                    "lowTradedPrice"
             ].each { property ->
                 if (futureEvent.lastTradingDate)
                     serie.addPoint(new Point("future_${property}")
@@ -33,8 +35,24 @@ class FutureSeries9Service {
         priceList(futureId, 'lastTradedPrice', startDate, endDate, groupingMode)
     }
 
+    def highPriceList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
+        priceList(futureId, 'highTradedPrice', startDate, endDate, groupingMode)
+    }
+
+    def lowPriceList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
+        priceList(futureId, 'lowTradedPrice', startDate, endDate, groupingMode)
+    }
+
     def lastClosingPrice(Long futureId, Date endDate = null) {
         lastPrice(futureId, 'lastTradedPrice', endDate)
+    }
+
+    def lastHighPrice(Long futureId, Date endDate = null) {
+        lastPrice(futureId, 'highTradedPrice', endDate)
+    }
+
+    def lastLowPrice(Long futureId, Date endDate = null) {
+        lastPrice(futureId, 'lowTradedPrice', endDate)
     }
 
     def futureHistoryList(Long futureId, Date startDate = null, Date endDate = null, String groupingMode = '1d') {
