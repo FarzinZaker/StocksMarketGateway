@@ -42,13 +42,13 @@
 </div>
 
 <div class="clear-fix"></div>
-<script>
-    $(function(){
-        $('.correct-images img').unbind().click(function(){
-            showLargeImage(this);
-        })
-    })
-</script>
+%{--<script>--}%
+    %{--$(function(){--}%
+        %{--$('.correct-images img').unbind().click(function(){--}%
+            %{--showLargeImage(this);--}%
+        %{--})--}%
+    %{--})--}%
+%{--</script>--}%
 <script language="javascript" type="text/javascript">
     <g:if test="${showProperties}">
     $("#propertyLoading_${currentID}").show();
