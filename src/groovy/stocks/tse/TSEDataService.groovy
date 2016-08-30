@@ -10,7 +10,7 @@ import stocks.tse.ws.TsePublicV2Soap_PortType
 
 import java.text.SimpleDateFormat
 
-import static groovyx.gpars.GParsPool.withPool
+//import static groovyx.gpars.GParsPool.withPool
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,9 +67,9 @@ public abstract class TSEDataService<T, K> {
             def list = []
             def children = obj.children()[0].children().findAll()
             println children
-            withPool(10) {
+//            withPool(10) {
                 children.eachWithIndexParallel { item, idx ->
-                    println "${idx} / ${children.size()}"
+//                    println "${idx} / ${children.size()}"
                     def object = domainClass.newInstance()
 
                     try {
@@ -121,16 +121,16 @@ public abstract class TSEDataService<T, K> {
                         }
 
                         object.data = find(object as K)
-                        if (object?.instanceOf(Symbol) && !object.minAllowedValue) {
-                            println object.persianName
-                        }
+//                        if (object?.instanceOf(Symbol) && !object.minAllowedValue) {
+//                            println object.persianName
+//                        }
                         list << tseEventGateway.send(object, this.class.name)
                     } catch (ignored) {
                         errors << [status: 'failed', message: ignored.message, stackTrace: ignored.stackTrace]
 //                    throw ignored
                     }
                 }
-            }
+//            }
             if (errors) {
                 logState(errors)
             }
