@@ -72,13 +72,20 @@ class TwitterController {
             def symbolPrice = priceService.lastDailyTrade(symbol)
             def symbolClientType = SymbolClientType.findBySymbol(symbol, [sort: 'date', order: 'desc', max: 1])
             def symbolStatus = [
-                    minAllowed: symbol.minAllowedValue ?: symbolPrice?.minPrice - 10,
-                    maxAllowed: symbol.maxAllowedValue ?: symbolPrice?.maxPrice + 10,
-                    yesterday : symbolPrice?.yesterdayPrice,
-                    min       : symbolPrice?.minPrice,
-                    max       : symbolPrice?.maxPrice,
-                    last      : symbolPrice?.lastTradePrice,
-                    totalValue:symbolPrice?.totalTradeValue
+                    minAllowed  : symbol.minAllowedValue ?: symbolPrice?.minPrice - 10,
+                    maxAllowed  : symbol.maxAllowedValue ?: symbolPrice?.maxPrice + 10,
+                    yesterday   : symbolPrice?.yesterdayPrice,
+                    closingPrice: symbolPrice?.closingPrice,
+                    priceChange : symbolPrice?.priceChange,
+                    lastTrade   : symbolPrice?.dailyTrade?.date?.format('hh:mm:ss'),
+                    first       : symbolPrice?.firstTradePrice,
+                    count       : symbolPrice?.totalTradeCount,
+                    volume      : symbolPrice?.totalTradeVolume,
+                    value       : symbolPrice?.totalTradeValue,
+                    min         : symbolPrice?.minPrice,
+                    max         : symbolPrice?.maxPrice,
+                    last        : symbolPrice?.lastTradePrice,
+                    totalValue  : symbolPrice?.totalTradeValue
             ]
             return render([bestOrders: bestOrders, symbolStatus: symbolStatus, symbolClientType: symbolClientType] as JSON)
         }

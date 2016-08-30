@@ -26,6 +26,38 @@
     </g:each>
 </table>
 
+<table class="table table-striped" id="symbolInfo">
+    <tr>
+        <td colspan="2"><g:message code="symbol.info.lastTrade" /></td>
+        <td class="lastTrade text-left" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="text-left"><g:message code="symbol.info.closingPrice" /></td>
+        <td colspan="3">
+            <span class="closingPrice"></span>
+            <span class="closingPriceChange small"></span>
+            <span class="closingPriceChangePercent small"></span>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left"><g:message code="symbol.info.max" /></td>
+        <td class="max"></td>
+        <td class="text-left"><g:message code="symbol.info.min" /></td>
+        <td class="min"></td>
+    </tr>
+    <tr>
+        <td class="text-left"><g:message code="symbol.info.count" /></td>
+        <td class="count"></td>
+        <td class="text-left"><g:message code="symbol.info.first" /></td>
+        <td class="first"></td>
+    </tr>
+    <tr>
+        <td class="text-left"><g:message code="symbol.info.volume" /></td>
+        <td class="volume small"></td>
+        <td class="text-left"><g:message code="symbol.info.value" /></td>
+        <td class="value small"></td>
+    </tr>
+</table>
 <div class="symbolPriceInfo">
     <div class="line high"><div class="label label-bottom  high-label" ></div></div>
     <div class="line low"><div class="label label-bottom low-label" ></div><div class="label label-bottom  mid-label" ></div></div>
@@ -122,8 +154,20 @@
 
 
 <script>
+    function strNum(x){
+        if(x){
+            if(x>1000000000)
+                return [Math.round(x/10000000)/100,' <g:message code="milyard" />'];
+            if(x>1000000)
+                return [Math.round(x/10000)/100,' <g:message code="milyon" />'];
+            if(x>1000)
+                return [Math.round(x/10)/100,' <g:message code="hezar" />'];
+            return [x,''];
+        }
+    }
     function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if(x)
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     function updateInfo(){
         $.get('<g:createLink controller="twitter" action="symbolInfoAjax" id="${property?.identifier}" />').success(function(data){
@@ -137,6 +181,21 @@
                 $('.sell-price-'+bestOrder.number).html(bestOrder.offerValue?numberWithCommas(bestOrder.offerValue):'-');
             }
 
+            $('#symbolInfo .lastTrade').html(data.symbolStatus.lastTrade);
+            $('#symbolInfo .closingPrice').html(numberWithCommas(data.symbolStatus.closingPrice));
+            var change=data.symbolStatus.closingPrice+data.symbolStatus.priceChange-data.symbolStatus.last;
+            $('#symbolInfo .closingPriceChange').html(numberWithCommas(change)).addClass(change>0?'green':'red');
+            var changePercent=Math.round((data.symbolStatus.closingPrice+data.symbolStatus.priceChange-data.symbolStatus.last)*10000/(data.symbolStatus.last-data.symbolStatus.priceChange))/100;
+            $('#symbolInfo .closingPriceChangePercent').html(numberWithCommas(changePercent)+'%').addClass(changePercent>0?'green':'red');
+
+            $('#symbolInfo .max').html(numberWithCommas(data.symbolStatus.max));
+            $('#symbolInfo .min').html(numberWithCommas(data.symbolStatus.min));
+            $('#symbolInfo .count').html(numberWithCommas(data.symbolStatus.count));
+            $('#symbolInfo .first').html(numberWithCommas(data.symbolStatus.first));
+            var value=strNum(data.symbolStatus.value);
+            $('#symbolInfo .value').html(numberWithCommas(value[0])+value[1]);
+            var volume=strNum(data.symbolStatus.volume);
+            $('#symbolInfo .volume').html(numberWithCommas(volume[0])+volume[1]);
 
             var len=data.symbolStatus.maxAllowed-data.symbolStatus.minAllowed;
             $('.symbolPriceInfo .low').css('width',((data.symbolStatus.yesterday-data.symbolStatus.minAllowed)/len)*100+'%');
