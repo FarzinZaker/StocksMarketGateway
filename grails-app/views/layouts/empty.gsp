@@ -19,10 +19,6 @@
 
 <body>
     <g:layoutBody/>
-
-
-</div>
-
 <g:render template="/layouts/main/includesBottom"/>
 </body>
 </html>

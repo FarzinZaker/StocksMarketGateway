@@ -46,5 +46,6 @@
 <script language="javascript" type="text/javascript"
         src="${resource(dir: 'js/bootstrap', file: 'bootstrap.js')}"></script>
 <asset:javascript src="common.js"/>
+<g:render template="/layouts/common/lightBox"/>
 </body>
 </html>
