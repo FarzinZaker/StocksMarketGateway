@@ -72,8 +72,8 @@ class TwitterController {
             def symbolPrice = priceService.lastDailyTrade(symbol)
             def symbolClientType = SymbolClientType.findBySymbol(symbol, [sort: 'date', order: 'desc', max: 1])
             def symbolStatus = [
-                    minAllowed  : symbol.minAllowedValue ?: symbolPrice?.minPrice - 10,
-                    maxAllowed  : symbol.maxAllowedValue ?: symbolPrice?.maxPrice + 10,
+                    minAllowed  : Math.min(symbol.minAllowedValue ?: symbolPrice?.minPrice ?: 0 - 10, (symbolPrice?.minPrice ?: Integer.MAX_VALUE) - 10),
+                    maxAllowed  : Math.max(symbol.maxAllowedValue ?: symbolPrice?.maxPrice ?: 0 + 10, (symbolPrice?.maxPrice ?: Integer.MIN_VALUE) + 10),
                     yesterday   : symbolPrice?.yesterdayPrice,
                     closingPrice: symbolPrice?.closingPrice,
                     priceChange : symbolPrice?.priceChange,
