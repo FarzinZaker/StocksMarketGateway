@@ -21,6 +21,12 @@ class MonitorController {
         value.data = dataService.getJobList().collect { item ->
             def row = null
             use(TimeCategory) {
+                def data
+                try {
+                    data = DataServiceState.executeQuery('select d.data from DataServiceState d where d.serviceName=:serviceName and isLastState=true',[serviceName:item.jobName.split('_').first()])?.find()
+                } catch (x) {
+                    x.printStackTrace()
+                }
                 row = [
                         id              : item.jobName,
                         jobName         : message(code: item.jobName),
@@ -30,7 +36,7 @@ class MonitorController {
                         previousFireTime: formatTime(item.previousFireTime),
                         timesTriggered  : item.timesTriggered,
                         status          : item.nextFireTime + 2.minutes > new Date(),
-                        statusData      : DataServiceState.findByServiceNameAndIsLastState(item.jobName.split('_').first(), true)?.data
+                        statusData      : data
                 ]
             }
             row

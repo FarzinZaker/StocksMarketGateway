@@ -1,6 +1,7 @@
 package stocks.twitter
 
 import grails.converters.JSON
+import org.apache.axis.types.UnsignedByte
 import org.apache.lucene.search.BooleanQuery
 import stocks.User
 import stocks.tse.Symbol
@@ -11,6 +12,8 @@ import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Oil
 import stocks.rate.CoinFuture
+import stocks.tse.SymbolBestOrder
+import stocks.tse.SymbolClientType
 import stocks.twitter.Search.*
 
 class TwitterController {
@@ -60,6 +63,33 @@ class TwitterController {
             default:
                 []
         }
+    }
+
+    def symbolInfoAjax() {
+        def symbol = Symbol.get(params.id)
+        if (symbol) {
+            def bestOrders = SymbolBestOrder.findAllBySymbol(symbol, [sort: 'number'])
+            def symbolPrice = priceService.lastDailyTrade(symbol)
+            def symbolClientType = SymbolClientType.findBySymbol(symbol, [sort: 'date', order: 'desc', max: 1])
+            def symbolStatus = [
+                    minAllowed  : Math.min(symbol.minAllowedValue ?: symbolPrice?.minPrice ?: 0 - 10, (symbolPrice?.minPrice ?: Integer.MAX_VALUE) - 10),
+                    maxAllowed  : Math.max(symbol.maxAllowedValue ?: symbolPrice?.maxPrice ?: 0 + 10, (symbolPrice?.maxPrice ?: Integer.MIN_VALUE) + 10),
+                    yesterday   : symbolPrice?.yesterdayPrice,
+                    closingPrice: symbolPrice?.closingPrice,
+                    priceChange : symbolPrice?.priceChange,
+                    lastTrade   : symbolPrice?.dailyTrade?.date?.format('hh:mm:ss'),
+                    first       : symbolPrice?.firstTradePrice,
+                    count       : symbolPrice?.totalTradeCount,
+                    volume      : symbolPrice?.totalTradeVolume,
+                    value       : symbolPrice?.totalTradeValue,
+                    min         : symbolPrice?.minPrice,
+                    max         : symbolPrice?.maxPrice,
+                    last        : symbolPrice?.lastTradePrice,
+                    totalValue  : symbolPrice?.totalTradeValue
+            ]
+            return render([bestOrders: bestOrders, symbolStatus: symbolStatus, symbolClientType: symbolClientType] as JSON)
+        }
+        render([:] as JSON)
     }
 
     def searchSymbolItems(String queryStr) {
@@ -200,7 +230,6 @@ class TwitterController {
     }
 
     def property() {
-
         sharingService.applyATwitScore()
 
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null

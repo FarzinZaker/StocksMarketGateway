@@ -41,7 +41,8 @@ class LoginController {
      * Show the login page.
      */
     def auth = {
-        grailsApplication.mainContext.getBean('symbolDataService').importData()
+
+//        grailsApplication.mainContext.getBean('symbolDataService').importData()
         def config = SpringSecurityUtils.securityConfig
 
         if (springSecurityService.isLoggedIn()) {

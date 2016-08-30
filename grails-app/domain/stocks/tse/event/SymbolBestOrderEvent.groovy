@@ -33,7 +33,7 @@ class SymbolBestOrderEvent {
         orderVolume nullable: true, xmlNodeName: 'QTitMeDem'
         orderCount nullable: true, xmlNodeName: 'ZOrdMeDem'
         orderValue nullable: true, xmlNodeName: 'PMeDem'
-        offerVolume nullable: true, xmlNodeName: 'ZOrdMeOf'
+        offerVolume nullable: true, xmlNodeName: 'QTitMeOf'
         offerCount nullable: true, xmlNodeName: 'ZOrdMeOf'
         offerValue nullable: true, xmlNodeName: 'PMeOf'
         data nullable:true

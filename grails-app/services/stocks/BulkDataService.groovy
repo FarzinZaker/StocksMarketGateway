@@ -24,12 +24,15 @@ class BulkDataService {
 
     @Synchronized
     def save(object) {
-        object.domainClass.clazz.withTransaction{
-            object.save(flush:true)
+        object.domainClass.clazz.withTransaction {
+            if (!object.id) {
+                object.save(flush: true)
+            } else {
+                object.merge(flush: true)
+            }
         }
 
         return
-
 
         //ignored bulk update
         if (!dataQueue)
