@@ -40,5 +40,6 @@
 
 <g:render template="/layouts/common/footer"/>
 <g:render template="/layouts/main/includesBottom"/>
+<g:render template="/layouts/common/lightBox"/>
 </body>
 </html>

@@ -49,5 +49,6 @@
 </script>
 <asset:javascript src="like.js"/>
 <asset:javascript src="common.js"/>
+<g:render template="/layouts/common/lightBox"/>
 </body>
 </html>
