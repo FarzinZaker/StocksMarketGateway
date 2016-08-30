@@ -33,110 +33,93 @@
     <div class="line cur"><div class="label-top  cur-label" ></div></div>
 </div>
 
-%{--<g:set var="lastTradePriceChangePercent"--}%
-       %{--value="${Math.round(propertyInfo.priceChange * 10000 / (propertyInfo.lastTradePrice - propertyInfo.priceChange)) / 100}"/>--}%
-%{--<div class="propertyInfoPrice ${lastTradePriceChangePercent > 0 ? 'positive' : lastTradePriceChangePercent < 0 ? 'negative' : ''}">--}%
-    %{--<h4><g:message code="symbol.info.lastPrice"/></h4>--}%
-    %{--<span>--}%
-        %{--<b><g:formatNumber number="${propertyInfo.lastTradePrice}" type="number"/></b>--}%
-    %{--</span>--}%
-    %{--<span>--}%
-        %{--<g:formatNumber number="${propertyInfo.priceChange}" type="number"/>--}%
-    %{--</span>--}%
-    %{--<span>--}%
-        %{--<g:formatNumber number="${lastTradePriceChangePercent}" type="number"/>%--}%
-    %{--</span>--}%
-    %{--<div class="clear-fix"></div>--}%
-%{--</div>--}%
-%{--<g:set var="closingPriceChangePercent"--}%
-       %{--value="${Math.round((propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice) * 10000 / (propertyInfo.closingPrice - (propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice))) / 100}"/>--}%
-%{--<div class="propertyInfoPrice ${closingPriceChangePercent > 0 ? 'positive' : closingPriceChangePercent < 0 ? 'negative' : 0}">--}%
-    %{--<h4><g:message code="symbol.info.closingPrice"/></h4>--}%
-    %{--<span>--}%
-        %{--<g:formatNumber number="${propertyInfo.closingPrice}" type="number"/>--}%
-    %{--</span>--}%
-    %{--<span>--}%
-        %{--<g:formatNumber--}%
-                %{--number="${propertyInfo.priceChange + propertyInfo.closingPrice - propertyInfo.lastTradePrice}"--}%
-                %{--type="number"/>--}%
-    %{--</span>--}%
-    %{--<span>--}%
-        %{--<g:formatNumber number="${closingPriceChangePercent}" type="number"/>%--}%
-    %{--</span>--}%
-    %{--<div class="clear-fix"></div>--}%
-%{--</div>--}%
+<table class="table table-striped" id="clientTypeTable">
+    <tr>
+        <td></td>
+        <td class="center bg-black"><g:message code="symbol.info.bestOrder.buy" /></td>
+        <td class="center  bg-black"><g:message code="symbol.info.bestOrder.sell" /></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.individualTotalPrice" /></td>
+        <td class="smaller individualTotalPriceBuy"></td>
+        <td class="smaller individualTotalPriceSell"></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.legalTotalPrice" /></td>
+        <td class="smaller legalTotalPriceBuy"></td>
+        <td class="smaller legalTotalPriceSell"></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.individualTotalCount" /></td>
+        <td class="smaller individualCountBuy"></td>
+        <td class="smaller individualCountSell"></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.legalTotalCount" /></td>
+        <td class="smaller legalCountBuy"></td>
+        <td class="smaller legalCountSell"></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.individualAvgPrice" /></td>
+        <td class="smaller individualAvgPriceBuy"></td>
+        <td class="smaller individualAvgPriceSell"></td>
+    </tr>
+    <tr>
+        <td><g:message code="symbol.info.legalAvgPrice" /></td>
+        <td class="smaller legalAvgPriceBuy"></td>
+        <td class="smaller legalAvgPriceSell"></td>
+    </tr>
+</table>
+<div class="marketViewItem even clear-fix">
+    <div class="marketViewItem" id="marketView_totalBuyVolume">
+        <span class="marketViewItem_label"><g:message code="marketView.totalBuyVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
 
-%{--<div class="dashLet magenta propertyInfo">--}%
-    %{--<table>--}%
-        %{--<tr>--}%
-            %{--<td><span>تاریخ</span></td>--}%
-            %{--<td><span class="date"><format:jalaliDate date="${propertyInfo.date}"/></span></td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>ساعت</span></td>--}%
-            %{--<td><span class="time"><g:formatDate date="${propertyInfo.dailyTrade.date}"--}%
-                                                 %{--format="hh:mm:ss"/></span></td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>بیشترین</span></td>--}%
-            %{--<td><span class="high"><g:formatNumber number="${propertyInfo.maxPrice}" type="number"/></span>--}%
-            %{--</td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>کمترین</span></td>--}%
-            %{--<td><span class="low"><g:formatNumber number="${propertyInfo.minPrice}" type="number"/></span>--}%
-            %{--</td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>دفعات</span></td>--}%
-            %{--<td><span class="tradecount"><g:formatNumber number="${propertyInfo.totalTradeCount}"--}%
-                                                         %{--type="number"/></span></td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>باز</span></td>--}%
-            %{--<td><span class="open"><g:formatNumber number="${propertyInfo.firstTradePrice}"--}%
-                                                   %{--type="number"/></span></td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>حجم</span></td>--}%
-            %{--<g:set var="totalTradeVolume" value="${propertyInfo.totalTradeVolume}"/>--}%
-            %{--<g:set var="totalTradeVolumeFlag" value=""/>--}%
-            %{--<g:if test="${totalTradeVolume > 1000}">--}%
-                %{--<g:set var="totalTradeVolume" value="${totalTradeVolume / 1000}"/>--}%
-                %{--<g:set var="totalTradeVolumeFlag" value="K"/>--}%
-            %{--</g:if>--}%
-            %{--<g:if test="${totalTradeVolume > 1000}">--}%
-                %{--<g:set var="totalTradeVolume" value="${totalTradeVolume / 1000}"/>--}%
-                %{--<g:set var="totalTradeVolumeFlag" value="M"/>--}%
-            %{--</g:if>--}%
-            %{--<g:if test="${totalTradeVolume > 1000}">--}%
-                %{--<g:set var="totalTradeVolume" value="${totalTradeVolume / 1000}"/>--}%
-                %{--<g:set var="totalTradeVolumeFlag" value="B"/>--}%
-            %{--</g:if>--}%
-            %{--<td><span class="shareCount"><g:formatNumber number="${Math.round(totalTradeVolume * 100) / 100}"--}%
-                                                         %{--type="number"/>${totalTradeVolumeFlag}</span></td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
-            %{--<td><span>ارزش</span></td>--}%
-            %{--<g:set var="totalTradeValue" value="${propertyInfo.totalTradeValue}"/>--}%
-            %{--<g:set var="totalTradeValueFlag" value=""/>--}%
-            %{--<g:if test="${totalTradeValue > 1000}">--}%
-                %{--<g:set var="totalTradeValue" value="${totalTradeValue / 1000}"/>--}%
-                %{--<g:set var="totalTradeValueFlag" value="K"/>--}%
-            %{--</g:if>--}%
-            %{--<g:if test="${totalTradeValue > 1000}">--}%
-                %{--<g:set var="totalTradeValue" value="${totalTradeValue / 1000}"/>--}%
-                %{--<g:set var="totalTradeValueFlag" value="M"/>--}%
-            %{--</g:if>--}%
-            %{--<g:if test="${totalTradeValue > 1000}">--}%
-                %{--<g:set var="totalTradeValue" value="${totalTradeValue / 1000}"/>--}%
-                %{--<g:set var="totalTradeValueFlag" value="B"/>--}%
-            %{--</g:if>--}%
-            %{--<td><span class="volume"><g:formatNumber number="${Math.round(totalTradeValue * 100) / 100}"--}%
-                                                     %{--type="number"/>${totalTradeValueFlag}</span></td>--}%
-        %{--</tr>--}%
-    %{--</table>--}%
-%{--</div>--}%
+    <div style="height:10px;background-color:#3b5998;margin-top:2px;">
+        <div style="height:10px;background-color:#d80073;width:0" id="buyIndicator"></div>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalLegalBuyVolume" style="float:right;font-size:11px;">
+        <span class="marketViewItem_label" style="margin-left:5px;"><g:message
+                code="marketView.totalLegalBuyVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalIndividualBuyVolume" style="float:left;font-size:11px;">
+        <span class="marketViewItem_value" style="margin-left:5px">-</span>
+        <span class="marketViewItem_label" style="margin-left:0;"><g:message
+                code="marketView.totalIndividualBuyVolume"/></span>
+    </div>
+
+    <div class="clear-fix"></div>
+</div>
+
+<div class="marketViewItem even clear-fix">
+    <div class="marketViewItem clear-fix" id="marketView_totalSellVolume">
+        <span class="marketViewItem_label"><g:message code="marketView.totalSellVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
+
+    <div style="height:10px;background-color:#3b5998;margin-top:2px;">
+        <div style="height:10px;background-color:#d80073;width:0" id="sellIndicator"></div>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalLegalSellVolume" style="float:right;font-size:11px;">
+        <span class="marketViewItem_label" style="margin-left:5px"><g:message
+                code="marketView.totalLegalSellVolume"/></span>
+        <span class="marketViewItem_value">-</span>
+    </div>
+
+    <div class="marketViewItem" id="marketView_totalIndividualSellVolume" style="float:left;font-size:11px;">
+        <span class="marketViewItem_value" style="margin-left:5px;">-</span>
+        <span class="marketViewItem_label" style="margin-left:0"><g:message
+                code="marketView.totalIndividualSellVolume"/></span>
+    </div>
+
+    <div class="clear-fix"></div>
+</div>
+
 
 <script>
     function numberWithCommas(x) {
@@ -153,6 +136,8 @@
                 $('.sell-volume-'+bestOrder.number).html(bestOrder.offerVolume?numberWithCommas(bestOrder.offerVolume):'-');
                 $('.sell-price-'+bestOrder.number).html(bestOrder.offerValue?numberWithCommas(bestOrder.offerValue):'-');
             }
+
+
             var len=data.symbolStatus.maxAllowed-data.symbolStatus.minAllowed;
             $('.symbolPriceInfo .low').css('width',((data.symbolStatus.yesterday-data.symbolStatus.minAllowed)/len)*100+'%');
             $('.symbolPriceInfo .high').css('width',((data.symbolStatus.maxAllowed-data.symbolStatus.yesterday)/len)*100+'%');
@@ -166,6 +151,32 @@
             $('.symbolPriceInfo .mid-low-label').html(numberWithCommas(data.symbolStatus.min));
             $('.symbolPriceInfo .cur-label').html(numberWithCommas(data.symbolStatus.last));
             $('#symbolInfoTimer').timer('start');
+
+
+            var totalVolume=data.symbolClientType.individualBuyVolume + data.symbolClientType.legalBuyVolume;
+            $('#clientTypeTable .individualTotalPriceBuy').html(numberWithCommas(Math.round(data.symbolClientType.individualBuyVolume*data.symbolStatus.totalValue/totalVolume)));
+            $('#clientTypeTable .individualTotalPriceSell').html(numberWithCommas(Math.round(data.symbolClientType.individualSellVolume*data.symbolStatus.totalValue/totalVolume)));
+            $('#clientTypeTable .individualCountBuy').html(numberWithCommas(Math.round(data.symbolClientType.individualBuyCount)));
+            $('#clientTypeTable .individualCountSell').html(numberWithCommas(Math.round(data.symbolClientType.individualSellCount)));
+            $('#clientTypeTable .individualAvgPriceBuy').html(numberWithCommas(Math.round(data.symbolClientType.individualBuyVolume*data.symbolStatus.totalValue/(totalVolume*data.symbolClientType.individualBuyCount))));
+            $('#clientTypeTable .individualAvgPriceSell').html(numberWithCommas(Math.round(data.symbolClientType.individualSellVolume*data.symbolStatus.totalValue/(totalVolume*data.symbolClientType.individualSellCount))));
+            $('#clientTypeTable .legalTotalPriceBuy').html(numberWithCommas(Math.round(data.symbolClientType.legalBuyVolume*data.symbolStatus.totalValue/totalVolume)));
+            $('#clientTypeTable .legalTotalPriceSell').html(numberWithCommas(Math.round(data.symbolClientType.legalSellVolume*data.symbolStatus.totalValue/totalVolume)));
+            $('#clientTypeTable .legalCountBuy').html(numberWithCommas(Math.round(data.symbolClientType.legalBuyCount)));
+            $('#clientTypeTable .legalCountSell').html(numberWithCommas(Math.round(data.symbolClientType.legalSellCount)));
+            $('#clientTypeTable .legalAvgPriceBuy').html(numberWithCommas(Math.round(data.symbolClientType.legalBuyVolume*data.symbolStatus.totalValue/(totalVolume*data.symbolClientType.legalBuyCount))));
+            $('#clientTypeTable .legalAvgPriceSell').html(numberWithCommas(Math.round(data.symbolClientType.legalSellVolume*data.symbolStatus.totalValue/(totalVolume*data.symbolClientType.legalSellCount))));
+
+            $('#marketView_totalBuyVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.individualBuyVolume + data.symbolClientType.legalBuyVolume));
+            $('#marketView_totalSellVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.individualSellVolume + data.symbolClientType.legalSellVolume));
+            $('#marketView_totalIndividualBuyVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.individualBuyVolume));
+            $('#marketView_totalIndividualSellVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.individualSellVolume));
+            $('#marketView_totalLegalBuyVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.legalBuyVolume));
+            $('#marketView_totalLegalSellVolume').find('.marketViewItem_value').html(numberWithCommas(data.symbolClientType.legalSellVolume));
+            $('#buyIndicator').css('width', Math.round(data.symbolClientType.legalBuyVolume * 100 / (data.symbolClientType.legalBuyVolume + data.symbolClientType.individualBuyVolume)) + '%');
+            $('#sellIndicator').css('width', Math.round(data.symbolClientType.legalSellVolume * 100 / (data.symbolClientType.legalSellVolume + data.symbolClientType.individualSellVolume)) + '%');
+
+
         })
     }
     $(function(){

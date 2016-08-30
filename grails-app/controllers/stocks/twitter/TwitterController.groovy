@@ -13,6 +13,7 @@ import stocks.rate.Metal
 import stocks.rate.Oil
 import stocks.rate.CoinFuture
 import stocks.tse.SymbolBestOrder
+import stocks.tse.SymbolClientType
 import stocks.twitter.Search.*
 
 class TwitterController {
@@ -68,16 +69,18 @@ class TwitterController {
         def symbol = Symbol.get(params.id)
         if (symbol) {
             def bestOrders = SymbolBestOrder.findAllBySymbol(symbol, [sort: 'number'])
-            def symbolPrice = priceService.lastDailyTrade(Symbol.get(params.id as Long))
+            def symbolPrice = priceService.lastDailyTrade(symbol)
+            def symbolClientType = SymbolClientType.findBySymbol(symbol, [sort: 'date', order: 'desc', max: 1])
             def symbolStatus = [
-                    minAllowed: symbol.minAllowedValue?:symbolPrice?.minPrice-10,
-                    maxAllowed: symbol.maxAllowedValue?:symbolPrice?.maxPrice+10,
+                    minAllowed: symbol.minAllowedValue ?: symbolPrice?.minPrice - 10,
+                    maxAllowed: symbol.maxAllowedValue ?: symbolPrice?.maxPrice + 10,
                     yesterday : symbolPrice?.yesterdayPrice,
                     min       : symbolPrice?.minPrice,
                     max       : symbolPrice?.maxPrice,
-                    last      : symbolPrice?.lastTradePrice
+                    last      : symbolPrice?.lastTradePrice,
+                    totalValue:symbolPrice?.totalTradeValue
             ]
-            return render([bestOrders: bestOrders, symbolStatus: symbolStatus] as JSON)
+            return render([bestOrders: bestOrders, symbolStatus: symbolStatus, symbolClientType: symbolClientType] as JSON)
         }
         render([:] as JSON)
     }
