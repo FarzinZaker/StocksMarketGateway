@@ -23,7 +23,7 @@
     <a class="title"
        href="${createLink(controller: 'article', action: 'thread', id: material.identifier)}">${material.title}</a>
     <g:if test="${showProperties}">
-        <div class="description">${material.description}</div>
+        <div class="description  correct-images">${material.description}</div>
 
         <ul class="propertyList" id="propertyList_${currentID}">
             <span id="propertyLoading_${currentID}">
@@ -42,6 +42,13 @@
 </div>
 
 <div class="clear-fix"></div>
+<script>
+    $(function(){
+        $('.correct-images img').unbind().click(function(){
+            showLargeImage(this);
+        })
+    })
+</script>
 <script language="javascript" type="text/javascript">
     <g:if test="${showProperties}">
     $("#propertyLoading_${currentID}").show();

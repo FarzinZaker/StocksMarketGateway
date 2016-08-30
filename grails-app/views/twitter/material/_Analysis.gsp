@@ -21,7 +21,7 @@
         </span>
     </div>
 
-    <div class="description" id="material_body_${currentID}">
+    <div class="description correct-images" id="material_body_${currentID}">
             <format:twit value="${material.description}"/>
     </div>
 
@@ -36,7 +36,7 @@
             <asset:image src="loading.gif"/>
         </span>
     </div>
-    <img src="${createLink(controller: 'image', action: 'index', id: material.imageId)}"
+    <img src="${createLink(controller: 'image', action: 'index', id: material.imageId)}" onclick="showLargeImage(this)"
          style="max-width:100%;margin-top:10px;margin-bottom:10px;"/>
 
 
@@ -54,7 +54,13 @@
         </div>
     </g:if>
 </div>
-
+<script>
+    $(function(){
+        $('.correct-images img').unbind().click(function(){
+            showLargeImage(this);
+        })
+    })
+</script>
 <div class="clear-fix"></div>
 <script language="javascript" type="text/javascript">
     <g:if test="${showProperties}">

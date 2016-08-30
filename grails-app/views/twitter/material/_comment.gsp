@@ -20,7 +20,7 @@
             </span>
         </div>
     </g:if>
-    <div class="description"><format:twit value="${comment.body ?: '-'}"/></div>
+    <div class="description correct-images"><format:twit value="${comment.body ?: '-'}"/></div>
 
     <div class="descriptionEditor"></div>
 
@@ -32,6 +32,13 @@
 </div>
 
 <div class="clear-fix"></div>
+<script>
+    $(function(){
+        $('.correct-images img').unbind().click(function(){
+            showLargeImage(this);
+        })
+    })
+</script>
 <g:if test="${showProperties}">
     <script language="javascript" type="text/javascript">
 
