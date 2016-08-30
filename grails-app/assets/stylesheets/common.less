@@ -5032,7 +5032,70 @@ a.br-selected {
     background-color: #f7ccdf;
   }
 }
+.symbolPriceInfo{
+  position: relative;
+  padding: 0;
+  line-height: 25px;
+  .line{
+    height: 25px;
+    display: inline-block;
+    margin: -1px;
+    margin-top: 10px;
+  }
+  .low{
+    background-color: #ce3924 ;
+  }
+  .high{
+    background-color: #579c20 ;
+  }
+  .cur{
+    position: absolute;
+    width: 2px;
+    background-color: black;
+    top: -3px;
+    height: 28px;
+  }
+  .mid{
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+    height: 25px;
+  }
+  .label{
+    display: inline;
+    position: absolute;
+    color: black;
+  }
+  .label-bottom{
+    top: 35px;
+  }
+  .label-top{
+    font-size: 75%;
+    font-weight: bold;
+    color: black;
+    margin-top: -18px;
+    margin-left: -15px;
+    margin-right: -17px;
 
+  }
+  .high-label{
+    right:-14px;
+  }
+  .low-label{
+    left:-10px;
+  }
+  .mid-label{
+    margin-right:-23px;
+  }
+  .cur-label{
+    margin-top: -24px;
+  }
+  .mid-high-label{
+    float: right;
+  }
+  .mid-low-label{
+    float: left;
+  }
+}
 .score{
   clear:both;
 }

@@ -1,6 +1,7 @@
 package stocks.twitter
 
 import grails.converters.JSON
+import org.apache.axis.types.UnsignedByte
 import org.apache.lucene.search.BooleanQuery
 import stocks.User
 import stocks.tse.Symbol
@@ -11,6 +12,7 @@ import stocks.rate.Currency
 import stocks.rate.Metal
 import stocks.rate.Oil
 import stocks.rate.CoinFuture
+import stocks.tse.SymbolBestOrder
 import stocks.twitter.Search.*
 
 class TwitterController {
@@ -60,6 +62,24 @@ class TwitterController {
             default:
                 []
         }
+    }
+
+    def symbolInfoAjax() {
+        def symbol = Symbol.get(params.id)
+        if (symbol) {
+            def bestOrders = SymbolBestOrder.findAllBySymbol(symbol, [sort: 'number'])
+            def symbolPrice = priceService.lastDailyTrade(Symbol.get(params.id as Long))
+            def symbolStatus = [
+                    minAllowed: symbol.minAllowedValue?:symbolPrice?.minPrice-10,
+                    maxAllowed: symbol.maxAllowedValue?:symbolPrice?.maxPrice+10,
+                    yesterday : symbolPrice?.yesterdayPrice,
+                    min       : symbolPrice?.minPrice,
+                    max       : symbolPrice?.maxPrice,
+                    last      : symbolPrice?.lastTradePrice
+            ]
+            return render([bestOrders: bestOrders, symbolStatus: symbolStatus] as JSON)
+        }
+        render([:] as JSON)
     }
 
     def searchSymbolItems(String queryStr) {
@@ -200,7 +220,6 @@ class TwitterController {
     }
 
     def property() {
-
         sharingService.applyATwitScore()
 
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
