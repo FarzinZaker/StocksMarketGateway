@@ -52,32 +52,41 @@ function onKeyDownForHashTag(ed, e) {
             if (container.is(':visible')) {
                 var lastHashTagNode = $(ed.selection.getNode());
                 var link = $('#tagSearchResultsTab').find('.k-content.k-state-active a.k-state-active');
-                if (normalize('#' + link.attr('data-tag')) == normalize(lastHashTagNode.text())) {
-                    lastHashTagNode.text('#' + link.attr('data-tag'));
-                    lastHashTagNode.attr('href', link.attr('data-link'));
-                    lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
-                    lastHashTagNode.attr('data-id', link.attr('data-id'));
-                } else {
-                    lastHashTagNode.text('#برچسب_اشتباه');
-                    lastHashTagNode.attr('href', '#');
-                    lastHashTagNode.attr('data-clazz', '');
-                    lastHashTagNode.attr('data-id', '');
-                }
-                container.hide();
-                updateHashTags();
-            }
+                console.log(link);
+                if (link.length > 0) {
+                    var typedTag = normalize(lastHashTagNode.text());
+                    if (!normalize('#' + link.attr('data-tag')).startsWith(typedTag))
+                        $.each($('#tagSearchResultsTab').find('.k-content.k-state-active a'), function (index, item) {
+                            if (normalize('#' + $(item).attr('data-tag')).startsWith(typedTag))
+                                link = $(item);
+                        });
+                    if (normalize('#' + link.attr('data-tag')).contains(typedTag)) {
+                        lastHashTagNode.text('#' + link.attr('data-tag'));
+                        lastHashTagNode.attr('href', link.attr('data-link'));
+                        lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
+                        lastHashTagNode.attr('data-id', link.attr('data-id'));
+                    } else {
+                        lastHashTagNode.text('#برچسب_اشتباه');
+                        lastHashTagNode.attr('href', '#');
+                        lastHashTagNode.attr('data-clazz', '');
+                        lastHashTagNode.attr('data-id', '');
+                    }
+                    container.hide();
+                    updateHashTags();
 
-            var currentPosition = getCursorPosition(ed);
-            var content = ed.getContent();
-            while (content[++currentPosition] != '>');
-            setCursorPosition(ed, currentPosition + 1);
-            var character = e.key;
-            if (e.key == ' ')
-                character = '&nbsp;';
-            if (e.key == 'Enter')
-                character = '&nbsp;';
-            console.debug('mceInsertContent', character);
-            ed.execCommand('mceInsertContent', false, character);
+                    var currentPosition = getCursorPosition(ed);
+                    var content = ed.getContent();
+                    while (content[++currentPosition] != '>');
+                    setCursorPosition(ed, currentPosition + 1);
+                    var character = e.key;
+                    if (e.key == ' ')
+                        character = '&nbsp;';
+                    if (e.key == 'Enter')
+                        character = '&nbsp;';
+                    console.debug('mceInsertContent', character);
+                    ed.execCommand('mceInsertContent', false, character);
+                }
+            }
         }
         else if (e.key == 'ArrowDown') {
 

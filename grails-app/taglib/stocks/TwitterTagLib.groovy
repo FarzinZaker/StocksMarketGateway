@@ -601,8 +601,19 @@ class TwitterTagLib {
         out << """
             var lastGlobalTagSearchTerm;
             var currentHashTagEditor;
+            var tagSearchAjaxRequest;
+"""
+        config.each { item ->
+            out << """
+            var tagSearchAjaxRequest_${item.id};
+"""
+        }
+        out << """
             function showTagSearchResults(ed, phrase){
                 currentHashTagEditor = ed;
+                \$('#tagSearchResult_all').html('<span class="noSearchResult">${asset.image(src: 'loading.gif')}<br/>${
+            message(code: 'tagSearch.searching')
+        }</span>');
                 var resultsPane = \$('#tagSearchResults');
                 if(phrase == lastGlobalTagSearchTerm)
                     return;
@@ -614,7 +625,14 @@ class TwitterTagLib {
             out << """
                 tagSearchResultLoaded_${item.id} = false;
                 \$('#tagSearchResult_${item.id}').find('.loading').show();
-                \$.ajax({
+                if(tagSearchAjaxRequest_${item.id})
+                    tagSearchAjaxRequest_${item.id}.abort();
+                \$('#tagSearchResult_${item.id}').html('<span class="noSearchResult">${
+                asset.image(src: 'loading.gif')
+            }<br/>${
+                message(code: 'tagSearch.searching')
+            }</span>');
+                tagSearchAjaxRequest_${item.id} = \$.ajax({
                     type: "POST",
                     url: '${item.link}',
                     data: {term: phrase}

@@ -1,39 +1,81 @@
-<%@ page import="grails.converters.JSON; stocks.tse.AdjustmentHelper" %>
-<script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'charting_library.min.js')}"></script>
-<script type="text/javascript" src="${resource(dir: 'chartingLibrary/datafeed/udf', file: 'datafeed.js')}"></script>
-<script type="text/javascript" src="${resource(dir: 'chartingLibrary', file: 'addons.js')}"></script>
+<g:set var="todayIndexChangeValue"
+       value="${Math.round(propertyInfo.todayIndexChangePercent / (propertyInfo.finalIndexValue / 100 + 1))}"/>
 
-<g:set var="index" value="${stocks.tse.Index.get(params.id)}"/>
-<script type="text/javascript">
-    var adjustmentTypes = <format:html value="${stocks.tse.AdjustmentHelper.ENABLED_TYPES.collect{[text:message(code:"priceAdjustment.types.${it}"), value: it]} as JSON}"/>;
-    var defaultAdjustmentType = "${AdjustmentHelper.defaultType}";
-    var symbolName = '${index.persianName}';
-    var widget;
 
-    TradingView.onready(function () {
+<div class="propertyInfoPrice ${todayIndexChangeValue > 0 ? 'positive' : todayIndexChangeValue < 0 ? 'negative' : ''}">
+    <h4><g:message code="symbol.info.lastPrice"/></h4>
+    <span>
+        <b><g:formatNumber number="${propertyInfo.finalIndexValue}" type="number"/></b>
+    </span>
+    <span>
+        <g:formatNumber number="${todayIndexChangeValue}" type="number"/>
+    </span>
+    <span>
+        <g:formatNumber number="${propertyInfo.todayIndexChangePercent}" type="number"/>%
+    </span>
+    <div class="clear-fix"></div>
+</div>
 
-        widget = new TradingView.widget({
-            fullscreen: true,
-            symbol: '${index.persianName}',
-            interval: 'D',
-            container_id: "tv_chart_container",
-            //	BEWARE: no trailing slash is expected in feed URL
-            datafeed: new Datafeeds.UDFCompatibleDatafeed("${createLink(uri: '/indexChart')}"),
-            library_path: "../../chartingLibrary/",
-            locale: "fa_IR",
-            //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
-            drawings_access: {type: 'black', tools: [{name: "Regression Trend"}]},
-            disabled_features: ["use_localstorage_for_settings", "header_symbol_search", "header_screenshot", "header_saveload"],
-            charts_storage_url: '${createLink(controller: 'technical', action: 'save')}',
-            client_id: 'tradingview.com',
-            user_id: 'public_user_id',
-            snapshot_url: '${createLink(controller: 'technical', action: 'image')}'
-        });
-
-        widget.onChartReady(function () {
-//                setupAdjustmentButton(this);
-        });
-    });
-
-</script>
-<div id="tv_chart_container" style="margin-bottom:7px;"></div>
+<div class="dashLet magenta propertyInfo">
+    <table>
+        <tr>
+            <td><span>تاریخ:</span></td>
+            <td><span class="date"><format:jalaliDate date="${propertyInfo.date}"/></span></td>
+        </tr>
+        <tr>
+            <td><span>ساعت:</span></td>
+            <td><span class="time"><g:formatDate date="${propertyInfo.date}"
+                                                 format="hh:mm:ss"/></span></td>
+        </tr>
+        <tr>
+            <td><span>بیشترین:</span></td>
+            <td><span class="high"><g:formatNumber number="${propertyInfo.highestIndexValue}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>کمترین:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.lowestIndexValue}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>معامله شده:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.tradedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>کاهش یافته:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.decreasedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>افزایش یافته:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.increasedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>بدون تغییر:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.unchangedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>معامله نشده:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.notTradedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>رزرو شده:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.reservedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span> مسدود شده:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.suspendedSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span>کل نمادها:</span></td>
+            <td><span class="low"><g:formatNumber number="${propertyInfo.totalSymbolCount}" type="number"/></span>
+            </td>
+        </tr>
+    </table>
+</div>

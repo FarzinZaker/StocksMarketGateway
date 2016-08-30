@@ -214,31 +214,45 @@ class SharingService {
         def startPrice = 0
         switch (property.label) {
             case 'Symbol':
-                priceList = adjustedPriceSeries9Service.lastTradePriceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        adjustedPriceSeries9Service.maxPriceList(property.identifier, publishDate, item.endDate) :
+                        adjustedPriceSeries9Service.minPriceList(property.identifier, publishDate, item.endDate)
                 startPrice = adjustedPriceSeries9Service.lastLastTradePrice(property.identifier, publishDate)
                 break;
             case 'IndexV':
-                priceList = indexSeries9Service.finalIndexValueList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        indexSeries9Service.highestIndexValueList(property.identifier, publishDate, item.endDate) :
+                        indexSeries9Service.lowestIndexValueList(property.identifier, publishDate, item.endDate)
                 startPrice = indexSeries9Service.lastFinalIndexValue(property.identifier, publishDate)
                 break;
             case 'Coin':
-                priceList = coinSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        coinSeries9Service.highList(property.identifier, publishDate, item.endDate) :
+                        coinSeries9Service.lowList(property.identifier, publishDate, item.endDate)
                 startPrice = coinSeries9Service.lastPrice(property.identifier, publishDate)
                 break;
             case 'Currency':
-                priceList = currencySeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        currencySeries9Service.highList(property.identifier, publishDate, item.endDate) :
+                        currencySeries9Service.lowList(property.identifier, publishDate, item.endDate)
                 startPrice = currencySeries9Service.lastPrice(property.identifier, publishDate)
                 break;
             case 'Metal':
-                priceList = metalSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        metalSeries9Service.highList(property.identifier, publishDate, item.endDate) :
+                        metalSeries9Service.lowList(property.identifier, publishDate, item.endDate)
                 startPrice = metalSeries9Service.lastPrice(property.identifier, publishDate)
                 break;
             case 'Oil':
-                priceList = oilSeries9Service.priceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        oilSeries9Service.highList(property.identifier, publishDate, item.endDate) :
+                        oilSeries9Service.lowList(property.identifier, publishDate, item.endDate)
                 startPrice = oilSeries9Service.lastPrice(property.identifier, publishDate)
                 break;
             case 'Future':
-                priceList = futureSeries9Service.closingPriceList(property.identifier, publishDate, item.endDate)
+                priceList = item.type == 'benefit' ?
+                        futureSeries9Service.highPriceList(property.identifier, publishDate, item.endDate) :
+                        futureSeries9Service.lowPriceList(property.identifier, publishDate, item.endDate)
                 startPrice = futureSeries9Service.lastClosingPrice(property.identifier, publishDate)
                 break;
         }
@@ -271,10 +285,11 @@ class SharingService {
 
         def score = 0
         startPrice = startPrice - 100
-        def criterionPrice = priceList.collect { it?.value }?.findAll { it != null }?.max()
         if (item.type == 'benefit') {
+            def criterionPrice = priceList.collect { it?.value }?.findAll { it != null }?.max()
             score = item.risk * (((criterionPrice - startPrice) / startPrice) / daysCount)
         } else if (item.type == 'loss') {
+            def criterionPrice = priceList.collect { it?.value }?.findAll { it != null }?.min()
             score = item.risk * (((startPrice - criterionPrice) / startPrice) / daysCount)
         }
 
