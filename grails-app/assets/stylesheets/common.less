@@ -237,7 +237,7 @@ button {
   font-size: 14px;
   //padding-right: 20px;
   border-color: transparent;
-  float: right;
+  //float: right;
   //  clear: both;
   .k-popup {
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
@@ -350,6 +350,85 @@ button {
     li span.k-state-active {
       .k-icon {
         background-position: -16px -48px !important;
+      }
+    }
+  }
+}
+
+.iconMenu {
+  float: left !important;
+  .k-link {
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+    i {
+      font-size: 24px !important;
+      position: relative;
+      span {
+        background-color: #45b7dc;
+        border-radius: 3px;
+        color: white;
+        display: block;
+        float: right;
+        font-size: 10px;
+        font-weight: bold;
+        left: 3px;
+        margin-left: -10px;
+        padding: 2px 5px;
+        position: absolute;
+        top: 13px;
+      }
+    }
+    .k-icon {
+      display: none !important;
+    }
+  }
+}
+
+#menu .k-menu-group {
+  .custom-menu-item {
+    img {
+      float: right;
+      margin-left: 10px;
+      margin-top:2px;
+      margin-bottom:2px;
+    }
+    .details {
+      //float:right;
+      margin-right: 60px;
+      .clear-fix {
+        clear: left;
+      }
+    }
+    .k-link {
+      padding-right: 12px !important;
+      width: 300px !important;
+      text-align: justify;
+      * {
+        white-space: normal !important;
+      }
+      .comment {
+        color: darkgray;
+        font-size: 11px;
+        margin: 0;
+        //float: right;
+        display: block;
+      }
+      .date {
+        color: darkgray;
+        font-size: 11px;
+        margin: 0;
+        float: left;
+      }
+      &:hover {
+        .comment {
+          color: whitesmoke;
+        }
+        .date {
+          color: whitesmoke;
+        }
+      }
+      &::after {
+        content: '' !important;
       }
     }
   }
@@ -3169,7 +3248,7 @@ ul.twitterAuthorInfo {
   }
 
   &:hover {
-    border-color: @main-color !important;
+    border-color: @main-color;
     color: @main-color;
     i {
       background-color: @main-color;
@@ -5125,14 +5204,14 @@ a.br-selected {
 
 #imageWindow {
   position: relative;
-  .fa-close{
+  .fa-close {
     position: absolute;
-    color:#8a99a0;
-    top:10px;
-    right:10px;
-    cursor:pointer;
-    &:hover{
-      color:#D80073;
+    color: #8a99a0;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    &:hover {
+      color: #D80073;
     }
   }
   .imagePopup {
@@ -5144,6 +5223,116 @@ a.br-selected {
       img {
         border: 1px solid #dddddd;
       }
+    }
+  }
+}
+
+.sendMessageButton {
+  background: white;
+  border: 1px solid #dadada !important;
+  color: #787878;
+  display: inline-block;
+  cursor: pointer;
+  i {
+    background: #dadada none repeat scroll 0 0;
+    color: white;
+    display: block;
+    float: right;
+    padding: 7px 6px 8px 7px;
+  }
+
+  span {
+    display: block;
+    float: right;
+    padding: 5px 7px 4px 14px;
+    &.clear-fix {
+      padding: 0;
+    }
+  }
+
+  &:hover {
+    border-color: #1BA1E2;
+    color: #1BA1E2;
+    i {
+      background-color: #1BA1E2;
+    }
+  }
+}
+
+.readMail {
+  color: #dddddd;
+}
+
+.notReadMail {
+  color: #45B7DC;
+}
+
+.btn-reply {
+  color: #3B5998;
+  &:hover {
+    color: #3B5998;
+  }
+}
+
+.btn-forward {
+  color: #60A917;
+  &:hover {
+    color: #60A917;
+  }
+}
+
+.btn-delete {
+  color: #D80073;
+  &:hover {
+    color: #D80073;
+  }
+}
+
+.message-list {
+  ul {
+    border-right: 2px solid #F1F4F6;
+  }
+  li {
+    list-style: none;
+    clear: both;
+    .message-meta {
+      background: #F1F4F6;
+      border-radius: 4px 4px 0 0;
+      padding: 7px;
+      img {
+        float: right;
+        margin-left: 10px;
+      }
+      .author-info {
+        padding-top: 6px;
+        float: right;
+        .author {
+          display: block;
+        }
+        .date {
+          display: block;
+          font-size: 11px;
+        }
+      }
+      .action-links {
+        float: left;
+        padding-left: 10px;
+        padding-top: 12px;
+        a {
+          font-size: 24px;
+          display: block;
+          float: right;
+          margin-left: 10px;
+        }
+      }
+    }
+    p {
+      background: #ffffff;
+      padding: 10px;
+      text-align: justify;
+      border-radius: 0 0 4px 4px;
+      border: 2px solid #F1F4F6;
+      border-top-width: 0;
     }
   }
 }

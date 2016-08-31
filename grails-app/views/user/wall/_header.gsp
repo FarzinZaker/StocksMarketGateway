@@ -1,12 +1,15 @@
 <div>
     <twitter:followScript/>
-    <img width="100%" style="background-color: #d70060" src="${createLink(controller: 'image', action: 'profile', params: [id: user?.id, size: 500])}"/>
+    <img width="100%" style="background-color: #d70060"
+         src="${createLink(controller: 'image', action: 'profile', params: [id: user?.id, size: 500])}"/>
 
     <h1>${user}</h1>
 
     <sec:ifLoggedIn>
         <g:if test="${!ownPage}">
             <div style="text-align: left;margin-bottom:20px;">
+                <msg:sendButton userId="${vertex.identifier}"/>
+                <msg:sendWindow/>
                 <twitter:followButton itemId="${vertex.idNumber}"/>
             </div>
         </g:if>

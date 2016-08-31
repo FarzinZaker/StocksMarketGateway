@@ -89,6 +89,7 @@
         </ul>
     </li>
     <g:render template="/layouts/common/menu"/>
+    <msg:menu/>
 </ul>
 
 <script>
