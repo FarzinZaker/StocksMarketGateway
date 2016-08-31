@@ -21,7 +21,7 @@
         </span>
     </div>
 
-    <div class="description" id="material_body_${currentID}">
+    <div class="description correct-images" id="material_body_${currentID}">
             <format:twit value="${material.description}"/>
     </div>
 
@@ -54,7 +54,13 @@
         </div>
     </g:if>
 </div>
-
+%{--<script>--}%
+    %{--$(function(){--}%
+        %{--$('.correct-images img').unbind().click(function(){--}%
+            %{--showLargeImage(this);--}%
+        %{--})--}%
+    %{--})--}%
+%{--</script>--}%
 <div class="clear-fix"></div>
 <script language="javascript" type="text/javascript">
     <g:if test="${showProperties}">
