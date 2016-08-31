@@ -66,6 +66,12 @@
             idForDelete = 0;
         }
     }
+
+    $(document).ready(function () {
+        $('html, body').animate({
+            scrollTop: $("#message_${params.msg}").offset().top - 100
+        }, 500);
+    });
 </script>
 </body>
 </html>

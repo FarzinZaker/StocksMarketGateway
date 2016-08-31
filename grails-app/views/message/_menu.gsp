@@ -9,7 +9,7 @@
         <g:each in="${list}" var="message">
             <li class="custom-menu-item">
                 <a href="${createLink(controller: 'message', action: 'view', params: [id: message?.rootMessage ? message?.rootMessage?.id : message?.id])}?msg=${message?.id}">
-                    <img src="${createLink(controller: 'image', action: 'profile', params: [id: rootMessage?.sender?.id, size: 50])}"/>
+                    <img src="${createLink(controller: 'image', action: 'profile', params: [id: message?.sender?.id, size: 50])}"/>
 
                     <div class="details">
 

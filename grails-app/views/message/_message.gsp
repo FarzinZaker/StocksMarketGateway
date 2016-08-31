@@ -1,8 +1,8 @@
 <%@ page import="org.ocpsoft.prettytime.PrettyTime" %>
 
-<li>
+<li id="message_${rootMessage?.id}">
     <g:if test="${!rootMessage?.deleted && (user == rootMessage?.sender || user == rootMessage?.receiver)}">
-        <div class="message-meta">
+        <div class="message-meta ${rootMessage?.id == msg?.id && list?.size() > 0 ? 'current-message' : ''}">
             <img src="${createLink(controller: 'image', action: 'profile', params: [id: rootMessage?.sender?.id, size: 50])}"/>
 
             <div class="author-info">
@@ -30,7 +30,7 @@
         <p><format:html value="${rootMessage?.body?.replace('\n', '<br/>')}"/></p>
     </g:if>
     <ul>
-        <g:each in="${list.findAll { it.inReplyTo == rootMessage }?.sort { it.dateCreated }}" var="currentMsg">
+        <g:each in="${list.findAll { it.inReplyToId == rootMessage?.id }?.sort { it.dateCreated }}" var="currentMsg">
             <g:render template="message" model="[rootMessage: currentMsg, msg: msg, list: list]"/>
         </g:each>
     </ul>
