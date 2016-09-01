@@ -54,8 +54,10 @@ class MessageController {
         def value = [:]
         def parameters = [offset: params.skip, max: params.pageSize, sort: params["sort[0][field]"] ?: "dateCreated", order: params["sort[0][dir]"] ?: "desc"]
 
-        def list = Message.findAllByDeleted(false, parameters)
-        value.total = Message.countByDeleted(false)
+        def user = springSecurityService.currentUser as User
+
+        def list = Message.findAllByDeletedAndReceiver(false, user, parameters)
+        value.total = Message.countByDeletedAndReceiver(false, user)
 
         value.data = list.collect {
             [
