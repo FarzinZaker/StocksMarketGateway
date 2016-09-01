@@ -75,9 +75,14 @@ class MessageController {
     def view() {
         def rootMessage = Message.get(params.id)
         def user = springSecurityService.currentUser as User
+        def msg = Message.get(params.msg)
+        if(msg){
+            msg.isRead = true
+            msg.save(flush: true)
+        }
         [
                 rootMessage: rootMessage,
-                msg        : Message.get(params.msg),
+                msg        : msg,
                 list       : Message.findAllByRootMessage(rootMessage),
                 user       : user
         ]
