@@ -114,7 +114,7 @@ public abstract class TSEDataService<T, K> {
                                         object."${property.key}" = parseForeignKey(
                                                 property.value.propertyType.name,
                                                 domainClass?.constrainedProperties?."${property.key}"?.metaConstraints?.fkColumn,
-                                                FarsiNormalizationFilter.apply(value as String))
+                                                FarsiNormalizationFilter.apply(value as String)?.trim())
                                 }
 //                    println(value)
                             }
