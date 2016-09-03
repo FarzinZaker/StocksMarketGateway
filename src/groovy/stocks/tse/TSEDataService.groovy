@@ -68,7 +68,7 @@ public abstract class TSEDataService<T, K> {
             def children = obj.children()[0].children().findAll()
             println children
 //            withPool(10) {
-                children.eachWithIndexParallel { item, idx ->
+                children.eachWithIndex { item, idx ->
 //                    println "${idx} / ${children.size()}"
                     def object = domainClass.newInstance()
 

@@ -143,7 +143,8 @@ class AdminController {
 //        }
 //        announcementDataService.importData()
 //        migrationService.testAuthorization()
-        symbolDataService.importData()
+//        symbolDataService.importData()
+        symbolDailyTradeDataService.importData()
     }
 
 

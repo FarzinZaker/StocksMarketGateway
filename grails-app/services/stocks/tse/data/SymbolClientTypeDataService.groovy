@@ -32,8 +32,8 @@ class SymbolClientTypeDataService extends TSEDataService<SymbolClientType, Symbo
 
     public void importData(Boolean ignoreMarketStatus = false){
 
-        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
-            return
+//        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+//            return
 
         if(Calendar.instance.get(Calendar.HOUR_OF_DAY) < 7)
             return

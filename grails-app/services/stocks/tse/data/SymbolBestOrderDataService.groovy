@@ -30,8 +30,8 @@ class SymbolBestOrderDataService extends TSEDataService<SymbolBestOrder, SymbolB
 
     public void importData(Boolean ignoreMarketStatus = false){
 
-        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
-            return
+//        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+//            return
 
         (0..5).each { index ->
             Thread.startDaemon {

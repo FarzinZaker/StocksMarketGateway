@@ -32,8 +32,8 @@ class IndexDataService extends TSEDataService<Index, IndexEvent> {
 
     public void importData(Boolean ignoreMarketStatus = false){
 
-        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
-            return
+//        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_STOCK))
+//            return
 
         (0..5).each { index ->
             Thread.startDaemon {

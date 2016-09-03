@@ -20,8 +20,8 @@ class FutureDataService extends TSEDataService<Future, FutureEvent> {
 
     public void importData(Date date, Boolean ignoreMarketStatus = false){
 
-        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_FUTURE))
-            return
+//        if(!ignoreMarketStatus && marketStatusService.isCloseWithMargin(marketStatusService.MARKET_FUTURE))
+//            return
 
         importData('futureInformation',[[date.format('yyyyMMdd').toInteger()]])
     }
