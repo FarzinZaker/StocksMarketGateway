@@ -50,9 +50,9 @@ class SymbolDailyTradeMissingDataService extends TSEDataService<SymbolDailyTrade
         }
         def date = new Date(state.time as Long)
         def minDate = new Date()
-        use(TimeCategory) {
-            minDate = minDate - 90.days
-        }
+//        use(TimeCategory) {
+//            minDate = minDate - 90.days
+//        }
         if(date < minDate) {
             log.error("MISSING DAILY TRADES LOADED!")
             return
