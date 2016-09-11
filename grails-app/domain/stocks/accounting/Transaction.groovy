@@ -16,7 +16,6 @@ class Transaction {
     User customer
 
     Boolean deleted = false
-//    Order order
 
     static mapping = {
         table 'acc_transaction'
@@ -28,7 +27,6 @@ class Transaction {
         accountId (nullable: true)
         value min: 0
         type inList: AccountingHelper.TRANSACTION_TYPE_LIST
-//        order nullable: true
         creator(nullable: true)
         description nullable: true
     }

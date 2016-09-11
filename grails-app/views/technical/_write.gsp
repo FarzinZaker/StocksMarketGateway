@@ -206,7 +206,7 @@
                     data: formData
                 }).done(function (response) {
                     if (response == "1") {
-//                    tinymce.activeEditor.setContent('');
+                    tinymce.activeEditor.setContent('');
                         updateHashTags();
                         $('.talk .toolbar .k-button').show();
                         $('.talk .toolbar .loading').hide();

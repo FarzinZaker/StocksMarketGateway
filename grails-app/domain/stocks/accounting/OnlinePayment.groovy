@@ -6,7 +6,6 @@ class OnlinePayment {
     static auditable = true
 
     Integer accountId
-//    Order order
     int amount
     Date date
     User owner
@@ -14,7 +13,6 @@ class OnlinePayment {
     String referenceId
     String resultCode
     String transactionReferenceCode
-//    Boolean usingCustomerAccountValueAllowed
 
     static mapping = {
         table 'acc_online_payment'
@@ -24,7 +22,6 @@ class OnlinePayment {
     static constraints = {
         accountId()
         owner nullable: true
-//        order nullable: true
         amount()
         date()
         initialResultCode nullable: true

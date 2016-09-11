@@ -29,11 +29,18 @@ class TechnicalController {
 
         def data = JSON.parse(params.images?.toString()).charts
         def timeAxis = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(data?.timeAxis?.content?.toString()?.replace('data:image/png;base64,', ''))))
-        def content = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(data?.panes?.find()?.content?.toString()?.replace('data:image/png;base64,', ''))))
-        def rightAxis = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(data?.panes?.find()?.rightAxis?.content?.toString()?.replace('data:image/png;base64,', ''))))
+        def contents = data?.panes?.find()?.collect {
+            ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(it?.content?.toString()?.replace('data:image/png;base64,', ''))))
+        }
+        def rightAxises = data?.panes?.find()?.collect {
+            ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(it?.rightAxis?.content?.toString()?.replace('data:image/png;base64,', ''))))
+        }
 
-        def width = content.width + rightAxis.width
-        def height = content.height + timeAxis.height
+        def contentsWidth = contents?.find()?.width
+        def rightAxisesWidth = rightAxises?.find()?.width
+
+        def width = contentsWidth + rightAxises?.find()?.width
+        def height = contents?.collect { it.height }?.sum() + timeAxis.height
 
         def padding = 10;
 
@@ -51,23 +58,30 @@ class TechnicalController {
         //background
         g.setColor(new Color(241, 243, 246))
         g.fillRect(0, 0, chart.width, chart.height)
-
         //chart
-        g.drawImage(timeAxis, 0 + padding, content.height + padding, timeAxis.width, timeAxis.height, null)
-        g.drawImage(rightAxis, content.width + padding, 0 + padding, rightAxis.width, rightAxis.height, null)
-        g.drawImage(content, 0 + padding, 0 + padding, content.width, content.height, null)
+        def currentHeight = 0
+        contents.each { content ->
+            g.drawImage(content, 0 + padding, currentHeight + padding, content.width, content.height, null)
+            currentHeight += content.height
+        }
+        currentHeight = 0
+        rightAxises.each { rightAxis ->
+            g.drawImage(rightAxis, contentsWidth + padding, currentHeight + padding, rightAxis.width, rightAxis.height, null)
+            currentHeight += rightAxis.height
+        }
+        g.drawImage(timeAxis, 0 + padding, currentHeight + padding, timeAxis.width, timeAxis.height, null)
 
         //empty box
         g.setColor(Color.white)
-        g.fillRect(content.width + padding, content.height + padding, rightAxis.width, timeAxis.height)
+        g.fillRect(contentsWidth + padding, currentHeight + padding, rightAxisesWidth, timeAxis.height)
         g.setColor(new Color(85, 85, 85))
-        g.fillRect(content.width + padding, content.height + padding + 1, 1, 1)
-        g.fillRect(content.width + padding + 1, content.height + padding, 1, 1)
-        g.fillRect(content.width + padding + 1, content.height + padding + 1, 1, 1)
+        g.fillRect(contentsWidth + padding, currentHeight + padding + 1, 1, 1)
+        g.fillRect(contentsWidth + padding + 1, currentHeight + padding, 1, 1)
+        g.fillRect(contentsWidth + padding + 1, currentHeight + padding + 1, 1, 1)
 
         //border
         g.setColor(new Color(201, 203, 205))
-        g.drawRect(padding - 1, padding - 1, content.width + rightAxis.width + 1, content.height + timeAxis.height + 1)
+        g.drawRect(padding - 1, padding - 1, contentsWidth + rightAxisesWidth + 1, currentHeight + timeAxis.height + 1)
 
 
         def text = "${data.meta.symbol?.find()?.replace(':', ' - ')} (${data.meta.description?.find()})"
@@ -107,7 +121,6 @@ class TechnicalController {
     }
 
     def save() {
-        println params
 
         def owner = springSecurityService.currentUser as User
 
