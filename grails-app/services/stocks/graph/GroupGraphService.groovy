@@ -16,11 +16,12 @@ class GroupGraphService {
     public static String MEMBERSHIP_TYPE_NORMAL = 'normal'
     public static String MEMBERSHIP_TYPE_EXCEPTIONAL = 'exceptional'
 
-    OrientVertex create(String title, String description, Long imageId, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers, User owner) {
+    OrientVertex create(String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers, User owner) {
         def groupVertex = graphDBService.addVertex('Group', [
                 title                 : title,
                 description           : description,
                 imageId               : imageId,
+                authorType            : authorType,
                 membershipType        : membershipType,
                 membership1MonthPrice : membership1MonthPrice,
                 membership3MonthPrice : membership3MonthPrice,
@@ -45,11 +46,12 @@ class GroupGraphService {
         groupVertex
     }
 
-    OrientVertex update(String id, String title, String description, Long imageId, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers) {
+    OrientVertex update(String id, String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers) {
         def groupVertex = graphDBService.editVertex(id, [
                 title                 : title,
                 description           : description,
                 imageId               : imageId,
+                authorType            : authorType,
                 membershipType        : membershipType,
                 membership1MonthPrice : membership1MonthPrice,
                 membership3MonthPrice : membership3MonthPrice,
@@ -77,6 +79,10 @@ class GroupGraphService {
 
     List<Map> listForOwner(User user) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM Person WHERE identifier = ${user.id}) WHERE @class = 'Group'")
+    }
+
+    List<Map> openAuthorList(User user) {
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM Group WHERE authorType = 'open'")
     }
 
     Map getOwner(String groupId) {
@@ -252,6 +258,13 @@ class GroupGraphService {
 
     List<Map> largestGroups(Integer count = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT in('Member').size() as size, @rid as @rid, title, imageId FROM Group WHERE ownerType = 'user') ORDER BY size DESC LIMIT ${count}")
+    }
+
+    void transfer(String id, User user) {
+        graphDBService.executeCommand("DELETE EDGE Own WHERE in.@rid = #${id}")
+        def group = graphDBService.getVertex("#${id}")
+        def person = personGraphService.ensurePerson(user)
+        graphDBService.addEdge('Own', person, group)
     }
 }
 

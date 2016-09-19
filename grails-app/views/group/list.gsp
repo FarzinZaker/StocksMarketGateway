@@ -27,6 +27,12 @@
     <div class="row">
         <div class="col-xs-12 k-rtl">
 
+            <g:if test="${flash.message}">
+                <div class="info">
+                    ${flash.message}
+                </div>
+            </g:if>
+
             <div id="tabstrip">
                 <ul>
                     <li class="k-state-active">

@@ -36,9 +36,9 @@ class CommentController {
     }
 
     @Secured([RoleHelper.ROLE_USER])
-    def delete(Long identifier) {
+    def delete() {
         try {
-            sharingService.removeMaterial(identifier)
+            commentGraphService.deleteComment(params.id as String)
             render '1'
         }
         catch(ignored){

@@ -22,6 +22,7 @@
                         fields: {
                             id: {type: "string"},
                             title: {type: "string"},
+                            authorType: {type: "string"},
                             membershipType: {type: "string"},
                             membership1MonthPrice: {type: "number"},
                             membership3MonthPrice: {type: "number"},
@@ -57,6 +58,13 @@
                 {
                     field: "title",
                     title: "${message(code:'twitter.group.title.label')}"
+                },
+                {
+                    field: "authorType",
+                    title: "${message(code:'twitter.group.authorType.label')}",
+                    attributes: {style: "text-align: center"},
+                    headerAttributes: {style: "text-align: center"},
+                    width: "100px"
                 },
                 {
                     field: "membershipType",
@@ -145,6 +153,12 @@
                     headerAttributes: {style: "text-align: center"}
                 },
                 {
+                    command: {text: "${message(code:'transfer')}", click: transferOwnerGridItem},
+                    title: "",
+                    width: "85px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
                     command: {text: "${message(code:'remove')}", click: removeOwnerGridItem},
                     title: "",
                     width: "85px",
@@ -168,6 +182,10 @@
 
     function editOwnerGridItem(e) {
         window.location.href = "${createLink(action: 'build')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+    }
+
+    function transferOwnerGridItem(e) {
+        window.location.href = "${createLink(action: 'transfer')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
     }
 
     var ownerIdForDelete = 0;

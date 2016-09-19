@@ -146,6 +146,38 @@ class ArticleController {
         if (!hasAccess) {
             def userGroups = groupGraphService.memberGroups(user)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupAuthors = groupGraphService.authorList(group.idNumber)
+                    hasAccess = groupAuthors.any { it.identifier == user?.id }
+                }
+            }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupEditors = groupGraphService.editorList(group.idNumber)
+                    hasAccess = groupEditors.any { it.identifier == user?.id }
+                }
+            }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupOwner = groupGraphService.getOwner(group.idNumber)
+                    hasAccess = groupOwner?.idNumber == user?.id
+                }
+            }
+        }
+
+        def canEdit = user && (meta?.find { it.label == 'Person' }?.identifier == user?.id)
+        if (!canEdit) {
+            groups?.each { group ->
+                def groupEditors = groupGraphService.editorList(group.idNumber)
+                canEdit = groupEditors.any { it.identifier == user?.id }
+            }
+            if (!canEdit) {
+                groups?.each { group ->
+                    def groupOwner = groupGraphService.getOwner(group.idNumber)
+                    canEdit = groupOwner?.idNumber == user?.id
+                }
+            }
         }
 
         def vertexId = vertex.id?.toString()?.replace('#', '')
@@ -159,7 +191,7 @@ class ArticleController {
                 hasAccess   : hasAccess,
                 groupList   : groups,
                 propertyList: materialGraphService.getPropertyList(vertexId),
-                canEdit     : user && (meta?.find { it.label == 'Person' }?.identifier == user?.id)
+                canEdit     : canEdit
         ]
     }
 }

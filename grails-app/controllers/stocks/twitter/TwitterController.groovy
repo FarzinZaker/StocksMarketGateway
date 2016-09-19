@@ -201,18 +201,75 @@ class TwitterController {
     def meta() {
         def user = springSecurityService.currentUser as User
         def meta = materialGraphService.getMeta(params.id as String)
-        def groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+        def groups
+        def rootMaterial
+        def rootMeta
+        if (params.type == 'Comment') {
+            rootMaterial = commentGraphService.getRootMaterial(params.id as String)
+            if(rootMaterial) {
+                rootMeta = materialGraphService.getMeta(rootMaterial?.idNumber as String)
+                groups = rootMeta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+            }
+            else
+                groups = []
+        } else {
+            groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
+        }
         def hasAccess = groups.size() == 0
         if (!hasAccess) {
             def userGroups = groupGraphService.memberGroups(user)
             hasAccess = userGroups.any { userGroup -> groups.any { group -> group.idNumber == userGroup.idNumber } }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupAuthors = groupGraphService.authorList(group.idNumber)
+                    hasAccess = groupAuthors.any { it.identifier == user?.id }
+                }
+            }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupEditors = groupGraphService.editorList(group.idNumber)
+                    hasAccess = groupEditors.any { it.identifier == user?.id }
+                }
+            }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupOwner = groupGraphService.getOwner(group.idNumber)
+                    hasAccess = groupOwner?.idNumber == user?.id
+                }
+            }
         }
+
+        def canEdit = user && (meta?.find { it.label == 'Person' }?.identifier == user?.id)
+        if (!canEdit && rootMeta)
+            canEdit = user && (rootMeta?.find { it.label == 'Person' }?.identifier == user?.id)
+        if (!canEdit) {
+            groups?.each { group ->
+                def groupAuthors = groupGraphService.authorList(group.idNumber)
+                hasAccess = groupAuthors.any { it.identifier == user?.id }
+            }
+            if (!hasAccess) {
+                groups?.each { group ->
+                    def groupEditors = groupGraphService.editorList(group.idNumber)
+                    canEdit = groupEditors.any { it.identifier == user?.id }
+                }
+            }
+            if (!canEdit) {
+                groups?.each { group ->
+                    def groupOwner = groupGraphService.getOwner(group.idNumber)
+                    canEdit = groupOwner?.idNumber == user?.id
+                }
+            }
+        }
+
+        def showAuthor = user?.id != meta?.find { it.label == 'Person' }?.identifier
+
         def author = meta.find { it.label == 'Person' }
         [
-                author   : author,
-                groups   : groups,
-                hasAccess: hasAccess,
-                canEdit  : user && (author?.identifier == user?.id)
+                author    : author,
+                groups    : groups,
+                hasAccess : hasAccess,
+                canEdit   : canEdit,
+                showAuthor: showAuthor
         ]
     }
 

@@ -1,12 +1,14 @@
 <span class="author" data-id="${author.identifier}">
-    <g:if test="${canEdit}">
-        <span class="k-button" onclick="edit${params.type}('${params.identifier ?: params.id}', this);" style="padding:1px 7px 2px;"><g:message code="edit"/></span>
-        <span class="k-button" onclick="delete${params.type}('${params.identifier ?: params.id}', this);" style="padding:1px 7px 2px;"><g:message code="delete"/></span>
-    </g:if>
-    <g:else>
+    <g:if test="${showAuthor}">
         <a href="${createLink(controller: 'user', action: 'wall', id: author.identifier)}"><i
                 class="fa fa-user"></i> ${author.title}</a>
-    </g:else>
+    </g:if>
+    <g:if test="${canEdit}">
+        <span class="k-button" onclick="edit${params.type}('${params.identifier ?: params.id}', this);"
+              style="padding:1px 7px 2px;"><g:message code="edit"/></span>
+        <span class="k-button" onclick="delete${params.type}('${params.identifier ?: params.id}', this);"
+              style="padding:1px 7px 2px;"><g:message code="delete"/></span>
+    </g:if>
 </span>
 <span class="groups">
     <g:each in="${groups}" var="group">

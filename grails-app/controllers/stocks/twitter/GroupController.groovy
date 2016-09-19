@@ -4,8 +4,11 @@ import fi.joensuu.joyds1.calendar.JalaliCalendar
 import grails.converters.JSON
 import groovy.time.TimeCategory
 import stocks.AccountingHelper
+import stocks.AuthenticationProvider
+import stocks.Message
 import stocks.User
 import stocks.accounting.Transaction
+import stocks.commodity.Group
 import stocks.graph.GroupGraphService
 import stocks.Image
 
@@ -16,6 +19,7 @@ class GroupController {
     def springSecurityService
     def accountingService
     def materialGraphService
+    def graphDBService
 
     def index() {
         redirect(action: 'list')
@@ -41,6 +45,7 @@ class GroupController {
                     params.title as String,
                     params.description as String,
                     params.image?.id ? params.image?.id as Long : 0l,
+                    params.authorType as String,
                     params.membershipType as String,
                     params.membership1MonthPrice as Integer,
                     params.membership3MonthPrice as Integer,
@@ -52,6 +57,7 @@ class GroupController {
                     params.title as String,
                     params.description as String,
                     params.image?.id ? params.image?.id as Long : 0l,
+                    params.authorType as String,
                     params.membershipType as String,
                     params.membership1MonthPrice as Integer,
                     params.membership3MonthPrice as Integer,
@@ -71,6 +77,7 @@ class GroupController {
             [
                     id                    : it.id.replace('#', ''),
                     title                 : it.title,
+                    authorType            : message(code: "twitter.group.authorType.${it.authorType}"),
                     membershipType        : message(code: "twitter.group.membershipType.${it.membershipType}"),
                     membership1MonthPrice : it.membership1MonthPrice,
                     membership3MonthPrice : it.membership3MonthPrice,
@@ -92,6 +99,7 @@ class GroupController {
             [
                     id                    : it.id.replace('#', ''),
                     title                 : it.title,
+                    authorType            : message(code: "twitter.group.authorType.${it.authorType}"),
                     membershipType        : message(code: "twitter.group.membershipType.${it.membershipType}"),
                     membership1MonthPrice : it.membership1MonthPrice,
                     membership3MonthPrice : it.membership3MonthPrice,
@@ -113,6 +121,7 @@ class GroupController {
             [
                     id                    : it.id.replace('#', ''),
                     title                 : it.title,
+                    authorType            : message(code: "twitter.group.authorType.${it.authorType}"),
                     membershipType        : message(code: "twitter.group.membershipType.${it.membershipType}"),
                     membership1MonthPrice : it.membership1MonthPrice,
                     membership3MonthPrice : it.membership3MonthPrice,
@@ -136,6 +145,7 @@ class GroupController {
             [
                     id                    : it.id.replace('#', ''),
                     title                 : it.title,
+                    authorType            : message(code: "twitter.group.authorType.${it.authorType}"),
                     membershipType        : message(code: "twitter.group.membershipType.${it.membershipType}"),
                     membership1MonthPrice : it.membership1MonthPrice,
                     membership3MonthPrice : it.membership3MonthPrice,
@@ -219,11 +229,12 @@ class GroupController {
     def manageMembersJsonList() {
         def result = groupGraphService.memberList(params.id as String, params.skip as Integer, params.take as Integer).collect {
             [
-                    id       : it.id.replace('#', ''),
-                    title    : it.title,
-                    type     : message(code: "twitter.group.membership.type.${it.type}"),
-                    startDate: it.startDate ? format.jalaliDate(date: it.startDate, hm: true) : '',
-                    endDate  : it.endDate ? format.jalaliDate(date: it.endDate, hm: true) : ''
+                    id        : it.id.replace('#', ''),
+                    title     : it.title,
+                    authorType: message(code: "twitter.group.authorType.${it.authorType}"),
+                    type      : message(code: "twitter.group.membership.type.${it.type}"),
+                    startDate : it.startDate ? format.jalaliDate(date: it.startDate, hm: true) : '',
+                    endDate   : it.endDate ? format.jalaliDate(date: it.endDate, hm: true) : ''
             ]
         }
         render([total: groupGraphService.memberCount(params.id as String), data: result] as JSON)
@@ -232,6 +243,40 @@ class GroupController {
     def addMember() {
         groupGraphService.addMember(params.id as String, User.get(params.memberId as Long), parseDate(params.startDate as String), parseDate(params.endDate as String), GroupGraphService.MEMBERSHIP_TYPE_EXCEPTIONAL)
         render '1'
+    }
+
+    def inviteMember() {
+        def group = graphDBService.getAndUnwrapVertex(params.id)
+        def user = User.get(params.memberId as Long)
+        def startDate = params.startDate
+        def endDate = params.endDate
+        def code = "${group?.idNumber}-${user?.id}-${startDate ?: '_'}-${endDate ?: '_'}"
+        code = "${code}-${AuthenticationProvider.md5(code)}"
+        def link = createLink(controller: 'group', action: 'invitation', params:[code: code])
+        def msg = new Message()
+        msg.body = message(code: 'group.membership.invitation.message', args: [message(code: "user.title.${user?.sex}")?.toString(), user?.toString(), group?.title, link])?.toString()
+        println(msg?.body)
+        msg.sender = springSecurityService.currentUser as User
+        msg.receiver = user
+        msg?.save(flush: true)
+        render '1'
+    }
+
+    def invitation() {
+        def parts = params.code?.split('-')
+        def code = "${parts[0]}-${parts[1]}-${parts[2]}-${parts[3]}"
+        def md5 = parts[4]
+        if (md5 != AuthenticationProvider.md5(code))
+            flash.message = message(code: 'group.membership.invitation.wrongCode')
+        else {
+            def group = graphDBService.getAndUnwrapVertex(parts[0])
+            def user = User.get(parts[1])
+            def startDate = parts[2] == '_' ? null : parseDate(parts[2])
+            def endDate = parts[3] == '_' ? null : parseDate(parts[3])
+            groupGraphService.addMember(group?.idNumber, user, startDate, endDate, GroupGraphService.MEMBERSHIP_TYPE_EXCEPTIONAL)
+            flash.message = message(code: 'group.membership.invitation.added', args: [group?.title])
+        }
+        redirect(action: 'list')
     }
 
     def deleteMember() {
@@ -252,6 +297,7 @@ class GroupController {
                     title                 : it.title,
                     description           : it.description?.replaceAll("<(.|\n)*?>", '') ?: '-',
                     imageId               : it.imageId ?: 0,
+                    authorType            : message(code: "twitter.group.authorType.${it.authorType}"),
                     membershipType        : message(code: "twitter.group.membershipType.${it.membershipType}"),
                     membership1MonthPrice : it.membership1MonthPrice ? formatNumber(type: 'number', number: it.membership1MonthPrice) + ' ' + message(code: 'rial') : message(code: 'free'),
                     membership3MonthPrice : it.membership3MonthPrice ? formatNumber(type: 'number', number: it.membership3MonthPrice) + ' ' + message(code: 'rial') : message(code: 'free'),
@@ -307,12 +353,20 @@ class GroupController {
         if (group) {
             def user = springSecurityService.currentUser as User
             group.image = Image.get(group.imageId as Long)
+            def groupOwner = groupGraphService.getOwner(params.id as String)
+            def authorList = groupGraphService.authorList(params.id as String)
+            def editorList = groupGraphService.editorList(params.id as String)
             [
                     group     : group,
-                    groupOwner: groupGraphService.getOwner(params.id as String),
+                    groupOwner: groupOwner,
                     membership: groupGraphService.getUserMembershipInGroup(params.id as String, user?.id),
-                    authorList: groupGraphService.authorList(params.id as String),
-                    editorList: groupGraphService.editorList(params.id as String)
+                    authorList: authorList,
+                    editorList: editorList,
+                    hasAccess : ([groupOwner?.identifier] + authorList?.collect {
+                        it.identifier
+                    } + editorList?.collect {
+                        it.identifier
+                    }).contains(user?.id)
             ]
         } else
             render(status: 404, text: 'NOT FOUND!')
@@ -331,6 +385,17 @@ class GroupController {
         def parts = date.split("/").collect { it as Integer }
         JalaliCalendar jc = new JalaliCalendar(parts[0], parts[1], parts[2])
         jc.toJavaUtilGregorianCalendar().time
+    }
+
+    def transfer() {
+        def group = graphDBService.getAndUnwrapVertex("#${params.id}")
+        [group: group]
+    }
+
+    def doTransfer() {
+        groupGraphService.transfer(params.id, User.get(params.receiver))
+        flash.message = message(code: 'group.transfer.succeed')
+        redirect(action: 'list')
     }
 
 }

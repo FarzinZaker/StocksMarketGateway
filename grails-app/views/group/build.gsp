@@ -43,6 +43,11 @@
                                       saveUrl="${createLink(controller: 'image', action: 'uploadImage')}"/>
                 </form:field>
 
+                <form:field fieldName="twitter.group.authorType">
+                    <form:select name="authorType" style="width:500px" entity="${group}" validation="required"
+                                 items="${[[text: message(code: 'twitter.group.authorType.open'), value: 'open'], [text: message(code: 'twitter.group.authorType.closed'), value: 'closed']]}"/>
+                </form:field>
+
                 <form:field fieldName="twitter.group.membershipType">
                     <form:select name="membershipType" style="width:500px" entity="${group}" validation="required"
                                  items="${[[text: message(code: 'twitter.group.membershipType.open'), value: 'open'], [text: message(code: 'twitter.group.membershipType.closed'), value: 'closed']]}"/>

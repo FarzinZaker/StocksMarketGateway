@@ -22,6 +22,7 @@
                         fields: {
                             id: {type: "string"},
                             title: {type: "string"},
+                            authorType: {type: "string"},
                             membershipType: {type: "string"},
                             membership1MonthPrice: {type: "number"},
                             membership3MonthPrice: {type: "number"},

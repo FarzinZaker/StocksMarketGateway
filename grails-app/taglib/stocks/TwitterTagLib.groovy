@@ -33,7 +33,9 @@ class TwitterTagLib {
 
         out << "<div class='shareGroupList' style='${attrs.style}'>"
 
-        ([commonGraphService.publicGroupAndUnwrap] + groupGraphService.listForAuthor(user)).each { group ->
+        ([commonGraphService.publicGroupAndUnwrap] + groupGraphService.listForAuthor(user) + groupGraphService.listForEditor(user) + groupGraphService.listForOwner(user) + groupGraphService.openAuthorList()).unique {
+            it.idNumber
+        }.each { group ->
             out << form.checkbox(name: "${name}_group_${group.id}", id: "${id}_group_${group.id}", text: group.title, checked: currentSharedGroups.contains(group.id))
         }
 

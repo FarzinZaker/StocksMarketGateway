@@ -44,6 +44,10 @@ class CommentGraphService {
         graphDBService.unwrapVertex(comment)
     }
 
+    def deleteComment(String id) {
+        graphDBService.deleteVertex("#${id}")
+    }
+
     List<Map> getCommentList(String materialId) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('RelatedTo')) FROM Material WHERE @rid = #${materialId}) WHERE @class = 'Comment' ORDER BY dateCreated DESC").each {
             it.author = getCommentAuthor(it.idNumber as String)
@@ -64,5 +68,9 @@ class CommentGraphService {
 
     Map getCommentAuthor(String commentId) {
         graphDBService.queryAndUnwrapVertex("SELECT EXPAND(IN('Own')) FROM Comment WHERE @rid = #${commentId}")?.find()
+    }
+
+    Map getRootMaterial(String commentId){
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (TRAVERSE out(\"RelatedTo\") FROM #${commentId}) WHERE @class = 'Article' OR @class = 'Talk'")?.find()
     }
 }

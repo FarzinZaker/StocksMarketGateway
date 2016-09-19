@@ -1,5 +1,7 @@
 package stocks
 
+import stocks.util.StringHelper
+
 class Message {
 
     String body
@@ -18,9 +20,11 @@ class Message {
     }
 
     public transient String getShortBody() {
-        if (body?.size() > 100)
-            body?.substring(0, 100) + '...'
+        def strippedBody = body
+        strippedBody = strippedBody.replaceAll("<(.|\n)*?>", '')
+        if (strippedBody?.size() > 100)
+            strippedBody?.substring(0, 100) + '...'
         else
-            body
+            strippedBody
     }
 }

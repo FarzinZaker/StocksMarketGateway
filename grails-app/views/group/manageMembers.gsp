@@ -32,56 +32,108 @@
 
 <div class="k-rtl hidden">
     <div id="addMemberWindow">
-        <form class="container">
-            <form:form name="addMemberForm">
-                <form:field fieldName="member">
-                    <form:textBox name="member.id" id="member" validation="required" style="width:290px"/>
+        <form:form name="addMemberForm">
+            <form:field fieldName="member">
+                <form:textBox name="member.id" id="member" validation="required" style="width:290px"/>
 
-                    <script language="javascript" type="text/javascript">
-                        $(document).ready(function () {
-                            $("#member").removeClass('k-textbox').width('280').kendoComboBox({
-                                dataTextField: "name",
-                                dataValueField: "value",
-                                filter: "contains",
-                                dataSource: {
-                                    serverFiltering: true,
-                                    transport: {
-                                        type: 'odata',
-                                        read: {
-                                            url: "${createLink(controller: 'user', action: 'autoComplete')}",
-                                            dataType: "json",
-                                            type: "POST"
+                <script language="javascript" type="text/javascript">
+                    $(document).ready(function () {
+                        $("#member").removeClass('k-textbox').width('280').kendoComboBox({
+                            dataTextField: "name",
+                            dataValueField: "value",
+                            filter: "contains",
+                            dataSource: {
+                                serverFiltering: true,
+                                transport: {
+                                    type: 'odata',
+                                    read: {
+                                        url: "${createLink(controller: 'user', action: 'autoComplete')}",
+                                        dataType: "json",
+                                        type: "POST"
 
-                                        }
-                                    },
-                                    schema: {
-                                        data: "data" // records are returned in the "data" field of the response
                                     }
                                 },
-                                change: function (e) {
-                                    if (this.value() && this.selectedIndex == -1) {
-                                        var dt = this.dataSource._data[0];
-                                        this.text(dt[this.options.dataTextField]);
-                                        this._selectItem();
-                                    }
+                                schema: {
+                                    data: "data" // records are returned in the "data" field of the response
                                 }
-                            });
+                            },
+                            change: function (e) {
+                                if (this.value() && this.selectedIndex == -1) {
+                                    var dt = this.dataSource._data[0];
+                                    this.text(dt[this.options.dataTextField]);
+                                    this._selectItem();
+                                }
+                            }
                         });
-                    </script>
-                </form:field>
-                <form:datePickerResources/>
-                <form:field fieldName="member.startDate">
-                    <form:datePicker name="startDate" value="${format.jalaliDate(date: new Date())}"
-                                     style="width:140px;" placeholder="${message(code: 'fromDate')}"/>
-                    <form:datePicker name="endDate" style="width:140px;" placeholder="${message(code: 'toDate')}"/>
-                </form:field>
-                <div class="toolbar" style="margin-top:10px;margin-bottom:0;">
-                    <form:button name="submit" text="${message(code: 'add')}" style="float:right"
-                                 onclick="saveMember();"/>
-                    <form:button name="cancel" text="${message(code: 'close')}" style="float:left"
-                                 onclick="closeMemberWindow();"/>
-                </div>
-            </form:form>
+                    });
+                </script>
+            </form:field>
+            <form:datePickerResources/>
+            <form:field fieldName="member.startDate">
+                <form:datePicker name="startDate" value="${format.jalaliDate(date: new Date())}"
+                                 style="width:140px;" placeholder="${message(code: 'fromDate')}"/>
+                <form:datePicker name="endDate" style="width:140px;" placeholder="${message(code: 'toDate')}"/>
+            </form:field>
+            <div class="toolbar" style="margin-top:10px;margin-bottom:0;">
+                <form:button name="submit" text="${message(code: 'add')}" style="float:right"
+                             onclick="saveMember();"/>
+                <form:button name="cancel" text="${message(code: 'close')}" style="float:left"
+                             onclick="closeMemberWindow();"/>
+            </div>
+        </form:form>
+    </div>
+
+    <div id="inviteMemberWindow">
+        <form:form name="inviteMemberForm">
+            <form:field fieldName="member">
+                <form:textBox name="member.id" id="invitedMember" validation="required" style="width:290px"/>
+
+                <script language="javascript" type="text/javascript">
+                    $(document).ready(function () {
+                        $("#invitedMember").removeClass('k-textbox').width('280').kendoComboBox({
+                            dataTextField: "name",
+                            dataValueField: "value",
+                            filter: "contains",
+                            dataSource: {
+                                serverFiltering: true,
+                                transport: {
+                                    type: 'odata',
+                                    read: {
+                                        url: "${createLink(controller: 'user', action: 'autoComplete')}",
+                                        dataType: "json",
+                                        type: "POST"
+
+                                    }
+                                },
+                                schema: {
+                                    data: "data" // records are returned in the "data" field of the response
+                                }
+                            },
+                            change: function (e) {
+                                if (this.value() && this.selectedIndex == -1) {
+                                    var dt = this.dataSource._data[0];
+                                    this.text(dt[this.options.dataTextField]);
+                                    this._selectItem();
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </form:field>
+            <form:datePickerResources/>
+            <form:field fieldName="member.startDate">
+                <form:datePicker name="startDate" id="inviteStartDate" value="${format.jalaliDate(date: new Date())}"
+                                 style="width:140px;" placeholder="${message(code: 'fromDate')}"/>
+                <form:datePicker name="endDate" id="inviteEndDate" style="width:140px;"
+                                 placeholder="${message(code: 'toDate')}"/>
+            </form:field>
+            <div class="toolbar" style="margin-top:10px;margin-bottom:0;">
+                <form:button name="submit" text="${message(code: 'add')}" style="float:right"
+                             onclick="saveInviteMember();"/>
+                <form:button name="cancel" text="${message(code: 'close')}" style="float:left"
+                             onclick="closeInviteMemberWindow();"/>
+            </div>
+        </form:form>
     </div>
 </div>
 
@@ -126,6 +178,44 @@
         wnd.center().open();
     }
 
+    var wndInvite;
+
+    function saveInviteMember() {
+        if ($('#inviteMemberForm').isValid())
+            $.ajax({
+                type: "POST",
+                url: '${createLink(action: 'inviteMember')}',
+                data: {
+                    id: '${params.id}',
+                    memberId: $('#invitedMember').data('kendoComboBox').value(),
+                    startDate: $('#inviteStartDate').val(),
+                    endDate: $('#inviteEndDate').val()
+                }
+            }).done(function (response) {
+                var grid = $('#memberGrid').data('kendoGrid');
+                grid.dataSource.read();
+                grid.refresh();
+                wndInvite.close();
+            });
+    }
+
+    function closeInviteMemberWindow() {
+        wndInvite.close();
+    }
+    function inviteMember() {
+        $('#member').data('kendoComboBox').value('');
+        if (!wndInvite)
+            wndInvite = $("#inviteMemberWindow")
+                    .kendoWindow({
+                        title: "${message(code: 'twitter.group.members.invite')}",
+                        modal: true,
+                        visible: false,
+                        resizable: false,
+                        width: 650
+                    }).data("kendoWindow");
+        wndInvite.center().open();
+    }
+
     $(document).ready(function () {
         $("#memberGrid").kendoGrid({
 
@@ -164,6 +254,13 @@
             toolbar: [
                 {
                     template: "<a class='k-button k-button-icontext k-grid-add' href='javascript:addMember();'>${message(code: 'twitter.group.members.add')}</a>"
+                }
+            ],
+            </g:if>
+            <g:if test="${group.membershipType == 'closed'}">
+            toolbar: [
+                {
+                    template: "<a class='k-button k-button-icontext k-grid-add' href='javascript:inviteMember();'>${message(code: 'twitter.group.members.invite')}</a>"
                 }
             ],
             </g:if>

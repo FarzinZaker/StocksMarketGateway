@@ -22,6 +22,7 @@
                         fields: {
                             id: {type: "string"},
                             title: {type: "string"},
+                            authorType: {type: "string"},
                             membershipType: {type: "string"},
                             membership1MonthPrice: {type: "number"},
                             membership3MonthPrice: {type: "number"},
@@ -52,6 +53,13 @@
                 {
                     field: "title",
                     title: "${message(code:'twitter.group.title.label')}"
+                },
+                {
+                    field: "authorType",
+                    title: "${message(code:'twitter.group.authorType.label')}",
+                    attributes: {style: "text-align: center"},
+                    headerAttributes: {style: "text-align: center"},
+                    width: "100px"
                 },
                 {
                     field: "membershipType",
@@ -107,6 +115,12 @@
                     headerAttributes: {style: "text-align: center"}
                 },
                 {
+                    command: {text: "${message(code:'twitter.group.manageMembers.button')}", click: manageEditorGridItemMembers},
+                    title: "",
+                    width: "87px",
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
                     command: {text: "${message(code:'cancelMembership')}", click: cancelAuthorGridItem},
                     title: "",
                     width: "85px",
@@ -115,6 +129,10 @@
             ]
         });
     });
+
+    function manageEditorGridItemMembers(e) {
+        window.location.href = "${createLink(action: 'manageMembers')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
+    }
 
     function editAuthorGridItem(e) {
         window.location.href = "${createLink(action: 'build')}/" + this.dataItem($(e.currentTarget).closest("tr")).id
