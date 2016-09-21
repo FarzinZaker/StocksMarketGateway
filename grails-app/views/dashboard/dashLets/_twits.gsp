@@ -67,7 +67,7 @@
 //                    else {
                     var itemContainer = $('<div/>').addClass('twitsMix').addClass('mix').addClass(this.category).attr('data-id', this.identifier).attr('data-time', this.time).attr('data-click', this.clickCount);
                     var imageContainer = $('<div/>').addClass('twitsFeedImageContainer');
-                    imageContainer.append($('<img/>').attr('src', '/image/index/' + this.imageId).attr('alt', this.title));
+                    imageContainer.append($('<img/>').attr('src', '/image/index/' + this.imageId + '?type=article').attr('alt', this.title));
                     itemContainer.append(imageContainer);
                     var titleContainer = $('<div/>').addClass('twitsFeedTitleContainer');
                     var title = $('<a/>').addClass('twitsFeedItemTitle').attr('target', '_blank').attr('href', this.link).html(this.title);

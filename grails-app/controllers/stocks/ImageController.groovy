@@ -11,11 +11,11 @@ class ImageController {
 
     def index() {
         try {
-            if (!params.id || params.id == 'null') {
-                render ''
-                return
-            }
-            def image = Image.get(params.id)
+//            if (!params.id || params.id == 'null') {
+//                render ''
+//                return
+//            }
+            def image = params.id && params.id != 'null' ? Image.get(params?.id) : null
             def content = image?.content
             def sizeFlag = ''
             if (params.size)
@@ -28,6 +28,8 @@ class ImageController {
                 }
             else if (params.default)
                 content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/default/${params.default}/${sizeFlag}${params.default}.png").getBytes()
+            if (!content && params.type)
+                content = ImageController.classLoader.getResourceAsStream("images/${params.type}-no-image.jpg")?.getBytes()
             if (!content)
                 content = new java.io.File("${grailsApplication.config.user.files.imagesPath}/image/no-image/${params.size}x${params.size}.jpg").getBytes()
             if (!content) {

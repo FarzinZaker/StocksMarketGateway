@@ -2,7 +2,7 @@
 
 <g:set var="currentID" value="${UUID.randomUUID().toString().replace('-', '_')}"/>
 <div class="image">
-    <img src="${createLink(controller: 'image', params: [id: material.imageId, size: imageSize ?: 100])}"/>
+    <img src="${createLink(controller: 'image', params: [id: material.imageId, size: imageSize ?: 100, type:'article'])}"/>
 
 
     <twitter:rateGage materialId="${material.idNumber}"/>

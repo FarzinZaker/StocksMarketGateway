@@ -16,7 +16,7 @@
 
 <script type="text/x-kendo-tmpl" id="documentTemplate">
     <div class="document" item-id="#:itemId#" >
-        <span class='image'><img src="${createLink(controller: 'image', action: 'index')}/#:imageId#?name=#:imageName#&size=250" alt="#:title#" /></span>
+        <span class='image'><img src="${createLink(controller: 'image', action: 'index')}/#:imageId#?name=#:imageName#&size=250&type=${entityName}" alt="#:title#" /></span>
         <h3>#:title#</h3>
         <span class='date'>#:date#</span>
         <p>#:summary#</p>

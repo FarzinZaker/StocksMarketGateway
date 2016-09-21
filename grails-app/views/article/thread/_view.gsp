@@ -1,6 +1,6 @@
 <div class="article">
     <div class="image">
-        <img src="${createLink(controller: 'image', id: article?.image?.id, params: [size: 350])}"/>
+        <img src="${createLink(controller: 'image', id: article?.image?.id, params: [size: 350, type:'article'])}"/>
         <twitter:rateGage materialId="${vertexId}" showLabel="true"/>
         <g:if test="${canEdit}">
             <a style="display: block;margin-top:10px;" class="k-button"
