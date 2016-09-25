@@ -27,14 +27,18 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-2 k-rtl">
+        <div class="col-xs-3 k-rtl">
             <g:render template="home/header"/>
             <g:render template="home/authorList"/>
             <g:render template="home/editorList"/>
         </div>
-        <div class="col-xs-7 k-rtl">
+
+        <div class="col-xs-6 k-rtl">
+            <g:render template="/talk/write"
+                      model="${[groups: [group]]}"/>
             <g:render template="home/materialList"/>
         </div>
+
         <div class="col-xs-3 k-rtl">
             <div class="dashLet cyan">
                 <h2><i class="fa fa-star"></i> <g:message code="twitter.group.topMaterial.title"/></h2>

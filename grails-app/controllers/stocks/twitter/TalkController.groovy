@@ -56,7 +56,10 @@ class TalkController {
 
         sharingService.shareTalk(owner, tags.text,
                 tags.tagList,
-                tags.mentionList)
+                tags.mentionList,
+                params.findAll { it.key.toString().startsWith('share_group_') }.collect {
+                    it.key.toString().replace('share_group_#', '')
+                })
         render '1'
 
     }

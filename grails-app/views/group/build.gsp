@@ -78,6 +78,11 @@
                                    text="${message(code: 'twitter.group.allowExceptionalUsers')}"/>
                 </div>
 
+                <div>
+                    <form:checkbox name="allowNewPosts" checked="${group ? group?.allowNewPosts : true}"
+                                   text="${message(code: 'twitter.group.allowNewPosts')}"/>
+                </div>
+
                 <div class="toolbar">
                     <input type="submit" value="${message(code: 'twitter.group.create.submit.label')}"
                            class="k-button"/>

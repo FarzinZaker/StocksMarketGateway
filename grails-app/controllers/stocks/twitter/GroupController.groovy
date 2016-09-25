@@ -51,7 +51,8 @@ class GroupController {
                     params.membership3MonthPrice as Integer,
                     params.membership6MonthPrice as Integer,
                     params.membership12MonthPrice as Integer,
-                    params?.allowExceptionalUsers == 'on')
+                    params?.allowExceptionalUsers == 'on',
+                    params?.allowNewPosts == 'on')
         } else
             groupGraphService.create(
                     params.title as String,
@@ -64,6 +65,7 @@ class GroupController {
                     params.membership6MonthPrice as Integer,
                     params.membership12MonthPrice as Integer,
                     params?.allowExceptionalUsers == 'on',
+                    params?.allowNewPosts == 'on',
                     springSecurityService.currentUser as User)
 
         redirect(action: 'list')
@@ -83,7 +85,8 @@ class GroupController {
                     membership3MonthPrice : it.membership3MonthPrice,
                     membership6MonthPrice : it.membership6MonthPrice,
                     membership12MonthPrice: it.membership12MonthPrice,
-                    allowExceptionalUsers : it.allowExceptionalUsers
+                    allowExceptionalUsers : it.allowExceptionalUsers,
+                    allowNewPosts         : it.allowNewPosts
             ]
         }
         render([total: result.size(), data: result] as JSON)
@@ -252,7 +255,7 @@ class GroupController {
         def endDate = params.endDate
         def code = "${group?.idNumber}-${user?.id}-${startDate ?: '_'}-${endDate ?: '_'}"
         code = "${code}-${AuthenticationProvider.md5(code)}"
-        def link = createLink(controller: 'group', action: 'invitation', params:[code: code])
+        def link = createLink(controller: 'group', action: 'invitation', params: [code: code])
         def msg = new Message()
         msg.body = message(code: 'group.membership.invitation.message', args: [message(code: "user.title.${user?.sex}")?.toString(), user?.toString(), group?.title, link])?.toString()
         println(msg?.body)

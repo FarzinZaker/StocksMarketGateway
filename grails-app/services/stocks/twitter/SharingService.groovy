@@ -56,7 +56,7 @@ class SharingService {
         searchData.save()
     }
 
-    void shareTalk(User owner, String description, List<Map> properties, List<Map> mentionList) {
+    void shareTalk(User owner, String description, List<Map> properties, List<Map> mentionList, List<String> groups) {
 
         def materialVertex = materialGraphService.createTalk(owner, description)
 
@@ -78,14 +78,20 @@ class SharingService {
             graphDBService.addEdge('Mention', materialVertex, tragetVertex)
         }
 
-        def groupVertex = commonGraphService.publicGroup
-        graphDBService.addEdge('Share', materialVertex, groupVertex)
-        searchData.groupRidList = [groupVertex?.id?.toString()]
+        def groupRidList = []
+        if(groups.isEmpty())
+            groups.add(commonGraphService.publicGroupAndUnwrap?.idNumber?.toString())
+        groups.each { groupId ->
+            def groupVertex = graphDBService.getVertex(groupId)
+            graphDBService.addEdge('Share', materialVertex, groupVertex)
+            groupRidList << "#${groupId}"
+        }
+        searchData.groupRidList = groupRidList
 
         searchData.save()
     }
 
-    void shareAnalysis(User owner, String description, List<Map> properties, List<Map> mentionList, String data, Long imageId, Map primaryProperty) {
+    void shareAnalysis(User owner, String description, List<Map> properties, List<Map> mentionList, String data, Long imageId, Map primaryProperty, List<String> groups) {
 
         def materialVertex = materialGraphService.createAnalysis(owner, description, data, imageId)
 
@@ -119,9 +125,15 @@ class SharingService {
             graphDBService.addEdge('Mention', materialVertex, tragetVertex)
         }
 
-        def groupVertex = commonGraphService.publicGroup
-        graphDBService.addEdge('Share', materialVertex, groupVertex)
-        searchData.groupRidList = [groupVertex?.id?.toString()]
+        def groupRidList = []
+        if(groups.isEmpty())
+            groups.add(commonGraphService.publicGroup?.idNumber?.toString())
+        groups.each { groupId ->
+            def groupVertex = graphDBService.getVertex(groupId)
+            graphDBService.addEdge('Share', materialVertex, groupVertex)
+            groupRidList << "#${groupId}"
+        }
+        searchData.groupRidList = groupRidList
 
         searchData.save()
     }

@@ -30,13 +30,16 @@ class TwitterTagLib {
             currentSharedGroups = sharingService.materialShareGroups(attrs.materialId as Long).collect {
                 it.id.toString()
             }
+        if (attrs.groups)
+            currentSharedGroups.addAll(attrs.groups.collect { it.id })
 
         out << "<div class='shareGroupList' style='${attrs.style}'>"
 
         ([commonGraphService.publicGroupAndUnwrap] + groupGraphService.listForAuthor(user) + groupGraphService.listForEditor(user) + groupGraphService.listForOwner(user) + groupGraphService.openAuthorList()).unique {
             it.idNumber
         }.each { group ->
-            out << form.checkbox(name: "${name}_group_${group.id}", id: "${id}_group_${group.id}", text: group.title, checked: currentSharedGroups.contains(group.id))
+            if (group.allowNewPosts)
+                out << form.checkbox(name: "${name}_group_${group.id}", id: "${id}_group_${group.id}", text: group.title, checked: currentSharedGroups.contains(group.id))
         }
 
         out << "</div>"

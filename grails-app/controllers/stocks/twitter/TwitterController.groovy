@@ -245,9 +245,9 @@ class TwitterController {
         if (!canEdit) {
             groups?.each { group ->
                 def groupAuthors = groupGraphService.authorList(group.idNumber)
-                hasAccess = groupAuthors.any { it.identifier == user?.id }
+                canEdit = groupAuthors.any { it.identifier == user?.id }
             }
-            if (!hasAccess) {
+            if (!canEdit) {
                 groups?.each { group ->
                     def groupEditors = groupGraphService.editorList(group.idNumber)
                     canEdit = groupEditors.any { it.identifier == user?.id }
@@ -271,6 +271,7 @@ class TwitterController {
                 canEdit   : canEdit,
                 showAuthor: showAuthor
         ]
+
     }
 
     def primaryPropertyLink() {

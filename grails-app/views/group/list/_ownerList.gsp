@@ -28,7 +28,8 @@
                             membership3MonthPrice: {type: "number"},
                             membership6MonthPrice: {type: "number"},
                             membership12MonthPrice: {type: "number"},
-                            allowExceptionalUsers: {type: "boolean"}
+                            allowExceptionalUsers: {type: "boolean"},
+                            allowNewPosts: {type: "boolean"}
                         }
                     },
                     data: "data", // records are returned in the "data" field of the response
@@ -116,6 +117,13 @@
                     field: "allowExceptionalUsers",
                     title: "${message(code:'twitter.group.allowExceptionalUsers.label')}",
                     template: "<img width='16px' src=\"#:allowExceptionalUsers?'${resource(dir:'images', file: 'yes.png')}':'${resource(dir:'images', file: 'no.png')}'#\" />",
+                    attributes: {style: "text-align: center"},
+                    headerAttributes: {style: "text-align: center"}
+                },
+                {
+                    field: "allowNewPosts",
+                    title: "${message(code:'twitter.group.allowNewPosts.label')}",
+                    template: "<img width='16px' src=\"#:allowNewPosts?'${resource(dir:'images', file: 'yes.png')}':'${resource(dir:'images', file: 'no.png')}'#\" />",
                     attributes: {style: "text-align: center"},
                     headerAttributes: {style: "text-align: center"}
                 },

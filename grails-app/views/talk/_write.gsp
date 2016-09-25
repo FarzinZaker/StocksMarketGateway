@@ -14,6 +14,10 @@
     <form:editor name="body" mode="inline" height="136" hashTag="true" authorTag="true" tag="${tag}"/>
     <div class="clear-fix"></div>
 
+    <div class="shareGroups">
+        <twitter:shareGroups name="share" groups="${groups}"/>
+    </div>
+
     <div class="twit-prediction">
         <div class="extractedTagsList"></div>
 

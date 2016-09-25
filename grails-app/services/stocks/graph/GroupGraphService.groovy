@@ -16,7 +16,7 @@ class GroupGraphService {
     public static String MEMBERSHIP_TYPE_NORMAL = 'normal'
     public static String MEMBERSHIP_TYPE_EXCEPTIONAL = 'exceptional'
 
-    OrientVertex create(String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers, User owner) {
+    OrientVertex create(String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers, Boolean allowNewPosts, User owner) {
         def groupVertex = graphDBService.addVertex('Group', [
                 title                 : title,
                 description           : description,
@@ -28,6 +28,7 @@ class GroupGraphService {
                 membership6MonthPrice : membership6MonthPrice,
                 membership12MonthPrice: membership12MonthPrice,
                 allowExceptionalUsers : allowExceptionalUsers,
+                allowNewPosts         : allowNewPosts,
                 ownerType             : 'user'
         ])
 
@@ -46,7 +47,7 @@ class GroupGraphService {
         groupVertex
     }
 
-    OrientVertex update(String id, String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers) {
+    OrientVertex update(String id, String title, String description, Long imageId, String authorType, String membershipType, Integer membership1MonthPrice, Integer membership3MonthPrice, Integer membership6MonthPrice, Integer membership12MonthPrice, Boolean allowExceptionalUsers, Boolean allowNewPosts) {
         def groupVertex = graphDBService.editVertex(id, [
                 title                 : title,
                 description           : description,
@@ -58,6 +59,7 @@ class GroupGraphService {
                 membership6MonthPrice : membership6MonthPrice,
                 membership12MonthPrice: membership12MonthPrice,
                 allowExceptionalUsers : allowExceptionalUsers,
+                allowNewPosts         : allowNewPosts,
                 ownerType             : 'user'
         ])
 

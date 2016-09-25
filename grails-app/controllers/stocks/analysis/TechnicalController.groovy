@@ -171,7 +171,10 @@ class TechnicalController {
                         type      : params.propertyType,
                         identifier: params.propertyId?.toLong(),
                         title     : params.propertyTitle
-                ])
+                ],
+                params.findAll { it.key.toString().startsWith('share_group_') }.collect {
+                    it.key.toString().replace('share_group_#', '')
+                })
         render '1'
     }
 
