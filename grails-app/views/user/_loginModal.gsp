@@ -99,9 +99,10 @@
         }).done(function (response) {
             if (response == '0')
                 window.location.href = '${createLink(uri: '/')}';
-            else if (response == '1') {
-                closeLoginDialog();
-                window.info('<g:message code="register.checkForActivationMail.body"/>');
+            else if (response.charAt(0) == '1') {
+//                closeLoginDialog();
+                %{--window.info('<g:message code="register.checkForActivationMail.body"/>');--}%
+                window.location.href = response.substring(2);
             }
             else
                 window.alert(response);

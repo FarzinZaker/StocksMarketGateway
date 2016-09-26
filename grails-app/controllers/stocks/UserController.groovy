@@ -99,16 +99,17 @@ class UserController {
 
 //            def unsubscribe = Unsubscribe.findByEmailAndRemoved(user.email.toLowerCase(), false)
 //            if (!unsubscribe) {
-            mailService.sendMail {
-                to user.email
-                subject message(code: 'emailTemplates.email_verification.subject')
-                html(view: "/messageTemplates/email_template",
-                        model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString(),
-                                source : 'registration',
-                                email  : user?.email])
-            }
+//            mailService.sendMail {
+//                to user.email
+//                subject message(code: 'emailTemplates.email_verification.subject')
+//                html(view: "/messageTemplates/email_template",
+//                        model: [message: g.render(template: '/messageTemplates/mail/email_verification', model: [user: user]).toString(),
+//                                source : 'registration',
+//                                email  : user?.email])
 //            }
-            render '1'
+//            }
+//            render '1'
+            render "1|${createLink(absolute: true, controller: 'user', action: 'completeRegistration', params: [id: user.id, code: "${new Date().timeString}_activate_${user.id}".encodeAsBase64()])}"
         } else
             render '-1'
     }
@@ -385,9 +386,9 @@ class UserController {
                 to user.email
                 subject message(code: 'emailTemplates.resetPassword.subject')
                 html(view: "/messageTemplates/email_template",
-                        model: [message : g.render(template: '/messageTemplates/mail/reset_password', model: [user: user, newPassword: password]).toString(),
-                                source: 'resetPassword',
-                                email   : user?.email])
+                        model: [message: g.render(template: '/messageTemplates/mail/reset_password', model: [user: user, newPassword: password]).toString(),
+                                source : 'resetPassword',
+                                email  : user?.email])
             }
         }
 
@@ -448,8 +449,8 @@ class UserController {
         ]
     }
 
-    def mostCards(){
-        render(template: '/user/home/mostCards',model: [id:params.id])
+    def mostCards() {
+        render(template: '/user/home/mostCards', model: [id: params.id])
     }
 
     def homeOldJson() {

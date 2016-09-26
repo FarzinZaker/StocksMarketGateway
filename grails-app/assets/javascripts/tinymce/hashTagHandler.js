@@ -60,7 +60,7 @@ function onKeyDownForHashTag(ed, e) {
                             if (normalize('#' + $(item).attr('data-tag')).startsWith(typedTag))
                                 link = $(item);
                         });
-                    if (normalize('#' + link.attr('data-tag')).contains(typedTag)) {
+                    if (normalize('#' + link.attr('data-tag')).indexOf(typedTag) != -1) {
                         lastHashTagNode.text('#' + link.attr('data-tag'));
                         lastHashTagNode.attr('href', link.attr('data-link'));
                         lastHashTagNode.attr('data-clazz', link.attr('data-typeClass'));
