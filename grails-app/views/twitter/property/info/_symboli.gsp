@@ -152,6 +152,7 @@
     <div class="clear-fix"></div>
 </div>
 
+<g:render template="/symbol/statisticsTab" model="${[symbolId:property?.identifier]}"/>
 
 <script>
     function strNum(x){

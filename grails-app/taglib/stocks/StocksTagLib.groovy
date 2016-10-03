@@ -5,6 +5,7 @@ import stocks.twitter.Article
 class StocksTagLib {
 
     def springSecurityService
+    def lowLevelDataService
 
     static defaultEncodeAs = [taglib: 'none']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
@@ -13,50 +14,50 @@ class StocksTagLib {
 
 
     def tagCloud = { attrs, body ->
-    //
-    //        out << asset.javascript(src: 'tagcloud.js')
-    //        out << """
-    //            <div class="tagCloud">
-    //"""
-    //
-    //        def tags = stocks.twitter.Document.createCriteria().list({
-    //            projections {
-    //                count('id', 'tagCount')
-    //                tags {
-    //                    property('id')
-    //                    groupProperty('id')
-    //                }
-    //            }
-    //            order('tagCount', 'desc')
-    //        }, max: 20)
-    //
-    //        Collections.shuffle(tags)
-    //        tags.each {
-    //            def tag = stocks.twitter.Tag.get(it.last())
-    //            def count = it.first()
-    //            out << """
-    //                <a href="${createLink(controller: "${attrs.type}", action: 'listByTag', id: tag.id)}" rel="${count}">${
-    //                tag.name
-    //            }</a>
-    //"""
-    //        }
-    //
-    //        out << """
-    //            </div>
-    //            <script language="javascript" type="text/javascript">
-    //                \$(".tagCloud a").tagcloud({
-    //                    size: {
-    //                        start: 12,
-    //                        end: 24,
-    //                        unit: 'px'
-    //                    },
-    //                    color: {
-    //                        start: "#007cbc",
-    //                        end: "#8ebc00"
-    //                    }
-    //                });
-    //            </script>
-    //"""
+        //
+        //        out << asset.javascript(src: 'tagcloud.js')
+        //        out << """
+        //            <div class="tagCloud">
+        //"""
+        //
+        //        def tags = stocks.twitter.Document.createCriteria().list({
+        //            projections {
+        //                count('id', 'tagCount')
+        //                tags {
+        //                    property('id')
+        //                    groupProperty('id')
+        //                }
+        //            }
+        //            order('tagCount', 'desc')
+        //        }, max: 20)
+        //
+        //        Collections.shuffle(tags)
+        //        tags.each {
+        //            def tag = stocks.twitter.Tag.get(it.last())
+        //            def count = it.first()
+        //            out << """
+        //                <a href="${createLink(controller: "${attrs.type}", action: 'listByTag', id: tag.id)}" rel="${count}">${
+        //                tag.name
+        //            }</a>
+        //"""
+        //        }
+        //
+        //        out << """
+        //            </div>
+        //            <script language="javascript" type="text/javascript">
+        //                \$(".tagCloud a").tagcloud({
+        //                    size: {
+        //                        start: 12,
+        //                        end: 24,
+        //                        unit: 'px'
+        //                    },
+        //                    color: {
+        //                        start: "#007cbc",
+        //                        end: "#8ebc00"
+        //                    }
+        //                });
+        //            </script>
+        //"""
     }
 
     def relatedArticles = { attrs, body ->
@@ -111,7 +112,7 @@ class StocksTagLib {
 
     def articleList(def list) {
 
-        if(list?.size()) {
+        if (list?.size()) {
             def result = """
             <ul class="linkList">
 """
@@ -146,9 +147,8 @@ class StocksTagLib {
 """
 
             result
-        }
-        else{
-            "<div class='emptyMessage'>${message(code:'list.nothingFound')}</div>"
+        } else {
+            "<div class='emptyMessage'>${message(code: 'list.nothingFound')}</div>"
         }
     }
 
@@ -217,5 +217,10 @@ class StocksTagLib {
             out << 'article'
         else
             out << 'news'
+    }
+
+    def symbolStatistics = { attrs, body ->
+        def statistics = lowLevelDataService.executeFunction('sym_sel_statistics', [days: attrs.days as Integer, symbolId: attrs.symbolId as Long])?.find()
+        out << render(template: '/symbol/statistics', model: statistics)
     }
 }
