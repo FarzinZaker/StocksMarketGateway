@@ -43,7 +43,7 @@
             $.ajax({
                 type: "POST",
                 url: '${createLink(action: 'homeOldJson')}',
-                data: {minDate: materialListMinDate, limit: 1000}
+                data: {minDate: materialListMinDate, limit: 50}
             }).done(function (response) {
                 $('#materialLoading').hide();
                 $.each(response.data, function () {
