@@ -38,6 +38,7 @@
             <g:render template="home/suggestList"/>
             <div class="row">
                 <div class="col-sm-12 k-rtl">
+                    <g:render template="/user/home/topArticles"/>
                     <g:render template="home/topUsers"/>
                     <g:render template="home/topGroups"/>
                 </div>

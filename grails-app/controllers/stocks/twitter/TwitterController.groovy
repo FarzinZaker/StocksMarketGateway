@@ -206,11 +206,10 @@ class TwitterController {
         def rootMeta
         if (params.type == 'Comment') {
             rootMaterial = commentGraphService.getRootMaterial(params.id as String)
-            if(rootMaterial) {
+            if (rootMaterial) {
                 rootMeta = materialGraphService.getMeta(rootMaterial?.idNumber as String)
                 groups = rootMeta.findAll { it.label == 'Group' && it.ownerType == 'user' }
-            }
-            else
+            } else
                 groups = []
         } else {
             groups = meta.findAll { it.label == 'Group' && it.ownerType == 'user' }
@@ -291,6 +290,9 @@ class TwitterController {
         sharingService.applyATwitScore()
 
         def propertyVertex = params.id ? propertyGraphService.getAndUnwrapByIdentifier(params.id as Long) : null
+        if (!propertyVertex)
+            return render(view: '/notFound')
+
         def user = springSecurityService.currentUser as User
         def propertyInfo = null
         def showChart = false
@@ -319,6 +321,9 @@ class TwitterController {
                 propertyInfo = Oil.get(params.id as Long)
                 break
         }
+        if (!propertyInfo)
+            return render(view: '/notFound')
+
         [
                 property    : propertyVertex,
                 authorList  : propertyGraphService.authorList(propertyVertex.idNumber as String),
@@ -477,5 +482,23 @@ class TwitterController {
             sharingService.reShareAnalysis(params.id, tags.text, tags.tagList, tags.mentionList)
             render tags.text
         }
+    }
+
+    def topArticles() {
+        def daysCount = params.period as Integer
+        render([
+                recent       : materialGraphService.recentArticles(daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostVisited  : materialGraphService.topRatedArticles(daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                topRated     : materialGraphService.topRatedArticles(daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostCommented: materialGraphService.mostCommentedArticles(daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join('')
+        ] as JSON)
     }
 }
