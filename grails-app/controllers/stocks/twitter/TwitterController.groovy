@@ -490,7 +490,7 @@ class TwitterController {
                 recent       : materialGraphService.recentArticles(daysCount, 5).collect {
                     "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
                 }?.join(''),
-                mostVisited  : materialGraphService.topRatedArticles(daysCount, 5).collect {
+                mostVisited  : materialGraphService.mostVisitedArticles(daysCount, 5).collect {
                     "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
                 }?.join(''),
                 topRated     : materialGraphService.topRatedArticles(daysCount, 5).collect {

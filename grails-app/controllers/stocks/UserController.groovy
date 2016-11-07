@@ -527,4 +527,24 @@ class UserController {
         render 1
     }
 
+
+    def topMaterials() {
+        def daysCount = params.period as Integer
+        def id = params.id as String
+        render([
+                topScored    : personGraphService.topScoredMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostVisited  : personGraphService.mostVisitedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                topRated     : personGraphService.topRatedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostCommented: personGraphService.mostCommentedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join('')
+        ] as JSON)
+    }
+
 }

@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-xs-6 k-rtl">
-            <g:render template="/user/home/topArticles"/>
+            <g:render template="/user/wall/topMaterials" model="${[groupId: '12:776']}"/>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
 
     <div class="headerItem">
         <form:loading id="topArticlesLoading"/>
-        <form:select name="topArticlesPeriod"
+        <form:select name="topArticlesPeriod" value="7"
                      items="${[1, 7, 30, 0].collect { [text: message(code: "tops.period.${it}"), value: it] }}"
                      style="width:80px;" onchange="loadTopArticles"/>
     </div>
@@ -19,10 +19,10 @@
                     <g:message code="topArticles.mostVisited.title"/>
                 </li>
                 <li>
-                    <g:message code="marketView.topRated.title"/>
+                    <g:message code="topArticles.topRated.title"/>
                 </li>
                 <li>
-                    <g:message code="marketView.mostCommented.title"/>
+                    <g:message code="topArticles.mostCommented.title"/>
                 </li>
             </ul>
 

@@ -46,11 +46,11 @@
             <div class="row">
 
                 <div class="col-sm-6 k-rtl">
-                    <div class="dashLet dark">
-                        <h2><i class="fa fa-star"></i> <g:message code="twitter.home.topMaterial.title"/>
-                        </h2>
-                        <twitter:topFollowedMaterials id="${user?.id}"/>
-                    </div>
+                    %{--<div class="dashLet dark">--}%
+                        %{--<h2><i class="fa fa-star"></i> <g:message code="twitter.home.topMaterial.title"/>--}%
+                        %{--</h2>--}%
+                        %{--<twitter:topFollowedMaterials id="${user?.id}"/>--}%
+                    %{--</div>--}%
                     <g:render template="home/tagCloud"/>
                 </div>
 

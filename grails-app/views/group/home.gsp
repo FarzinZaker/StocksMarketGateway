@@ -11,6 +11,8 @@
 <head>
     <meta name="layout" content="main"/>
     <title>${group.title}</title>
+    <asset:javascript src="jquery.plugin.js"/>
+    <asset:javascript src="jquery.timer.js"/>
 </head>
 
 <body>
@@ -36,14 +38,15 @@
         <div class="col-xs-6 k-rtl">
             <g:render template="/talk/write"
                       model="${[groups: [group]]}"/>
+            <g:render template="home/topMaterials" model="${[groupId: group.idNumber]}"/>
             <g:render template="home/materialList"/>
         </div>
 
         <div class="col-xs-3 k-rtl">
-            <div class="dashLet cyan">
-                <h2><i class="fa fa-star"></i> <g:message code="twitter.group.topMaterial.title"/></h2>
-                <twitter:topGroupMaterials id="${group.idNumber}"/>
-            </div>
+            %{--<div class="dashLet cyan">--}%
+                %{--<h2><i class="fa fa-star"></i> <g:message code="twitter.group.topMaterial.title"/></h2>--}%
+                %{--<twitter:topGroupMaterials id="${group.idNumber}"/>--}%
+            %{--</div>--}%
             <g:render template="home/tagCloud"/>
         </div>
     </div>
