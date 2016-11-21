@@ -256,7 +256,7 @@ class GroupGraphService {
     }
 
     List<Map> propertyCloud(String groupId) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId?.replace('#', '')})) GROUP BY @rid ORDER BY count DESC LIMIT 50")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId?.replace('#', '')})) GROUP BY @rid ORDER BY count DESC LIMIT 200")
     }
 
     List<Map> largestGroups(Integer count = 10) {

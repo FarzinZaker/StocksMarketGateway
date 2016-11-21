@@ -64,7 +64,7 @@ class PersonGraphService {
     }
 
     List<Map> propertyCloud(String personId) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT in.@rid FROM Own WHERE out.@rid = #${personId} WHERE in.@class = 'Article' OR in.@class = 'Talk' OR in.@class = 'Analysis')) GROUP BY @rid ORDER BY count DESC LIMIT 50")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT DISTINCT(@rid) FROM (SELECT EXPAND(OUT('About')) FROM (SELECT EXPAND(OUT('OWN')) FROM #${personId?.replace('#', '')}) WHERE @class <> 'Comment')) ORDER BY count DESC LIMIT 200")
     }
 
     Map authorInfo(String personId) {

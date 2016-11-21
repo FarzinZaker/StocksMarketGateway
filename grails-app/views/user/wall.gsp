@@ -43,7 +43,7 @@
                 %{--<twitter:topAuthorMaterials id="${vertex.idNumber}"/>--}%
             %{--</div>--}%
             <g:render template="wall/groupList"/>
-            %{--<g:render template="wall/tagCloud"/>--}%
+            <g:render template="wall/tagCloud"/>
         </div>
     </div>
 </div>

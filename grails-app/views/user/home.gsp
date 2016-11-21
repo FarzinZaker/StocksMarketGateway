@@ -42,11 +42,11 @@
             </div>
             <div class="row">
 
-                %{--<div class="col-sm-6 k-rtl">--}%
-                    %{--<g:render template="home/tagCloud"/>--}%
-                %{--</div>--}%
+                <div class="col-sm-6 k-rtl">
+                    <g:render template="home/tagCloud"/>
+                </div>
 
-                <div class="col-sm-12 k-rtl">
+                <div class="col-sm-6 k-rtl">
                     <g:render template="home/groupList"/>
                     <g:render template="home/followList"/>
                 </div>
