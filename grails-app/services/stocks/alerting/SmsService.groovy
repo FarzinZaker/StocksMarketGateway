@@ -189,6 +189,9 @@ class SmsService {
     }
 
     def sendCustomMessage(String number, String body) {
+	if(true)
+		return false;
+
         new SmsLocator().getsmsSoap().doSendSMS(
                 parameters.agah.userName,
                 parameters.agah.userPassword,
@@ -199,6 +202,9 @@ class SmsService {
     }
 
     def sendMessageViaSMS(QueuedMessage message) {
+	if(true)
+		return false;
+
         def messageService = new SmsLocator().getsmsSoap()
 
         def result
