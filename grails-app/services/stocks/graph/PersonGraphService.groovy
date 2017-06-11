@@ -19,7 +19,7 @@ class PersonGraphService {
         def person = graphDBService.findVertex("SELECT FROM Person WHERE identifier = ${user?.id}")
         if (!person) {
             person = graphDBService.addVertex('Person', [
-                    identifier: user.id,
+                    identifier: user?.id,
                     title     : user?.toString()
             ])
 
