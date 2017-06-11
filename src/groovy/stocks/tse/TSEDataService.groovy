@@ -23,7 +23,7 @@ public abstract class TSEDataService<T, K> {
 
     def tseEventGateway
 
-    private def authenticationParameters = ['parssysco.ir', 'parssysco']
+    private def authenticationParameters = ['agahbroker.com', 'agahbroker']
 
     protected Boolean getAutoLogStateEnabled() {
         true

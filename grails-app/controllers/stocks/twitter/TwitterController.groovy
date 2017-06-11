@@ -200,6 +200,15 @@ class TwitterController {
 
     def meta() {
         def user = springSecurityService.currentUser as User
+        if (params.id?.toString()?.startsWith('-')) {
+            return [
+                    author    : [:],
+                    groups    : [:],
+                    hasAccess : false,
+                    canEdit   : false,
+                    showAuthor: false
+            ]
+        }
         def meta = materialGraphService.getMeta(params.id as String)
         def groups
         def rootMaterial

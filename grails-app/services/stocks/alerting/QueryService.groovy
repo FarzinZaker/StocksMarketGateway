@@ -161,7 +161,7 @@ class QueryService {
                         break;
                     case 'predefined':
                         ParameterSuggestedValueVariation.createCriteria().list {
-                            suggestedValue{
+                            suggestedValue {
                                 eq('id', parameterValue.value as Long)
                             }
                         }.each {
@@ -206,7 +206,7 @@ class QueryService {
         }
     }
 
-     def getDomainParameterValues(ParameterValue parameterValue) {
+    def getDomainParameterValues(ParameterValue parameterValue) {
 
         def parameter = Parameter.get(parameterValue.parameterId)
         def query = Query.get(parameter.queryId)
@@ -218,7 +218,14 @@ class QueryService {
             case DeliveryMethods.DIRECT:
                 return [parameterValue.value]
             case DeliveryMethods.PARENT:
-                def idList = parameterValue.value.split(',').collect { it as Long }
+                def idList = parameterValue.value.split(',').collect {
+                    def value = null
+                    try {
+                        value = it?.toLong()
+                    } catch (ignored) {
+                    }
+                    value
+                }?.findAll { it }
                 def parentList = deliveryMethod.relations as ArrayList
                 def previousRelation
                 def lastRelation = parentList.first()
@@ -234,8 +241,13 @@ class QueryService {
                 }
                 if (lastRelation.relationDomain) {
                     return queryOptions.domain.findAllByIdInList(lastRelation.relationDomain.domain."findAllBy${lastRelation.relationDomain.parentField.capitalize()}InList"(lastItems).collect {
-                        it."${lastRelation.relationDomain.childField}Id"
-                    }).collect{it."${queryOptions.value}"}
+                        def value = null
+                        try {
+                            value = it."${lastRelation.relationDomain.childField}Id"
+                        } catch (ignored) {
+                        }
+                        value
+                    }).findAll { it }.collect { it."${queryOptions.value}" }
                 } else {
                     return queryOptions.domain."findAllBy${lastRelation.foreignKey.capitalize()}InList"(lastItems).collect {
                         it."${queryOptions.value}"
