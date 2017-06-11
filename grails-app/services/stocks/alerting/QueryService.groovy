@@ -229,7 +229,7 @@ class QueryService {
                 def parentList = deliveryMethod.relations as ArrayList
                 def previousRelation
                 def lastRelation = parentList.first()
-                def lastItems = lastRelation.domain."findAllBy${lastRelation.primaryKey.capitalize()}"(idList.first())
+                def lastItems = lastRelation.domain."findAllBy${lastRelation.primaryKey.capitalize()}"(idList.find())
                 for (def i = 1; i < idList.size(); i++) {
                     previousRelation = lastRelation
                     lastRelation = parentList[i]
