@@ -401,4 +401,23 @@ class GroupController {
         redirect(action: 'list')
     }
 
+    def topMaterials() {
+        def daysCount = params.period as Integer
+        def id = params.id as String
+        render([
+                topScored       : groupGraphService.topScoredMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostVisited  : groupGraphService.mostVisitedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                topRated     : groupGraphService.topRatedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join(''),
+                mostCommented: groupGraphService.mostCommentedMaterials(id, daysCount, 5).collect {
+                    "<li>${g.render(template: "/twitter/material/${it.label}", model: [material: it])}</li>"
+                }?.join('')
+        ] as JSON)
+    }
+
 }

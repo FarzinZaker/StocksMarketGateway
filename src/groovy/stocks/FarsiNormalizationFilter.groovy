@@ -31,8 +31,9 @@ public final class FarsiNormalizationFilter extends TokenFilter {
     }
 
     public final static String apply(String input) {
-
-        normalize(input, input.size())
+	if(input)
+        	return normalize(input, input.size())
+	return ''
     }
 
     private final static String normalize(def input, def len)

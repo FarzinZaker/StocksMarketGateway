@@ -1,6 +1,7 @@
 package stocks.graph
 
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import groovy.time.TimeCategory
 import stocks.User
 import stocks.twitter.Search.TwitterPerson
 
@@ -18,7 +19,7 @@ class PersonGraphService {
         def person = graphDBService.findVertex("SELECT FROM Person WHERE identifier = ${user?.id}")
         if (!person) {
             person = graphDBService.addVertex('Person', [
-                    identifier: user.id,
+                    identifier: user?.id,
                     title     : user?.toString()
             ])
 
@@ -63,7 +64,7 @@ class PersonGraphService {
     }
 
     List<Map> propertyCloud(String personId) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT in.@rid FROM Own WHERE out.@rid = #${personId} WHERE in.@class = 'Article' OR in.@class = 'Talk' OR in.@class = 'Analysis')) GROUP BY @rid ORDER BY count DESC")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT DISTINCT(@rid) FROM (SELECT EXPAND(OUT('About')) FROM (SELECT EXPAND(OUT('OWN')) FROM #${personId?.replace('#', '')}) WHERE @class <> 'Comment')) ORDER BY count DESC LIMIT 200")
     }
 
     Map authorInfo(String personId) {
@@ -79,6 +80,62 @@ class PersonGraphService {
                 commentsDislikes         : likes.dislikes,
                 commentsWithLikeOrDislike: likes.count
         ]
+    }
+
+    List<Map> topScoredMaterials(String authorId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT AVG(OutE('About').score) as score, * FROM (SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM #${authorId?.replace('#', '')}) WHERE @class=='Talk' OR @class=='Article') ${dateParameter} GROUP BY @rid ORDER BY score DESC LIMIT ${count}")
+    }
+
+    List<Map> mostVisitedMaterials(String authorId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM #${authorId?.replace('#', '')}) WHERE @class=='Talk' OR @class=='Article') ${dateParameter} ORDER BY visitCount DESC LIMIT ${count}")
+    }
+
+    List<Map> topRatedMaterials(String authorId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT AVG(InE('Rate').value) as rate, * FROM (SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM #${authorId?.replace('#', '')}) WHERE @class=='Talk' OR @class=='Article') ${dateParameter} GROUP BY @rid ORDER BY rate DESC LIMIT ${count}")
+    }
+
+    List<Map> mostCommentedMaterials(String authorId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, publishDate, title, description, imageId, visitCount, in('RelatedTo').size() as comments FROM (SELECT * FROM (SELECT EXPAND(OUT('Own')) FROM #${authorId?.replace('#', '')}) WHERE @class=='Talk' OR @class=='Article') ${dateParameter} ORDER BY comments DESC LIMIT ${count}")
     }
 
 }

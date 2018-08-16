@@ -44,7 +44,7 @@ class PropertyGraphService {
     }
 
     List<Map> propertyCloud() {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property GROUP BY @rid ORDER BY count DESC")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property GROUP BY @rid ORDER BY count DESC LIMIT 200")
     }
 
     OrientVertex getByIdentifier(Long id) {
@@ -60,7 +60,7 @@ class PropertyGraphService {
     }
 
     List<Map> propertyCloud(String propertyId) {
-        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('About').OUT('About')) FROM Property WHERE @rid = #${propertyId}) WHERE @rid <> #${propertyId}")
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('About').OUT('About')) FROM Property WHERE @rid = #${propertyId}) WHERE @rid <> #${propertyId} LIMIT 200")
     }
 
     List<Map> mostActiveProperties(Integer daysCount, Integer count) {

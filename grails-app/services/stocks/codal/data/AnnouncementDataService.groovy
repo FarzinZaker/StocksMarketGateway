@@ -48,8 +48,14 @@ class AnnouncementDataService {
     private void parseData(String url) {
 
         try {
-            def htmlParser = new XmlSlurper(new Parser()).parseText(getList(url))
-                def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
+            def htmlParser = null
+            try {
+                htmlParser = new XmlSlurper(new Parser()).parseText(getList(url))
+            } catch (ignored) {
+            }
+            if (!htmlParser)
+                return
+            def containerDiv = htmlParser?.'**'?.find { it?.@id == 'divLetterFormList' }
             def rows = containerDiv?.'**'?.findAll { it?.name() == 'tr' }
             rows?.remove(0)
             rows?.each { row ->

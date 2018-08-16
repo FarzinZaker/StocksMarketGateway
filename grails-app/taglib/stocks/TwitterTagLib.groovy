@@ -24,6 +24,8 @@ class TwitterTagLib {
         def name = attrs.name
         def id = attrs.id ?: attrs.name
         def user = springSecurityService.currentUser as User
+        if(!user)
+            return
 
         def currentSharedGroups = []
         if (attrs.materialId)

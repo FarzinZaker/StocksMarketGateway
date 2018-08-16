@@ -251,6 +251,62 @@ class MaterialGraphService {
         graphDBService.queryAndUnwrapVertex("SELECT first(owner.@rid) as @rid, first(owner.title) as title, first(owner.identifier) as identifier, count FROM (SELECT owner, COUNT(*) as count FROM (SELECT In('Own') as owner, @rid FROM Material WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0') WHERE owner.size() > 0 GROUP BY owner ORDER BY count DESC) LIMIT ${count}")
     }
 
+    List<Map> recentArticles(Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM Article ${dateParameter} ORDER BY publishDate DESC LIMIT ${count}")
+    }
+
+    List<Map> mostVisitedArticles(Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM Article ${dateParameter} ORDER BY visitCount DESC LIMIT ${count}")
+    }
+
+    List<Map> topRatedArticles(Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT AVG(InE('Rate').value) as rate, * FROM Article ${dateParameter} GROUP BY @rid ORDER BY rate DESC LIMIT ${count}")
+    }
+
+    List<Map> mostCommentedArticles(Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, publishDate, title, description, imageId, visitCount, in('RelatedTo').size() as comments FROM Article ${dateParameter} ORDER BY comments DESC LIMIT ${count}")
+    }
+
     def jalaliDate = { date, hm, timeOnly ->
         def result = ''
         if (date) {

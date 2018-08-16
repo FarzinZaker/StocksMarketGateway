@@ -147,6 +147,10 @@ class AdminController {
         symbolDataService.importData()
     }
 
+    def topsTest(){
+
+    }
+
 
     def throwException() {
         throw new Exception('test exception')

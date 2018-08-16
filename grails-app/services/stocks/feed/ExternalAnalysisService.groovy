@@ -21,7 +21,7 @@ class ExternalAnalysisService {
     def analysisList(String type) {
 
         def feeds = ExternalAnalysis.createCriteria().list {
-            if(type != 'all')
+            if (type != 'all')
                 eq('category', type)
             order('date', ORDER_DESCENDING)
             maxResults(100)
@@ -71,7 +71,7 @@ class ExternalAnalysisService {
         } catch (ignored) {
         }
         feeds = feeds.findAll { it.date }
-        feeds.each {
+        feeds?.findAll { it.title }?.each {
             it.identifier = EncodingHelper.MD5("${it.title}-${it.source}")
             def item = ExternalAnalysis.findByIdentifier(it.identifier as String)
             if (!item) {
@@ -134,7 +134,9 @@ class ExternalAnalysisService {
                         link    : anchor?.@href?.toString(),
                         category: category,
                         source  : 'tsn',
-                        imageUrl: image && ['jpg', 'jpeg', 'gif', 'png'].any{image.@src?.toString()?.toLowerCase()?.endsWith(it)} ? 'http://www.novinic.com' + image.@src : null
+                        imageUrl: image && ['jpg', 'jpeg', 'gif', 'png'].any {
+                            image.@src?.toString()?.toLowerCase()?.endsWith(it)
+                        } ? 'http://www.novinic.com' + image.@src : null
                 ]
         }
 
@@ -269,7 +271,9 @@ class ExternalAnalysisService {
                         link    : 'http://www.persiantahlil.com' + anchor?.@href?.toString(),
                         category: category,
                         source  : 'persianTahlil',
-                        imageUrl: image && ['jpg', 'jpeg', 'gif', 'png'].any{image.@src?.toString()?.toLowerCase()?.endsWith(it)} ? 'http://www.persiantahlil.com/' + image.@src : null
+                        imageUrl: image && ['jpg', 'jpeg', 'gif', 'png'].any {
+                            image.@src?.toString()?.toLowerCase()?.endsWith(it)
+                        } ? 'http://www.persiantahlil.com/' + image.@src : null
                 ]
         }
 

@@ -3,6 +3,7 @@ package stocks.graph
 import com.tinkerpop.blueprints.Vertex
 import com.tinkerpop.blueprints.impls.orient.OrientEdge
 import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import groovy.time.TimeCategory
 import stocks.User
 import stocks.twitter.Search.TwitterGroup
 import stocks.twitter.Search.TwitterMaterial
@@ -255,11 +256,67 @@ class GroupGraphService {
     }
 
     List<Map> propertyCloud(String groupId) {
-        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId?.replace('#', '')})) GROUP BY @rid ORDER BY count DESC")
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, title, IN('About').size() AS count FROM Property WHERE @rid in (SELECT in.@rid FROM About WHERE out.@rid in (SELECT out.@rid FROM Share WHERE in.@rid = #${groupId?.replace('#', '')})) GROUP BY @rid ORDER BY count DESC LIMIT 200")
     }
 
     List<Map> largestGroups(Integer count = 10) {
         graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT in('Member').size() as size, @rid as @rid, title, imageId FROM Group WHERE ownerType = 'user') ORDER BY size DESC LIMIT ${count}")
+    }
+
+    List<Map> topScoredMaterials(String groupId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT AVG(OutE('About').score) as score, * FROM (SELECT EXPAND(IN('Share')) FROM #${groupId?.replace('#', '')}) ${dateParameter} GROUP BY @rid ORDER BY score DESC LIMIT ${count}")
+    }
+
+    List<Map> mostVisitedMaterials(String groupId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT * FROM (SELECT EXPAND(IN('Share')) FROM #${groupId?.replace('#', '')}) ${dateParameter} ORDER BY visitCount DESC LIMIT ${count}")
+    }
+
+    List<Map> topRatedMaterials(String groupId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT AVG(InE('Rate').value) as rate, * FROM (SELECT EXPAND(IN('Share')) FROM #${groupId?.replace('#', '')}) ${dateParameter} GROUP BY @rid ORDER BY rate DESC LIMIT ${count}")
+    }
+
+    List<Map> mostCommentedMaterials(String groupId, Integer daysCount, Integer count) {
+        def dateParameter = ''
+        if (daysCount > 0) {
+            def startDate = new Date()?.clearTime()
+            use(TimeCategory) {
+                startDate = startDate - (daysCount - 1).days
+            }
+            def calendar = Calendar.getInstance()
+            calendar.setTime(startDate)
+            dateParameter = "WHERE publishDate >= '${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.DAY_OF_MONTH)} 0:0:0'"
+        }
+        graphDBService.queryAndUnwrapVertex("SELECT @rid, @class as label, identifier, publishDate, title, description, imageId, visitCount, in('RelatedTo').size() as comments FROM (SELECT EXPAND(IN('Share')) FROM #${groupId?.replace('#', '')}) ${dateParameter} ORDER BY comments DESC LIMIT ${count}")
     }
 
     void transfer(String id, User user) {

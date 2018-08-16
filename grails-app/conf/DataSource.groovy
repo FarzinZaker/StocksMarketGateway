@@ -110,7 +110,13 @@ environments {
         }
 
         dataSource {
-
+url = "jdbc:oracle:thin:@192.168.64.3:1521:CHAHARTABLO"
+//            url = "jdbc:oracle:thin:@192.168.0.174:1521:CHAHARTABLO"
+            username = "stocks"
+            password = "stocks"
+            pooled = true
+            logSql = false
+            driverClassName = "oracle.jdbc.OracleDriver"
             //Oracle
             dbCreate = "update"
 //            url = "jdbc:oracle:thin:@192.168.64.3:1521:CHAHARTABLO"
@@ -120,10 +126,10 @@ environments {
 //            pooled = true
 //            logSql = false
 //            driverClassName = "oracle.jdbc.OracleDriver"
-            jndiName = "Oracle"
+//            jndiName = "Oracle"
             dialect = "org.hibernate.dialect.Oracle10gDialect"
             properties {
-                maxActive = -1
+                maxActive = 130
                 minEvictableIdleTimeMillis = 1800000
                 timeBetweenEvictionRunsMillis = 1800000
                 numTestsPerEvictionRun = 3

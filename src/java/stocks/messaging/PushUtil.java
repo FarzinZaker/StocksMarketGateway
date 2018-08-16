@@ -27,6 +27,10 @@ public class PushUtil {
     }
 
     public static void push(String alias, String message) {
+
+        if(true) //temporary disabled
+            return;
+
         if(grails.util.Environment.isDevelopmentMode())
             return;
         //https://4tablo.ir:8443/ag-push/

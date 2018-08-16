@@ -52,9 +52,9 @@ class SymbolChartController {
     def symbols() {
         def symbol = Symbol.findByPersianCode(params.symbol?.toString())
         render([
-                name                 : symbol.persianCode,
-                "exchange-traded"    : message(code: "market.${symbol.marketIdentifier}"),
-                "exchange-listed"    : message(code: "market.${symbol.marketIdentifier}"),
+                name                 : symbol?.persianCode,
+                "exchange-traded"    : message(code: "market.${symbol?.marketIdentifier}"),
+                "exchange-listed"    : message(code: "market.${symbol?.marketIdentifier}"),
                 timezone             : "Asia/Tehran",
                 minmov               : 1,
                 minmov2              : 0,
@@ -63,8 +63,8 @@ class SymbolChartController {
                 session              : "0930-1630",
                 has_intraday         : false,
                 has_no_volume        : false,
-                ticker               : symbol.persianCode,
-                description          : symbol.persianName,
+                ticker               : symbol?.persianCode,
+                description          : symbol?.persianName,
                 type                 : "stock",
                 supported_resolutions: ["D", "2D", "3D", "W", "3W", "M", "6M"]] as JSON)
     }
