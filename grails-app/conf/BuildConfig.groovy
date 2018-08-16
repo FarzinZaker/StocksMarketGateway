@@ -97,6 +97,9 @@ grails.project.dependency.resolution = {
 //        compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
 
 //        compile 'javax.websocket:javax.websocket-api:1.1'
+
+//        compile 'org.codehaus.gpars:gpars:1.1.0'
+        compile 'org.codehaus.jsr166-mirror:jsr166y:1.7.0'
     }
 
     plugins {

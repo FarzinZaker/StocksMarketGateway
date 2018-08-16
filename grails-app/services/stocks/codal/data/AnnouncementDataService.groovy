@@ -6,7 +6,6 @@ import org.apache.commons.httpclient.HttpMethod
 import org.apache.commons.httpclient.methods.GetMethod
 import org.apache.commons.httpclient.methods.PostMethod
 import org.apache.commons.httpclient.params.HttpClientParams
-import org.apache.http.params.HttpConnectionParams
 import org.ccil.cowan.tagsoup.Parser
 import org.jsoup.Jsoup
 import stocks.FarsiNormalizationFilter
@@ -15,9 +14,6 @@ import stocks.codal.Announcement
 import stocks.codal.event.AnnouncementEvent
 import stocks.tse.Company
 import stocks.tse.Symbol
-import groovyx.net.http.*
-import sun.misc.GC
-
 
 class AnnouncementDataService {
     static transactional = false

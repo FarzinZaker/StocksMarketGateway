@@ -12,6 +12,7 @@
             <div class="col-xs-4"><label>#= formatNumber(id) #</label></div>
         </if>
 
+
         <div class="col-xs-4"><g:message
                 code="backTest.signal.totalTradeCount"/>: <label>#= formatNumber(totalTradeCount) #</label></div>
 
